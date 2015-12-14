@@ -1,4 +1,4 @@
-import { CSS_PREFIX } from '../constants/GameConstants';
+import { CSS_PREFIX } from '../constants/GridConstants';
 
 export function prefix() {
     return Array.from(arguments).map((cls) => {

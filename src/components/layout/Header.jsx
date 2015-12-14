@@ -2,6 +2,9 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import store from '../../store/store';
 import { keyGenerator } from '../../util/keygenerator';
+import { prefix } from '../../util/prefix';
+import '../../style/components/header.styl';
+import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Header extends Component {
 
@@ -19,9 +22,12 @@ class Header extends Component {
 
         const { columns } = this.props;
         const headers = columns.map((col) => this.getHeader(col));
+        const headerProps = {
+            className: prefix(CLASS_NAMES.HEADER)
+        }
 
         return (
-            <tr>
+            <tr { ...headerProps }>
                 { headers }
             </tr>
         );

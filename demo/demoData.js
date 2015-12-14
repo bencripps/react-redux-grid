@@ -1,3 +1,11 @@
+export const handleCellClick = () => {
+    console.log('On Cell Click Event');
+};
+
+export const handleCellDblClick = () => {
+    console.log('On Cell Double Click Event');
+};
+
 export const columns = [
     {
         name: 'Name'
