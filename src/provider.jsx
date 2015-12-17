@@ -7,14 +7,18 @@ import {
 	columns, 
 	data,
 	onCellClick,
-	onCellDblClick 
+	onCellDblClick,
+	pageSize,
+	enablePaging
 } from '../demo/demoData';
 
 const gridData = {
 	columns,
 	data,
 	onCellClick,
-	onCellDblClick
+	onCellDblClick,
+	pageSize,
+	enablePaging
 }
 
 export default (

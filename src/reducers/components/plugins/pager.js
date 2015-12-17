@@ -1,14 +1,13 @@
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
-    gridState: fromJS.Map
+    pagerState: fromJS.Map
 });
 
-export default function grid(state = initialState, action) {
+export default function pager(state = initialState, action) {
     switch (action.type) {
 
     default:
-
         return state;
     }
 }

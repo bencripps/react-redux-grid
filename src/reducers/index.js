@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import grid from './components/grid';
+import pager from './components/plugins/pager';
 
 const rootReducer = combineReducers({
-    grid
+    grid,
+    pager
 });
 
 export default rootReducer;

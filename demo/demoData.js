@@ -6,6 +6,10 @@ export const handleCellDblClick = () => {
     console.log('On Cell Double Click Event');
 };
 
+export const pageSize = 25;
+
+export const enablePaging = true;
+
 export const columns = [
     {
         name: 'Name'

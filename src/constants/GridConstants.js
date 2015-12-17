@@ -4,5 +4,6 @@ export const CLASS_NAMES = {
     TABLE: 'table',
     HEADER: 'header',
     ROW: 'row',
-    CELL: 'cell'
+    CELL: 'cell',
+    PAGERTOOLBAR: 'pager-toolbar'
 };
