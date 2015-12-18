@@ -1,24 +1,22 @@
 import React from 'react';
-import Grid from './components/Grid.jsx';
+import Grid from '../src/components/Grid.jsx';
 import { Provider } from 'react-redux';
-import store from './store/store';
+import store from '../src/store/store';
 
 import { 
 	columns, 
 	data,
-	onCellClick,
-	onCellDblClick,
 	pageSize,
-	enablePaging
+	plugins,
+	events
 } from '../demo/demoData';
 
 const gridData = {
 	columns,
 	data,
-	onCellClick,
-	onCellDblClick,
 	pageSize,
-	enablePaging
+	plugins,
+	events
 }
 
 export default (

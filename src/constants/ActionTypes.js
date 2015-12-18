@@ -1,9 +1,2 @@
-export const LOAD_APP = 'LOAD_APP';
-export const GET_INITIAL_CARDS = 'GET_INITIAL_CARDS';
-export const MOVE_OCCURRED = 'MOVE_OCCURRED';
-export const GET_CARD_STATE = 'GET_CARD_STATE';
-export const MATCH_OCCURRED = 'MATCH_OCCURRED';
-export const NO_MATCH_OCCURRED = 'NO_MATCH_OCCURRED';
-export const SET_DIFFICULTY = 'SET_DIFFICULTY';
-export const GAME_WON = 'GAME_WON';
-export const GAME_LOST = 'GAME_LOST';
+export const PAGE_LOCAL_NEXT = 'PAGE_LOCAL_NEXT';
+export const PAGE_LOCAL_LAST = 'PAGE_LOCAL_LAST';

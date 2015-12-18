@@ -13,15 +13,12 @@ class Row extends Component {
     static defaultProps = {
         columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
         data: React.PropTypes.arrayOf(React.PropTypes.Object),
-        handleCellClick: React.PropTypes.func,
-        handleCellDblClick: React.PropTypes.func,
-        startPage:  React.PropTypes.number,
-        endPage:  React.PropTypes.number,
         pageSize: React.PropTypes.number,
-        enablePaging: true
+        plugins:  React.PropTypes.object,
+        events: React.PropTypes.object
     }
 
-    getRows(row, handleCellClick, handleCellDblClick) {
+    getRows(row, events) {
 
         const cells = Object.keys(row).map(
             (k) => <Cell cellData={ row[k] } key={ keyGenerator(k) } />
@@ -30,8 +27,8 @@ class Row extends Component {
         const rowProps = {
             key: keyFromObject(row),
             className: prefix(CLASS_NAMES.ROW),
-            onClick: handleCellClick.bind(this, row) || emptyFn,
-            onDoubleClick: handleCellDblClick.bind(this, row) || emptyFn
+            onClick: events.HANDLE_CELL_CLICK.bind(this, row) || emptyFn,
+            onDoubleClick: events.HANDLE_CELL_DOUBLE_CLICK.bind(this, row) || emptyFn
         };
 
         return (
@@ -41,8 +38,8 @@ class Row extends Component {
         );
     }
 
-    getRowSelection(rows, start, end, pageSize) {
-        const selectedRows = rows.slice(start * pageSize, end * pageSize);
+    getRowSelection(rows, pageIndex, pageSize) {
+        const selectedRows = rows.slice(pageIndex * pageSize, pageIndex + 1 * pageSize);
 
         return selectedRows;
     }
@@ -52,19 +49,19 @@ class Row extends Component {
         const { 
             columns, 
             data, 
-            handleCellClick,
-            handleCellDblClick,
-            enablePaging,
-            startPage,
-            endPage,
-            pageSize
+            events,
+            plugins,
+            pageSize,
+            pager
         } = this.props;
 
+        const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
+
         const allRows = data.map((row) => 
-            this.getRows(row, handleCellClick, handleCellDblClick));
+            this.getRows(row, events));
         
-        const rows = enablePaging 
-                ? this.getRowSelection(allRows, startPage, endPage, pageSize) : allRows;
+        const rows = plugins && plugins.PAGER && plugins.PAGER.enabled 
+                ? this.getRowSelection(allRows, pageIndex, pageSize) : allRows;
 
         return (
             <tbody>
@@ -74,8 +71,10 @@ class Row extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+         pager: state.pager.get('pagerState')
+    };
 }
 
 export default connect(mapStateToProps)(Row);

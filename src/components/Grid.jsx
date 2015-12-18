@@ -16,9 +16,8 @@ class Grid extends Component {
         dataSource: React.PropTypes.string,
         store: React.PropTypes.Func,
         pageSize: 25,
-        startPage: 0,
-        endPage: 1,
-        enablePaging: true
+        events: React.PropTypes.Object,
+        plugins: React.PropTypes.Object
     }
 
     render() {
@@ -26,12 +25,9 @@ class Grid extends Component {
         const { 
             columns, 
             data, 
-            handleCellClick, 
-            handleCellDblClick,
             pageSize,
-            enablePaging,
-            startPage,
-            endPage
+            plugins,
+            events
         } = this.props;
 
         const HeaderProps = {
@@ -41,12 +37,9 @@ class Grid extends Component {
         const rowProps = {
             columns,
             data,
-            handleCellClick,
-            handleCellDblClick,
+            events,
             pageSize,
-            startPage,
-            endPage,
-            enablePaging
+            plugins
         };
 
         const tableProps = {
@@ -56,10 +49,8 @@ class Grid extends Component {
 
         const pagerProps = {
             store: store,
-            startPage,
-            endPage,
             pageSize,
-            enablePaging
+            plugins
         };
 
         return (

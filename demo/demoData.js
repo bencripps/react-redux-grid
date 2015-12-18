@@ -1,14 +1,20 @@
-export const handleCellClick = () => {
-    console.log('On Cell Click Event');
+export const pageSize = 20;
+
+export const events = {
+    HANDLE_CELL_CLICK: () => {
+        console.log('On Cell Click Event');
+    },
+    HANDLE_CELL_DOUBLE_CLICK: () => {
+        console.log('On Cell Double Click Event');
+    }
 };
 
-export const handleCellDblClick = () => {
-    console.log('On Cell Double Click Event');
+export const plugins = {
+    PAGER: {
+        enabled: true,
+        pagingType: 'local'
+    }
 };
-
-export const pageSize = 25;
-
-export const enablePaging = true;
 
 export const columns = [
     {
