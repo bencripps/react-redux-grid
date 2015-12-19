@@ -5,18 +5,21 @@ import store from '../src/store/store';
 
 import { 
 	columns, 
-	data,
+	// data,
 	pageSize,
 	plugins,
-	events
+	events,
+	dataSource
 } from '../demo/demoData';
 
 const gridData = {
 	columns,
-	data,
+	// data,
 	pageSize,
 	plugins,
-	events
+	events,
+	dataSource,
+	store
 }
 
 export default (

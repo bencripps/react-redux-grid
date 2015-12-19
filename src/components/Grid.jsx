@@ -1,12 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../store/store';
 import Header from './layout/Header.jsx';
 import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import '../style/components/grid.styl';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
+import { getAsyncData, setData } from '../actions/GridActions';
 
 class Grid extends Component {
 
@@ -20,6 +20,22 @@ class Grid extends Component {
         plugins: React.PropTypes.Object
     }
 
+    componentWillMount() {
+        const { dataSource, data, store } = this.props;  
+
+        if (dataSource) {
+            store.dispatch(getAsyncData(dataSource));
+        }
+
+        else if (data) {
+            store.dispatch(setData(dataSource));
+        }
+
+        else {
+            console.warn('A data source, or a static data set is required');
+        }
+    }
+
     render() {
 
         const { 
@@ -27,30 +43,33 @@ class Grid extends Component {
             data, 
             pageSize,
             plugins,
-            events
+            events,
+            store
         } = this.props;
 
         const HeaderProps = {
-            columns
+            columns,
+            store
         };
 
         const rowProps = {
             columns,
-            data,
             events,
             pageSize,
-            plugins
+            plugins,
+            store
         };
 
         const tableProps = {
             className: prefix(CLASS_NAMES.TABLE),
-            cellSpacing: 0
+            cellSpacing: 0,
+            store
         };
 
         const pagerProps = {
-            store: store,
             pageSize,
-            plugins
+            plugins,
+            store
         };
 
         return (

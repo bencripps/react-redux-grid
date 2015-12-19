@@ -6,14 +6,13 @@ import { emptyFn } from '../../../util/emptyFn';
 import '../../../style/components/plugins/pager/toolbar.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setPageNext, setPageLast } from '../../../actions/plugins/pager/PagerActions';
+import Request from '../ajax/Request';
 
 class PagerToolbar extends Component {
 
     static defaultProps = {
         store: React.PropTypes.func.isRequired,
         plugins: React.PropTypes.object,
-        startPage: React.PropTypes.number.isRequired,
-        endPage: React.PropTypes.number.isRequired,
         pageSize: React.PropTypes.number.isRequired,
         recordType: 'Records',
         nextButtonText: 'Next',
@@ -32,6 +31,10 @@ class PagerToolbar extends Component {
         if (PAGER.pagingType === 'local') {
             store.dispatch(event(pageIndex));
         }
+
+        else if (PAGER.pagingType === 'remote') {
+            
+        }
     }
 
     getButton(type, pageIndex) {
@@ -47,7 +50,7 @@ class PagerToolbar extends Component {
         )
     }
 
-    getPager() {
+    getPager(dataSource) {
 
         const { 
             pageSize, 
@@ -62,12 +65,14 @@ class PagerToolbar extends Component {
             className: prefix(CLASS_NAMES.PAGERTOOLBAR)
         }
 
+        const total = Array.isArray(dataSource) ? dataSource.length : 0;
+
         return (
             <tr {...toolbarProps }>
                 <td colSpan="100%">
                     <div> 
                         <span>
-                            { `${pageIndex * pageSize} of ${pageIndex * pageSize } ${recordType} Displayed` }
+                            { `${pageIndex * pageSize} through ${(pageIndex + 1) * pageSize } of ${total} ${recordType} Displayed` }
                         </span>
                         <span>
                            { this.getButton(BUTTON_TYPES.NEXT, pageIndex) }
@@ -81,11 +86,11 @@ class PagerToolbar extends Component {
 
     render() {
 
-        const { plugins } = this.props;
+        const { plugins, dataSource } = this.props;
 
         const pager = plugins 
                         && plugins.PAGER 
-                        && plugins.PAGER.enabled ? this.getPager() : null;
+                        && plugins.PAGER.enabled ? this.getPager(dataSource) : null;
 
         return pager;
     }
@@ -93,7 +98,8 @@ class PagerToolbar extends Component {
 
 function mapStateToProps(state) {
     return {
-        pager: state.pager.get('pagerState')
+        pager: state.pager.get('pagerState'),
+        dataSource: state.dataSource.get('data')
     };
 }
 

@@ -15,7 +15,30 @@ class Row extends Component {
         data: React.PropTypes.arrayOf(React.PropTypes.Object),
         pageSize: React.PropTypes.number,
         plugins:  React.PropTypes.object,
-        events: React.PropTypes.object
+        events: React.PropTypes.object,
+        emptyDataMessage: 'No Data Available'
+    }
+
+    getPlaceHolder() {
+
+        const { emptyDataMessage } = this.props;
+
+        const rowProps = {
+            className: prefix(CLASS_NAMES.ROW)
+        };
+
+        const tdProps = {
+            className: prefix(CLASS_NAMES.ROW ,CLASS_NAMES.EMPTY_ROW)
+        }
+
+        return (
+            <tr { ...rowProps }>
+                <td colSpan="100%" { ...tdProps }>
+                    { emptyDataMessage }
+                </td>
+            </tr>
+        );
+
     }
 
     getRows(row, events) {
@@ -39,7 +62,7 @@ class Row extends Component {
     }
 
     getRowSelection(rows, pageIndex, pageSize) {
-        const selectedRows = rows.slice(pageIndex * pageSize, pageIndex + 1 * pageSize);
+        const selectedRows = rows.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
         return selectedRows;
     }
@@ -52,20 +75,23 @@ class Row extends Component {
             events,
             plugins,
             pageSize,
-            pager
+            pager,
+            dataSource
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
-
-        const allRows = data.map((row) => 
-            this.getRows(row, events));
+     
+        const allRows = Array.isArray(dataSource) ? dataSource.map((row) => 
+            this.getRows(row, events)) : null;
         
-        const rows = plugins && plugins.PAGER && plugins.PAGER.enabled 
+        const rows = allRows && plugins && plugins.PAGER && plugins.PAGER.enabled 
                 ? this.getRowSelection(allRows, pageIndex, pageSize) : allRows;
+
+        const rowInsert = rows ? rows : this.getPlaceHolder();
 
         return (
             <tbody>
-                { rows }
+                { rowInsert }
             </tbody>
         );
     }
@@ -73,7 +99,8 @@ class Row extends Component {
 
 function mapStateToProps(state) {
     return {
-         pager: state.pager.get('pagerState')
+         pager: state.pager.get('pagerState'),
+         dataSource: state.dataSource.get('data')
     };
 }
 
