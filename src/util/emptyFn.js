@@ -1,3 +1,1 @@
-export const emptyFn = () => {
-	alert('hi');
-};
+export const emptyFn = () => {};

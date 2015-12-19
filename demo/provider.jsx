@@ -5,7 +5,7 @@ import store from '../src/store/store';
 
 import { 
 	columns, 
-	// data,
+	data,
 	pageSize,
 	plugins,
 	events,

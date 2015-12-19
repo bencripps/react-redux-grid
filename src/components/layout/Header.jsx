@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import store from '../../store/store';
 import { keyGenerator } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
+import { emptyFn } from '../../util/emptyFn';
 import '../../style/components/header.styl';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -13,9 +14,28 @@ class Header extends Component {
     }
 
     getHeader(col) {
+
+        let headerProps = {
+            className: col.className,
+            onClick: col.HANDLE_CLICK || emptyFn
+        };
+
+        if (col.width) {
+            headerProps = Object.assign(
+                headerProps, { style: { width: col.width } });
+        }
+
+        const innerHTML = col.renderer ? col.renderer(col) : col.name;
+
         return (
-            <th key={keyGenerator(col.name, col.value) }>{ col.name }</th>
+            <th { ...headerProps } key={keyGenerator(col.name, col.value) }>
+                { innerHTML }
+            </th>
         );
+    }
+
+    getAdditionalClasses() {
+
     }
 
     render() {

@@ -18,16 +18,26 @@ export const plugins = {
 
 export const columns = [
     {
-        name: 'Name'
+        name: 'Name',
+        width: '25%',
+        className: 'addition-class',
+        renderer: () => { return 'Name'; },
+        HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
-        name: 'Phone Number'
+        name: 'Phone Number',
+        width: '25%',
+        className: 'addition-class'
     },
     {
-        name: 'Email'
+        name: 'Email',
+        width: '25%',
+        className: 'addition-class'
     },
     {
-        name: 'Company'
+        name: 'Company',
+        width: '25%',
+        className: 'addition-class'
     }
 ];
 

@@ -22,13 +22,13 @@ class Grid extends Component {
 
     componentWillMount() {
         const { dataSource, data, store } = this.props;  
-
-        if (dataSource) {
+        
+        if (dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
         }
 
         else if (data) {
-            store.dispatch(setData(dataSource));
+            store.dispatch(setData(data));
         }
 
         else {
