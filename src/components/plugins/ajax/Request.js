@@ -5,23 +5,17 @@ function api(config) {
             config.method = 'GET';
         }
 
-        if (!config.contentType) {
-            config.contentType = 'application/jsonp';
-        }
-
         if (config.data) {
             config.data = JSON.stringify(config.data);
         }
 
-        if (config.header) {
-            setRequestHeaders(request, config);
-        }
-
-        buildQueryString(config);
-
         const request = new XMLHttpRequest();
 
         request.open(config.method, config.route, true);
+
+        buildQueryString(config);
+
+        setRequestHeaders(request, config);
 
         addAjaxEvents(request, config, resolve);
 
@@ -32,7 +26,15 @@ function api(config) {
     return promise;
 }
 
-function setRequestHeaders(request, context, config) {
+function setRequestHeaders(request, config) {
+
+    if (!config.headers || !config.headers.contentType) {
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
+    if (!config.headers) {
+        return false;
+    }
 
     for (const key of Object.keys(config.headers)) {
         request.setRequestHeader(key, config.additionalHeaders[key]);

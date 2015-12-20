@@ -47,9 +47,11 @@ class Header extends Component {
         }
 
         return (
-            <tr { ...headerProps }>
-                { headers }
-            </tr>
+            <thead>
+                <tr { ...headerProps }>
+                    { headers }
+                </tr>
+            </thead>
         );
     }
 }

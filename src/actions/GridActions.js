@@ -18,7 +18,8 @@ export function getAsyncData(datasource) {
 
                 dispatch({
                     type: SET_DATA,
-                    data: response,
+                    data: response.data,
+                    total: response.total,
                     success: true
                 });
 

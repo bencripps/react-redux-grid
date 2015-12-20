@@ -9,10 +9,13 @@ export const events = {
     }
 };
 
+export const dataSource = 'http://localhost:3000/getfakeData';
+
 export const plugins = {
     PAGER: {
         enabled: true,
-        pagingType: 'local'
+        pagingType: 'remote',
+        pagingSource: 'http://localhost:3000/getFakedPagedData'
     }
 };
 
@@ -20,28 +23,27 @@ export const columns = [
     {
         name: 'Name',
         width: '25%',
-        className: 'addition-class',
+        className: 'additional-class',
         renderer: () => { return 'Name'; },
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
         name: 'Phone Number',
         width: '25%',
-        className: 'addition-class'
+        className: 'additional-class'
     },
     {
         name: 'Email',
         width: '25%',
-        className: 'addition-class'
+        className: 'additional-class'
     },
     {
         name: 'Company',
         width: '25%',
-        className: 'addition-class'
+        className: 'additional-class'
     }
 ];
 
-export const dataSource = 'http://localhost:3000/getfakeData';
 
 export const data = [
     {

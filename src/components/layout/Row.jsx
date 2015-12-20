@@ -41,7 +41,7 @@ class Row extends Component {
 
     }
 
-    getRows(row, events) {
+    getRowComponents(row, events) {
 
         const cells = Object.keys(row).map(
             (k) => <Cell cellData={ row[k] } key={ keyGenerator(k) } />
@@ -61,10 +61,26 @@ class Row extends Component {
         );
     }
 
-    getRowSelection(rows, pageIndex, pageSize) {
+    getRowSelection(rows, pageIndex, pageSize, pager, plugins) {
+
+        if (!rows) {
+            return false;
+        }
+
+        if (!plugins.PAGER 
+            || !plugins.PAGER.enabled 
+            || plugins.PAGER.pagingType === 'remote') {
+            return rows;
+        }
+
         const selectedRows = rows.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
 
         return selectedRows;
+    }
+
+    getAllRows(dataSource, events) {
+        return Array.isArray(dataSource) ? dataSource.map((row) => 
+            this.getRowComponents(row, events)) : null;
     }
 
     render() {
@@ -81,11 +97,9 @@ class Row extends Component {
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
      
-        const allRows = Array.isArray(dataSource) ? dataSource.map((row) => 
-            this.getRows(row, events)) : null;
+        const allRows = this.getAllRows(dataSource ? dataSource.data : null, events);
         
-        const rows = allRows && plugins && plugins.PAGER && plugins.PAGER.enabled 
-                ? this.getRowSelection(allRows, pageIndex, pageSize) : allRows;
+        const rows = this.getRowSelection(allRows, pageIndex, pageSize, pager, plugins);
 
         const rowInsert = rows ? rows : this.getPlaceHolder();
 
@@ -100,7 +114,7 @@ class Row extends Component {
 function mapStateToProps(state) {
     return {
          pager: state.pager.get('pagerState'),
-         dataSource: state.dataSource.get('data')
+         dataSource: state.dataSource.get('gridData')
     };
 }
 

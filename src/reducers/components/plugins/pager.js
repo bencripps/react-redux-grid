@@ -1,8 +1,8 @@
 import { fromJS } from 'immutable';
 
 import {
-    PAGE_LOCAL_NEXT,
-    PAGE_LOCAL_LAST
+    PAGE_LOCAL,
+    PAGE_REMOTE
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -13,14 +13,14 @@ export default function pager(state = initialState, action) {
 
     switch (action.type) {
 
-    case PAGE_LOCAL_LAST:
+    case PAGE_LOCAL:
         return state.set('pagerState', Object.assign({}, state.get('pagerState'),
             {
                 pageIndex: action.pageIndex
             }
         ));
 
-    case PAGE_LOCAL_NEXT:
+    case PAGE_REMOTE:
         return state.set('pagerState', Object.assign({}, state.get('pagerState'),
             {
                 pageIndex: action.pageIndex

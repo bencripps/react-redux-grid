@@ -75,13 +75,9 @@ class Grid extends Component {
         return (
             <div>
                 <table { ...tableProps }>
-                    <thead>
-                        <Header { ...HeaderProps } />
-                    </thead>
+                    <Header { ...HeaderProps } />
                     <Row { ...rowProps } />
-                    <tfoot>
-                        <PagerToolbar { ...pagerProps } />
-                    </tfoot>
+                    <PagerToolbar { ...pagerProps } />
                 </table>
             </div>
         );

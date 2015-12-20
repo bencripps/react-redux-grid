@@ -5,7 +5,10 @@ import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import '../../../style/components/plugins/pager/toolbar.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { setPageNext, setPageLast } from '../../../actions/plugins/pager/PagerActions';
+import { 
+    setPage, 
+    setPageAsync 
+} from '../../../actions/plugins/pager/PagerActions';
 import Request from '../ajax/Request';
 
 class PagerToolbar extends Component {
@@ -25,15 +28,19 @@ class PagerToolbar extends Component {
 
     handleButtonClick(type, pageIndex) {
         const { PAGER } = this.props.plugins;
-        const { store, BUTTON_TYPES } = this.props;
-        const event = type === BUTTON_TYPES.NEXT ? setPageNext : setPageLast
+        const { store, BUTTON_TYPES, pageSize } = this.props;
+        let event;
 
         if (PAGER.pagingType === 'local') {
-            store.dispatch(event(pageIndex));
+            store.dispatch(setPage(pageIndex, type, BUTTON_TYPES));
         }
 
-        else if (PAGER.pagingType === 'remote') {
-            
+        else if (PAGER.pagingType === 'remote' && PAGER.pagingSource) {
+            store.dispatch(setPageAsync(pageIndex, pageSize, type, BUTTON_TYPES, PAGER.pagingSource));
+        }
+
+        else {
+            console.warn('Please configure paging plugin pagingType to local if no pagingSource is provided');
         }
     }
 
@@ -50,13 +57,30 @@ class PagerToolbar extends Component {
         )
     }
 
+    getTotal(dataSource, pagerDefaults) {
+
+        if (!dataSource || !dataSource.data) {
+            return 0;
+        }
+
+        if (pagerDefaults && pagerDefaults.pagingType === 'remote') {
+            return dataSource.total;
+        }
+
+        else if (pagerDefaults && pagerDefaults.pagingType === 'local') {
+            return dataSource.data.length;
+        }
+
+    }
+
     getPager(dataSource) {
 
         const { 
             pageSize, 
             recordType,
             BUTTON_TYPES,
-            pager 
+            pager,
+            plugins 
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex || 0;
@@ -65,22 +89,24 @@ class PagerToolbar extends Component {
             className: prefix(CLASS_NAMES.PAGERTOOLBAR)
         }
 
-        const total = Array.isArray(dataSource) ? dataSource.length : 0;
+        const total = this.getTotal(dataSource, plugins.PAGER);
 
         return (
-            <tr {...toolbarProps }>
-                <td colSpan="100%">
-                    <div> 
-                        <span>
-                            { `${pageIndex * pageSize} through ${(pageIndex + 1) * pageSize } of ${total} ${recordType} Displayed` }
-                        </span>
-                        <span>
-                           { this.getButton(BUTTON_TYPES.NEXT, pageIndex) }
-                           { this.getButton(BUTTON_TYPES.LAST, pageIndex) }
-                        </span>
-                    </div>
-                </td>
-            </tr>
+            <tfoot>
+                <tr {...toolbarProps }>
+                    <td colSpan="100%">
+                        <div> 
+                            <span>
+                                { `${pageIndex * pageSize} through ${(pageIndex + 1) * pageSize } of ${total} ${recordType} Displayed` }
+                            </span>
+                            <span>
+                               { this.getButton(BUTTON_TYPES.NEXT, pageIndex) }
+                               { this.getButton(BUTTON_TYPES.LAST, pageIndex) }
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
         );
     }
 
@@ -88,18 +114,18 @@ class PagerToolbar extends Component {
 
         const { plugins, dataSource } = this.props;
 
-        const pager = plugins 
+        const pagerComponent = plugins 
                         && plugins.PAGER 
                         && plugins.PAGER.enabled ? this.getPager(dataSource) : null;
 
-        return pager;
+        return pagerComponent;
     }
 }
 
 function mapStateToProps(state) {
     return {
         pager: state.pager.get('pagerState'),
-        dataSource: state.dataSource.get('data')
+        dataSource: state.dataSource.get('gridData')
     };
 }
 
