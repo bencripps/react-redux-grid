@@ -16,9 +16,26 @@ This component will work out of the box, without installing a custom store. A st
 
 In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
 
-## Features
+## Plugins
+
+All Features are implementd as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
 
 1. Local and/or Remote Data Souce
 2. Local and/or Remote Pagination
 3. Event Handling for all kinds of DOM Events
 
+## Pagination
+
+	export const plugins = {
+	    PAGER: {
+	        enabled: true,
+	        pagingType: 'remote',
+	        pagingSource: 'url/to/grid/data'
+	    }
+	};
+
+Pagination Defaults:
+
+1. `enabled`: `Boolean`, default value: `true`
+2. `pagingType`: `String`, default value; `local`, possible values: `['local', 'remote']`
+3. `pagingSource`: `String`, url for remote grid data

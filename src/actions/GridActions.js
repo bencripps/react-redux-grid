@@ -1,6 +1,7 @@
 import {
     GET_DATA,
-    SET_DATA
+    SET_DATA,
+    SET_CURRENT_RECORDS
 } from '../constants/ActionTypes';
 
 import Request from '../components/plugins/ajax/Request';
@@ -20,6 +21,7 @@ export function getAsyncData(datasource) {
                     type: SET_DATA,
                     data: response.data,
                     total: response.total,
+                    currentRecords: response.data,
                     success: true
                 });
 

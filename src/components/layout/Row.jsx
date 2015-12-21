@@ -1,10 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../store/store';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import Cell from './Cell.jsx';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
+import { getCurrentRecords } from '../../util/getCurrentRecords';
 import '../../style/components/row.styl';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -16,7 +16,8 @@ class Row extends Component {
         pageSize: React.PropTypes.number,
         plugins:  React.PropTypes.object,
         events: React.PropTypes.object,
-        emptyDataMessage: 'No Data Available'
+        emptyDataMessage: 'No Data Available',
+        store: React.PropTypes.func.isRequired
     }
 
     getPlaceHolder() {
@@ -61,24 +62,22 @@ class Row extends Component {
         );
     }
 
-    getRowSelection(rows, pageIndex, pageSize, pager, plugins) {
+    getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store) {
 
-        if (!rows) {
+        if (!dataSource) {
             return false;
         }
 
         if (!plugins.PAGER 
             || !plugins.PAGER.enabled 
             || plugins.PAGER.pagingType === 'remote') {
-            return rows;
+            return dataSource.data;
         }
 
-        const selectedRows = rows.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-
-        return selectedRows;
+        return getCurrentRecords(dataSource, pageIndex, pageSize);
     }
 
-    getAllRows(dataSource, events) {
+    getRows(dataSource, events) {
         return Array.isArray(dataSource) ? dataSource.map((row) => 
             this.getRowComponents(row, events)) : null;
     }
@@ -92,16 +91,17 @@ class Row extends Component {
             plugins,
             pageSize,
             pager,
-            dataSource
+            dataSource,
+            store
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
-     
-        const allRows = this.getAllRows(dataSource ? dataSource.data : null, events);
         
-        const rows = this.getRowSelection(allRows, pageIndex, pageSize, pager, plugins);
+        const rows = this.getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store);
 
-        const rowInsert = rows ? rows : this.getPlaceHolder();
+        const rowComponents = this.getRows(rows, events);
+
+        const rowInsert = rowComponents ? rowComponents : this.getPlaceHolder();
 
         return (
             <tbody>

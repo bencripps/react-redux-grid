@@ -12,7 +12,8 @@ export default function dataSource(state = initialState, action) {
         return state.set('gridData', Object.assign({}, state.get('pagerState'),
             {
                 data: action.data,
-                total: action.total
+                total: action.total,
+                currentRecords: action.currentRecords
             }
         ));
 

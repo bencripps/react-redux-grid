@@ -40,6 +40,7 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
                     type: SET_DATA,
                     data: response.data,
                     total: response.total,
+                    currentRecords: response.data,
                     success: true
                 });
 

@@ -5,6 +5,7 @@ import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import '../../../style/components/plugins/pager/toolbar.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { getCurrentRecords } from '../../../util/getCurrentRecords';
 import { 
     setPage, 
     setPageAsync 
@@ -26,9 +27,24 @@ class PagerToolbar extends Component {
         }
     }
 
+    getCurrentRecordTotal(dataSource, pageSize, pageIndex, plugins) {
+
+        if (plugins.PAGER.pagingType === 'remote' && dataSource && dataSource.currentRecords) {
+            return dataSource.currentRecords.length;
+        }
+
+        else if (plugins.PAGER.pagingType === 'local') {
+            const records = getCurrentRecords(dataSource, pageIndex, pageSize);
+
+            return records ? records.length : 0;
+        }
+
+    }
+
     handleButtonClick(type, pageIndex) {
         const { PAGER } = this.props.plugins;
         const { store, BUTTON_TYPES, pageSize } = this.props;
+
         let event;
 
         if (PAGER.pagingType === 'local') {
@@ -80,7 +96,8 @@ class PagerToolbar extends Component {
             recordType,
             BUTTON_TYPES,
             pager,
-            plugins 
+            plugins,
+            gridState,
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex || 0;
@@ -88,6 +105,8 @@ class PagerToolbar extends Component {
         const toolbarProps = {
             className: prefix(CLASS_NAMES.PAGERTOOLBAR)
         }
+
+        const currentRecords = this.getCurrentRecordTotal(dataSource, pageSize, pageIndex, plugins);
 
         const total = this.getTotal(dataSource, plugins.PAGER);
 
@@ -97,7 +116,7 @@ class PagerToolbar extends Component {
                     <td colSpan="100%">
                         <div> 
                             <span>
-                                { `${pageIndex * pageSize} through ${(pageIndex + 1) * pageSize } of ${total} ${recordType} Displayed` }
+                                { `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed` }
                             </span>
                             <span>
                                { this.getButton(BUTTON_TYPES.NEXT, pageIndex) }
@@ -123,9 +142,11 @@ class PagerToolbar extends Component {
 }
 
 function mapStateToProps(state) {
+    
     return {
         pager: state.pager.get('pagerState'),
-        dataSource: state.dataSource.get('gridData')
+        dataSource: state.dataSource.get('gridData'),
+        gridState: state.grid.get('gridState')
     };
 }
 
