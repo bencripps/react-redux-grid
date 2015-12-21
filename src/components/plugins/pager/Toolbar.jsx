@@ -4,6 +4,7 @@ import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import '../../../style/components/plugins/pager/toolbar.styl';
+import '../../../style/components/button.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
 import { 
@@ -60,12 +61,23 @@ class PagerToolbar extends Component {
         }
     }
 
-    getButton(type, pageIndex) {
+    isButtonDisabled(type, pageIndex, pageSize, currentRecords, BUTTON_TYPES) {
+        if (type === BUTTON_TYPES.LAST) {
+            return pageIndex === 0;
+        }
+        else if (type === BUTTON_TYPES.NEXT) {
+            return currentRecords < pageSize;
+        }
+    }
+
+    getButton(type, pageIndex, pageSize, currentRecords) {
         const { nextButtonText, lastButtonText, BUTTON_TYPES } = this.props;
 
         const buttonProps = {
             onClick: this.handleButtonClick.bind(this, type, pageIndex),
-            children: type === BUTTON_TYPES.NEXT ? nextButtonText : lastButtonText
+            children: type === BUTTON_TYPES.NEXT ? nextButtonText : lastButtonText,
+            disabled: this.isButtonDisabled(type, pageIndex, pageSize, currentRecords, BUTTON_TYPES),
+            className: prefix(CLASS_NAMES.BUTTONS.PAGER)
         }
 
         return (
@@ -119,8 +131,8 @@ class PagerToolbar extends Component {
                                 { `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed` }
                             </span>
                             <span>
-                               { this.getButton(BUTTON_TYPES.NEXT, pageIndex) }
-                               { this.getButton(BUTTON_TYPES.LAST, pageIndex) }
+                               { this.getButton(BUTTON_TYPES.NEXT, pageIndex, pageSize, currentRecords) }
+                               { this.getButton(BUTTON_TYPES.LAST, pageIndex, pageSize, currentRecords) }
                             </span>
                         </div>
                     </td>

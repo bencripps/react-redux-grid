@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import Header from './layout/Header.jsx';
 import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
+import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import '../style/components/grid.styl';
+import '../style/components/container.styl';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import { getAsyncData, setData } from '../actions/GridActions';
@@ -21,7 +23,7 @@ class Grid extends Component {
     }
 
     componentWillMount() {
-        const { dataSource, data, store } = this.props;  
+        const { dataSource, data, store } = this.props;
         
         if (dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
@@ -47,7 +49,11 @@ class Grid extends Component {
             store
         } = this.props;
 
-        const HeaderProps = {
+        const containerProps = {
+            className: prefix(CLASS_NAMES.CONTAINER)
+        }
+
+        const headerProps = {
             columns,
             store
         };
@@ -72,13 +78,18 @@ class Grid extends Component {
             store
         };
 
+        const loadingBarProps = {
+
+        };
+
         return (
-            <div>
+            <div { ...containerProps }>
                 <table { ...tableProps }>
-                    <Header { ...HeaderProps } />
+                    <Header { ...headerProps } />
                     <Row { ...rowProps } />
                     <PagerToolbar { ...pagerProps } />
                 </table>
+                <LoadingBar { ...loadingBarProps } />
             </div>
         );
     }

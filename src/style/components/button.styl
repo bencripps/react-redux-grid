@@ -1,0 +1,23 @@
+@require('../main');
+
++prefix-classes(prefix)
+
+	.page-buttons
+		background-color actioncolor
+		border none
+		color whitecolor
+		border-radius(3px)
+		opacity .8
+		
+		&:focus
+			outline none
+		
+		&:active
+			opacity 1
+			
+		&:hover 
+			opacity .6
+			
+		&:disabled
+			background-color whitecolor
+			color blackcolor

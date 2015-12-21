@@ -77,8 +77,8 @@ class Row extends Component {
         return getCurrentRecords(dataSource, pageIndex, pageSize);
     }
 
-    getRows(dataSource, events) {
-        return Array.isArray(dataSource) ? dataSource.map((row) => 
+    getRows(rows, events) {
+        return Array.isArray(rows) ? rows.map((row) => 
             this.getRowComponents(row, events)) : null;
     }
 

@@ -1,14 +1,16 @@
 import {
-    GET_DATA,
-    SET_DATA,
-    SET_CURRENT_RECORDS
+    SET_DATA
 } from '../constants/ActionTypes';
+
+import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
 import Request from '../components/plugins/ajax/Request';
 
 export function getAsyncData(datasource) {
 
     return (dispatch) => {
+
+        dispatch(setLoaderState(true));
 
         return Request.api({
             route: datasource,
@@ -35,6 +37,7 @@ export function getAsyncData(datasource) {
                 });
             }
 
+            dispatch(setLoaderState(false));
         });
 
     };

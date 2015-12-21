@@ -5,6 +5,8 @@ import {
     ERROR_OCCURRED
 } from '../../../constants/ActionTypes';
 
+import { setLoaderState } from '../../../actions/plugins/loader/LoaderActions';
+
 import Request from '../../../components/plugins/ajax/Request';
 
 export function setPage(index, type, BUTTON_TYPES) {
@@ -19,6 +21,8 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
     return (dispatch) => {
+
+        dispatch(setLoaderState(true));
 
         return Request.api({
             route: datasource,
@@ -44,6 +48,7 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
                     success: true
                 });
 
+                dispatch(setLoaderState(false));
             }
 
             else {

@@ -39,3 +39,21 @@ Pagination Defaults:
 1. `enabled`: `Boolean`, default value: `true`
 2. `pagingType`: `String`, default value; `local`, possible values: `['local', 'remote']`
 3. `pagingSource`: `String`, url for remote grid data
+
+## Style
+
+All core components and plugins have corresponding `.styl` files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend withing `src/constants/gridConstants.js`
+
+	export const CSS_PREFIX = 'react-grid';
+
+	export const CLASS_NAMES = {
+	    TABLE: 'table',
+	    HEADER: 'header',
+	    ROW: 'row',
+	    CELL: 'cell',
+	    PAGERTOOLBAR: 'pager-toolbar',
+	    EMPTY_ROW: 'empty-row',
+	    BUTTONS: {
+	        PAGER: 'page-buttons'
+	    }
+	};
