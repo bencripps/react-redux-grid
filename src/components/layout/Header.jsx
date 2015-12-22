@@ -40,11 +40,13 @@ class Header extends Component {
 
     render() {
 
-        const { columns } = this.props;
+        const { columns, selectionModel } = this.props;
         const headers = columns.map((col) => this.getHeader(col));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }
+
+        selectionModel.updateCells(headers, columns);
 
         return (
             <thead>

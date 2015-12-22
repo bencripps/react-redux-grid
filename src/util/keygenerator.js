@@ -2,6 +2,13 @@ export function keyGenerator() {
     return btoa(Array.from(arguments).join(''));
 }
 
-export function keyFromObject(obj) {
-    return btoa(Object.keys(obj).map((k) => obj[k]).join(''));
+export function keyFromObject(obj, additionalStrings) {
+
+	if (additionalStrings) {
+		return btoa(additionalStrings.join('') + Object.keys(obj).map((k) => obj[k]).join(''));
+	}
+
+	else {
+    	return btoa(Object.keys(obj).map((k) => obj[k]).join(''));
+	}
 }

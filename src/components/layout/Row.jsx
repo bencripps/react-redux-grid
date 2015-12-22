@@ -45,6 +45,8 @@ class Row extends Component {
 
     getRowComponents(row, events, selectedRows) {
 
+        const { selectionModel } = this.props;
+
         const cells = Object.keys(row).map((k) => { 
 
             let cellProps = {
@@ -57,11 +59,10 @@ class Row extends Component {
 
         });
 
+
         const id = keyFromObject(row);
 
         const isSelected = selectedRows ? selectedRows[id] : false;
-
-        const { selectionModel } = this.props;
 
         const rowProps = {
             key: id,
@@ -69,6 +70,8 @@ class Row extends Component {
             onClick: this.handleRowSingleClickEvent.bind(this, events, row, id),
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
+
+        selectionModel.updateCells(cells, id);
 
         return (
             <tr { ...rowProps }>

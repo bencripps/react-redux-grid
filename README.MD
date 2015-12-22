@@ -25,6 +25,8 @@ This component will work out of the box, without installing a custom store. A st
 
 In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
 
+If you elect to use a custom store, please be sure to include the necessary reducers for the core grid features and any plugins you wish to use.
+
 ## Plugins
 
 All Features are implementd as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
@@ -63,7 +65,7 @@ Pagination Defaults:
 
 Selection Model Defaults: 
 
-1. `mode`: `string`, determines whether a single value, or multiple values can be selected, possible values `['single', 'multi']`
+1. `mode`: `string`, determines whether a single value, or multiple values can be selected, and whether a checkbox column will be used, possible values `['single', 'multi', 'checkbox-single', 'checkbox-multi']`
 2. `enabled`: `boolean`, whether the selection model class is initialized
 3. `allowDeselect`: `boolean`, whether a value can be deselected
 4. `activeCls`: `string`, the class applied to active rows upon selection

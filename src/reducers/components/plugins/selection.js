@@ -14,7 +14,7 @@ export default function selection(state = initialState, action) {
 
     case SET_SELECTION:
 
-    	if (action.clear) {
+    	if (action.clearSelections) {
     		return state.set('selectedRows',
 	            {
 	                [action.id]: true

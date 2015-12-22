@@ -26,7 +26,7 @@ class LoadingBar extends Component {
         }
 
         return (
-            <div { ...loadingBarProps }></div>
+            <div { ...loadingBarProps } ></div>
         );
     }
 }

@@ -12,6 +12,12 @@ export const events = {
     },
     HANDLE_ROW_DOUBLE_CLICK: (row, reactEvent, id, browserEvent) => {
         console.log('On Row Double Click Event');
+    },
+    HANDLE_BEFORE_SELECTION: () => {
+        console.log('On Before Selection')
+    },
+    HANDLE_AFTER_SELECTION: () => {
+        console.log('On After Selection');
     }
 };
 
@@ -27,7 +33,7 @@ export const plugins = {
         enabled: true
     },
     SELECTION_MODEL: {
-        mode: 'single',
+        mode: 'checkbox-multi',
         enabled: true,
         allowDeselect: true,
         activeCls: 'active-class',

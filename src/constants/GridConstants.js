@@ -12,5 +12,10 @@ export const CLASS_NAMES = {
     ACTIVE_CLASS: 'active-class',
     BUTTONS: {
         PAGER: 'page-buttons'
+    },
+    SELECTION_MODEL_CHECKBOX: 'checkbox',
+    SELECTION_MODEL: {
+        CHECKBOX: 'checkbox',
+        CHECKBOX_CONTAINER: 'checkbox-container'
     }
 };

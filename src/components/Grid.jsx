@@ -50,13 +50,14 @@ class Grid extends Component {
             store
         } = this.props;
 
-        const selectionModel = new Model(plugins, store);
+        const selectionModel = new Model(plugins, store, events);
 
         const containerProps = {
             className: prefix(CLASS_NAMES.CONTAINER)
         }
 
         const headerProps = {
+            selectionModel,
             columns,
             store
         };
