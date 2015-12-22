@@ -9,15 +9,20 @@ class LoadingBar extends Component {
 
     static defaultProps = {
         store: React.PropTypes.func.isRequired,
-        plugins: React.PropTypes.object
+        plugins: React.PropTypes.object.isRequired
     }
    
     render() {
 
-        const { isLoading } = this.props;
+        const { isLoading, plugins } = this.props;
+
+        const showLoader = plugins 
+                            && plugins.LOADER
+                            && plugins.LOADER.enabled
+                            && isLoading;
 
         const loadingBarProps = {
-            className: prefix(CLASS_NAMES.LOADING_BAR, isLoading ? 'active' : '')
+            className: prefix(CLASS_NAMES.LOADING_BAR, showLoader ? 'active' : '')
         }
 
         return (

@@ -4,6 +4,7 @@ import Header from './layout/Header.jsx';
 import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
+import Model from './plugins/selection/Model';
 import '../style/components/grid.styl';
 import '../style/components/container.styl';
 import { prefix } from '../util/prefix';
@@ -49,6 +50,8 @@ class Grid extends Component {
             store
         } = this.props;
 
+        const selectionModel = new Model(plugins, store);
+
         const containerProps = {
             className: prefix(CLASS_NAMES.CONTAINER)
         }
@@ -63,7 +66,8 @@ class Grid extends Component {
             events,
             pageSize,
             plugins,
-            store
+            store,
+            selectionModel
         };
 
         const tableProps = {
@@ -79,7 +83,7 @@ class Grid extends Component {
         };
 
         const loadingBarProps = {
-
+            plugins
         };
 
         return (

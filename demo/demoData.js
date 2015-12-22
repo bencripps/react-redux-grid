@@ -1,11 +1,17 @@
 export const pageSize = 20;
 
 export const events = {
-    HANDLE_CELL_CLICK: () => {
+    HANDLE_CELL_CLICK: (cell, reactEvent, id, browserEvent) => {
         console.log('On Cell Click Event');
     },
-    HANDLE_CELL_DOUBLE_CLICK: () => {
+    HANDLE_CELL_DOUBLE_CLICK: (cell, reactEvent, id, browserEvent) => {
         console.log('On Cell Double Click Event');
+    },
+    HANDLE_ROW_CLICK: (row, reactEvent, id, browserEvent) => {
+        console.log('On Row Click Event');
+    },
+    HANDLE_ROW_DOUBLE_CLICK: (row, reactEvent, id, browserEvent) => {
+        console.log('On Row Double Click Event');
     }
 };
 
@@ -16,6 +22,16 @@ export const plugins = {
         enabled: true,
         pagingType: 'remote',
         pagingSource: 'http://localhost:3000/getFakedPagedData'
+    },
+    LOADER: {
+        enabled: true
+    },
+    SELECTION_MODEL: {
+        mode: 'single',
+        enabled: true,
+        allowDeselect: true,
+        activeCls: 'active-class',
+        selectionEvent: 'singleclick'
     }
 };
 

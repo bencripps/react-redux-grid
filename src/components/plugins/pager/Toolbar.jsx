@@ -25,6 +25,9 @@ class PagerToolbar extends Component {
         BUTTON_TYPES: {
             NEXT: 'NEXT',
             LAST: 'LAST'
+        },
+        toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+            return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
         }
     }
 
@@ -110,6 +113,7 @@ class PagerToolbar extends Component {
             pager,
             plugins,
             gridState,
+            toolbarRenderer
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex || 0;
@@ -128,7 +132,7 @@ class PagerToolbar extends Component {
                     <td colSpan="100%">
                         <div> 
                             <span>
-                                { `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed` }
+                                { toolbarRenderer(pageIndex, pageSize, total, currentRecords, recordType) }
                             </span>
                             <span>
                                { this.getButton(BUTTON_TYPES.NEXT, pageIndex, pageSize, currentRecords) }

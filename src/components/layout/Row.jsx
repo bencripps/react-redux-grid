@@ -17,6 +17,7 @@ class Row extends Component {
         plugins:  React.PropTypes.object,
         events: React.PropTypes.object,
         emptyDataMessage: 'No Data Available',
+        selectionModel: React.PropTypes.object,
         store: React.PropTypes.func.isRequired
     }
 
@@ -42,17 +43,31 @@ class Row extends Component {
 
     }
 
-    getRowComponents(row, events) {
+    getRowComponents(row, events, selectedRows) {
 
-        const cells = Object.keys(row).map(
-            (k) => <Cell cellData={ row[k] } key={ keyGenerator(k) } />
-        );
+        const cells = Object.keys(row).map((k) => { 
+
+            let cellProps = {
+                cellData: row[k],
+                key: keyGenerator(k),
+                events: events
+            }
+
+            return <Cell { ...cellProps } />;
+
+        });
+
+        const id = keyFromObject(row);
+
+        const isSelected = selectedRows ? selectedRows[id] : false;
+
+        const { selectionModel } = this.props;
 
         const rowProps = {
-            key: keyFromObject(row),
-            className: prefix(CLASS_NAMES.ROW),
-            onClick: events.HANDLE_CELL_CLICK.bind(this, row) || emptyFn,
-            onDoubleClick: events.HANDLE_CELL_DOUBLE_CLICK.bind(this, row) || emptyFn
+            key: id,
+            className: prefix(CLASS_NAMES.ROW, isSelected ? selectionModel.defaults.activeCls : ''),
+            onClick: this.handleRowSingleClickEvent.bind(this, events, row, id),
+            onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
 
         return (
@@ -61,6 +76,44 @@ class Row extends Component {
             </tr>
         );
     }
+
+    handleRowDoubleClickEvent(events, rowData, rowId, reactEvent, id, browserEvent) {
+        
+        const { selectionModel } = this.props;
+
+        if (selectionModel 
+                && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick) {
+            
+            selectionModel.handleSelectionEvent({
+                eventType: reactEvent.type,
+                eventData: reactEvent,
+                id: rowId
+            });
+        }
+
+        if (events.HANDLE_ROW_DOUBLE_CLICK) {
+            events.HANDLE_ROW_DOUBLE_CLICK.call(this, rowData, rowId, reactEvent, id, browserEvent);
+        }
+    }
+
+    handleRowSingleClickEvent(events, rowData, rowId, reactEvent, id, browserEvent) {
+
+        const { selectionModel } = this.props;
+        
+        if (selectionModel 
+                && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick) {
+            
+            selectionModel.handleSelectionEvent({
+                eventType: reactEvent.type,
+                eventData: reactEvent,
+                id: rowId
+            });
+        }
+
+        if (events.HANDLE_ROW_CLICK) {
+            events.HANDLE_ROW_CLICK.call(this, rowData, rowId, reactEvent, id, browserEvent);
+        }
+    } 
 
     getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store) {
 
@@ -77,9 +130,9 @@ class Row extends Component {
         return getCurrentRecords(dataSource, pageIndex, pageSize);
     }
 
-    getRows(rows, events) {
+    getRows(rows, events, selectedRows) {
         return Array.isArray(rows) ? rows.map((row) => 
-            this.getRowComponents(row, events)) : null;
+            this.getRowComponents(row, events, selectedRows)) : null;
     }
 
     render() {
@@ -92,14 +145,15 @@ class Row extends Component {
             pageSize,
             pager,
             dataSource,
-            store
+            store,
+            selectedRows
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
         
         const rows = this.getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store);
 
-        const rowComponents = this.getRows(rows, events);
+        const rowComponents = this.getRows(rows, events, selectedRows);
 
         const rowInsert = rowComponents ? rowComponents : this.getPlaceHolder();
 
@@ -114,7 +168,8 @@ class Row extends Component {
 function mapStateToProps(state) {
     return {
          pager: state.pager.get('pagerState'),
-         dataSource: state.dataSource.get('gridData')
+         dataSource: state.dataSource.get('gridData'),
+         selectedRows: state.selection.get('selectedRows')
     };
 }
 

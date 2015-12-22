@@ -9,6 +9,7 @@ export const CLASS_NAMES = {
     PAGERTOOLBAR: 'pager-toolbar',
     EMPTY_ROW: 'empty-row',
     LOADING_BAR: 'loading-bar',
+    ACTIVE_CLASS: 'active-class',
     BUTTONS: {
         PAGER: 'page-buttons'
     }

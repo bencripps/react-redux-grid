@@ -15,10 +15,12 @@ class Cell extends Component {
 
     render() {
 
-        const { cellData } = this.props;
+        const { cellData, events } = this.props;
 
         const cellProps = {
-            className: prefix(CLASS_NAMES.CELL)
+            className: prefix(CLASS_NAMES.CELL),
+            onClick: events.HANDLE_CELL_CLICK.bind(this, cellData) || emptyFn,
+            onDoubleClick: events.HANDLE_CELL_DOUBLE_CLICK.bind(this, cellData) || emptyFn
         };
 
         return (
