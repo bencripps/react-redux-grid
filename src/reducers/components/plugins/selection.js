@@ -14,10 +14,12 @@ export default function selection(state = initialState, action) {
 
     case SET_SELECTION:
 
+        const currentValue = state.get('selectedRows') ? state.get('selectedRows')[action.id] : false; 
+
     	if (action.clearSelections) {
     		return state.set('selectedRows',
 	            {
-	                [action.id]: true
+	                [action.id]: currentValue && action.allowDeselect ? false : true
 	            }
 	        );
     	}
@@ -25,7 +27,7 @@ export default function selection(state = initialState, action) {
     	else {
 	        return state.set('selectedRows', Object.assign({}, state.get('selectedRows'),
 	            {
-	                [action.id]: true
+	                [action.id]: currentValue && action.allowDeselect ? false : true
 	            }
 	        ));
     	}
