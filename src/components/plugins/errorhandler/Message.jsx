@@ -12,10 +12,10 @@ class Message extends Component {
         plugins: React.PropTypes.object.isRequired
     }
         
-    getMessage(message) {
+    getMessage(message, isShown) {
 
         const messageContainerProps = {
-            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER)
+            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown': '')
         }
 
         const messageProps = {
@@ -55,7 +55,7 @@ class Message extends Component {
 
         const message = errorHandler && errorHandler.error ? errorHandler.error : defaultMessage;
 
-        const errorMessage = showError ? this.getMessage(message) : null;
+        const errorMessage = this.getMessage(message, showError);
 
         return errorMessage
     }

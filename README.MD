@@ -48,9 +48,9 @@ All Features are implementd as plugins. Plugin defaults are described as below. 
 Pagination Defaults:
 
 1. `enabled`: `boolean`, default value: `true`
-2. `pagingType`: `String`, default value; `local`, possible values: `['local', 'remote']`
-3. `pagingSource`: `String`, url for remote grid data
-4. `toolbarRenderer`: `Func`, a function which returns the template that describes current pagination state
+2. `pagingType`: `string`, default value; `local`, possible values: `['local', 'remote']`
+3. `pagingSource`: `string`, url for remote grid data
+4. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
 
 ## Selection Model
 

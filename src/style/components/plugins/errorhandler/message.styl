@@ -5,14 +5,19 @@
     .error-container
         background-color lightcolor
         bottom 0px
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+        boxshadow()
         color strongcolor
         height: 100px
         left 0px
         margin auto
         position absolute
+        perspective 1300px
+        transform-style preserve-3d
+        transform rotateX(-70deg)
+        transition transform 0.2s
+        opacity 0
         right 0px
-        top 0px
+        top -10000px
         width 50%
         zindex('.error-container')
         
@@ -27,7 +32,12 @@
             position absolute
             
         button 
-            button()
+            button(actioncolor)
             position absolute
             right 10px
-            bottom 10px
+            bottom 10px     
+            
+        &.shown 
+            top 0px
+            transform rotateX(0deg)
+            opacity 1

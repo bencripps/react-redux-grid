@@ -25,7 +25,8 @@ export const dataSource = 'http://localhost:3000/getfakeData';
 
 export const plugins = {
     EDITOR: {
-        type: 'inline'
+        type: 'inline',
+        enabled: true
     },
     PAGER: {
         enabled: true,

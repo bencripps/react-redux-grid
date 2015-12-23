@@ -6,6 +6,7 @@ import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import Message from './plugins/errorhandler/Message.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import Model from './plugins/selection/Model';
+import Manager from './plugins/editor/Manager';
 import '../style/components/grid.styl';
 import '../style/components/container.styl';
 import { prefix } from '../util/prefix';
@@ -52,6 +53,10 @@ class Grid extends Component {
         } = this.props;
 
         const selectionModel = new Model(plugins, store, events);
+
+        const editor = new Manager(plugins, store, events);
+
+        const editorComponent = editor.getComponent();
 
         const containerProps = {
             className: prefix(CLASS_NAMES.CONTAINER)
@@ -101,6 +106,7 @@ class Grid extends Component {
                     <PagerToolbar { ...pagerProps } />
                 </table>
                 <LoadingBar { ...loadingBarProps } />
+                { editorComponent }
             </div>
         );
     }
