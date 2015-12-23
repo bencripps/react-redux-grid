@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from './layout/Header.jsx';
 import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
+import Message from './plugins/errorhandler/Message.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import Model from './plugins/selection/Model';
 import '../style/components/grid.styl';
@@ -54,7 +55,11 @@ class Grid extends Component {
 
         const containerProps = {
             className: prefix(CLASS_NAMES.CONTAINER)
-        }
+        };
+
+        const messageProps = {
+            store
+        };
 
         const headerProps = {
             selectionModel,
@@ -89,6 +94,7 @@ class Grid extends Component {
 
         return (
             <div { ...containerProps }>
+                <Message { ...messageProps } />
                 <table { ...tableProps }>
                     <Header { ...headerProps } />
                     <Row { ...rowProps } />

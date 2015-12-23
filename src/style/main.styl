@@ -7,7 +7,7 @@ fontsize = 14px
 cellfontsize = 13px
 headerheight = 24px
 rowheight = 20px
-fontfamily = 'normal 14px/16px "proxima-nova",sans-serif;'
+fontfamily = Helvetica
 
 // colors 
 lightcolor = #f7f7f7
@@ -18,8 +18,40 @@ fontcolor = #3f3f3f
 rowhovercolor = #f5f5f5
 actioncolor = #2E7D32
 
+// zindex manager
+
+zarray = {
+  '.error-container': 10
+}
+
+button()
+	background-color actioncolor
+	border none
+	color whitecolor
+	border-radius(3px)
+	opacity .8
+	
+	&:focus
+		outline none
+	
+	&:active
+		opacity 1
+		
+	&:hover 
+		opacity .6
+		
+	&:disabled
+		background-color whitecolor
+		color blackcolor
+
 // mixins
 border-radius()
   -webkit-border-radius arguments
   -moz-border-radius arguments
   border-radius arguments
+  
+zindex(elem)
+  z-index zarray[elem]
+  
+
+

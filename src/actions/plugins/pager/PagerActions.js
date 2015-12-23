@@ -33,7 +33,7 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
             }
         }).then((response) => {
 
-            if (response) {
+            if (response && response.data) {
 
                 dispatch({
                     type: PAGE_REMOTE,
@@ -54,7 +54,8 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
             else {
                 dispatch({
                     type: ERROR_OCCURRED,
-                    error: response
+                    error: response,
+                    errorOccurred: true
                 });
             }
 

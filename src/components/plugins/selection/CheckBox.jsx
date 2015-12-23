@@ -10,6 +10,10 @@ class PagerToolbar extends Component {
         store: React.PropTypes.func
     }
 
+    handleChange() {
+        
+    }
+
     render() {
 
         const { rowId, selectedRows } = this.props;
@@ -20,11 +24,12 @@ class PagerToolbar extends Component {
 
         const checkBoxProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-            checked: selectedRows ? selectedRows[rowId] : false
+            checked: selectedRows ? selectedRows[rowId] : false,
+            onChange: this.handleChange
         }
 
         return (
-            <td { ...checkBoxContainerProps }>
+            <td { ...checkBoxContainerProps } >
                 <input type="checkbox" { ...checkBoxProps } />
             </td>
         );

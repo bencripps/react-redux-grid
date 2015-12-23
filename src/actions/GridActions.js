@@ -1,5 +1,6 @@
 import {
-    SET_DATA
+    SET_DATA,
+    ERROR_OCCURRED
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -11,13 +12,13 @@ export function getAsyncData(datasource) {
     return (dispatch) => {
 
         dispatch(setLoaderState(true));
-
+        
         return Request.api({
             route: datasource,
             method: 'GET'
         }).then((response) => {
 
-            if (response) {
+            if (response && response.data) {
 
                 dispatch({
                     type: SET_DATA,
@@ -28,12 +29,13 @@ export function getAsyncData(datasource) {
                 });
 
             }
+            
 
             else {
                 dispatch({
-                    type: SET_DATA,
-                    data: [],
-                    success: false
+                    type: ERROR_OCCURRED,
+                    error: 'Unable to Retrieve Grid Data',
+                    errorOccurred: true
                 });
             }
 

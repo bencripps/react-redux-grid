@@ -1,0 +1,33 @@
+@require('../../../main')
+
++prefix-classes(prefix)
+
+    .error-container
+        background-color lightcolor
+        bottom 0px
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+        color strongcolor
+        height: 100px
+        left 0px
+        margin auto
+        position absolute
+        right 0px
+        top 0px
+        width 50%
+        zindex('.error-container')
+        
+        .error-message
+            color fontcolor
+            font-family fontfamily
+            height 20px
+            margin-top -20px
+            top 50%
+            left 0
+            right 0
+            position absolute
+            
+        button 
+            button()
+            position absolute
+            right 10px
+            bottom 10px

@@ -17,5 +17,9 @@ export const CLASS_NAMES = {
     SELECTION_MODEL: {
         CHECKBOX: 'checkbox',
         CHECKBOX_CONTAINER: 'checkbox-container'
+    },
+    ERROR_HANDLER: {
+        CONTAINER: 'error-container',
+        MESSAGE: 'error-message'
     }
 };

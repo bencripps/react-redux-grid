@@ -12,6 +12,7 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 4. Event Handling for all kinds of DOM Events (List Below)
 5. Extendable and Modular Style Built with JavaScript
 6. Loading Mask
+7. Built-in Error Handling Module
 
 ##Which Store do I use?
 
@@ -46,7 +47,7 @@ All Features are implementd as plugins. Plugin defaults are described as below. 
 
 Pagination Defaults:
 
-1. `enabled`: `Boolean`, default value: `true`
+1. `enabled`: `boolean`, default value: `true`
 2. `pagingType`: `String`, default value; `local`, possible values: `['local', 'remote']`
 3. `pagingSource`: `String`, url for remote grid data
 4. `toolbarRenderer`: `Func`, a function which returns the template that describes current pagination state
@@ -71,6 +72,20 @@ Selection Model Defaults:
 4. `activeCls`: `string`, the class applied to active rows upon selection
 5. `selectionEvent`: `string`, the browser event which triggers the selection event, possible values `['singleclick', 'doubleclick']`
 
+## Error Handler
+
+	export const plugins = {
+	    ERROR_HANDLER: {
+	        defaultErrorMessage: 'AN ERROR OCURRED',
+	        enabled: true
+	    }
+	};
+
+Error Handler Defaults
+
+1. `defaultErrorMessage`: `string`, the default error message to display when no error information is available
+2. `enabled`: `string`, whether the error handler should be used
+
 ## Loader
 
 	export const plugins = {
@@ -81,7 +96,7 @@ Selection Model Defaults:
 
 Loader Defaults:
 
-1. `enabled`: `Boolean`, whether the default loading mask should be used
+1. `enabled`: `boolean`, whether the default loading mask should be used
 
 Loader css can be modified or overwritten using `src/style/components/plugins/loader/loadingbar.styl`
 

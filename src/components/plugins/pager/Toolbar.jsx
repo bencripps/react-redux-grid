@@ -27,6 +27,11 @@ class PagerToolbar extends Component {
             LAST: 'LAST'
         },
         toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+
+            if (!currentRecords) {
+                return `No ${recordType} Available`;
+            }
+
             return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
         }
     }
@@ -64,22 +69,22 @@ class PagerToolbar extends Component {
         }
     }
 
-    isButtonDisabled(type, pageIndex, pageSize, currentRecords, BUTTON_TYPES) {
+    isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES) {
         if (type === BUTTON_TYPES.LAST) {
             return pageIndex === 0;
         }
         else if (type === BUTTON_TYPES.NEXT) {
-            return currentRecords < pageSize;
+            return currentRecords < pageSize || (pageIndex * pageSize) + currentRecords === total;
         }
     }
 
-    getButton(type, pageIndex, pageSize, currentRecords) {
+    getButton(type, pageIndex, pageSize, currentRecords, total) {
         const { nextButtonText, lastButtonText, BUTTON_TYPES } = this.props;
 
         const buttonProps = {
             onClick: this.handleButtonClick.bind(this, type, pageIndex),
             children: type === BUTTON_TYPES.NEXT ? nextButtonText : lastButtonText,
-            disabled: this.isButtonDisabled(type, pageIndex, pageSize, currentRecords, BUTTON_TYPES),
+            disabled: this.isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES),
             className: prefix(CLASS_NAMES.BUTTONS.PAGER)
         }
 
@@ -135,8 +140,8 @@ class PagerToolbar extends Component {
                                 { toolbarRenderer(pageIndex, pageSize, total, currentRecords, recordType) }
                             </span>
                             <span>
-                               { this.getButton(BUTTON_TYPES.NEXT, pageIndex, pageSize, currentRecords) }
-                               { this.getButton(BUTTON_TYPES.LAST, pageIndex, pageSize, currentRecords) }
+                               { this.getButton(BUTTON_TYPES.NEXT, pageIndex, pageSize, currentRecords, total) }
+                               { this.getButton(BUTTON_TYPES.LAST, pageIndex, pageSize, currentRecords, total) }
                             </span>
                         </div>
                     </td>
