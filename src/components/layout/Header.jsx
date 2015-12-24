@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../store/store';
-import { keyGenerator } from '../../util/keygenerator';
+import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
+import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
 import '../../style/components/header.styl';
@@ -10,7 +10,10 @@ import { CLASS_NAMES } from '../../constants/GridConstants';
 class Header extends Component {
 
     static defaultProps = {
-        columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired
+        columnManager: React.PropTypes.object.isRequired,
+        columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
+        plugins: React.PropTypes.object,
+        store: React.PropTypes.func
     }
 
     getHeader(col) {
@@ -40,13 +43,15 @@ class Header extends Component {
 
     render() {
 
-        const { columns, selectionModel } = this.props;
+        const { columns, selectionModel, columnManager } = this.props;
         const headers = columns.map((col) => this.getHeader(col));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }
 
         selectionModel.updateCells(headers, columns);
+
+        columnManager.addActionColumn(headers, 'header');
 
         return (
             <thead>

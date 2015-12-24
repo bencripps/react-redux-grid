@@ -42,6 +42,10 @@ module.exports = {
                 loaders: ['style-loader', 'css-loader', 'stylus-loader']
             },
             {
+              test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+              loaders: ['file-loader']
+            },
+            {
                 test: /\.json$/,
                 loaders: ['json-loader']
             }

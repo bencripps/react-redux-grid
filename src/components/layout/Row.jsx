@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import Cell from './Cell.jsx';
+import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
@@ -11,6 +12,7 @@ import { CLASS_NAMES } from '../../constants/GridConstants';
 class Row extends Component {
 
     static defaultProps = {
+        columnManager: React.PropTypes.object.isRequired,
         columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
         data: React.PropTypes.arrayOf(React.PropTypes.Object),
         pageSize: React.PropTypes.number,
@@ -45,7 +47,8 @@ class Row extends Component {
 
     getRowComponents(row, events, selectedRows) {
 
-        const { selectionModel } = this.props;
+        const { selectionModel, columnManager } = this.props;
+        const { GRID_ACTIONS } = this.props.plugins;
 
         const cells = Object.keys(row).map((k) => { 
 
@@ -70,6 +73,8 @@ class Row extends Component {
             onClick: this.handleRowSingleClickEvent.bind(this, events, row, id),
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
+
+        columnManager.addActionColumn(cells, 'row');
 
         selectionModel.updateCells(cells, id);
 

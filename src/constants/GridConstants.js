@@ -13,7 +13,6 @@ export const CLASS_NAMES = {
     BUTTONS: {
         PAGER: 'page-buttons'
     },
-    SELECTION_MODEL_CHECKBOX: 'checkbox',
     SELECTION_MODEL: {
         CHECKBOX: 'checkbox',
         CHECKBOX_CONTAINER: 'checkbox-container'
@@ -21,5 +20,14 @@ export const CLASS_NAMES = {
     ERROR_HANDLER: {
         CONTAINER: 'error-container',
         MESSAGE: 'error-message'
+    },
+    EDITOR: {
+        INLINE: {
+            CONTAINER: 'inline-editor'
+        }
+    },
+    GRID_ACTIONS: {
+        CONTAINER: 'grid-action-container'
     }
+
 };

@@ -26,7 +26,7 @@ export const dataSource = 'http://localhost:3000/getfakeData';
 export const plugins = {
     EDITOR: {
         type: 'inline',
-        enabled: true
+        enabled: false
     },
     PAGER: {
         enabled: true,
@@ -46,6 +46,23 @@ export const plugins = {
     ERROR_HANDLER: {
         defaultErrorMessage: 'AN ERROR OCURRED',
         enabled: true
+    },
+    GRID_ACTIONS: {
+        iconCls: 'fa fa-ellipsis-v',
+        menu: [
+            {
+                text: 'Add',
+                EVENT_HANDLER: () => {
+
+                }
+            },
+            {
+                text: 'Delete',
+                EVENT_HANDLER: () => {
+                    
+                }
+            }
+        ]
     }
 };
 

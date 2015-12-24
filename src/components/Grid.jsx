@@ -5,6 +5,7 @@ import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import Message from './plugins/errorhandler/Message.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
+import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
 import '../style/components/grid.styl';
@@ -54,6 +55,8 @@ class Grid extends Component {
 
         const selectionModel = new Model(plugins, store, events);
 
+        const columnManager = new ColumnManager(plugins, store, events);
+
         const editor = new Manager(plugins, store, events);
 
         const editorComponent = editor.getComponent();
@@ -68,11 +71,14 @@ class Grid extends Component {
 
         const headerProps = {
             selectionModel,
+            columnManager,
             columns,
+            plugins,
             store
         };
 
         const rowProps = {
+            columnManager,
             columns,
             events,
             pageSize,

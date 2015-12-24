@@ -156,7 +156,7 @@ class PagerToolbar extends Component {
 
         const pagerComponent = plugins 
                         && plugins.PAGER 
-                        && plugins.PAGER.enabled ? this.getPager(dataSource) : null;
+                        && plugins.PAGER.enabled ? this.getPager(dataSource) : <tfoot></tfoot>;
 
         return pagerComponent;
     }
