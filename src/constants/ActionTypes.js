@@ -11,4 +11,7 @@ export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 export const ERROR_OCCURRED = 'ERROR_OCCURRED';
 export const DISMISS_ERROR = 'DISMISS_ERROR';
 
+export const SHOW_MENU = 'SHOW_MENU';
+export const HIDE_MENU = 'HIDE_MENU';
+
 export const NO_EVENT = 'NO_EVENT';

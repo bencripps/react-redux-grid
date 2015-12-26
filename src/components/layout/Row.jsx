@@ -74,7 +74,7 @@ class Row extends Component {
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
 
-        columnManager.addActionColumn(cells, 'row');
+        columnManager.addActionColumn(cells, 'row', id);
 
         selectionModel.updateCells(cells, id);
 

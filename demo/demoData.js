@@ -53,11 +53,17 @@ export const plugins = {
             {
                 text: 'Add',
                 EVENT_HANDLER: () => {
-
+                    alert('hi')
                 }
             },
             {
                 text: 'Delete',
+                EVENT_HANDLER: () => {
+                    
+                }
+            },
+            {
+                text: 'Publish',
                 EVENT_HANDLER: () => {
                     
                 }

@@ -17,12 +17,14 @@ export default class ColumnManager {
 		
 	}
 
-	addActionColumn(cells, type) {
+	addActionColumn(cells, type, id) {
 		const cellsCopy = cells;
         const { GRID_ACTIONS } = this.plugins;
         const actionProps = {
             actions: GRID_ACTIONS,
+            store: this.store,
             type: type,
+            rowId: id,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         }
 

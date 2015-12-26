@@ -27,7 +27,11 @@ export const CLASS_NAMES = {
         }
     },
     GRID_ACTIONS: {
-        CONTAINER: 'grid-action-container'
+        CONTAINER: 'action-container',
+        MENU: {
+            CONTAINER: 'action-menu-container',
+            ITEM: 'action-menu-item'
+        }
     }
 
 };
