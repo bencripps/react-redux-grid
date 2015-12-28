@@ -32,7 +32,7 @@ class Header extends Component {
         }
     }
 
-    handleDrag(id, columnManager, store, reactEvent) {
+    handleDrag(id, columnManager, store, lastColumnId, reactEvent) {
         const mousePosition = reactEvent.pageX;
         const header = reactEvent.target.parentElement.parentElement;
         const columnNode = reactEvent.target.parentElement;
@@ -40,8 +40,18 @@ class Header extends Component {
         const headerWidth = parseInt(window.getComputedStyle(header).width, 10);
         const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
         const width = computedWidth * 100;
+        const totalWidth = Object.keys(this.refs).map((k) => {
+                return parseInt(this.refs[k].style.width, 10);
+        }, this).reduce((a,b) => a + b);
 
-        if (width > columnManager.config.minColumnWidth) {
+        if (totalWidth < 100 && width > columnManager.config.minColumnWidth) {
+            store.dispatch(resizeColumn(width, id, {
+                id: lastColumnId,
+                width: (100 - totalWidth) + parseInt(this.refs[lastColumnId].style.width, 10) 
+            }));
+        }
+
+        else if (width > columnManager.config.minColumnWidth) {
             store.dispatch(resizeColumn(width, id));
         }
     }
@@ -61,7 +71,7 @@ class Header extends Component {
         );
     }
 
-    getHeader(col, columnStates, dragAndDropManager) {
+    getHeader(col, columnStates, dragAndDropManager, lastColumnId) {
 
         const { columnManager, selectionModel, store } = this.props;
 
@@ -77,8 +87,9 @@ class Header extends Component {
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
-            onDrag: this.handleDrag.bind(this, key, columnManager, store),
+            onDrag: this.handleDrag.bind(this, key, columnManager, store, lastColumnId),
             key,
+            ref: key,
             style: {
                 width: draggedWidth ? draggedWidth : (col.width || columnManager.config.defaultColumnWidth)
             }
@@ -102,7 +113,9 @@ class Header extends Component {
 
         const { columns, selectionModel, columnManager, columnStates } = this.props;
         const dragAndDropManager = new DragAndDropManager();
-        const headers = columns.map((col) => this.getHeader(col, columnStates, dragAndDropManager));
+        const lastColumn = columns[columns.length -1];
+        const lastColumnId = keyGenerator(lastColumn.name, lastColumn.value);
+        const headers = columns.map((col) => this.getHeader(col, columnStates, dragAndDropManager, lastColumnId));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }
