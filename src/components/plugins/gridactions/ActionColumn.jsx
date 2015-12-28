@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
-import '../../../style/components/plugins/gridactions/actioncolumn.styl';
 
 class ActionColumn extends Component {
 

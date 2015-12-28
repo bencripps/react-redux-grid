@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import '../../../style/components/plugins/selection/model.styl';
 
 class PagerToolbar extends Component {
 

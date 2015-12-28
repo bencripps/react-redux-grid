@@ -1,50 +1,48 @@
-@require('../../../main')
-
 +prefix-classes(prefix)
 
-	.loading-bar
-		background-color whitecolor
-		bottom headerheight
-		display none
-		position absolute
-		height: 4px
-		width: 100%
-		
-		&.active
-			display block
-		
-		&::before
-			display block
-			position absolute
-			content ""
-			left -200px
-			width 200px
-			height 4px
-			background-color actioncolor
-			animation loading 2s linear infinite
-			
-		@keyframes loading {
-		    from {
-		    	left: 0px; width: 30%;
-		    }
-		    
-		    50% {
-		    	width: 30%;
-		    }
-		    
-		    70% {
-			    width: 44%;
-			}
-			
-		    80% {	
-		    	left: 55%;
-		    }
-		    
-		    95% {
-		    	left: 66%;
-		    }
-		    
-		    to {
-		    	left: 72%;
-		    }
-		}
+    .loading-bar
+        background-color whitecolor
+        bottom headerheight
+        display none
+        position absolute
+        height: 4px
+        width: 100%
+        
+        &.active
+            display block
+        
+        &::before
+            display block
+            position absolute
+            content ""
+            left -200px
+            width 200px
+            height 4px
+            background-color actioncolor
+            animation loading 2s linear infinite
+            
+        @keyframes loading {
+            from {
+                left: 0px; width: 30%;
+            }
+            
+            50% {
+                width: 30%;
+            }
+            
+            70% {
+                width: 44%;
+            }
+            
+            80% {   
+                left: 55%;
+            }
+            
+            95% {
+                left: 66%;
+            }
+            
+            to {
+                left: 72%;
+            }
+        }

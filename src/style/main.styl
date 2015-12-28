@@ -1,4 +1,6 @@
-@import 'font.styl';
+@import 'font'
+$fa-font-path = '../../vendor/fonts/'
+@import '../../node_modules/font-awesome-stylus/stylus/index'
 
 prefix = 'react-grid-'
 
@@ -59,5 +61,23 @@ zindex(elem)
   
 boxshadow()
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+	
+@require 'components/button'
+@require 'components/cell'
+@require 'components/container'
+@require 'components/grid'
+@require 'components/header'
+@require 'components/menu'
+@require 'components/menuitem'
+@require 'components/row'
+
+@require 'components/plugins/editor/inline'
+@require 'components/plugins/errorhandler/message'
+@require 'components/plugins/gridactions/actioncolumn'
+@require 'components/plugins/loader/loadingbar'
+@require 'components/plugins/pager/toolbar'
+@require 'components/plugins/selection/model'
+
+
 
 

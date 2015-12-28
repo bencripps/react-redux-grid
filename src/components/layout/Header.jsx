@@ -4,7 +4,6 @@ import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
-import '../../style/components/header.styl';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Header extends Component {

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { keyGenerator } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
-import '../../../style/components/menu.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class Menu extends Component {

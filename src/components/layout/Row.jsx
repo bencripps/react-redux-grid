@@ -6,7 +6,6 @@ import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
-import '../../style/components/row.styl';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Row extends Component {

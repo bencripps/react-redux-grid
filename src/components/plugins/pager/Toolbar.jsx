@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
-import '../../../style/components/plugins/pager/toolbar.styl';
-import '../../../style/components/button.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
 import { 

@@ -4,7 +4,6 @@ import store from '../../store/store';
 import { keyGenerator } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
-import '../../style/components/cell.styl';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Cell extends Component {

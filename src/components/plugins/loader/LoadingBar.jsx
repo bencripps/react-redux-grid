@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
-import '../../../style/components/plugins/loader/loadingbar.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class LoadingBar extends Component {

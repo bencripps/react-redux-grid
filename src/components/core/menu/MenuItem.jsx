@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { keyGenerator } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
-import '../../../style/components/menuitem.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class MenuItem extends Component {

@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
-import '../../../style/components/plugins/editor/inline.styl';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class Inline extends Component {

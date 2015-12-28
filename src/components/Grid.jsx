@@ -8,11 +8,10 @@ import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
-import '../style/components/grid.styl';
-import '../style/components/container.styl';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import { getAsyncData, setData } from '../actions/GridActions';
+import '../style/main.styl';
 
 class Grid extends Component {
 

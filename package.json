@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-polyfill": "^6.2.0",
     "font-awesome": "^4.5.0",
+    "font-awesome-stylus": "^4.4.0",
     "immutable": "^3.7.5",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
