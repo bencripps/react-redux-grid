@@ -12,6 +12,19 @@ class Menu extends Component {
         menu: React.PropTypes.array
     }
 
+    getMenuItem(item) {
+
+        const { store } = this.props;
+
+        const menuProps = {
+            data: item,
+            key: keyFromObject(item),
+            store
+        };
+
+        return <MenuItem { ...menuProps } />;
+    }
+
     render() {
 
     	const { menu } = this.props;
@@ -21,7 +34,7 @@ class Menu extends Component {
     	};
     	
     	const menuItems = menu && menu.length > 0 
-    		? menu.map((item) => <MenuItem data={item} key={keyFromObject(item)} />)
+    		? menu.map(this.getMenuItem.bind(this))
     		: null;
 
         return (

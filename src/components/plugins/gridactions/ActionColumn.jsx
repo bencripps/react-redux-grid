@@ -38,7 +38,15 @@ class ActionColumn extends Component {
     }
 
     getMenu(actions) {
-        return <Menu { ...actions } />
+
+        const { store } = this.props;
+
+        const menuProps = {
+            store,
+            ...actions
+        };
+
+        return <Menu { ...menuProps } />
     }
 
     handleActionClick(type, actions, id, reactEvent) {
@@ -53,16 +61,17 @@ class ActionColumn extends Component {
 
         const { iconCls, type, actions, menuState, rowId } = this.props;
 
+        const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
+        
         const containerProps = {
-            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER),
+            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown 
+                ? 'selected' : ''),
             onClick: this.handleActionClick.bind(this, type, actions, rowId)
         };
 
         const iconProps = {
             className: actions.iconCls || iconCls,
         };
-
-        const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
 
         return type === 'header'
          ? this.getHeader(containerProps, iconProps, menuShown, actions) 

@@ -4,6 +4,7 @@ import { keyGenerator } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 
 class MenuItem extends Component {
 
@@ -11,12 +12,23 @@ class MenuItem extends Component {
         data: React.PropTypes.String
     }
 
+    handleMenuItemClick(data) {
+
+        const { store } = this.props;
+        
+        store.dispatch(hideMenu());
+
+        if (data.EVENT_HANDLER) {
+            data.EVENT_HANDLER.apply(this, arguments);
+        }
+    }
+
     render() {
     	const { data } = this.props;
 
     	const menuItemProps = {
     		className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM),
-    		onClick: data.EVENT_HANDLER.bind(this, data)
+    		onClick: this.handleMenuItemClick.bind(this, data)
     	};
     	
         return (

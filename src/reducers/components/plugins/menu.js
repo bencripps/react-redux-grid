@@ -19,9 +19,16 @@ export default function menu(state = initialState, action) {
         });
 
     case HIDE_MENU:
-        return state.set('menuState', {
-            [action.id]: false
-        });
+
+        if (action.id) {
+            return state.set('menuState', {
+                [action.id]: false
+            });
+        }
+
+        else {
+            return state.set('menuState', {});
+        }
 
     default:
         return state;

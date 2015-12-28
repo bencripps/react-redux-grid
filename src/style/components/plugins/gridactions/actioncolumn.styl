@@ -7,10 +7,18 @@
         span
             cursor pointer
             position relative
-            width 10px
+            
             
             &::before
                 cursor pointer
+                border-radius(3px)
                 position absolute
+                text-align center
                 top -10px
                 right 5px
+                width 6px
+        
+        &.selected
+            span
+                &::before
+                    background-color strongcolor
