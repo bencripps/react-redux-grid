@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
+import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
@@ -15,16 +16,55 @@ class Header extends Component {
         store: React.PropTypes.func
     }
 
-    getHeader(col) {
+    isColumnResizable(col, columnManager) {
+
+        if (col.resizable !== undefined) {
+            return col.resizable;
+        }
+
+        else if (columnManager.config.resizable !== undefined) {
+             return columnManager.config.resizable;
+        }
+
+        else {
+            return columnManager.config.defaultResizable;
+        }
+    }
+
+    handleColumnClick(col, reactEvent) {
+
+        if (col.HANDLE_CLICK) {
+            col.HANDLE_CLICK.apply(this, arguments);
+        }
+    }
+
+    getDragHandle(col, dragAndDropManager) {
+        const handleProps = dragAndDropManager.initDragable({}, col);
+
+        return (
+            <span { ...handleProps } />
+        );
+    }
+
+    getHeader(col, dragAndDropManager) {
+
+        const { columnManager } = this.props;
+
+        const isResizable = this.isColumnResizable(col, columnManager);
 
         let headerProps = {
-            className: col.className,
-            onClick: col.HANDLE_CLICK || emptyFn
+            className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
+            onClick: this.handleColumnClick.bind(this, col),
+            style: {
+                width: col.width || columnManager.config.defaultColumnWidth
+            }
         };
 
-        if (col.width) {
-            headerProps = Object.assign(
-                headerProps, { style: { width: col.width } });
+        let dragHandle;
+
+        if (isResizable) {
+            dragHandle = this.getDragHandle(col, dragAndDropManager);
+            //headerProps = dragAndDropManager.initDragable(headerProps, col);
         }
 
         const innerHTML = col.renderer ? col.renderer(col) : col.name;
@@ -32,6 +72,7 @@ class Header extends Component {
         return (
             <th { ...headerProps } key={keyGenerator(col.name, col.value) }>
                 { innerHTML }
+                { dragHandle }
             </th>
         );
     }
@@ -43,7 +84,8 @@ class Header extends Component {
     render() {
 
         const { columns, selectionModel, columnManager } = this.props;
-        const headers = columns.map((col) => this.getHeader(col));
+        const dragAndDropManager = new DragAndDropManager();
+        const headers = columns.map((col) => this.getHeader(col, dragAndDropManager));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }

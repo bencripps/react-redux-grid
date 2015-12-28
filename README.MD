@@ -32,6 +32,39 @@ If you elect to use a custom store, please be sure to include the necessary redu
 
 All Features are implementd as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
 
+## Columns
+
+	export const columns = [
+	    {
+	        name: 'Name',
+	        width: '10%',
+	        className: 'additional-class',
+	        renderer: () => { return 'Name of Column'; },
+	        HANDLE_CLICK: () => { console.log('Header Click'); }
+	    }
+	];
+
+Column Defaults:
+
+1. `name`: `string`, title of column 
+2. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
+3. `className`: `string`, additional class names to apply to columns header output
+5. `HANDLE_CLICK`: `func`, click handler assigned to column
+6. `resizable`: `boolean`, whether this column can be resized
+
+
+## Column Manager
+
+	export const plugins = {
+	    COLUMN_MANAGER: {
+	        resizable: true
+	    }
+	}
+
+Column Manager Defaults
+
+1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array.
+
 ## Pagination
 
 	export const plugins = {
@@ -116,7 +149,30 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	    PAGERTOOLBAR: 'pager-toolbar',
 	    EMPTY_ROW: 'empty-row',
 	    LOADING_BAR: 'loading-bar',
+	    ACTIVE_CLASS: 'active-class',
 	    BUTTONS: {
 	        PAGER: 'page-buttons'
+	    },
+	    SELECTION_MODEL: {
+	        CHECKBOX: 'checkbox',
+	        CHECKBOX_CONTAINER: 'checkbox-container'
+	    },
+	    ERROR_HANDLER: {
+	        CONTAINER: 'error-container',
+	        MESSAGE: 'error-message'
+	    },
+	    EDITOR: {
+	        INLINE: {
+	            CONTAINER: 'inline-editor'
+	        }
+	    },
+	    GRID_ACTIONS: {
+	        CONTAINER: 'action-container',
+	        SELECTED_CLASS: 'action-menu-selected',
+	        MENU: {
+	            CONTAINER: 'action-menu-container',
+	            ITEM: 'action-menu-item'
+	        }
 	    }
+
 	};

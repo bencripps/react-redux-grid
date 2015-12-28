@@ -54,7 +54,7 @@ class Grid extends Component {
 
         const selectionModel = new Model(plugins, store, events);
 
-        const columnManager = new ColumnManager(plugins, store, events);
+        const columnManager = new ColumnManager(plugins, store, events, columns);
 
         const editor = new Manager(plugins, store, events);
 

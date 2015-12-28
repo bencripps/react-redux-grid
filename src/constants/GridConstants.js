@@ -10,6 +10,7 @@ export const CLASS_NAMES = {
     EMPTY_ROW: 'empty-row',
     LOADING_BAR: 'loading-bar',
     ACTIVE_CLASS: 'active-class',
+    DRAG_HANDLE: 'drag-handle',
     BUTTONS: {
         PAGER: 'page-buttons'
     },

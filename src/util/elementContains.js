@@ -4,7 +4,7 @@ export function elementContains(el, cls) {
 		throw Error('Function requires a dom node and a classname');
 	}
 
-	while (el !== document.body) {
+	while (el && el !== document.body) {
 		if (el && el.classList && el.classList.contains(cls)) {
 			return true;
 		}

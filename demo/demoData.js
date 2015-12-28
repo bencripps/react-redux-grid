@@ -24,6 +24,9 @@ export const events = {
 export const dataSource = 'http://localhost:3000/getfakeData';
 
 export const plugins = {
+    COLUMN_MANAGER: {
+        resizable: true
+    },
     EDITOR: {
         type: 'inline',
         enabled: false
@@ -75,24 +78,24 @@ export const plugins = {
 export const columns = [
     {
         name: 'Name',
-        width: '25%',
+        width: '10%',
         className: 'additional-class',
         renderer: () => { return 'Name'; },
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
         name: 'Phone Number',
-        width: '25%',
+        width: '20%',
         className: 'additional-class'
     },
     {
         name: 'Email',
-        width: '25%',
+        width: '35%',
         className: 'additional-class'
     },
     {
         name: 'Address',
-        width: '25%',
+        width: '35%',
         className: 'additional-class'
     }
 ];

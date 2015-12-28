@@ -65,7 +65,7 @@ class ActionColumn extends Component {
         
         const containerProps = {
             className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown 
-                ? 'selected' : ''),
+                ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
             onClick: this.handleActionClick.bind(this, type, actions, rowId)
         };
 

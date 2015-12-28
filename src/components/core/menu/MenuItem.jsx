@@ -12,7 +12,9 @@ class MenuItem extends Component {
         data: React.PropTypes.String
     }
 
-    handleMenuItemClick(data) {
+    handleMenuItemClick(data, reactEvent) {
+
+        reactEvent.stopPropagation();
 
         const { store } = this.props;
         

@@ -1,8 +1,36 @@
 +prefix-classes(prefix)
 
     .header
-        color fontcolor
-        font-family fontfamily
         background-color lightcolor
         border-bottom: 1px solid strongcolor
+        color fontcolor
+        font-family fontfamily
         height: headerheight
+        
+        th
+            position relative
+            
+            .drag-handle
+            
+                &::after
+                    border-right 1px solid lightcolor
+                    content ' '
+                    cursor ew-resize
+                    position absolute
+                    right 0px
+                    top 0px
+                    width: 10px
+                    height 100%
+                    transition(border)
+                    
+            &:hover
+                .drag-handle
+                    &::after
+                        border-color strongcolor
+                
+        th:nth-last-child(1), th:nth-last-child(2)
+            
+            .drag-handle
+                &::after
+                    border none
+                    cursor auto

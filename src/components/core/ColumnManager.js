@@ -7,15 +7,21 @@ import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
 
 export default class ColumnManager {
 
-	constructor(plugins, store, events) {
+	constructor(plugins, store, events, columns) {
 
 		const defaults = {
-			
+			defaultColumnWidth: `${100 / columns.length}%`,
+            defaultResizable: false,
+            resizable: false
 		};
+
+        const config = plugins.COLUMN_MANAGER 
+            ? Object.assign(defaults, plugins.COLUMN_MANAGER) : defaults;
 
 		this.plugins = plugins;
 		this.store = store;
 		this.events = events;
+		this.config = config;
 
 		document.addEventListener('click', this.setDismissEvent.bind(this));
 	}

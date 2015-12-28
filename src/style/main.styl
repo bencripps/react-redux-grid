@@ -1,4 +1,5 @@
 @import 'font'
+@import 'mixins'
 
 prefix = 'react-grid-'
 
@@ -28,39 +29,6 @@ zarray = {
   '.action-menu-container': 11
 }
 
-// mixins
-
-button(backgroundcolor)
-	background-color backgroundcolor
-	border none
-	color whitecolor
-	border-radius(3px)
-	opacity .8
-	
-	&:focus
-		outline none
-	
-	&:active
-		opacity 1
-		
-	&:hover 
-		opacity .6
-		
-	&:disabled
-		background-color whitecolor
-		color blackcolor
-
-border-radius()
-  -webkit-border-radius arguments
-  -moz-border-radius arguments
-  border-radius arguments
-  
-zindex(elem)
-  z-index zarray[elem]
-  
-boxshadow()
-	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
-	
 @require 'components/button'
 @require 'components/cell'
 @require 'components/container'
