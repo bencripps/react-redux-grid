@@ -7,7 +7,7 @@ import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
 
 export default class ColumnManager {
 
-	constructor(plugins, store, events, columns) {
+	constructor(plugins, store, events, selModel, editor, columns) {
 
 		const defaults = {
 			defaultColumnWidth: `${100 / columns.length}%`,
@@ -22,6 +22,8 @@ export default class ColumnManager {
 		this.plugins = plugins;
 		this.store = store;
 		this.events = events;
+        this.selModel = selModel;
+        this.editor = editor;
 		this.config = config;
 
 		document.addEventListener('click', this.setDismissEvent.bind(this));
@@ -43,6 +45,8 @@ export default class ColumnManager {
             store: this.store,
             type: type,
             rowId: id,
+            editor: this.editor,
+            selModel: this.selModel,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         }
 

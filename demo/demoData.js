@@ -54,19 +54,7 @@ export const plugins = {
         iconCls: 'fa fa-ellipsis-v',
         menu: [
             {
-                text: 'Add',
-                EVENT_HANDLER: () => {
-                    alert('hi')
-                }
-            },
-            {
                 text: 'Delete',
-                EVENT_HANDLER: () => {
-                    
-                }
-            },
-            {
-                text: 'Publish',
                 EVENT_HANDLER: () => {
                     
                 }

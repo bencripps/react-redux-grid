@@ -37,9 +37,24 @@ class ActionColumn extends Component {
         );
     }
 
+    getEditAction(editor) {
+        return {
+            text: 'Edit',
+            EVENT_HANDLER: this.handleEditClick.bind(this, editor)
+        };
+    }
+
+    handleEditClick(editor) {
+        debugger;
+    }
+
     getMenu(actions) {
 
-        const { store } = this.props;
+        const { store, editor } = this.props;
+
+        if (editor.defaults.enabled) {
+            actions.menu.unshift(this.getEditAction(editor));
+        }
 
         const menuProps = {
             store,
