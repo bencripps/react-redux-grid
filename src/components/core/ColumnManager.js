@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { CSS_PREFIX, CLASS_NAMES } from '../../constants/GridConstants';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
+import { elementContains } from '../../util/elementContains';
+import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
 
 export default class ColumnManager {
 
@@ -14,7 +16,16 @@ export default class ColumnManager {
 		this.plugins = plugins;
 		this.store = store;
 		this.events = events;
-		
+
+		document.addEventListener('click', this.setDismissEvent.bind(this));
+	}
+
+	setDismissEvent(e) {
+
+		if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
+			this.store.dispatch(hideMenu());
+		}
+
 	}
 
 	addActionColumn(cells, type, id) {

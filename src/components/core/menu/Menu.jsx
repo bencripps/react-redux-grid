@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import MenuItem from './MenuItem.jsx';
 import { connect } from 'react-redux';
-import { keyGenerator } from '../../../util/keygenerator';
+import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
@@ -21,7 +21,7 @@ class Menu extends Component {
     	};
     	
     	const menuItems = menu && menu.length > 0 
-    		? menu.map((item) => <MenuItem data={item} />)
+    		? menu.map((item) => <MenuItem data={item} key={keyFromObject(item)} />)
     		: null;
 
         return (
