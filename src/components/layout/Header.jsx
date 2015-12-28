@@ -6,6 +6,7 @@ import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
 import { CLASS_NAMES } from '../../constants/GridConstants';
+import { resizeColumn } from '../../actions/core/ColumnManager';
 
 class Header extends Component {
 
@@ -31,6 +32,20 @@ class Header extends Component {
         }
     }
 
+    handleDrag(id, columnManager, store, reactEvent) {
+        const mousePosition = reactEvent.pageX;
+        const header = reactEvent.target.parentElement.parentElement;
+        const columnNode = reactEvent.target.parentElement;
+        const columnOffsetLeft = columnNode.getBoundingClientRect().left;
+        const headerWidth = parseInt(window.getComputedStyle(header).width, 10);
+        const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
+        const width = computedWidth * 100;
+
+        if (width > columnManager.config.minColumnWidth) {
+            store.dispatch(resizeColumn(width, id));
+        }
+    }
+
     handleColumnClick(col, reactEvent) {
 
         if (col.HANDLE_CLICK) {
@@ -46,31 +61,33 @@ class Header extends Component {
         );
     }
 
-    getHeader(col, dragAndDropManager) {
+    getHeader(col, columnStates, dragAndDropManager) {
 
-        const { columnManager } = this.props;
+        const { columnManager, selectionModel, store } = this.props;
 
         const isResizable = this.isColumnResizable(col, columnManager);
 
-        let headerProps = {
+        const dragHandle = isResizable 
+            ? this.getDragHandle(col, dragAndDropManager) : null;
+
+        const key = keyGenerator(col.name, col.value);
+
+        const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
+
+        const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
+            onDrag: this.handleDrag.bind(this, key, columnManager, store),
+            key,
             style: {
-                width: col.width || columnManager.config.defaultColumnWidth
+                width: draggedWidth ? draggedWidth : (col.width || columnManager.config.defaultColumnWidth)
             }
         };
-
-        let dragHandle;
-
-        if (isResizable) {
-            dragHandle = this.getDragHandle(col, dragAndDropManager);
-            //headerProps = dragAndDropManager.initDragable(headerProps, col);
-        }
 
         const innerHTML = col.renderer ? col.renderer(col) : col.name;
 
         return (
-            <th { ...headerProps } key={keyGenerator(col.name, col.value) }>
+            <th { ...headerProps } >
                 { innerHTML }
                 { dragHandle }
             </th>
@@ -83,9 +100,9 @@ class Header extends Component {
 
     render() {
 
-        const { columns, selectionModel, columnManager } = this.props;
+        const { columns, selectionModel, columnManager, columnStates } = this.props;
         const dragAndDropManager = new DragAndDropManager();
-        const headers = columns.map((col) => this.getHeader(col, dragAndDropManager));
+        const headers = columns.map((col) => this.getHeader(col, columnStates, dragAndDropManager));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }
@@ -104,8 +121,10 @@ class Header extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        columnStates: state.columnManager.get('columnStates')
+    };
 }
 
 export default connect(mapStateToProps)(Header);

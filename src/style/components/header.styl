@@ -9,6 +9,8 @@
         
         th
             position relative
+            overflow hidden
+            text-overflow ellipsis
             
             .drag-handle
             
@@ -29,6 +31,7 @@
                         border-color strongcolor
                 
         th:nth-last-child(1), th:nth-last-child(2)
+            overflow initial
             
             .drag-handle
                 &::after

@@ -11,6 +11,7 @@ export default class ColumnManager {
 
 		const defaults = {
 			defaultColumnWidth: `${100 / columns.length}%`,
+            minColumnWidth: 10,
             defaultResizable: false,
             resizable: false
 		};
