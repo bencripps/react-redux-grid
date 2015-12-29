@@ -29,7 +29,7 @@ export const plugins = {
     },
     EDITOR: {
         type: 'inline',
-        enabled: false
+        enabled: true
     },
     PAGER: {
         enabled: true,

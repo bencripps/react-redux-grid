@@ -45,7 +45,9 @@ class ActionColumn extends Component {
     }
 
     handleEditClick(editor) {
-        debugger;
+        if (editor.defaults.type === 'inline') {
+            //todo get inline editor to this row
+        }
     }
 
     getMenu(actions) {
