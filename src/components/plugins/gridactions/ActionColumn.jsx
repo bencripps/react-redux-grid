@@ -3,6 +3,7 @@ import Menu from '../../core/menu/Menu.jsx';
 import { showMenu, hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { editRow } from '../../../actions/plugins/editor/EditorActions';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 
@@ -44,9 +45,14 @@ class ActionColumn extends Component {
         };
     }
 
-    handleEditClick(editor) {
-        if (editor.defaults.type === 'inline') {
-            //todo get inline editor to this row
+    handleEditClick(editor, data, reactEvent) {
+        const { store, rowId } = this.props;
+
+        const rowPosition = reactEvent.target.parentNode.parentNode.getBoundingClientRect();
+        const top = rowPosition.top;
+        
+        if (editor.config.type === editor.editModes.inline) {
+            store.dispatch(editRow(rowId, top));
         }
     }
 
@@ -54,7 +60,7 @@ class ActionColumn extends Component {
 
         const { store, editor } = this.props;
 
-        if (editor.defaults.enabled) {
+        if (editor.config.enabled) {
             actions.menu.unshift(this.getEditAction(editor));
         }
 

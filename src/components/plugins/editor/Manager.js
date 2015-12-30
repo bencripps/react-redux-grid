@@ -11,19 +11,32 @@ export default class Manager {
 		const defaults = {
 			type: 'inline',
 			enabled: false
-		}
+		};
+
+		const editModes = {
+			inline: 'inline'
+		};
 
 		const config = plugins.EDITOR 
 			? Object.assign(defaults, plugins.EDITOR) : defaults;
 
-		this.defaults = config;
+		this.config = config;
+		this.editModes = editModes;
 		
 	}
 
-	getComponent() {
+	getComponent(plugins, store, events, selectionModel, editor, columns) {
 
-		if (this.defaults.enabled) {
-			return <Inline />
+		const editorProps = {
+			columns
+		};
+
+		if (!this.config.enabled) {
+			return null;
+		}
+
+		else if (this.config.type === this.editModes.inline) {
+			return <Inline { ...editorProps} />
 		} 
 		
 		else {

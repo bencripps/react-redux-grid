@@ -58,7 +58,7 @@ class Grid extends Component {
 
         const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns);
         
-        const editorComponent = editor.getComponent();
+        const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
         const containerProps = {
             className: prefix(CLASS_NAMES.CONTAINER)

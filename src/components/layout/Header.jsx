@@ -43,12 +43,16 @@ class Header extends Component {
         const width = computedWidth * 100;
 
         const originalTotal = parseInt(this.refs[id].style.width, 10) + parseInt(this.refs[nextColumnKey].style.width, 10) 
-        const draggedDifference = width - parseInt(this.refs[id].style.width, 10);
-        const nextColumnNewWidth = draggedDifference - originalTotal;
+        const draggedDifference = Math.abs(width - parseInt(this.refs[id].style.width, 10));
+        const nextColumnNewWidth = originalTotal - draggedDifference;
 
         const totalWidth = Object.keys(this.refs).map((k) => {
             return parseInt(this.refs[k].style.width, 10);
         }, this).reduce((a,b) => a + b);
+        
+        if (nextColumnNewWidth < columnManager.config.minColumnWidth || width < columnManager.config.minColumnWidth) {
+            return false;
+        }
 
         if (totalWidth < 100 && width > columnManager.config.minColumnWidth) {
             store.dispatch(resizeColumn(width, id, 

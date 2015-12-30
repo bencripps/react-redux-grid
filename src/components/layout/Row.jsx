@@ -48,21 +48,20 @@ class Row extends Component {
 
         const { selectionModel, columnManager } = this.props;
         const { GRID_ACTIONS } = this.props.plugins;
+        const id = keyFromObject(row);
 
         const cells = Object.keys(row).map((k) => { 
 
             let cellProps = {
+                rowId: id,
                 cellData: row[k],
                 key: keyGenerator(k),
                 events: events
-            }
+            };
 
             return <Cell { ...cellProps } />;
 
         });
-
-
-        const id = keyFromObject(row);
 
         const isSelected = selectedRows ? selectedRows[id] : false;
 
@@ -153,7 +152,8 @@ class Row extends Component {
             pager,
             dataSource,
             store,
-            selectedRows
+            selectedRows,
+            editorState
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;

@@ -1,5 +1,7 @@
 export const CSS_PREFIX = 'react-grid';
 
+export const ROW_HEIGHT = 20;
+
 export const CLASS_NAMES = {
     CONTAINER: 'container',
     TABLE: 'table',

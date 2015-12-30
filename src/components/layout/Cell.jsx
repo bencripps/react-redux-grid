@@ -14,10 +14,15 @@ class Cell extends Component {
 
     render() {
 
-        const { cellData, events } = this.props;
+        const { cellData, events, rowId, editorState } = this.props;
+        
+        const isEditable = editorState 
+            && editorState.row
+            && editorState.row.key === rowId ? true : false;
 
         const cellProps = {
             className: prefix(CLASS_NAMES.CELL),
+            contentEditable: isEditable,
             onClick: events.HANDLE_CELL_CLICK.bind(this, cellData) || emptyFn,
             onDoubleClick: events.HANDLE_CELL_DOUBLE_CLICK.bind(this, cellData) || emptyFn
         };
@@ -30,8 +35,10 @@ class Cell extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        editorState: state.editor.get('editorState')
+    };
 }
 
 export default connect(mapStateToProps)(Cell);

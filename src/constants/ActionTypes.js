@@ -17,3 +17,6 @@ export const HIDE_MENU = 'HIDE_MENU';
 export const RESIZE_COLUMN = 'RESIZE_COLUMN';
 
 export const NO_EVENT = 'NO_EVENT';
+
+export const EDIT_ROW = 'EDIT_ROW';
+
