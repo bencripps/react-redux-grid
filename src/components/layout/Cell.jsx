@@ -12,6 +12,28 @@ class Cell extends Component {
         data: React.PropTypes.String
     }
 
+    handleClick(events, cellData, reactEvent) {
+
+        if (reactEvent.target && reactEvent.target.contentEditable === 'true') {
+            reactEvent.stopPropagation();
+        }
+        
+        if (events.HANDLE_CELL_CLICK) {
+            events.HANDLE_CELL_CLICK.apply(this, arguments);
+        }
+    }
+
+    handleDoubleClick(events, cellData, reactEvent) {
+
+        if (reactEvent.target && reactEvent.target.contentEditable === 'true') {
+            reactEvent.stopPropagation();
+        }
+
+        if (events.HANDLE_CELL_CLICK) {
+            events.HANDLE_CELL_DOUBLE_CLICK.apply(this, arguments);
+        }
+    }
+
     render() {
 
         const { cellData, events, rowId, editorState } = this.props;
@@ -23,8 +45,8 @@ class Cell extends Component {
         const cellProps = {
             className: prefix(CLASS_NAMES.CELL),
             contentEditable: isEditable,
-            onClick: events.HANDLE_CELL_CLICK.bind(this, cellData) || emptyFn,
-            onDoubleClick: events.HANDLE_CELL_DOUBLE_CLICK.bind(this, cellData) || emptyFn
+            onClick: this.handleClick.bind(this, events, cellData),
+            onDoubleClick: this.handleDoubleClick.bind(this, events, cellData)
         };
 
         return (

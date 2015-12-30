@@ -3,6 +3,9 @@ import Inline from './Inline.jsx';
 import { CSS_PREFIX, CLASS_NAMES } from '../../../constants/GridConstants';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
+import { elementContains } from '../../../util/elementContains';
+import { prefix } from '../../../util/prefix';
+import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
 export default class Manager {
 
@@ -22,13 +25,36 @@ export default class Manager {
 
 		this.config = config;
 		this.editModes = editModes;
+		this.store = store;
+
+		if (this.config.type === this.editModes.inline) {
+			document.addEventListener('click', this.setDismissEvent.bind(this));
+		}
 		
+	}
+
+	setDismissEvent(reactEvent) {
+		const element = reactEvent.target;
+
+		if (element && element.contentEditable === 'true') {
+			return false;
+		}
+
+		else if (element && elementContains(element, prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER))) {
+			return false;
+		}
+
+		else {
+			this.store.dispatch(dismissEditor());
+		}
 	}
 
 	getComponent(plugins, store, events, selectionModel, editor, columns) {
 
 		const editorProps = {
-			columns
+			columns,
+			store,
+			events
 		};
 
 		if (!this.config.enabled) {

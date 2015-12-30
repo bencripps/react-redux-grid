@@ -24,7 +24,8 @@ export default class Model {
 			mode: modes.single,
 			enabled: true,
 			allowDeselect: true,
-        	activeCls: 'active-cls',
+        	activeCls: 'active-class',
+        	editCls: 'edit-class',
         	selectionEvent: eventTypes.singleclick,
         	store: store
 		}

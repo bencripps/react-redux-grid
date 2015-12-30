@@ -46,7 +46,7 @@ class Row extends Component {
 
     getRowComponents(row, events, selectedRows) {
 
-        const { selectionModel, columnManager } = this.props;
+        const { selectionModel, columnManager, editorState } = this.props;
         const { GRID_ACTIONS } = this.props.plugins;
         const id = keyFromObject(row);
 
@@ -65,9 +65,13 @@ class Row extends Component {
 
         const isSelected = selectedRows ? selectedRows[id] : false;
 
+        const editClass = editorState && editorState.row && editorState.row.key === id ? selectionModel.defaults.editCls : '';
+
+        const selectedClass = isSelected ? selectionModel.defaults.activeCls : '';
+
         const rowProps = {
             key: id,
-            className: prefix(CLASS_NAMES.ROW, isSelected ? selectionModel.defaults.activeCls : ''),
+            className: prefix(CLASS_NAMES.ROW, selectedClass, editClass ),
             onClick: this.handleRowSingleClickEvent.bind(this, events, row, id),
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
@@ -153,7 +157,6 @@ class Row extends Component {
             dataSource,
             store,
             selectedRows,
-            editorState
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
@@ -176,7 +179,8 @@ function mapStateToProps(state) {
     return {
          pager: state.pager.get('pagerState'),
          dataSource: state.dataSource.get('gridData'),
-         selectedRows: state.selection.get('selectedRows')
+         selectedRows: state.selection.get('selectedRows'),
+         editorState: state.editor.get('editorState')
     };
 }
 

@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable';
 
 import {
-    EDIT_ROW
+    EDIT_ROW,
+    DISMISS_EDITOR,
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -19,6 +20,9 @@ export default function editor(state = initialState, action) {
                 top: action.top
             }
         });
+
+     case DISMISS_EDITOR:
+        return state.set('editorState', {});
 
     default:
         return state;

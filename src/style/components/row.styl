@@ -5,7 +5,8 @@
         text-overflow ellipsis
         
         &:hover
-            background-color rowhovercolor !important;
+            background-color rowhovercolor !important
+            
             
         &.empty-row
             text-align center
@@ -13,6 +14,21 @@
         
         &.{activeclass}
             background-color strongcolor
-            
-            
         
+        &.{editclass}
+            color whitecolor
+            background-color editcolor
+            boxshadow()
+            
+            .action-menu-container 
+                color initial
+            
+            &:hover 
+                background-color editcolor !important
+                
+            td 
+                border-bottom: 2px solid transparent
+                
+                &:focus
+                    border-bottom: 2px solid actioncolor
+                    outline none

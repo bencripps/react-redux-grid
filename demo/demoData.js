@@ -18,6 +18,9 @@ export const events = {
     },
     HANDLE_AFTER_SELECTION: () => {
         console.log('On After Selection');
+    },
+    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {
+        console.log('On After Save Inline Editor Event');
     }
 };
 

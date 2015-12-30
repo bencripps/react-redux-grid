@@ -1,6 +1,6 @@
 export const CSS_PREFIX = 'react-grid';
 
-export const ROW_HEIGHT = 20;
+export const ROW_HEIGHT = 26;
 
 export const CLASS_NAMES = {
     CONTAINER: 'container',
@@ -26,7 +26,12 @@ export const CLASS_NAMES = {
     },
     EDITOR: {
         INLINE: {
-            CONTAINER: 'inline-editor'
+            CONTAINER: 'inline-editor',
+            SHOWN: 'shown',
+            HIDDEN: 'hidden',
+            SAVE_BUTTON: 'save-button',
+            CANCEL_BUTTON: 'cancel-button',
+            BUTTON_CONTAINER: 'button-container'
         }
     },
     GRID_ACTIONS: {

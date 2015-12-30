@@ -19,4 +19,5 @@ export const RESIZE_COLUMN = 'RESIZE_COLUMN';
 export const NO_EVENT = 'NO_EVENT';
 
 export const EDIT_ROW = 'EDIT_ROW';
+export const DISMISS_EDITOR = 'DISMISS_EDITOR';
 

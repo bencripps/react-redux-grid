@@ -1,6 +1,31 @@
 +prefix-classes(prefix)
     
     .inline-editor
-        top 0px
+        opacity 0
         position absolute
+        transform translateX(0px) translateY(0px)
+        transition-property transform opacity
+        transition-duration 100ms   
+        transition-timing-function cubic-bezier(.17,.67,.83,.67)
         width 100%
+        
+        .button-container
+            background-color editcolor
+            border-radius(3px)
+            boxshadow()
+            display inline-block
+            margin-top 5px
+            padding 5px
+            
+            .save-button
+                button(actioncolor)
+            .cancel-button
+                button(lightcolor, blackcolor)
+        
+        &.shown
+            opacity 1
+            display block
+            transform translateY(-7px)
+            
+        &.hidden
+            top -10000px
