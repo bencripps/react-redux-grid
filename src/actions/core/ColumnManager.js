@@ -2,10 +2,18 @@ import {
     RESIZE_COLUMN
 } from '../../constants/ActionTypes';
 
-export function resizeColumn(width, id, offset) {
+export function resizeColumn(width, id, nextColumn, lastColumn) {
 
-    if (!offset) {
-        return { type: RESIZE_COLUMN, width, id };
+    if (!lastColumn) {
+        return { 
+            type: RESIZE_COLUMN, 
+            width, 
+            id,
+            nextColumn: {
+                id: nextColumn.id,
+                width: nextColumn.width
+            }
+        };
     }
 
     else {
@@ -13,9 +21,13 @@ export function resizeColumn(width, id, offset) {
             type: RESIZE_COLUMN,
             width,
             id,
+            nextColumn: {
+                id: nextColumn.id,
+                width: nextColumn.width
+            },
             lastColumn: {
-                id: offset.id,
-                width: offset.width
+                id: lastColumn.id,
+                width: lastColumn.width
             }
         }
     }

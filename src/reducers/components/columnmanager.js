@@ -9,6 +9,7 @@ const initialState = fromJS({
 });
 
 export default function columnManager(state = initialState, action) {
+    
     switch (action.type) {
 
     case RESIZE_COLUMN:
@@ -17,6 +18,9 @@ export default function columnManager(state = initialState, action) {
                 {
                     [action.id]: {
                         width: action.width
+                    },
+                    [action.nextColumn.id]: {
+                        width: action.nextColumn.width
                     },
                     [action.lastColumn.id]: {
                         width: action.lastColumn.width

@@ -32,7 +32,8 @@ class Header extends Component {
         }
     }
 
-    handleDrag(id, columnManager, store, lastColumnId, reactEvent) {
+    handleDrag(id, columnManager, store, nextColumnKey, lastColumnKey, reactEvent) {
+
         const mousePosition = reactEvent.pageX;
         const header = reactEvent.target.parentElement.parentElement;
         const columnNode = reactEvent.target.parentElement;
@@ -40,20 +41,36 @@ class Header extends Component {
         const headerWidth = parseInt(window.getComputedStyle(header).width, 10);
         const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
         const width = computedWidth * 100;
+
+        const originalTotal = parseInt(this.refs[id].style.width, 10) + parseInt(this.refs[nextColumnKey].style.width, 10) 
+        const draggedDifference = width - parseInt(this.refs[id].style.width, 10);
+        const nextColumnNewWidth = draggedDifference - originalTotal;
+
         const totalWidth = Object.keys(this.refs).map((k) => {
-                return parseInt(this.refs[k].style.width, 10);
+            return parseInt(this.refs[k].style.width, 10);
         }, this).reduce((a,b) => a + b);
 
         if (totalWidth < 100 && width > columnManager.config.minColumnWidth) {
+            store.dispatch(resizeColumn(width, id, 
+                {
+                    id: nextColumnKey,
+                    width: nextColumnNewWidth
+                },
+                {
+                    id: lastColumnKey,
+                    width: (100 - totalWidth) + parseInt(this.refs[lastColumnKey].style.width, 10)
+                }
+            ));
+        }
+
+        else {
             store.dispatch(resizeColumn(width, id, {
-                id: lastColumnId,
-                width: (100 - totalWidth) + parseInt(this.refs[lastColumnId].style.width, 10) 
+                id: nextColumnKey,
+                width: nextColumnNewWidth
             }));
         }
 
-        else if (width > columnManager.config.minColumnWidth) {
-            store.dispatch(resizeColumn(width, id));
-        }
+
     }
 
     handleColumnClick(col, reactEvent) {
@@ -71,7 +88,7 @@ class Header extends Component {
         );
     }
 
-    getHeader(col, columnStates, dragAndDropManager, lastColumnId) {
+    getHeader(col, columnStates, dragAndDropManager, columns, index) {
 
         const { columnManager, selectionModel, store } = this.props;
 
@@ -82,12 +99,18 @@ class Header extends Component {
 
         const key = keyGenerator(col.name, col.value);
 
+        const nextColumnKey = columns && columns[index + 1] 
+            ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
+
+        const lastColumnKey = columns && columns[columns.length - 1] 
+            ? keyGenerator(columns[columns.length - 1].name, columns[columns.length - 1].value) : null;
+
         const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
 
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
-            onDrag: this.handleDrag.bind(this, key, columnManager, store, lastColumnId),
+            onDrag: this.handleDrag.bind(this, key, columnManager, store, nextColumnKey, lastColumnKey),
             key,
             ref: key,
             style: {
@@ -113,9 +136,7 @@ class Header extends Component {
 
         const { columns, selectionModel, columnManager, columnStates } = this.props;
         const dragAndDropManager = new DragAndDropManager();
-        const lastColumn = columns[columns.length -1];
-        const lastColumnId = keyGenerator(lastColumn.name, lastColumn.value);
-        const headers = columns.map((col) => this.getHeader(col, columnStates, dragAndDropManager, lastColumnId));
+        const headers = columns.map((col, i) => this.getHeader(col, columnStates, dragAndDropManager, columns, i));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         }
