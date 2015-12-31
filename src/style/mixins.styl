@@ -2,6 +2,7 @@ button(backgroundcolor, color = whitecolor)
     background-color backgroundcolor
     border none
     color color
+    font-family fontfamily
     border-radius(3px)
     opacity .8
     
@@ -29,7 +30,11 @@ zindex(elem)
 boxshadow()
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
  
-transition(property, duration = 300ms, function = cubic-bezier(.17,.67,.83,.67))
+transition(property, duration = 150ms, function = cubic-bezier(.17,.67,.83,.67))
     transition-duration duration   
     transition-property property
     transition-timing-function function
+    
+multipletransition(arguments...)
+    transition((arguments))
+    

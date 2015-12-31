@@ -54,7 +54,21 @@ export const plugins = {
         enabled: true
     },
     BULK_ACTIONS: {
-        enabled: true
+        enabled: true,
+        actions: [
+            {
+                text: 'Move',
+                EVENT_HANDLER: () => {
+                    
+                }
+            },
+            {
+                text: 'Add',
+                EVENT_HANDLER: () => {
+
+                }
+            }
+        ]
     },
     GRID_ACTIONS: {
         iconCls: 'fa fa-ellipsis-v',

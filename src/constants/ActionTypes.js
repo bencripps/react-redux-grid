@@ -23,3 +23,6 @@ export const NO_EVENT = 'NO_EVENT';
 export const EDIT_ROW = 'EDIT_ROW';
 export const DISMISS_EDITOR = 'DISMISS_EDITOR';
 
+export const SHOW_TOOLBAR = 'SHOW_TOOLBAR';
+export const HIDE_TOOLBAR = 'HIDE_TOOLBAR';
+

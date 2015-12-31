@@ -80,8 +80,6 @@ class Header extends Component {
 
         let width = draggedWidth ? draggedWidth : (col.width || defaultColumnWidth);
 
-        console.log(draggedWidth)
-
         if (!draggedWidth && columns.length -1 === index && totalWidth !== 0 && totalWidth < 100) {
             width = `${100 - (totalWidth - parseFloat(width))}%`
         }

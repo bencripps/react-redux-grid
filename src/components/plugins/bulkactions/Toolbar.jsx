@@ -1,27 +1,110 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
+import { showToolbar, hideToolbar } from '../../../actions/plugins/bulkactions/ToolbarActions';
 
 class BulkActionToolbar extends Component {
 
     static defaultProps = {
-        store: React.PropTypes.func.isRequired
+        store: React.PropTypes.func.isRequired,
+        plugins: React.PropTypes.object.isRequired,
+        selectionModel: React.PropTypes.object.isRequired
+    }
+
+    getAction(action) {
+
+        const buttonProps = {
+            text: action.text,
+            onClick: action.EVENT_HANDLER,
+            key: keyFromObject(action)
+        };
+
+        return (
+            <button { ...buttonProps } >
+                { buttonProps.text }
+            </button>
+        );
+    }
+
+    getCheckBox() {
+
+        const containerProps = {
+            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
+        };
+
+        const checkboxProps = {
+            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
+            type: 'checkbox'
+        }
+
+        return (
+             <span { ...containerProps }>
+                <input { ...checkboxProps } />
+            </span>
+        );
+    }
+
+    getTotalSelection() {
+        const { selectedRows } = this.props;
+
+        const count = selectedRows 
+                && Object.keys(selectedRows).length 
+                ? Object.keys(selectedRows).filter((k) => selectedRows[k]).length
+                : 0;
+
+        return count;
+    }
+
+    getToolbar() {
+        const { actions } = this.props.plugins.BULK_ACTIONS;
+
+        const totalCount = this.getTotalSelection();
+
+        const shownCls = totalCount > 0 
+            ? CLASS_NAMES.BULK_ACTIONS.SHOWN 
+            : CLASS_NAMES.BULK_ACTIONS.HIDDEN;
+
+        const containerProps = {
+            className: prefix(CLASS_NAMES.BULK_ACTIONS.CONTAINER, shownCls)
+        };
+
+        const spanProps = {
+            className: prefix(CLASS_NAMES.BULK_ACTIONS.DESCRIPTION),
+            text: `${totalCount} Selected`
+        }
+
+        const buttons = actions.map(this.getAction);
+
+        return (
+            <div { ...containerProps } >
+                { this.getCheckBox() }
+                <span { ...spanProps } > 
+                    { spanProps.text }
+                </span>
+                { buttons }
+            </div>
+        );
     }
 
     render() {
 
-        return (
-            <div>Toolbar</div>
-        );
+        const { plugins } = this.props;
+
+        const toolbar = plugins 
+            && plugins.BULK_ACTIONS 
+            && plugins.BULK_ACTIONS.enabled 
+            && plugins.BULK_ACTIONS.actions
+            && plugins.BULK_ACTIONS.actions.length > 0 ? this.getToolbar() : null;
+
+        return toolbar;
     }
 }
 
 function mapStateToProps(state) {
     
     return {
-        pager: state.pager.get('pagerState'),
         dataSource: state.dataSource.get('gridData'),
         selectedRows: state.selection.get('selectedRows')
     };

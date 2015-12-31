@@ -1,0 +1,31 @@
++prefix-classes(prefix)
+    
+    .bulkaction-container
+        background-color editcolor
+        border-radius(3px 3px 0px 0px)
+        multipletransition(transform, opacity)
+        text-align left
+        transform translateX(0px) translateY(7px)
+        opacity 0
+        width 100%
+        
+        .bulkaction-description
+            display inline-block;
+            font-family fontfamily
+            font-size cellfontsize
+            overflow hidden
+            text-overflow ellipsis
+            min-width 70px
+            position relative
+            top 5px
+            
+        .checkbox-container
+            border-bottom 1px solid transparent
+        
+        button
+            button(actioncolor)
+            margin 5px 8px
+            
+        &.shown
+            opacity 1
+            transform translateY(0px)

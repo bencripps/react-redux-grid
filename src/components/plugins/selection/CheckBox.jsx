@@ -24,6 +24,24 @@ class CheckBox extends Component {
 
     }
 
+    getHeader(checkBoxContainerProps, checkBoxProps) {
+        return (
+            <th { ...checkBoxContainerProps } >
+                <input type="checkbox" { ...checkBoxProps } />
+            </th>
+        );
+
+    }
+
+    getColumn(checkBoxContainerProps, checkBoxProps) {
+        return (
+            <td { ...checkBoxContainerProps } >
+                <input type="checkbox" { ...checkBoxProps } />
+            </td>
+        );
+
+    }
+
     render() {
 
         const { rowId, selectedRows, type } = this.props;
@@ -35,14 +53,14 @@ class CheckBox extends Component {
         const checkBoxProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
             checked: selectedRows ? selectedRows[rowId] : false,
+            type: 'checkbox',
             onChange: this.handleChange.bind(this, type)
         }
 
-        return (
-            <td { ...checkBoxContainerProps } >
-                <input type="checkbox" { ...checkBoxProps } />
-            </td>
-        );
+        return type === 'header' 
+            ? this.getHeader(checkBoxContainerProps, checkBoxProps) 
+            : this.getColumn(checkBoxContainerProps, checkBoxProps);
+
     }
 }
 

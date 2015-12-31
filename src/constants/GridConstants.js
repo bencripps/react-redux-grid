@@ -41,6 +41,12 @@ export const CLASS_NAMES = {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'
         }
+    },
+    BULK_ACTIONS: {
+        CONTAINER: 'bulkaction-container',
+        DESCRIPTION: 'bulkaction-description',
+        SHOWN: 'shown',
+        HIDDEN: 'hidden'
     }
 
 };
