@@ -8,11 +8,16 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 
 1. Local and/or Remote Data Source
 2. Local and/or Remote Pagination
-3. Selection Model (Single, MultiSelect, Checkbox)
-4. Event Handling for all kinds of DOM Events (List Below)
-5. Extendable and Modular Style Built with JavaScript
-6. Loading Mask
-7. Built-in Error Handling Module
+3. Extensive and extenable Column Definitions
+4. Draggable Column Width/Resizing
+5. Sortable Columns
+6. Grid Action Menus
+7. Bulk Action Toolbar
+8. Selection Model (Single, MultiSelect, Checkbox)
+9. Event Handling for all kinds of DOM Events (List Below)
+10. Extendable and Modular Style Built with JavaScript
+11. Loading Mask
+12. Built-in Error Handling Module
 
 ##Which Store do I use?
 
@@ -57,13 +62,17 @@ Column Defaults:
 
 	export const plugins = {
 	    COLUMN_MANAGER: {
-	        resizable: true
+            resizable: false
+	        defaultColumnWidth: `${100 / columns.length}%`,
+            minColumnWidth: 10
 	    }
 	}
 
 Column Manager Defaults
 
-1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array.
+1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array
+2. `defaultColumnWidth`: `string template`, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template
+3. `minColumnWidth`: `int`, the minimum width a column can be dragged to
 
 ## Pagination
 
@@ -133,6 +142,27 @@ Loader Defaults:
 
 Loader css can be modified or overwritten using `src/style/components/plugins/loader/loadingbar.styl`
 
+## Bulk Actions
+
+	export const plugins = {
+	    BULK_ACTIONS: {
+	        enabled: true,
+	        actions: [
+	            {
+	                text: 'Bulk Action Button',
+	                EVENT_HANDLER: () => {
+	                    console.log('Doing a bulk action');
+	                }
+	            }
+	        ]
+		}
+	};
+
+Bulk Action Defaults
+
+1. `enabled`: `string`, whether the bulk action toolbar should be used
+2. `actions`: `array of objects`, the actions (including button text, and event handler) that will be displayed in the bar
+
 ## Events
 
 All grid events are passed in as a single object. 
@@ -158,6 +188,12 @@ All grid events are passed in as a single object.
 	    },
 	    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {
 	        console.log('On After Save Inline Editor Event');
+	    },
+	    HANDLE_BEFORE_BULKACTION_SHOW: () => {
+	        console.log('On Before Bulk Action Show');
+	    },  
+	    HANDLE_AFTER_BULKACTION_SHOW: () => {
+	        console.log('On After Bulk Action Show');
 	    }
 	};
 

@@ -21,6 +21,12 @@ export const events = {
     },
     HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {
         console.log('On After Save Inline Editor Event');
+    },
+    HANDLE_BEFORE_BULKACTION_SHOW: () => {
+        console.log('On Before Bulk Action Show');
+    },  
+    HANDLE_AFTER_BULKACTION_SHOW: () => {
+        console.log('On After Bulk Action Show');
     }
 };
 

@@ -3,9 +3,10 @@
     .row
         background-color whitecolor
         text-overflow ellipsis
+        transition(background-color)
         
         &:hover
-            background-color rowhovercolor !important
+            background-color rowhovercolor
             
             
         &.empty-row
@@ -24,7 +25,7 @@
                 color initial
             
             &:hover 
-                background-color editcolor !important
+                background-color editcolor
                 
             td 
                 border-bottom: 2px solid transparent

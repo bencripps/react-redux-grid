@@ -46,10 +46,18 @@ export default class Model {
 			this.events.HANDLE_BEFORE_SELECTION(selectionEvent);
 		}
 
+		if (this.events.HANDLE_BEFORE_BULKACTION_SHOW) {
+			this.events.HANDLE_BEFORE_BULKACTION_SHOW(selectionEvent);
+		}
+
 		this.store.dispatch(setSelection(selectionEvent.id, this.defaults, this.modes));
 
 		if (this.events.HANDLE_AFTER_SELECTION) {
 			this.events.HANDLE_AFTER_SELECTION(selectionEvent);
+		}
+
+		if (this.events.HANDLE_AFTER_BULKACTION_SHOW) {
+			this.events.HANDLE_AFTER_BULKACTION_SHOW(selectionEvent);
 		}
 
 	}
