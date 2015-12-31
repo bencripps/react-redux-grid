@@ -32,48 +32,29 @@ class Header extends Component {
         }
     }
 
-    handleDrag(id, columnManager, store, nextColumnKey, lastColumnKey, reactEvent) {
+    handleDrag(id, columnManager, store, nextColumnKey, reactEvent) {
 
         const mousePosition = reactEvent.pageX;
         const header = reactEvent.target.parentElement.parentElement;
         const columnNode = reactEvent.target.parentElement;
         const columnOffsetLeft = columnNode.getBoundingClientRect().left;
-        const headerWidth = parseInt(window.getComputedStyle(header).width, 10);
+        const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
         const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
         const width = computedWidth * 100;
 
-        const originalTotal = parseInt(this.refs[id].style.width, 10) + parseInt(this.refs[nextColumnKey].style.width, 10) 
-        const draggedDifference = Math.abs(width - parseInt(this.refs[id].style.width, 10));
-        const nextColumnNewWidth = originalTotal - draggedDifference;
-
-        const totalWidth = Object.keys(this.refs).map((k) => {
-            return parseInt(this.refs[k].style.width, 10);
-        }, this).reduce((a,b) => a + b);
+        const nextColWidth = Math.abs(width 
+            - (parseFloat(this.refs[id].style.width, 10) 
+                + parseFloat(this.refs[nextColumnKey].style.width, 10)));
         
-        if (nextColumnNewWidth < columnManager.config.minColumnWidth || width < columnManager.config.minColumnWidth) {
+        if (nextColWidth < columnManager.config.minColumnWidth 
+            || width < columnManager.config.minColumnWidth) {
             return false;
         }
 
-        if (totalWidth < 100 && width > columnManager.config.minColumnWidth) {
-            store.dispatch(resizeColumn(width, id, 
-                {
-                    id: nextColumnKey,
-                    width: nextColumnNewWidth
-                },
-                {
-                    id: lastColumnKey,
-                    width: (100 - totalWidth) + parseInt(this.refs[lastColumnKey].style.width, 10)
-                }
-            ));
-        }
-
-        else {
-            store.dispatch(resizeColumn(width, id, {
-                id: nextColumnKey,
-                width: nextColumnNewWidth
-            }));
-        }
-
+        store.dispatch(resizeColumn(width, id, {
+            id: nextColumnKey,
+            width: nextColWidth
+        }));
 
     }
 
@@ -106,15 +87,12 @@ class Header extends Component {
         const nextColumnKey = columns && columns[index + 1] 
             ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
 
-        const lastColumnKey = columns && columns[columns.length - 1] 
-            ? keyGenerator(columns[columns.length - 1].name, columns[columns.length - 1].value) : null;
-
         const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
 
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
-            onDrag: this.handleDrag.bind(this, key, columnManager, store, nextColumnKey, lastColumnKey),
+            onDrag: this.handleDrag.bind(this, key, columnManager, store, nextColumnKey),
             key,
             ref: key,
             style: {

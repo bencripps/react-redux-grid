@@ -13,32 +13,18 @@ export default function columnManager(state = initialState, action) {
     switch (action.type) {
 
     case RESIZE_COLUMN:
-        if (action.lastColumn) {
-            return state.set('columnStates', Object.assign({}, state.get('columnStates'),
-                {
-                    [action.id]: {
-                        width: action.width
-                    },
-                    [action.nextColumn.id]: {
-                        width: action.nextColumn.width
-                    },
-                    [action.lastColumn.id]: {
-                        width: action.lastColumn.width
-                    }
-                }
-            ));
-        }
 
-        else {
-            return state.set('columnStates', Object.assign({}, state.get('columnStates'),
-                {
-                    [action.id]: {
-                        width: action.width
-                    }
+        return state.set('columnStates', Object.assign({}, state.get('columnStates'),
+            {
+                [action.id]: {
+                    width: action.width
+                },
+                [action.nextColumn.id]: {
+                    width: action.nextColumn.width
                 }
-            ));
-        }
-
+            }
+        ));
+        
     default:
         return state;
     }
