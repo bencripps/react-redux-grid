@@ -53,6 +53,9 @@ export const plugins = {
         defaultErrorMessage: 'AN ERROR OCURRED',
         enabled: true
     },
+    BULK_ACTIONS: {
+        enabled: true
+    },
     GRID_ACTIONS: {
         iconCls: 'fa fa-ellipsis-v',
         menu: [
@@ -81,7 +84,7 @@ export const columns = [
     },
     {
         name: 'Email',
-        width: '35%',
+        width: '25%',
         className: 'additional-class'
     },
     {

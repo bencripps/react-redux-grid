@@ -73,6 +73,23 @@ class Header extends Component {
         );
     }
 
+    getWidth(col, columnStates, key, columns, defaultColumnWidth, index) {
+    
+        const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
+        const totalWidth = columns.reduce(function(a, col) { return a + parseFloat(col.width || 0); }, 0);
+
+        let width = draggedWidth ? draggedWidth : (col.width || defaultColumnWidth);
+
+        console.log(draggedWidth)
+
+        if (!draggedWidth && columns.length -1 === index && totalWidth !== 0 && totalWidth < 100) {
+            width = `${100 - (totalWidth - parseFloat(width))}%`
+        }
+
+        return width;
+    
+    }
+
     getHeader(col, columnStates, dragAndDropManager, columns, index) {
 
         const { columnManager, selectionModel, store } = this.props;
@@ -87,8 +104,6 @@ class Header extends Component {
         const nextColumnKey = columns && columns[index + 1] 
             ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
 
-        const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
-
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
@@ -96,7 +111,7 @@ class Header extends Component {
             key,
             ref: key,
             style: {
-                width: draggedWidth ? draggedWidth : (col.width || columnManager.config.defaultColumnWidth)
+                width: this.getWidth(col, columnStates, key, columns, columnManager.config.defaultColumnWidth, index)
             }
         };
 
