@@ -10,10 +10,10 @@ module.exports = {
         }
     },
     output: {
-        path: __dirname,
-        filename: 'lib/bundle.js',
+        path: __dirname + 'demo/lib',
+        filename: 'bundle.js',
         sourceMapFilename: 'debugging/[file].map',
-        publicPath: 'http://localhost:8080/',
+        publicPath: 'http://localhost:8080/demo/lib/',
         crossOriginLoading: 'use-credentials'
     },
     target: 'web',
