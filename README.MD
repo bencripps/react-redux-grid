@@ -10,6 +10,7 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 2. Local and/or Remote Pagination
 3. Extensive and extenable Column Definitions
 4. Draggable Column Width/Resizing
+5. Draggable Column Ordering
 5. Sortable Columns
 6. Grid Action Menus
 7. Bulk Action Toolbar
@@ -64,7 +65,8 @@ Column Defaults:
 	    COLUMN_MANAGER: {
             resizable: false
 	        defaultColumnWidth: `${100 / columns.length}%`,
-            minColumnWidth: 10
+            minColumnWidth: 10,
+            moveable: true
 	    }
 	}
 
@@ -73,6 +75,7 @@ Column Manager Defaults
 1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array
 2. `defaultColumnWidth`: `string template`, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template
 3. `minColumnWidth`: `int`, the minimum width a column can be dragged to
+3. `moveable`: `boolean`, whether the columns can be reordered by drag
 
 ## Pagination
 

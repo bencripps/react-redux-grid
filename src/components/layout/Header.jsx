@@ -66,7 +66,7 @@ class Header extends Component {
     }
 
     getDragHandle(col, dragAndDropManager) {
-        const handleProps = dragAndDropManager.initDragable({}, col);
+        const handleProps = dragAndDropManager.initDragable();
 
         return (
             <span { ...handleProps } />
@@ -88,19 +88,37 @@ class Header extends Component {
     
     }
 
+    getHeaderText(col, columnManager, dragAndDropManager) {
+        
+        const innerHTML = col.renderer ? col.renderer(col) : col.name;
+        const spanProps = dragAndDropManager.initDragable({
+            draggable: columnManager.config.moveable,
+            className: columnManager.config.moveable ? prefix(CLASS_NAMES.DRAGGABLE_COLUMN) : '',
+            onDrag: () => {
+                
+            }
+        });
+
+        return (
+            <span { ...spanProps } >
+                { innerHTML }
+            </span>
+        );
+    }
+
     getHeader(col, columnStates, dragAndDropManager, columns, index) {
 
         const { columnManager, selectionModel, store } = this.props;
 
         const isResizable = this.isColumnResizable(col, columnManager);
 
-        const dragHandle = isResizable 
-            ? this.getDragHandle(col, dragAndDropManager) : null;
-
         const key = keyGenerator(col.name, col.value);
 
         const nextColumnKey = columns && columns[index + 1] 
             ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
+
+        const dragHandle = isResizable 
+            ? this.getDragHandle(col, dragAndDropManager) : null;     
 
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
@@ -113,7 +131,7 @@ class Header extends Component {
             }
         };
 
-        const innerHTML = col.renderer ? col.renderer(col) : col.name;
+        const innerHTML = this.getHeaderText(col, columnManager, dragAndDropManager);
 
         return (
             <th { ...headerProps } >

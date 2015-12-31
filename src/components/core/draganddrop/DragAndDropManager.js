@@ -8,7 +8,7 @@ export default class DragAndDropManager {
        
     }
 
-    initDragable(initialProps, column) {
+    initDragable(initialProps) {
 
         const defaults = {
             onDragStart: this.handleDragStart,
@@ -22,7 +22,7 @@ export default class DragAndDropManager {
         };
     
         const props = initialProps 
-            ? Object.assign(initialProps, defaults) : defaults;
+            ? Object.assign(defaults, initialProps) : defaults;
 
         return props;
     }
@@ -33,7 +33,7 @@ export default class DragAndDropManager {
     }
 
     handleDrag() {
-
+        
     }
 
     handleDragOver() {

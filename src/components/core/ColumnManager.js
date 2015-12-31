@@ -12,8 +12,9 @@ export default class ColumnManager {
 		const defaults = {
 			defaultColumnWidth: `${100 / columns.length}%`,
             minColumnWidth: 10,
-            defaultResizable: false,
-            resizable: false
+            moveable: false,
+            resizable: false,
+            defaultResizable: false
 		};
 
         const config = plugins.COLUMN_MANAGER 

@@ -13,6 +13,7 @@ export const CLASS_NAMES = {
     LOADING_BAR: 'loading-bar',
     ACTIVE_CLASS: 'active-class',
     DRAG_HANDLE: 'drag-handle',
+    DRAGGABLE_COLUMN: 'draggable-column',
     BUTTONS: {
         PAGER: 'page-buttons'
     },

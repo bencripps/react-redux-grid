@@ -34,7 +34,8 @@ export const dataSource = 'http://localhost:3000/getfakeData';
 
 export const plugins = {
     COLUMN_MANAGER: {
-        resizable: true
+        resizable: true,
+        moveable: true
     },
     EDITOR: {
         type: 'inline',

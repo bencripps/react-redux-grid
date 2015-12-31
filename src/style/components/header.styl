@@ -15,7 +15,7 @@
             &.checkbox-container
                 border-bottom 1px solid strongcolor
             
-            .drag-handle
+            .{draghandleclass}
             
                 &::after
                     border-right 1px solid lightcolor
@@ -28,15 +28,18 @@
                     height 100%
                     transition(border)
                     
+            .{draggablecolumnclass}
+                cursor move
+                    
             &:hover
-                .drag-handle
+                .{draghandleclass}
                     &::after
                         border-color strongcolor
                 
         th:nth-last-child(1), th:nth-last-child(2)
             overflow initial
             
-            .drag-handle
+            .{draghandleclass}
                 &::after
                     border none
                     cursor auto
