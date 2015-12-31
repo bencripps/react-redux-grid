@@ -54,16 +54,19 @@ export default class Model {
 
 	}
 
-	updateCells(cells, rowId) {
+	updateCells(cells, rowId, type) {
 
 		const cellsUpdate = cells;
 
 		const checkBoxProps = {
 			key: keyFromObject(rowId, ['checkbox-']),
-			rowId: rowId
+			rowId,
+			type,
+			store: this.store
 		}
 
-		if (this.defaults.mode === this.modes.checkboxSingle || this.defaults.mode === this.modes.checkboxMulti) {
+		if (this.defaults.mode === this.modes.checkboxSingle 
+			|| this.defaults.mode === this.modes.checkboxMulti) {
 			cellsUpdate.unshift(<CheckBox { ...checkBoxProps } />);
 		}
 

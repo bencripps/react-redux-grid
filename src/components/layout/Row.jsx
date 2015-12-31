@@ -78,7 +78,7 @@ class Row extends Component {
 
         columnManager.addActionColumn(cells, 'row', id);
 
-        selectionModel.updateCells(cells, id);
+        selectionModel.updateCells(cells, id, 'row');
 
         return (
             <tr { ...rowProps }>

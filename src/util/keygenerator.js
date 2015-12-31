@@ -4,7 +4,7 @@ export function keyGenerator() {
 
 export function keyFromObject(obj, additionalStrings) {
 
-	if (additionalStrings) {
+	if (additionalStrings && Array.isArray(additionalStrings)) {
 		return btoa(additionalStrings.join('') + Object.keys(obj).map((k) => obj[k]).join(''));
 	}
 

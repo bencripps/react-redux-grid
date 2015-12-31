@@ -1,11 +1,27 @@
 import {
     SET_SELECTION,
+    SELECT_ALL,
+    DESELECT_ALL,
     NO_EVENT
 } from '../../../constants/ActionTypes';
 
+import { keyFromObject } from '../../../util/keygenerator';
+
+export function selectAll(data) {
+    const keys = data.currentRecords.map(keyFromObject);
+    const selection = keys.reduce((obj, k) => {
+        obj[k] = true;
+        return obj;
+    }, {});
+	return { type: SELECT_ALL, selection };
+};
+
+export function deselectAll() {
+    return { type: DESELECT_ALL };
+};
 
 export function setSelection(id, selectionModelDefaults, modes) {
-
+    
 	const allowDeselect = selectionModelDefaults.allowDeselect;
 	const clearSelections = selectionModelDefaults.mode === modes.checkboxSingle || selectionModelDefaults.mode === modes.single;
 
@@ -26,4 +42,4 @@ export function setSelection(id, selectionModelDefaults, modes) {
 
 		return { type: SET_SELECTION, id, clearSelections, allowDeselect };
 	}
-}
+};

@@ -5,6 +5,8 @@ export const GET_DATA = 'GET_DATA';
 export const SET_DATA = 'SET_DATA';
 
 export const SET_SELECTION = 'SET_SELECTION';
+export const SELECT_ALL = 'SELECT_ALL';
+export const DESELECT_ALL = 'DESELECT_ALL';
 
 export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 

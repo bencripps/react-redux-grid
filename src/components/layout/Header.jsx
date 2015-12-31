@@ -123,7 +123,7 @@ class Header extends Component {
             className: prefix(CLASS_NAMES.HEADER)
         }
 
-        selectionModel.updateCells(headers, columns);
+        selectionModel.updateCells(headers, columns, 'header');
 
         columnManager.addActionColumn(headers, 'header');
 

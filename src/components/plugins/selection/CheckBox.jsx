@@ -2,20 +2,31 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
 
-class PagerToolbar extends Component {
+class CheckBox extends Component {
 
     static defaultProps = {
-        store: React.PropTypes.func
+        store: React.PropTypes.func.isRequired
     }
 
-    handleChange() {
-        
+    handleChange(type, reactEvent) {
+        const { store, dataSource } = this.props;
+        const target = reactEvent.target;
+        if (type === 'header') {
+            if (target.checked) {
+                store.dispatch(selectAll(dataSource));
+            }
+            else {
+                store.dispatch(deselectAll());
+            }
+        }
+
     }
 
     render() {
 
-        const { rowId, selectedRows } = this.props;
+        const { rowId, selectedRows, type } = this.props;
 
         const checkBoxContainerProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
@@ -24,7 +35,7 @@ class PagerToolbar extends Component {
         const checkBoxProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
             checked: selectedRows ? selectedRows[rowId] : false,
-            onChange: this.handleChange
+            onChange: this.handleChange.bind(this, type)
         }
 
         return (
@@ -44,4 +55,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(PagerToolbar);
+export default connect(mapStateToProps)(CheckBox);

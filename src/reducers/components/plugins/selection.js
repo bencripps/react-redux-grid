@@ -1,7 +1,9 @@
 import { fromJS } from 'immutable';
 
 import {
-    SET_SELECTION
+    SET_SELECTION,
+    SELECT_ALL,
+    DESELECT_ALL
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -11,6 +13,14 @@ const initialState = fromJS({
 export default function selection(state = initialState, action) {
 
     switch (action.type) {
+
+    case SELECT_ALL:
+
+        return state.set('selectedRows', action.selection);
+
+    case DESELECT_ALL:
+    
+        return state.set('selectedRows', {});
 
     case SET_SELECTION:
 
