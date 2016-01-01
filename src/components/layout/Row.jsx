@@ -44,17 +44,19 @@ class Row extends Component {
 
     }
 
-    getRowComponents(row, events, selectedRows) {
+    getRowComponents(row, events, selectedRows, columns) {
 
         const { selectionModel, columnManager, editorState } = this.props;
         const { GRID_ACTIONS } = this.props.plugins;
         const id = keyFromObject(row);
 
-        const cells = Object.keys(row).map((k) => { 
+        const cells = Object.keys(row).map((k, i) => { 
 
             let cellProps = {
+                index: i,
                 rowId: id,
                 cellData: row[k],
+                columns,
                 key: keyGenerator(k),
                 events: events
             };
@@ -140,9 +142,9 @@ class Row extends Component {
         return getCurrentRecords(dataSource, pageIndex, pageSize);
     }
 
-    getRows(rows, events, selectedRows) {
+    getRows(rows, events, selectedRows, columns) {
         return Array.isArray(rows) ? rows.map((row) => 
-            this.getRowComponents(row, events, selectedRows)) : null;
+            this.getRowComponents(row, events, selectedRows, columns)) : null;
     }
 
     render() {
@@ -163,7 +165,7 @@ class Row extends Component {
         
         const rows = this.getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store);
 
-        const rowComponents = this.getRows(rows, events, selectedRows);
+        const rowComponents = this.getRows(rows, events, selectedRows, columns);
 
         const rowInsert = rowComponents ? rowComponents : this.getPlaceHolder();
 

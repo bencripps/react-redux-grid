@@ -100,11 +100,19 @@ class Header extends Component {
     getWidth(col, columnStates, key, columns, defaultColumnWidth, index) {
     
         const draggedWidth = columnStates && columnStates[key] ? `${columnStates[key].width}%` : null;
-        const totalWidth = columns.reduce(function(a, col) { return a + parseFloat(col.width || 0); }, 0);
+        const visibleColumns = columns.filter((col) => !col.hidden);
+        const lastColumn = visibleColumns[visibleColumns.length -1];
+        const isLastColumn = lastColumn && lastColumn.name === col.name;
+        const totalWidth = columns.reduce(function(a, col) { 
+            if (col.hidden) {
+                return a + 0;
+            }
+            return a + parseFloat(col.width || 0);
+         }, 0);
 
         let width = draggedWidth ? draggedWidth : (col.width || defaultColumnWidth);
 
-        if (!draggedWidth && columns.length -1 === index && totalWidth !== 0 && totalWidth < 100) {
+        if (!draggedWidth && isLastColumn && totalWidth !== 0 && totalWidth < 100) {
             width = `${100 - (totalWidth - parseFloat(width))}%`
         }
 
@@ -141,6 +149,10 @@ class Header extends Component {
     }
 
     getHeader(col, columnStates, dragAndDropManager, columns, index) {
+
+        if (col.hidden) {
+            return false;
+        }
 
         const { columnManager, selectionModel, store } = this.props;
 

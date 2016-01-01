@@ -14,9 +14,31 @@ class ActionColumn extends Component {
         iconCls: 'grid-action-icon'
     }
 
-    getHeader(containerProps, iconProps, menuShown, actions) {
+    getHeader(containerProps, iconProps, menuShown, columns) {
 
-        const menu = menuShown ? this.getMenu(actions) : null;
+        const actions = columns.map((col) => {
+
+            const isChecked = col.hidden !== undefined 
+                ? !col.hidden : true;
+            
+            return {
+                text: col.name,
+                menuItemType: 'checkbox',
+                checked: isChecked,
+                onCheckboxChange: () => {
+
+                },
+                EVENT_HANDLER: () => {
+                }
+            };
+
+        });
+
+        const menuItems = {
+            menu: actions
+        };
+
+        const menu = menuShown ? this.getMenu(menuItems, 'header') : null;
 
         return (
             <th { ...containerProps }>
@@ -56,11 +78,11 @@ class ActionColumn extends Component {
         }
     }
 
-    getMenu(actions) {
+    getMenu(actions, type) {
 
         const { store, editor } = this.props;
 
-        if (editor.config.enabled) {
+        if (editor.config.enabled && type !== 'header') {
             actions.menu.unshift(this.getEditAction(editor));
         }
 
@@ -82,7 +104,7 @@ class ActionColumn extends Component {
 
     render() {
 
-        const { iconCls, type, actions, menuState, rowId } = this.props;
+        const { iconCls, type, actions, menuState, rowId, columns } = this.props;
 
         const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
         
@@ -97,7 +119,7 @@ class ActionColumn extends Component {
         };
 
         return type === 'header'
-         ? this.getHeader(containerProps, iconProps, menuShown, actions) 
+         ? this.getHeader(containerProps, iconProps, menuShown, columns) 
          : this.getColumn(containerProps, iconProps, menuShown, actions);
     }
 }
@@ -106,6 +128,7 @@ function mapStateToProps(state) {
     
     return {
         menuState: state.menu.get('menuState'),
+        gridState: state.grid.get('gridState')
     };
 }
 

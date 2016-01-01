@@ -96,6 +96,7 @@ export const columns = [
         width: '10%',
         className: 'additional-class',
         renderer: () => { return 'Name'; },
+        hidden: true,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {

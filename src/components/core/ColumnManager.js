@@ -25,6 +25,7 @@ export default class ColumnManager {
 		this.events = events;
         this.selModel = selModel;
         this.editor = editor;
+        this.columns = columns;
 		this.config = config;
 
 		document.addEventListener('click', this.setDismissEvent.bind(this));
@@ -44,7 +45,8 @@ export default class ColumnManager {
         const actionProps = {
             actions: GRID_ACTIONS,
             store: this.store,
-            type: type,
+            type,
+            columns: this.columns,
             rowId: id,
             editor: this.editor,
             selModel: this.selModel,

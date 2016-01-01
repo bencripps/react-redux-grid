@@ -18,6 +18,7 @@ class Menu extends Component {
 
         const menuProps = {
             data: item,
+            type: item.type,
             key: keyFromObject(item),
             store
         };

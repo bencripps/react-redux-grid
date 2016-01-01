@@ -9,7 +9,10 @@ import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 class MenuItem extends Component {
 
     static defaultProps = {
-        data: React.PropTypes.String
+        data: React.PropTypes.String,
+        menuItemsTypes: {
+            checkbox: 'checkbox'
+        }
     }
 
     handleMenuItemClick(data, reactEvent) {
@@ -25,24 +28,44 @@ class MenuItem extends Component {
         }
     }
 
+    getCheckbox(data) {
+
+        const checkboxProps = {
+            type: this.props.menuItemsTypes.checkbox,
+            checked: data.checked,
+            onChange: data.onCheckboxChange || emptyFn
+        };
+
+        return (
+            <input { ...checkboxProps } />
+        );
+    }
+
     render() {
-    	const { data } = this.props;
+    	const { data, menuItemsTypes } = this.props;
 
     	const menuItemProps = {
     		className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM),
     		onClick: this.handleMenuItemClick.bind(this, data)
     	};
+
+        const checkboxComponent = 
+            data.menuItemType === menuItemsTypes.checkbox 
+            ? this.getCheckbox(data) : null;
     	
         return (
             <li { ...menuItemProps }>
+                { checkboxComponent }
             	{ data.text }
             </li>
         )
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        columnStates: state.columnManager.get('columnStates')
+    };
 }
 
 export default connect(mapStateToProps)(MenuItem);

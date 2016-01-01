@@ -9,7 +9,9 @@ import { CLASS_NAMES } from '../../constants/GridConstants';
 class Cell extends Component {
 
     static defaultProps = {
-        data: React.PropTypes.String
+        data: React.PropTypes.String,
+        columns: React.PropTypes.object,
+        index: React.PropTypes.number
     }
 
     handleClick(events, cellData, reactEvent) {
@@ -36,7 +38,7 @@ class Cell extends Component {
 
     render() {
 
-        const { cellData, events, rowId, editorState } = this.props;
+        const { cellData, events, rowId, editorState, columns, index } = this.props;
         
         const isEditable = editorState 
             && editorState.row
@@ -48,6 +50,16 @@ class Cell extends Component {
             onClick: this.handleClick.bind(this, events, cellData),
             onDoubleClick: this.handleDoubleClick.bind(this, events, cellData)
         };
+
+        const hidden = columns 
+            && columns[index] 
+            && columns[index].hidden !== undefined 
+            ? columns[index].hidden 
+            : null;
+
+        if (hidden) {
+            return false;
+        }
 
         return (
             <td { ...cellProps }>
