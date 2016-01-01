@@ -6,7 +6,7 @@ import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { emptyFn } from '../../util/emptyFn';
 import { CLASS_NAMES } from '../../constants/GridConstants';
-import { resizeColumn } from '../../actions/core/ColumnManager';
+import { resizeColumn, reorderColumn } from '../../actions/core/ColumnManager';
 
 class Header extends Component {
 
@@ -32,6 +32,21 @@ class Header extends Component {
         }
     }
 
+    handleDrop(droppedIndex, columns, reactEvent) {
+        
+        const { store } = this.props;
+
+        const colData = reactEvent 
+            && reactEvent.dataTransfer.getData
+            ? JSON.parse(reactEvent.dataTransfer.getData('Text'))
+            : null;
+
+        if (colData) {
+            store.dispatch(reorderColumn(colData.index, droppedIndex, columns));
+        }
+
+    }
+
     handleDrag(id, columnManager, store, nextColumnKey, reactEvent) {
 
         const mousePosition = reactEvent.pageX;
@@ -40,15 +55,24 @@ class Header extends Component {
         const columnOffsetLeft = columnNode.getBoundingClientRect().left;
         const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
         const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
-        const width = computedWidth * 100;
+        const totalWidth = parseFloat(this.refs[id].style.width, 10) 
+            + parseFloat(this.refs[nextColumnKey].style.width, 10);
+        let width = computedWidth * 100;
 
-        const nextColWidth = Math.abs(width 
-            - (parseFloat(this.refs[id].style.width, 10) 
-                + parseFloat(this.refs[nextColumnKey].style.width, 10)));
-        
-        if (nextColWidth < columnManager.config.minColumnWidth 
-            || width < columnManager.config.minColumnWidth) {
+        let nextColWidth = Math.abs(width - totalWidth);
+
+        if (nextColWidth < 0 || width < 0) {
             return false;
+        }
+        
+        if (nextColWidth < columnManager.config.minColumnWidth) {
+            nextColWidth = columnManager.config.minColumnWidth;
+            width = totalWidth - columnManager.config.minColumnWidth;
+        }
+
+        else if (width < columnManager.config.minColumnWidth) {
+            width = columnManager.config.minColumnWidth;
+            nextColWidth = totalWidth - columnManager.config.minColumnWidth;
         }
 
         store.dispatch(resizeColumn(width, id, {
@@ -88,14 +112,24 @@ class Header extends Component {
     
     }
 
-    getHeaderText(col, columnManager, dragAndDropManager) {
+    getHeaderText(col, index, columnManager, dragAndDropManager) {
         
         const innerHTML = col.renderer ? col.renderer(col) : col.name;
         const spanProps = dragAndDropManager.initDragable({
             draggable: columnManager.config.moveable,
             className: columnManager.config.moveable ? prefix(CLASS_NAMES.DRAGGABLE_COLUMN) : '',
-            onDrag: () => {
-                
+            onDrag: (reactEvent) => {
+                reactEvent.preventDefault();
+                reactEvent.stopPropagation();
+            },
+            onDragStart: (reactEvent) => {
+
+                const data = {
+                    key: keyFromObject(col),
+                    index: index
+                };
+
+                reactEvent.dataTransfer.setData('Text', JSON.stringify(data)); 
             }
         });
 
@@ -124,6 +158,7 @@ class Header extends Component {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
             onDrag: this.handleDrag.bind(this, key, columnManager, store, nextColumnKey),
+            onDrop: this.handleDrop.bind(this, index, columns),
             key,
             ref: key,
             style: {
@@ -131,7 +166,7 @@ class Header extends Component {
             }
         };
 
-        const innerHTML = this.getHeaderText(col, columnManager, dragAndDropManager);
+        const innerHTML = this.getHeaderText(col, index, columnManager, dragAndDropManager);
 
         return (
             <th { ...headerProps } >

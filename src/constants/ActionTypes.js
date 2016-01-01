@@ -8,15 +8,17 @@ export const SET_SELECTION = 'SET_SELECTION';
 export const SELECT_ALL = 'SELECT_ALL';
 export const DESELECT_ALL = 'DESELECT_ALL';
 
+export const SET_COLUMNS = 'SET_COLUMNS';
+
 export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 
-export const ERROR_OCCURRED = 'ERROR_OCCURRED';
 export const DISMISS_ERROR = 'DISMISS_ERROR';
 
 export const SHOW_MENU = 'SHOW_MENU';
 export const HIDE_MENU = 'HIDE_MENU';
 
 export const RESIZE_COLUMN = 'RESIZE_COLUMN';
+export const REORDER_COLUMN = 'REORDER_COLUMN';
 
 export const NO_EVENT = 'NO_EVENT';
 

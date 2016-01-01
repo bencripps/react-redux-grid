@@ -28,28 +28,28 @@ export default class DragAndDropManager {
     }
 
 
-    handleDragStart() {
-        
+    handleDragStart(reactEvent) {
+
     }
 
-    handleDrag() {
-        
+    handleDrag(reactEvent) {
+        // reactEvent.preventDefault();
     }
 
-    handleDragOver() {
-
+    handleDragOver(reactEvent) {
+        reactEvent.preventDefault();
     }
     
-    handleDragLeave() {
-
+    handleDragLeave(reactEvent) {
+        //reactEvent.preventDefault();
     }
 
-    handleDragEnd() {
-
+    handleDragEnd(reactEvent) {
+        //reactEvent.preventDefault();
     }
 
 
-    handleDrop() {
-
+    handleDrop(reactEvent) {
+        //reactEvent.preventDefault();
     }
 }

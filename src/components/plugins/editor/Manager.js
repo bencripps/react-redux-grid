@@ -35,12 +35,16 @@ export default class Manager {
 
 	setDismissEvent(reactEvent) {
 		const element = reactEvent.target;
-
+		
 		if (element && element.contentEditable === 'true') {
 			return false;
 		}
 
 		else if (element && elementContains(element, prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER))) {
+			return false;
+		}
+
+		else if (element && elementContains(element, prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM))) {
 			return false;
 		}
 

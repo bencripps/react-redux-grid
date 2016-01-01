@@ -11,7 +11,7 @@ import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
-import { getAsyncData, setData } from '../actions/GridActions';
+import { getAsyncData, setData, setColumns } from '../actions/GridActions';
 import '../style/main.styl';
 
 class Grid extends Component {
@@ -27,7 +27,15 @@ class Grid extends Component {
     }
 
     componentWillMount() {
-        const { dataSource, data, store } = this.props;
+        const { dataSource, data, store, columns } = this.props;
+
+        if (!columns) {
+            console.warn('A columns array is required');
+        }
+
+        else {
+            store.dispatch(setColumns(columns));
+        }
         
         if (dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
@@ -45,7 +53,7 @@ class Grid extends Component {
     render() {
 
         const { 
-            columns, 
+            columnState,
             data, 
             pageSize,
             plugins,
@@ -53,6 +61,8 @@ class Grid extends Component {
             store
         } = this.props;
 
+        const columns = columnState && columnState.columns ? columnState.columns : [];
+        
         const selectionModel = new Model(plugins, store, events);
 
         const editor = new Manager(plugins, store, events);
@@ -125,8 +135,10 @@ class Grid extends Component {
     }
 }
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        columnState: state.grid.get('gridState')
+    };
 }
 
 export default connect(mapStateToProps)(Grid);

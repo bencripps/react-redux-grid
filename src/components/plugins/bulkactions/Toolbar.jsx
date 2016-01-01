@@ -28,22 +28,17 @@ class BulkActionToolbar extends Component {
         );
     }
 
-    getCheckBox() {
+    handleChange(reactEvent) {
 
-        const containerProps = {
-            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
-        };
+        const { store, dataSource } = this.props;
 
-        const checkboxProps = {
-            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-            type: 'checkbox'
+        if (reactEvent.target && reactEvent.target.checked) {
+            store.dispatch(selectAll(dataSource));
         }
 
-        return (
-             <span { ...containerProps }>
-                <input { ...checkboxProps } />
-            </span>
-        );
+        else {
+            store.dispatch(deselectAll());
+        }
     }
 
     getTotalSelection() {
@@ -79,7 +74,6 @@ class BulkActionToolbar extends Component {
 
         return (
             <div { ...containerProps } >
-                { this.getCheckBox() }
                 <span { ...spanProps } > 
                     { spanProps.text }
                 </span>

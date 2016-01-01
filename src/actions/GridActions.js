@@ -1,6 +1,7 @@
 import {
     SET_DATA,
-    ERROR_OCCURRED
+    ERROR_OCCURRED,
+    SET_COLUMNS
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -43,6 +44,10 @@ export function getAsyncData(datasource) {
         });
 
     };
+}
+
+export function setColumns(columns) {
+    return { type: SET_COLUMNS, columns };
 }
 
 export function setData(data) {
