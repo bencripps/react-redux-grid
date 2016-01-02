@@ -12,7 +12,7 @@ class ActionColumn extends Component {
 
     static defaultProps = {
         store: React.PropTypes.func,
-        iconCls: 'grid-action-icon'
+        iconCls: 'action-icon'
     }
 
     getHeader(containerProps, iconProps, menuShown, columns) {
@@ -119,7 +119,7 @@ class ActionColumn extends Component {
         };
 
         const iconProps = {
-            className: actions.iconCls || iconCls,
+            className: prefix(actions.iconCls) || prefix(iconCls),
         };
 
         return type === 'header'

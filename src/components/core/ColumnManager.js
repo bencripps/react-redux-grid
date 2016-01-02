@@ -1,46 +1,58 @@
 import React, { PropTypes, Component } from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { CSS_PREFIX, CLASS_NAMES } from '../../constants/GridConstants';
-import { keyGenerator, keyFromObject } from '../../util/keygenerator';
+import { keyFromObject } from '../../util/keygenerator';
 import { elementContains } from '../../util/elementContains';
 import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
 
 export default class ColumnManager {
 
-	constructor(plugins, store, events, selModel, editor, columns) {
+    constructor(plugins, store, events, selModel, editor, columns) {
 
-		const defaults = {
-			defaultColumnWidth: `${100 / columns.length}%`,
+        const defaults = {
+            defaultColumnWidth: `${100 / columns.length}%`,
             minColumnWidth: 10,
             moveable: false,
             resizable: false,
-            defaultResizable: false
-		};
+            sortable: {
+                enabled: true,
+                method: 'local'
+            },
 
-        const config = plugins.COLUMN_MANAGER 
+            /**
+                @private properties used by components
+                    if properties are not available
+                    i wouldn't remove these, but theyre
+                    values can be flipped
+            **/
+            defaultResizable: false,
+            defaultSortable: true
+        };
+
+        const config = plugins.COLUMN_MANAGER
             ? Object.assign(defaults, plugins.COLUMN_MANAGER) : defaults;
 
-		this.plugins = plugins;
-		this.store = store;
-		this.events = events;
+        this.plugins = plugins;
+        this.store = store;
+        this.events = events;
         this.selModel = selModel;
         this.editor = editor;
         this.columns = columns;
-		this.config = config;
+        this.config = config;
 
-		document.addEventListener('click', this.setDismissEvent.bind(this));
-	}
+        document.addEventListener('click', this.setDismissEvent.bind(this));
+    }
 
-	setDismissEvent(e) {
+    setDismissEvent(e) {
 
-		if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
-			this.store.dispatch(hideMenu());
-		}
+        if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
+            this.store.dispatch(hideMenu());
+        }
 
-	}
+    }
 
-	addActionColumn(cells, type, id) {
-		const cellsCopy = cells;
+    addActionColumn(cells, type, id) {
+        const cellsCopy = cells;
         const { GRID_ACTIONS } = this.plugins;
         const actionProps = {
             actions: GRID_ACTIONS,
@@ -51,12 +63,12 @@ export default class ColumnManager {
             editor: this.editor,
             selModel: this.selModel,
             key: keyFromObject(cells, ['row', 'actionhandler'])
-        }
+        };
 
         if (GRID_ACTIONS) {
             cells.push(<ActionColumn { ...actionProps } />);
         }
 
         return cellsCopy;
-	}
+    }
 }

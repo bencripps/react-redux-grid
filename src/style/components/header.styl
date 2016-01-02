@@ -15,6 +15,23 @@
             &.checkbox-container
                 border-bottom 1px solid strongcolor
             
+            .{sorthandleclass}
+            
+                &.descend
+                    fa('sort-up')
+                    &::before
+                        top 4px
+            
+                &.ascend
+                    fa('sort-down')
+                    &::before
+                        top -3px
+                
+                &::before
+                    cursor pointer
+                    left 10px
+                    position relative
+            
             .{draghandleclass}
             
                 &::after

@@ -39,6 +39,21 @@ class Header extends Component {
         }
     }
 
+    isSortable(col, columnManager) {
+
+        if (col.sortable !== undefined) {
+            return col.sortable;
+        }
+
+        else if (columnManager.config.sortable.enabled !== undefined) {
+             return columnManager.config.sortable.enabled
+        }
+
+        else {
+            return columnManager.config.defaultSortable;
+        }
+    }
+
     handleDrop(droppedIndex, columns, reactEvent) {
         
         const { store } = this.props;
@@ -94,6 +109,22 @@ class Header extends Component {
         if (col.HANDLE_CLICK) {
             col.HANDLE_CLICK.apply(this, arguments);
         }
+    }
+
+    getSortHandle(col) {
+
+        const direction = col.sortDirection || col.defaultSortDirection || 'ascend';
+
+        const handleProps = {
+            className: prefix(CLASS_NAMES.SORT_HANDLE, direction),
+            onClick: () => {
+                debugger;
+            }
+        };
+
+        return (
+            <span  { ...handleProps } />
+        );
     }
 
     getDragHandle(col, dragAndDropManager) {
@@ -166,10 +197,15 @@ class Header extends Component {
 
         const isResizable = this.isColumnResizable(col, columnManager);
 
+        const isSortable = this.isSortable(col, columnManager);
+
         const key = keyGenerator(col.name, col.value);
 
         const nextColumnKey = columns && columns[index + 1] 
             ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
+
+        const sortHandle = isSortable
+            ? this.getSortHandle(col) : null;
 
         const dragHandle = isResizable 
             ? this.getDragHandle(col, dragAndDropManager) : null;     
@@ -177,7 +213,6 @@ class Header extends Component {
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
             onClick: this.handleColumnClick.bind(this, col),
-            //onDrag: throttle(this.handleDrag.bind(this, columns, key, columnManager, store, nextColumnKey), this, 1000),
             onDrag: this.handleDrag.bind(this, columns, key, columnManager, store, nextColumnKey),
             onDrop: this.handleDrop.bind(this, index, columns),
             key,
@@ -192,6 +227,7 @@ class Header extends Component {
         return (
             <th { ...headerProps } >
                 { innerHTML }
+                { sortHandle }
                 { dragHandle }
             </th>
         );

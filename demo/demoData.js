@@ -24,7 +24,7 @@ export const events = {
     },
     HANDLE_BEFORE_BULKACTION_SHOW: () => {
         console.log('On Before Bulk Action Show');
-    },  
+    },
     HANDLE_AFTER_BULKACTION_SHOW: () => {
         console.log('On After Bulk Action Show');
     }
@@ -35,7 +35,11 @@ export const dataSource = 'http://localhost:3000/getfakeData';
 export const plugins = {
     COLUMN_MANAGER: {
         resizable: true,
-        moveable: true
+        moveable: true,
+        sortable: {
+            enabled: true,
+            method: 'local'
+        }
     },
     EDITOR: {
         type: 'inline',
@@ -66,7 +70,7 @@ export const plugins = {
             {
                 text: 'Move',
                 EVENT_HANDLER: () => {
-                    
+
                 }
             },
             {
@@ -78,12 +82,12 @@ export const plugins = {
         ]
     },
     GRID_ACTIONS: {
-        iconCls: 'fa fa-ellipsis-v',
+        iconCls: 'action-icon',
         menu: [
             {
                 text: 'Delete',
                 EVENT_HANDLER: () => {
-                    
+
                 }
             }
         ]
@@ -96,7 +100,6 @@ export const columns = [
         width: '10%',
         className: 'additional-class',
         renderer: () => { return 'Name'; },
-        hidden: true,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
@@ -107,7 +110,8 @@ export const columns = [
     {
         name: 'Email',
         width: '25%',
-        className: 'additional-class'
+        className: 'additional-class',
+        defaultSortDirection: 'descend'
     },
     {
         name: 'Address',
@@ -115,7 +119,6 @@ export const columns = [
         className: 'additional-class'
     }
 ];
-
 
 export const data = [
     {
