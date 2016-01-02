@@ -17,7 +17,7 @@ export const DISMISS_ERROR = 'DISMISS_ERROR';
 export const SHOW_MENU = 'SHOW_MENU';
 export const HIDE_MENU = 'HIDE_MENU';
 
-export const RESIZE_COLUMN = 'RESIZE_COLUMN';
+export const RESIZE_COLUMNS = 'RESIZE_COLUMNS';
 export const REORDER_COLUMN = 'REORDER_COLUMN';
 
 export const NO_EVENT = 'NO_EVENT';

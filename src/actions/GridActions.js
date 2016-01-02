@@ -1,10 +1,13 @@
 import {
     SET_DATA,
     ERROR_OCCURRED,
-    SET_COLUMNS
+    SET_COLUMNS,
+    RESIZE_COLUMNS
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
+
+import { keyFromObject } from '../util/keygenerator';
 
 import Request from '../components/plugins/ajax/Request';
 
@@ -13,7 +16,7 @@ export function getAsyncData(datasource) {
     return (dispatch) => {
 
         dispatch(setLoaderState(true));
-        
+
         return Request.api({
             route: datasource,
             method: 'GET'
@@ -30,7 +33,6 @@ export function getAsyncData(datasource) {
                 });
 
             }
-            
 
             else {
                 dispatch({
@@ -46,8 +48,55 @@ export function getAsyncData(datasource) {
     };
 }
 
-export function setColumns(columns) {
+export function setColumns(cols) {
+
+    let columns = cols;
+
+    if (!columns[0].id) {
+        columns = cols.map((col) => {
+            col.id = keyFromObject(col.name, col.value);
+            return col;
+        });
+    }
+
     return { type: SET_COLUMNS, columns };
+}
+
+export function setColumnVisibility(columnsArr, column, isHidden) {
+    const hidden = !isHidden;
+
+    const columns = columnsArr.map((col) => {
+        if (col.name === column.name) {
+            col.hidden = hidden;
+        }
+
+        return col;
+    });
+
+    return { type: SET_COLUMNS, columns };
+}
+
+export function resizeColumns(width, id, nextColumn, cols) {
+
+    const columns = cols.map((col) => {
+
+        if (col.id === id) {
+            col.width = `${width}%`;
+        }
+
+        else if (col.id === nextColumn.id) {
+            col.width = `${nextColumn.width}%`;
+        }
+
+        return col;
+
+    });
+
+    return {
+        type: RESIZE_COLUMNS,
+        columns
+    };
+
 }
 
 export function setData(data) {

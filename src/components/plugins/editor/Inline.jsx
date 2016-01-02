@@ -59,8 +59,6 @@ class Inline extends Component {
             top = editorState.row.top;
         }
 
-        console.log(editorState)
-
     	const inlineEditorProps = {
     		className: prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row 
                 ? CLASS_NAMES.EDITOR.INLINE.SHOWN : CLASS_NAMES.EDITOR.INLINE.HIDDEN),

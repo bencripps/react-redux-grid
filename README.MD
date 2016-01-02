@@ -46,6 +46,8 @@ All Features are implementd as plugins. Plugin defaults are described as below. 
 	        width: '10%',
 	        className: 'additional-class',
 	        renderer: () => { return 'Name of Column'; },
+	        hidden: false,
+	        resizable: false,
 	        HANDLE_CLICK: () => { console.log('Header Click'); }
 	    }
 	];
@@ -55,8 +57,10 @@ Column Defaults:
 1. `name`: `string`, title of column 
 2. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
 3. `className`: `string`, additional class names to apply to columns header output
-5. `HANDLE_CLICK`: `func`, click handler assigned to column
+4. `renderer`: `func`, a function which returns the column name
+5. `hidden`: `boolean`, whether the column is hidden or visible
 6. `resizable`: `boolean`, whether this column can be resized
+7. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 
 ## Column Manager

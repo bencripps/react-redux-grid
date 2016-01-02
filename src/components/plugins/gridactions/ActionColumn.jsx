@@ -6,6 +6,7 @@ import { prefix } from '../../../util/prefix';
 import { editRow } from '../../../actions/plugins/editor/EditorActions';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
+import { setColumnVisibility } from '../../../actions/GridActions';
 
 class ActionColumn extends Component {
 
@@ -16,6 +17,8 @@ class ActionColumn extends Component {
 
     getHeader(containerProps, iconProps, menuShown, columns) {
 
+        const { store } = this.props;
+
         const actions = columns.map((col) => {
 
             const isChecked = col.hidden !== undefined 
@@ -25,10 +28,9 @@ class ActionColumn extends Component {
                 text: col.name,
                 menuItemType: 'checkbox',
                 checked: isChecked,
-                onCheckboxChange: () => {
-
-                },
+                onCheckboxChange: () => {},
                 EVENT_HANDLER: () => {
+                    store.dispatch(setColumnVisibility(columns, col, col.hidden));
                 }
             };
 
@@ -70,8 +72,10 @@ class ActionColumn extends Component {
     handleEditClick(editor, data, reactEvent) {
         const { store, rowId } = this.props;
 
-        const rowPosition = reactEvent.target.parentNode.parentNode.getBoundingClientRect();
+        const rowPosition = reactEvent.target.parentNode.parentNode.parentNode.getBoundingClientRect();
         const top = rowPosition.top;
+
+        console.log(reactEvent.target.parentNode.parentNode);
         
         if (editor.config.type === editor.editModes.inline) {
             store.dispatch(editRow(rowId, top));

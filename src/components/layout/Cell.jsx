@@ -44,22 +44,21 @@ class Cell extends Component {
             && editorState.row
             && editorState.row.key === rowId ? true : false;
 
-        const cellProps = {
-            className: prefix(CLASS_NAMES.CELL),
-            contentEditable: isEditable,
-            onClick: this.handleClick.bind(this, events, cellData),
-            onDoubleClick: this.handleDoubleClick.bind(this, events, cellData)
-        };
-
         const hidden = columns 
             && columns[index] 
             && columns[index].hidden !== undefined 
             ? columns[index].hidden 
             : null;
 
-        if (hidden) {
-            return false;
-        }
+        const cellProps = {
+            className: prefix(CLASS_NAMES.CELL),
+            contentEditable: isEditable,
+            onClick: this.handleClick.bind(this, events, cellData),
+            onDoubleClick: this.handleDoubleClick.bind(this, events, cellData),
+            style: {
+                display: hidden ? 'none' : ''
+            }
+        };
 
         return (
             <td { ...cellProps }>
