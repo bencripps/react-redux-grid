@@ -1,16 +1,16 @@
 import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
-import { CSS_PREFIX, CLASS_NAMES, SORT_METHODS } from '../../constants/GridConstants';
+import { CSS_PREFIX, CLASS_NAMES, SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keygenerator';
 import { elementContains } from '../../util/elementContains';
 import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
-import { doLocalSort } from '../../actions/GridActions';
+import { doLocalSort, doRemoteSort } from '../../actions/GridActions';
 import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
     constructor(plugins, store, events, selModel, editor, columns) {
-
+        
         const defaults = {
             defaultColumnWidth: `${100 / columns.length}%`,
             minColumnWidth: 10,
@@ -18,7 +18,13 @@ export default class ColumnManager {
             resizable: false,
             sortable: {
                 enabled: true,
-                method: SORT_METHODS.LOCAL
+                method: SORT_METHODS.LOCAL,
+                sortingSource: plugins
+                    && plugins.COLUMN_MANAGER
+                    && plugins.COLUMN_MANAGER.sortable
+                    && plugins.COLUMN_MANAGER.sortable.sortingSource
+                    ? plugins.COLUMN_MANAGER.sortable.sortingSource
+                    : ''
             },
 
             /**
@@ -54,15 +60,29 @@ export default class ColumnManager {
 
     }
 
-    doSort(method, column, direction, dataSource) {
+    doSort(method, column, direction, dataSource, pagerState) {
+
+        const sortParams = {
+            sort: {
+                property: column.name.toLowerCase(),
+                direction: direction.toLowerCase()
+            }
+        };
+
+        const pageIndex = pagerState && pagerState.pageIndex ? pagerState.pageIndex : 0;
+
+        const pageSize = pagerState && pagerState.pageSize ? pagerState.pageSize : DEFAULT_PAGE_SIZE;
+
         if (method === SORT_METHODS.LOCAL) {
-            this.store(
-                doLocalSort(column,
+            this.store.dispatch(
+                doLocalSort(
                     this.sorter.sortBy(column.name, direction, dataSource)));
         }
 
         else {
-            // remote sort
+            this.store.dispatch(
+                doRemoteSort(this.config.sortable.sortingSource, pageIndex, pageSize, sortParams
+            ));
         }
     }
 

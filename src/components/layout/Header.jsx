@@ -112,7 +112,8 @@ class Header extends Component {
     }
 
     handleSort(columns, col, direction, columnManager) {
-        const { store, dataSource } = this.props;
+        const { store, dataSource, pager } = this.props;
+
         store.dispatch(setSortDirection(columns, col.id, direction));
             
         if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
@@ -120,7 +121,7 @@ class Header extends Component {
         }
 
         else if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.REMOTE) {
-            columnManager.doSort(SORT_METHODS.REMOTE, col, dataSource);
+            columnManager.doSort(SORT_METHODS.REMOTE, col, direction, dataSource, pager);
         }
 
         else {
@@ -283,7 +284,8 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
         columnStates: state.columnManager.get('columnStates'),
-        dataSource: state.dataSource.get('gridData')
+        dataSource: state.dataSource.get('gridData'),
+        pager: state.pager.get('pagerState')
     };
 }
 

@@ -2,6 +2,7 @@ import {
     SET_DATA,
     ERROR_OCCURRED,
     SET_COLUMNS,
+    SORT_DATA,
     RESIZE_COLUMNS,
     SET_SORT_DIRECTION
 } from '../constants/ActionTypes';
@@ -82,6 +83,51 @@ export function setSortDirection(cols, id, sortDirection) {
     });
 
     return { type: SET_SORT_DIRECTION, columns };
+}
+
+export function doLocalSort(data) {
+    return { type: SORT_DATA, data };
+}
+
+export function doRemoteSort(datasource, pageIndex, pageSize, sortParams) {
+    return (dispatch) => {
+
+        dispatch(setLoaderState(true));
+
+        return Request.api({
+            route: datasource,
+            method: 'POST',
+            data: {
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                sort: sortParams.sort
+            }
+        }).then((response) => {
+
+            if (response && response.data) {
+
+                dispatch({
+                    type: SET_DATA,
+                    data: response.data,
+                    total: response.total,
+                    currentRecords: response.data,
+                    success: true
+                });
+
+            }
+
+            else {
+                dispatch({
+                    type: ERROR_OCCURRED,
+                    error: 'Unable to Retrieve Grid Data',
+                    errorOccurred: true
+                });
+            }
+
+            dispatch(setLoaderState(false));
+        });
+
+    };
 }
 
 export function setColumnVisibility(columnsArr, column, isHidden) {

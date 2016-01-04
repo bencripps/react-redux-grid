@@ -9,7 +9,7 @@ export default function dataSource(state = initialState, action) {
     switch (action.type) {
 
     case SET_DATA:
-        return state.set('gridData', Object.assign({}, state.get('pagerState'),
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
                 data: action.data,
                 total: action.total,
@@ -18,11 +18,9 @@ export default function dataSource(state = initialState, action) {
         ));
 
     case SORT_DATA:
-        return state.set('gridData', Object.assign({}, state.get('pagerState'),
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
-                data: action.data,
-                total: action.total,
-                currentRecords: action.currentRecords
+                data: action.data
             }
         ));
 

@@ -38,7 +38,8 @@ export const plugins = {
         moveable: true,
         sortable: {
             enabled: true,
-            method: 'local'
+            method: 'local',
+            sortingSource: 'http://localhost:3000/getFakedPagedData'
         }
     },
     EDITOR: {
