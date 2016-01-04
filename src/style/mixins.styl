@@ -27,17 +27,21 @@ border-radius()
   -moz-border-radius arguments
   border-radius arguments
   
-zindex(elem)
-  z-index zarray[elem]
-  
 boxshadow()
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+    
+icon(type)
+    cursor pointer
+    fa(type)
+    
+multipletransition(arguments...)
+    transition((arguments))
  
 transition(property, duration = 150ms, function = cubic-bezier(.17,.67,.83,.67))
     transition-duration duration   
     transition-property property
     transition-timing-function function
-    
-multipletransition(arguments...)
-    transition((arguments))
+  
+zindex(elem)
+  z-index zarray[elem]
     

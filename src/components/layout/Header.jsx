@@ -220,10 +220,12 @@ class Header extends Component {
 
         const isSortable = this.isSortable(col, columnManager);
 
+        const visibleColumns = columns.filter((col) => !col.hidden);
+
         const key = keyGenerator(col.name, col.value);
 
-        const nextColumnKey = columns && columns[index + 1] 
-            ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
+        const nextColumnKey = visibleColumns && visibleColumns[index + 1] 
+            ? keyGenerator(visibleColumns[index + 1].name, visibleColumns[index + 1].value) : null;
 
         const sortHandle = isSortable
             ? this.getSortHandle(col, columns, columnManager) : null;
@@ -232,7 +234,7 @@ class Header extends Component {
             ? this.getDragHandle(col, dragAndDropManager) : null;     
 
         const headerProps = {
-            className: `${col.className} ${isResizable ? prefix("resizable") : ""}`,
+            className: `${col.className} ${isResizable ? prefix('resizable') : ''}`,
             onClick: this.handleColumnClick.bind(this, col),
             onDrag: this.handleDrag.bind(this, columns, key, columnManager, store, nextColumnKey),
             onDrop: this.handleDrop.bind(this, index, columns),

@@ -1,15 +1,17 @@
 +prefix-classes(prefix)
-    
+
     .bulkaction-container
         background-color editcolor
         border-radius(3px 3px 0px 0px)
-        boxshadow()
+        height 28px
         multipletransition(transform, opacity)
+        position absolute
         text-align left
-        transform translateX(0px) translateY(7px)
+        transform translateX(0px) translateY(-7px)
         opacity 0
+        zindex('.bulkaction-container')
         width 100%
-        
+
         .bulkaction-description
             display inline-block;
             font-family fontfamily
@@ -19,15 +21,17 @@
             text-overflow ellipsis
             min-width 70px
             position relative
-            top 5px
-            
+            top 3px
+
         .checkbox-container
             border-bottom 1px solid transparent
-        
+
         button
             button(actioncolor)
             margin 5px 8px
-            
+            position relative
+            top -2px
+
         &.shown
             opacity 1
             transform translateY(0px)

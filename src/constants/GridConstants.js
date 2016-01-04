@@ -57,6 +57,12 @@ export const CLASS_NAMES = {
             ITEM: 'action-menu-item'
         }
     },
+    FILTER_CONTAINER: {
+        CONTAINER: 'filter-container',
+        INPUT: 'filter-input',
+        SEARCH_BUTTON: 'filter-search-button',
+        MENU_BUTTON: 'filter-menu-button'
+    },
     BULK_ACTIONS: {
         CONTAINER: 'bulkaction-container',
         DESCRIPTION: 'bulkaction-description',

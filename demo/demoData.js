@@ -42,6 +42,9 @@ export const plugins = {
             sortingSource: 'http://localhost:3000/getFakedPagedData'
         }
     },
+    FILTER_CONTAINER: {
+        enabled: true
+    },
     EDITOR: {
         type: 'inline',
         enabled: true

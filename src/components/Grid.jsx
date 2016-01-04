@@ -5,6 +5,7 @@ import Row from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import Message from './plugins/errorhandler/Message.jsx';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar.jsx';
+import FilterToolbar from './plugins/filtercontainer/Toolbar.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
@@ -85,6 +86,11 @@ class Grid extends Component {
             selectionModel
         };
 
+        const filterProps = {
+            store,
+            plugins
+        };
+
         const headerProps = {
             selectionModel,
             columnManager,
@@ -123,6 +129,7 @@ class Grid extends Component {
             <div { ...containerProps }>
                 <Message { ...messageProps } />
                 <BulkActionToolbar { ...bulkActionProps } />
+                <FilterToolbar { ...filterProps } />
                 <table { ...tableProps }>
                     <Header { ...headerProps } />
                     <Row { ...rowProps } />
