@@ -1,12 +1,7 @@
 import {
-    SHOW_TOOLBAR,
-    HIDE_TOOLBAR
+    REMOVE_TOOLBAR
 } from '../../../constants/ActionTypes';
 
-export function showToolbar() {
-    return { type: SHOW_TOOLBAR };
-};
-
-export function hideToolbar() {
-    return { type: HIDE_TOOLBAR };
-};
+export function removeToolbar(value) {
+    return { type: REMOVE_TOOLBAR, value };
+}

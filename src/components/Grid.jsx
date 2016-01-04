@@ -55,7 +55,8 @@ class Grid extends Component {
 
         const { 
             columnState,
-            data, 
+            data,
+            dataSource, 
             pageSize,
             plugins,
             events,
@@ -68,7 +69,7 @@ class Grid extends Component {
 
         const editor = new Manager(plugins, store, events);
 
-        const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns);
+        const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns, dataSource);
         
         const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
@@ -88,7 +89,8 @@ class Grid extends Component {
 
         const filterProps = {
             store,
-            plugins
+            plugins,
+            columnManager
         };
 
         const headerProps = {

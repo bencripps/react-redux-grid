@@ -9,10 +9,11 @@ import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
-    constructor(plugins, store, events, selModel, editor, columns) {
-        
+    constructor(plugins, store, events, selModel, editor, columns, dataSource) {
+
         const defaults = {
             defaultColumnWidth: `${100 / columns.length}%`,
+            dataSource: dataSource,
             minColumnWidth: 10,
             moveable: false,
             resizable: false,

@@ -30,6 +30,8 @@ export const NO_EVENT = 'NO_EVENT';
 export const EDIT_ROW = 'EDIT_ROW';
 export const DISMISS_EDITOR = 'DISMISS_EDITOR';
 
-export const SHOW_TOOLBAR = 'SHOW_TOOLBAR';
-export const HIDE_TOOLBAR = 'HIDE_TOOLBAR';
+export const REMOVE_TOOLBAR = 'REMOVE_TOOLBAR';
 
+export const SET_FILTER_VALUE = 'SET_FILTER_VALUE';
+export const FILTER_DATA = 'FILTER_DATA';
+export const CLEAR_FILTER = 'CLEAR_FILTER';

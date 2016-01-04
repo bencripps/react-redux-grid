@@ -43,7 +43,8 @@ export const plugins = {
         }
     },
     FILTER_CONTAINER: {
-        enabled: true
+        enabled: true,
+        method: 'local'
     },
     EDITOR: {
         type: 'inline',

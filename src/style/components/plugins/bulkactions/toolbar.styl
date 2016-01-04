@@ -4,10 +4,11 @@
         background-color editcolor
         border-radius(3px 3px 0px 0px)
         height 28px
-        multipletransition(transform, opacity)
+        multipletransition(transform, opacity, top)
         position absolute
         text-align left
         transform translateX(0px) translateY(-7px)
+        top -7px
         opacity 0
         zindex('.bulkaction-container')
         width 100%
@@ -31,7 +32,11 @@
             margin 5px 8px
             position relative
             top -2px
+            
+        &.removed
+            top -100px
 
         &.shown
+            top 0px
             opacity 1
             transform translateY(0px)

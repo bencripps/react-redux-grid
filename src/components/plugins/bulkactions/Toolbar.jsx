@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { showToolbar, hideToolbar } from '../../../actions/plugins/bulkactions/ToolbarActions';
+import { removeToolbar } from '../../../actions/plugins/bulkactions/ToolbarActions';
 
 class BulkActionToolbar extends Component {
+
+    constructor() {
+        super();
+        this.removeTimeout = null;
+    }
 
     static defaultProps = {
         store: React.PropTypes.func.isRequired,
@@ -52,8 +57,26 @@ class BulkActionToolbar extends Component {
         return count;
     }
 
+    componentDidUpdate() {
+        const { store, bulkActionState } = this.props;
+        const isRemoved = bulkActionState && bulkActionState.isRemoved;
+        const totalCount = this.getTotalSelection();
+        
+        if (totalCount === 0 && !isRemoved) {
+            clearTimeout(this.removeTimeout);
+            this.removeTimeout = setTimeout(() => {
+                store.dispatch(removeToolbar(true));
+            }, 300)
+        }
+
+        else if (totalCount > 0 && isRemoved){
+            store.dispatch(removeToolbar(false));
+        }
+    }
+
     getToolbar() {
         const { actions } = this.props.plugins.BULK_ACTIONS;
+        const { bulkActionState } = this.props;
 
         const totalCount = this.getTotalSelection();
 
@@ -61,8 +84,11 @@ class BulkActionToolbar extends Component {
             ? CLASS_NAMES.BULK_ACTIONS.SHOWN 
             : CLASS_NAMES.BULK_ACTIONS.HIDDEN;
 
+        const removedCls = bulkActionState && bulkActionState.isRemoved
+            ? 'removed' : null;
+
         const containerProps = {
-            className: prefix(CLASS_NAMES.BULK_ACTIONS.CONTAINER, shownCls)
+            className: prefix(CLASS_NAMES.BULK_ACTIONS.CONTAINER, shownCls, removedCls)
         };
 
         const spanProps = {
@@ -100,7 +126,8 @@ function mapStateToProps(state) {
     
     return {
         dataSource: state.dataSource.get('gridData'),
-        selectedRows: state.selection.get('selectedRows')
+        selectedRows: state.selection.get('selectedRows'),
+        bulkActionState: state.bulkaction.get('bulkActionState')
     };
 }
 

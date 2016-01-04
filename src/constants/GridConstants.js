@@ -14,6 +14,11 @@ export const SORT_METHODS = {
     REMOTE: 'REMOTE'
 };
 
+export const FILTER_METHODS = {
+    LOCAL: 'LOCAL',
+    REMOTE: 'REMOTE'
+};
+
 export const CLASS_NAMES = {
     CONTAINER: 'container',
     TABLE: 'table',
@@ -61,7 +66,8 @@ export const CLASS_NAMES = {
         CONTAINER: 'filter-container',
         INPUT: 'filter-input',
         SEARCH_BUTTON: 'filter-search-button',
-        MENU_BUTTON: 'filter-menu-button'
+        MENU_BUTTON: 'filter-menu-button',
+        CLEAR_BUTTON: 'filter-clear-button'
     },
     BULK_ACTIONS: {
         CONTAINER: 'bulkaction-container',

@@ -1,9 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import filter from '../../../util/filter';
 import { keyFromObject } from '../../../util/keygenerator';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { showToolbar, hideToolbar } from '../../../actions/plugins/bulkactions/ToolbarActions';
+import { CLASS_NAMES, FILTER_METHODS } from '../../../constants/GridConstants';
+import { setFilter, doLocalFilter, clearFilter } from '../../../actions/plugins/filter/FilterActions';
 
 class FilterToolbar extends Component {
 
@@ -11,12 +12,24 @@ class FilterToolbar extends Component {
         store: React.PropTypes.func.isRequired,
         plugins: React.PropTypes.object.isRequired,
         selectionModel: React.PropTypes.object.isRequired,
-        placeHolderText: 'Search'
+        placeHolderText: 'Search',
+        defaultSortMethod: FILTER_METHODS.LOCAL
     }
 
-    getToolbar() {
+    getToolbar(filter) {
 
-        const { plugins, placeHolderText } = this.props;
+        const { plugins, placeHolderText, columnManager, dataSource } = this.props;
+
+        const dataUri = columnManager.config.dataSource || '';
+
+        const method = plugins 
+            && plugins.FILTER_CONTAINER 
+            && plugins.FILTER_CONTAINER.method
+            ? plugins.FILTER_CONTAINER.method.toUpperCase() 
+            : this.props.defaultSortMethod;
+
+        const inputValue = filter && filter.filterValue
+            ? filter.filterValue : '';
 
         const containerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.CONTAINER)
@@ -24,34 +37,84 @@ class FilterToolbar extends Component {
 
         const inputProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.INPUT),
-            placeholder: placeHolderText
+            placeholder: placeHolderText,
+            onChange: this.setFilterValue.bind(this),
+            onKeyUp: this.handleKeyUp.bind(this, inputValue, method, dataSource),
+            value: inputValue
         };
 
         const searchButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.SEARCH_BUTTON)
         };
 
+        const clearButtonProps = {
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.CLEAR_BUTTON),
+            onClick: this.clearFilter.bind(this, dataUri)
+        }
+
         const filterMenuButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON)
         };
 
+        const applicableButton = inputValue && inputValue.length > 0
+            ? <span { ...clearButtonProps } />
+            : <span { ...searchButtonProps } />;
+
         return (
             <div { ...containerProps }>
                 <input { ...inputProps } />
-                <span { ...searchButtonProps } />
+                { applicableButton }
                 <span { ...filterMenuButtonProps } />
             </div>
         );
     }
 
+    setFilterValue(reactEvent) {
+        const { store } = this.props;
+        const value = reactEvent.target.value;
+        
+        store.dispatch(setFilter(value));
+    }
+
+    clearFilter(dataSource) {
+        const { store } = this.props;
+
+        store.dispatch(clearFilter(dataSource)); 
+        store.dispatch(setFilter(''));
+    }
+
+    handleKeyUp(value, method, dataSource, reactEvent) {
+
+        if (reactEvent.which !== 13) {
+            return false;
+        }
+
+        const { store } = this.props;
+        
+        if (method === FILTER_METHODS.LOCAL) {
+            store.dispatch(doLocalFilter(
+                filter.byKeyword(value, dataSource))
+            );
+        }
+
+        else if (method === FILTER_METHODS.REMOTE) {
+
+        }
+
+        else {
+            console.warn('The filter method has not been created!');
+        }
+
+    }
+
     render() {
 
-        const { plugins } = this.props;
+        const { plugins, filter } = this.props;
 
         const toolbar = plugins 
             && plugins.FILTER_CONTAINER 
             && plugins.FILTER_CONTAINER.enabled 
-            ? this.getToolbar() : null;
+            ? this.getToolbar(filter) : null;
 
         return toolbar;
     }
@@ -61,7 +124,8 @@ function mapStateToProps(state) {
     
     return {
         dataSource: state.dataSource.get('gridData'),
-        selectedRows: state.selection.get('selectedRows')
+        selectedRows: state.selection.get('selectedRows'),
+        filter: state.filter.get('filterState')
     };
 }
 

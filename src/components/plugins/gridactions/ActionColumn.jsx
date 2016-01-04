@@ -74,8 +74,6 @@ class ActionColumn extends Component {
 
         const rowPosition = reactEvent.target.parentNode.parentNode.parentNode.getBoundingClientRect();
         const top = rowPosition.top;
-
-        console.log(reactEvent.target.parentNode.parentNode);
         
         if (editor.config.type === editor.editModes.inline) {
             store.dispatch(editRow(rowId, top));
