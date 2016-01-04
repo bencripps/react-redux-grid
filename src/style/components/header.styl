@@ -16,7 +16,10 @@
                 border-bottom 1px solid strongcolor
             
             .{sorthandleclass}
-            
+                opacity 0
+                transition(opacity)
+                visibility hidden
+                
                 &.descend
                     fa('sort-up')
                     &::before
@@ -52,6 +55,10 @@
                 .{draghandleclass}
                     &::after
                         border-color strongcolor
+                        
+                 .{sorthandlevisibleclass}
+                    opacity 1
+                    visibility visible
                 
         th:nth-last-child(1), th:nth-last-child(2)
             overflow initial

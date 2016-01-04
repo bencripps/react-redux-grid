@@ -2,8 +2,11 @@ import {
     SET_DATA,
     ERROR_OCCURRED,
     SET_COLUMNS,
-    RESIZE_COLUMNS
+    RESIZE_COLUMNS,
+    SET_SORT_DIRECTION
 } from '../constants/ActionTypes';
+
+import { SORT_DIRECTIONS } from '../constants/GridConstants';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
@@ -60,6 +63,25 @@ export function setColumns(cols) {
     }
 
     return { type: SET_COLUMNS, columns };
+}
+
+export function setSortDirection(cols, id, sortDirection) {
+
+    const newDirection = sortDirection === SORT_DIRECTIONS.ASCEND
+        ? SORT_DIRECTIONS.DESCEND : SORT_DIRECTIONS.ASCEND;
+
+    let columns = cols;
+
+    columns = cols.map((col) => {
+
+        if (col.id === id) {
+            col.sortDirection = newDirection;
+        }
+
+        return col;
+    });
+
+    return { type: SET_SORT_DIRECTION, columns };
 }
 
 export function setColumnVisibility(columnsArr, column, isHidden) {

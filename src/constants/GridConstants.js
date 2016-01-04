@@ -2,6 +2,16 @@ export const CSS_PREFIX = 'react-grid';
 
 export const ROW_HEIGHT = 26;
 
+export const SORT_DIRECTIONS = {
+    ASCEND: 'ASCEND',
+    DESCEND: 'DESCEND'
+};
+
+export const SORT_METHODS = {
+    LOCAL: 'LOCAL',
+    REMOTE: 'REMOTE'
+};
+
 export const CLASS_NAMES = {
     CONTAINER: 'container',
     TABLE: 'table',
@@ -15,6 +25,7 @@ export const CLASS_NAMES = {
     DRAG_HANDLE: 'drag-handle',
     SORT_HANDLE: 'sort-handle',
     DRAGGABLE_COLUMN: 'draggable-column',
+    SORT_HANDLE_VISIBLE: 'sort-handle-visible',
     BUTTONS: {
         PAGER: 'page-buttons'
     },

@@ -6,9 +6,9 @@ import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { throttle } from '../../util/throttle';
 import { emptyFn } from '../../util/emptyFn';
-import { CLASS_NAMES } from '../../constants/GridConstants';
-import { resizeColumn, reorderColumn } from '../../actions/core/ColumnManager';
-import { resizeColumns } from '../../actions/GridActions';
+import { CLASS_NAMES, SORT_DIRECTIONS, SORT_METHODS } from '../../constants/GridConstants';
+import { reorderColumn } from '../../actions/core/ColumnManager';
+import { resizeColumns, setSortDirection } from '../../actions/GridActions';
 
 class Header extends Component {
 
@@ -111,15 +111,35 @@ class Header extends Component {
         }
     }
 
-    getSortHandle(col) {
+    handleSort(columns, col, direction, columnManager) {
+        const { store, dataSource } = this.props;
+        store.dispatch(setSortDirection(columns, col.id, direction));
+            
+        if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
+            columnManager.doSort(SORT_METHODS.LOCAL, col, direction, dataSource);
+        }
 
-        const direction = col.sortDirection || col.defaultSortDirection || 'ascend';
+        else if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.REMOTE) {
+            columnManager.doSort(SORT_METHODS.REMOTE, col, dataSource);
+        }
+
+        else {
+            console.warn('Sort method not defined!');
+        }
+    }
+
+    getSortHandle(col, columns, columnManager) {
+
+        const direction = col.sortDirection 
+            || col.defaultSortDirection 
+            || SORT_DIRECTIONS.ASCEND;
+        const visibile = col.sortDirection !== undefined
+            || columnManager.config.sortable.enabled
+            ? CLASS_NAMES.SORT_HANDLE_VISIBLE : '';
 
         const handleProps = {
-            className: prefix(CLASS_NAMES.SORT_HANDLE, direction),
-            onClick: () => {
-                debugger;
-            }
+            className: prefix(CLASS_NAMES.SORT_HANDLE, direction.toLowerCase(), visibile),
+            onClick: this.handleSort.bind(this, columns, col, direction, columnManager)
         };
 
         return (
@@ -205,7 +225,7 @@ class Header extends Component {
             ? keyGenerator(columns[index + 1].name, columns[index + 1].value) : null;
 
         const sortHandle = isSortable
-            ? this.getSortHandle(col) : null;
+            ? this.getSortHandle(col, columns, columnManager) : null;
 
         const dragHandle = isResizable 
             ? this.getDragHandle(col, dragAndDropManager) : null;     
@@ -262,7 +282,8 @@ class Header extends Component {
 
 function mapStateToProps(state) {
     return {
-        columnStates: state.columnManager.get('columnStates')
+        columnStates: state.columnManager.get('columnStates'),
+        dataSource: state.dataSource.get('gridData')
     };
 }
 

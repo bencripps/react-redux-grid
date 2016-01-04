@@ -1,9 +1,11 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
-import { CSS_PREFIX, CLASS_NAMES } from '../../constants/GridConstants';
+import { CSS_PREFIX, CLASS_NAMES, SORT_METHODS } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keygenerator';
 import { elementContains } from '../../util/elementContains';
 import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
+import { doLocalSort } from '../../actions/GridActions';
+import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
@@ -16,7 +18,7 @@ export default class ColumnManager {
             resizable: false,
             sortable: {
                 enabled: true,
-                method: 'local'
+                method: SORT_METHODS.LOCAL
             },
 
             /**
@@ -34,6 +36,7 @@ export default class ColumnManager {
 
         this.plugins = plugins;
         this.store = store;
+        this.sorter = sorter;
         this.events = events;
         this.selModel = selModel;
         this.editor = editor;
@@ -49,6 +52,18 @@ export default class ColumnManager {
             this.store.dispatch(hideMenu());
         }
 
+    }
+
+    doSort(method, column, direction, dataSource) {
+        if (method === SORT_METHODS.LOCAL) {
+            this.store(
+                doLocalSort(column,
+                    this.sorter.sortBy(column.name, direction, dataSource)));
+        }
+
+        else {
+            // remote sort
+        }
     }
 
     addActionColumn(cells, type, id) {

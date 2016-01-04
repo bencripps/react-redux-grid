@@ -5,13 +5,14 @@ button(backgroundcolor, color = whitecolor)
     color color
     cursor pointer
     font-family fontfamily
-    opacity .8
+    opacity 1
     
     &:focus
         outline none
     
     &:active
         opacity 1
+        background-color lighten(backgroundcolor, 30%)
         
     &:hover 
         opacity .6
