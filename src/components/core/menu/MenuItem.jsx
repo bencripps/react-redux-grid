@@ -19,9 +19,14 @@ class MenuItem extends Component {
 
         reactEvent.stopPropagation();
 
+        const dismiss = data.dismissOnClick !== undefined 
+            ? data.dismissOnClick : true;
+
         const { store } = this.props;
-        
-        store.dispatch(hideMenu());
+
+        if (dismiss) {
+            store.dispatch(hideMenu());
+        }
 
         if (data.EVENT_HANDLER) {
             data.EVENT_HANDLER.apply(this, arguments);

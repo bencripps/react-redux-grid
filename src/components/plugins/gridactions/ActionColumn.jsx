@@ -29,6 +29,7 @@ class ActionColumn extends Component {
                 menuItemType: 'checkbox',
                 checked: isChecked,
                 onCheckboxChange: () => {},
+                dismissOnClick: false,
                 EVENT_HANDLER: () => {
                     store.dispatch(setColumnVisibility(columns, col, col.hidden));
                 }
@@ -37,7 +38,7 @@ class ActionColumn extends Component {
         });
 
         const menuItems = {
-            menu: actions
+            menu: actions,
         };
 
         const menu = menuShown ? this.getMenu(menuItems, 'header') : null;
