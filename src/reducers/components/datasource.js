@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { SET_DATA, SORT_DATA, FILTER_DATA } from '../../constants/ActionTypes';
+import { SET_DATA, SORT_DATA, FILTER_DATA, CLEAR_FILTER_LOCAL } from '../../constants/ActionTypes';
 
 const initialState = fromJS({
     gridData: fromJS.Map
@@ -12,6 +12,7 @@ export default function dataSource(state = initialState, action) {
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
                 data: action.data,
+                proxy: action.data,
                 total: action.total,
                 currentRecords: action.currentRecords
             }
@@ -21,6 +22,13 @@ export default function dataSource(state = initialState, action) {
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
                 data: action.data
+            }
+        ));
+
+    case CLEAR_FILTER_LOCAL:
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
+            {
+                data: state.get('gridData').proxy
             }
         ));
 

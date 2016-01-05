@@ -4,7 +4,7 @@ import { prefix } from '../../../util/prefix';
 import filter from '../../../util/filter';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS } from '../../../constants/GridConstants';
-import { setFilter, doLocalFilter, clearFilter } from '../../../actions/plugins/filter/FilterActions';
+import { setFilter, doLocalFilter, clearFilterRemote, clearFilterLocal } from '../../../actions/plugins/filter/FilterActions';
 
 class FilterToolbar extends Component {
 
@@ -49,7 +49,7 @@ class FilterToolbar extends Component {
 
         const clearButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.CLEAR_BUTTON),
-            onClick: this.clearFilter.bind(this, dataUri)
+            onClick: this.clearFilter.bind(this, dataUri, method)
         }
 
         const filterMenuButtonProps = {
@@ -76,10 +76,17 @@ class FilterToolbar extends Component {
         store.dispatch(setFilter(value));
     }
 
-    clearFilter(dataSource) {
+    clearFilter(dataSource, method) {
         const { store } = this.props;
 
-        store.dispatch(clearFilter(dataSource)); 
+        if (method === FILTER_METHODS.LOCAL) {
+            store.dispatch(clearFilterLocal()); 
+        }
+
+        else if (method === FILTER_METHODS.REMOTE) {
+            store.dispatch(clearFilterRemote(dataSource)); 
+        }
+
         store.dispatch(setFilter(''));
     }
 

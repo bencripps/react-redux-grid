@@ -31,7 +31,7 @@ export default class ColumnManager {
             /**
                 @private properties used by components
                     if properties are not available
-                    i wouldn't remove these, but theyre
+                    i wouldn't remove these, but the
                     values can be flipped
             **/
             defaultResizable: false,
