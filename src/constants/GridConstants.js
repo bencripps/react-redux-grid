@@ -19,6 +19,10 @@ export const FILTER_METHODS = {
     REMOTE: 'REMOTE'
 };
 
+export const KEYBOARD_MAP = {
+    ENTER: 13
+};
+
 export const CLASS_NAMES = {
     CONTAINER: 'container',
     TABLE: 'table',

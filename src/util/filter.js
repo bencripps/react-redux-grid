@@ -4,7 +4,7 @@ class Filter {
     }
 
     byKeyword(value, datasource) {
-        return datasource.data.filter((obj) => {
+        return datasource.proxy.filter((obj) => {
 
             const keys = Object.keys(obj);
 

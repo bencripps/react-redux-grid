@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import filter from '../../../util/filter';
 import { keyFromObject } from '../../../util/keygenerator';
-import { CLASS_NAMES, FILTER_METHODS } from '../../../constants/GridConstants';
+import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
 import { setFilter,
     doLocalFilter,
     clearFilterRemote,
@@ -103,7 +103,7 @@ class FilterToolbar extends Component {
         const pageIndex = 0;
         const pageSize = 20;
 
-        if (reactEvent.which !== 13) {
+        if (reactEvent.which !== KEYBOARD_MAP.ENTER) {
             return false;
         }
 

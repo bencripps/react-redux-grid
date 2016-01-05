@@ -59,7 +59,7 @@ class MenuItem extends Component {
             ? this.getCheckbox(data) : null;
     	
         return (
-            <li { ...menuItemProps }>
+            <li { ...menuItemProps } >
                 { checkboxComponent }
             	{ data.text }
             </li>

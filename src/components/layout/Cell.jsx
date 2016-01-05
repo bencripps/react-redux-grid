@@ -44,7 +44,7 @@ class Cell extends Component {
             && editorState.row
             && editorState.row.key === rowId ? true : false;
 
-        const hidden = columns 
+        const hidden = columns
             && columns[index] 
             && columns[index].hidden !== undefined 
             ? columns[index].hidden 
