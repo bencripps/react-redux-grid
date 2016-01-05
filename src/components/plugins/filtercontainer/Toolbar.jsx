@@ -4,7 +4,12 @@ import { prefix } from '../../../util/prefix';
 import filter from '../../../util/filter';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS } from '../../../constants/GridConstants';
-import { setFilter, doLocalFilter, clearFilterRemote, clearFilterLocal } from '../../../actions/plugins/filter/FilterActions';
+import { setFilter,
+    doLocalFilter,
+    clearFilterRemote,
+    clearFilterLocal,
+    doRemoteFilter 
+} from '../../../actions/plugins/filter/FilterActions';
 
 class FilterToolbar extends Component {
 
@@ -92,6 +97,12 @@ class FilterToolbar extends Component {
 
     handleKeyUp(value, method, dataSource, reactEvent) {
 
+        const { filterSource } = this.props.plugins.FILTER_CONTAINER;
+        const { pager } = this.props;
+
+        const pageIndex = 0;
+        const pageSize = 20;
+
         if (reactEvent.which !== 13) {
             return false;
         }
@@ -105,7 +116,9 @@ class FilterToolbar extends Component {
         }
 
         else if (method === FILTER_METHODS.REMOTE) {
-
+            store.dispatch(doRemoteFilter({
+                keyword: value
+            }, pageIndex, pageSize, filterSource));
         }
 
         else {
@@ -132,7 +145,8 @@ function mapStateToProps(state) {
     return {
         dataSource: state.dataSource.get('gridData'),
         selectedRows: state.selection.get('selectedRows'),
-        filter: state.filter.get('filterState')
+        filter: state.filter.get('filterState'),
+        pager: state.pager.get('pagerState')
     };
 }
 
