@@ -35,9 +35,13 @@ class MenuItem extends Component {
 
     getCheckbox(data) {
 
+        const readOnly = data.hideable !== undefined
+            ? !data.hideable : false;
+
         const checkboxProps = {
             type: this.props.menuItemsTypes.checkbox,
             checked: data.checked,
+            disabled: readOnly,
             onChange: data.onCheckboxChange || emptyFn
         };
 

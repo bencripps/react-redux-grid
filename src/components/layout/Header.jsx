@@ -256,7 +256,36 @@ class Header extends Component {
         );
     }
 
-    getAdditionalClasses() {
+    getEmptyHeader() {
+
+        const headerProps = {
+            style: {
+                width: '100%'
+            }
+        };
+
+        return (
+            <th { ...headerProps } />
+        ); 
+    }
+
+    addEmptyInsert(headers, visibleColumns) {
+
+        const { GRID_ACTIONS } = this.props.plugins;
+        
+        if (visibleColumns.length === 0) {
+
+            if (GRID_ACTIONS 
+                && GRID_ACTIONS.menu 
+                && GRID_ACTIONS.menu.length > 0) {
+
+                headers.splice(1, 0, this.getEmptyHeader());
+            }
+
+            else {
+                headers.push(this.getEmptyHeader());   
+            }
+        }
 
     }
 
@@ -264,14 +293,17 @@ class Header extends Component {
 
         const { columns, selectionModel, columnManager, columnStates } = this.props;
         const dragAndDropManager = new DragAndDropManager();
-        const headers = columns.map((col, i) => this.getHeader(col, dragAndDropManager, columns, i));
+        const visibleColumns = columns.filter((col) => !col.hidden);
+        const headers = visibleColumns.map((col, i) => this.getHeader(col, dragAndDropManager, visibleColumns, i));
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
-        }
+        };
 
         selectionModel.updateCells(headers, columns, 'header');
 
         columnManager.addActionColumn(headers, 'header');
+
+        this.addEmptyInsert(headers, visibleColumns);
 
         return (
             <thead>

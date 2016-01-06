@@ -5,9 +5,9 @@
   "main": "entry.js",
   "scripts": {
     "test": "npm run test",
-    "build": "node ./node_modules/webpack/bin/webpack --pretty --config webpack/webpack.config.dev.js",
-    "prod": "node ./node_modules/webpack/bin/webpack --pretty --config webpack/webpack.config.prod.js",
-    "hot": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js"
+    "build": "webpack --pretty --config webpack/webpack.config.dev.js",
+    "prod": "webpack --pretty --config webpack/webpack.config.prod.js",
+    "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js"
   },
   "author": "ben cripps",
   "license": "MIT",

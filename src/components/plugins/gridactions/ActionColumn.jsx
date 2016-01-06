@@ -29,9 +29,12 @@ class ActionColumn extends Component {
                 menuItemType: 'checkbox',
                 checked: isChecked,
                 onCheckboxChange: () => {},
+                hideable: col.hideable,
                 dismissOnClick: false,
                 EVENT_HANDLER: () => {
-                    store.dispatch(setColumnVisibility(columns, col, col.hidden));
+                    if (col.hideable === undefined || col.hideable) {
+                        store.dispatch(setColumnVisibility(columns, col, col.hidden));
+                    }
                 }
             };
 

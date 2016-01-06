@@ -44,11 +44,44 @@ class Row extends Component {
 
     }
 
+    addEmptyInsert(cells, visibleColumns) {
+
+        const { GRID_ACTIONS } = this.props.plugins;
+        
+        if (visibleColumns.length === 0) {
+
+            if (GRID_ACTIONS 
+                && GRID_ACTIONS.menu 
+                && GRID_ACTIONS.menu.length > 0) {
+                cells.splice(1, 0, this.getEmptyCell());
+            }
+
+            else {
+                cells.push(this.getEmptyCell());   
+            }
+        }
+
+    }
+
+    getEmptyCell() {
+
+        const cellProps = {
+            style: {
+                width: '100%'
+            }
+        };
+
+        return (
+            <Cell { ...cellProps } />
+        );
+    }
+
     getRowComponents(row, events, selectedRows, columns) {
 
         const { selectionModel, columnManager, editorState } = this.props;
         const { GRID_ACTIONS } = this.props.plugins;
         const id = keyFromObject(row);
+        const visibleColumns = columns.filter((col) => !col.hidden);
 
         const cells = Object.keys(row).map((k, i) => { 
 
@@ -81,6 +114,8 @@ class Row extends Component {
         columnManager.addActionColumn(cells, 'row', id);
 
         selectionModel.updateCells(cells, id, 'row');
+
+        this.addEmptyInsert(cells, visibleColumns);
 
         return (
             <tr { ...rowProps }>
