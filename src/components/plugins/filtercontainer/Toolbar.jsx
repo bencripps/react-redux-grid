@@ -48,6 +48,10 @@ class FilterToolbar extends Component {
             value: inputValue
         };
 
+        const buttonContainerProps = {
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.BUTTON_CONTAINER)
+        }
+
         const searchButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.SEARCH_BUTTON)
         };
@@ -62,14 +66,20 @@ class FilterToolbar extends Component {
         };
 
         const applicableButton = inputValue && inputValue.length > 0
-            ? <span { ...clearButtonProps } />
-            : <span { ...searchButtonProps } />;
+            ? <i { ...clearButtonProps } />
+            : <i { ...searchButtonProps } />;
+
+        const filterMenuButton = plugins.FILTER_CONTAINER.enableFilterMenu
+            ? <i { ...filterMenuButtonProps } />
+            : null;
 
         return (
             <div { ...containerProps }>
                 <input { ...inputProps } />
-                { applicableButton }
-                <span { ...filterMenuButtonProps } />
+                <div { ...buttonContainerProps } >
+                    { applicableButton }
+                    { filterMenuButton }
+                </div>
             </div>
         );
     }

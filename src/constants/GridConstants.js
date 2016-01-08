@@ -71,7 +71,8 @@ export const CLASS_NAMES = {
         INPUT: 'filter-input',
         SEARCH_BUTTON: 'filter-search-button',
         MENU_BUTTON: 'filter-menu-button',
-        CLEAR_BUTTON: 'filter-clear-button'
+        CLEAR_BUTTON: 'filter-clear-button',
+        BUTTON_CONTAINER: 'filter-button-container'
     },
     BULK_ACTIONS: {
         CONTAINER: 'bulkaction-container',

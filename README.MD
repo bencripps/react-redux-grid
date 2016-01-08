@@ -132,6 +132,25 @@ Selection Model Defaults:
 	    }
 	};
 
+## Filter Container and Menu
+
+	export const plugins = {
+		
+		FILTER_CONTAINER: {
+	        enabled: true,
+	        method: 'local',
+	        filterSource: 'http://localhost:3000/getFakedPagedData',
+	        enableFilterMenu: true
+	    }
+	};
+
+Filter Container and Menu Defaults
+
+1. `enabled`: `string`, whether the container should be used
+2. `method`: `string`, what type of filter method should be used, possible values: `['local', 'remote']`
+3. `filterSource`, `string`, if remote filtering is used, a URI is required
+4. `enableFilterMenu`, `boolean`, whether a filter menu should be created
+
 Error Handler Defaults
 
 1. `defaultErrorMessage`: `string`, the default error message to display when no error information is available

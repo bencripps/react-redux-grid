@@ -45,7 +45,8 @@ export const plugins = {
     FILTER_CONTAINER: {
         enabled: true,
         method: 'local',
-        filterSource: 'http://localhost:3000/getFakedPagedData'
+        filterSource: 'http://localhost:3000/getFakedPagedData',
+        enableFilterMenu: true
     },
     EDITOR: {
         type: 'inline',

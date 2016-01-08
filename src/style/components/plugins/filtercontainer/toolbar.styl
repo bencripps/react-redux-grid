@@ -1,48 +1,53 @@
 +prefix-classes(prefix)
 
-   .filter-container
-       background-color lightcolor
-       border-radius(3px 3px 0px 0px)
-       padding 5px 0px
-       position relative
-       text-align center
-       width 100%
-       
-      .filter-input 
-           font-family fontfamily
-           font-size fontsize
-           border none
-           display inline-block
-           color lighten(editcolor, 20%)
-           padding 0px
-           text-indent 5px
-           transition(color)
-           width 99%
-           
-           &:focus 
-               color editcolor
-               outline none
-        
-            &:hover 
-               color editcolor
-           
-        .filter-search-button
-            icon('search')
-            position absolute
-            right 25px
-            top 7px
-        
-        .filter-clear-button
-            icon('times')
-            position absolute
-            right 25px
-            top 7px
+    .filter-container
+        background-color lightcolor
+        border-radius(3px 3px 0px 0px)
+        padding 5px 0px
+        position relative
+        text-align center
+        width 100%
 
-           
-        .filter-menu-button
-            width 3%
-            icon('filter')
+        .filter-input 
+            font-family fontfamily
+            font-size fontsize
+            border none
+            display inline-block
+            color editcolor
+            padding 0px
+            text-indent 5px
+            transition(color)
+            width 99%
+
+            &:focus 
+                color darken(editcolor, 20%)
+                outline none
+
+        &:hover 
+            .filter-input 
+                color darken(editcolor, 20%)
+                
+        .filter-button-container
+            display inline-block
             position absolute
-            right 0px
-            top 7px
-           
+            right 5px
+            
+            > i 
+                padding 0px 0px 0px 3px
+                
+                &::before
+                    color editcolor
+                    transition(color)
+                
+                &:hover
+                    &::before
+                        color darken(editcolor, 20%)
+
+            .filter-search-button
+                icon('search')
+
+            .filter-clear-button
+                icon('times')
+
+            .filter-menu-button
+                icon('filter')
