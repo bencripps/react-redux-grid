@@ -49,6 +49,7 @@ All Features are implementd as plugins. Plugin defaults are described as below. 
 	        hidden: false,
 	        hideable: false,
 	        resizable: false,
+	        moveable: false,
 	        HANDLE_CLICK: () => { console.log('Header Click'); }
 	    }
 	];
@@ -62,6 +63,7 @@ Column Defaults:
 5. `hidden`: `boolean`, whether the column is hidden or visible
 6. `hideable`: `boolean`, whether the column can be hidden
 7. `resizable`: `boolean`, whether this column can be resized
+7. `moveable`: `boolean`, whether this column can be moved
 8. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 

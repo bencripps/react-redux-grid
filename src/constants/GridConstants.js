@@ -36,6 +36,7 @@ export const CLASS_NAMES = {
     DRAG_HANDLE: 'drag-handle',
     SORT_HANDLE: 'sort-handle',
     DRAGGABLE_COLUMN: 'draggable-column',
+    COLUMN: 'column',
     SORT_HANDLE_VISIBLE: 'sort-handle-visible',
     BUTTONS: {
         PAGER: 'page-buttons'

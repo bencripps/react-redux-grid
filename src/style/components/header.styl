@@ -14,25 +14,31 @@
             
             &.checkbox-container
                 border-bottom 1px solid strongcolor
+                
+            .column
+                display inline-block
+                text-overflow ellipsis
+                overflow hidden
+                width 80%
             
             .{sorthandleclass}
+                float right
+                padding-right 10px
                 opacity 0
                 transition(opacity)
                 visibility hidden
+                width 10px
                 
                 &.descend
                     icon('sort-up')
                     &::before
-                        top 4px
+                        top 6px
             
                 &.ascend
                     icon('sort-down')
-                    &::before
-                        top -3px
                 
                 &::before
                     cursor pointer
-                    left 10px
                     position relative
             
             .{draghandleclass}

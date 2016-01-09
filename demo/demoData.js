@@ -107,6 +107,7 @@ export const columns = [
         width: '10%',
         className: 'additional-class',
         renderer: () => { return 'Name'; },
+        moveable: false,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
