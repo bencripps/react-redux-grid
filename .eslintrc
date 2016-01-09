@@ -127,7 +127,7 @@
         "no-shadow": 1,
         "no-undef-init": 1,
         "no-undef": 1,
-        "no-undefined": 1,
+        "no-undefined": 0,
         "no-unused-vars": [1, { "vars": "local", "args": "after-used" }],
         "no-use-before-define": 0,
 
@@ -187,7 +187,7 @@
         "wrap-regex": 1,
 
         "react/display-name": 0,
-        "react/forbid-prop-types": 1,
+        "react/forbid-prop-types": 0,
         "react/jsx-boolean-value": 1,
         "react/jsx-closing-bracket-location": 1,
         "react/jsx-curly-spacing": 0,
@@ -201,7 +201,7 @@
         "react/jsx-no-literals": 1,
         "react/jsx-no-undef": 1,
         "react/jsx-pascal-case": 1,
-        "react/jsx-quotes": 1,
+        "jsx-quotes": 1,
         "react/jsx-sort-prop-types": 1,
         "react/jsx-sort-props": 1,
         "react/jsx-uses-react": 1,

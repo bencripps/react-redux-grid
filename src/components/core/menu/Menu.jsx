@@ -7,9 +7,9 @@ import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class Menu extends Component {
 
-    static defaultProps = {
+    static propTypes = {
         menu: React.PropTypes.array,
-        store: React.PropTypes.func
+        store: React.PropTypes.object
     }
 
     getMenuItem(item) {

@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from './layout/Header.jsx';
 import Row from './layout/Row.jsx';
@@ -17,14 +17,19 @@ import '../style/main.styl';
 
 class Grid extends Component {
 
-    static defaultProps = {
-        columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
-        data: React.PropTypes.arrayOf(React.PropTypes.Object),
+    static propTypes = {
+        columnState: React.PropTypes.object,
+        columns: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+        data: React.PropTypes.arrayOf(React.PropTypes.object),
         dataSource: React.PropTypes.string,
-        store: React.PropTypes.Func,
-        pageSize: 25,
-        events: React.PropTypes.Object,
-        plugins: React.PropTypes.Object
+        events: React.PropTypes.object,
+        pageSize: React.PropTypes.number,
+        plugins: React.PropTypes.object,
+        store: React.PropTypes.object
+    }
+
+    static defaultProps = {
+        pageSize: 25
     }
 
     componentWillMount() {
@@ -37,7 +42,7 @@ class Grid extends Component {
         else {
             store.dispatch(setColumns(columns));
         }
-        
+
         if (dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
         }
@@ -53,10 +58,10 @@ class Grid extends Component {
 
     render() {
 
-        const { 
+        const {
             columnState,
             data,
-            dataSource, 
+            dataSource,
             pageSize,
             plugins,
             events,
@@ -64,13 +69,13 @@ class Grid extends Component {
         } = this.props;
 
         const columns = columnState && columnState.columns ? columnState.columns : [];
-        
+
         const selectionModel = new Model(plugins, store, events);
 
         const editor = new Manager(plugins, store, events);
 
         const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns, dataSource);
-        
+
         const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
         const containerProps = {
