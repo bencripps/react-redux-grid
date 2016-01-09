@@ -72,7 +72,10 @@ export const CLASS_NAMES = {
         SEARCH_BUTTON: 'filter-search-button',
         MENU_BUTTON: 'filter-menu-button',
         CLEAR_BUTTON: 'filter-clear-button',
-        BUTTON_CONTAINER: 'filter-button-container'
+        BUTTON_CONTAINER: 'filter-button-container',
+        MENU: {
+            CONTAINER: 'filter-menu-container'
+        }
     },
     BULK_ACTIONS: {
         CONTAINER: 'bulkaction-container',

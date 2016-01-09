@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import FilterMenu from './Menu.jsx';
 import filter from '../../../util/filter';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
@@ -8,7 +9,8 @@ import { setFilter,
     doLocalFilter,
     clearFilterRemote,
     clearFilterLocal,
-    doRemoteFilter 
+    doRemoteFilter,
+    showFilterMenu
 } from '../../../actions/plugins/filter/FilterActions';
 
 class FilterToolbar extends Component {
@@ -23,7 +25,7 @@ class FilterToolbar extends Component {
 
     getToolbar(filter) {
 
-        const { plugins, placeHolderText, columnManager, dataSource } = this.props;
+        const { plugins, placeHolderText, columnManager, dataSource, store } = this.props;
 
         const dataUri = columnManager.config.dataSource || '';
 
@@ -62,7 +64,13 @@ class FilterToolbar extends Component {
         }
 
         const filterMenuButtonProps = {
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON)
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON),
+            onClick: this.handleFilterMenuButtonClick.bind(this)
+        };
+
+        const filterMenuProps = {
+            store,
+            plugins
         };
 
         const applicableButton = inputValue && inputValue.length > 0
@@ -73,6 +81,14 @@ class FilterToolbar extends Component {
             ? <i { ...filterMenuButtonProps } />
             : null;
 
+        console.log(filter);
+
+        const filterMenu = plugins.FILTER_CONTAINER.enableFilterMenu
+            && filter
+            && filter.filterMenuShown
+            ? <FilterMenu { ...filterMenuProps } />
+            : null;
+
         return (
             <div { ...containerProps }>
                 <input { ...inputProps } />
@@ -80,8 +96,15 @@ class FilterToolbar extends Component {
                     { applicableButton }
                     { filterMenuButton }
                 </div>
+                { filterMenu }
             </div>
         );
+    }
+
+    handleFilterMenuButtonClick() {
+        const { store, filter } = this.props;
+        const shown = filter ? filter.filterMenuShown : false;
+        store.dispatch(showFilterMenu(shown));
     }
 
     setFilterValue(reactEvent) {
@@ -108,7 +131,7 @@ class FilterToolbar extends Component {
     handleKeyUp(value, method, dataSource, reactEvent) {
 
         const { filterSource } = this.props.plugins.FILTER_CONTAINER;
-        const { pager } = this.props;
+        const { pager, store } = this.props;
 
         const pageIndex = 0;
         const pageSize = 20;
@@ -116,8 +139,6 @@ class FilterToolbar extends Component {
         if (reactEvent.which !== KEYBOARD_MAP.ENTER) {
             return false;
         }
-
-        const { store } = this.props;
         
         if (method === FILTER_METHODS.LOCAL) {
             store.dispatch(doLocalFilter(

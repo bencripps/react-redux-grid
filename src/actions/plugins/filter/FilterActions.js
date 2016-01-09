@@ -4,6 +4,7 @@ import {
     CLEAR_FILTER_REMOTE,
     CLEAR_FILTER_LOCAL,
     ERROR_OCCURRED,
+    SHOW_FILTER_MENU,
     SET_DATA
 
 } from '../../../constants/ActionTypes';
@@ -70,4 +71,10 @@ export function clearFilterRemote(dataSource) {
 
 export function clearFilterLocal() {
     return { type: CLEAR_FILTER_LOCAL };
+}
+
+export function showFilterMenu(value) {
+    const shown = !value;
+
+    return { type: SHOW_FILTER_MENU, shown };
 }
