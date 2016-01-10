@@ -81,8 +81,6 @@ class FilterToolbar extends Component {
             ? <i { ...filterMenuButtonProps } />
             : null;
 
-        console.log(filter);
-
         const filterMenu = plugins.FILTER_CONTAINER.enableFilterMenu
             && filter
             && filter.filterMenuShown

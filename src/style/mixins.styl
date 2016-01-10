@@ -34,6 +34,21 @@ icon(type)
     cursor pointer
     fa(type)
     
+input()
+    border none
+    border-radius(3px)
+    font-family fontfamily
+    font-size fontsize
+    color editcolor
+    display inline-block
+    padding 0px
+    text-indent 5px
+    transition(color)
+    
+    &:focus 
+        color darken(editcolor, 20%)
+        outline none
+    
 multipletransition(arguments...)
     transition((arguments))
  

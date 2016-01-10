@@ -1,6 +1,8 @@
 +prefix-classes(prefix)
 
-    .filter-menu-container
+    .advanced-filter-menu-container
+        background-color strongcolor
+        border-radius(3px)
         boxshadow()
         font-family fontfamily
         position absolute
@@ -8,3 +10,33 @@
         top 24px
         width 400px
         zindex('.filter-menu-container')
+        
+        .advanced-filter-menu-title
+            display inline-block
+            padding 5px 10px
+            
+        .advanced-filter-menu-field-container
+            display block
+            padding 5px 0px
+            text-align left
+            font-size cellfontsize
+            margin 0px auto
+            width 90%
+            
+            .advanced-filter-menu-field-label
+                display inline-block
+                padding 5px 0px
+            
+            .advanced-filter-menu-field-input
+                input()
+                width 100%
+        
+        .advanced-filter-menu-button-container           
+            padding 10px 10px
+            margin 0px auto
+            width 90%
+            text-align left
+            
+            .advanced-filter-menu-button
+                button(actioncolor)
+                margin-right 5px

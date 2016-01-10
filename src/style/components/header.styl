@@ -22,12 +22,10 @@
                 width 80%
             
             .{sorthandleclass}
-                float right
-                padding-right 10px
+                float left
                 opacity 0
                 transition(opacity)
                 visibility hidden
-                width 10px
                 
                 &.descend
                     icon('sort-up')
@@ -40,6 +38,7 @@
                 &::before
                     cursor pointer
                     position relative
+                    right 1px
             
             .{draghandleclass}
             

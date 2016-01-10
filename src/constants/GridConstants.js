@@ -75,7 +75,15 @@ export const CLASS_NAMES = {
         CLEAR_BUTTON: 'filter-clear-button',
         BUTTON_CONTAINER: 'filter-button-container',
         MENU: {
-            CONTAINER: 'filter-menu-container'
+            CONTAINER: 'advanced-filter-menu-container',
+            TITLE: 'advanced-filter-menu-title',
+            BUTTON: 'advanced-filter-menu-button',
+            BUTTON_CONTAINER: 'advanced-filter-menu-button-container',
+            FIELD: {
+                CONTAINER: 'advanced-filter-menu-field-container',
+                LABEL: 'advanced-filter-menu-field-label',
+                INPUT: 'advanced-filter-menu-field-input'
+            }
         }
     },
     BULK_ACTIONS: {

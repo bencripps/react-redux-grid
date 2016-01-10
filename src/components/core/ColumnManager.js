@@ -1,9 +1,11 @@
 import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
-import { CSS_PREFIX, SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
+import { CLASS_NAMES, CSS_PREFIX, SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keygenerator';
+import { prefix } from '../../util/prefix';
 import { elementContains } from '../../util/elementContains';
 import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
+import { showFilterMenu } from '../../actions/plugins/filter/FilterActions';
 import { doLocalSort, doRemoteSort } from '../../actions/GridActions';
 import sorter from '../../util/sorter';
 
@@ -57,6 +59,14 @@ export default class ColumnManager {
 
         if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
             this.store.dispatch(hideMenu());
+        }
+
+        if ((!elementContains(e.target, prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON))
+            && !elementContains(e.target, prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.CONTAINER)))
+            && this.plugins
+            && this.plugins.FILTER_CONTAINER
+            && this.plugins.FILTER_CONTAINER.enableFilterMenu) {
+            this.store.dispatch(showFilterMenu(true));
         }
 
     }

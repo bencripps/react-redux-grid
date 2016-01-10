@@ -46,7 +46,27 @@ export const plugins = {
         enabled: true,
         method: 'local',
         filterSource: 'http://localhost:3000/getFakedPagedData',
-        enableFilterMenu: true
+        enableFilterMenu: true,
+        fields: [
+            {
+                name: 'name',
+                label: 'Name',
+                placeholder: 'Name',
+                type: 'text'
+            },
+            {
+                name: 'address',
+                label: 'Address',
+                placeholder: 'Address',
+                type: 'number'
+            },
+            {
+                name: 'date',
+                label: 'Date',
+                placeholder: 'Date',
+                type: 'date'
+            }
+        ]
     },
     EDITOR: {
         type: 'inline',
@@ -107,7 +127,6 @@ export const columns = [
         width: '10%',
         className: 'additional-class',
         renderer: () => { return 'Name'; },
-        moveable: false,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
