@@ -29,6 +29,12 @@ class FilterToolbar extends Component {
 
         const dataUri = columnManager.config.dataSource || '';
 
+        const filterMenuShown = plugins
+            && plugins.FILTER_CONTAINER
+            && plugins.FILTER_CONTAINER.enableFilterMenu
+            && filter
+            && filter.filterMenuShown;
+
         const method = plugins 
             && plugins.FILTER_CONTAINER 
             && plugins.FILTER_CONTAINER.method
@@ -64,7 +70,8 @@ class FilterToolbar extends Component {
         }
 
         const filterMenuButtonProps = {
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON),
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON, 
+                filterMenuShown ? CLASS_NAMES.ACTIVE_CLASS : ''),
             onClick: this.handleFilterMenuButtonClick.bind(this)
         };
 
@@ -81,9 +88,7 @@ class FilterToolbar extends Component {
             ? <i { ...filterMenuButtonProps } />
             : null;
 
-        const filterMenu = plugins.FILTER_CONTAINER.enableFilterMenu
-            && filter
-            && filter.filterMenuShown
+        const filterMenu = filterMenuShown
             ? <FilterMenu { ...filterMenuProps } />
             : null;
 

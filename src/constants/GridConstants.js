@@ -24,6 +24,10 @@ export const KEYBOARD_MAP = {
 };
 
 export const CLASS_NAMES = {
+    ACTIVE_CLASS: 'active',
+    DRAG_HANDLE: 'drag-handle',
+    SORT_HANDLE: 'sort-handle',
+    SECONDARY_CLASS: 'secondary',
     CONTAINER: 'container',
     TABLE: 'table',
     HEADER: 'header',
@@ -32,9 +36,6 @@ export const CLASS_NAMES = {
     PAGERTOOLBAR: 'pager-toolbar',
     EMPTY_ROW: 'empty-row',
     LOADING_BAR: 'loading-bar',
-    ACTIVE_CLASS: 'active-class',
-    DRAG_HANDLE: 'drag-handle',
-    SORT_HANDLE: 'sort-handle',
     DRAGGABLE_COLUMN: 'draggable-column',
     COLUMN: 'column',
     SORT_HANDLE_VISIBLE: 'sort-handle-visible',

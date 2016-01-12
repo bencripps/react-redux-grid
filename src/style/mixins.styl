@@ -27,15 +27,15 @@ border-radius()
   -moz-border-radius arguments
   border-radius arguments
   
-boxshadow()
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+boxshadow(depth = 1, shadowcolor = rgba(0,0,0,0.16), secondaryshadowcolor = rgba(0,0,0,0.23))
+    box-shadow: depth * 2px depth * 3px depth * 6px shadowcolor, 0 3px 6px secondaryshadowcolor
     
 icon(type)
     cursor pointer
     fa(type)
     
 input()
-    border none
+    border 1px solid strongcolor
     border-radius(3px)
     font-family fontfamily
     font-size fontsize

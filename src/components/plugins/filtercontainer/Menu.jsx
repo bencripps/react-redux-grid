@@ -9,7 +9,8 @@ import { setFilter,
     doLocalFilter,
     clearFilterRemote,
     clearFilterLocal,
-    doRemoteFilter 
+    doRemoteFilter,
+    showFilterMenu
 } from '../../../actions/plugins/filter/FilterActions';
 
 class FilterMenu extends Menu {
@@ -42,7 +43,8 @@ class FilterMenu extends Menu {
     getInput(field) {
 
         const containerProps = {
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.CONTAINER)
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.CONTAINER),
+            key: keyFromObject(field, ['container']),
         };
 
         const inputProps = {
@@ -70,13 +72,24 @@ class FilterMenu extends Menu {
 
     }
 
+    handleButtonClick(type, reactEvent) {
+
+        const  { buttonTypes, store } = this.props;
+
+        if (type === buttonTypes.CANCEL) {
+            store.dispatch(showFilterMenu(true));
+        }
+    }
+
     getButton(type) {
 
-        const { buttonText } = this.props;
+        const { buttonText, buttonTypes } = this.props;
 
         const buttonProps = {
             text: buttonText[type],
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON)
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON, 
+                type === buttonTypes.CANCEL ? CLASS_NAMES.SECONDARY_CLASS : ''),
+            onClick: this.handleButtonClick.bind(this, type)
         };
 
         return (

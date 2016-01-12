@@ -1,9 +1,9 @@
 +prefix-classes(prefix)
 
     .advanced-filter-menu-container
-        background-color strongcolor
+        background-color lightcolor
         border-radius(3px)
-        boxshadow()
+        boxshadow(5)
         font-family fontfamily
         position absolute
         right 10px
@@ -40,3 +40,7 @@
             .advanced-filter-menu-button
                 button(actioncolor)
                 margin-right 5px
+                
+                &.secondary
+                    button(whitecolor)
+                    color blackcolor
