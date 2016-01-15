@@ -5,8 +5,8 @@ import {
     CLEAR_FILTER_LOCAL,
     ERROR_OCCURRED,
     SHOW_FILTER_MENU,
-    SET_DATA
-
+    SET_DATA,
+    SET_FILTER_MENU_VALUES
 } from '../../../constants/ActionTypes';
 
 import Request from '../../../components/plugins/ajax/Request';
@@ -65,6 +65,10 @@ export function doRemoteFilter(filterParams, pageIndex, pageSize, datasource) {
     };
 }
 
+export function setFilterMenuValues(filter) {
+    return { type: SET_FILTER_MENU_VALUES, filter };
+}
+
 export function clearFilterRemote(dataSource) {
     return getAsyncData(dataSource);
 }
@@ -74,7 +78,12 @@ export function clearFilterLocal() {
 }
 
 export function showFilterMenu(value) {
-    const shown = !value;
+    const isShown = !value;
 
-    return { type: SHOW_FILTER_MENU, shown };
+    const metaData = {
+        filterMenuShown: isShown,
+        filterMenuValues: {}
+    };
+
+    return { type: SHOW_FILTER_MENU, metaData };
 }

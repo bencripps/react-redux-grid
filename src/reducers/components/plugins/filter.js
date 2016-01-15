@@ -2,7 +2,8 @@ import { fromJS } from 'immutable';
 
 import {
     SET_FILTER_VALUE,
-    SHOW_FILTER_MENU
+    SHOW_FILTER_MENU,
+    SET_FILTER_MENU_VALUES
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -20,11 +21,16 @@ export default function filter(state = initialState, action) {
             }
         ));
 
-    case SHOW_FILTER_MENU:
+    case SET_FILTER_MENU_VALUES:
         return state.set('filterState', Object.assign({}, state.get('filterState'),
             {
-                filterMenuShown: action.shown
+                filterMenuValues: action.filter
             }
+        ));
+
+    case SHOW_FILTER_MENU:
+        return state.set('filterState', Object.assign({}, state.get('filterState'),
+            action.metaData
         ));
 
     default:

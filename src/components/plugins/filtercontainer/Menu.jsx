@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import Menu from '../../core/menu/Menu.jsx';
-import filter from '../../../util/filter';
+import filterUtils from '../../../util/filterUtils';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
 import { setFilter,
@@ -10,7 +10,8 @@ import { setFilter,
     clearFilterRemote,
     clearFilterLocal,
     doRemoteFilter,
-    showFilterMenu
+    showFilterMenu,
+    setFilterMenuValues
 } from '../../../actions/plugins/filter/FilterActions';
 
 class FilterMenu extends Menu {
@@ -42,6 +43,14 @@ class FilterMenu extends Menu {
 
     getInput(field) {
 
+        const { filter } = this.props;
+
+        const value = filter 
+            && filter.filterMenuValues
+            && filter.filterMenuValues[field.name]
+            ? filter.filterMenuValues[field.name]
+            : null;
+
         const containerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.CONTAINER),
             key: keyFromObject(field, ['container']),
@@ -52,7 +61,9 @@ class FilterMenu extends Menu {
             key: keyFromObject(field),
             placeholder: field.placeholder,
             name: field.name,
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.INPUT)
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.INPUT),
+            onChange: this.handleDynamicInputChange.bind(this),
+            value 
         };
 
         const labelProps = {
@@ -72,12 +83,37 @@ class FilterMenu extends Menu {
 
     }
 
+    handleDynamicInputChange(reactEvent) {
+        
+        const { store, filter } = this.props;
+        const name = reactEvent.target.name;
+        const value = reactEvent.target.value;
+        const existingFilter = filter && filter.filterMenuValues 
+            ? filter.filterMenuValues : {};
+        const newFilterValues = Object.assign(existingFilter, { [ name ] : value });
+
+        if (!name) {
+            console.warn('All registered inputs require a name property for dynamic filtering!');
+            return false;
+        }
+
+        store.dispatch(setFilterMenuValues(newFilterValues));
+    }
+
     handleButtonClick(type, reactEvent) {
 
-        const  { buttonTypes, store } = this.props;
+        const  { buttonTypes, filter, store, dataSource } = this.props;
 
         if (type === buttonTypes.CANCEL) {
             store.dispatch(showFilterMenu(true));
+            store.dispatch(clearFilterLocal(dataSource));
+        }
+
+        else if (type === buttonTypes.SUBMIT) {
+
+            store.dispatch(doLocalFilter(
+                filterUtils.byMenu(filter.filterMenuValues, dataSource))
+            );
         }
     }
 
@@ -118,7 +154,7 @@ class FilterMenu extends Menu {
 
         const inputs = plugins.FILTER_CONTAINER.fields 
             && plugins.FILTER_CONTAINER.fields.length > 0
-            ? plugins.FILTER_CONTAINER.fields.map(this.getInput)
+            ? plugins.FILTER_CONTAINER.fields.map(this.getInput.bind(this))
             : null;
 
         const submitButton = this.getButton(buttonTypes.SUBMIT);

@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import FilterMenu from './Menu.jsx';
-import filter from '../../../util/filter';
+import filterUtils from '../../../util/filterUtils';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
 import { setFilter,
@@ -145,7 +145,7 @@ class FilterToolbar extends Component {
         
         if (method === FILTER_METHODS.LOCAL) {
             store.dispatch(doLocalFilter(
-                filter.byKeyword(value, dataSource))
+                filterUtils.byKeyword(value, dataSource))
             );
         }
 
