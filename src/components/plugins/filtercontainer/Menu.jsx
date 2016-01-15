@@ -85,7 +85,7 @@ class FilterMenu extends Menu {
 
     handleDynamicInputChange(reactEvent) {
         
-        const { store, filter } = this.props;
+        const { store, filter, plugins } = this.props;
         const name = reactEvent.target.name;
         const value = reactEvent.target.value;
         const existingFilter = filter && filter.filterMenuValues 
@@ -102,7 +102,16 @@ class FilterMenu extends Menu {
 
     handleButtonClick(type, reactEvent) {
 
-        const  { buttonTypes, filter, store, dataSource } = this.props;
+        const { buttonTypes, filter, store, dataSource, plugins, pager } = this.props;
+        const method = plugins.FILTER_CONTAINER.method ? plugins.FILTER_CONTAINER.method.toUpperCase() : FILTER_METHODS.LOCAL;
+        const filterSource = plugins.FILTER_CONTAINER.filterSource;
+
+        let pageIndex = 0;
+        let pageSize = 20;
+
+        if (pager) {
+            pageIndex = pager.pageIndex;
+        }
 
         if (type === buttonTypes.CANCEL) {
             store.dispatch(showFilterMenu(true));
@@ -111,9 +120,16 @@ class FilterMenu extends Menu {
 
         else if (type === buttonTypes.SUBMIT) {
 
-            store.dispatch(doLocalFilter(
-                filterUtils.byMenu(filter.filterMenuValues, dataSource))
-            );
+            if (method === FILTER_METHODS.LOCAL) {
+                store.dispatch(doLocalFilter(
+                    filterUtils.byMenu(filter.filterMenuValues, dataSource))
+                );
+            }
+
+            else if (method === FILTER_METHODS.REMOTE) {
+                store.dispatch(doRemoteFilter(filter.filterMenuValues, pageIndex, pageSize, filterSource));
+            }
+
         }
     }
 
