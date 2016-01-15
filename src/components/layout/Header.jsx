@@ -58,13 +58,18 @@ class Header extends Component {
         
         const { store } = this.props;
 
-        const colData = reactEvent 
-            && reactEvent.dataTransfer.getData
-            ? JSON.parse(reactEvent.dataTransfer.getData('Text'))
-            : null;
+        try {
+            const colData = reactEvent 
+                && reactEvent.dataTransfer.getData
+                ? JSON.parse(reactEvent.dataTransfer.getData('Text'))
+                : null;
 
-        if (colData) {
-            store.dispatch(reorderColumn(colData.index, droppedIndex, columns));
+            if (colData) {
+                store.dispatch(reorderColumn(colData.index, droppedIndex, columns));
+            }
+
+        } catch(e) {
+            console.warn('Invalid drop');
         }
 
     }

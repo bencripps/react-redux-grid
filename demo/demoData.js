@@ -44,7 +44,7 @@ export const plugins = {
     },
     FILTER_CONTAINER: {
         enabled: true,
-        method: 'remote',
+        method: 'local',
         filterSource: 'http://localhost:3000/getFakedPagedData',
         enableFilterMenu: true,
         fields: [
