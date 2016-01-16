@@ -74,7 +74,12 @@ Column Defaults:
             resizable: false
 	        defaultColumnWidth: `${100 / columns.length}%`,
             minColumnWidth: 10,
-            moveable: true
+            moveable: true,
+            sortable: {
+	            enabled: true,
+	            method: 'local',
+	            sortingSource: 'http://url/to/pagingdata'
+        	}
 	    }
 	}
 
@@ -83,7 +88,11 @@ Column Manager Defaults
 1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array
 2. `defaultColumnWidth`: `string template`, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template
 3. `minColumnWidth`: `int`, the minimum width a column can be dragged to
-3. `moveable`: `boolean`, whether the columns can be reordered by drag
+4. `moveable`: `boolean`, whether the columns can be reordered by drag
+5. `sortable`: `object`, an object that describes whether columns can be sorted
+5a. `sortable.enabled`: `boolean`, whether sorting is enabled at the grid level
+5b. `sortable.method`: `string`, whether sorting will execute locally, or remotely, possible values: `['local', 'remote']`
+5c. `sortable.sortingSource`: `string`, where sorting data will be retrieved (a required parameter for remote sorting)
 
 ## Pagination
 
@@ -141,8 +150,16 @@ Selection Model Defaults:
 		FILTER_CONTAINER: {
 	        enabled: true,
 	        method: 'local',
-	        filterSource: 'http://localhost:3000/getFakedPagedData',
+	        filterSource: 'http://url/to/pagingdata',
 	        enableFilterMenu: true
+	        fields: [
+	        	{
+	                name: 'name',
+	                label: 'Name',
+	                placeholder: 'Name',
+	                type: 'text'
+	            }
+	        ]
 	    }
 	};
 
@@ -152,6 +169,8 @@ Filter Container and Menu Defaults
 2. `method`: `string`, what type of filter method should be used, possible values: `['local', 'remote']`
 3. `filterSource`, `string`, if remote filtering is used, a URI is required
 4. `enableFilterMenu`, `boolean`, whether a filter menu should be created
+5. `fields`: `array of objects`, an array containing objects that desribe filter fields to be registered in the filter menu
+5a. `field.object`, `object`, fields require a `name` parameter, and the name should correspond with a column name. 
 
 Error Handler Defaults
 
@@ -234,6 +253,10 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	export const CSS_PREFIX = 'react-grid';
 
 	export const CLASS_NAMES = {
+	    ACTIVE_CLASS: 'active',
+	    DRAG_HANDLE: 'drag-handle',
+	    SORT_HANDLE: 'sort-handle',
+	    SECONDARY_CLASS: 'secondary',
 	    CONTAINER: 'container',
 	    TABLE: 'table',
 	    HEADER: 'header',
@@ -242,7 +265,9 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	    PAGERTOOLBAR: 'pager-toolbar',
 	    EMPTY_ROW: 'empty-row',
 	    LOADING_BAR: 'loading-bar',
-	    ACTIVE_CLASS: 'active-class',
+	    DRAGGABLE_COLUMN: 'draggable-column',
+	    COLUMN: 'column',
+	    SORT_HANDLE_VISIBLE: 'sort-handle-visible',
 	    BUTTONS: {
 	        PAGER: 'page-buttons'
 	    },
@@ -256,7 +281,12 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	    },
 	    EDITOR: {
 	        INLINE: {
-	            CONTAINER: 'inline-editor'
+	            CONTAINER: 'inline-editor',
+	            SHOWN: 'shown',
+	            HIDDEN: 'hidden',
+	            SAVE_BUTTON: 'save-button',
+	            CANCEL_BUTTON: 'cancel-button',
+	            BUTTON_CONTAINER: 'button-container'
 	        }
 	    },
 	    GRID_ACTIONS: {
@@ -266,6 +296,31 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	            CONTAINER: 'action-menu-container',
 	            ITEM: 'action-menu-item'
 	        }
+	    },
+	    FILTER_CONTAINER: {
+	        CONTAINER: 'filter-container',
+	        INPUT: 'filter-input',
+	        SEARCH_BUTTON: 'filter-search-button',
+	        MENU_BUTTON: 'filter-menu-button',
+	        CLEAR_BUTTON: 'filter-clear-button',
+	        BUTTON_CONTAINER: 'filter-button-container',
+	        MENU: {
+	            CONTAINER: 'advanced-filter-menu-container',
+	            TITLE: 'advanced-filter-menu-title',
+	            BUTTON: 'advanced-filter-menu-button',
+	            BUTTON_CONTAINER: 'advanced-filter-menu-button-container',
+	            FIELD: {
+	                CONTAINER: 'advanced-filter-menu-field-container',
+	                LABEL: 'advanced-filter-menu-field-label',
+	                INPUT: 'advanced-filter-menu-field-input'
+	            }
+	        }
+	    },
+	    BULK_ACTIONS: {
+	        CONTAINER: 'bulkaction-container',
+	        DESCRIPTION: 'bulkaction-description',
+	        SHOWN: 'shown',
+	        HIDDEN: 'hidden'
 	    }
 
 	};
