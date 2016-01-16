@@ -95,7 +95,8 @@ class Grid extends Component {
         const filterProps = {
             store,
             plugins,
-            columnManager
+            columnManager,
+            pageSize
         };
 
         const headerProps = {

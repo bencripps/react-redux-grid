@@ -16,7 +16,21 @@ import { setLoaderState } from '../../../actions/plugins/loader/LoaderActions';
 import { getAsyncData } from '../../../actions/GridActions';
 
 export function setFilter(value) {
-    return { type: SET_FILTER_VALUE, value };
+
+    const metaData = {
+        filterMenuShown: false,
+        filterMenuValues: {},
+        filterValue: ''
+    };
+
+    if (value || value.length > 0) {
+        return { type: SET_FILTER_VALUE, value };
+    }
+
+    else {
+        return { type: SHOW_FILTER_MENU, metaData };
+    }
+
 }
 
 export function doLocalFilter(data) {
@@ -77,13 +91,16 @@ export function clearFilterLocal() {
     return { type: CLEAR_FILTER_LOCAL };
 }
 
-export function showFilterMenu(value) {
+export function showFilterMenu(value, removeFilters) {
     const isShown = !value;
 
     const metaData = {
-        filterMenuShown: isShown,
-        filterMenuValues: {}
+        filterMenuShown: isShown
     };
+
+    if (removeFilters) {
+        metaData.filterMenuValues = {};
+    }
 
     return { type: SHOW_FILTER_MENU, metaData };
 }

@@ -41,8 +41,14 @@ class FilterToolbar extends Component {
             ? plugins.FILTER_CONTAINER.method.toUpperCase() 
             : this.props.defaultSortMethod;
 
-        const inputValue = filter && filter.filterValue
+        let inputValue = filter && filter.filterValue
             ? filter.filterValue : '';
+
+        if (filter 
+            && filter.filterMenuValues 
+            && Object.keys(filter.filterMenuValues).length > 0) {
+            inputValue = JSON.stringify(filter.filterMenuValues);
+        }
 
         const containerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.CONTAINER)
@@ -134,10 +140,9 @@ class FilterToolbar extends Component {
     handleKeyUp(value, method, dataSource, reactEvent) {
 
         const { filterSource } = this.props.plugins.FILTER_CONTAINER;
-        const { pager, store } = this.props;
+        const { pager, store, pageSize } = this.props;
 
-        const pageIndex = 0;
-        const pageSize = 20;
+        const pageIndex = pager ? pager.pageIndex : 0;
 
         if (reactEvent.which !== KEYBOARD_MAP.ENTER) {
             return false;

@@ -4,7 +4,7 @@ import { prefix } from '../../../util/prefix';
 import Menu from '../../core/menu/Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
 import { keyFromObject } from '../../../util/keygenerator';
-import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
+import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP, DEFAULT_PAGE_SIZE } from '../../../constants/GridConstants';
 import { setFilter,
     doLocalFilter,
     clearFilterRemote,
@@ -107,14 +107,14 @@ class FilterMenu extends Menu {
         const filterSource = plugins.FILTER_CONTAINER.filterSource;
 
         let pageIndex = 0;
-        let pageSize = 20;
+        let pageSize = pager ? pager.pageSize : DEFAULT_PAGE_SIZE;
 
         if (pager) {
             pageIndex = pager.pageIndex;
         }
 
         if (type === buttonTypes.CANCEL) {
-            store.dispatch(showFilterMenu(true));
+            store.dispatch(showFilterMenu(true, true));
             store.dispatch(clearFilterLocal(dataSource));
         }
 
