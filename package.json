@@ -1,8 +1,8 @@
 {
   "name": "react-redux-grid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "entry.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "npm run test",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
