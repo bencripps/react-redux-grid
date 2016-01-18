@@ -2,7 +2,7 @@
 
 A Grid Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
 
-[Demo](url/to/demo)
+[Demo](http://react-redux-grid.herokuapp.com/)
 
 ## Feature List
 
