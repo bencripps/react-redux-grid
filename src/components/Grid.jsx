@@ -134,17 +134,19 @@ class Grid extends Component {
         };
 
         return (
-            <div { ...containerProps }>
-                <Message { ...messageProps } />
-                <BulkActionToolbar { ...bulkActionProps } />
-                <FilterToolbar { ...filterProps } />
-                <table { ...tableProps }>
-                    <Header { ...headerProps } />
-                    <Row { ...rowProps } />
-                    <PagerToolbar { ...pagerProps } />
-                </table>
-                <LoadingBar { ...loadingBarProps } />
-                { editorComponent }
+            <div>
+                <div { ...containerProps }>
+                    <Message { ...messageProps } />
+                    <BulkActionToolbar { ...bulkActionProps } />
+                    <FilterToolbar { ...filterProps } />
+                    <table { ...tableProps }>
+                        <Header { ...headerProps } />
+                        <Row { ...rowProps } />
+                        <PagerToolbar { ...pagerProps } />
+                    </table>
+                    <LoadingBar { ...loadingBarProps } />
+                </div>
+                    { editorComponent }
             </div>
         );
     }

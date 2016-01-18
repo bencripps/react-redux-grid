@@ -47,11 +47,38 @@ This component will work out of the box, without installing a custom store. A st
 
 In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
 
-If you elect to use a custom store, please be sure to include the necessary reducers for the core grid features and any plugins you wish to use.
+If you elect to use a custom store, the core component's reducers are also exposed from within the core export:
+
+	const Reducers = {
+	    ColumnManager: columnmanager,
+	    DataSource: datasource,
+	    Grid: grid,
+	    BulkActions: bulkaction,
+	    Editor: editor,
+	    ErrorHandler: errorhandler,
+	    Filter: filter,
+	    Loader: loader,
+	    Menu: menu,
+	    Pager: pager,
+	    Selection: selection
+	};
+
+You can import a reducer like so: 
+	
+	import { Reducers } from 'react-redux-grid';
+
+	const columnmanager = Reducers.columnmanager;
+
+	const rootReducer = combineReducers({
+	    columnmanager,
+	    yourCustomReducer
+	};
 
 ## Plugins
 
-All Features are implementd as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
+All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
+
+To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The plugin will not interfere with other components or their associated state.
 
 ## Columns
 

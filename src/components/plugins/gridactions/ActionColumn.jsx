@@ -75,8 +75,7 @@ class ActionColumn extends Component {
 
     handleEditClick(editor, data, reactEvent) {
         const { store, rowId } = this.props;
-
-        const rowPosition = reactEvent.target.parentNode.parentNode.parentNode.getBoundingClientRect();
+        const rowPosition = reactEvent.target.getBoundingClientRect();
         const top = rowPosition.top;
         
         if (editor.config.type === editor.editModes.inline) {
