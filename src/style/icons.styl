@@ -1,0 +1,16 @@
+icondictionary = {
+  'search': '\F002',
+  'close': '\F00D',
+  'filter': '\F0b0',
+  'action': '\F142'
+}
+
+icon(type)
+    cursor pointer
+    
+    &::before
+        font-family FontAwesome
+        font-size iconfontsize
+        font-weight normal
+        font-style normal
+        content icondictionary[type]

@@ -12,7 +12,7 @@ module.exports = {
         }
     },
     output: {
-        path: __dirname + 'demo/lib',
+        path: __dirname + '/../demo/lib',
         filename: 'bundle.js',
         sourceMapFilename: 'debugging/[file].map',
         publicPath: 'http://localhost:8080/demo/lib/',
