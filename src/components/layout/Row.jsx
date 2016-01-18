@@ -102,7 +102,7 @@ class Row extends Component {
 
         const editClass = editorState && editorState.row && editorState.row.key === id ? selectionModel.defaults.editCls : '';
 
-        const selectedClass = isSelected ? selectionModel.defaults.activeCls : '';
+        const selectedClass = isSelected ? selectionModel.defaults.activeCls : '';  
 
         const rowProps = {
             key: id,

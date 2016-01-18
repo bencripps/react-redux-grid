@@ -84,7 +84,7 @@ export const plugins = {
         mode: 'checkbox-multi',
         enabled: true,
         allowDeselect: true,
-        activeCls: 'active-class',
+        activeCls: 'active',
         selectionEvent: 'singleclick'
     },
     ERROR_HANDLER: {

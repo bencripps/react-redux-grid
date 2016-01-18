@@ -4,7 +4,7 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 
 [Demo](url/to/demo)
 
-##Feature List
+## Feature List
 
 1. Local and/or Remote Data Source
 2. Local and/or Remote Pagination
@@ -20,7 +20,22 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 11. Loading Mask
 12. Built-in Error Handling Module
 
-##Which Store do I use?
+## Installation
+
+`npm install react-redux-grid`
+
+## Usage 
+
+	import { Grid, Store } from 'react-redux-grid'
+
+	const gridData = {
+		store: Store,
+		...data
+	};
+
+	const GridInstance = <Grid { ...gridData } />
+
+## Which Store do I use?
 
 Because Redux imposes a single store pattern, it's very probable that you will need to use this grid with your own store. Well that's ok! The `demo` folder includes:
 
