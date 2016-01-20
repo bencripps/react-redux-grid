@@ -1,7 +1,17 @@
 {
   "name": "react-redux-grid",
-  "version": "1.0.5",
-  "description": "",
+  "version": "1.0.6",
+  "description": "A React Grid Component written in the Redux Pattern",
+  "author": "Benjamin Cripps (https://github.com/bencripps)",
+  "contributors": [
+    {
+        "name": "Bejamin Cripps",
+        "url" : "http://benjamincripps.com"
+    }
+  ],
+  "license": "MIT",
+  "bugs": "https://github.com/bencripps/react-redux-grid/issues",
+  "homepage": "http://react-redux-grid.herokuapp.com/",
   "main": "src/index.js",
   "scripts": {
     "test": "npm run test",
