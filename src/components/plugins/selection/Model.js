@@ -1,6 +1,5 @@
-import React, { PropTypes, Component } from 'react';
-import { CSS_PREFIX, CLASS_NAMES } from '../../../constants/GridConstants';
-import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
+import React from 'react';
+import { keyFromObject } from '../../../util/keygenerator';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
 import CheckBox from './CheckBox.jsx';
 

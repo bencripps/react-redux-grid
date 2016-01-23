@@ -1,28 +1,36 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
-import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
-import { 
-    setPage, 
-    setPageAsync 
+import {
+    setPage,
+    setPageAsync
 } from '../../../actions/plugins/pager/PagerActions';
-import Request from '../ajax/Request';
 
 class PagerToolbar extends Component {
 
+    static propTypes = {
+        BUTTON_TYPES: PropTypes.object,
+        backButtonText: PropTypes.string,
+        dataSource: PropTypes.object,
+        gridState: PropTypes.object,
+        nextButtonText: PropTypes.string,
+        pageSize: PropTypes.number.isRequired,
+        pager: PropTypes.object,
+        plugins: PropTypes.object,
+        recordType: PropTypes.string,
+        store: PropTypes.object.isRequired,
+        toolbarRenderer: PropTypes.func
+    }
+
     static defaultProps = {
-        store: React.PropTypes.func.isRequired,
-        plugins: React.PropTypes.object,
-        pageSize: React.PropTypes.number.isRequired,
         recordType: 'Records',
         nextButtonText: 'Next',
-        lastButtonText: 'Last',
+        backButtonText: 'Back',
         BUTTON_TYPES: {
             NEXT: 'NEXT',
-            LAST: 'LAST'
+            BACK: 'BACK'
         },
         toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
 
@@ -52,8 +60,6 @@ class PagerToolbar extends Component {
         const { PAGER } = this.props.plugins;
         const { store, BUTTON_TYPES, pageSize } = this.props;
 
-        let event;
-
         if (PAGER.pagingType === 'local') {
             store.dispatch(setPage(pageIndex, type, BUTTON_TYPES));
         }
@@ -68,7 +74,7 @@ class PagerToolbar extends Component {
     }
 
     isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES) {
-        if (type === BUTTON_TYPES.LAST) {
+        if (type === BUTTON_TYPES.BACK) {
             return pageIndex === 0;
         }
         else if (type === BUTTON_TYPES.NEXT) {
@@ -77,18 +83,18 @@ class PagerToolbar extends Component {
     }
 
     getButton(type, pageIndex, pageSize, currentRecords, total) {
-        const { nextButtonText, lastButtonText, BUTTON_TYPES } = this.props;
+        const { nextButtonText, backButtonText, BUTTON_TYPES } = this.props;
 
         const buttonProps = {
             onClick: this.handleButtonClick.bind(this, type, pageIndex),
-            children: type === BUTTON_TYPES.NEXT ? nextButtonText : lastButtonText,
+            children: type === BUTTON_TYPES.NEXT ? nextButtonText : backButtonText,
             disabled: this.isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES),
             className: prefix(CLASS_NAMES.BUTTONS.PAGER)
-        }
+        };
 
         return (
             <button { ...buttonProps } />
-        )
+        );
     }
 
     getTotal(dataSource, pagerDefaults) {
@@ -109,13 +115,12 @@ class PagerToolbar extends Component {
 
     getPager(dataSource) {
 
-        const { 
-            pageSize, 
+        const {
+            pageSize,
             recordType,
             BUTTON_TYPES,
             pager,
             plugins,
-            gridState,
             toolbarRenderer
         } = this.props;
 
@@ -123,7 +128,7 @@ class PagerToolbar extends Component {
 
         const toolbarProps = {
             className: prefix(CLASS_NAMES.PAGERTOOLBAR)
-        }
+        };
 
         const currentRecords = this.getCurrentRecordTotal(dataSource, pageSize, pageIndex, plugins);
 
@@ -133,13 +138,13 @@ class PagerToolbar extends Component {
             <tfoot>
                 <tr {...toolbarProps }>
                     <td colSpan="100%">
-                        <div> 
+                        <div>
                             <span>
                                 { toolbarRenderer(pageIndex, pageSize, total, currentRecords, recordType) }
                             </span>
                             <span>
                                { this.getButton(BUTTON_TYPES.NEXT, pageIndex, pageSize, currentRecords, total) }
-                               { this.getButton(BUTTON_TYPES.LAST, pageIndex, pageSize, currentRecords, total) }
+                               { this.getButton(BUTTON_TYPES.BACK, pageIndex, pageSize, currentRecords, total) }
                             </span>
                         </div>
                     </td>
@@ -152,8 +157,8 @@ class PagerToolbar extends Component {
 
         const { plugins, dataSource } = this.props;
 
-        const pagerComponent = plugins 
-                        && plugins.PAGER 
+        const pagerComponent = plugins
+                        && plugins.PAGER
                         && plugins.PAGER.enabled ? this.getPager(dataSource) : <tfoot></tfoot>;
 
         return pagerComponent;
@@ -161,7 +166,7 @@ class PagerToolbar extends Component {
 }
 
 function mapStateToProps(state) {
-    
+
     return {
         pager: state.pager.get('pagerState'),
         dataSource: state.dataSource.get('gridData'),

@@ -6,27 +6,28 @@ import { dismissError } from '../../../actions/plugins/errorhandler/ErrorHandler
 
 class Message extends Component {
 
-    static defaultProps = {
-        store: React.PropTypes.func.isRequired,
-        plugins: React.PropTypes.object.isRequired
+    static propTypes = {
+        errorHandler: PropTypes.object,
+        plugins: PropTypes.object,
+        store: PropTypes.object.isRequired
     }
-        
+
     getMessage(message, isShown) {
 
         const messageContainerProps = {
-            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown': '')
-        }
+            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : '')
+        };
 
         const messageProps = {
             className: prefix(CLASS_NAMES.ERROR_HANDLER.MESSAGE)
-        }
+        };
 
         const buttonProps = {
             onClick: this.handleButtonClick.bind(this)
-        }
+        };
 
         return (
-            <div { ...messageContainerProps }> 
+            <div { ...messageContainerProps }>
                 <span { ...messageProps }> { message } </span>
                 <button { ...buttonProps }>
                     { 'Close' }
@@ -36,9 +37,9 @@ class Message extends Component {
     }
 
     handleButtonClick() {
-        
-        const { store } = this.props;    
-             
+
+        const { store } = this.props;
+
         store.dispatch(dismissError());
     }
 
@@ -46,9 +47,11 @@ class Message extends Component {
 
         const { errorHandler, plugins } = this.props;
 
-        const defaultMessage = plugins 
-            && plugins.ERROR_HANDLER 
-            && plugins.ERROR_HANDLER.defaultErrorMessage ? plugins.ERROR_HANDLER.defaultErrorMessage : 'An Error Occurred';
+        const defaultMessage = plugins
+            && plugins.ERROR_HANDLER
+            && plugins.ERROR_HANDLER.defaultErrorMessage
+            ? plugins.ERROR_HANDLER.defaultErrorMessage
+            : 'An Error Occurred';
 
         const showError = errorHandler && errorHandler.errorOccurred;
 
@@ -56,7 +59,7 @@ class Message extends Component {
 
         const errorMessage = this.getMessage(message, showError);
 
-        return errorMessage
+        return errorMessage;
     }
 }
 

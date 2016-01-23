@@ -1,17 +1,26 @@
 import React, { PropTypes, Component } from 'react';
 import Menu from '../../core/menu/Menu.jsx';
-import { showMenu, hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
+import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { editRow } from '../../../actions/plugins/editor/EditorActions';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
 class ActionColumn extends Component {
 
+    static propTypes = {
+        actions: PropTypes.object,
+        columns: PropTypes.array,
+        editor: PropTypes.object,
+        iconCls: PropTypes.string,
+        menuState: PropTypes.object,
+        rowId: PropTypes.string,
+        store: PropTypes.object,
+        type: PropTypes.string
+    }
+
     static defaultProps = {
-        store: React.PropTypes.func,
         iconCls: 'action-icon'
     }
 
@@ -21,9 +30,9 @@ class ActionColumn extends Component {
 
         const actions = columns.map((col) => {
 
-            const isChecked = col.hidden !== undefined 
+            const isChecked = col.hidden !== undefined
                 ? !col.hidden : true;
-            
+
             return {
                 text: col.name,
                 menuItemType: 'checkbox',
@@ -41,7 +50,7 @@ class ActionColumn extends Component {
         });
 
         const menuItems = {
-            menu: actions,
+            menu: actions
         };
 
         const menu = menuShown ? this.getMenu(menuItems, 'header') : null;
@@ -55,7 +64,7 @@ class ActionColumn extends Component {
     }
 
     getColumn(containerProps, iconProps, menuShown, actions) {
-        
+
         const menu = menuShown ? this.getMenu(actions) : null;
 
         return (
@@ -76,8 +85,8 @@ class ActionColumn extends Component {
     handleEditClick(editor, data, reactEvent) {
         const { store, rowId } = this.props;
         const rowPosition = reactEvent.target.getBoundingClientRect();
-        const top = rowPosition.top;
-        
+        const top = rowPosition.top + window.scrollY;
+
         if (editor.config.type === editor.editModes.inline) {
             store.dispatch(editRow(rowId, top));
         }
@@ -96,12 +105,14 @@ class ActionColumn extends Component {
             ...actions
         };
 
-        return <Menu { ...menuProps } />
+        return (
+            <Menu { ...menuProps } />
+        );
     }
 
     handleActionClick(type, actions, id, reactEvent) {
         reactEvent.stopPropagation();
-        
+
         const { store } = this.props;
 
         store.dispatch(showMenu(id));
@@ -112,25 +123,25 @@ class ActionColumn extends Component {
         const { iconCls, type, actions, menuState, rowId, columns } = this.props;
 
         const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
-        
+
         const containerProps = {
-            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown 
+            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
                 ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
             onClick: this.handleActionClick.bind(this, type, actions, rowId)
         };
 
         const iconProps = {
-            className: prefix(actions.iconCls) || prefix(iconCls),
+            className: prefix(actions.iconCls) || prefix(iconCls)
         };
 
         return type === 'header'
-         ? this.getHeader(containerProps, iconProps, menuShown, columns) 
+         ? this.getHeader(containerProps, iconProps, menuShown, columns)
          : this.getColumn(containerProps, iconProps, menuShown, actions);
     }
 }
 
 function mapStateToProps(state) {
-    
+
     return {
         menuState: state.menu.get('menuState'),
         gridState: state.grid.get('gridState')

@@ -19,28 +19,28 @@ export default function selection(state = initialState, action) {
         return state.set('selectedRows', action.selection);
 
     case DESELECT_ALL:
-    
+
         return state.set('selectedRows', {});
 
     case SET_SELECTION:
 
-        const currentValue = state.get('selectedRows') ? state.get('selectedRows')[action.id] : false; 
+        const currentValue = state.get('selectedRows') ? state.get('selectedRows')[action.id] : false;
 
-    	if (action.clearSelections) {
-    		return state.set('selectedRows',
-	            {
-	                [action.id]: currentValue && action.allowDeselect ? false : true
-	            }
-	        );
-    	}
+        if (action.clearSelections) {
+            return state.set('selectedRows',
+                {
+                    [action.id]: currentValue && action.allowDeselect ? false : true
+                }
+            );
+        }
 
-    	else {
-	        return state.set('selectedRows', Object.assign({}, state.get('selectedRows'),
-	            {
-	                [action.id]: currentValue && action.allowDeselect ? false : true
-	            }
-	        ));
-    	}
+        else {
+            return state.set('selectedRows', Object.assign({}, state.get('selectedRows'),
+                {
+                    [action.id]: currentValue && action.allowDeselect ? false : true
+                }
+            ));
+        }
 
     default:
         return state;

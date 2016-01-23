@@ -15,8 +15,8 @@ export default function errorhandler(state = initialState, action) {
 
     case ERROR_OCCURRED:
         return state.set('errorState', {
-        	error: action.error,
-        	errorOccurred: true
+            error: action.error,
+            errorOccurred: true
         });
 
     case DISMISS_ERROR:

@@ -2,24 +2,30 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import Cell from './Cell.jsx';
-import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { prefix } from '../../util/prefix';
-import { emptyFn } from '../../util/emptyFn';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Row extends Component {
 
+    static propTypes = {
+        columnManager: PropTypes.object.isRequired,
+        columns: PropTypes.arrayOf(PropTypes.Object).isRequired,
+        data: PropTypes.arrayOf(PropTypes.Object),
+        dataSource: PropTypes.object,
+        editorState: PropTypes.object,
+        emptyDataMessage: PropTypes.string,
+        events: PropTypes.object,
+        pageSize: PropTypes.number,
+        pager: PropTypes.object,
+        plugins: PropTypes.object,
+        selectedRows: PropTypes.object,
+        selectionModel: PropTypes.object,
+        store: PropTypes.object.isRequired
+    }
+
     static defaultProps = {
-        columnManager: React.PropTypes.object.isRequired,
-        columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
-        data: React.PropTypes.arrayOf(React.PropTypes.Object),
-        pageSize: React.PropTypes.number,
-        plugins:  React.PropTypes.object,
-        events: React.PropTypes.object,
-        emptyDataMessage: 'No Data Available',
-        selectionModel: React.PropTypes.object,
-        store: React.PropTypes.func.isRequired
+        emptyDataMessage: 'No Data Available'
     }
 
     getPlaceHolder() {
@@ -31,8 +37,8 @@ class Row extends Component {
         };
 
         const tdProps = {
-            className: prefix(CLASS_NAMES.ROW ,CLASS_NAMES.EMPTY_ROW)
-        }
+            className: prefix(CLASS_NAMES.ROW, CLASS_NAMES.EMPTY_ROW)
+        };
 
         return (
             <tr { ...rowProps }>
@@ -47,17 +53,17 @@ class Row extends Component {
     addEmptyInsert(cells, visibleColumns) {
 
         const { GRID_ACTIONS } = this.props.plugins;
-        
+
         if (visibleColumns.length === 0) {
 
-            if (GRID_ACTIONS 
-                && GRID_ACTIONS.menu 
+            if (GRID_ACTIONS
+                && GRID_ACTIONS.menu
                 && GRID_ACTIONS.menu.length > 0) {
                 cells.splice(1, 0, this.getEmptyCell());
             }
 
             else {
-                cells.push(this.getEmptyCell());   
+                cells.push(this.getEmptyCell());
             }
         }
 
@@ -79,13 +85,12 @@ class Row extends Component {
     getRowComponents(row, events, selectedRows, columns) {
 
         const { selectionModel, columnManager, editorState } = this.props;
-        const { GRID_ACTIONS } = this.props.plugins;
         const id = keyFromObject(row);
         const visibleColumns = columns.filter((col) => !col.hidden);
 
-        const cells = Object.keys(row).map((k, i) => { 
+        const cells = Object.keys(row).map((k, i) => {
 
-            let cellProps = {
+            const cellProps = {
                 index: i,
                 rowId: id,
                 cellData: row[k],
@@ -100,13 +105,17 @@ class Row extends Component {
 
         const isSelected = selectedRows ? selectedRows[id] : false;
 
-        const editClass = editorState && editorState.row && editorState.row.key === id ? selectionModel.defaults.editCls : '';
+        const editClass = editorState
+            && editorState.row
+            && editorState.row.key === id
+            ? selectionModel.defaults.editCls
+            : '';
 
-        const selectedClass = isSelected ? selectionModel.defaults.activeCls : '';  
+        const selectedClass = isSelected ? selectionModel.defaults.activeCls : '';
 
         const rowProps = {
             key: id,
-            className: prefix(CLASS_NAMES.ROW, selectedClass, editClass ),
+            className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
             onClick: this.handleRowSingleClickEvent.bind(this, events, row, id),
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
@@ -125,12 +134,12 @@ class Row extends Component {
     }
 
     handleRowDoubleClickEvent(events, rowData, rowId, reactEvent, id, browserEvent) {
-        
+
         const { selectionModel } = this.props;
 
-        if (selectionModel 
+        if (selectionModel
                 && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick) {
-            
+
             selectionModel.handleSelectionEvent({
                 eventType: reactEvent.type,
                 eventData: reactEvent,
@@ -146,10 +155,10 @@ class Row extends Component {
     handleRowSingleClickEvent(events, rowData, rowId, reactEvent, id, browserEvent) {
 
         const { selectionModel } = this.props;
-        
-        if (selectionModel 
+
+        if (selectionModel
                 && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick) {
-            
+
             selectionModel.handleSelectionEvent({
                 eventType: reactEvent.type,
                 eventData: reactEvent,
@@ -160,16 +169,16 @@ class Row extends Component {
         if (events.HANDLE_ROW_CLICK) {
             events.HANDLE_ROW_CLICK.call(this, rowData, rowId, reactEvent, id, browserEvent);
         }
-    } 
+    }
 
-    getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store) {
+    getRowSelection(dataSource, pageIndex, pageSize, pager, plugins) {
 
         if (!dataSource) {
             return false;
         }
 
-        if (!plugins.PAGER 
-            || !plugins.PAGER.enabled 
+        if (!plugins.PAGER
+            || !plugins.PAGER.enabled
             || plugins.PAGER.pagingType === 'remote') {
             return dataSource.data;
         }
@@ -178,26 +187,25 @@ class Row extends Component {
     }
 
     getRows(rows, events, selectedRows, columns) {
-        return Array.isArray(rows) ? rows.map((row) => 
+        return Array.isArray(rows) ? rows.map((row) =>
             this.getRowComponents(row, events, selectedRows, columns)) : null;
     }
 
     render() {
 
-        const { 
-            columns, 
-            data, 
+        const {
+            columns,
             events,
             plugins,
             pageSize,
             pager,
             dataSource,
             store,
-            selectedRows,
+            selectedRows
         } = this.props;
 
         const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
-        
+
         const rows = this.getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store);
 
         const rowComponents = this.getRows(rows, events, selectedRows, columns);
@@ -214,10 +222,10 @@ class Row extends Component {
 
 function mapStateToProps(state) {
     return {
-         pager: state.pager.get('pagerState'),
-         dataSource: state.dataSource.get('gridData'),
-         selectedRows: state.selection.get('selectedRows'),
-         editorState: state.editor.get('editorState')
+        pager: state.pager.get('pagerState'),
+        dataSource: state.dataSource.get('gridData'),
+        selectedRows: state.selection.get('selectedRows'),
+        editorState: state.editor.get('editorState')
     };
 }
 

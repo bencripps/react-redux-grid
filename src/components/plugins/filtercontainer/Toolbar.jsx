@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import FilterMenu from './Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
-import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
 import { setFilter,
     doLocalFilter,
@@ -15,12 +14,22 @@ import { setFilter,
 
 class FilterToolbar extends Component {
 
+    static propTypes = {
+        columnManager: PropTypes.object,
+        dataSource: PropTypes.object,
+        defaultSortMethod: PropTypes.string,
+        filter: PropTypes.object,
+        pageSize: PropTypes.number,
+        pager: PropTypes.object,
+        placeHolderText: PropTypes.string,
+        plugins: PropTypes.object,
+        selectionModel: PropTypes.object,
+        store: PropTypes.object.isRequired
+    }
+
     static defaultProps = {
-        store: React.PropTypes.func.isRequired,
-        plugins: React.PropTypes.object.isRequired,
-        selectionModel: React.PropTypes.object.isRequired,
-        placeHolderText: 'Search',
-        defaultSortMethod: FILTER_METHODS.LOCAL
+        defaultSortMethod: FILTER_METHODS.LOCAL,
+        placeHolderText: 'Search'
     }
 
     getToolbar(filter) {
@@ -35,17 +44,17 @@ class FilterToolbar extends Component {
             && filter
             && filter.filterMenuShown;
 
-        const method = plugins 
-            && plugins.FILTER_CONTAINER 
+        const method = plugins
+            && plugins.FILTER_CONTAINER
             && plugins.FILTER_CONTAINER.method
-            ? plugins.FILTER_CONTAINER.method.toUpperCase() 
+            ? plugins.FILTER_CONTAINER.method.toUpperCase()
             : this.props.defaultSortMethod;
 
         let inputValue = filter && filter.filterValue
             ? filter.filterValue : '';
 
-        if (filter 
-            && filter.filterMenuValues 
+        if (filter
+            && filter.filterMenuValues
             && Object.keys(filter.filterMenuValues).length > 0) {
             inputValue = JSON.stringify(filter.filterMenuValues);
         }
@@ -64,7 +73,7 @@ class FilterToolbar extends Component {
 
         const buttonContainerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.BUTTON_CONTAINER)
-        }
+        };
 
         const searchButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.SEARCH_BUTTON)
@@ -73,10 +82,10 @@ class FilterToolbar extends Component {
         const clearButtonProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.CLEAR_BUTTON),
             onClick: this.clearFilter.bind(this, dataUri, method)
-        }
+        };
 
         const filterMenuButtonProps = {
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON, 
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON,
                 filterMenuShown ? CLASS_NAMES.ACTIVE_CLASS : ''),
             onClick: this.handleFilterMenuButtonClick.bind(this)
         };
@@ -119,7 +128,7 @@ class FilterToolbar extends Component {
     setFilterValue(reactEvent) {
         const { store } = this.props;
         const value = reactEvent.target.value;
-        
+
         store.dispatch(setFilter(value));
     }
 
@@ -127,11 +136,11 @@ class FilterToolbar extends Component {
         const { store } = this.props;
 
         if (method === FILTER_METHODS.LOCAL) {
-            store.dispatch(clearFilterLocal()); 
+            store.dispatch(clearFilterLocal());
         }
 
         else if (method === FILTER_METHODS.REMOTE) {
-            store.dispatch(clearFilterRemote(dataSource)); 
+            store.dispatch(clearFilterRemote(dataSource));
         }
 
         store.dispatch(setFilter(''));
@@ -147,7 +156,7 @@ class FilterToolbar extends Component {
         if (reactEvent.which !== KEYBOARD_MAP.ENTER) {
             return false;
         }
-        
+
         if (method === FILTER_METHODS.LOCAL) {
             store.dispatch(doLocalFilter(
                 filterUtils.byKeyword(value, dataSource))
@@ -170,9 +179,9 @@ class FilterToolbar extends Component {
 
         const { plugins, filter } = this.props;
 
-        const toolbar = plugins 
-            && plugins.FILTER_CONTAINER 
-            && plugins.FILTER_CONTAINER.enabled 
+        const toolbar = plugins
+            && plugins.FILTER_CONTAINER
+            && plugins.FILTER_CONTAINER.enabled
             ? this.getToolbar(filter) : null;
 
         return toolbar;
@@ -180,7 +189,7 @@ class FilterToolbar extends Component {
 }
 
 function mapStateToProps(state) {
-    
+
     return {
         dataSource: state.dataSource.get('gridData'),
         selectedRows: state.selection.get('selectedRows'),

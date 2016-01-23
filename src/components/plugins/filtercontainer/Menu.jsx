@@ -1,13 +1,12 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import Menu from '../../core/menu/Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
 import { keyFromObject } from '../../../util/keygenerator';
-import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP, DEFAULT_PAGE_SIZE } from '../../../constants/GridConstants';
-import { setFilter,
+import { CLASS_NAMES, FILTER_METHODS, DEFAULT_PAGE_SIZE } from '../../../constants/GridConstants';
+import {
     doLocalFilter,
-    clearFilterRemote,
     clearFilterLocal,
     doRemoteFilter,
     showFilterMenu,
@@ -17,11 +16,11 @@ import { setFilter,
 class FilterMenu extends Menu {
 
     static propTypes = {
-        store: PropTypes.object.isRequired,
-        plugins: PropTypes.object.isRequired,
-        menuTitle: PropTypes.string.isRequired,
+        buttonText: PropTypes.object,
         buttonTypes: PropTypes.object,
-        buttonText: PropTypes.object
+        menuTitle: PropTypes.string.isRequired,
+        plugins: PropTypes.object.isRequired,
+        store: PropTypes.object.isRequired
     }
 
     static defaultProps = {
@@ -45,7 +44,7 @@ class FilterMenu extends Menu {
 
         const { filter } = this.props;
 
-        const value = filter 
+        const value = filter
             && filter.filterMenuValues
             && filter.filterMenuValues[field.name]
             ? filter.filterMenuValues[field.name]
@@ -63,7 +62,7 @@ class FilterMenu extends Menu {
             name: field.name,
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.INPUT),
             onChange: this.handleDynamicInputChange.bind(this),
-            value 
+            value
         };
 
         const labelProps = {
@@ -84,13 +83,13 @@ class FilterMenu extends Menu {
     }
 
     handleDynamicInputChange(reactEvent) {
-        
-        const { store, filter, plugins } = this.props;
+
+        const { store, filter } = this.props;
         const name = reactEvent.target.name;
         const value = reactEvent.target.value;
-        const existingFilter = filter && filter.filterMenuValues 
+        const existingFilter = filter && filter.filterMenuValues
             ? filter.filterMenuValues : {};
-        const newFilterValues = Object.assign(existingFilter, { [ name ] : value });
+        const newFilterValues = Object.assign(existingFilter, {[name]: value});
 
         if (!name) {
             console.warn('All registered inputs require a name property for dynamic filtering!');
@@ -100,14 +99,16 @@ class FilterMenu extends Menu {
         store.dispatch(setFilterMenuValues(newFilterValues));
     }
 
-    handleButtonClick(type, reactEvent) {
+    handleButtonClick(type) {
 
         const { buttonTypes, filter, store, dataSource, plugins, pager } = this.props;
-        const method = plugins.FILTER_CONTAINER.method ? plugins.FILTER_CONTAINER.method.toUpperCase() : FILTER_METHODS.LOCAL;
+        const method = plugins.FILTER_CONTAINER.method
+            ? plugins.FILTER_CONTAINER.method.toUpperCase()
+            : FILTER_METHODS.LOCAL;
         const filterSource = plugins.FILTER_CONTAINER.filterSource;
 
+        const pageSize = pager ? pager.pageSize : DEFAULT_PAGE_SIZE;
         let pageIndex = 0;
-        let pageSize = pager ? pager.pageSize : DEFAULT_PAGE_SIZE;
 
         if (pager) {
             pageIndex = pager.pageIndex;
@@ -139,7 +140,7 @@ class FilterMenu extends Menu {
 
         const buttonProps = {
             text: buttonText[type],
-            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON, 
+            className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON,
                 type === buttonTypes.CANCEL ? CLASS_NAMES.SECONDARY_CLASS : ''),
             onClick: this.handleButtonClick.bind(this, type)
         };
@@ -153,7 +154,7 @@ class FilterMenu extends Menu {
 
     render() {
 
-        const { plugins, filter, menuTitle, buttonTypes } = this.props;
+        const { plugins, menuTitle, buttonTypes } = this.props;
 
         const menuContainerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.CONTAINER)
@@ -168,7 +169,7 @@ class FilterMenu extends Menu {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON_CONTAINER)
         };
 
-        const inputs = plugins.FILTER_CONTAINER.fields 
+        const inputs = plugins.FILTER_CONTAINER.fields
             && plugins.FILTER_CONTAINER.fields.length > 0
             ? plugins.FILTER_CONTAINER.fields.map(this.getInput.bind(this))
             : null;
@@ -179,7 +180,7 @@ class FilterMenu extends Menu {
 
         return (
             <div { ...menuContainerProps } >
-                <span { ...menuTitleProps } > 
+                <span { ...menuTitleProps } >
                     { menuTitleProps.text }
                 </span>
                 <div>
@@ -195,7 +196,7 @@ class FilterMenu extends Menu {
 }
 
 function mapStateToProps(state) {
-    
+
     return {
         dataSource: state.dataSource.get('gridData'),
         selectedRows: state.selection.get('selectedRows'),

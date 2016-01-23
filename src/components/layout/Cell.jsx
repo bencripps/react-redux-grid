@@ -1,17 +1,18 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import store from '../../store/store';
-import { keyGenerator } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
-import { emptyFn } from '../../util/emptyFn';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Cell extends Component {
 
-    static defaultProps = {
-        data: React.PropTypes.String,
-        columns: React.PropTypes.object,
-        index: React.PropTypes.number
+    static propTypes = {
+        cellData: PropTypes.string,
+        columns: PropTypes.array,
+        data: PropTypes.func,
+        editorState: PropTypes.object,
+        events: PropTypes.object,
+        index: PropTypes.number,
+        rowId: PropTypes.string
     }
 
     handleClick(events, cellData, reactEvent) {
@@ -19,7 +20,7 @@ class Cell extends Component {
         if (reactEvent.target && reactEvent.target.contentEditable === 'true') {
             reactEvent.stopPropagation();
         }
-        
+
         if (events.HANDLE_CELL_CLICK) {
             events.HANDLE_CELL_CLICK.apply(this, arguments);
         }
@@ -39,15 +40,15 @@ class Cell extends Component {
     render() {
 
         const { cellData, events, rowId, editorState, columns, index } = this.props;
-        
-        const isEditable = editorState 
+
+        const isEditable = editorState
             && editorState.row
-            && editorState.row.key === rowId ? true : false;
+            && editorState.row.key === rowId;
 
         const hidden = columns
-            && columns[index] 
-            && columns[index].hidden !== undefined 
-            ? columns[index].hidden 
+            && columns[index]
+            && columns[index].hidden !== undefined
+            ? columns[index].hidden
             : null;
 
         const cellProps = {

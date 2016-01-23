@@ -2,10 +2,6 @@ import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { prefix } from '../../../util/prefix';
 
 export default class DragAndDropManager {
-    constructor(plugins, store, events, columns) {
-
-    }
-
     initDragable(initialProps) {
 
         const defaults = {
@@ -25,27 +21,27 @@ export default class DragAndDropManager {
         return props;
     }
 
-    handleDragStart(reactEvent) {
+    handleDragStart() {
 
     }
 
-    handleDrag(reactEvent) {
-        // reactEvent.preventDefault();
+    handleDrag() {
+
     }
 
     handleDragOver(reactEvent) {
         reactEvent.preventDefault();
     }
 
-    handleDragLeave(reactEvent) {
-        // reactEvent.preventDefault();
+    handleDragLeave() {
+
     }
 
-    handleDragEnd(reactEvent) {
-        // reactEvent.preventDefault();
+    handleDragEnd() {
+
     }
 
-    handleDrop(reactEvent) {
-        // reactEvent.preventDefault();
+    handleDrop() {
+
     }
 }

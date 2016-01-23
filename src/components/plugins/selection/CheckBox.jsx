@@ -6,8 +6,11 @@ import { selectAll, deselectAll } from '../../../actions/plugins/selection/Model
 
 class CheckBox extends Component {
 
-    static defaultProps = {
-        store: React.PropTypes.func.isRequired
+    static propTypes = {
+        dataSource: PropTypes.object,
+        selectedRows: PropTypes.object,
+        store: PropTypes.object,
+        type: PropTypes.string
     }
 
     handleChange(type, reactEvent) {
@@ -48,24 +51,24 @@ class CheckBox extends Component {
 
         const checkBoxContainerProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
-        }
+        };
 
         const checkBoxProps = {
             className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
             checked: selectedRows ? selectedRows[rowId] : false,
             type: 'checkbox',
             onChange: this.handleChange.bind(this, type)
-        }
+        };
 
-        return type === 'header' 
-            ? this.getHeader(checkBoxContainerProps, checkBoxProps) 
+        return type === 'header'
+            ? this.getHeader(checkBoxContainerProps, checkBoxProps)
             : this.getColumn(checkBoxContainerProps, checkBoxProps);
 
     }
 }
 
 function mapStateToProps(state) {
-    
+
     return {
         pager: state.pager.get('pagerState'),
         dataSource: state.dataSource.get('gridData'),

@@ -10,7 +10,7 @@ const initialState = fromJS({
 });
 
 export default function menu(state = initialState, action) {
-    
+
     switch (action.type) {
 
     case SHOW_MENU:

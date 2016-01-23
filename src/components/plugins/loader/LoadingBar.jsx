@@ -1,28 +1,28 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { keyGenerator, keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class LoadingBar extends Component {
 
-    static defaultProps = {
-        store: React.PropTypes.func.isRequired,
-        plugins: React.PropTypes.object.isRequired
+    static propTypes = {
+        isLoading: PropTypes.bool,
+        plugins: PropTypes.object,
+        store: PropTypes.object
     }
-   
+
     render() {
 
         const { isLoading, plugins } = this.props;
 
-        const showLoader = plugins 
+        const showLoader = plugins
                             && plugins.LOADER
                             && plugins.LOADER.enabled
                             && isLoading;
 
         const loadingBarProps = {
             className: prefix(CLASS_NAMES.LOADING_BAR, showLoader ? 'active' : '')
-        }
+        };
 
         return (
             <div { ...loadingBarProps } ></div>

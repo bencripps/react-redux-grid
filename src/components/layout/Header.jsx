@@ -1,22 +1,24 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { throttle } from '../../util/throttle';
-import { emptyFn } from '../../util/emptyFn';
 import { CLASS_NAMES, SORT_DIRECTIONS, SORT_METHODS } from '../../constants/GridConstants';
 import { reorderColumn } from '../../actions/core/ColumnManager';
 import { resizeColumns, setSortDirection } from '../../actions/GridActions';
 
 class Header extends Component {
 
-    static defaultProps = {
-        columnManager: React.PropTypes.object.isRequired,
-        columns: React.PropTypes.arrayOf(React.PropTypes.Object).isRequired,
-        plugins: React.PropTypes.object,
-        store: React.PropTypes.func
+    static propTypes = {
+        columnManager: PropTypes.object.isRequired,
+        columnStates: PropTypes.object,
+        columns: PropTypes.arrayOf(PropTypes.Object).isRequired,
+        dataSource: PropTypes.object,
+        pager: PropTypes.object,
+        plugins: PropTypes.object,
+        selectionModel: PropTypes.object,
+        store: PropTypes.object
     }
 
     constructor() {
@@ -31,7 +33,7 @@ class Header extends Component {
         }
 
         else if (columnManager.config.resizable !== undefined) {
-             return columnManager.config.resizable;
+            return columnManager.config.resizable;
         }
 
         else {
@@ -46,7 +48,7 @@ class Header extends Component {
         }
 
         else if (columnManager.config.sortable.enabled !== undefined) {
-             return columnManager.config.sortable.enabled
+            return columnManager.config.sortable.enabled;
         }
 
         else {
@@ -55,11 +57,11 @@ class Header extends Component {
     }
 
     handleDrop(droppedIndex, columns, reactEvent) {
-        
+
         const { store } = this.props;
 
         try {
-            const colData = reactEvent 
+            const colData = reactEvent
                 && reactEvent.dataTransfer.getData
                 ? JSON.parse(reactEvent.dataTransfer.getData('Text'))
                 : null;
@@ -68,7 +70,9 @@ class Header extends Component {
                 store.dispatch(reorderColumn(colData.index, droppedIndex, columns));
             }
 
-        } catch(e) {
+        }
+
+        catch(e) {
             console.warn('Invalid drop');
         }
 
@@ -82,7 +86,7 @@ class Header extends Component {
         const columnOffsetLeft = columnNode.getBoundingClientRect().left;
         const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
         const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
-        const totalWidth = parseFloat(this.refs[id].style.width, 10) 
+        const totalWidth = parseFloat(this.refs[id].style.width, 10)
             + parseFloat(this.refs[nextColumnKey].style.width, 10);
         let width = computedWidth * 100;
 
@@ -91,7 +95,7 @@ class Header extends Component {
         if (nextColWidth < 0 || width < 0) {
             return false;
         }
-        
+
         if (nextColWidth < columnManager.config.minColumnWidth) {
             nextColWidth = columnManager.config.minColumnWidth;
             width = totalWidth - columnManager.config.minColumnWidth;
@@ -109,7 +113,7 @@ class Header extends Component {
 
     }
 
-    handleColumnClick(col, reactEvent) {
+    handleColumnClick(col) {
 
         if (col.HANDLE_CLICK) {
             col.HANDLE_CLICK.apply(this, arguments);
@@ -120,7 +124,7 @@ class Header extends Component {
         const { store, dataSource, pager } = this.props;
 
         store.dispatch(setSortDirection(columns, col.id, direction));
-            
+
         if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
             columnManager.doSort(SORT_METHODS.LOCAL, col, direction, dataSource);
         }
@@ -136,8 +140,8 @@ class Header extends Component {
 
     getSortHandle(col, columns, columnManager) {
 
-        const direction = col.sortDirection 
-            || col.defaultSortDirection 
+        const direction = col.sortDirection
+            || col.defaultSortDirection
             || SORT_DIRECTIONS.ASCEND;
         const visibile = col.sortDirection !== undefined
             || columnManager.config.sortable.enabled
@@ -149,7 +153,7 @@ class Header extends Component {
         };
 
         return (
-            <span  { ...handleProps } />
+            <span { ...handleProps } />
         );
     }
 
@@ -161,32 +165,32 @@ class Header extends Component {
         );
     }
 
-    getWidth(col, key, columns, defaultColumnWidth, index) {
+    getWidth(col, key, columns, defaultColumnWidth) {
 
-        const visibleColumns = columns.filter((col) => !col.hidden);
-        const lastColumn = visibleColumns[visibleColumns.length -1];
+        const visibleColumns = columns.filter((_col) => !_col.hidden);
+        const lastColumn = visibleColumns[visibleColumns.length - 1];
         const isLastColumn = lastColumn && lastColumn.name === col.name;
-        const totalWidth = columns.reduce(function(a, col) { 
-            if (col.hidden) {
+        const totalWidth = columns.reduce((a, _col) => {
+            if (_col.hidden) {
                 return a + 0;
             }
-            return a + parseFloat(col.width || 0);
-         }, 0);
+            return a + parseFloat(_col.width || 0);
+        }, 0);
 
         let width = col.width || defaultColumnWidth;
 
-        if (isLastColumn 
+        if (isLastColumn
                 && totalWidth !== 0
                 && totalWidth < 100) {
-            width = `${100 - (totalWidth - parseFloat(width))}%`
+            width = `${100 - (totalWidth - parseFloat(width))}%`;
         }
 
         return width;
-    
+
     }
 
     getHeaderText(col, index, columnManager, dragAndDropManager) {
-        
+
         const innerHTML = col.renderer ? col.renderer(col) : col.name;
         const draggable = col.moveable !== undefined ? col.moveable : columnManager.config.moveable;
 
@@ -204,7 +208,7 @@ class Header extends Component {
                     index: index
                 };
 
-                reactEvent.dataTransfer.setData('Text', JSON.stringify(data)); 
+                reactEvent.dataTransfer.setData('Text', JSON.stringify(data));
             }
         });
 
@@ -221,24 +225,24 @@ class Header extends Component {
             return false;
         }
 
-        const { columnManager, selectionModel, store } = this.props;
+        const { columnManager, store } = this.props;
 
         const isResizable = this.isColumnResizable(col, columnManager);
 
         const isSortable = this.isSortable(col, columnManager);
 
-        const visibleColumns = columns.filter((col) => !col.hidden);
+        const visibleColumns = columns.filter((_col) => !_col.hidden);
 
         const key = keyGenerator(col.name, col.value);
 
-        const nextColumnKey = visibleColumns && visibleColumns[index + 1] 
+        const nextColumnKey = visibleColumns && visibleColumns[index + 1]
             ? keyGenerator(visibleColumns[index + 1].name, visibleColumns[index + 1].value) : null;
 
         const sortHandle = isSortable
             ? this.getSortHandle(col, columns, columnManager) : null;
 
-        const dragHandle = isResizable 
-            ? this.getDragHandle(col, dragAndDropManager) : null;     
+        const dragHandle = isResizable
+            ? this.getDragHandle(col, dragAndDropManager) : null;
 
         const headerProps = {
             className: `${col.className} ${isResizable ? prefix('resizable') : ''}`,
@@ -273,24 +277,24 @@ class Header extends Component {
 
         return (
             <th { ...headerProps } />
-        ); 
+        );
     }
 
     addEmptyInsert(headers, visibleColumns) {
 
         const { GRID_ACTIONS } = this.props.plugins;
-        
+
         if (visibleColumns.length === 0) {
 
-            if (GRID_ACTIONS 
-                && GRID_ACTIONS.menu 
+            if (GRID_ACTIONS
+                && GRID_ACTIONS.menu
                 && GRID_ACTIONS.menu.length > 0) {
 
                 headers.splice(1, 0, this.getEmptyHeader());
             }
 
             else {
-                headers.push(this.getEmptyHeader());   
+                headers.push(this.getEmptyHeader());
             }
         }
 
@@ -298,7 +302,7 @@ class Header extends Component {
 
     render() {
 
-        const { columns, selectionModel, columnManager, columnStates } = this.props;
+        const { columns, selectionModel, columnManager } = this.props;
         const dragAndDropManager = new DragAndDropManager();
         const visibleColumns = columns.filter((col) => !col.hidden);
         const headers = visibleColumns.map((col, i) => this.getHeader(col, dragAndDropManager, visibleColumns, i));
