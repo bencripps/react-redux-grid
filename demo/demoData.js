@@ -30,7 +30,7 @@ export const events = {
     }
 };
 
-export const dataSource = 'http://localhost:3000/getfakeData';
+export const dataSource = 'http://react-redux-grid.herokuapp.com/getfakeData';
 
 export const plugins = {
     COLUMN_MANAGER: {
@@ -39,13 +39,13 @@ export const plugins = {
         sortable: {
             enabled: true,
             method: 'local',
-            sortingSource: 'http://localhost:3000/getFakedPagedData'
+            sortingSource: 'http://react-redux-grid.herokuapp.com/getfakeData'
         }
     },
     FILTER_CONTAINER: {
         enabled: true,
         method: 'local',
-        filterSource: 'http://localhost:3000/getFakedPagedData',
+        filterSource: 'http://react-redux-grid.herokuapp.com/getfakeData',
         enableFilterMenu: true,
         fields: [
             {
@@ -75,7 +75,7 @@ export const plugins = {
     PAGER: {
         enabled: true,
         pagingType: 'remote',
-        pagingSource: 'http://localhost:3000/getFakedPagedData'
+        pagingSource: 'http://react-redux-grid.herokuapp.com/getFakedPagedData'
     },
     LOADER: {
         enabled: true

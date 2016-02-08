@@ -74,6 +74,40 @@ You can import a reducer like so:
 	    yourCustomReducer
 	};
 
+## Data
+
+Data can be provided to a grid in two ways.
+
+1. As a Local Data Source (in memory)
+2. As a Remote Data Source, via AJAX (by providing a route)
+
+If data is provided as a local variable it should be described as an array of objects, and declared using `data = [];`.
+
+If data is provided as a request route, it should be described as a string and declared using `dataSource = path/to/data/source;`.
+
+Examples of both cases:
+
+	// LOCAL 
+
+	const data = [
+		{
+			name: 'Michael Jordan',
+			position: 'Shooting Guard'
+		},
+		{
+			name: 'Charles Barkley',
+			position: 'Power Forward'
+		}, ...
+	];
+
+	const grid = <Grid data={ data } />
+	
+	// REMOTE
+
+	const dataSource = 'route/to/your/data/source';
+
+	const grid = <Grid dataSource={ dataSource } />
+
 ## Plugins
 
 All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
