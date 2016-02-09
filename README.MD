@@ -1,5 +1,7 @@
 # React-Redux Grid
 
+[![npm version](https://badge.fury.io/js/react-infinite.svg)](https://www.npmjs.com/package/react-redux-grid)
+
 A Grid Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
 
 [Demo](http://react-redux-grid.herokuapp.com/)

@@ -13,7 +13,7 @@ class Cell extends Component {
         events: PropTypes.object,
         index: PropTypes.number,
         rowId: PropTypes.string
-    }
+    };
 
     handleClick(events, cellData, reactEvent) {
 

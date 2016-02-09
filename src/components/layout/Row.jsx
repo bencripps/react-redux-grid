@@ -22,11 +22,11 @@ class Row extends Component {
         selectedRows: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object.isRequired
-    }
+    };
 
     static defaultProps = {
         emptyDataMessage: 'No Data Available'
-    }
+    };
 
     getPlaceHolder() {
 

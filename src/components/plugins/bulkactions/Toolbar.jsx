@@ -15,7 +15,7 @@ class BulkActionToolbar extends Component {
         selectedRows: PropTypes.object,
         selectionModel: PropTypes.object.isRequired,
         store: PropTypes.object.isRequired
-    }
+    };
 
     constructor() {
         super();

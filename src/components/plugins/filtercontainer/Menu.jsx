@@ -21,7 +21,7 @@ class FilterMenu extends Menu {
         menuTitle: PropTypes.string.isRequired,
         plugins: PropTypes.object.isRequired,
         store: PropTypes.object.isRequired
-    }
+    };
 
     static defaultProps = {
         store: React.PropTypes.object.isRequired,
@@ -38,7 +38,7 @@ class FilterMenu extends Menu {
         selectionModel: React.PropTypes.object.isRequired,
         placeHolderText: 'Search',
         defaultSortMethod: FILTER_METHODS.LOCAL
-    }
+    };
 
     getInput(field) {
 

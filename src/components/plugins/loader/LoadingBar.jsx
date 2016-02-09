@@ -9,7 +9,7 @@ class LoadingBar extends Component {
         isLoading: PropTypes.bool,
         plugins: PropTypes.object,
         store: PropTypes.object
-    }
+    };
 
     render() {
 

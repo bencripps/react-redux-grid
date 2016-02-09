@@ -25,12 +25,12 @@ class FilterToolbar extends Component {
         plugins: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object.isRequired
-    }
+    };
 
     static defaultProps = {
         defaultSortMethod: FILTER_METHODS.LOCAL,
         placeHolderText: 'Search'
-    }
+    };
 
     getToolbar(filter) {
 

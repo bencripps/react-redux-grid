@@ -18,11 +18,11 @@ class ActionColumn extends Component {
         rowId: PropTypes.string,
         store: PropTypes.object,
         type: PropTypes.string
-    }
+    };
 
     static defaultProps = {
         iconCls: 'action-icon'
-    }
+    };
 
     getHeader(containerProps, iconProps, menuShown, columns) {
 

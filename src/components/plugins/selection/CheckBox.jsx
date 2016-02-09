@@ -11,7 +11,7 @@ class CheckBox extends Component {
         selectedRows: PropTypes.object,
         store: PropTypes.object,
         type: PropTypes.string
-    }
+    };
 
     handleChange(type, reactEvent) {
         const { store, dataSource } = this.props;

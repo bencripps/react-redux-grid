@@ -14,7 +14,7 @@ class Inline extends Component {
         events: PropTypes.object,
         saveButtonText: PropTypes.string,
         store: PropTypes.object
-    }
+    };
 
     static defaultProps = {
         cancelButtonText: 'Cancel',
@@ -23,7 +23,7 @@ class Inline extends Component {
             CANCEL: 'CANCEL',
             SAVE: 'SAVE'
         }
-    }
+    };
 
     getButton(type) {
 

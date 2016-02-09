@@ -10,7 +10,7 @@ class Menu extends Component {
     static propTypes = {
         menu: React.PropTypes.array,
         store: React.PropTypes.object
-    }
+    };
 
     getMenuItem(item) {
 

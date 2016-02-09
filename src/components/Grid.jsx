@@ -26,11 +26,11 @@ class Grid extends Component {
         pageSize: React.PropTypes.number,
         plugins: React.PropTypes.object,
         store: React.PropTypes.object
-    }
+    };
 
     static defaultProps = {
         pageSize: 25
-    }
+    };
 
     componentWillMount() {
         const { dataSource, data, store, columns } = this.props;

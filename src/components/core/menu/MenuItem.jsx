@@ -11,13 +11,13 @@ class MenuItem extends Component {
         data: React.PropTypes.object,
         menuItemsTypes: React.PropTypes.object,
         store: React.PropTypes.object
-    }
+    };
 
     static defaultProps = {
         menuItemsTypes: {
             checkbox: 'checkbox'
         }
-    }
+    };
 
     handleMenuItemClick(data, reactEvent) {
 

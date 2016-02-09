@@ -10,7 +10,7 @@ class Message extends Component {
         errorHandler: PropTypes.object,
         plugins: PropTypes.object,
         store: PropTypes.object.isRequired
-    }
+    };
 
     getMessage(message, isShown) {
 

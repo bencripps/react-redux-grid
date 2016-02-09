@@ -19,7 +19,7 @@ class Header extends Component {
         plugins: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object
-    }
+    };
 
     constructor() {
         super();

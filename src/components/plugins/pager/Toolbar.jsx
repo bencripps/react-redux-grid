@@ -22,7 +22,7 @@ class PagerToolbar extends Component {
         recordType: PropTypes.string,
         store: PropTypes.object.isRequired,
         toolbarRenderer: PropTypes.func
-    }
+    };
 
     static defaultProps = {
         recordType: 'Records',
@@ -40,7 +40,7 @@ class PagerToolbar extends Component {
 
             return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
         }
-    }
+    };
 
     getCurrentRecordTotal(dataSource, pageSize, pageIndex, plugins) {
 
