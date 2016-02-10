@@ -1,8 +1,14 @@
+const path = require('path');
+
 module.exports = [
     {
         test: /\.js$|\.jsx$/,
         loaders: ['react-hot', 'babel-loader'],
         exclude: /node_modules|\.json$/
+    },
+    {
+        loaders: ['react-hot', 'babel-loader'],
+        include: path.resolve(__dirname, '../test')
     },
     {
         test: /\.styl$/,
