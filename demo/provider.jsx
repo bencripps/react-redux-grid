@@ -1,7 +1,6 @@
 import React from 'react';
-import Grid from '../src/components/Grid.jsx';
 import { Provider } from 'react-redux';
-import store from '../src/store/store';
+import { Grid, Store } from '../src';
 
 import {
     columns,
@@ -19,11 +18,11 @@ const gridData = {
     plugins,
     events,
     dataSource,
-    store
+    store: Store
 };
 
 export default (
-    <Provider store={ store }>
+    <Provider store={ Store }>
         <Grid { ...gridData } />
     </Provider>
 );

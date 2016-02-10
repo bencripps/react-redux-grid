@@ -1,4 +1,4 @@
-import Grid from './components/Grid.jsx';
+import { ConnectedGrid } from './components/Grid.jsx';
 import Store from './store/store';
 
 import columnmanager from './reducers/components/columnmanager';
@@ -29,7 +29,7 @@ const Reducers = {
 };
 
 const modules = {
-    Grid,
+    Grid: ConnectedGrid,
     Store,
     Reducers
 };

@@ -42,7 +42,7 @@ class Grid extends Component {
         else {
             store.dispatch(setColumns(columns));
         }
-        
+
         if (dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
         }
@@ -58,10 +58,10 @@ class Grid extends Component {
 
     render() {
 
-        const { 
+        const {
             columnState,
             data,
-            dataSource, 
+            dataSource,
             pageSize,
             plugins,
             events,
@@ -69,13 +69,13 @@ class Grid extends Component {
         } = this.props;
 
         const columns = columnState && columnState.columns ? columnState.columns : [];
-        
+
         const selectionModel = new Model(plugins, store, events);
 
         const editor = new Manager(plugins, store, events);
 
         const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns, dataSource);
-        
+
         const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
         const containerProps = {
@@ -158,4 +158,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Grid);
+const ConnectedGrid = connect(mapStateToProps)(Grid);
+
+export { Grid, ConnectedGrid };
