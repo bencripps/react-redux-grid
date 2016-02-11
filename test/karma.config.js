@@ -1,31 +1,39 @@
-const loaders = require('./loaders');
+const loaders = require('../webpack/loaders');
 
 module.exports = function exports(config) {
     config.set({
-        browsers: ['Chrome'],
+        browsers: ['PhantomJS'],
 
         files: [
-            'test.webpack.js'
+            '../webpack/webpack.test.js'
         ],
         frameworks: ['chai', 'mocha'],
         plugins: [
             'karma-chrome-launcher',
             'karma-chai',
             'karma-mocha',
-            'karma-sourcemap-loader',
-            'karma-webpack'
+            'karma-webpack',
+            'phantomjs-prebuilt',
+            'karma-phantomjs-launcher'
         ],
 
         preprocessors: {
-            'test.webpack.js': ['webpack', 'sourcemap']
+            '../webpack/webpack.test.js': ['webpack']
         },
         reporters: ['dots'],
-        singleRun: true,
+        singleRun: false,
+
+        phantomjsLauncher: {
+            exitOnResourceError: true
+        },
 
         webpack: {
-            devtool: 'inline-source-map',
             module: {
                 loaders: loaders
+            },
+            target: 'web',
+            node: {
+                fs: 'empty'
             },
             webpackMiddleware: {
                 noInfo: true

@@ -1,10 +1,44 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Grid } from '../../src';
+import { Grid } from '../../src/components/Grid.jsx';
+import { setup, mockStore, mockReducer } from '../util/index';
+
+const props = {
+    data: [
+        {
+            name: 'Michael Jordan',
+            position: 'Shooting Guard'
+        },
+        {
+            name: 'Charles Barkley',
+            position: 'Power Forward'
+        }
+    ],
+    columns: [],
+    store: {}
+};
+
+describe('Grid Function Execution', () => {
+    const grid = <Grid { ...props } />;
+    const internalProps = grid.props;
+
+    it('Should be rendered with correct props', () => {
+
+        expect(internalProps.columns).toEqual(props.columns);
+        expect(internalProps.data).toEqual(props.data);
+        expect(internalProps.pageSize).toEqual(25);
+
+    });
+
+});
 
 describe('Main Grid Component', () => {
+
+    const grid = <Grid { ...props } />;
+
     it('', () => {
-        expect('header').toBe('header')
-    })
+        expect('header').toBe('header');
+        expect('headers').toBe('headers');
+    });
 });

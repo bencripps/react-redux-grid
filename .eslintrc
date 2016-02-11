@@ -1,4 +1,8 @@
 {
+    "globals": {
+        "describe": true,
+        "it": true
+    },
     "parser": "babel-eslint",
     "ecmaFeatures": {
         "arrowFunctions": true,

@@ -1,12 +1,14 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { jsdom } from 'jsdom';
+import configureMockStore from 'redux-mock-store';
 
-export function setup(cmp, props) {
-    const renderer = TestUtils.createRenderer();
-    renderer.render(<cmp {...props} />);
+export const mockStore = configureMockStore([]);
 
-    const output = renderer.getRenderOutput();
+export function setup(thing) {
+    let renderer = TestUtils.createRenderer();
+    renderer.render(thing);
+
+    let output = renderer.getRenderOutput();
 
     return {
         props,
