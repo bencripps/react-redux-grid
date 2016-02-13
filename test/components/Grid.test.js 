@@ -1,23 +1,25 @@
 import expect from 'expect';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+import { keyGenerator } from '../../src/util/keygenerator';
 import { Grid } from '../../src/components/Grid.jsx';
 import { setup, mockStore, mockReducer } from '../util/index';
+import { gridColumns, localGridData, gridActions } from '../util/data';
+
 
 const props = {
-    data: [
-        {
-            name: 'Michael Jordan',
-            position: 'Shooting Guard'
-        },
-        {
-            name: 'Charles Barkley',
-            position: 'Power Forward'
-        }
-    ],
-    columns: [],
-    store: {}
+    data: localGridData,
+    columns: gridColumns,
+    store: mockStore({}, ...gridActions)
 };
+
+function grid(state) {
+    const element = React.createElement(Grid, state);
+    const renderer = TestUtils.createRenderer();
+    renderer.render(element);
+    return renderer.getRenderOutput();
+}
 
 describe('Grid Function Execution', () => {
     const grid = <Grid { ...props } />;
@@ -33,12 +35,24 @@ describe('Grid Function Execution', () => {
 
 });
 
-describe('Main Grid Component', () => {
+describe('Grid to error without a store and/or columns', () => {
 
-    const grid = <Grid { ...props } />;
+    const propsWithoutStore = {
+        data: localGridData,
+        columns: gridColumns
+    };
 
-    it('', () => {
-        expect('header').toBe('header');
-        expect('headers').toBe('headers');
+    const propsWithoutColumns = {
+        data: localGridData,
+        store: mockStore({}, ...gridActions)
+    };
+
+    it('Should throw an error without a store', () => {
+        expect(grid.bind(grid, propsWithoutStore)).toThrow('Component must be intialized with a valid store');
+    }); 
+
+    it('Should throw an error without columns array', () => {
+        expect(grid.bind(grid, propsWithoutColumns)).toThrow('A columns array is required');
     });
+
 });

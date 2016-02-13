@@ -18,7 +18,7 @@ export default class Manager {
             inline: 'inline'
         };
 
-        const config = plugins.EDITOR
+        const config = plugins && plugins.EDITOR
             ? Object.assign(defaults, plugins.EDITOR) : defaults;
 
         this.config = config;

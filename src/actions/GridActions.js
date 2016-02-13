@@ -11,7 +11,7 @@ import { SORT_DIRECTIONS } from '../constants/GridConstants';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
-import { keyFromObject } from '../util/keygenerator';
+import { keyFromObject, keyGenerator } from '../util/keygenerator';
 
 import Request from '../components/plugins/ajax/Request';
 
@@ -58,7 +58,7 @@ export function setColumns(cols) {
 
     if (!columns[0].id) {
         columns = cols.map((col) => {
-            col.id = keyFromObject(col.name, col.value);
+            col.id = keyGenerator(col.name, 'grid-column');
             return col;
         });
     }

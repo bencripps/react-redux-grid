@@ -1,5 +1,11 @@
-export function keyGenerator() {
-    return btoa(Array.from(arguments).join(''));
+if (!Array.from) {
+    Array.from = function() {
+        return [].slice.call(arguments);
+    }
+}
+
+export function keyGenerator(...keywords) {
+    return btoa(Array.from(keywords).join(''));
 }
 
 export function keyFromObject(obj, additionalStrings) {

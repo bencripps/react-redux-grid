@@ -233,10 +233,10 @@ class Header extends Component {
 
         const visibleColumns = columns.filter((_col) => !_col.hidden);
 
-        const key = keyGenerator(col.name, col.value);
+        const key = keyGenerator(col.name, 'grid-column');
 
         const nextColumnKey = visibleColumns && visibleColumns[index + 1]
-            ? keyGenerator(visibleColumns[index + 1].name, visibleColumns[index + 1].value) : null;
+            ? keyGenerator(visibleColumns[index + 1].name, 'grid-column') : null;
 
         const sortHandle = isSortable
             ? this.getSortHandle(col, columns, columnManager) : null;

@@ -40,7 +40,7 @@ export default class ColumnManager {
             defaultSortable: true
         };
 
-        const config = plugins.COLUMN_MANAGER
+        const config = plugins && plugins.COLUMN_MANAGER
             ? Object.assign(defaults, plugins.COLUMN_MANAGER) : defaults;
 
         this.plugins = plugins;

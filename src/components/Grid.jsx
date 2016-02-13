@@ -33,17 +33,22 @@ class Grid extends Component {
     };
 
     componentWillMount() {
+
         const { dataSource, data, store, columns } = this.props;
 
+        if (!store || !store.dispatch) {
+            throw new Error('Component must be intialized with a valid store');
+        }
+
         if (!columns) {
-            console.warn('A columns array is required');
+            throw new Error('A columns array is required');
         }
 
         else {
             store.dispatch(setColumns(columns));
         }
 
-        if (dataSource !== React.PropTypes.string) {
+        if (dataSource && dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
         }
 
