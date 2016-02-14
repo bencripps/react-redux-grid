@@ -15,6 +15,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "karma start ./test/karma.config.js",
+    "test-browser": "karma start ./test/karma.config.js --browser",
     "watch-test": "",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
     "prod": "webpack --pretty --config webpack/webpack.config.prod.js",

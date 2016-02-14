@@ -1,9 +1,11 @@
 const loaders = require('../webpack/loaders');
+const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
+    ? ['PhantomJS', 'Chrome']
+    : ['PhantomJS'];
 
 module.exports = function exports(config) {
     config.set({
-        browsers: ['PhantomJS'],
-
+        browsers: BROWSERS,
         files: [
             '../webpack/webpack.test.js',
             '../node_modules/babel-polyfill/dist/polyfill.js',

@@ -31,3 +31,8 @@ export const gridActions = [
     { type: SET_COLUMNS, columns: gridColumns },
     { type: SET_DATA, data: localGridData }
 ];
+
+export const gridActionsWithFilterContainer = [
+    { type: SET_COLUMNS, columns: gridColumns },
+    { type: SET_DATA, data: localGridData }
+]

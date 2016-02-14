@@ -5,8 +5,11 @@ import TestUtils from 'react-addons-test-utils';
 import { keyGenerator } from '../../src/util/keygenerator';
 import { Grid } from '../../src/components/Grid.jsx';
 import { setup, mockStore, mockReducer } from '../util/index';
-import { gridColumns, localGridData, gridActions } from '../util/data';
-
+import { gridColumns, 
+    localGridData, 
+    gridActions, 
+    gridActionsWithFilterContainer 
+} from '../util/data';
 
 const props = {
     data: localGridData,
@@ -96,14 +99,6 @@ describe('Grid DOM after render', () => {
         expect(table[0].props.store).toBeTruthy();
     });
 
-    it('Should render the correct table', () => {
-        const table = subcomponent(container, 'react-grid-table');
-
-        expect(table).toBeTruthy();
-        expect(table.length).toEqual(1);
-        expect(table[0].props.store).toBeTruthy();
-    });
-
     it('Should render no error container', () => {
         const errorContainer = subcomponent(container, 'react-grid-error-container');
         expect(errorContainer.length).toEqual(0);
@@ -118,29 +113,5 @@ describe('Grid DOM after render', () => {
         const errorContainer = subcomponent(container, 'react-grid-loading-bar');
         expect(errorContainer.length).toEqual(0);
     });
-
-
-    it('Should render the filter container', () => {
-
-        const propsWithFilterContainer = Object.assign(props, {
-            PLUGINS: {
-                FILTER_CONTAINER: {
-                    enabled: true
-                }
-            }
-        });
-
-        console.log(propsWithFilterContainer)
-
-        // const gridWithPlugins = grid(propsWithFilterContainer);
-        // const gridWithPluginsContainer = gridWithPlugins.props.children[0];
-
-        // const errorContainer = subcomponent(gridWithPluginsContainer, 'react-grid-filter-container');
-        // expect(errorContainer.length).toEqual(1);
-    });
-
-
-
-
 
 });
