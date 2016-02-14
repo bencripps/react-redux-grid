@@ -21,7 +21,6 @@
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js"
   },
   "dependencies": {
-    "babel-polyfill": "^6.2.0",
     "font-awesome": "^4.5.0",
     "immutable": "^3.7.5",
     "react": "^0.14.3",
@@ -39,6 +38,7 @@
     "babel-core": "^v6.5.1",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.2",
+    "babel-polyfill": "^6.2.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.1.2",

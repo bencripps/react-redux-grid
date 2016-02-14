@@ -1,12 +1,12 @@
 import { CSS_PREFIX } from '../constants/GridConstants';
 
-export function prefix() {
-    return Array.from(arguments).map((cls) => {
+export function prefix(...classes) {
+    return Array.from(classes).map((cls) => {
 
-        if (!cls) {
+        if (!cls || cls.length === 0) {
             return null;
         }
 
         return `${CSS_PREFIX}-${cls}`;
-    }).join(' ');
+    }).filter((cls) => cls).join(' ');
 }

@@ -5,7 +5,9 @@ module.exports = function exports(config) {
         browsers: ['PhantomJS'],
 
         files: [
-            '../webpack/webpack.test.js'
+            '../webpack/webpack.test.js',
+            '../node_modules/babel-polyfill/dist/polyfill.js',
+            '../test/components/**/*.js'
         ],
         frameworks: ['chai', 'mocha'],
         plugins: [
@@ -14,14 +16,20 @@ module.exports = function exports(config) {
             'karma-mocha',
             'karma-webpack',
             'phantomjs-prebuilt',
-            'karma-phantomjs-launcher'
+            'karma-phantomjs-launcher',
+            'karma-babel-preprocessor'
         ],
 
         preprocessors: {
+            '../test/components/**/*.js': ['babel'],
             '../webpack/webpack.test.js': ['webpack']
         },
-        reporters: ['dots'],
-        singleRun: false,
+
+        babelPreprocessor: {
+            options: {
+                presets: ['es2015']
+            }
+        },
 
         phantomjsLauncher: {
             exitOnResourceError: true

@@ -15,7 +15,7 @@ class Message extends Component {
     getMessage(message, isShown) {
 
         const messageContainerProps = {
-            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : '')
+            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : null)
         };
 
         const messageProps = {

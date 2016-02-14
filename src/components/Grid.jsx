@@ -34,19 +34,20 @@ class Grid extends Component {
 
     componentWillMount() {
 
-        const { dataSource, data, store, columns } = this.props;
+        const { store } = this.props;
 
         if (!store || !store.dispatch) {
             throw new Error('Component must be intialized with a valid store');
         }
 
-        if (!columns) {
-            throw new Error('A columns array is required');
-        }
+        this.setColumns();
 
-        else {
-            store.dispatch(setColumns(columns));
-        }
+        this.setData();
+    }
+
+    setData() {
+
+        const { dataSource, data, store } = this.props;
 
         if (dataSource && dataSource !== React.PropTypes.string) {
             store.dispatch(getAsyncData(dataSource));
@@ -57,7 +58,21 @@ class Grid extends Component {
         }
 
         else {
-            console.warn('A data source, or a static data set is required');
+            throw new Error('A data source, or a static data set is required');
+        }
+
+    }
+
+    setColumns() {
+
+        const { columns, store } = this.props;
+
+        if (!columns) {
+            throw new Error('A columns array is required');
+        }
+
+        else {
+            store.dispatch(setColumns(columns));
         }
     }
 
