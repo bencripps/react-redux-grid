@@ -1,3 +1,4 @@
+const path = require('path');
 const loaders = require('../webpack/loaders');
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['PhantomJS', 'Chrome']
@@ -7,9 +8,7 @@ module.exports = function exports(config) {
     config.set({
         browsers: BROWSERS,
         files: [
-            '../webpack/webpack.test.js',
-            '../node_modules/babel-polyfill/dist/polyfill.js',
-            '../test/components/**/*.js'
+            './../webpack/webpack.test.js',
         ],
         frameworks: ['chai', 'mocha'],
         plugins: [
@@ -23,8 +22,7 @@ module.exports = function exports(config) {
         ],
 
         preprocessors: {
-            '../test/components/**/*.js': ['babel'],
-            '../webpack/webpack.test.js': ['webpack']
+            './../webpack/webpack.test.js': ['babel', 'webpack']
         },
 
         babelPreprocessor: {
@@ -41,9 +39,19 @@ module.exports = function exports(config) {
             module: {
                 loaders: loaders
             },
+            resolve: {
+                extensions: [
+                    '',
+                    '.js',
+                    '.test.js'
+                ]
+            },
             target: 'web',
             node: {
                 fs: 'empty'
+            },
+            devServer: {
+                quiet: false
             },
             webpackMiddleware: {
                 noInfo: true

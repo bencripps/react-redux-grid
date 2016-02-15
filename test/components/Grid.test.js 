@@ -31,7 +31,7 @@ function subcomponent(container, cls) {
         .filter((child) => child.props.className === cls);
 }
 
-describe('Grid Function Execution', () => {
+describe('Grid Default Props', () => {
     const grid = <Grid { ...props } />;
     const internalProps = grid.props;
 

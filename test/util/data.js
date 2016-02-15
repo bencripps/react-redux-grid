@@ -5,6 +5,8 @@ import {
 
 import { keyGenerator } from '../../src/util/keygenerator';
 
+// grid test data
+
 export const gridColumns = [
     {
         name: 'Player',
@@ -35,4 +37,8 @@ export const gridActions = [
 export const gridActionsWithFilterContainer = [
     { type: SET_COLUMNS, columns: gridColumns },
     { type: SET_DATA, data: localGridData }
-]
+];
+
+// cell test data
+
+export const cellData = 'Cell Data';
