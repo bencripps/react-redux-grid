@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import Cell from './Cell.jsx';
 import { prefix } from '../../util/prefix';
+import { stateGetter } from '../../util/stateGetter';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -222,10 +223,10 @@ class Row extends Component {
 
 function mapStateToProps(state) {
     return {
-        pager: state.pager.get('pagerState'),
-        dataSource: state.dataSource.get('gridData'),
-        selectedRows: state.selection.get('selectedRows'),
-        editorState: state.editor.get('editorState')
+        dataSource: stateGetter(state, 'dataSource', 'gridData'),
+        pager: stateGetter(state, 'pager', 'pagerState'),
+        selectedRows: stateGetter(state, 'selection', 'selectedRows'),
+        editorState: stateGetter(state, 'editor', 'editorState')
     };
 }
 

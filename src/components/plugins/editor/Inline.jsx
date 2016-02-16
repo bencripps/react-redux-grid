@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES, ROW_HEIGHT } from '../../../constants/GridConstants';
 import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
@@ -94,8 +95,8 @@ class Inline extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorHandler: state.errorhandler.get('errorState'),
-        editorState: state.editor.get('editorState')
+        errorHandler: stateGetter(state, 'errorhandler', 'errorState'),
+        editorState: stateGetter(state, 'editor', 'editorState')
     };
 }
 

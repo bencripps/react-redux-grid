@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import Menu from '../../core/menu/Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
+import { stateGetter } from '../../../util/stateGetter';
 import { keyFromObject } from '../../../util/keygenerator';
 import { CLASS_NAMES, FILTER_METHODS, DEFAULT_PAGE_SIZE } from '../../../constants/GridConstants';
 import {
@@ -198,10 +199,10 @@ class FilterMenu extends Menu {
 function mapStateToProps(state) {
 
     return {
-        dataSource: state.dataSource.get('gridData'),
-        selectedRows: state.selection.get('selectedRows'),
-        filter: state.filter.get('filterState'),
-        pager: state.pager.get('pagerState')
+        dataSource: stateGetter(state, 'dataSource', 'gridData'),
+        selectedRows: stateGetter(state, 'selection', 'selectedRows'),
+        filter: stateGetter(state, 'filter', 'filterState'),
+        pager: stateGetter(state, 'pager', 'pagerState')
     };
 }
 

@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
 
@@ -70,9 +71,9 @@ class CheckBox extends Component {
 function mapStateToProps(state) {
 
     return {
-        pager: state.pager.get('pagerState'),
-        dataSource: state.dataSource.get('gridData'),
-        selectedRows: state.selection.get('selectedRows')
+        pager: stateGetter(state, 'pager', 'pagerState'),
+        dataSource: stateGetter(state, 'dataSource', 'gridData'),
+        selectedRows: stateGetter(state, 'selection', 'selectedRows')
     };
 }
 

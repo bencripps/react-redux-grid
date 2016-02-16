@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
 import {
@@ -168,9 +169,9 @@ class PagerToolbar extends Component {
 function mapStateToProps(state) {
 
     return {
-        pager: state.pager.get('pagerState'),
-        dataSource: state.dataSource.get('gridData'),
-        gridState: state.grid.get('gridState')
+        pager: stateGetter(state, 'pager', 'pagerState'),
+        dataSource: stateGetter(state, 'dataSource', 'gridData'),
+        gridState: stateGetter(state, 'grid', 'gridState')
     };
 }
 

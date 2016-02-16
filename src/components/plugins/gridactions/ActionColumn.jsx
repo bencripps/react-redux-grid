@@ -3,6 +3,7 @@ import Menu from '../../core/menu/Menu.jsx';
 import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { editRow } from '../../../actions/plugins/editor/EditorActions';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
@@ -143,8 +144,8 @@ class ActionColumn extends Component {
 function mapStateToProps(state) {
 
     return {
-        menuState: state.menu.get('menuState'),
-        gridState: state.grid.get('gridState')
+        menuState: stateGetter(state, 'menu', 'menuState'),
+        gridState: stateGetter(state, 'grid', 'gridState')
     };
 }
 

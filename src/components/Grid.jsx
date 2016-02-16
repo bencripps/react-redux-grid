@@ -13,6 +13,7 @@ import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import { getAsyncData, setData, setColumns } from '../actions/GridActions';
+import { stateGetter } from '../util/stateGetter';
 import '../style/main.styl';
 
 class Grid extends Component {
@@ -29,7 +30,8 @@ class Grid extends Component {
     };
 
     static defaultProps = {
-        pageSize: 25
+        pageSize: 25,
+        events: {}
     };
 
     componentWillMount() {
@@ -174,7 +176,7 @@ class Grid extends Component {
 
 function mapStateToProps(state) {
     return {
-        columnState: state.grid.get('gridState')
+        columnState: stateGetter(state, 'grid', 'gridState')
     };
 }
 

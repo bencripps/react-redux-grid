@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class LoadingBar extends Component {
@@ -32,7 +33,7 @@ class LoadingBar extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.loader.get('loaderState')
+        isLoading: stateGetter(state, 'loader', 'loaderState')
     };
 }
 

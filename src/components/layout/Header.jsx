@@ -4,6 +4,7 @@ import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { keyGenerator, keyFromObject } from '../../util/keygenerator';
 import { prefix } from '../../util/prefix';
 import { throttle } from '../../util/throttle';
+import { stateGetter } from '../../util/stateGetter';
 import { CLASS_NAMES, SORT_DIRECTIONS, SORT_METHODS } from '../../constants/GridConstants';
 import { reorderColumn } from '../../actions/core/ColumnManager';
 import { resizeColumns, setSortDirection } from '../../actions/GridActions';
@@ -328,9 +329,9 @@ class Header extends Component {
 
 function mapStateToProps(state) {
     return {
-        columnStates: state.columnManager.get('columnStates'),
-        dataSource: state.dataSource.get('gridData'),
-        pager: state.pager.get('pagerState')
+        columnStates: stateGetter(state, 'columnManager', 'columnStates'),
+        dataSource: stateGetter(state, 'dataSource', 'gridData'),
+        pager: stateGetter(state, 'pager', 'pagerState')
     };
 }
 

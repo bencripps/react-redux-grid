@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { dismissError } from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
 
@@ -65,7 +66,7 @@ class Message extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorHandler: state.errorhandler.get('errorState')
+        errorHandler: stateGetter(state, 'errorhandler', 'errorState')
     };
 }
 

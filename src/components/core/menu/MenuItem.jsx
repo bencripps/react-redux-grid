@@ -4,6 +4,7 @@ import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
+import { stateGetter } from '../../../util/stateGetter';
 
 class MenuItem extends Component {
 
@@ -77,7 +78,7 @@ class MenuItem extends Component {
 
 function mapStateToProps(state) {
     return {
-        columnStates: state.columnManager.get('columnStates')
+        columnStates: stateGetter(state, 'columnManager', 'columnStates')
     };
 }
 
