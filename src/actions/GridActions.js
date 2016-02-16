@@ -21,33 +21,64 @@ export function getAsyncData(datasource) {
 
         dispatch(setLoaderState(true));
 
-        return Request.api({
-            route: datasource,
-            method: 'GET'
-        }).then((response) => {
+        if (typeof datasource === 'function') {
 
-            if (response && response.data) {
+            datasource().then((response) => {
 
-                dispatch({
-                    type: SET_DATA,
-                    data: response.data,
-                    total: response.total,
-                    currentRecords: response.data,
-                    success: true
-                });
+                if (response && response.items) {
 
-            }
+                    dispatch({
+                        type: SET_DATA,
+                        data: response.items,
+                        total: response.total,
+                        currentRecords: response.items,
+                        success: true
+                    });
 
-            else {
-                dispatch({
-                    type: ERROR_OCCURRED,
-                    error: 'Unable to Retrieve Grid Data',
-                    errorOccurred: true
-                });
-            }
+                }
 
-            dispatch(setLoaderState(false));
-        });
+                else {
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true
+                    });
+                }
+            });
+        }
+
+        else if (typeof datasource === 'string') {
+
+            return Request.api({
+                route: datasource,
+                method: 'GET'
+            }).then((response) => {
+
+                if (response && response.data) {
+
+                    dispatch({
+                        type: SET_DATA,
+                        data: response.data,
+                        total: response.total,
+                        currentRecords: response.data,
+                        success: true
+                    });
+
+                }
+
+                else {
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true
+                    });
+                }
+
+                dispatch(setLoaderState(false));
+            });
+
+        }
+
 
     };
 }

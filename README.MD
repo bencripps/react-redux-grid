@@ -83,11 +83,15 @@ You can import a reducer like so:
 Data can be provided to a grid in two ways.
 
 1. As a Local Data Source (in memory)
-2. As a Remote Data Source, via AJAX (by providing a route)
+2. As a Remote Data Source, via AJAX (by providing a route, or a function which returns a `Promise`)
 
 If data is provided as a local variable it should be described as an array of objects, and declared using `data = [];`.
 
-If data is provided as a request route, it should be described as a string and declared using `dataSource = path/to/data/source;`.
+If data is provided as a request route, it should be described as a string or a function and declared using `dataSource = path/to/data/source;`.
+
+If data is provided as a function, it should return a `Promise`
+
+
 
 Examples of both cases:
 
@@ -106,11 +110,17 @@ Examples of both cases:
 
 	const grid = <Grid data={ data } />
 	
-	// REMOTE
+	// REMOTE -- as a string
 
 	const dataSource = 'route/to/your/data/source';
 
 	const grid = <Grid dataSource={ dataSource } />
+
+	// Remote -- as a function which returns a promise
+
+	const dataSource = new Promise();
+
+	const grid = <Grid dataSource= { dataSource } />
 
 ## Plugins
 

@@ -22,7 +22,7 @@ class Grid extends Component {
         columnState: React.PropTypes.object,
         columns: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
         data: React.PropTypes.arrayOf(React.PropTypes.object),
-        dataSource: React.PropTypes.string,
+        dataSource: React.PropTypes.any,
         events: React.PropTypes.object,
         pageSize: React.PropTypes.number,
         plugins: React.PropTypes.object,
@@ -51,7 +51,7 @@ class Grid extends Component {
 
         const { dataSource, data, store } = this.props;
 
-        if (dataSource && dataSource !== React.PropTypes.string) {
+        if (typeof dataSource === 'string' || typeof dataSource === 'function') {
             store.dispatch(getAsyncData(dataSource));
         }
 

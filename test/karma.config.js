@@ -34,7 +34,7 @@ module.exports = function exports(config) {
         phantomjsLauncher: {
             exitOnResourceError: true
         },
-        singleRun: false, //BROWSERS.length === 1,
+        singleRun: true, //BROWSERS.length === 1,
         webpack: {
             module: {
                 loaders: loaders
