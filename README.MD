@@ -95,7 +95,7 @@ If data is provided as a function, it should return a `Promise`
 
 Examples of both cases:
 
-	// LOCAL 
+### Remote 
 
 	const data = [
 		{
@@ -110,15 +110,36 @@ Examples of both cases:
 
 	const grid = <Grid data={ data } />
 	
-	// REMOTE -- as a string
+### Remote -- as a string
 
 	const dataSource = 'route/to/your/data/source';
 
 	const grid = <Grid dataSource={ dataSource } />
 
-	// Remote -- as a function which returns a promise
+### Remote -- as a function which returns a promise
 
-	const dataSource = new Promise();
+	const dataSource = () => {
+
+        return new Promise((success) =>{
+
+            return $.get({
+                method: 'GET',
+                route: '/route/to/your/data',
+            }).then((response) => {
+
+            	// important to note, that the grid expects a data attribute
+            	// on the response object!
+
+                const gridResponse = {
+                    data: response.items,
+                    success: true
+                };
+
+                success(gridResponse);
+            });
+
+        });
+    };
 
 	const grid = <Grid dataSource= { dataSource } />
 

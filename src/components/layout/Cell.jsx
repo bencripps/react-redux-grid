@@ -7,7 +7,7 @@ import { CLASS_NAMES } from '../../constants/GridConstants';
 class Cell extends Component {
 
     static propTypes = {
-        cellData: PropTypes.string,
+        cellData: PropTypes.any,
         columns: PropTypes.array,
         data: PropTypes.func,
         editorState: PropTypes.object,

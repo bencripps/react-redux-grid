@@ -25,11 +25,11 @@ export function getAsyncData(datasource) {
 
             datasource().then((response) => {
 
-                if (response && response.items) {
+                if (response && response.data) {
 
                     dispatch({
                         type: SET_DATA,
-                        data: response.items,
+                        data: response.data,
                         total: response.total,
                         currentRecords: response.items,
                         success: true
@@ -38,6 +38,12 @@ export function getAsyncData(datasource) {
                 }
 
                 else {
+
+                    if (response && !response.data) {
+                        console.warn('A response was recieved but no data entry was found');
+                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
+                    }
+
                     dispatch({
                         type: ERROR_OCCURRED,
                         error: 'Unable to Retrieve Grid Data',
