@@ -192,7 +192,7 @@ class Header extends Component {
 
     getHeaderText(col, index, columnManager, dragAndDropManager) {
 
-        const innerHTML = col.renderer ? col.renderer(col) : col.name;
+        const innerHTML = col.name;
         const draggable = col.moveable !== undefined ? col.moveable : columnManager.config.moveable;
 
         const spanProps = dragAndDropManager.initDragable({

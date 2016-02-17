@@ -84,12 +84,25 @@ class Row extends Component {
     }
 
     getCellData(columns, row, key, index) {
-        // if dataIndex has been provided
-        // return the obj[dataIndex]
+
+        const valueAtDataIndex = row
+            && columns[index]
+            && columns[index].dataIndex
+            ? row[columns[index].dataIndex]
+            : row[key];
+
+        // if a render has been provided, default to this
         if (row
             && columns[index]
-            && columns[index].dataIndex) {
-            return row[columns[index].dataIndex];
+            && columns[index].renderer
+            && typeof columns[index].renderer === 'function') {
+            return columns[index].renderer(columns[index], valueAtDataIndex, row, key, index);
+        }
+
+        // if dataIndex has been provided
+        // return the obj[dataIndex]
+        else if (valueAtDataIndex !== undefined) {
+            return valueAtDataIndex;
         }
 
         // else just return the item at that index

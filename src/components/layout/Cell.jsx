@@ -42,6 +42,8 @@ class Cell extends Component {
 
         const { cellData, events, rowId, editorState, columns, index } = this.props;
 
+        const cellHTML = <span> { cellData } </span>;
+
         const isEditable = editorState
             && editorState.row
             && editorState.row.key === rowId;
@@ -64,7 +66,7 @@ class Cell extends Component {
 
         return (
             <td { ...cellProps }>
-                { cellData }
+                { cellHTML }
             </td>
         );
     }
