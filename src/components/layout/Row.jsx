@@ -70,12 +70,13 @@ class Row extends Component {
 
     }
 
-    getEmptyCell() {
+    getEmptyCell(props) {
 
         const cellProps = {
             style: {
                 width: '100%'
-            }
+            },
+            ...props
         };
 
         return (
@@ -84,12 +85,12 @@ class Row extends Component {
     }
 
     getCellData(columns, row, key, index) {
-
+       
         const valueAtDataIndex = row
             && columns[index]
             && columns[index].dataIndex
             ? row[columns[index].dataIndex]
-            : row[key];
+            : null;
 
         // if a render has been provided, default to this
         if (row
@@ -105,8 +106,20 @@ class Row extends Component {
             return valueAtDataIndex;
         }
 
-        // else just return the item at that index
-        return row[key];
+        // else no data index found
+        console.warn('No dataIndex found for this column ', column);
+    }
+
+    addEmptyCells(rowData, columns) {
+
+        columns.forEach((col) => {
+
+            if (rowData && !rowData.hasOwnProperty(col.dataIndex)) {
+                rowData[col.dataIndex] = '';
+            }
+
+        });
+
     }
 
     getRowComponents(row, events, selectedRows, columns) {
@@ -114,6 +127,10 @@ class Row extends Component {
         const { selectionModel, columnManager, editorState } = this.props;
         const id = keyFromObject(row);
         const visibleColumns = columns.filter((col) => !col.hidden);
+
+        if (Object.keys(row).length !== columns.length) {
+            this.addEmptyCells(row, columns);
+        }
 
         const cells = Object.keys(row).map((k, i) => {
 

@@ -169,7 +169,7 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 Column Defaults:
 
 1. `name`: `string`, title of column 
-2. `dataIndex`: `string`, the key accessor for the column value
+2. `dataIndex`: `string`, the key accessor for the column value (required parameter)
 3. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
 4. `className`: `string`, additional class names to apply to columns header output
 5. `renderer`: `func`, a function which returns the column name
