@@ -71,7 +71,7 @@ You can import a reducer like so:
 	
 	import { Reducers } from 'react-redux-grid';
 
-	const columnmanager = Reducers.columnmanager;
+	const columnmanager = Reducers.Columnmanager;
 
 	const rootReducer = combineReducers({
 	    columnmanager,
@@ -133,6 +133,7 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 	export const columns = [
 	    {
 	        name: 'Name',
+	        dataIndex: 'name',
 	        width: '10%',
 	        className: 'additional-class',
 	        renderer: () => { return 'Name of Column'; },
@@ -147,14 +148,15 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 Column Defaults:
 
 1. `name`: `string`, title of column 
-2. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
-3. `className`: `string`, additional class names to apply to columns header output
-4. `renderer`: `func`, a function which returns the column name
-5. `hidden`: `boolean`, whether the column is hidden or visible
-6. `hideable`: `boolean`, whether the column can be hidden
-7. `resizable`: `boolean`, whether this column can be resized
-7. `moveable`: `boolean`, whether this column can be moved
-8. `HANDLE_CLICK`: `func`, click handler assigned to column
+2. `dataIndex`: `string`, the key accessor for the column value
+3. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
+4. `className`: `string`, additional class names to apply to columns header output
+5. `renderer`: `func`, a function which returns the column name
+6. `hidden`: `boolean`, whether the column is hidden or visible
+7. `hideable`: `boolean`, whether the column can be hidden
+8. `resizable`: `boolean`, whether this column can be resized
+9. `moveable`: `boolean`, whether this column can be moved
+10. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 
 ## Column Manager

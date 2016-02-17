@@ -83,6 +83,19 @@ class Row extends Component {
         );
     }
 
+    getCellData(columns, row, key, index) {
+        // if dataIndex has been provided
+        // return the obj[dataIndex]
+        if (row
+            && columns[index]
+            && columns[index].dataIndex) {
+            return row[columns[index].dataIndex];
+        }
+
+        // else just return the item at that index
+        return row[key];
+    }
+
     getRowComponents(row, events, selectedRows, columns) {
 
         const { selectionModel, columnManager, editorState } = this.props;
@@ -94,7 +107,7 @@ class Row extends Component {
             const cellProps = {
                 index: i,
                 rowId: id,
-                cellData: row[k],
+                cellData: this.getCellData(columns, row, k, i),
                 columns,
                 key: keyGenerator(k),
                 events: events
