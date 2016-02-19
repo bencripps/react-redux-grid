@@ -1,14 +1,11 @@
 import expect from 'expect';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
-import { keyGenerator } from '../../src/util/keygenerator';
 import { Grid } from '../../src/components/Grid.jsx';
-import { setup, mockStore, mockReducer } from '../util/index';
-import { gridColumns, 
-    localGridData, 
-    gridActions, 
-    gridActionsWithFilterContainer 
+import { mockStore } from '../util/index';
+import { gridColumns,
+    localGridData,
+    gridActions
 } from '../util/data';
 
 const props = {

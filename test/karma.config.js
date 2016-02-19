@@ -1,4 +1,3 @@
-const path = require('path');
 const loaders = require('../webpack/loaders');
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['PhantomJS', 'Chrome']
@@ -8,7 +7,7 @@ module.exports = function exports(config) {
     config.set({
         browsers: BROWSERS,
         files: [
-            './../webpack/webpack.test.js',
+            './../webpack/webpack.test.js'
         ],
         frameworks: ['chai', 'mocha'],
         plugins: [
@@ -16,13 +15,14 @@ module.exports = function exports(config) {
             'karma-chai',
             'karma-mocha',
             'karma-webpack',
-            'phantomjs-prebuilt',
+            'karma-babel-preprocessor',
             'karma-phantomjs-launcher',
-            'karma-babel-preprocessor'
+            'karma-sourcemap-loader',
+            'phantomjs-prebuilt'
         ],
 
         preprocessors: {
-            './../webpack/webpack.test.js': ['babel', 'webpack']
+            './../webpack/webpack.test.js': ['babel', 'webpack', 'sourcemap']
         },
 
         babelPreprocessor: {
@@ -32,9 +32,9 @@ module.exports = function exports(config) {
         },
 
         phantomjsLauncher: {
-            exitOnResourceError: true
+            exitOnResourceError: false
         },
-        singleRun: true, //BROWSERS.length === 1,
+        singleRun: BROWSERS.length === 1,
         webpack: {
             module: {
                 loaders: loaders

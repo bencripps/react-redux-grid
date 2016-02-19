@@ -1,6 +1,6 @@
-import { 
+import {
     SET_DATA,
-    SET_COLUMNS 
+    SET_COLUMNS
 } from '../../src/constants/ActionTypes';
 
 import { keyGenerator } from '../../src/util/keygenerator';
@@ -17,6 +17,19 @@ export const gridColumns = [
         id: keyGenerator('Player', 'grid-column')
     }
 ];
+
+export const defaultColumnManager = {
+    defaultColumnWidth: `${100 / gridColumns.length}%`,
+    dataSource: 'dataSource',
+    minColumnWidth: 10,
+    moveable: false,
+    resizable: false,
+    sortable: {
+        enabled: true,
+        method: 'LOCAL',
+        sortingSource: ''
+    }
+};
 
 export const localGridData = [
     {

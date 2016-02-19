@@ -23,7 +23,7 @@ class Cell extends Component {
         }
 
         if (events.HANDLE_CELL_CLICK) {
-            events.HANDLE_CELL_CLICK.apply(this, arguments);
+            return events.HANDLE_CELL_CLICK.apply(this, arguments);
         }
     }
 
@@ -34,7 +34,7 @@ class Cell extends Component {
         }
 
         if (events.HANDLE_CELL_CLICK) {
-            events.HANDLE_CELL_DOUBLE_CLICK.apply(this, arguments);
+            return events.HANDLE_CELL_DOUBLE_CLICK.apply(this, arguments);
         }
     }
 
@@ -78,4 +78,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Cell);
+const ConnectedCell = connect(mapStateToProps)(Cell);
+
+export { Cell, ConnectedCell };
