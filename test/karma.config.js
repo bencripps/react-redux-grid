@@ -9,11 +9,12 @@ module.exports = function exports(config) {
         files: [
             './../webpack/webpack.test.js'
         ],
-        frameworks: ['chai', 'mocha'],
+        frameworks: ['chai', 'mocha', 'es6-shim'],
         plugins: [
             'karma-chrome-launcher',
             'karma-chai',
             'karma-mocha',
+            'karma-es6-shim',
             'karma-webpack',
             'karma-babel-preprocessor',
             'karma-phantomjs-launcher',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Header from './layout/Header.jsx';
+import { ConnectedHeader as Header} from './layout/Header.jsx';
 import { ConnectedRow as Row } from './layout/Row.jsx';
 import PagerToolbar from './plugins/pager/Toolbar.jsx';
 import Message from './plugins/errorhandler/Message.jsx';

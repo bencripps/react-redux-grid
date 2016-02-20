@@ -283,6 +283,10 @@ class Header extends Component {
 
     addEmptyInsert(headers, visibleColumns) {
 
+        if (!this.props.plugins) {
+            return false;
+        }
+
         const { GRID_ACTIONS } = this.props.plugins;
 
         if (visibleColumns.length === 0) {
@@ -311,7 +315,10 @@ class Header extends Component {
             className: prefix(CLASS_NAMES.HEADER)
         };
 
-        selectionModel.updateCells(headers, columns, 'header');
+        if (selectionModel) {
+            selectionModel.updateCells(headers, columns, 'header');
+        }
+
 
         columnManager.addActionColumn(headers, 'header');
 
@@ -334,5 +341,9 @@ function mapStateToProps(state) {
         pager: stateGetter(state, 'pager', 'pagerState')
     };
 }
+
+const ConnectedHeader = connect(mapStateToProps)(Header);
+
+export { Header, ConnectedHeader };
 
 export default connect(mapStateToProps)(Header);

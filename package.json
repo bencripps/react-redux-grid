@@ -59,6 +59,7 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.2",
     "karma-cli": "^0.1.1",
+    "karma-es6-shim": "^0.2.3",
     "karma-eslint": "^2.0.1",
     "karma-expect": "^1.1.1",
     "karma-jasmine": "^0.3.6",
