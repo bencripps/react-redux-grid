@@ -16,14 +16,14 @@ class Menu extends Component {
 
         const { store } = this.props;
 
-        const menuProps = {
+        const menuItemProps = {
             data: item,
             type: item.type,
             key: keyFromObject(item),
             store
         };
 
-        return <MenuItem { ...menuProps } />;
+        return <MenuItem { ...menuItemProps } />;
     }
 
     render() {
@@ -50,4 +50,6 @@ function mapStateToProps() {
     return {};
 }
 
-export default connect(mapStateToProps)(Menu);
+const ConnectedMenu = connect(mapStateToProps)(Menu);
+
+export { Menu, ConnectedMenu };

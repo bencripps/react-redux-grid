@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
-import Menu from '../../core/menu/Menu.jsx';
+import { ConnectedMenu as Menu } from '../../core/menu/Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
 import { stateGetter } from '../../../util/stateGetter';
 import { keyFromObject } from '../../../util/keygenerator';

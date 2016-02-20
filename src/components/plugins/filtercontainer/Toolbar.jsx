@@ -185,8 +185,6 @@ class FilterToolbar extends Component {
             && plugins.FILTER_CONTAINER.enabled
             ? this.getToolbar(filter) : null;
 
-        console.log(toolbar);
-
         return toolbar;
     }
 }

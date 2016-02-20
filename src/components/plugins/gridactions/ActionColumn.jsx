@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import Menu from '../../core/menu/Menu.jsx';
+import { ConnectedMenu as Menu } from '../../core/menu/Menu.jsx';
 import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
