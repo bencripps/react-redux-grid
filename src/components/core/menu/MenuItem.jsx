@@ -21,8 +21,9 @@ class MenuItem extends Component {
     };
 
     handleMenuItemClick(data, reactEvent) {
-
-        reactEvent.stopPropagation();
+        if (reactEvent && reactEvent.stopPropagation) {
+            reactEvent.stopPropagation();
+        }
 
         const dismiss = data.dismissOnClick !== undefined
             ? data.dismissOnClick : true;
@@ -34,7 +35,7 @@ class MenuItem extends Component {
         }
 
         if (data.EVENT_HANDLER) {
-            data.EVENT_HANDLER.apply(this, arguments);
+            return data.EVENT_HANDLER.apply(this, arguments);
         }
     }
 
@@ -82,4 +83,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(MenuItem);
+const ConnectedMenuItem = connect(mapStateToProps)(MenuItem);
+
+export { MenuItem, ConnectedMenuItem };

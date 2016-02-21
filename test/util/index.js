@@ -22,6 +22,10 @@ export function setup(thing) {
     };
 }
 
+export const sampleReactEvent = {
+    stopPropagation: () => {}
+}
+
 export function getSelModel() {
 
     return new Model(

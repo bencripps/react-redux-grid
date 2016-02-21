@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MenuItem from './MenuItem.jsx';
+import { ConnectedMenuItem as MenuItem } from './MenuItem.jsx';
 import { connect } from 'react-redux';
 import { keyFromObject } from '../../../util/keygenerator';
 import { prefix } from '../../../util/prefix';
