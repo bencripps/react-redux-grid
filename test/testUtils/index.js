@@ -6,7 +6,6 @@ import ColumnManager from '../../src/components/core/ColumnManager';
 import Model from '../../src/components/plugins/selection/Model';
 import { gridColumns } from './data';
 
-
 export const mockStore = getMockStore;
 
 export function setup(thing) {
@@ -24,7 +23,7 @@ export function setup(thing) {
 
 export const sampleReactEvent = {
     stopPropagation: () => {}
-}
+};
 
 export function getSelModel() {
 

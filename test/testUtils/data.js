@@ -3,7 +3,7 @@ import {
     SET_COLUMNS
 } from '../../src/constants/ActionTypes';
 
-import { keyGenerator } from '../../src/util/keygenerator';
+import { keyGenerator } from '../../src/util/keyGenerator';
 
 // grid test data
 

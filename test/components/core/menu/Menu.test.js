@@ -2,8 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { Menu } from './../../../../src/components/core/menu/Menu.jsx';
-import { cellData, gridColumns } from './../../../util/data';
-import { mockStore } from './../../../util/index';
+import { mockStore } from './../../../testUtils/index';
 
 const store = mockStore();
 

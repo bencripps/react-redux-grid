@@ -1,9 +1,3 @@
-if (!Array.from) {
-    Array.from = function() {
-        return [].slice.call(arguments);
-    }
-}
-
 export function keyGenerator(...keywords) {
     return btoa(Array.from(keywords).join(''));
 }

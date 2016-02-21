@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { stateGetter } from './../../../src/util/stateGetter';
+import { stateGetter } from './../../src/util/stateGetter';
 
 describe('State Getter Function', () => {
 

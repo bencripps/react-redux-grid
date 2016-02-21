@@ -2,11 +2,11 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { Grid } from '../../src/components/Grid.jsx';
-import { mockStore } from '../util/index';
+import { mockStore } from '../testUtils/index';
 import { gridColumns,
     localGridData,
     gridActions
-} from '../util/data';
+} from '../testUtils/data';
 
 const props = {
     data: localGridData,

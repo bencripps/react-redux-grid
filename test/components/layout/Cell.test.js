@@ -2,7 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { Cell } from './../../../src/components/layout/Cell.jsx';
-import { cellData, gridColumns } from './../../util/data';
+import { cellData, gridColumns } from './../../testUtils/data';
 
 const props = {
     cellData,

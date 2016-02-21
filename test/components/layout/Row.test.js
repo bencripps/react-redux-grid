@@ -2,13 +2,13 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { Row } from './../../../src/components/layout/Row.jsx';
-import { mockStore } from './../../util/index';
+import { mockStore } from './../../testUtils/index';
 import {
     gridColumns,
     gridActions,
     localGridData,
     defaultColumnManager
-} from './../../util/data';
+} from './../../testUtils/data';
 
 const props = {
     columnManager: defaultColumnManager,
