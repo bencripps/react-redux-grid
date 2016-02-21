@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
-import { keyGenerator, keyFromObject } from '../../util/keygenerator';
+import { keyGenerator, keyFromObject } from '../../util/keyGenerator';
 import { Cell } from './Cell.jsx';
 import { prefix } from '../../util/prefix';
 import { stateGetter } from '../../util/stateGetter';

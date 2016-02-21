@@ -1,5 +1,5 @@
 import React from 'react';
-import { keyFromObject } from '../../../util/keygenerator';
+import { keyFromObject } from '../../../util/keyGenerator';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
 import CheckBox from './CheckBox.jsx';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ConnectedMenuItem as MenuItem } from './MenuItem.jsx';
 import { connect } from 'react-redux';
-import { keyFromObject } from '../../../util/keygenerator';
+import { keyFromObject } from '../../../util/keyGenerator';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 

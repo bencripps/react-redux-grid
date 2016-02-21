@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
-import { keyGenerator, keyFromObject } from '../../util/keygenerator';
+import { keyGenerator, keyFromObject } from '../../util/keyGenerator';
 import { prefix } from '../../util/prefix';
 import { throttle } from '../../util/throttle';
 import { stateGetter } from '../../util/stateGetter';

@@ -4,7 +4,7 @@ import { prefix } from '../../../util/prefix';
 import { ConnectedMenu as Menu } from '../../core/menu/Menu.jsx';
 import filterUtils from '../../../util/filterUtils';
 import { stateGetter } from '../../../util/stateGetter';
-import { keyFromObject } from '../../../util/keygenerator';
+import { keyFromObject } from '../../../util/keyGenerator';
 import { CLASS_NAMES, FILTER_METHODS, DEFAULT_PAGE_SIZE } from '../../../constants/GridConstants';
 import {
     doLocalFilter,

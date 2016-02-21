@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
-import { keyFromObject } from '../../../util/keygenerator';
+import { keyFromObject } from '../../../util/keyGenerator';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { removeToolbar } from '../../../actions/plugins/bulkactions/ToolbarActions';
 import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';

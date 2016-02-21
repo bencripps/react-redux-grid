@@ -1,7 +1,7 @@
 import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { CLASS_NAMES, CSS_PREFIX, SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
-import { keyFromObject } from '../../util/keygenerator';
+import { keyFromObject } from '../../util/keyGenerator';
 import { prefix } from '../../util/prefix';
 import { elementContains } from '../../util/elementContains';
 import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
