@@ -25,4 +25,18 @@ const rootReducer = combineReducers({
     errorhandler
 });
 
+export const Reducers = {
+    ColumnManager: columnManager,
+    DataSource: dataSource,
+    Grid: grid,
+    BulkActions: bulkaction,
+    Editor: editor,
+    ErrorHandler: errorhandler,
+    Filter: filter,
+    Loader: loader,
+    Menu: menu,
+    Pager: pager,
+    Selection: selection
+};
+
 export default rootReducer;

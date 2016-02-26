@@ -93,10 +93,10 @@ class Inline extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        errorHandler: stateGetter(state, 'errorhandler', 'errorState'),
-        editorState: stateGetter(state, 'editor', 'editorState')
+        errorHandler: stateGetter(state, props, 'errorhandler', 'errorState'),
+        editorState: stateGetter(state, props, 'editor', 'editorState')
     };
 }
 

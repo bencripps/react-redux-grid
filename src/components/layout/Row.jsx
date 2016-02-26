@@ -20,6 +20,7 @@ class Row extends Component {
         pageSize: PropTypes.number,
         pager: PropTypes.object,
         plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
         selectedRows: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object.isRequired
@@ -85,7 +86,7 @@ class Row extends Component {
     }
 
     getCellData(columns, row, key, index) {
-       
+
         const valueAtDataIndex = row
             && columns[index]
             && columns[index].dataIndex
@@ -107,7 +108,7 @@ class Row extends Component {
         }
 
         // else no data index found
-        console.warn('No dataIndex found for this column ', column);
+        console.warn('No dataIndex found for this column ', columns);
     }
 
     addEmptyCells(rowData, columns) {
@@ -124,7 +125,7 @@ class Row extends Component {
 
     getRowComponents(row, events, selectedRows, columns) {
 
-        const { selectionModel, columnManager, editorState } = this.props;
+        const { selectionModel, columnManager, editorState, reducerKeys } = this.props;
         const id = keyFromObject(row);
         const visibleColumns = columns.filter((col) => !col.hidden);
 
@@ -140,7 +141,8 @@ class Row extends Component {
                 cellData: this.getCellData(columns, row, k, i),
                 columns,
                 key: keyGenerator(k),
-                events: events
+                events: events,
+                reducerKeys
             };
 
             return <Cell { ...cellProps } />;
@@ -164,9 +166,9 @@ class Row extends Component {
             onDoubleClick: this.handleRowDoubleClickEvent.bind(this, events, row, id)
         };
 
-        columnManager.addActionColumn(cells, 'row', id);
+        columnManager.addActionColumn(cells, 'row', id, reducerKeys);
 
-        selectionModel.updateCells(cells, id, 'row');
+        selectionModel.updateCells(cells, id, 'row', reducerKeys);
 
         this.addEmptyInsert(cells, visibleColumns);
 
@@ -264,12 +266,12 @@ class Row extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        pager: stateGetter(state, 'pager', 'pagerState'),
-        selectedRows: stateGetter(state, 'selection', 'selectedRows'),
-        editorState: stateGetter(state, 'editor', 'editorState')
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        pager: stateGetter(state, props, 'pager', 'pagerState'),
+        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
+        editorState: stateGetter(state, props, 'editor', 'editorState')
     };
 }
 

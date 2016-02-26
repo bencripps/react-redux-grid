@@ -31,9 +31,9 @@ class LoadingBar extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        isLoading: stateGetter(state, 'loader', 'loaderState')
+        isLoading: stateGetter(state, props, 'loader', 'loaderState')
     };
 }
 

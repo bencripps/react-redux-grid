@@ -26,12 +26,14 @@ class Grid extends Component {
         events: React.PropTypes.object,
         pageSize: React.PropTypes.number,
         plugins: React.PropTypes.object,
+        reducerKeys: React.PropTypes.object,
         store: React.PropTypes.object
     };
 
     static defaultProps = {
         pageSize: 25,
-        events: {}
+        events: {},
+        reducerKeys: {}
     };
 
     componentWillMount() {
@@ -87,6 +89,7 @@ class Grid extends Component {
             pageSize,
             plugins,
             events,
+            reducerKeys,
             store
         } = this.props;
 
@@ -101,31 +104,36 @@ class Grid extends Component {
         const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
         const containerProps = {
-            className: prefix(CLASS_NAMES.CONTAINER)
+            className: prefix(CLASS_NAMES.CONTAINER),
+            reducerKeys
         };
 
         const messageProps = {
+            reducerKeys,
             store
         };
 
         const bulkActionProps = {
-            store,
             plugins,
-            selectionModel
+            reducerKeys,
+            selectionModel,
+            store
         };
 
         const filterProps = {
-            store,
-            plugins,
             columnManager,
-            pageSize
+            pageSize,
+            plugins,
+            reducerKeys,
+            store
         };
 
         const headerProps = {
-            selectionModel,
             columnManager,
             columns,
             plugins,
+            reducerKeys,
+            selectionModel,
             store
         };
 
@@ -135,24 +143,28 @@ class Grid extends Component {
             events,
             pageSize,
             plugins,
-            store,
-            selectionModel
+            reducerKeys,
+            selectionModel,
+            store
         };
 
         const tableProps = {
             className: prefix(CLASS_NAMES.TABLE),
             cellSpacing: 0,
+            reducerKeys,
             store
         };
 
         const pagerProps = {
             pageSize,
             plugins,
+            reducerKeys,
             store
         };
 
         const loadingBarProps = {
-            plugins
+            plugins,
+            reducerKeys
         };
 
         return (
@@ -174,9 +186,9 @@ class Grid extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        columnState: stateGetter(state, 'grid', 'gridState')
+        columnState: stateGetter(state, props, 'grid', 'gridState')
     };
 }
 

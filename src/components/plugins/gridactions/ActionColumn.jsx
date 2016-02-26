@@ -95,15 +95,18 @@ class ActionColumn extends Component {
 
     getMenu(actions, type) {
 
-        const { store, editor } = this.props;
+        const { store, editor, reducerKeys } = this.props;
 
         if (editor.config.enabled && type !== 'header') {
             actions.menu.unshift(this.getEditAction(editor));
         }
 
+        console.log('HEY'. reducerKeys);
+
         const menuProps = {
+            ...actions,
+            reducerKeys,
             store,
-            ...actions
         };
 
         return (
@@ -141,11 +144,11 @@ class ActionColumn extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
 
     return {
-        menuState: stateGetter(state, 'menu', 'menuState'),
-        gridState: stateGetter(state, 'grid', 'gridState')
+        menuState: stateGetter(state, props, 'menu', 'menuState'),
+        gridState: stateGetter(state, props, 'grid', 'gridState')
     };
 }
 

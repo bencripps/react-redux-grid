@@ -10,12 +10,14 @@ describe('State Getter Function', () => {
 
     it('Should return state if its there', () => {
         const state = { filterState: { get: getState } };
-        expect(stateGetter(state, 'filterState', 'someProp')).toBeTruthy();
+        const props = {};
+        expect(stateGetter(state, props, 'filterState', 'someProp')).toBeTruthy();
     });
 
     it('Should return null if its there', () => {
         const state = { filterState: { get: getState } };
-        expect(stateGetter(state, 'unknownState', 'someProp')).toEqual(null);
+        const props = {};
+        expect(stateGetter(state, props, 'unknownState', 'someProp')).toEqual(null);
     });
 
 });

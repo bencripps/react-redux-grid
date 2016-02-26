@@ -61,7 +61,7 @@ export default class Model {
 
     }
 
-    updateCells(cells, rowId, type) {
+    updateCells(cells, rowId, type, reducerKeys) {
 
         const cellsUpdate = cells;
 
@@ -69,6 +69,7 @@ export default class Model {
             key: keyFromObject(rowId, ['checkbox-']),
             rowId,
             type,
+            reducerKeys,
             store: this.store
         };
 

@@ -68,12 +68,12 @@ class CheckBox extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
 
     return {
-        pager: stateGetter(state, 'pager', 'pagerState'),
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, 'selection', 'selectedRows')
+        pager: stateGetter(state, props, 'pager', 'pagerState'),
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        selectedRows: stateGetter(state, props, 'selection', 'selectedRows')
     };
 }
 

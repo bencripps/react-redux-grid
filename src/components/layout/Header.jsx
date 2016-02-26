@@ -319,7 +319,6 @@ class Header extends Component {
             selectionModel.updateCells(headers, columns, 'header');
         }
 
-
         columnManager.addActionColumn(headers, 'header');
 
         this.addEmptyInsert(headers, visibleColumns);
@@ -334,11 +333,11 @@ class Header extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        columnStates: stateGetter(state, 'columnManager', 'columnStates'),
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        pager: stateGetter(state, 'pager', 'pagerState')
+        columnStates: stateGetter(state, props, 'columnManager', 'columnStates'),
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        pager: stateGetter(state, props, 'pager', 'pagerState')
     };
 }
 

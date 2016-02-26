@@ -127,12 +127,12 @@ class BulkActionToolbar extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
 
     return {
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, 'selection', 'selectedRows'),
-        bulkActionState: stateGetter(state, 'bulkaction', 'bulkActionState')
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
+        bulkActionState: stateGetter(state, props, 'bulkaction', 'bulkActionState')
     };
 }
 

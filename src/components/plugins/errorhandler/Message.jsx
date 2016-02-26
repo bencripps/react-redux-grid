@@ -64,9 +64,9 @@ class Message extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        errorHandler: stateGetter(state, 'errorhandler', 'errorState')
+        errorHandler: stateGetter(state, props, 'errorhandler', 'errorState')
     };
 }
 

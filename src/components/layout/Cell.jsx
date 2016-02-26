@@ -72,9 +72,9 @@ class Cell extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        editorState: stateGetter(state, 'editor', 'editorState')
+        editorState: stateGetter(state, props, 'editor', 'editorState')
     };
 }
 

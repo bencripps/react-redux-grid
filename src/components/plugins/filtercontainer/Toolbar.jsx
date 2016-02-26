@@ -189,13 +189,13 @@ class FilterToolbar extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
 
     return {
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, 'selection', 'selectedRows'),
-        filter: stateGetter(state, 'filter', 'filterState'),
-        pager: stateGetter(state, 'pager', 'pagerState')
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
+        filter: stateGetter(state, props, 'filter', 'filterState'),
+        pager: stateGetter(state, props, 'pager', 'pagerState')
     };
 }
 

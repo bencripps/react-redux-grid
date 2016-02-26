@@ -437,3 +437,18 @@ All core components and plugins have corresponding `.styl` files that can be ext
 	    }
 
 	};
+
+## FAQ
+
+1. What if I want to use my own store, but I want to name the reducer keys myself?
+
+This is possible. You simply need to pass the reducer name as a `prop`. 
+
+	const gridProps = {
+        reducerKeys: {
+            grid: 'YOUR_GRID_REDUCER_KEY'
+        },
+        store
+    };
+
+    const grid = <Grid { ...gridProps } />;

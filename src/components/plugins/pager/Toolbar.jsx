@@ -166,12 +166,12 @@ class PagerToolbar extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
 
     return {
-        pager: stateGetter(state, 'pager', 'pagerState'),
-        dataSource: stateGetter(state, 'dataSource', 'gridData'),
-        gridState: stateGetter(state, 'grid', 'gridState')
+        pager: stateGetter(state, props, 'pager', 'pagerState'),
+        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
+        gridState: stateGetter(state, props, 'grid', 'gridState')
     };
 }
 

@@ -77,9 +77,9 @@ class MenuItem extends Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
     return {
-        columnStates: stateGetter(state, 'columnManager', 'columnStates')
+        columnStates: stateGetter(state, props, 'columnManager', 'columnStates')
     };
 }
 

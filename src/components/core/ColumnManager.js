@@ -97,9 +97,10 @@ export default class ColumnManager {
         }
     }
 
-    addActionColumn(cells, type, id) {
-        const cellsCopy = cells;
+    addActionColumn(cells, type, id, reducerKeys) {
         const { GRID_ACTIONS } = this.plugins;
+        
+        const cellsCopy = cells;
         const actionProps = {
             actions: GRID_ACTIONS,
             store: this.store,
@@ -107,6 +108,7 @@ export default class ColumnManager {
             columns: this.columns,
             rowId: id,
             editor: this.editor,
+            reducerKeys,
             selModel: this.selModel,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         };
