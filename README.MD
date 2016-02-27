@@ -179,6 +179,20 @@ Column Defaults:
 9. `moveable`: `boolean`, whether this column can be moved
 10. `HANDLE_CLICK`: `func`, click handler assigned to column
 
+## Editor
+	
+	export const plugins = {
+		EDITOR: {
+	        type: 'inline',
+	        enabled: true
+	    }
+	}
+
+Editor Defaults
+
+1. `type`: `string`, (`inline`), currently there is only 1 editor defined, in the future, other editors will be available
+2. `enabled`: `boolean`, if true, an editor will be rendered
+
 
 ## Column Manager
 
@@ -191,7 +205,7 @@ Column Defaults:
             sortable: {
 	            enabled: true,
 	            method: 'local',
-	            sortingSource: 'http://url/to/pagingdata'
+	            sortingSource: 'http://url/to/sortingSource'
         	}
 	    }
 	}
@@ -213,7 +227,7 @@ Column Manager Defaults
 	    PAGER: {
 	        enabled: true,
 	        pagingType: 'remote',
-	        pagingSource: 'url/to/grid/data',
+	        pagingSource: 'url/to/grid/data', // not required, will default to dataSource
 	        toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
 	            return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
 	        }
@@ -224,7 +238,7 @@ Pagination Defaults:
 
 1. `enabled`: `boolean`, default value: `true`
 2. `pagingType`: `string`, default value; `local`, possible values: `['local', 'remote']`
-3. `pagingSource`: `string`, url for remote grid data
+3. `pagingSource`: `string`, url for remote grid data (if `pagingSource` is null, the toolbar will default to the original dataSource passed to grid)
 4. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
 
 ## Selection Model

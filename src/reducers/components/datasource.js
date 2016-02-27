@@ -13,8 +13,8 @@ export default function dataSource(state = initialState, action) {
             {
                 data: action.data,
                 proxy: action.data,
-                total: action.total,
-                currentRecords: action.currentRecords
+                total: action.total || action.data.length,
+                currentRecords: action.currentRecords || action.data
             }
         ));
 

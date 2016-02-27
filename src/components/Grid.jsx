@@ -156,6 +156,7 @@ class Grid extends Component {
         };
 
         const pagerProps = {
+            dataSource,
             pageSize,
             plugins,
             reducerKeys,
