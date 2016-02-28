@@ -1,6 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import { PagerToolbar } from './../../../../src/components/plugins/pager/Toolbar.jsx';
 import { mockStore } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
@@ -25,7 +26,7 @@ function pager(cmpProps) {
     const element = React.createElement(PagerToolbar, cmpProps);
     const renderer = TestUtils.createRenderer();
     renderer.render(element);
-    return renderer;
+    return renderer.getRenderOutput();
 }
 
 describe('An Unrendered Paging Toolbar', () => {
@@ -36,9 +37,7 @@ describe('An Unrendered Paging Toolbar', () => {
         dataSource: localGridData
     };
 
-    const renderer = pager(unrenderedProps);
-    const instance = renderer._instance;
-    const component = renderer.getRenderOutput();
+    const component = pager(unrenderedProps);
 
     it('Should render a shallow component with no props, and no children', () => {
         expect(component.type).toEqual('tfoot');
@@ -49,9 +48,7 @@ describe('An Unrendered Paging Toolbar', () => {
 
 describe('An Rendered Paging Toolbar', () => {
 
-    const renderer = pager(props);
-    const instance = renderer._instance;
-    const component = renderer.getRenderOutput();
+    const component = pager(props);
     const container = component.props.children.props.children;
     const cmpContainer = container.props.children;
     const description = cmpContainer.props.children[0];
@@ -96,7 +93,7 @@ describe('An Rendered Paging Toolbar', () => {
         expect(lastButton).toBeTruthy();
         expect(lastButton.type).toEqual('button');
         expect(lastButton.props.children).toEqual('Back');
-        expect(lastButton.props.className).toEqual('react-grid-page-buttons');
+        expect(lastButton.props.className).toEqual('react-grid-page-buttons react-grid-back');
         expect(lastButton.props.disabled).toEqual(true);
     });
 
@@ -104,9 +101,17 @@ describe('An Rendered Paging Toolbar', () => {
         expect(nextButton).toBeTruthy();
         expect(nextButton.type).toEqual('button');
         expect(nextButton.props.children).toEqual('Next');
-        expect(nextButton.props.className).toEqual('react-grid-page-buttons');
+        expect(nextButton.props.className).toEqual('react-grid-page-buttons react-grid-next');
         expect(nextButton.props.disabled).toEqual(false);
     });
 
+    it('Should render two buttons', () => {
+        const shallowPager = shallow(<PagerToolbar { ...props }/>);
 
+        expect(shallowPager).toBeTruthy();
+        expect(shallowPager.find('.react-grid-page-buttons').length).toEqual(2);
+        expect(shallowPager.find('.react-grid-next').length).toEqual(1);
+        expect(shallowPager.find('.react-grid-back').length).toEqual(1);
+
+    });
 });

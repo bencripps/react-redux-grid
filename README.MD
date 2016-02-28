@@ -95,7 +95,7 @@ If data is provided as a function, it should return a `Promise`
 
 Examples of both cases:
 
-### LOCAL 
+### Local
 
 	const data = [
 		{

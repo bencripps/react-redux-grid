@@ -1,4 +1,5 @@
 const loaders = require('../webpack/loaders');
+const path = require('path');
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['PhantomJS', 'Chrome']
     : ['PhantomJS'];
@@ -40,6 +41,11 @@ module.exports = function exports(config) {
             module: {
                 loaders: loaders
             },
+            externals: {
+                'cheerio': 'window',
+                'react/lib/ExecutionEnvironment': true,
+                'react/lib/ReactContext': true
+            },
             resolve: {
                 extensions: [
                     '',
@@ -56,7 +62,8 @@ module.exports = function exports(config) {
             },
             webpackMiddleware: {
                 noInfo: true
-            }
+            },
+
         }
     });
 };

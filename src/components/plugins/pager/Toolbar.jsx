@@ -91,7 +91,7 @@ class PagerToolbar extends Component {
             onClick: this.handleButtonClick.bind(this, type, pageIndex, dataSource),
             children: type === BUTTON_TYPES.NEXT ? nextButtonText : backButtonText,
             disabled: this.isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES),
-            className: prefix(CLASS_NAMES.BUTTONS.PAGER)
+            className: prefix(CLASS_NAMES.BUTTONS.PAGER, type.toLowerCase())
         };
 
         return (

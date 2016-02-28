@@ -46,6 +46,7 @@
     "babel-runtime": "6.0.14",
     "chai": "^3.5.0",
     "css-loader": "^0.22.0",
+    "enzyme": "^2.0.0",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.1.1",
     "eslint-plugin-babel": "^2.1.1",
