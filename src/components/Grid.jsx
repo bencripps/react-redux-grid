@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ConnectedHeader as Header} from './layout/Header.jsx';
 import { ConnectedRow as Row } from './layout/Row.jsx';
-import PagerToolbar from './plugins/pager/Toolbar.jsx';
+import { ConnectedPagerToolbar as PagerToolbar } from './plugins/pager/Toolbar.jsx';
 import Message from './plugins/errorhandler/Message.jsx';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar.jsx';
 import FilterToolbar from './plugins/filtercontainer/Toolbar.jsx';

@@ -204,4 +204,6 @@ function mapStateToProps(state, props) {
     };
 }
 
-export default connect(mapStateToProps)(PagerToolbar);
+const ConnectedPagerToolbar = connect(mapStateToProps)(PagerToolbar);
+
+export { PagerToolbar, ConnectedPagerToolbar };
