@@ -114,4 +114,58 @@ describe('An Rendered Paging Toolbar', () => {
         expect(shallowPager.find('.react-grid-back').length).toEqual(1);
 
     });
+
+    it('Should go to next page when next button is clicked', () => {
+
+        const pagedStore = mockStore({},
+            { pageIndex: 1, type: 'PAGE_LOCAL' }
+        );
+
+        const pagedProps = {
+            store: pagedStore,
+            pageSize: 25,
+            dataSource: localGridData,
+            ref: 'pagertoolbar',
+            plugins: {
+                PAGER: {
+                    enabled: true,
+                    pagingType: 'local'
+                }
+            }
+        };
+
+        const shallowPager = shallow(<PagerToolbar { ...pagedProps }/>);
+        const shallowNextButton = shallowPager.find('.react-grid-next');
+
+        shallowNextButton.simulate('click');
+
+    });
+
+    it('Should go to last page when last button is clicked', () => {
+
+        const pagedStore = mockStore({},
+            { pageIndex: -1, type: 'PAGE_LOCAL' }
+        );
+
+        const pagedProps = {
+            store: pagedStore,
+            pageSize: 25,
+            dataSource: localGridData,
+            ref: 'pagertoolbar',
+            plugins: {
+                PAGER: {
+                    enabled: true,
+                    pagingType: 'local'
+                }
+            }
+        };
+
+        const shallowPager = shallow(<PagerToolbar { ...pagedProps }/>);
+
+        const shallowlastButton = shallowPager.find('.react-grid-back');
+
+        shallowlastButton.simulate('click');
+
+    });
+
 });
