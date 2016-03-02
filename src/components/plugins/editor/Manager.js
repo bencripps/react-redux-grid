@@ -7,7 +7,7 @@ import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
 export default class Manager {
 
-    constructor(plugins, store) {
+    init(plugins, store) {
 
         const defaults = {
             type: 'inline',
@@ -34,7 +34,7 @@ export default class Manager {
     setDismissEvent(reactEvent) {
         const element = reactEvent.target;
 
-        if (element && element.contentEditable === 'true') {
+        if (element && elementContains(element, prefix(CLASS_NAMES.EDITED_CELL))) {
             return false;
         }
 

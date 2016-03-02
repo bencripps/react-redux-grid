@@ -1,11 +1,11 @@
 import React from 'react';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
-import CheckBox from './CheckBox.jsx';
+import { ConnectedCheckBox as CheckBox } from './CheckBox.jsx';
 
 export default class Model {
 
-    constructor(plugins, store, events) {
+    init(plugins, store, events) {
 
         const eventTypes = {
             singleclick: 'singleclick',

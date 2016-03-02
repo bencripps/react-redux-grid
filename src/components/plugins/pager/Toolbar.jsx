@@ -46,6 +46,7 @@ class PagerToolbar extends Component {
     };
 
     getCurrentRecordTotal(pagerState, pageSize, pageIndex, plugins) {
+
         if (plugins.PAGER.pagingType === 'remote' && pagerState && pagerState.currentRecords) {
             return pagerState.currentRecords.length;
         }
@@ -76,6 +77,7 @@ class PagerToolbar extends Component {
     }
 
     isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES) {
+
         if (type === BUTTON_TYPES.BACK) {
             return pageIndex === 0;
         }

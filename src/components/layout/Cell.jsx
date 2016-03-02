@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../util/prefix';
 import { stateGetter } from '../../util/stateGetter';
+import { elementContains } from '../../util/elementContains';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 class Cell extends Component {
@@ -18,7 +19,7 @@ class Cell extends Component {
 
     handleClick(events, cellData, reactEvent) {
 
-        if (reactEvent.target && reactEvent.target.contentEditable === 'true') {
+        if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
             reactEvent.stopPropagation();
         }
 
@@ -29,7 +30,7 @@ class Cell extends Component {
 
     handleDoubleClick(events, cellData, reactEvent) {
 
-        if (reactEvent.target && reactEvent.target.contentEditable === 'true') {
+        if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
             reactEvent.stopPropagation();
         }
 

@@ -9,13 +9,12 @@ import { gridColumns } from './data';
 export const mockStore = getMockStore;
 
 export function setup(thing) {
-    let renderer = TestUtils.createRenderer();
+    const renderer = TestUtils.createRenderer();
     renderer.render(thing);
 
-    let output = renderer.getRenderOutput();
+    const output = renderer.getRenderOutput();
 
     return {
-        props,
         output,
         renderer
     };
@@ -27,7 +26,9 @@ export const sampleReactEvent = {
 
 export function getSelModel() {
 
-    return new Model(
+    const model = new Model();
+
+    model.init(
         // plugins
         {},
         // store,
@@ -35,10 +36,14 @@ export function getSelModel() {
         // events
         {}
     );
+
+    return model;
 }
 
 export function getColumnManager() {
-    return new ColumnManager(
+    const columnManager = new ColumnManager();
+
+    columnManager.init(
         // plugins
         {},
         // store
@@ -54,11 +59,13 @@ export function getColumnManager() {
         // dataSource
         ''
     );
+
+    return columnManager;
 }
 
 function getMockStore(state: {}, ...actions) {
     const getState = state;
     const middleWares = [thunk];
-    const mockStore = configureMockStore(middleWares);
-    return mockStore(getState, actions);
+    const store = configureMockStore(middleWares);
+    return store(getState, actions);
 }

@@ -35,6 +35,7 @@ export const CLASS_NAMES = {
     CELL: 'cell',
     PAGERTOOLBAR: 'pager-toolbar',
     EMPTY_ROW: 'empty-row',
+    EDITED_CELL: 'edit',
     LOADING_BAR: 'loading-bar',
     DRAGGABLE_COLUMN: 'draggable-column',
     COLUMN: 'column',

@@ -38,7 +38,7 @@ class Grid extends Component {
 
     componentWillMount() {
 
-        const { store } = this.props;
+        const { columns, dataSource, events, plugins, store } = this.props;
 
         if (!store || !store.dispatch) {
             throw new Error('Component must be intialized with a valid store');
@@ -47,6 +47,12 @@ class Grid extends Component {
         this.setColumns();
 
         this.setData();
+
+        columnManager.init(plugins, store, events, selectionModel, editor, columns, dataSource);
+
+        selectionModel.init(plugins, store, events);
+
+        editor.init(plugins, store, events);
     }
 
     setData() {
@@ -94,12 +100,6 @@ class Grid extends Component {
         } = this.props;
 
         const columns = columnState && columnState.columns ? columnState.columns : [];
-
-        const selectionModel = new Model(plugins, store, events);
-
-        const editor = new Manager(plugins, store, events);
-
-        const columnManager = new ColumnManager(plugins, store, events, selectionModel, editor, columns, dataSource);
 
         const editorComponent = editor.getComponent(plugins, store, events, selectionModel, editor, columns);
 
@@ -186,6 +186,12 @@ class Grid extends Component {
         );
     }
 }
+
+export const columnManager = new ColumnManager();
+
+export const editor = new Manager();
+
+export const selectionModel = new Model();
 
 function mapStateToProps(state, props) {
     return {

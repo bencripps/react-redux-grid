@@ -11,7 +11,7 @@ import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
-    constructor(plugins, store, events, selModel, editor, columns, dataSource) {
+    init(plugins, store, events, selModel, editor, columns, dataSource) {
 
         const defaults = {
             defaultColumnWidth: `${100 / columns.length}%`,
@@ -56,7 +56,6 @@ export default class ColumnManager {
     }
 
     setDismissEvent(e) {
-
         if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
             this.store.dispatch(hideMenu());
         }
@@ -99,7 +98,6 @@ export default class ColumnManager {
 
     addActionColumn(cells, type, id, reducerKeys) {
         const { GRID_ACTIONS } = this.plugins;
-        
         const cellsCopy = cells;
         const actionProps = {
             actions: GRID_ACTIONS,

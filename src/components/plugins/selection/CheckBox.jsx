@@ -9,6 +9,7 @@ class CheckBox extends Component {
 
     static propTypes = {
         dataSource: PropTypes.object,
+        rowId: PropTypes.string,
         selectedRows: PropTypes.object,
         store: PropTypes.object,
         type: PropTypes.string
@@ -77,4 +78,6 @@ function mapStateToProps(state, props) {
     };
 }
 
-export default connect(mapStateToProps)(CheckBox);
+const ConnectedCheckBox = connect(mapStateToProps)(CheckBox);
+
+export { CheckBox, ConnectedCheckBox };

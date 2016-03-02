@@ -141,7 +141,7 @@ describe('An Rendered Paging Toolbar', () => {
 
     });
 
-    it('Should go to last page when last button is clicked', () => {
+    it('Should go to last page when last button is clicked and pagerState is defined', () => {
 
         const pagedStore = mockStore({},
             { pageIndex: -1, type: 'PAGE_LOCAL' }
@@ -150,6 +150,7 @@ describe('An Rendered Paging Toolbar', () => {
         const pagedProps = {
             store: pagedStore,
             pageSize: 25,
+            pageIndex: 0,
             dataSource: localGridData,
             ref: 'pagertoolbar',
             plugins: {
@@ -157,6 +158,10 @@ describe('An Rendered Paging Toolbar', () => {
                     enabled: true,
                     pagingType: 'local'
                 }
+            },
+            pagerState: {
+                pageIndex: 0,
+                data: localGridData
             }
         };
 

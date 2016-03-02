@@ -101,8 +101,6 @@ class ActionColumn extends Component {
             actions.menu.unshift(this.getEditAction(editor));
         }
 
-        console.log('HEY'. reducerKeys);
-
         const menuProps = {
             ...actions,
             reducerKeys,
