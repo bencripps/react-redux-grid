@@ -155,6 +155,7 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 	    {
 	        name: 'Name',
 	        dataIndex: 'name',
+	        editor: '<input type="text" required />',
 	        width: '10%',
 	        className: 'additional-class',
 	        renderer: () => { return 'Name of Column'; },
@@ -170,14 +171,15 @@ Column Defaults:
 
 1. `name`: `string`, title of column 
 2. `dataIndex`: `string`, the key accessor for the column value (required parameter)
-3. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
-4. `className`: `string`, additional class names to apply to columns header output
-5. `renderer`: `func`, a function which returns the column name
-6. `hidden`: `boolean`, whether the column is hidden or visible
-7. `hideable`: `boolean`, whether the column can be hidden
-8. `resizable`: `boolean`, whether this column can be resized
-9. `moveable`: `boolean`, whether this column can be moved
-10. `HANDLE_CLICK`: `func`, click handler assigned to column
+3. `editor`: `jsx element`, when an editor is used, this element will be rendered in place of the edited cell
+4. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
+5. `className`: `string`, additional class names to apply to columns header output
+6. `renderer`: `func`, a function which returns the column name
+7. `hidden`: `boolean`, whether the column is hidden or visible
+8. `hideable`: `boolean`, whether the column can be hidden
+9. `resizable`: `boolean`, whether this column can be resized
+10. `moveable`: `boolean`, whether this column can be moved
+11. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 ## Editor
 	

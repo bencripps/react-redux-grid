@@ -27,13 +27,19 @@ export const Cell = ({ cellData, columns, editorState, events, index, rowId }) =
         }
     };
 
-    const cellHTML = <span> { cellData } </span>;
+    const cellHTML = isEditable && columns[index].editor
+        ? <span> { columns[index].editor } </span>
+        : <span> { cellData } </span>;
 
     return (
         <td { ...cellProps }>
             { cellHTML }
         </td>
         );
+};
+
+export const getEditor = () => {
+
 };
 
 export const handleClick = (events, cellData, reactEvent) => {
