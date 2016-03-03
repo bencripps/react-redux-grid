@@ -1,68 +1,62 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { dismissError } from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
 
-class Message extends Component {
+export const Message = ({ errorHandler, plugins, store }) => {
 
-    static propTypes = {
-        errorHandler: PropTypes.object,
-        plugins: PropTypes.object,
-        store: PropTypes.object.isRequired
+    const defaultMessage = plugins
+        && plugins.ERROR_HANDLER
+        && plugins.ERROR_HANDLER.defaultErrorMessage
+        ? plugins.ERROR_HANDLER.defaultErrorMessage
+        : 'An Error Occurred';
+
+    const showError = errorHandler && errorHandler.errorOccurred;
+
+    const message = errorHandler && errorHandler.error ? errorHandler.error : defaultMessage;
+
+    const errorMessage = getMessage(message, showError, store);
+
+    return errorMessage;
+};
+
+export const handleButtonClick = (store) => {
+    store.dispatch(dismissError());
+};
+
+export const getMessage = (message, isShown, store) => {
+
+    const messageContainerProps = {
+        className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : null)
     };
 
-    getMessage(message, isShown) {
+    const messageProps = {
+        className: prefix(CLASS_NAMES.ERROR_HANDLER.MESSAGE)
+    };
 
-        const messageContainerProps = {
-            className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : null)
-        };
+    const buttonProps = {
+        onClick: handleButtonClick.bind(this, store)
+    };
 
-        const messageProps = {
-            className: prefix(CLASS_NAMES.ERROR_HANDLER.MESSAGE)
-        };
+    return (
+        <div { ...messageContainerProps }>
+            <span { ...messageProps }> { message } </span>
+            <button { ...buttonProps }>
+                { 'Close' }
+            </button>
+        </div>
+    );
+};
 
-        const buttonProps = {
-            onClick: this.handleButtonClick.bind(this)
-        };
+Message.propTypes = {
+    errorHandler: PropTypes.object,
+    plugins: PropTypes.object,
+    store: PropTypes.object
+};
 
-        return (
-            <div { ...messageContainerProps }>
-                <span { ...messageProps }> { message } </span>
-                <button { ...buttonProps }>
-                    { 'Close' }
-                </button>
-            </div>
-        );
-    }
-
-    handleButtonClick() {
-
-        const { store } = this.props;
-
-        store.dispatch(dismissError());
-    }
-
-    render() {
-
-        const { errorHandler, plugins } = this.props;
-
-        const defaultMessage = plugins
-            && plugins.ERROR_HANDLER
-            && plugins.ERROR_HANDLER.defaultErrorMessage
-            ? plugins.ERROR_HANDLER.defaultErrorMessage
-            : 'An Error Occurred';
-
-        const showError = errorHandler && errorHandler.errorOccurred;
-
-        const message = errorHandler && errorHandler.error ? errorHandler.error : defaultMessage;
-
-        const errorMessage = this.getMessage(message, showError);
-
-        return errorMessage;
-    }
-}
+Message.defaultProps = {};
 
 function mapStateToProps(state, props) {
     return {

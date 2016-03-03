@@ -1,97 +1,57 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import { Button } from './inline/Button.jsx';
+
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES, ROW_HEIGHT } from '../../../constants/GridConstants';
-import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
-class Inline extends Component {
+export const Inline = ({ BUTTON_TYPES,
+    editorState, events, store}) => {
 
-    static propTypes = {
-        BUTTON_TYPES: PropTypes.object,
-        cancelButtonText: PropTypes.string,
-        columns: PropTypes.array,
-        editorState: PropTypes.object,
-        events: PropTypes.object,
-        saveButtonText: PropTypes.string,
-        store: PropTypes.object
-    };
+    let top = -100;
 
-    static defaultProps = {
-        cancelButtonText: 'Cancel',
-        saveButtonText: 'Save',
-        BUTTON_TYPES: {
-            CANCEL: 'CANCEL',
-            SAVE: 'SAVE'
+    if (editorState && editorState.row) {
+        top = editorState.row.top;
+    }
+
+    const inlineEditorProps = {
+        className: prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row
+            ? CLASS_NAMES.EDITOR.INLINE.SHOWN : CLASS_NAMES.EDITOR.INLINE.HIDDEN),
+        style: {
+            top: `${top + (ROW_HEIGHT / 2)}px`
         }
     };
 
-    getButton(type) {
+    const buttonContainerProps = {
+        className: prefix(CLASS_NAMES.EDITOR.INLINE.BUTTON_CONTAINER)
+    };
 
-        const { BUTTON_TYPES, saveButtonText, cancelButtonText } = this.props;
+    return (
+        <div { ...inlineEditorProps }>
+            <span { ...buttonContainerProps }>
+                <Button { ...{ type: BUTTON_TYPES.SAVE, events, store } }/>
+                <Button { ...{ type: BUTTON_TYPES.CANCEL, events, store } }/>
+            </span>
+        </div>
+    );
+};
 
-        const text = type === BUTTON_TYPES.SAVE ? saveButtonText : cancelButtonText;
+Inline.propTypes = {
+    BUTTON_TYPES: PropTypes.object,
+    columns: PropTypes.array,
+    editorState: PropTypes.object,
+    events: PropTypes.object,
+    store: PropTypes.object
+};
 
-        const buttonProps = {
-            onClick: this.onButtonClick.bind(this, type),
-            className: type === BUTTON_TYPES.SAVE
-                ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON) : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
-        };
-
-        return (
-            <button { ...buttonProps } > { text } </button>
-        );
-
+Inline.defaultProps = {
+    BUTTON_TYPES: {
+        CANCEL: 'CANCEL',
+        SAVE: 'SAVE'
     }
-
-    onButtonClick(type) {
-        const { store, BUTTON_TYPES, events } = this.props;
-
-        if (type === BUTTON_TYPES.CANCEL) {
-            store.dispatch(dismissEditor());
-        }
-
-        else if (type === BUTTON_TYPES.SAVE) {
-
-            if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
-                events.HANDLE_AFTER_INLINE_EDITOR_SAVE.apply(this, arguments);
-            }
-
-            store.dispatch(dismissEditor());
-        }
-    }
-
-    render() {
-
-        const { BUTTON_TYPES, editorState } = this.props;
-        let top = -100;
-
-        if (editorState && editorState.row) {
-            top = editorState.row.top;
-        }
-
-        const inlineEditorProps = {
-            className: prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row
-                ? CLASS_NAMES.EDITOR.INLINE.SHOWN : CLASS_NAMES.EDITOR.INLINE.HIDDEN),
-            style: {
-                top: `${top + (ROW_HEIGHT / 2)}px`
-            }
-        };
-
-        const buttonContainerProps = {
-            className: prefix(CLASS_NAMES.EDITOR.INLINE.BUTTON_CONTAINER)
-        };
-
-        return (
-            <div { ...inlineEditorProps }>
-                <span { ...buttonContainerProps }>
-                    { this.getButton(BUTTON_TYPES.SAVE) }
-                    { this.getButton(BUTTON_TYPES.CANCEL) }
-                </span>
-            </div>
-        );
-    }
-}
+};
 
 function mapStateToProps(state, props) {
     return {
