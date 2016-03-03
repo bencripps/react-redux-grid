@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { setSortDirection } from '../../../../actions/GridActions';
 
@@ -22,6 +22,15 @@ export const SortHandle = ({ col, columns, columnManager, dataSource, pager, sto
     return (
         <span { ...handleProps } />
     );
+};
+
+SortHandle.propTypes = {
+    col: PropTypes.object,
+    columnManager: PropTypes.object,
+    columns: PropTypes.array,
+    dataSource: PropTypes.object,
+    pager: PropTypes.object,
+    store: PropTypes.object
 };
 
 export const handleSort = (columns, col, columnManager, dataSource, direction, pager, store) => {

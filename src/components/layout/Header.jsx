@@ -38,7 +38,7 @@ class Header extends Component {
         const visibleColumns = columns.filter((col) => !col.hidden);
         const headers = visibleColumns.map((col, i) => {
 
-            const headerProps = {
+            const colProps = {
                 scope: this,
                 col,
                 columns,
@@ -52,7 +52,7 @@ class Header extends Component {
             };
 
             return (
-                <Column { ...headerProps } />
+                <Column { ...colProps } />
                 );
         });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 export const EmptyHeader = (props) => {
 
@@ -13,3 +13,8 @@ export const EmptyHeader = (props) => {
         <th { ...headerProps } />
     );
 };
+
+EmptyHeader.propTypes = {
+    props: PropTypes.object
+};
+

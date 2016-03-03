@@ -237,6 +237,7 @@ export const getRows = (columns, columnManager, editorState, reducerKeys,
 
 function mapStateToProps(state, props) {
     return {
+        columnState: stateGetter(state, props, 'grid', 'gridState'),
         dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
         pager: stateGetter(state, props, 'pager', 'pagerState'),
         selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),

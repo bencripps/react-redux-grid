@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { DragHandle } from './column/DragHandle.jsx';
 import { SortHandle } from './column/SortHandle.jsx';
@@ -56,6 +56,18 @@ export const Column = ({
             { dragHandle }
         </th>
     );
+};
+
+Column.propTypes = {
+    col: PropTypes.object,
+    columnManager: PropTypes.object,
+    columns: PropTypes.arrayOf(PropTypes.object),
+    dataSource: PropTypes.object,
+    dragAndDropManager: PropTypes.object,
+    index: PropTypes.number,
+    pager: PropTypes.object,
+    scope: PropTypes.object,
+    store: PropTypes.object
 };
 
 export const handleDrop = (droppedIndex, columns, store, reactEvent) => {

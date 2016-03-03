@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 export const DragHandle = ({ col, dragAndDropManager }) => {
 
@@ -7,4 +7,9 @@ export const DragHandle = ({ col, dragAndDropManager }) => {
     return (
         <span { ...handleProps } />
     );
+};
+
+DragHandle.propTypes = {
+    col: PropTypes.object,
+    dragAndDropManager: PropTypes.object
 };

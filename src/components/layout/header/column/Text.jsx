@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
 import { keyFromObject } from './../../../../util/keyGenerator';
@@ -32,4 +32,11 @@ export const Text = ({ col, index, columnManager, dragAndDropManager }) => {
             { innerHTML }
         </span>
     );
+};
+
+Text.propTypes = {
+    col: PropTypes.object,
+    columnManager: PropTypes.object,
+    dragAndDropManager: PropTypes.object,
+    index: PropTypes.number
 };

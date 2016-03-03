@@ -9,7 +9,7 @@ class CheckBox extends Component {
 
     static propTypes = {
         dataSource: PropTypes.object,
-        rowId: PropTypes.string,
+        rowId: PropTypes.any,
         selectedRows: PropTypes.object,
         store: PropTypes.object,
         type: PropTypes.string
