@@ -1,73 +1,68 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
 
-class CheckBox extends Component {
+export const CheckBox = ({dataSource, rowId, selectedRows, store, type}) => {
 
-    static propTypes = {
-        dataSource: PropTypes.object,
-        rowId: PropTypes.any,
-        selectedRows: PropTypes.object,
-        store: PropTypes.object,
-        type: PropTypes.string
+    const checkBoxContainerProps = {
+        className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
     };
 
-    handleChange(type, reactEvent) {
-        const { store, dataSource } = this.props;
-        const target = reactEvent.target;
-        if (type === 'header') {
-            if (target.checked) {
-                store.dispatch(selectAll(dataSource));
-            }
-            else {
-                store.dispatch(deselectAll());
-            }
+    const checkBoxProps = {
+        className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
+        checked: selectedRows ? selectedRows[rowId] : false,
+        type: 'checkbox',
+        onChange: handleChange.bind(this, dataSource, store, type)
+    };
+
+    return type === 'header'
+        ? getHeader(checkBoxContainerProps, checkBoxProps)
+        : getColumn(checkBoxContainerProps, checkBoxProps);
+};
+
+export const handleChange = (dataSource, store, type, reactEvent) => {
+    const target = reactEvent.target;
+
+    if (type === 'header') {
+        if (target.checked) {
+            store.dispatch(selectAll(dataSource));
         }
-
+        else {
+            store.dispatch(deselectAll());
+        }
     }
+};
 
-    getHeader(checkBoxContainerProps, checkBoxProps) {
-        return (
-            <th { ...checkBoxContainerProps } >
-                <input type="checkbox" { ...checkBoxProps } />
-            </th>
-        );
+export const getHeader = (checkBoxContainerProps, checkBoxProps) => {
+    return (
+        <th { ...checkBoxContainerProps } >
+            <input type="checkbox" { ...checkBoxProps } />
+        </th>
+    );
 
-    }
+};
 
-    getColumn(checkBoxContainerProps, checkBoxProps) {
-        return (
-            <td { ...checkBoxContainerProps } >
-                <input type="checkbox" { ...checkBoxProps } />
-            </td>
-        );
+export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
+    return (
+        <td { ...checkBoxContainerProps } >
+            <input type="checkbox" { ...checkBoxProps } />
+        </td>
+    );
 
-    }
+};
 
-    render() {
+CheckBox.propTypes = {
+    dataSource: PropTypes.object,
+    rowId: PropTypes.any,
+    selectedRows: PropTypes.object,
+    store: PropTypes.object,
+    type: PropTypes.string
+};
 
-        const { rowId, selectedRows, type } = this.props;
-
-        const checkBoxContainerProps = {
-            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
-        };
-
-        const checkBoxProps = {
-            className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-            checked: selectedRows ? selectedRows[rowId] : false,
-            type: 'checkbox',
-            onChange: this.handleChange.bind(this, type)
-        };
-
-        return type === 'header'
-            ? this.getHeader(checkBoxContainerProps, checkBoxProps)
-            : this.getColumn(checkBoxContainerProps, checkBoxProps);
-
-    }
-}
+CheckBox.defaultProps = {};
 
 function mapStateToProps(state, props) {
 

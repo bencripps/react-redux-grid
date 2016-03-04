@@ -53,7 +53,7 @@ class FilterMenu extends Menu {
 
         const containerProps = {
             className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.CONTAINER),
-            key: keyFromObject(field, ['container']),
+            key: keyFromObject(field, ['container'])
         };
 
         const inputProps = {
