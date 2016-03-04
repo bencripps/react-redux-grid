@@ -1,146 +1,99 @@
-import React, { PropTypes, Component } from 'react';
-import { ConnectedMenu as Menu } from '../../core/menu/Menu.jsx';
+import React, { PropTypes } from 'react';
+import { Menu } from './actioncolumn/Menu.jsx';
 import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
-import { editRow } from '../../../actions/plugins/editor/EditorActions';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
-class ActionColumn extends Component {
+export const ActionColumn = ({ actions, columns, editor, iconCls, menuState, rowId, store, type, reducerKeys }) => {
 
-    static propTypes = {
-        actions: PropTypes.object,
-        columns: PropTypes.array,
-        editor: PropTypes.object,
-        iconCls: PropTypes.string,
-        menuState: PropTypes.object,
-        rowId: PropTypes.string,
-        store: PropTypes.object,
-        type: PropTypes.string
+    const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
+
+    const containerProps = {
+        className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
+            ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
+        onClick: handleActionClick.bind(this, type, actions, rowId, store)
     };
 
-    static defaultProps = {
-        iconCls: 'action-icon'
+    const iconProps = {
+        className: prefix(actions.iconCls) || prefix(iconCls)
     };
 
-    getHeader(containerProps, iconProps, menuShown, columns) {
+    return type === 'header'
+        ? getHeader(containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId)
+        : getColumn(containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId);
+};
 
-        const { store } = this.props;
+ActionColumn.propTypes = {
+    actions: PropTypes.object,
+    columns: PropTypes.array,
+    editor: PropTypes.object,
+    iconCls: PropTypes.string,
+    menuState: PropTypes.object,
+    rowId: PropTypes.string,
+    store: PropTypes.object,
+    type: PropTypes.string
+};
 
-        const actions = columns.map((col) => {
+ActionColumn.defaultProps = {
+    iconCls: 'action-icon'
+};
 
-            const isChecked = col.hidden !== undefined
-                ? !col.hidden : true;
+export const getHeader = (containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId) => {
 
-            return {
-                text: col.name,
-                menuItemType: 'checkbox',
-                checked: isChecked,
-                onCheckboxChange: () => {},
-                hideable: col.hideable,
-                dismissOnClick: false,
-                EVENT_HANDLER: () => {
-                    if (col.hideable === undefined || col.hideable) {
-                        store.dispatch(setColumnVisibility(columns, col, col.hidden));
-                    }
-                }
-            };
+    const actions = columns.map((col) => {
 
-        });
+        const isChecked = col.hidden !== undefined
+            ? !col.hidden : true;
 
-        const menuItems = {
-            menu: actions
-        };
-
-        const menu = menuShown ? this.getMenu(menuItems, 'header') : null;
-
-        return (
-            <th { ...containerProps }>
-                <span { ...iconProps }></span>
-                { menu }
-            </th>
-        );
-    }
-
-    getColumn(containerProps, iconProps, menuShown, actions) {
-
-        const menu = menuShown ? this.getMenu(actions) : null;
-
-        return (
-            <td { ...containerProps }>
-                <span { ...iconProps }></span>
-                { menu }
-            </td>
-        );
-    }
-
-    getEditAction(editor) {
         return {
-            text: 'Edit',
-            EVENT_HANDLER: this.handleEditClick.bind(this, editor)
-        };
-    }
-
-    handleEditClick(editor, data, reactEvent) {
-        const { store, rowId } = this.props;
-        const rowPosition = reactEvent.target.getBoundingClientRect();
-        const top = rowPosition.top + window.scrollY;
-
-        if (editor.config.type === editor.editModes.inline) {
-            store.dispatch(editRow(rowId, top));
-        }
-    }
-
-    getMenu(actions, type) {
-
-        const { store, editor, reducerKeys } = this.props;
-
-        if (editor.config.enabled && type !== 'header') {
-            actions.menu.unshift(this.getEditAction(editor));
-        }
-
-        const menuProps = {
-            ...actions,
-            reducerKeys,
-            store,
+            text: col.name,
+            menuItemType: 'checkbox',
+            checked: isChecked,
+            onCheckboxChange: () => {},
+            hideable: col.hideable,
+            dismissOnClick: false,
+            EVENT_HANDLER: () => {
+                if (col.hideable === undefined || col.hideable) {
+                    store.dispatch(setColumnVisibility(columns, col, col.hidden));
+                }
+            }
         };
 
-        return (
-            <Menu { ...menuProps } />
-        );
-    }
+    });
 
-    handleActionClick(type, actions, id, reactEvent) {
-        reactEvent.stopPropagation();
+    const menuItems = {
+        menu: actions
+    };
 
-        const { store } = this.props;
+    const menu = menuShown ? <Menu { ...{ menuItems, type: 'header', store, editor, reducerKeys, rowId } } /> : null;
 
-        store.dispatch(showMenu(id));
-    }
+    return (
+        <th { ...containerProps }>
+            <span { ...iconProps }></span>
+            { menu }
+        </th>
+    );
+};
 
-    render() {
+export const getColumn = (containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId) => {
 
-        const { iconCls, type, actions, menuState, rowId, columns } = this.props;
+    const menu = menuShown ? <Menu { ...{ actions, type: null, store, editor, reducerKeys, rowId } } /> : null;
 
-        const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
+    return (
+        <td { ...containerProps }>
+            <span { ...iconProps }></span>
+            { menu }
+        </td>
+    );
+};
 
-        const containerProps = {
-            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
-                ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
-            onClick: this.handleActionClick.bind(this, type, actions, rowId)
-        };
-
-        const iconProps = {
-            className: prefix(actions.iconCls) || prefix(iconCls)
-        };
-
-        return type === 'header'
-         ? this.getHeader(containerProps, iconProps, menuShown, columns)
-         : this.getColumn(containerProps, iconProps, menuShown, actions);
-    }
-}
+export const handleActionClick = (type, actions, id, store, reactEvent) => {
+    reactEvent.stopPropagation();
+    store.dispatch(showMenu(id));
+};
 
 function mapStateToProps(state, props) {
 
