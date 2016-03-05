@@ -10,7 +10,7 @@ module.exports = function exports(config) {
         files: [
             './../webpack/webpack.test.js'
         ],
-        frameworks: ['chai', 'mocha', 'es6-shim'],
+        frameworks: ['chai', 'mocha', 'es6-shim', 'sinon-chai'],
         plugins: [
             'karma-chrome-launcher',
             'karma-chai',
@@ -20,6 +20,7 @@ module.exports = function exports(config) {
             'karma-babel-preprocessor',
             'karma-phantomjs-launcher',
             'karma-sourcemap-loader',
+            'karma-sinon-chai',
             'phantomjs-prebuilt'
         ],
 

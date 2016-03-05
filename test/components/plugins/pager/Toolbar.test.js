@@ -1,8 +1,6 @@
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
-import { Button } from './../../../../src/components/plugins/pager/toolbar/Button.jsx';
 import { PagerToolbar } from './../../../../src/components/plugins/pager/Toolbar.jsx';
 import { mockStore } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
