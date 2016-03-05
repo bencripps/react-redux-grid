@@ -2,6 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { shallow } from 'enzyme';
+import { Button } from './../../../../src/components/plugins/pager/toolbar/Button.jsx';
 import { PagerToolbar } from './../../../../src/components/plugins/pager/Toolbar.jsx';
 import { mockStore } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
@@ -22,13 +23,6 @@ const props = {
     }
 };
 
-function pager(cmpProps) {
-    const element = React.createElement(PagerToolbar, cmpProps);
-    const renderer = TestUtils.createRenderer();
-    renderer.render(element);
-    return renderer.getRenderOutput();
-}
-
 describe('An Unrendered Paging Toolbar', () => {
 
     const unrenderedProps = {
@@ -37,140 +31,85 @@ describe('An Unrendered Paging Toolbar', () => {
         dataSource: localGridData
     };
 
-    const component = pager(unrenderedProps);
+    const component = shallow(<PagerToolbar { ...unrenderedProps }/>);
 
     it('Should render a shallow component with no props, and no children', () => {
-        expect(component.type).toEqual('tfoot');
+        expect(component.node.type).toEqual('tfoot');
         expect(Object.keys(component.props).length).toBeFalsy();
+    });
+
+    it('Should render an an empty footer', () => {
+        expect(component.html()).toEqual('<tfoot></tfoot>');
     });
 
 });
 
-describe('An Rendered Paging Toolbar', () => {
+describe('The default toolbar instance', () => {
 
-    const component = pager(props);
-    const container = component.props.children.props.children;
-    const cmpContainer = container.props.children;
-    const description = cmpContainer.props.children[0];
-    const buttonContainer = cmpContainer.props.children[1];
-    const nextButton = buttonContainer.props.children[0];
-    const lastButton = buttonContainer.props.children[1];
+    const component = shallow(<PagerToolbar { ...props }/>);
+    const instance = component.instance();
 
-    it('Should render a shallow component with children', () => {
-        expect(component.type).toEqual('tfoot');
-        expect(component.props.children).toBeTruthy();
+    it('Should have button types on props definition', () => {
+        expect(instance.props.BUTTON_TYPES).toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
     });
 
-    it('Should render the correct paging component', () => {
-        expect(component.props.children.props.className).toEqual('react-grid-pager-toolbar');
-        expect(component.props.children.props.children).toBeTruthy();
+    it('Should render a stateless component', () => {
+        expect(instance.constructor.name).toBe('StatelessComponent');
     });
 
-    it('Should render the pager container', () => {
-        expect(container.type).toEqual('td');
-        expect(container.props.colSpan).toEqual('100%');
-        expect(container.props.children).toBeTruthy();
+    it('Should have button types on props definition', () => {
+        expect(instance.props.BUTTON_TYPES).toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
     });
 
-    it('Should render the pager component container', () => {
-        expect(cmpContainer.type).toEqual('div');
-        expect(cmpContainer.props.children.length).toEqual(2);
+    it('Should have the right dataSource loaded', () => {
+        expect(instance.props.dataSource).toEqual(props.dataSource);
     });
 
-    it('Should render the pager description with no records', () => {
-        expect(description).toBeTruthy();
-        expect(description.type).toEqual('span');
-        expect(description.props.children).toEqual('No Records Available');
+    it('Should have a default pageSize of 25', () => {
+        expect(instance.props.pageSize).toEqual(25);
     });
 
-    it('Should render the pager button container', () => {
-        expect(buttonContainer).toBeTruthy();
-        expect(buttonContainer.type).toEqual('span');
-        expect(buttonContainer.props.children.length).toEqual(2);
+    it('Should have a default recordType of Records', () => {
+        expect(instance.props.recordType).toEqual('Records');
     });
 
-    it('Should render a back button', () => {
-        expect(lastButton).toBeTruthy();
-        expect(lastButton.type).toEqual('button');
-        expect(lastButton.props.children).toEqual('Back');
-        expect(lastButton.props.className).toEqual('react-grid-page-buttons react-grid-back');
-        expect(lastButton.props.disabled).toEqual(true);
+    it('Should have the PAGER plugin loaded into props', () => {
+        expect(instance.props.plugins.PAGER).toBeTruthy();
+        expect(instance.props.plugins.PAGER.enabled).toEqual(true);
     });
 
-    it('Should render a next button', () => {
-        expect(nextButton).toBeTruthy();
-        expect(nextButton.type).toEqual('button');
-        expect(nextButton.props.children).toEqual('Next');
-        expect(nextButton.props.className).toEqual('react-grid-page-buttons react-grid-next');
-        expect(nextButton.props.disabled).toEqual(false);
+    it('Should have the default toolbar renderer loaded into props', () => {
+        expect(typeof instance.props.toolbarRenderer).toEqual('function');
     });
 
-    it('Should render two buttons', () => {
-        const shallowPager = shallow(<PagerToolbar { ...props }/>);
-
-        expect(shallowPager).toBeTruthy();
-        expect(shallowPager.find('.react-grid-page-buttons').length).toEqual(2);
-        expect(shallowPager.find('.react-grid-next').length).toEqual(1);
-        expect(shallowPager.find('.react-grid-back').length).toEqual(1);
-
+    it('Should render a description and two buttons', () => {
+        expect(component.text()).toEqual('<Description /><Button /><Button />');
     });
 
-    it('Should go to next page when next button is clicked', () => {
+    it('Should render a table footer as the first child', () => {
+        expect(component.first().type()).toEqual('tfoot');
+    });
 
-        const pagedStore = mockStore({},
-            { pageIndex: 1, type: 'PAGE_LOCAL' }
+});
+
+describe('An Rendered Paging Toolbar HTML', () => {
+
+    it('Should render a toolbar', () => {
+        const component = shallow(<PagerToolbar { ...props }/>);
+
+        expect(component.html()).toEqual([
+            '<tfoot><tr class="react-grid-pager-toolbar">',
+            '<td colspan="100%">',
+            '<div>',
+            '<span>No Records Available</span>',
+            '<span>',
+            '<button class="react-grid-page-buttons react-grid-next">Next</button>',
+            '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
+            '</span>',
+            '</div>',
+            '</td>',
+            '</tr></tfoot>'].join('')
         );
-
-        const pagedProps = {
-            store: pagedStore,
-            pageSize: 25,
-            dataSource: localGridData,
-            ref: 'pagertoolbar',
-            plugins: {
-                PAGER: {
-                    enabled: true,
-                    pagingType: 'local'
-                }
-            }
-        };
-
-        const shallowPager = shallow(<PagerToolbar { ...pagedProps }/>);
-        const shallowNextButton = shallowPager.find('.react-grid-next');
-
-        shallowNextButton.simulate('click');
-
-    });
-
-    it('Should go to last page when last button is clicked and pagerState is defined', () => {
-
-        const pagedStore = mockStore({},
-            { pageIndex: -1, type: 'PAGE_LOCAL' }
-        );
-
-        const pagedProps = {
-            store: pagedStore,
-            pageSize: 25,
-            pageIndex: 0,
-            dataSource: localGridData,
-            ref: 'pagertoolbar',
-            plugins: {
-                PAGER: {
-                    enabled: true,
-                    pagingType: 'local'
-                }
-            },
-            pagerState: {
-                pageIndex: 0,
-                data: localGridData
-            }
-        };
-
-        const shallowPager = shallow(<PagerToolbar { ...pagedProps }/>);
-
-        const shallowlastButton = shallowPager.find('.react-grid-back');
-
-        shallowlastButton.simulate('click');
-
     });
 
 });
