@@ -106,7 +106,9 @@ describe('handleButtonClick function without a pagingType specified', () => {
 
     it('Should not dispatch an action', () => {
         expect(
-            ButtonUtils.handleButtonClick(type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, uncalledStore)
+            ButtonUtils.handleButtonClick(
+                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, uncalledStore
+            )
         ).toEqual(undefined);
     });
 
