@@ -54,7 +54,6 @@ In the demo `provider.jsx`, we are simply passing the store at path`'../src/stor
 If you elect to use a custom store, the core component's reducers are also exposed from within the core export:
 
 	const Reducers = {
-	    ColumnManager: columnmanager,
 	    DataSource: datasource,
 	    Grid: grid,
 	    BulkActions: bulkaction,
@@ -71,10 +70,10 @@ You can import a reducer like so:
 	
 	import { Reducers } from 'react-redux-grid';
 
-	const columnmanager = Reducers.Columnmanager;
+	const dataSource = Reducers.DataSource;
 
 	const rootReducer = combineReducers({
-	    columnmanager,
+	    dataSource,
 	    yourCustomReducer
 	};
 

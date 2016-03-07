@@ -43,11 +43,7 @@ describe('Reducers Export', () =>{
     it('Should export all Reducers', () =>{
         expect(imports.Reducers).toBeTruthy();
         expect(typeof imports.Reducers).toEqual('object');
-        expect(Object.keys(imports.Reducers).length).toEqual(11);
-    });
-
-    it('Should export a Column Manager Reducer', () =>{
-        reducerTest('ColumnManager');
+        expect(Object.keys(imports.Reducers).length).toEqual(10);
     });
 
     it('Should export a DataSource Reducer', () =>{

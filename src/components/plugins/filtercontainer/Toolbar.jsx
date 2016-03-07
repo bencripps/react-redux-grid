@@ -17,7 +17,7 @@ import { setFilter,
     doRemoteFilter
 } from '../../../actions/plugins/filter/FilterActions';
 
-const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, filter,
+export const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, filter,
     placeHolderText, pager, pageSize, plugins, store}) => {
 
     const toolbar = plugins
@@ -25,7 +25,7 @@ const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, filter,
         && plugins.FILTER_CONTAINER.enabled
         ? getToolbar(columnManager, dataSource, defaultSortMethod, filter,
             placeHolderText, pager, pageSize, plugins, store)
-        : null;
+        : <div />;
 
     return toolbar;
 };
