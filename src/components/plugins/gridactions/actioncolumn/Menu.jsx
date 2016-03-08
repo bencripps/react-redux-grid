@@ -36,17 +36,14 @@ export const handleEditClick = (editor, store, rowId, data, reactEvent) => {
 };
 
 Menu.propTypes = {
-    toolbarRenderer: PropTypes.func
+    actions: PropTypes.array,
+    editor: PropTypes.object,
+    reducerKeys: PropTypes.object,
+    rowId: PropTypes.string,
+    store: PropTypes.object,
+    type: PropTypes.string
 };
 
 Menu.defaultProps = {
-    toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
-        if (!currentRecords) {
-            return `No ${recordType} Available`;
-        }
 
-        return `${pageIndex * pageSize}
-            through ${pageIndex * pageSize + currentRecords}
-            of ${total} ${recordType} Displayed`;
-    }
 };

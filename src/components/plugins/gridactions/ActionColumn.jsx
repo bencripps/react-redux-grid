@@ -81,7 +81,7 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
 export const getColumn = (containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId) => {
 
     const menu = menuShown ? <Menu { ...{ actions, type: null, store, editor, reducerKeys, rowId } } /> : null;
-
+    
     return (
         <td { ...containerProps }>
             <span { ...iconProps }></span>
