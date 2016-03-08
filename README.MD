@@ -455,7 +455,7 @@ All core components and plugins have corresponding `.styl` files that can be ext
 
 ## FAQ
 
-1. What if I want to use my own store, but I want to name the reducer keys myself?
+#### What if I want to use my own store, but I want to name the reducer keys myself?
 
 This is possible. You simply need to pass the reducer name as a `prop`. 
 
@@ -467,3 +467,30 @@ This is possible. You simply need to pass the reducer name as a `prop`.
     };
 
     const grid = <Grid { ...gridProps } />;
+
+#### I see fonts are included in the package. Do I have to build them with my webpack? Do I have to use them at all?
+
+The fonts will be used by default. If you'd like to remove them from the build process entirely (and thus remove them from the Grid), set a stylus variable!
+
+You can do this via JS, stylus, or webpack:
+
+###### JS
+
+	const stylus = import('stylus');
+
+	stylus.define('$include_fonts', false);
+
+###### Stylus
+
+	$include_fonts = false
+
+###### Webpack
+	
+	variables.styl
+		$include_fonts = false
+
+	stylus: {
+        'import': [
+            path.join(__dirname, 'build/variables.styl')
+        ]
+    }

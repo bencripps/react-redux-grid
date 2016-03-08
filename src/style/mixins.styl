@@ -29,6 +29,17 @@ border-radius()
   
 boxshadow(depth = 1, shadowcolor = rgba(0,0,0,0.16), secondaryshadowcolor = rgba(0,0,0,0.23))
     box-shadow: depth * 2px depth * 3px depth * 6px shadowcolor, 0 3px 6px secondaryshadowcolor
+        
+webfont($family, $files...)
+    @font-face
+        font-family $family
+        for $file in $files
+            $font = $file.path
+            $type = $file.type
+            $format = $file.format
+            src url($font + $type) format($format)
+        font-weight normarl
+        font-style normal
     
 input()
     border 1px solid strongcolor
