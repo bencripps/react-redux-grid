@@ -8,7 +8,8 @@ import {
     pageSize,
     plugins,
     events,
-    dataSource
+    dataSource,
+    height
 } from '../demo/demoData';
 
 const gridData = {
@@ -18,6 +19,7 @@ const gridData = {
     plugins,
     events,
     dataSource,
+    height,
     store: Store
 };
 

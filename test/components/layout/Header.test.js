@@ -40,7 +40,7 @@ describe('Header Columns', () => {
 
     const component = header(props);
 
-    expect(component.props.children.props.className).toEqual('react-grid-header');
+    expect(component.props.children.props.className).toEqual('react-grid-header react-grid-header-hidden');
     expect(component.props.children.props.children.length).toEqual(2);
 
 });

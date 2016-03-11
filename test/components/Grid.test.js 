@@ -84,16 +84,15 @@ describe('Grid DOM after render', () => {
         expect(container.props.className).toEqual('react-grid-container');
     });
 
-    it('Should have 5 child elements', () => {
-        expect(container.props.children.length).toEqual(5);
+    it('Should have 7 child elements', () => {
+        expect(container.props.children.length).toEqual(7);
     });
 
     it('Should render the correct table', () => {
         const table = subcomponent(container, 'react-grid-table');
 
         expect(table).toBeTruthy();
-        expect(table.length).toEqual(1);
-        expect(table[0].props.store).toBeTruthy();
+        expect(table.length).toEqual(0);
     });
 
     it('Should render no error container', () => {

@@ -4,11 +4,12 @@
 
 prefix = 'react-grid-'
 
+actioniconclass = 'action-icon'
 activeclass = 'active'
-editclass = 'edit'
 draghandleclass = 'drag-handle'
 draggablecolumnclass = 'draggable-column'
-actioniconclass = 'action-icon'
+editclass = 'edit'
+headerhidden = 'header-hidden'
 sorthandleclass = 'sort-handle'
 sorthandlevisibleclass = 'sort-handle-visible'
 
@@ -33,16 +34,18 @@ editcolor = #B2B2B2
 
 // zindex manager
 zarray = {
-  '.error-container': 10,
   '.action-menu-container': 11,
   '.bulkaction-container': 12,
-  '.filter-menu-container': 13
+  '.error-container': 10,
+  '.filter-menu-container': 13,
+  '.fixed-header': 9
 }
 
 @require 'components/button'
 @require 'components/cell'
 @require 'components/container'
 @require 'components/grid'
+@require 'components/tablecontainer'
 @require 'components/header'
 @require 'components/menu'
 @require 'components/menuitem'

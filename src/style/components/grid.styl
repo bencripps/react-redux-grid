@@ -3,11 +3,14 @@
     .table
         border-radius 4px
         border-collapse collapse
-        boxshadow()
         font-size fontsize
         position relative
         text-align left
         table-layout fixed
         white-space nowrap
         width: 100%
+
+        &.header-fixed
+            box-shadow none
+            zindex('.fixed-header')
         

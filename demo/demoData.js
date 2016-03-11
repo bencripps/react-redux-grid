@@ -1,5 +1,7 @@
 export const pageSize = 20;
 
+export const height = '400px';
+
 export const events = {
     HANDLE_CELL_CLICK: (cell, reactEvent, id, browserEvent) => {
         console.log('On Cell Click Event');

@@ -32,12 +32,12 @@ describe('An Unrendered Paging Toolbar', () => {
     const component = shallow(<PagerToolbar { ...unrenderedProps }/>);
 
     it('Should render a shallow component with no props, and no children', () => {
-        expect(component.node.type).toEqual('tfoot');
+        expect(component.node.type).toEqual('div');
         expect(Object.keys(component.props).length).toBeFalsy();
     });
 
     it('Should render an an empty footer', () => {
-        expect(component.html()).toEqual('<tfoot></tfoot>');
+        expect(component.html()).toEqual('<div></div>');
     });
 
 });
@@ -85,7 +85,7 @@ describe('The default toolbar instance', () => {
     });
 
     it('Should render a table footer as the first child', () => {
-        expect(component.first().type()).toEqual('tfoot');
+        expect(component.first().type()).toEqual('div');
     });
 
 });
@@ -95,18 +95,15 @@ describe('An Rendered Paging Toolbar HTML', () => {
     it('Should render a toolbar', () => {
         const component = shallow(<PagerToolbar { ...props }/>);
 
-        expect(component.html()).toEqual([
-            '<tfoot><tr class="react-grid-pager-toolbar">',
-            '<td colspan="100%">',
-            '<div>',
-            '<span>No Records Available</span>',
-            '<span>',
-            '<button class="react-grid-page-buttons react-grid-next">Next</button>',
-            '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
-            '</span>',
-            '</div>',
-            '</td>',
-            '</tr></tfoot>'].join('')
+        expect(component.html()).toEqual(
+            [
+                '<div class="react-grid-pager-toolbar">',
+                '<span>No Records Available</span><span>',
+                '<button class="react-grid-page-buttons react-grid-next">Next</button>',
+                '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
+                '</span>',
+                '</div>'
+            ].join('')
         );
     });
 

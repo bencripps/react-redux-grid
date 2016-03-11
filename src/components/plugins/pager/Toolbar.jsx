@@ -30,7 +30,7 @@ export const PagerToolbar = ({
                         pagerDataSource,
                         toolbarRenderer,
                         store)
-                    : <tfoot></tfoot>;
+                    : <div />;
 
     return pagerComponent;
 
@@ -126,41 +126,35 @@ export const getPager = (dataSource, pageSize,
     };
 
     return (
-        <tfoot>
-            <tr {...toolbarProps }>
-                <td colSpan="100%">
-                    <div>
-                        <Description { ...descriptionProps } />
-                        <span>
-                            <Button { ...{
-                                BUTTON_TYPES,
-                                type: BUTTON_TYPES.NEXT,
-                                pageIndex,
-                                pageSize,
-                                plugins,
-                                currentRecords,
-                                total,
-                                dataSource,
-                                store }
-                                }
-                            />
-                            <Button { ...{
-                                BUTTON_TYPES,
-                                type: BUTTON_TYPES.BACK,
-                                pageIndex,
-                                pageSize,
-                                plugins,
-                                currentRecords,
-                                total,
-                                dataSource,
-                                store}
-                                }
-                            />
-                        </span>
-                    </div>
-                </td>
-            </tr>
-        </tfoot>
+        <div { ...toolbarProps }>
+            <Description { ...descriptionProps } />
+            <span>
+                <Button { ...{
+                    BUTTON_TYPES,
+                    type: BUTTON_TYPES.NEXT,
+                    pageIndex,
+                    pageSize,
+                    plugins,
+                    currentRecords,
+                    total,
+                    dataSource,
+                    store }
+                    }
+                />
+                <Button { ...{
+                    BUTTON_TYPES,
+                    type: BUTTON_TYPES.BACK,
+                    pageIndex,
+                    pageSize,
+                    plugins,
+                    currentRecords,
+                    total,
+                    dataSource,
+                    store}
+                    }
+                />
+            </span>
+        </div>
     );
 };
 

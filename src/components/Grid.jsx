@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ConnectedHeader as Header} from './layout/Header.jsx';
+import { ConnectedFixedHeader as FixedHeader} from './layout/FixedHeader.jsx';
 import { ConnectedRow as Row } from './layout/Row.jsx';
 import { ConnectedPagerToolbar as PagerToolbar } from './plugins/pager/Toolbar.jsx';
 import { Message } from './plugins/errorhandler/Message.jsx';
@@ -19,20 +20,25 @@ import '../style/main.styl';
 class Grid extends Component {
 
     static propTypes = {
-        columnState: React.PropTypes.object,
-        columns: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-        data: React.PropTypes.arrayOf(React.PropTypes.object),
-        dataSource: React.PropTypes.any,
-        events: React.PropTypes.object,
-        pageSize: React.PropTypes.number,
-        plugins: React.PropTypes.object,
-        reducerKeys: React.PropTypes.object,
-        store: React.PropTypes.object
+        columnState: PropTypes.object,
+        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+        data: PropTypes.arrayOf(PropTypes.object),
+        dataSource: PropTypes.any,
+        events: PropTypes.object,
+        height: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        pageSize: PropTypes.number,
+        plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
+        store: PropTypes.object
     };
 
     static defaultProps = {
-        pageSize: 25,
         events: {},
+        height: '500px',
+        pageSize: 25,
         reducerKeys: {}
     };
 
@@ -92,6 +98,7 @@ class Grid extends Component {
             columnState,
             data,
             dataSource,
+            height,
             pageSize,
             plugins,
             events,
@@ -134,7 +141,19 @@ class Grid extends Component {
             plugins,
             reducerKeys,
             selectionModel,
-            store
+            store,
+            visible: false
+        };
+
+        const fixedHeaderProps = Object.assign({
+            visible: true
+        }, headerProps);
+
+        const tableContainerProps = {
+            className: prefix(CLASS_NAMES.TABLE_CONTAINER),
+            style: {
+                height: height
+            }
         };
 
         const rowProps = {
@@ -174,11 +193,14 @@ class Grid extends Component {
                     <Message { ...messageProps } />
                     <BulkActionToolbar { ...bulkActionProps } />
                     <FilterToolbar { ...filterProps } />
-                    <table { ...tableProps }>
-                        <Header { ...headerProps } />
-                        <Row { ...rowProps } />
-                        <PagerToolbar { ...pagerProps } />
-                    </table>
+                    <FixedHeader { ...fixedHeaderProps } />
+                    <div { ...tableContainerProps } >
+                        <table { ...tableProps }>
+                            <Header { ...headerProps } />
+                            <Row { ...rowProps } />
+                        </table>
+                    </div>
+                    <PagerToolbar { ...pagerProps } />
                     <LoadingBar { ...loadingBarProps } />
                 </div>
                     { editorComponent }
@@ -195,7 +217,8 @@ export const selectionModel = new Model();
 
 function mapStateToProps(state, props) {
     return {
-        columnState: stateGetter(state, props, 'grid', 'gridState')
+        columnState: stateGetter(state, props, 'grid', 'gridState'),
+        editorState: stateGetter(state, props, 'editor', 'editorState')
     };
 }
 

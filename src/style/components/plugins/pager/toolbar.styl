@@ -3,15 +3,21 @@
     .pager-toolbar
         background-color lightcolor
         border-top: 1px solid strongcolor
+        border-radius(0px 0px 3px 3px)
+        font-family fontfamily
         height headerheight
+        text-indent: 10px;
         
-        td 
-            background-color lightcolor
-            
-            div
-                font-family fontfamily
-                text-indent: 10px;
-            
-                button
-                    float right
-                    margin 0px 10px
+        span 
+            display block
+            position relative
+            top 2px
+        
+        span:first-child
+            font-size fontsize
+            font-family fontfamily
+            float left
+        
+        button
+            float right
+            margin 0px 10px
