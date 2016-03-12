@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { Column } from './header/Column.jsx';
@@ -7,6 +6,7 @@ import { EmptyHeader } from './header/EmptyHeader.jsx';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
+import { keyFromObject } from '../../util/keyGenerator';
 import { throttle } from '../../util/throttle';
 import { stateGetter } from '../../util/stateGetter';
 import { CLASS_NAMES } from '../../constants/GridConstants';
@@ -23,6 +23,7 @@ class FixedHeader extends Component {
         dataSource: PropTypes.object,
         pager: PropTypes.object,
         plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object
     };
@@ -34,7 +35,17 @@ class FixedHeader extends Component {
 
     render() {
 
-        const { columns, columnManager, dataSource, selectionModel, store, pager, plugins } = this.props;
+        const {
+            columns,
+            columnManager,
+            dataSource,
+            reducerKeys,
+            selectionModel,
+            store,
+            pager,
+            plugins
+        } = this.props;
+
         const visibleColumns = columns.filter((col) => !col.hidden);
         const headers = visibleColumns.map((col, i) => {
 
@@ -69,7 +80,7 @@ class FixedHeader extends Component {
             selectionModel.updateCells(headers, columns, 'header');
         }
 
-        columnManager.addActionColumn(headers, 'header');
+        columnManager.addActionColumn(headers, 'header', keyFromObject(columns), reducerKeys);
 
         addEmptyInsert(headers, visibleColumns, plugins);
 

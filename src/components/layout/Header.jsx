@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { Column } from './header/Column.jsx';
@@ -8,8 +7,8 @@ import { EmptyHeader } from './header/EmptyHeader.jsx';
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
 import { stateGetter } from '../../util/stateGetter';
+import { keyFromObject } from '../../util/keyGenerator';
 import { CLASS_NAMES } from '../../constants/GridConstants';
-import { resizeColumns } from '../../actions/GridActions';
 
 const dragAndDropManager = new DragAndDropManager();
 
@@ -22,6 +21,7 @@ class Header extends Component {
         dataSource: PropTypes.object,
         pager: PropTypes.object,
         plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
         selectionModel: PropTypes.object,
         store: PropTypes.object,
         visible: PropTypes.bool
@@ -34,7 +34,18 @@ class Header extends Component {
 
     render() {
 
-        const { columns, columnManager, dataSource, selectionModel, store, pager, plugins, visible } = this.props;
+        const {
+            columns,
+            columnManager,
+            dataSource,
+            selectionModel,
+            reducerKeys,
+            store,
+            pager,
+            plugins,
+            visible
+        } = this.props;
+
         const visibleColumns = columns.filter((col) => !col.hidden);
         const headers = visibleColumns.map((col, i) => {
 
@@ -68,7 +79,7 @@ class Header extends Component {
             selectionModel.updateCells(headers, columns, 'header');
         }
 
-        columnManager.addActionColumn(headers, 'header');
+        columnManager.addActionColumn(headers, 'header', keyFromObject(headers), reducerKeys);
 
         addEmptyInsert(headers, visibleColumns, plugins);
 

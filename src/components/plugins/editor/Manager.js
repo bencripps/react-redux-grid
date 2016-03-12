@@ -51,10 +51,11 @@ export default class Manager {
         }
     }
 
-    getComponent(plugins, store, events, selectionModel, editor, columns) {
+    getComponent(plugins, reducerKeys, store, events, selectionModel, editor, columns) {
 
         const editorProps = {
             columns,
+            reducerKeys,
             store,
             events
         };

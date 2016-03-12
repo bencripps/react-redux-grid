@@ -99,7 +99,6 @@ export const handleActionClick = (type, actions, id, store, reactEvent) => {
 };
 
 function mapStateToProps(state, props) {
-
     return {
         menuState: stateGetter(state, props, 'menu', 'menuState'),
         gridState: stateGetter(state, props, 'grid', 'gridState')

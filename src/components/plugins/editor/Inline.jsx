@@ -8,7 +8,7 @@ import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES, ROW_HEIGHT } from '../../../constants/GridConstants';
 
 export const Inline = ({ BUTTON_TYPES,
-    editorState, events, store}) => {
+    editorState, events, reducerKeys, store}) => {
 
     let top = -100;
 
@@ -43,6 +43,7 @@ Inline.propTypes = {
     columns: PropTypes.array,
     editorState: PropTypes.object,
     events: PropTypes.object,
+    reducerKeys: PropTypes.object,
     store: PropTypes.object
 };
 
