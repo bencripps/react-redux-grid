@@ -110,18 +110,19 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
 };
 
 export const handleDrag = (scope, columns, id, columnManager, store, nextColumnKey, reactEvent) => {
-    const mousePosition = reactEvent.pageX;
     const header = reactEvent.target.parentElement.parentElement;
-    const columnNode = ReactDOM.findDOMNode(reactEvent.target.parentElement);
-    const headerNextElementSibling = ReactDOM.findDOMNode(columnNode.nextElementSibling);
+    const columnNode = reactEvent.target.parentElement;
+    const headerNextElementSibling = columnNode.nextElementSibling;
     const columnOffsetLeft = columnNode.getBoundingClientRect().left;
     const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
-    const computedWidth = (mousePosition - columnOffsetLeft) / headerWidth;
+    const computedWidth = (reactEvent.clientX - columnOffsetLeft) / headerWidth;
     const totalWidth = parseFloat(columnNode.style.width, 10)
         + parseFloat(headerNextElementSibling.style.width, 10);
-    let width = computedWidth * 100;
 
+    let width = computedWidth * 100;
     let nextColWidth = Math.abs(width - totalWidth);
+
+    const isInvalidDrag = width + nextColWidth > totalWidth;
 
     if (nextColWidth < 0 || width < 0) {
         return false;
@@ -135,6 +136,10 @@ export const handleDrag = (scope, columns, id, columnManager, store, nextColumnK
     else if (width < columnManager.config.minColumnWidth) {
         width = columnManager.config.minColumnWidth;
         nextColWidth = totalWidth - columnManager.config.minColumnWidth;
+    }
+
+    else if (isInvalidDrag) {
+        return false;
     }
 
     store.dispatch(resizeColumns(width, id, {

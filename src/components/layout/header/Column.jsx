@@ -120,7 +120,7 @@ export const getWidth = (col, key, columns, defaultColumnWidth) => {
         if (_col.hidden) {
             return a + 0;
         }
-        return a + parseFloat(_col.width || 0);
+        return a + parseFloat(_col.width || defaultColumnWidth);
     }, 0);
 
     let width = col.width || defaultColumnWidth;
