@@ -48,11 +48,15 @@ export const onButtonClick = (BUTTON_TYPES, editorState, events, type, store) =>
 
     else if (type === BUTTON_TYPES.SAVE) {
 
-        if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
-            events.HANDLE_AFTER_INLINE_EDITOR_SAVE.apply(this, arguments);
-        }
-
         store.dispatch(saveRow(editorState.row.values, editorState.row.rowIndex));
+
+        if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
+            const values = editorState.row.values;
+
+            events.HANDLE_AFTER_INLINE_EDITOR_SAVE({
+                values, editorState
+            });
+        }
 
         store.dispatch(dismissEditor());
     }

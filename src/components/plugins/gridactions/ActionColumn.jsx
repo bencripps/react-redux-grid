@@ -3,6 +3,7 @@ import { Menu } from './actioncolumn/Menu.jsx';
 import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { keyFromObject } from '../../../util/keyGenerator';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
@@ -56,6 +57,7 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
             onCheckboxChange: () => {},
             hideable: col.hideable,
             dismissOnClick: false,
+            key: keyFromObject(col),
             EVENT_HANDLER: () => {
                 if (col.hideable === undefined || col.hideable) {
                     store.dispatch(setColumnVisibility(columns, col, col.hidden));
@@ -81,13 +83,25 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
     );
 };
 
+export const addKeysToActions = (action) => {
+
+    if (action && action.key) {
+        return action;
+    }
+
+    else {
+        action.key = keyFromObject(action);
+        return action;
+    }
+};
+
 export const getColumn = (containerProps, iconProps, menuShown,
     actions, store, editor, reducerKeys, rowId, rowData, rowIndex) => {
 
     const menu = menuShown
         ?
         <Menu { ...{
-            actions,
+            actions: addKeysToActions(actions),
             type: null,
             rowData,
             store,

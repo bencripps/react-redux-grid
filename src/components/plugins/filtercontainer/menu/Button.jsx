@@ -7,7 +7,7 @@ import {
     doLocalFilter,
     clearFilterLocal,
     doRemoteFilter,
-    showFilterMenu,
+    showFilterMenu
 } from './../../../../actions/plugins/filter/FilterActions';
 
 export const Button = ({
@@ -35,10 +35,10 @@ Button.propTypes = {
     buttonTypes: PropTypes.object,
     dataSource: PropTypes.object,
     filter: PropTypes.object,
-    plugins: PropTypes.object,
     pager: PropTypes.object,
-    type: PropTypes.object,
-    store: PropTypes.object.isRequired
+    plugins: PropTypes.object,
+    store: PropTypes.object.isRequired,
+    type: PropTypes.object
 };
 
 Button.defaultProps = {

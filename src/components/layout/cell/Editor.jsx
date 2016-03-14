@@ -3,7 +3,11 @@ import { Input } from './Input.jsx';
 
 export const Editor = ({ cellData, columns, editorState, index, isEditable, rowId, store }) => {
 
-    const colName = columns[index].name;
+    const colName = columns
+        && columns[index]
+        && columns[index].name
+        ? columns[index].name
+        : '';
 
     const value = editorState
         && editorState.row
@@ -37,7 +41,7 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
 };
 
 Editor.propTypes = {
-    cellData: PropTypes.string,
+    cellData: PropTypes.any,
     columns: PropTypes.array,
     index: PropTypes.number,
     isEditable: PropTypes.bool,

@@ -29,7 +29,7 @@ export const handleChange = (columnDefinition, rowId, store, reactEvent) => {
 };
 
 Input.propTypes = {
-    cellData: PropTypes.string,
+    cellData: PropTypes.any,
     column: PropTypes.object,
     store: PropTypes.object
 };

@@ -22,7 +22,8 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData
 export const getEditAction = (editor, store, rowId, rowData, rowIndex) => {
     return {
         text: 'Edit',
-        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex)
+        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex),
+        key: 'grid-edit-action'
     };
 };
 
@@ -36,7 +37,7 @@ export const handleEditClick = (editor, store, rowId, rowData, rowIndex, data, r
 };
 
 Menu.propTypes = {
-    actions: PropTypes.array,
+    actions: PropTypes.object,
     editor: PropTypes.object,
     reducerKeys: PropTypes.object,
     rowId: PropTypes.string,

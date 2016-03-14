@@ -35,8 +35,10 @@ class Menu extends Component {
             className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
         };
 
-        const menuItems = menu && menu.length > 0
-            ? menu.map(this.getMenuItem.bind(this))
+        const items = getUniqueItems(menu);
+
+        const menuItems = items && items.length > 0
+            ? items.map(this.getMenuItem.bind(this))
             : null;
 
         return (
@@ -46,6 +48,12 @@ class Menu extends Component {
         );
     }
 }
+
+export const getUniqueItems = (items) => {
+    const keys = items.map((obj) => { return obj.key; });
+    const unique = items.filter((ob, i) => { return keys.indexOf(ob.key) === i; });
+    return unique;
+};
 
 function mapStateToProps() {
     return {};

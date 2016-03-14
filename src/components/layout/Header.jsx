@@ -59,6 +59,7 @@ class Header extends Component {
                 dragAndDropManager,
                 pager,
                 store,
+                key: `header-${i}`,
                 index: i
             };
 
@@ -107,11 +108,11 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
             && GRID_ACTIONS.menu
             && GRID_ACTIONS.menu.length > 0) {
 
-            headers.splice(1, 0, <EmptyHeader />);
+            headers.splice(1, 0, <EmptyHeader key="empty-header" />);
         }
 
         else {
-            headers.push(<EmptyHeader />);
+            headers.push(<EmptyHeader key="empty-header" />);
         }
     }
 

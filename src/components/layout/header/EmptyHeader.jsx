@@ -6,6 +6,7 @@ export const EmptyHeader = (props) => {
         style: {
             width: '100%'
         },
+        key: 'react-grid-empty-header',
         ...props
     };
 

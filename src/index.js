@@ -5,7 +5,7 @@ import Store from './store/store';
 
 import { Reducers } from './reducers';
 
-import Actions from './actions';
+import { Actions } from './actions';
 
 const modules = {
     Actions,
