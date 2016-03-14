@@ -25,7 +25,7 @@ export const Input = ({ cellData, column, editorState, rowId, store }) => {
 };
 
 export const handleChange = (columnDefinition, rowId, store, reactEvent) => {
-    store.dispatch(updateCellValue(reactEvent.target.value, rowId, columnDefinition.name));
+    store.dispatch(updateCellValue(reactEvent.target.value, columnDefinition.name));
 };
 
 Input.propTypes = {

@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+
+import store from './../src/store/store';
 import { Actions } from './../src/actions';
 
 export const pageSize = 20;
@@ -127,8 +129,11 @@ export const plugins = {
 };
 
 export const editorFunc = (value, editorState, rowId, columns, idx, reactEvent) => {
-    // TODO: hook up func to action
-    // Actions.EditorActions()
+    store.dispatch(
+        Actions.EditorActions.updateCellValue(
+            reactEvent.target.value, columns[idx].name
+        )
+    );
 };
 
 export const columns = [
@@ -137,20 +142,22 @@ export const columns = [
         dataIndex: 'Name',
         width: '10%',
         className: 'additional-class',
-        editor: (value, editorState, rowId, cols, index) => {
-            return <input
-                    onChange= { editorFunc.bind(null, value, editorState, rowId, cols, index) }
-                    type="text"
-                    value={ value }
-                   />
-        },
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
         name: 'Phone Number',
         dataIndex: 'Phone Number',
         width: '20%',
-        className: 'additional-class'
+        className: 'additional-class',
+        editor: (value, editorState, rowId, cols, index) => {
+            return (
+                <input
+                    onChange= { editorFunc.bind(null, value, editorState, rowId, cols, index) }
+                    type="tel"
+                    value={ value }
+                />
+                );
+        }
     },
     {
         name: 'Email',

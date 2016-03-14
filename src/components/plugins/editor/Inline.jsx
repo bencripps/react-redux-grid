@@ -31,8 +31,8 @@ export const Inline = ({ BUTTON_TYPES,
     return (
         <div { ...inlineEditorProps }>
             <span { ...buttonContainerProps }>
-                <Button { ...{ type: BUTTON_TYPES.SAVE, events, store } }/>
-                <Button { ...{ type: BUTTON_TYPES.CANCEL, events, store } }/>
+                <Button { ...{ type: BUTTON_TYPES.SAVE, editorState, events, store } }/>
+                <Button { ...{ type: BUTTON_TYPES.CANCEL, editorState, events, store } }/>
             </span>
         </div>
     );

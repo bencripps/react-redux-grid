@@ -8,7 +8,7 @@ import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
 export const ActionColumn = ({ actions, columns, editor, iconCls,
-    menuState, rowId, rowData, store, type, reducerKeys }) => {
+    menuState, rowId, rowData, store, type, rowIndex, reducerKeys }) => {
 
     const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
 
@@ -23,8 +23,8 @@ export const ActionColumn = ({ actions, columns, editor, iconCls,
     };
 
     return type === 'header'
-        ? getHeader(containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData)
-        : getColumn(containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData);
+        ? getHeader(containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex)
+        : getColumn(containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex);
 };
 
 ActionColumn.propTypes = {
@@ -82,9 +82,21 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
 };
 
 export const getColumn = (containerProps, iconProps, menuShown,
-    actions, store, editor, reducerKeys, rowId, rowData) => {
+    actions, store, editor, reducerKeys, rowId, rowData, rowIndex) => {
 
-    const menu = menuShown ? <Menu { ...{ actions, type: null, rowData, store, editor, reducerKeys, rowId } } /> : null;
+    const menu = menuShown
+        ?
+        <Menu { ...{
+            actions,
+            type: null,
+            rowData,
+            store,
+            editor,
+            reducerKeys,
+            rowId,
+            rowIndex } }
+        />
+        : null;
 
     return (
         <td { ...containerProps }>

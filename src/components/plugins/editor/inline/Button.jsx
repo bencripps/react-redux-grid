@@ -3,13 +3,14 @@ import React, { PropTypes } from 'react';
 import { prefix } from '../../../../util/prefix';
 import { CLASS_NAMES } from '../../../../constants/GridConstants';
 import { dismissEditor } from './../../../../actions/plugins/editor/EditorActions';
+import { saveRow } from './../../../../actions/plugins/editor/EditorActions';
 
-export const Button = ({ BUTTON_TYPES, saveText, cancelText, type, events, store }) => {
+export const Button = ({ BUTTON_TYPES, saveText, cancelText, editorState, events, store, type }) => {
 
     const text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
 
     const buttonProps = {
-        onClick: onButtonClick.bind(this, BUTTON_TYPES, events, type, store),
+        onClick: onButtonClick.bind(this, BUTTON_TYPES, editorState, events, type, store),
         className: type === BUTTON_TYPES.SAVE
             ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON) : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
     };
@@ -39,7 +40,7 @@ Button.defaultProps = {
     saveText: 'Save'
 };
 
-export const onButtonClick = (BUTTON_TYPES, events, type, store) => {
+export const onButtonClick = (BUTTON_TYPES, editorState, events, type, store) => {
 
     if (type === BUTTON_TYPES.CANCEL) {
         store.dispatch(dismissEditor());
@@ -50,6 +51,8 @@ export const onButtonClick = (BUTTON_TYPES, events, type, store) => {
         if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
             events.HANDLE_AFTER_INLINE_EDITOR_SAVE.apply(this, arguments);
         }
+
+        store.dispatch(saveRow(editorState.row.values, editorState.row.rowIndex));
 
         store.dispatch(dismissEditor());
     }

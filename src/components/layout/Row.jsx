@@ -168,7 +168,7 @@ export const getRowComponents = (columns, columnManager, editorState, reducerKey
         onDoubleClick: handleRowDoubleClickEvent.bind(this, events, row, id, selectionModel)
     };
     
-    columnManager.addActionColumn(cells, 'row', id, reducerKeys, row);
+    columnManager.addActionColumn(cells, 'row', id, reducerKeys, row, index);
 
     selectionModel.updateCells(cells, id, 'row', reducerKeys);
 

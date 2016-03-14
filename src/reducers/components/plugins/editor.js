@@ -3,7 +3,8 @@ import { fromJS } from 'immutable';
 import {
     EDIT_ROW,
     DISMISS_EDITOR,
-    ROW_VALUE_CHANGE
+    ROW_VALUE_CHANGE,
+    CANCEL_ROW
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -19,6 +20,7 @@ export default function editor(state = initialState, action) {
             row: {
                 key: action.rowId,
                 values: action.values,
+                rowIndex: action.rowIndex,
                 top: action.top
             }
         });
@@ -27,19 +29,22 @@ export default function editor(state = initialState, action) {
 
         const previous = state.get('editorState');
 
-        const rowValues = Object.assign(previous.row.values, {
+        const rowValues = Object.assign({}, previous.row.values, {
             [action.columnName]: action.value
         });
 
         return state.set('editorState', Object.assign({}, state.get('editorState'), {
             row: {
-                top: previous.row.top,
-                key: action.rowId,
-                values: rowValues
+                key: previous.row.key,
+                values: rowValues,
+                rowIndex: previous.row.rowIndex,
+                previousValues: previous.row.values,
+                top: previous.row.top
             }
         }));
 
     case DISMISS_EDITOR:
+    case CANCEL_ROW:
         return state.set('editorState', {});
 
     default:
