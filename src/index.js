@@ -5,11 +5,14 @@ import Store from './store/store';
 
 import { Reducers } from './reducers';
 
+import Actions from './actions';
+
 const modules = {
+    Actions,
     Grid: ConnectedGrid,
-    Store,
+    GridRootReducer: combineReducers(Reducers),
     Reducers,
-    GridRootReducer: combineReducers(Reducers)
+    Store
 };
 
 module.exports = modules;

@@ -1,3 +1,6 @@
+import React from 'react'
+import { Actions } from './../src/actions';
+
 export const pageSize = 20;
 
 export const height = '400px';
@@ -123,17 +126,29 @@ export const plugins = {
     }
 };
 
+export const editorFunc = (value, editorState, rowId, columns, idx, reactEvent) => {
+    // TODO: hook up func to action
+    // Actions.EditorActions()
+};
+
 export const columns = [
     {
         name: 'Name',
         dataIndex: 'Name',
         width: '10%',
         className: 'additional-class',
+        editor: (value, editorState, rowId, cols, index) => {
+            return <input
+                    onChange= { editorFunc.bind(null, value, editorState, rowId, cols, index) }
+                    type="text"
+                    value={ value }
+                   />
+        },
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {
         name: 'Phone Number',
-        dataIndex: 'Name',
+        dataIndex: 'Phone Number',
         width: '20%',
         className: 'additional-class'
     },

@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
 import { editRow } from './../../../../actions/plugins/editor/EditorActions';
 
-export const Menu = ({ actions, type, store, editor, reducerKeys, rowId }) => {
+export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData }) => {
 
     if (editor.config.enabled && type !== 'header') {
-        actions.menu.unshift(getEditAction(editor, store, rowId));
+        actions.menu.unshift(getEditAction(editor, store, rowId, rowData));
     }
 
     const menuProps = {
@@ -19,19 +19,19 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId }) => {
     );
 };
 
-export const getEditAction = (editor, store, rowId) => {
+export const getEditAction = (editor, store, rowId, rowData) => {
     return {
         text: 'Edit',
-        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId)
+        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData)
     };
 };
 
-export const handleEditClick = (editor, store, rowId, data, reactEvent) => {
+export const handleEditClick = (editor, store, rowId, rowData, data, reactEvent) => {
     const rowPosition = reactEvent.target.getBoundingClientRect();
     const top = rowPosition.top + window.scrollY;
 
     if (editor.config.type === editor.editModes.inline) {
-        store.dispatch(editRow(rowId, top));
+        store.dispatch(editRow(rowId, top, rowData));
     }
 };
 

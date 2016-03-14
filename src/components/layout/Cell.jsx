@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import { Editor } from './cell/Editor.jsx';
+
 import { prefix } from '../../util/prefix';
 import { stateGetter } from '../../util/stateGetter';
 import { elementContains } from '../../util/elementContains';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
-export const Cell = ({ cellData, columns, editorState, events, index, rowId }) => {
+export const Cell = ({ cellData, columns, editorState, events, index, rowId, store }) => {
 
     const isEditable = editorState
             && editorState.row
@@ -19,7 +22,6 @@ export const Cell = ({ cellData, columns, editorState, events, index, rowId }) =
 
     const cellProps = {
         className: prefix(CLASS_NAMES.CELL),
-        contentEditable: isEditable,
         onClick: handleClick.bind(this, events, cellData),
         onDoubleClick: handleDoubleClick.bind(this, events, cellData),
         style: {
@@ -27,9 +29,7 @@ export const Cell = ({ cellData, columns, editorState, events, index, rowId }) =
         }
     };
 
-    const cellHTML = isEditable && columns[index].editor
-        ? <span> { columns[index].editor } </span>
-        : <span> { cellData } </span>;
+    const cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, store);
 
     return (
         <td { ...cellProps }>
@@ -38,8 +38,21 @@ export const Cell = ({ cellData, columns, editorState, events, index, rowId }) =
         );
 };
 
-export const getEditor = () => {
+export const getCellHTML = (cellData, editorState, isEditable, columns, index, rowId, store) => {
 
+    const editorProps = {
+        cellData,
+        columns,
+        editorState,
+        index,
+        isEditable,
+        rowId,
+        store
+    };
+
+    return (
+        <Editor { ...editorProps } />
+    );
 };
 
 export const handleClick = (events, cellData, reactEvent) => {
@@ -71,7 +84,8 @@ Cell.propTypes = {
     editorState: PropTypes.object,
     events: PropTypes.object,
     index: PropTypes.number,
-    rowId: PropTypes.string
+    rowId: PropTypes.string,
+    store: PropTypes.object
 };
 
 function mapStateToProps(state, props) {

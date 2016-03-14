@@ -12,8 +12,8 @@ describe('React Redux Grid Exports', () => {
         expect(imports).toBeTruthy();
     });
 
-    it('Should export 5 modules', () =>{
-        expect(Object.keys(imports).length).toEqual(5);
+    it('Should export 6 modules', () =>{
+        expect(Object.keys(imports).length).toEqual(6);
     });
 
 });

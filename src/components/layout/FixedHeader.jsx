@@ -53,20 +53,21 @@ class FixedHeader extends Component {
                 scope: this,
                 col,
                 columns,
-                visibleColumns,
                 columnManager,
                 dataSource,
                 dragAndDropManager,
+                index: i,
                 pager,
                 store,
-                index: i
+                visibleColumns,
+                key: `fixed-header-${i}`
             };
 
             return (
                 <Column { ...colProps } />
                 );
         });
-
+        
         const tableProps = {
             className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_FIXED),
             cellSpacing: 0
@@ -121,6 +122,8 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
 };
 
 export const handleDrag = (scope, columns, id, columnManager, store, nextColumnKey, reactEvent) => {
+    reactEvent.preventDefault();
+
     const header = reactEvent.target.parentElement.parentElement;
     const columnNode = reactEvent.target.parentElement;
     const headerNextElementSibling = columnNode.nextElementSibling;

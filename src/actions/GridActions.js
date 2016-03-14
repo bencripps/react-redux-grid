@@ -11,7 +11,7 @@ import { SORT_DIRECTIONS } from '../constants/GridConstants';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
-import { keyFromObject, keyGenerator } from '../util/keyGenerator';
+import { keyGenerator } from '../util/keyGenerator';
 
 import Request from '../components/plugins/ajax/Request';
 
