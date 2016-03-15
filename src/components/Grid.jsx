@@ -188,7 +188,6 @@ class Grid extends Component {
         };
 
         return (
-            <div>
                 <div { ...containerProps }>
                     <Message { ...messageProps } />
                     <BulkActionToolbar { ...bulkActionProps } />
@@ -202,9 +201,8 @@ class Grid extends Component {
                     </div>
                     <PagerToolbar { ...pagerProps } />
                     <LoadingBar { ...loadingBarProps } />
-                </div>
                     { editorComponent }
-            </div>
+                </div>
         );
     }
 }

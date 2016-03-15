@@ -5,8 +5,8 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
 
     const colName = columns
         && columns[index]
-        && columns[index].name
-        ? columns[index].name
+        && columns[index].dataIndex
+        ? columns[index].dataIndex
         : '';
 
     const value = editorState

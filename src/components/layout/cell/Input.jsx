@@ -4,7 +4,7 @@ import { updateCellValue } from './../../../actions/plugins/editor/EditorActions
 
 export const Input = ({ cellData, column, editorState, rowId, store }) => {
 
-    const colName = column.name;
+    const colName = column.dataIndex;
 
     const value = editorState
         && editorState.row
@@ -25,7 +25,7 @@ export const Input = ({ cellData, column, editorState, rowId, store }) => {
 };
 
 export const handleChange = (columnDefinition, rowId, store, reactEvent) => {
-    store.dispatch(updateCellValue(reactEvent.target.value, columnDefinition.name));
+    store.dispatch(updateCellValue(reactEvent.target.value, columnDefinition.dataIndex));
 };
 
 Input.propTypes = {
