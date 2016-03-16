@@ -50,7 +50,7 @@ describe('Header Column Child Elements', () => {
     const component = header(props);
     const firstColumn = component.props.children.props.children[0];
 
-    expect(firstColumn.key).toEqual(null);
+    expect(firstColumn.key).toEqual('header-0');
     expect(firstColumn.ref).toEqual(null);
 
 });

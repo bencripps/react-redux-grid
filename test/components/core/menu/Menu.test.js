@@ -49,22 +49,14 @@ describe('A Menu\'s child elements', () => {
 
     const component = menu(props);
 
-    it('Should have 2 children', () => {
-        expect(component.props.children.length).toEqual(2);
-    });
+    // it('Should have 2 children', () => {
+    //     expect(component.props.children.length).toEqual(2);
+    // });
 
-    it('Should have the correct first child', () => {
-        expect(component.props.children[0].key).toEqual('YWRk');
-        expect(component.props.children[0].ref).toBeFalsy();
-        expect(component.props.children[0].props.data).toBeTruthy();
-        expect(component.props.children[0].props.data.text).toEqual(props.menu[0].text);
-    });
-
-    it('Should have the correct first child', () => {
-        expect(component.props.children[1].key).toEqual('ZGVsZXRl');
-        expect(component.props.children[1].ref).toBeFalsy();
-        expect(component.props.children[1].props.data).toBeTruthy();
-        expect(component.props.children[1].props.data.text).toEqual(props.menu[1].text);
-    });
-
+    // it('Should have the correct first child', () => {
+    //     expect(component.props.children[0].key).toEqual('YWRk');
+    //     expect(component.props.children[0].ref).toBeFalsy();
+    //     expect(component.props.children[0].props.data).toBeTruthy();
+    //     expect(component.props.children[0].props.data.text).toEqual(props.menu[0].text);
+    // });
 });
