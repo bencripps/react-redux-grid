@@ -28,6 +28,8 @@ export const REORDER_COLUMN = 'REORDER_COLUMN';
 export const NO_EVENT = 'NO_EVENT';
 
 export const EDIT_ROW = 'EDIT_ROW';
+export const REMOVE_ROW = 'REMOVE_ROW';
+export const ADD_NEW_ROW = 'ADD_NEW_ROW';
 export const CANCEL_ROW = 'CANCEL_ROW';
 export const SAVE_ROW = 'SAVE_ROW';
 export const ROW_VALUE_CHANGE = 'ROW_VALUE_CHANGE';

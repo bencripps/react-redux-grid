@@ -10,6 +10,11 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData
 
     const menuProps = {
         ...actions,
+        metaData: {
+            rowId,
+            rowData,
+            rowIndex
+        },
         reducerKeys,
         store
     };
@@ -27,8 +32,8 @@ export const getEditAction = (editor, store, rowId, rowData, rowIndex) => {
     };
 };
 
-export const handleEditClick = (editor, store, rowId, rowData, rowIndex, data, reactEvent) => {
-    const rowPosition = reactEvent.target.getBoundingClientRect();
+export const handleEditClick = (editor, store, rowId, rowData, rowIndex, data) => {
+    const rowPosition = data.reactEvent.target.getBoundingClientRect();
     const top = rowPosition.top + window.scrollY;
 
     if (editor.config.type === editor.editModes.inline) {

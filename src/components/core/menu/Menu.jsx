@@ -10,15 +10,21 @@ class Menu extends Component {
 
     static propTypes = {
         menu: React.PropTypes.array,
+        metaData: React.PropTypes.object,
         store: React.PropTypes.object
+    };
+
+    static defaultProps = {
+        metaData: {}
     };
 
     getMenuItem(item) {
 
-        const { store } = this.props;
+        const { metaData, store } = this.props;
 
         const menuItemProps = {
             data: item,
+            metaData,
             type: item.type,
             key: keyFromObject(item),
             store

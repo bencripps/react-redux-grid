@@ -1,10 +1,14 @@
 import {
-    EDIT_ROW,
+    ADD_NEW_ROW,
+    CANCEL_ROW,
     DISMISS_EDITOR,
+    EDIT_ROW,
     ROW_VALUE_CHANGE,
-    SAVE_ROW,
-    CANCEL_ROW
+    REMOVE_ROW,
+    SAVE_ROW
 } from '../../../constants/ActionTypes';
+
+import { keyGenerator } from '../../../util/keyGenerator';
 
 export function editRow(rowId, top, rowData, rowIndex) {
     return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex };
@@ -24,4 +28,23 @@ export function saveRow(values, rowIndex) {
 
 export function cancelRow() {
     return { type: CANCEL_ROW };
+}
+
+export function removeRow(rowIndex) {
+    return { type: REMOVE_ROW, rowIndex };
+}
+
+export function addNewRow(data) {
+
+    return (dispatch) => {
+
+        const rowId = keyGenerator('row', 0);
+        const top = 160;
+        const rowData = data || {};
+        const rowIndex = 0;
+
+        dispatch({ type: ADD_NEW_ROW });
+
+        dispatch(editRow(rowId, top, rowData, rowIndex));
+    };
 }

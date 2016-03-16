@@ -19,7 +19,9 @@ Description.defaultProps = {
             return `No ${recordType} Available`;
         }
 
-        return `${pageIndex * pageSize}
+        const firstIndex = (pageIndex * pageSize) + 1;
+
+        return `${firstIndex}
             through ${pageIndex * pageSize + currentRecords}
             of ${total} ${recordType} Displayed`;
     }

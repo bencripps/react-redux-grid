@@ -184,7 +184,8 @@ class Grid extends Component {
 
         const loadingBarProps = {
             plugins,
-            reducerKeys
+            reducerKeys,
+            store
         };
 
         return (

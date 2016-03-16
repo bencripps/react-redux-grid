@@ -4,23 +4,24 @@ import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
-import { stateGetter } from '../../../util/stateGetter';
 
 class MenuItem extends Component {
 
     static propTypes = {
         data: React.PropTypes.object,
         menuItemsTypes: React.PropTypes.object,
+        metaData: React.PropTypes.object,
         store: React.PropTypes.object
     };
 
     static defaultProps = {
         menuItemsTypes: {
             checkbox: 'checkbox'
-        }
+        },
+        metaData: {}
     };
 
-    handleMenuItemClick(data, reactEvent) {
+    handleMenuItemClick(data, metaData, reactEvent) {
         if (reactEvent && reactEvent.stopPropagation) {
             reactEvent.stopPropagation();
         }
@@ -35,7 +36,7 @@ class MenuItem extends Component {
         }
 
         if (data.EVENT_HANDLER) {
-            return data.EVENT_HANDLER.apply(this, arguments);
+            return data.EVENT_HANDLER({ data, metaData, reactEvent });
         }
     }
 
@@ -57,11 +58,11 @@ class MenuItem extends Component {
     }
 
     render() {
-        const { data, menuItemsTypes } = this.props;
+        const { data, metaData, menuItemsTypes } = this.props;
 
         const menuItemProps = {
             className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM),
-            onClick: this.handleMenuItemClick.bind(this, data)
+            onClick: this.handleMenuItemClick.bind(this, data, metaData)
         };
 
         const checkboxComponent =

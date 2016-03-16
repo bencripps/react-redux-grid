@@ -14,21 +14,21 @@ const props = {
 
 describe('The Pager Description Component', () => {
 
-    it('Should show 0 through 25 records', () => {
+    it('Should show 1 through 25 records', () => {
         const component = shallow(<Description { ...props } />);
-        expect(component.text()).toEqual('0 through 25\n            of 100 Records Displayed');
+        expect(component.text()).toEqual('1 through 25\n            of 100 Records Displayed');
     });
 
-    it('Should show 25 through 50 records', () => {
+    it('Should show 26 through 50 records', () => {
         const page2Props = Object.assign(props, {
             pageIndex: 1
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('25 through 50\n            of 100 Records Displayed');
+        expect(component.text()).toEqual('26 through 50\n            of 100 Records Displayed');
     });
 
-    it('Should show 60 through 90 records of 200', () => {
+    it('Should show 61 through 90 records of 200', () => {
         const page2Props = Object.assign(props, {
             pageIndex: 2,
             pageSize: 30,
@@ -37,7 +37,7 @@ describe('The Pager Description Component', () => {
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('60 through 90\n            of 200 Records Displayed');
+        expect(component.text()).toEqual('61 through 90\n            of 200 Records Displayed');
     });
 
     it('Should use bananas instead of records', () => {
@@ -50,7 +50,7 @@ describe('The Pager Description Component', () => {
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('60 through 90\n            of 200 Bananas Displayed');
+        expect(component.text()).toEqual('61 through 90\n            of 200 Bananas Displayed');
     });
 
     it('Should use a custom renderer function', () => {

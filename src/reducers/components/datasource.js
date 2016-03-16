@@ -1,9 +1,12 @@
 import { fromJS } from 'immutable';
 import { SET_DATA,
-    SAVE_ROW,
-    SORT_DATA,
+    ADD_NEW_ROW,
+    CLEAR_FILTER_LOCAL,
+    DISMISS_EDITOR,
     FILTER_DATA,
-    CLEAR_FILTER_LOCAL
+    REMOVE_ROW,
+    SAVE_ROW,
+    SORT_DATA
 } from '../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -23,13 +26,57 @@ export default function dataSource(state = initialState, action) {
             }
         ));
 
+    case DISMISS_EDITOR:
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
+            {
+                data: state.get('gridData').proxy,
+                currentRecords: state.get('gridData').proxy,
+                total: state.get('gridData').proxy.length
+            }
+        ));
+
+    case REMOVE_ROW:
+        const remainingRows = [...state.get('gridData').data];
+        remainingRows.shift();
+
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
+            {
+                data: remainingRows,
+                proxy: remainingRows
+            }
+        ));
+
+    case ADD_NEW_ROW:
+        const existingData = state.get('gridData');
+
+        const rowModel = gridData
+            && existingData.data
+            && existingData.data.length > 0
+            && existingData.data[0]
+            ? existingData.data[0]
+            : {};
+
+        Object.keys(rowModel).forEach((k) => rowModel[k] = '');
+
+        const data = [rowModel, ...state.get('gridData').data];
+
+        return state.set('gridData', Object.assign({}, state.get('gridData'),
+            {
+                data: data,
+                proxy: state.get('gridData').proxy,
+                total: data.length,
+                currentRecords: data
+            }
+        ));
+
     case SAVE_ROW:
         const gridData = state.get('gridData').data;
         gridData[action.rowIndex] = action.values;
 
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
-                data: gridData
+                data: gridData,
+                proxy: gridData
             }
         ));
 
