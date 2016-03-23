@@ -17,6 +17,7 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         : cellData;
 
     if (isEditable
+        && columns[index]
         && columns[index].editor
         && typeof columns[index].editor === 'function') {
 

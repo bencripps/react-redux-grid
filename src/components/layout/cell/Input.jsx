@@ -4,7 +4,10 @@ import { updateCellValue } from './../../../actions/plugins/editor/EditorActions
 
 export const Input = ({ cellData, column, editorState, rowId, store }) => {
 
-    const colName = column.dataIndex;
+    const colName = column
+        && column.dataIndex
+        ? column.dataIndex
+        : '';
 
     const value = editorState
         && editorState.row

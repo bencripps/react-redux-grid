@@ -16,7 +16,9 @@ export const PagerToolbar = ({
 
     const pagerDataSource = getPagingSource(plugins, dataSource);
 
-    const customComponent = getCustomComponent(plugins);
+    const customComponent = getCustomComponent(plugins, {
+        dataSource, pageSize, pager, ...{ gridData: pagerState }, plugins, recordType, store
+    });
 
     if (customComponent) {
         return customComponent;
@@ -73,7 +75,7 @@ PagerToolbar.defaultProps = {
     }
 };
 
-export const getCustomComponent = (plugins) => {
+export const getCustomComponent = (plugins, props) => {
     return plugins
         && plugins.PAGER
         && plugins.PAGER.pagerComponent

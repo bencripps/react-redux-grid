@@ -16,6 +16,44 @@ export function setPage(index, type, BUTTON_TYPES) {
     return { type: PAGE_LOCAL, pageIndex };
 }
 
+export function setPageIndexAsync(pageIndex, pageSize, datasource) {
+
+    if (typeof datasource === 'function') {
+
+        return (dispatch) => {
+
+            datasource(pageIndex, pageSize).then((response) => {
+
+                if (response && response.data) {
+
+                    dispatch({
+                        type: SET_DATA,
+                        data: response.data,
+                        total: response.total,
+                        currentRecords: response.items,
+                        success: true
+                    });
+
+                }
+
+                else {
+
+                    if (response && !response.data) {
+                        console.warn('A response was recieved but no data entry was found');
+                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
+                    }
+
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true
+                    });
+                }
+            });
+        };
+    }
+}
+
 export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
 
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;

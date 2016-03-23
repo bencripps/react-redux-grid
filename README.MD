@@ -244,6 +244,35 @@ Pagination Defaults:
 4. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
 5. `pagerComponent`: `jsx element`, if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely
 
+### Note about using a Custom Pager
+
+You can pass a `JSX` element to replace the pager entirely. This can be either a connected or unconnected component. To dispatch paging events, you can use the `Actions.PagerActions.setPageIndexAsync` or `Actions.PagerActions.setPage` that are exposed from the main export.
+
+Example:
+
+	// my custom actionHandler that my custom component uses
+
+	export const setPageIndex = (pageIndex, pageSize, dataSource) => {
+	    return (dispatch) => {
+	    	// dispatch an event that the grid is listening for, which updates the current records
+	        dispatch(
+	            Actions.PagerActions
+	                .setPageIndexAsync(pageIndex, pageSize, dataSource)
+	        );
+
+	        // dispatch an event that my custom toolbar is listening for
+	        // to update the current pageIndex
+	        dispatch({
+	            type: SET_PAGE_INDEX,
+	            pageIndex
+	        });
+
+	    };
+	};
+
+
+
+
 ## Selection Model
 
 	export const plugins = {
