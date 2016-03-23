@@ -16,7 +16,13 @@ export const PagerToolbar = ({
 
     const pagerDataSource = getPagingSource(plugins, dataSource);
 
-    const pagerComponent = plugins
+    const customComponent = getCustomComponent(plugins);
+
+    if (customComponent) {
+        return customComponent;
+    }
+
+    const component = plugins
                     && plugins.PAGER
                     && plugins.PAGER.enabled
                     ? getPager(
@@ -32,7 +38,7 @@ export const PagerToolbar = ({
                         store)
                     : <div />;
 
-    return pagerComponent;
+    return component;
 
 };
 
@@ -65,6 +71,14 @@ PagerToolbar.defaultProps = {
             through ${pageIndex * pageSize + currentRecords}
             of ${total} ${recordType} Displayed`;
     }
+};
+
+export const getCustomComponent = (plugins) => {
+    return plugins
+        && plugins.PAGER
+        && plugins.PAGER.pagerComponent
+        ? plugins.PAGER.pagerComponent
+        : false;
 };
 
 export const getCurrentRecordTotal = (pagerState, pageSize, pageIndex, plugins) => {
@@ -127,20 +141,7 @@ export const getPager = (dataSource, pageSize,
 
     return (
         <div { ...toolbarProps }>
-            <Description { ...descriptionProps } />
             <span>
-                <Button { ...{
-                    BUTTON_TYPES,
-                    type: BUTTON_TYPES.NEXT,
-                    pageIndex,
-                    pageSize,
-                    plugins,
-                    currentRecords,
-                    total,
-                    dataSource,
-                    store }
-                    }
-                />
                 <Button { ...{
                     BUTTON_TYPES,
                     type: BUTTON_TYPES.BACK,
@@ -153,7 +154,20 @@ export const getPager = (dataSource, pageSize,
                     store}
                     }
                 />
+                <Button { ...{
+                    BUTTON_TYPES,
+                    type: BUTTON_TYPES.NEXT,
+                    pageIndex,
+                    pageSize,
+                    plugins,
+                    currentRecords,
+                    total,
+                    dataSource,
+                    store }
+                    }
+                />
             </span>
+            <Description { ...descriptionProps } />
         </div>
     );
 };

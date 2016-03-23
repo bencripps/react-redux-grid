@@ -81,7 +81,7 @@ describe('The default toolbar instance', () => {
     });
 
     it('Should render a description and two buttons', () => {
-        expect(component.text()).toEqual('<Description /><Button /><Button />');
+        expect(component.text()).toEqual('<Button /><Button /><Description />');
     });
 
     it('Should render a table footer as the first child', () => {
@@ -98,10 +98,11 @@ describe('An Rendered Paging Toolbar HTML', () => {
         expect(component.html()).toEqual(
             [
                 '<div class="react-grid-pager-toolbar">',
-                '<span>No Records Available</span><span>',
-                '<button class="react-grid-page-buttons react-grid-next">Next</button>',
+                '<span>',
                 '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
+                '<button class="react-grid-page-buttons react-grid-next">Next</button>',
                 '</span>',
+                '<span>No Records Available</span>',
                 '</div>'
             ].join('')
         );
