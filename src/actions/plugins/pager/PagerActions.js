@@ -16,13 +16,13 @@ export function setPage(index, type, BUTTON_TYPES) {
     return { type: PAGE_LOCAL, pageIndex };
 }
 
-export function setPageIndexAsync(pageIndex, pageSize, datasource) {
+export function setPageIndexAsync(pageIndex, pageSize, datasource, afterAsyncFunc) {
 
     if (typeof datasource === 'function') {
 
         return (dispatch) => {
 
-            datasource(pageIndex, pageSize).then((response) => {
+            datasource({pageIndex, pageSize}).then((response) => {
 
                 if (response && response.data) {
 
@@ -34,6 +34,9 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource) {
                         success: true
                     });
 
+                    if (afterAsyncFunc && typeof afterAsyncFunc === 'function') {
+                        afterAsyncFunc();
+                    }
                 }
 
                 else {

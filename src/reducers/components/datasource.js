@@ -30,8 +30,7 @@ export default function dataSource(state = initialState, action) {
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
                 data: state.get('gridData').proxy,
-                currentRecords: state.get('gridData').proxy,
-                total: state.get('gridData').proxy.length
+                currentRecords: state.get('gridData').proxy
             }
         ));
 

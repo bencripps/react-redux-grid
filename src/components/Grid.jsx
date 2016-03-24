@@ -36,6 +36,7 @@ class Grid extends Component {
     };
 
     static defaultProps = {
+        columns: [],
         events: {},
         height: '500px',
         pageSize: 25,
