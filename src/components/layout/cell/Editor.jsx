@@ -3,32 +3,52 @@ import { Input } from './Input.jsx';
 
 export const Editor = ({ cellData, columns, editorState, index, isEditable, rowId, store }) => {
 
-    const colName = columns
+    let colName = columns
         && columns[index]
         && columns[index].dataIndex
         ? columns[index].dataIndex
         : '';
 
+    if (!colName) {
+        colName = columns
+        && columns[index]
+        && columns[index].name
+        ? columns[index].name
+        : '';
+    }
+
     const value = editorState
         && editorState.row
         && editorState.row.values
-        && editorState.row.values[colName]
         ? editorState.row.values[colName]
-        : cellData;
+        : null;
 
     if (isEditable
         && columns[index]
         && columns[index].editor
+        && (columns[index].editable === undefined || columns[index].editable)
         && typeof columns[index].editor === 'function') {
 
-        const input = columns[index].editor(value, editorState, rowId, columns, index);
+        const input = columns[index].editor(
+            {
+                column: columns[index],
+                columns,
+                store,
+                rowId,
+                row: editorState.row,
+                columnIndex: index,
+                value: value
+            }
+        );
 
         return (
             <span> { input } </span>
             );
     }
 
-    else if (isEditable) {
+    else if (isEditable
+        && columns[index]
+        && (columns[index].editable === undefined || columns[index].editable)) {
         return (
                  <span>
                     <Input { ...{ column: columns[index], editorState, cellData, rowId, store } } />

@@ -98,7 +98,13 @@ export const getCellData = (columns, row, key, index) => {
         && columns[index]
         && columns[index].renderer
         && typeof columns[index].renderer === 'function') {
-        return columns[index].renderer(columns[index], valueAtDataIndex, row, key, index);
+        return columns[index].renderer({
+            column: columns[index],
+            value: valueAtDataIndex,
+            row,
+            key,
+            index
+        });
     }
 
     // if dataIndex has been provided
