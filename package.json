@@ -1,6 +1,6 @@
 {
   "name": "react-redux-grid",
-  "version": "1.1.0-1",
+  "version": "1.2.0",
   "description": "A React Grid Component written in the Redux Pattern",
   "author": "Bejamin Cripps",
   "contributors": [
