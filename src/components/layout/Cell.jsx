@@ -10,7 +10,7 @@ import { elementContains } from '../../util/elementContains';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 export const Cell = (
-    { cellData, columns, editor, editorState, events, index, rowData, rowId, selectionModel, store }
+    { cellData, columns, editor, editorState, events, index, rowData, rowIndex, rowId, selectionModel, store }
 ) => {
 
     const isEditable = editorState
@@ -24,7 +24,7 @@ export const Cell = (
             : null;
 
     const cellClickArguments = [
-        events, cellData, editor, index, rowData, rowId, selectionModel, store
+        events, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store
     ];
 
     const cellProps = {
@@ -63,7 +63,7 @@ export const getCellHTML = (cellData, editorState, isEditable, columns, index, r
 };
 
 export const handleClick = (
-    events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+    events, cellData, editor, editorState, index, rowData, rowId, selectionModel, store, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
@@ -71,7 +71,14 @@ export const handleClick = (
     }
 
     if (selectionModel.defaults.editEvent === selectionModel.eventTypes.singleclick) {
-        handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+
+        if (!editorState || Object.keys(editorState).length === 0) {
+            handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+        }
+
+        else if (editorState && editorState.row && editorState.row.rowIndex !== index) {
+            handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+        }
     }
 
     if (events.HANDLE_CELL_CLICK) {
@@ -80,7 +87,7 @@ export const handleClick = (
 };
 
 export const handleDoubleClick = (
-     events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+     events, cellData, editor, editorState, index, rowData, rowId, selectionModel, store, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {

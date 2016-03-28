@@ -153,6 +153,7 @@ export const getRowComponents = (columns, columnManager, editor, editorState, re
             events: events,
             key: keyGenerator(k),
             reducerKeys,
+            rowIndex: index,
             rowData: row,
             selectionModel,
             store
