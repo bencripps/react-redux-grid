@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
-import { editRow } from './../../../../actions/plugins/editor/EditorActions';
+import { handleEditClick } from './../../../../util/handleEditClick';
 
 export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData, rowIndex }) => {
 
@@ -25,20 +25,12 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData
 };
 
 export const getEditAction = (editor, store, rowId, rowData, rowIndex) => {
+    console.log(editor)
     return {
         text: 'Edit',
         EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex),
         key: 'grid-edit-action'
     };
-};
-
-export const handleEditClick = (editor, store, rowId, rowData, rowIndex, data) => {
-    const rowPosition = data.reactEvent.target.getBoundingClientRect();
-    const top = rowPosition.top + window.scrollY;
-
-    if (editor.config.type === editor.editModes.inline) {
-        store.dispatch(editRow(rowId, top, rowData, rowIndex));
-    }
 };
 
 Menu.propTypes = {

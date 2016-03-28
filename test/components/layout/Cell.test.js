@@ -14,6 +14,13 @@ const props = {
             return 'Double-Click';
         }
     },
+    editor: {},
+    selectionModel: {
+        defaults: {
+            editEvent: 'none'
+        },
+        eventTypes: {}
+    },
     rowId: 'rowId',
     editorState: {},
     columns: gridColumns,
@@ -40,6 +47,20 @@ describe('Cell Default Props', () => {
 describe('A rendered cell', () => {
 
     const component = cell(props);
+    // events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+    const clickEventArgs = [
+        props.events,
+        props.cellData,
+        props.editor,
+        props.index,
+        props.rowData,
+        props.rowId,
+        props.selectionModel,
+        {},
+        { 
+            reactEvent: {}
+        }
+    ];
 
     it('Should have editable property but shouldn\'t be ediable', () => {
         expect(component.props.contentEditable).toBeFalsy();
@@ -59,7 +80,8 @@ describe('A rendered cell', () => {
 
     it('Should fire click event', () => {
         expect(component.props.onClick).toBeTruthy();
-        expect(component.props.onClick({}, cellData, {})).toEqual('Clicked');
+        // events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+        expect(component.props.onClick(...clickEventArgs)).toEqual('Clicked');
     });
 
     it('Should fire doubleclick event', () => {

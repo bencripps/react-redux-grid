@@ -22,6 +22,7 @@ export default class Model {
         const defaults = {
             mode: modes.single,
             enabled: true,
+            editEvent: 'none',
             allowDeselect: true,
             activeCls: 'active',
             editCls: 'edit',

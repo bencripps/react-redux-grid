@@ -279,6 +279,7 @@ Example:
 	    SELECTION_MODEL: {
 	        mode: 'single',
 	        enabled: true,
+	        editEvent: 'singleclick',
 	        allowDeselect: true,
 	        activeCls: 'active-class',
 	        selectionEvent: 'singleclick'
@@ -288,10 +289,11 @@ Example:
 Selection Model Defaults: 
 
 1. `mode`: `string`, determines whether a single value, or multiple values can be selected, and whether a checkbox column will be used, possible values `['single', 'multi', 'checkbox-single', 'checkbox-multi']`
-2. `enabled`: `boolean`, whether the selection model class is initialized
-3. `allowDeselect`: `boolean`, whether a value can be deselected
-4. `activeCls`: `string`, the class applied to active rows upon selection
-5. `selectionEvent`: `string`, the browser event which triggers the selection event, possible values `['singleclick', 'doubleclick']`
+2. `editEvent`: `string`, (`singleclick`, `doubleclick`, `none`) what type of mouse event will trigger the editor
+3. `enabled`: `boolean`, whether the selection model class is initialized
+4. `allowDeselect`: `boolean`, whether a value can be deselected
+5. `activeCls`: `string`, the class applied to active rows upon selection
+6. `selectionEvent`: `string`, the browser event which triggers the selection event, possible values `['singleclick', 'doubleclick']`
 
 ## Error Handler
 

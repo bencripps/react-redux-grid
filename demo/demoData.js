@@ -92,7 +92,8 @@ export const plugins = {
         enabled: true,
         allowDeselect: true,
         activeCls: 'active',
-        selectionEvent: 'singleclick'
+        selectionEvent: 'singleclick',
+        editEvent: 'none'
     },
     ERROR_HANDLER: {
         defaultErrorMessage: 'AN ERROR OCURRED',

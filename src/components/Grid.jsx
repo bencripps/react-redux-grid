@@ -160,6 +160,7 @@ class Grid extends Component {
         const rowProps = {
             columnManager,
             columns,
+            editor,
             events,
             pageSize,
             plugins,
