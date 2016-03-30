@@ -20,7 +20,7 @@ export const Inline = ({ BUTTON_TYPES,
         className: prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row
             ? CLASS_NAMES.EDITOR.INLINE.SHOWN : CLASS_NAMES.EDITOR.INLINE.HIDDEN),
         style: {
-            top: `${top + (ROW_HEIGHT / 2)}px`
+            top: `${top}px`
         }
     };
 

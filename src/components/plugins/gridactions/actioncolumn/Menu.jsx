@@ -25,7 +25,6 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData
 };
 
 export const getEditAction = (editor, store, rowId, rowData, rowIndex) => {
-    console.log(editor)
     return {
         text: 'Edit',
         EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex),
