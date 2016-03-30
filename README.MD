@@ -37,10 +37,22 @@ Include Grid in Webpack Build via Loaders
 	        test: /\.js$|\.jsx$/,
 	        loaders: ['react-hot', 'babel-loader'],
 	        exclude: /[\\\/]node_modules[\\\/](?!react-redux-grid)/,
+	    },
+	    {
+        	test: /\.styl$/,
+        	exclude: /node_modules|\.json$/,
+        	loaders: ['style-loader', 'css-loader', 'stylus-loader']
 	    }
 	];
 
 Because the grid gets installed in the `node_modules` directory, we must add the specific folder to the `exclude` config entry in webpack. This way, when you `import` the grid, webpack will know which loader to use to parse the files.
+
+If you're using the fonts that come bundles with the grid, you will also need an additonal loader:
+
+		{
+	        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+	        loaders: ['url-loader?limit=10000&mimetype=application/font-woff' ]
+	    }
 
 ## Usage 
 
