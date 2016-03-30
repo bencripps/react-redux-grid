@@ -50,6 +50,8 @@ export function getAsyncData(datasource) {
                         errorOccurred: true
                     });
                 }
+
+                dispatch(setLoaderState(false));
             });
         }
 

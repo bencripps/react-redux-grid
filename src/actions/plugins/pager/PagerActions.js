@@ -22,6 +22,8 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, afterAsyncFun
 
         return (dispatch) => {
 
+            dispatch(setLoaderState(true));
+
             datasource({pageIndex, pageSize}).then((response) => {
 
                 if (response && response.data) {
@@ -52,6 +54,8 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, afterAsyncFun
                         errorOccurred: true
                     });
                 }
+
+                dispatch(setLoaderState(false));
             });
         };
     }

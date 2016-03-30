@@ -5,6 +5,7 @@ import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 export const LoadingBar = ({ isLoading, plugins }) => {
+
     const showLoader = plugins
                         && plugins.LOADER
                         && plugins.LOADER.enabled

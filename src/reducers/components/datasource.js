@@ -36,7 +36,7 @@ export default function dataSource(state = initialState, action) {
 
     case REMOVE_ROW:
         const remainingRows = [...state.get('gridData').data];
-        remainingRows.shift();
+        remainingRows.splice(action.rowIndex || 0, 1);
 
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
