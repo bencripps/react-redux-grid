@@ -26,7 +26,21 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 
 ## Installation
 
+Add Grid to `node_modules`
+
 `npm install react-redux-grid`
+
+Include Grid in Webpack Build via Loaders
+
+	var loaders = [
+		{
+	        test: /\.js$|\.jsx$/,
+	        loaders: ['react-hot', 'babel-loader'],
+	        exclude: /[\\\/]node_modules[\\\/](?!react-redux-grid)/,
+	    }
+	];
+
+Because the grid gets installed in the `node_modules` directory, we must add the specific folder to the `exclude` config entry in webpack. This way, when you `import` the grid, webpack will know which loader to use to parse the files.
 
 ## Usage 
 
