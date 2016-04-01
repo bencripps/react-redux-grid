@@ -11,7 +11,7 @@ import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
-    init(plugins, store, events, selModel, editor, columns, dataSource) {
+    init({plugins, store, events, selModel, editor, columns, reducerKeys, dataSource}) {
 
         const defaults = {
             defaultColumnWidth: `${100 / columns.length}%`,
@@ -51,23 +51,6 @@ export default class ColumnManager {
         this.editor = editor;
         this.columns = columns;
         this.config = config;
-
-        document.addEventListener('click', this.setDismissEvent.bind(this));
-    }
-
-    setDismissEvent(e) {
-        if (!elementContains(e.target, `${CSS_PREFIX}-action-container`)) {
-            this.store.dispatch(hideMenu());
-        }
-
-        if ((!elementContains(e.target, prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON))
-            && !elementContains(e.target, prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.CONTAINER)))
-            && this.plugins
-            && this.plugins.FILTER_CONTAINER
-            && this.plugins.FILTER_CONTAINER.enableFilterMenu) {
-            this.store.dispatch(showFilterMenu(true));
-        }
-
     }
 
     doSort(method, column, direction, dataSource, pagerState) {

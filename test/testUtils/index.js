@@ -43,22 +43,15 @@ export function getSelModel() {
 export function getColumnManager() {
     const columnManager = new ColumnManager();
 
-    columnManager.init(
-        // plugins
-        {},
-        // store
-        mockStore,
-        // events
-        {},
-        // selModel,
-        getSelModel(),
-        // editor,
-        {},
-        // columns
-        gridColumns,
-        // dataSource
-        ''
-    );
+    columnManager.init({
+        plugins: {},
+        store: mockStore,
+        events: {},
+        selModel: getSelModel(),
+        editor: {},
+        columns: gridColumns,
+        dataSource: ''
+    });
 
     return columnManager;
 }

@@ -45,7 +45,7 @@ class Grid extends Component {
 
     componentWillMount() {
 
-        const { columns, dataSource, events, plugins, store } = this.props;
+        const { columns, dataSource, events, plugins, reducerKeys, store } = this.props;
 
         if (!store || !store.dispatch) {
             throw new Error('Component must be intialized with a valid store');
@@ -55,7 +55,16 @@ class Grid extends Component {
 
         this.setData();
 
-        columnManager.init(plugins, store, events, selectionModel, editor, columns, dataSource);
+        columnManager.init({
+            plugins,
+            store,
+            events,
+            selectionModel,
+            editor,
+            columns,
+            dataSource,
+            reducerKeys
+        });
 
         selectionModel.init(plugins, store, events);
 

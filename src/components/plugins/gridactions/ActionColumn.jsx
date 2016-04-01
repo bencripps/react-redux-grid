@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Menu } from './actioncolumn/Menu.jsx';
-import { showMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
+import { showMenu, hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';
@@ -42,6 +42,8 @@ ActionColumn.propTypes = {
 ActionColumn.defaultProps = {
     iconCls: 'action-icon'
 };
+
+let removeableEvent;
 
 export const getHeader = (containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId) => {
 
@@ -120,9 +122,18 @@ export const getColumn = (containerProps, iconProps, menuShown,
     );
 };
 
+export const handleHideMenu = store => {
+    document.body.removeEventListener('click', removeableEvent, false);
+    setTimeout(() => { store.dispatch(hideMenu()); }, 0);
+};
+
 export const handleActionClick = (type, actions, id, store, reactEvent) => {
     reactEvent.stopPropagation();
     store.dispatch(showMenu(id));
+
+    removeableEvent = handleHideMenu.bind(null, store);
+
+    document.body.addEventListener('click', removeableEvent, false);
 };
 
 function mapStateToProps(state, props) {

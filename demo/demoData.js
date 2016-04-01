@@ -122,7 +122,7 @@ export const plugins = {
             {
                 text: 'Delete',
                 EVENT_HANDLER: () => {
-
+                    alert('hi');
                 }
             }
         ]
