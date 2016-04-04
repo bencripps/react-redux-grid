@@ -25,6 +25,7 @@ export const KEYBOARD_MAP = {
 
 export const CLASS_NAMES = {
     ACTIVE_CLASS: 'active',
+    INACTIVE_CLASS: 'inactive',
     DRAG_HANDLE: 'drag-handle',
     SORT_HANDLE: 'sort-handle',
     SECONDARY_CLASS: 'secondary',

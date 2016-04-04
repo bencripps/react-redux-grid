@@ -57,7 +57,7 @@ describe('A rendered cell', () => {
         props.rowId,
         props.selectionModel,
         {},
-        { 
+        {
             reactEvent: {}
         }
     ];
@@ -116,7 +116,7 @@ describe('A visible column', () => {
     const component = cell(visibleCellProps);
 
     it('Should render a visible column', () => {
-        expect(component.props.style.display).toEqual('');
+        expect(component.props.style).toEqual({});
     });
 
 });

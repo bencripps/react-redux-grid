@@ -31,10 +31,12 @@ export const Cell = (
         className: prefix(CLASS_NAMES.CELL),
         onClick: handleClick.bind(this, ...cellClickArguments),
         onDoubleClick: handleDoubleClick.bind(this, ...cellClickArguments),
-        style: {
-            display: hidden ? 'none' : ''
-        }
+        style: {}
     };
+
+    if (hidden) {
+        cellProps.style.display = 'none';
+    }
 
     const cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, store);
 

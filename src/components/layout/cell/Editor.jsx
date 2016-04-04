@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Input } from './Input.jsx';
+import { CLASS_NAMES } from './../../../constants/GridConstants';
+import { prefix } from './../../../util/prefix';
 
 export const Editor = ({ cellData, columns, editorState, index, isEditable, rowId, store }) => {
 
@@ -50,14 +52,14 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         && columns[index]
         && (columns[index].editable === undefined || columns[index].editable)) {
         return (
-                 <span>
-                    <Input { ...{ column: columns[index], editorState, cellData, rowId, store } } />
-                 </span>
+            <span>
+                <Input { ...{ column: columns[index], editorState, cellData, rowId, store } } />
+            </span>
             );
     }
 
     return (
-        <span> { cellData } </span>
+        <span { ...{ className: prefix(CLASS_NAMES.INACTIVE_CLASS) } } > { cellData } </span>
         );
 };
 
