@@ -7,6 +7,8 @@ import {
 
 import { setLoaderState } from '../../../actions/plugins/loader/LoaderActions';
 
+import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
+
 import Request from '../../../components/plugins/ajax/Request';
 
 export function setPage(index, type, BUTTON_TYPES) {
@@ -21,6 +23,8 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields,
     if (typeof datasource === 'function') {
 
         return (dispatch) => {
+
+            dispatch(dismissEditor());
 
             dispatch(setLoaderState(true));
 

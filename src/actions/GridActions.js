@@ -11,6 +11,8 @@ import { SORT_DIRECTIONS } from '../constants/GridConstants';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
+import { dismissEditor } from '../actions/plugins/editor/EditorActions';
+
 import { keyGenerator } from '../util/keyGenerator';
 
 import Request from '../components/plugins/ajax/Request';
@@ -18,6 +20,8 @@ import Request from '../components/plugins/ajax/Request';
 export function getAsyncData(datasource) {
 
     return (dispatch) => {
+
+        dispatch(dismissEditor());
 
         dispatch(setLoaderState(true));
 

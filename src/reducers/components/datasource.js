@@ -27,12 +27,17 @@ export default function dataSource(state = initialState, action) {
         ));
 
     case DISMISS_EDITOR:
-        return state.set('gridData', Object.assign({}, state.get('gridData'),
-            {
-                data: state.get('gridData').proxy,
-                currentRecords: state.get('gridData').proxy
-            }
-        ));
+
+        if (state.get('gridData')) {
+            return state.set('gridData', Object.assign({}, state.get('gridData'),
+                {
+                    data: state.get('gridData').proxy,
+                    currentRecords: state.get('gridData').proxy
+                }
+            ));            
+        }
+
+        return state;
 
     case REMOVE_ROW:
         const remainingRows = [...state.get('gridData').data];

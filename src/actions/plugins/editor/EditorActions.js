@@ -37,9 +37,8 @@ export function removeRow(rowIndex) {
 export function addNewRow(data) {
 
     return (dispatch) => {
-
         const rowId = keyGenerator('row', 0);
-        const top = 160;
+        const top = 37;
         const rowData = data || {};
         const rowIndex = 0;
 
