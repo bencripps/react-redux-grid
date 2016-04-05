@@ -179,7 +179,7 @@ class Grid extends Component {
         };
 
         const tableProps = {
-            className: prefix(CLASS_NAMES.TABLE),
+            className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_HIDDEN),
             cellSpacing: 0,
             reducerKeys,
             store
@@ -210,10 +210,10 @@ class Grid extends Component {
                             <Header { ...headerProps } />
                             <Row { ...rowProps } />
                         </table>
+                        { editorComponent }
                     </div>
                     <PagerToolbar { ...pagerProps } />
                     <LoadingBar { ...loadingBarProps } />
-                    { editorComponent }
                 </div>
         );
     }
