@@ -4,6 +4,7 @@ import { showMenu, hideMenu } from '../../../actions/plugins/actioncolumn/MenuAc
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';
+import { elementContains } from '../../../util/elementContains';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
@@ -122,8 +123,20 @@ export const getColumn = (containerProps, iconProps, menuShown,
     );
 };
 
-export const handleHideMenu = store => {
+export const handleHideMenu = (store, e) => {
+
+    const isHeaderMenu = elementContains(e.target, prefix(CLASS_NAMES.HEADER));
+
+    if (isHeaderMenu) {
+        return false;
+    }
+
     document.body.removeEventListener('click', removeableEvent, false);
+
+    if (e.target.classList.contains('react-grid-action-icon')) {
+        return false;
+    }
+
     setTimeout(() => { store.dispatch(hideMenu()); }, 0);
 };
 

@@ -100,7 +100,7 @@ export const handleDoubleClick = (
         handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
     }
 
-    if (events.HANDLE_CELL_CLICK) {
+    if (events.HANDLE_CELL_DOUBLE_CLICK) {
         return events.HANDLE_CELL_DOUBLE_CLICK.apply(this, arguments);
     }
 };

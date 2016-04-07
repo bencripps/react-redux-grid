@@ -4,7 +4,8 @@ import {
     EDIT_ROW,
     DISMISS_EDITOR,
     ROW_VALUE_CHANGE,
-    CANCEL_ROW
+    CANCEL_ROW,
+    REMOVE_ROW
 } from '../../../constants/ActionTypes';
 
 const initialState = fromJS({
@@ -43,6 +44,7 @@ export default function editor(state = initialState, action) {
             }
         }));
 
+    case REMOVE_ROW:
     case DISMISS_EDITOR:
     case CANCEL_ROW:
         return state.set('editorState', {});

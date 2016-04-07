@@ -27,14 +27,13 @@ export default function dataSource(state = initialState, action) {
         ));
 
     case DISMISS_EDITOR:
-
         if (state.get('gridData')) {
             return state.set('gridData', Object.assign({}, state.get('gridData'),
                 {
                     data: state.get('gridData').proxy,
                     currentRecords: state.get('gridData').proxy
                 }
-            ));            
+            ));
         }
 
         return state;
@@ -67,9 +66,7 @@ export default function dataSource(state = initialState, action) {
         return state.set('gridData', Object.assign({}, state.get('gridData'),
             {
                 data: data,
-                proxy: state.get('gridData').proxy,
-                total: data.length,
-                currentRecords: data
+                proxy: state.get('gridData').proxy
             }
         ));
 
