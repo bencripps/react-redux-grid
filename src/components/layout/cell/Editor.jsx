@@ -53,7 +53,9 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         && (columns[index].editable === undefined || columns[index].editable)) {
         return (
             <span>
-                <Input { ...{ column: columns[index], editorState, cellData, rowId, store } } />
+                <Input {
+                    ...{ column: columns[index], columns, editorState, cellData, rowId, store } }
+                />
             </span>
             );
     }

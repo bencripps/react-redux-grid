@@ -15,6 +15,13 @@ export const Button = ({ BUTTON_TYPES, saveText, cancelText, editorState, events
             ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON) : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
     };
 
+    if (type === BUTTON_TYPES.SAVE
+            && editorState
+            && editorState.row
+            && !editorState.row.valid) {
+        buttonProps.disabled = true;
+    }
+
     return (
         <button { ...buttonProps } >
             { text }

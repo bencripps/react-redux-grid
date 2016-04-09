@@ -67,7 +67,7 @@ class FixedHeader extends Component {
                 <Column { ...colProps } />
                 );
         });
-        
+
         const tableProps = {
             className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_FIXED),
             cellSpacing: 0
@@ -84,6 +84,16 @@ class FixedHeader extends Component {
         columnManager.addActionColumn(headers, 'header', keyFromObject(columns), reducerKeys);
 
         addEmptyInsert(headers, visibleColumns, plugins);
+
+        if (document.querySelector('.react-grid-header-fixed')) {
+            // to align the action icons due to scrollbar
+            const fixed = document.querySelector('.react-grid-header-fixed').offsetWidth;
+            const hidden = document.querySelector('.react-grid-header-hidden').offsetWidth;
+
+            headers.push(
+                <th style= { { width: (fixed - hidden) + 'px' }} />
+            );
+        }
 
         return (
             <table { ...tableProps }>

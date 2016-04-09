@@ -2,24 +2,32 @@ import React, { PropTypes } from 'react';
 
 import { updateCellValue } from './../../../actions/plugins/editor/EditorActions';
 
-export const Input = ({ cellData, column, editorState, rowId, store }) => {
+export const Input = (
+    { cellData, column, columns, editorState, rowId, store }
+) => {
 
     const colName = column
         && column.dataIndex
         ? column.dataIndex
         : '';
 
+    const placeholder = column
+        && column.placeholder
+        ? column.placeholder
+        : false;
+
     const value = editorState
         && editorState.row
         && editorState.row.values
-        && editorState.row.values[colName]
+        && editorState.row.values[colName] !== undefined
         ? editorState.row.values[colName]
         : cellData;
 
     const inputProps = {
-        onChange: handleChange.bind(null, column, rowId, store),
+        onChange: handleChange.bind(null, column, columns, rowId, store),
         type: 'text',
-        value: value
+        value: value,
+        placeholder
     };
 
     return (
@@ -27,8 +35,14 @@ export const Input = ({ cellData, column, editorState, rowId, store }) => {
     );
 };
 
-export const handleChange = (columnDefinition, rowId, store, reactEvent) => {
-    store.dispatch(updateCellValue(reactEvent.target.value, columnDefinition.dataIndex));
+export const handleChange = (
+    columnDefinition, columns, rowId, store, reactEvent
+) => {
+    store.dispatch(
+        updateCellValue(
+            reactEvent.target.value, columnDefinition.dataIndex, columnDefinition, columns
+        )
+    );
 };
 
 Input.propTypes = {

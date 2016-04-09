@@ -3,6 +3,7 @@ import {
     CANCEL_ROW,
     DISMISS_EDITOR,
     EDIT_ROW,
+    EDITOR_VALIDATION,
     ROW_VALUE_CHANGE,
     REMOVE_ROW,
     SAVE_ROW
@@ -10,16 +11,16 @@ import {
 
 import { keyGenerator } from '../../../util/keyGenerator';
 
-export function editRow(rowId, top, rowData, rowIndex) {
-    return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex };
+export function editRow(rowId, top, rowData, rowIndex, valid) {
+    return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex, valid };
 }
 
 export function dismissEditor() {
     return { type: DISMISS_EDITOR };
 }
 
-export function updateCellValue(value, name) {
-    return { type: ROW_VALUE_CHANGE, value, columnName: name };
+export function updateCellValue(value, name, column, columns) {
+    return { type: ROW_VALUE_CHANGE, value, columnName: name, column, columns };
 }
 
 export function saveRow(values, rowIndex) {
@@ -34,6 +35,10 @@ export function removeRow(rowIndex) {
     return { type: REMOVE_ROW, rowIndex };
 }
 
+export function setEditorValidation(validationState) {
+    return { type: EDITOR_VALIDATION, validationState };
+}
+
 export function addNewRow(data) {
 
     return (dispatch) => {
@@ -41,9 +46,10 @@ export function addNewRow(data) {
         const top = 37;
         const rowData = data || {};
         const rowIndex = 0;
+        const valid = false;
 
         dispatch({ type: ADD_NEW_ROW });
 
-        dispatch(editRow(rowId, top, rowData, rowIndex));
+        dispatch(editRow(rowId, top, rowData, rowIndex, valid));
     };
 }
