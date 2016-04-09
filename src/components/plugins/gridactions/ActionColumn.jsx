@@ -20,8 +20,12 @@ export const ActionColumn = ({ actions, columns, editor, iconCls,
         onClick: handleActionClick.bind(this, type, actions, rowId, store)
     };
 
+    const className = menuShown
+        ? prefix(actions.iconCls, 'active') || prefix(iconCls, 'active')
+        : prefix(actions.iconCls) || prefix(iconCls);
+
     const iconProps = {
-        className: prefix(actions.iconCls) || prefix(iconCls)
+        className
     };
 
     return type === 'header'
@@ -80,8 +84,9 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
 
     return (
         <th { ...containerProps }>
-            <span { ...iconProps }></span>
-            { menu }
+            <span { ...iconProps }>
+                { menu }
+            </span>
         </th>
     );
 };
@@ -117,8 +122,9 @@ export const getColumn = (containerProps, iconProps, menuShown,
 
     return (
         <td { ...containerProps }>
-            <span { ...iconProps }></span>
-            { menu }
+            <span { ...iconProps }>
+                { menu }
+            </span>
         </td>
     );
 };

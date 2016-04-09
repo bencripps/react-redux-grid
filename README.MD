@@ -185,6 +185,10 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 	        className: 'additional-class',
 	        renderer: () => { return 'Name of Column'; },
 	        hidden: false,
+	        placeholder: 'Name',
+	        validator: (val) => {
+	        	return val.length > 0;
+	        },
 	        hideable: false,
 	        resizable: false,
 	        moveable: false,
@@ -204,6 +208,8 @@ Column Defaults:
 8. `hideable`: `boolean`, whether the column can be hidden
 9. `resizable`: `boolean`, whether this column can be resized
 10. `moveable`: `boolean`, whether this column can be moved
+10. `placeholder`: `string`, the placeholder that will be used for the editor input
+10. `validator`: `func`, a func that should return a boolean, to determine if the newly input value is valid
 11. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 ## Editor
