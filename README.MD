@@ -40,7 +40,7 @@ Include Grid in Webpack Build via Loaders
 	    },
 	    {
         	test: /\.styl$/,
-        	exclude: /node_modules|\.json$/,
+        	exclude: /[\\\/]node_modules[\\\/](?!react-redux-grid)/,
         	loaders: ['style-loader', 'css-loader', 'stylus-loader']
 	    }
 	];

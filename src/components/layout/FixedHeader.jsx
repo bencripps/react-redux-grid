@@ -91,7 +91,10 @@ class FixedHeader extends Component {
             const hidden = document.querySelector('.react-grid-header-hidden').offsetWidth;
 
             headers.push(
-                <th style= { { width: (fixed - hidden) + 'px' }} />
+                <th
+                    key="colum-adjuster"
+                    style= { { width: (fixed - hidden) + 'px' }}
+                />
             );
         }
 
@@ -108,7 +111,6 @@ class FixedHeader extends Component {
 }
 
 export const addEmptyInsert = (headers, visibleColumns, plugins) => {
-
     if (!plugins) {
         return false;
     }
@@ -121,7 +123,7 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
             && GRID_ACTIONS.menu
             && GRID_ACTIONS.menu.length > 0) {
 
-            headers.splice(1, 0, <EmptyHeader key="empty-header" />);
+            headers.unshift(<EmptyHeader key="empty-header" />);
         }
 
         else {
