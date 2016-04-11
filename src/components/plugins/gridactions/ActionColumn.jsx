@@ -29,8 +29,8 @@ export const ActionColumn = ({ actions, columns, editor, iconCls,
     };
 
     return type === 'header'
-        ? getHeader(containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex)
-        : getColumn(containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex);
+        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex)
+        : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex);
 };
 
 ActionColumn.propTypes = {
@@ -50,7 +50,7 @@ ActionColumn.defaultProps = {
 
 let removeableEvent;
 
-export const getHeader = (containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId) => {
+export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId) => {
 
     const actions = columns.map((col) => {
 
@@ -79,7 +79,7 @@ export const getHeader = (containerProps, iconProps, menuShown, columns, store, 
     };
 
     const menu = menuShown ?
-        <Menu { ...{ actions: menuItems, type: 'header', store, editor, reducerKeys, rowId } } />
+        <Menu { ...{ columns: cols, actions: menuItems, type: 'header', store, editor, reducerKeys, rowId } } />
         : null;
 
     return (
@@ -103,7 +103,7 @@ export const addKeysToActions = (action) => {
     }
 };
 
-export const getColumn = (containerProps, iconProps, menuShown,
+export const getColumn = (cols, containerProps, iconProps, menuShown,
     actions, store, editor, reducerKeys, rowId, rowData, rowIndex) => {
 
     const menu = menuShown
@@ -116,6 +116,7 @@ export const getColumn = (containerProps, iconProps, menuShown,
             editor,
             reducerKeys,
             rowId,
+            columns: cols,
             rowIndex } }
         />
         : null;

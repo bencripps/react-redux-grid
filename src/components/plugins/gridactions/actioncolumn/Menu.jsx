@@ -2,10 +2,12 @@ import React, { PropTypes } from 'react';
 import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
 import { handleEditClick } from './../../../../util/handleEditClick';
 
-export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData, rowIndex }) => {
+export const Menu = (
+    { actions, columns, type, store, editor, reducerKeys, rowId, rowData, rowIndex }
+) => {
 
     if (editor.config.enabled && type !== 'header') {
-        actions.menu.unshift(getEditAction(editor, store, rowId, rowData, rowIndex));
+        actions.menu.unshift(getEditAction(editor, store, rowId, rowData, rowIndex, columns));
     }
 
     const menuProps = {
@@ -24,16 +26,17 @@ export const Menu = ({ actions, type, store, editor, reducerKeys, rowId, rowData
     );
 };
 
-export const getEditAction = (editor, store, rowId, rowData, rowIndex) => {
+export const getEditAction = (editor, store, rowId, rowData, rowIndex, columns) => {
     return {
         text: 'Edit',
-        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex),
+        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex, columns),
         key: 'grid-edit-action'
     };
 };
 
 Menu.propTypes = {
     actions: PropTypes.object,
+    columns: PropTypes.arrayOf(PropTypes.object),
     editor: PropTypes.object,
     reducerKeys: PropTypes.object,
     rowId: PropTypes.string,
