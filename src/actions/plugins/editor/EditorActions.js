@@ -11,8 +11,8 @@ import {
 
 import { keyGenerator } from '../../../util/keyGenerator';
 
-export function editRow(rowId, top, rowData, rowIndex, valid) {
-    return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex, valid };
+export function editRow(rowId, top, rowData, rowIndex, columns, isCreate) {
+    return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex, columns, isCreate };
 }
 
 export function dismissEditor() {
@@ -39,17 +39,19 @@ export function setEditorValidation(validationState) {
     return { type: EDITOR_VALIDATION, validationState };
 }
 
-export function addNewRow(data) {
+export function addNewRow(columns, data) {
 
     return (dispatch) => {
         const rowId = keyGenerator('row', 0);
         const top = 37;
         const rowData = data || {};
         const rowIndex = 0;
-        const valid = false;
+        const isCreate = true;
 
         dispatch({ type: ADD_NEW_ROW });
 
-        dispatch(editRow(rowId, top, rowData, rowIndex, valid));
+        dispatch(
+            editRow(rowId, top, rowData, rowIndex, columns, isCreate)
+        );
     };
 }

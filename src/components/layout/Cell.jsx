@@ -23,14 +23,14 @@ export const Cell = (
             ? columns[index].hidden
             : null;
 
-    const cellClickArguments = [
-        events, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store
-    ];
+    const cellClickArguments = {
+        events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store
+    };
 
     const cellProps = {
         className: prefix(CLASS_NAMES.CELL),
-        onClick: handleClick.bind(this, ...cellClickArguments),
-        onDoubleClick: handleDoubleClick.bind(this, ...cellClickArguments),
+        onClick: handleClick.bind(this, cellClickArguments),
+        onDoubleClick: handleDoubleClick.bind(this, cellClickArguments),
         style: {}
     };
 
@@ -65,7 +65,7 @@ export const getCellHTML = (cellData, editorState, isEditable, columns, index, r
 };
 
 export const handleClick = (
-    events, cellData, editor, editorState, index, rowData, rowId, selectionModel, store, reactEvent
+    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store }, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
@@ -75,11 +75,11 @@ export const handleClick = (
     if (selectionModel.defaults.editEvent === selectionModel.eventTypes.singleclick) {
 
         if (!editorState || Object.keys(editorState).length === 0) {
-            handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+            handleEditClick(editor, store, rowId, rowData, rowIndex, columns, { reactEvent });
         }
 
-        else if (editorState && editorState.row && editorState.row.rowIndex !== index) {
-            handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+        else if (editorState && editorState.row && editorState.row.rowIndex !== rowIndex) {
+            handleEditClick(editor, store, rowId, rowData, rowIndex, columns, { reactEvent });
         }
     }
 
@@ -89,7 +89,7 @@ export const handleClick = (
 };
 
 export const handleDoubleClick = (
-     events, cellData, editor, editorState, index, rowData, rowId, selectionModel, store, reactEvent
+    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store }, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
@@ -97,7 +97,7 @@ export const handleDoubleClick = (
     }
 
     if (selectionModel.defaults.editEvent === selectionModel.eventTypes.doubleclick) {
-        handleEditClick(editor, store, rowId, rowData, index, { reactEvent });
+        handleEditClick(editor, store, rowId, rowData, rowIndex, { reactEvent });
     }
 
     if (events.HANDLE_CELL_DOUBLE_CLICK) {

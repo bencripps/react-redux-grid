@@ -23,7 +23,13 @@ export const Input = (
         ? editorState.row.values[colName]
         : cellData;
 
+    const disabled = editorState
+        && editorState.row
+        && !editorState.row.isCreate
+        && column.editable === 'create';
+
     const inputProps = {
+        disabled,
         onChange: handleChange.bind(null, column, columns, rowId, store),
         type: 'text',
         value: value,

@@ -1,11 +1,11 @@
 import { editRow } from './../actions/plugins/editor/EditorActions';
 
-export const handleEditClick = (editor, store, rowId, rowData, rowIndex, data) => {
+export const handleEditClick = (editor, store, rowId, rowData, rowIndex, columns, data) => {
     const row = closestRow(data.reactEvent.target);
     const top = row.offsetTop + row.clientHeight;
 
     if (editor.config.type === editor.editModes.inline) {
-        store.dispatch(editRow(rowId, top, rowData, rowIndex));
+        store.dispatch(editRow(rowId, top, rowData, rowIndex, columns));
     }
 };
 

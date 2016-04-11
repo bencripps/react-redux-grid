@@ -14,7 +14,6 @@ const initialState = fromJS({
 });
 
 export const isCellValid = ({ validator }, value) => {
-
     if (!validator || !typeof validator === 'function') {
         return true;
     }
@@ -23,7 +22,6 @@ export const isCellValid = ({ validator }, value) => {
 };
 
 export const isRowValid = (columns, rowValues) => {
-
     for (let i = 0; i < columns.length; i++) {
 
         const col = columns[i];
@@ -43,13 +41,16 @@ export default function editor(state = initialState, action) {
 
     case EDIT_ROW:
 
+        const isValid = isRowValid(action.columns, action.values);
+
         return state.set('editorState', {
             row: {
                 key: action.rowId,
                 values: action.values,
                 rowIndex: action.rowIndex,
                 top: action.top,
-                valid: action.valid !== undefined ? action.valid : true
+                valid: isValid,
+                isCreate: action.isCreate || false
             }
         });
 
@@ -70,6 +71,7 @@ export default function editor(state = initialState, action) {
                 rowIndex: previous.row.rowIndex,
                 previousValues: previous.row.values,
                 top: previous.row.top,
+                isCreate: previous.row.isCreate || false,
                 valid
             }
         }));
