@@ -43,7 +43,7 @@ export function addNewRow(columns, data) {
 
     return (dispatch) => {
         const rowId = keyGenerator('row', 0);
-        const top = 37;
+        const top = 43;
         const rowData = data || {};
         const rowIndex = 0;
         const isCreate = true;

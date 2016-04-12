@@ -2,7 +2,8 @@ import { editRow } from './../actions/plugins/editor/EditorActions';
 
 export const handleEditClick = (editor, store, rowId, rowData, rowIndex, columns, data) => {
     const row = closestRow(data.reactEvent.target);
-    const top = row.offsetTop + row.clientHeight;
+    const offset = 7;
+    const top = row.offsetTop + row.clientHeight + offset;
 
     if (editor.config.type === editor.editModes.inline) {
         store.dispatch(editRow(rowId, top, rowData, rowIndex, columns));

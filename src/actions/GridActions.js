@@ -119,6 +119,12 @@ export function setSortDirection(cols, id, sortDirection) {
             col.sortDirection = sortDirection;
         }
 
+        else {
+            // to do: remove this if we want to build
+            // up the sorts
+            col.sortDirection = null;
+        }
+
         return col;
     });
 
