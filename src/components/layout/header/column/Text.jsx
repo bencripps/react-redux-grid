@@ -4,7 +4,7 @@ import { prefix } from './../../../../util/prefix';
 import { keyFromObject } from './../../../../util/keyGenerator';
 import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
-export const Text = ({ col, index, columnManager, dragAndDropManager }) => {
+export const Text = ({ col, index, columnManager, dragAndDropManager, sortHandle }) => {
 
     const innerHTML = col.name;
     const draggable = col.moveable !== undefined ? col.moveable : columnManager.config.moveable;
@@ -30,6 +30,7 @@ export const Text = ({ col, index, columnManager, dragAndDropManager }) => {
     return (
         <span { ...spanProps } >
             { innerHTML }
+            { sortHandle }
         </span>
     );
 };
@@ -38,5 +39,6 @@ Text.propTypes = {
     col: PropTypes.object,
     columnManager: PropTypes.object,
     dragAndDropManager: PropTypes.object,
-    index: PropTypes.number
+    index: PropTypes.number,
+    sortHandle: PropTypes.element
 };

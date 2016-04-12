@@ -36,8 +36,12 @@ export const Column = ({
     const dragHandle = isResizable
         ? <DragHandle { ...{ col, dragAndDropManager } } /> : null;
 
+    const headerClass = col.className
+        ? `${col.className} ${isResizable ? prefix('resizable') : ''}`
+        : `${isResizable ? prefix('resizable') : ''}`;
+
     const headerProps = {
-        className: `${col.className} ${isResizable ? prefix('resizable') : ''}`,
+        className: headerClass,
         onClick: handleColumnClick.bind(scope, col),
         onDrag: scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey),
         onDrop: handleDrop.bind(scope, index, columns, store),
@@ -47,12 +51,11 @@ export const Column = ({
         }
     };
 
-    const innerHTML = <Text { ...{ col, index, columnManager, dragAndDropManager } } />;
+    const innerHTML = <Text { ...{ col, index, columnManager, dragAndDropManager, sortHandle } } />;
 
     return (
         <th { ...headerProps } >
             { innerHTML }
-            { sortHandle }
             { dragHandle }
         </th>
     );
