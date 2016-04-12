@@ -35,14 +35,18 @@ SortHandle.propTypes = {
 
 export const handleSort = (columns, col, columnManager, dataSource, direction, pager, store) => {
 
-    store.dispatch(setSortDirection(columns, col.id, direction));
+    const newDirection = direction === SORT_DIRECTIONS.ASCEND
+        ? SORT_DIRECTIONS.DESCEND
+        : SORT_DIRECTIONS.ASCEND;
+
+    store.dispatch(setSortDirection(columns, col.id, newDirection));
 
     if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
-        columnManager.doSort(SORT_METHODS.LOCAL, col, direction, dataSource);
+        columnManager.doSort(SORT_METHODS.LOCAL, col, newDirection, dataSource);
     }
 
     else if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.REMOTE) {
-        columnManager.doSort(SORT_METHODS.REMOTE, col, direction, dataSource, pager);
+        columnManager.doSort(SORT_METHODS.REMOTE, col, newDirection, dataSource, pager);
     }
 
     else {

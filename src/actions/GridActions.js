@@ -111,15 +111,12 @@ export function setColumns(cols) {
 
 export function setSortDirection(cols, id, sortDirection) {
 
-    const newDirection = sortDirection === SORT_DIRECTIONS.ASCEND
-        ? SORT_DIRECTIONS.DESCEND : SORT_DIRECTIONS.ASCEND;
-
     let columns = cols;
 
     columns = cols.map((col) => {
 
         if (col.id === id) {
-            col.sortDirection = newDirection;
+            col.sortDirection = sortDirection;
         }
 
         return col;
@@ -137,38 +134,74 @@ export function doRemoteSort(datasource, pageIndex, pageSize, sortParams) {
 
         dispatch(setLoaderState(true));
 
-        return Request.api({
-            route: datasource,
-            method: 'POST',
-            data: {
-                pageIndex: pageIndex,
-                pageSize: pageSize,
-                sort: sortParams.sort
-            }
-        }).then((response) => {
+        if (typeof datasource === 'function') {
+            return datasource({}, {}, sortParams).then((response) => {
 
-            if (response && response.data) {
+                if (response && response.data) {
 
-                dispatch({
-                    type: SET_DATA,
-                    data: response.data,
-                    total: response.total,
-                    currentRecords: response.data,
-                    success: true
-                });
+                    dispatch({
+                        type: SET_DATA,
+                        data: response.data,
+                        total: response.total,
+                        currentRecords: response.items,
+                        success: true
+                    });
 
-            }
+                }
 
-            else {
-                dispatch({
-                    type: ERROR_OCCURRED,
-                    error: 'Unable to Retrieve Grid Data',
-                    errorOccurred: true
-                });
-            }
+                else {
 
-            dispatch(setLoaderState(false));
-        });
+                    if (response && !response.data) {
+                        console.warn('A response was recieved but no data entry was found');
+                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
+                    }
+
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true
+                    });
+                }
+
+                dispatch(setLoaderState(false));
+            });
+
+        }
+
+        else {
+            return Request.api({
+                route: datasource,
+                method: 'POST',
+                data: {
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    sort: sortParams.sort
+                }
+            }).then((response) => {
+
+                if (response && response.data) {
+
+                    dispatch({
+                        type: SET_DATA,
+                        data: response.data,
+                        total: response.total,
+                        currentRecords: response.data,
+                        success: true
+                    });
+
+                }
+
+                else {
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true
+                    });
+                }
+
+                dispatch(setLoaderState(false));
+            });
+        }
 
     };
 }

@@ -18,7 +18,7 @@ export function setPage(index, type, BUTTON_TYPES) {
     return { type: PAGE_LOCAL, pageIndex };
 }
 
-export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields, afterAsyncFunc) {
+export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields, sort, afterAsyncFunc) {
 
     if (typeof datasource === 'function') {
 
@@ -28,7 +28,7 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields,
 
             dispatch(setLoaderState(true));
 
-            datasource({pageIndex, pageSize}, filterFields).then((response) => {
+            datasource({pageIndex, pageSize}, filterFields, sort).then((response) => {
 
                 if (response && response.data) {
 

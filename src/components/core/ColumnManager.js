@@ -1,11 +1,8 @@
 import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
-import { CLASS_NAMES, CSS_PREFIX, SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
+import { SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keyGenerator';
-import { prefix } from '../../util/prefix';
-import { elementContains } from '../../util/elementContains';
-import { hideMenu } from '../../actions/plugins/actioncolumn/MenuActions';
-import { showFilterMenu } from '../../actions/plugins/filter/FilterActions';
+import { camelize } from '../../util/camelize';
 import { doLocalSort, doRemoteSort } from '../../actions/GridActions';
 import sorter from '../../util/sorter';
 
@@ -55,10 +52,12 @@ export default class ColumnManager {
 
     doSort(method, column, direction, dataSource, pagerState) {
 
+        const propName = camelize(column.name);
+
         const sortParams = {
             sort: {
-                property: column.name.toLowerCase(),
-                direction: direction.toLowerCase()
+                property: propName,
+                direction: direction
             }
         };
 
