@@ -29,12 +29,14 @@ export const Column = ({
     const nextColumnKey = visibleColumns && visibleColumns[index + 1]
         ? keyGenerator(visibleColumns[index + 1].name, 'grid-column') : null;
 
+    const handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey);
+
     const sortHandle = sortable
         ? <SortHandle { ...{ col, columns, columnManager, dataSource, pager, store } } />
         : null;
 
     const dragHandle = isResizable
-        ? <DragHandle { ...{ col, dragAndDropManager } } /> : null;
+        ? <DragHandle { ...{ col, dragAndDropManager, handleDrag } } /> : null;
 
     const headerClass = col.className
         ? `${col.className} ${isResizable ? prefix('resizable') : ''}`
@@ -43,7 +45,10 @@ export const Column = ({
     const headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, col),
-        onDrag: scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey),
+        onDragOver: (reactEvent) => {
+            reactEvent.preventDefault();
+        },
+        droppable: true,
         onDrop: handleDrop.bind(scope, index, columns, store),
         key,
         style: {
@@ -74,7 +79,7 @@ Column.propTypes = {
 };
 
 export const handleDrop = (droppedIndex, columns, store, reactEvent) => {
-
+    reactEvent.preventDefault();
     try {
         const colData = reactEvent
             && reactEvent.dataTransfer.getData

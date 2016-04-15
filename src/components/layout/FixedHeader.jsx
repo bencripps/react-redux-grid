@@ -134,14 +134,15 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
 };
 
 export const handleDrag = (scope, columns, id, columnManager, store, nextColumnKey, reactEvent) => {
-    reactEvent.preventDefault();
 
     const header = reactEvent.target.parentElement.parentElement;
     const columnNode = reactEvent.target.parentElement;
     const headerNextElementSibling = columnNode.nextElementSibling;
     const columnOffsetLeft = columnNode.getBoundingClientRect().left;
     const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
-    const computedWidth = (reactEvent.clientX - columnOffsetLeft) / headerWidth;
+
+    const xCoord = reactEvent.clientX || window.coords.x;
+    const computedWidth = (xCoord - columnOffsetLeft) / headerWidth;
     const totalWidth = parseFloat(columnNode.style.width, 10)
         + parseFloat(headerNextElementSibling.style.width, 10);
 

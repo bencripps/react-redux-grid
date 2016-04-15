@@ -22,6 +22,9 @@ export default class DragAndDropManager {
     }
 
     handleDragStart(reactEvent) {
+        reactEvent.dataTransfer.setData('Text',
+            JSON.stringify({ preventBubble: true, validDrag: true })
+        );
         /**
         * hiding the chrome default drag image -- go upvote this
         * http://stackoverflow.com/questions/7680285/how-do-you-turn-off-setdragimage
@@ -35,23 +38,35 @@ export default class DragAndDropManager {
         }
     }
 
-    handleDrag() {
-
-    }
+    handleDrag() {}
 
     handleDragOver(reactEvent) {
+        // due to a bug in firefox, we need to set a global to
+        // preserve the x coords
+        // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event  
+        window.coords = {
+            x: reactEvent.clientX
+        };
+
         reactEvent.preventDefault();
     }
 
-    handleDragLeave() {
-
+    handleDragLeave(reactEvent) {
+        reactEvent.preventDefault();
     }
 
-    handleDragEnd() {
-
+    handleDragEnd(reactEvent) {
+        reactEvent.preventDefault();
     }
 
-    handleDrop() {
+    handleDrop(reactEvent) {
+        console.log('hi!')
+        reactEvent.preventDefault();
 
+        const eventType = JSON.parse(reactEvent.dataTransfer.getData('Text'));
+
+        if (eventType && eventType.preventBubble) {
+            reactEvent.stopPropagation();
+        }
     }
 }

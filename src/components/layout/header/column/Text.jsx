@@ -12,17 +12,13 @@ export const Text = ({ col, index, columnManager, dragAndDropManager, sortHandle
     const spanProps = dragAndDropManager.initDragable({
         draggable: draggable,
         className: draggable ? prefix(CLASS_NAMES.DRAGGABLE_COLUMN, CLASS_NAMES.COLUMN) : prefix(CLASS_NAMES.COLUMN),
-        onDrag: (reactEvent) => {
-            reactEvent.preventDefault();
-            reactEvent.stopPropagation();
-        },
+        onDrag: (reactEvent) => {},
         onDragStart: (reactEvent) => {
-
             const data = {
                 key: keyFromObject(col),
                 index: index
             };
-
+            console.log(data);
             reactEvent.dataTransfer.setData('Text', JSON.stringify(data));
         }
     });

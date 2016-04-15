@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
 
-export const DragHandle = ({ col, dragAndDropManager }) => {
+export const DragHandle = ({ col, dragAndDropManager, handleDrag }) => {
 
-    const handleProps = dragAndDropManager.initDragable();
+    const handleProps = dragAndDropManager.initDragable({
+        onDrag: handleDrag,
+        draggable: true
+    });
 
     return (
         <span { ...handleProps } />
