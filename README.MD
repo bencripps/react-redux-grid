@@ -183,7 +183,11 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 	        editor: '<input type="text" required />',
 	        width: '10%',
 	        className: 'additional-class',
-	        renderer: () => { return 'Name of Column'; },
+	        renderer: ({ column, value, row }) => {
+	       		return (
+	       			<span> Name: { value } </span>
+	       			);
+	       	},
 	        hidden: false,
 	        placeholder: 'Name',
 	        validator: (val) => {
@@ -203,7 +207,7 @@ Column Defaults:
 3. `editor`: `jsx element`, when an editor is used, this element will be rendered in place of the edited cell
 4. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
 5. `className`: `string`, additional class names to apply to columns header output
-6. `renderer`: `func`, a function which returns the column name
+6. `renderer`: `string | jsx`, a function which returns the cell contents for this column
 7. `hidden`: `boolean`, whether the column is hidden or visible
 8. `hideable`: `boolean`, whether the column can be hidden
 9. `resizable`: `boolean`, whether this column can be resized
