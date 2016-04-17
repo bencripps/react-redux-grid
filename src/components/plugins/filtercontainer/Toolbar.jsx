@@ -20,6 +20,15 @@ import { setFilter,
 export const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, filter,
     placeHolderText, pager, pageSize, plugins, store}) => {
 
+    const customComponent = plugins
+        && plugins.FILTER_CONTAINER.component
+        ? plugins.FILTER_CONTAINER.component
+        : null;
+
+    if (customComponent) {
+        return customComponent;
+    }
+
     const toolbar = plugins
         && plugins.FILTER_CONTAINER
         && plugins.FILTER_CONTAINER.enabled

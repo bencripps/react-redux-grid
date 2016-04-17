@@ -348,6 +348,7 @@ Selection Model Defaults:
 	        enabled: true,
 	        method: 'local',
 	        filterSource: 'http://url/to/pagingdata',
+	        component: false,
 	        enableFilterMenu: true
 	        fields: [
 	        	{
@@ -366,8 +367,9 @@ Filter Container and Menu Defaults
 2. `method`: `string`, what type of filter method should be used, possible values: `['local', 'remote']`
 3. `filterSource`, `string`, if remote filtering is used, a URI is required
 4. `enableFilterMenu`, `boolean`, whether a filter menu should be created
-5. `fields`: `array of objects`, an array containing objects that desribe filter fields to be registered in the filter menu
-5a. `field.object`, `object`, fields require a `name` parameter, and the name should correspond with a column name. 
+5. `component`, `jsx`, if you'd like to add a custom component on top of the grid, provide a jsx component
+6. `fields`: `array of objects`, an array containing objects that desribe filter fields to be registered in the filter menu
+6a. `field.object`, `object`, fields require a `name` parameter, and the name should correspond with a column name. 
 
 Error Handler Defaults
 
