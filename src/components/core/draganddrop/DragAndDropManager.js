@@ -43,10 +43,8 @@ export default class DragAndDropManager {
     handleDragOver(reactEvent) {
         // due to a bug in firefox, we need to set a global to
         // preserve the x coords
-        // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event  
-        window.coords = {
-            x: reactEvent.clientX
-        };
+        // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event
+        window.reactGridXcoord = reactEvent.clientX;
 
         reactEvent.preventDefault();
     }
@@ -60,7 +58,6 @@ export default class DragAndDropManager {
     }
 
     handleDrop(reactEvent) {
-        console.log('hi!')
         reactEvent.preventDefault();
 
         const eventType = JSON.parse(reactEvent.dataTransfer.getData('Text'));

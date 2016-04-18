@@ -141,7 +141,7 @@ export const handleDrag = (scope, columns, id, columnManager, store, nextColumnK
     const columnOffsetLeft = columnNode.getBoundingClientRect().left;
     const headerWidth = parseFloat(window.getComputedStyle(header).width, 10);
 
-    const xCoord = reactEvent.clientX || window.coords.x;
+    const xCoord = reactEvent.clientX || window.reactGridXcoord;
     const computedWidth = (xCoord - columnOffsetLeft) / headerWidth;
     const totalWidth = parseFloat(columnNode.style.width, 10)
         + parseFloat(headerNextElementSibling.style.width, 10);

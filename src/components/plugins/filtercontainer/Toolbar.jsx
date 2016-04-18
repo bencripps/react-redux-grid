@@ -21,6 +21,7 @@ export const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, fi
     placeHolderText, pager, pageSize, plugins, store}) => {
 
     const customComponent = plugins
+        && plugins.FILTER_CONTAINER
         && plugins.FILTER_CONTAINER.component
         ? plugins.FILTER_CONTAINER.component
         : null;
