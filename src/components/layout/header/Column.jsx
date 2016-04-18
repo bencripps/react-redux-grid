@@ -7,7 +7,14 @@ import { Text } from './column/Text.jsx';
 import { keyGenerator } from './../../../util/keyGenerator';
 import { prefix } from './../../../util/prefix';
 
-import { reorderColumn } from '../../../actions/core/ColumnManager';
+import { 
+    CLASS_NAMES,
+    SORT_DIRECTIONS,
+    SORT_METHODS
+} from './../../../constants/GridConstants';
+
+import { reorderColumn } from './../../../actions/core/ColumnManager';
+import { setSortDirection } from './../../../actions/GridActions';
 
 export const Column = ({
     scope, col, columns, columnManager, dataSource,
@@ -24,6 +31,13 @@ export const Column = ({
 
     const visibleColumns = columns.filter((_col) => !_col.hidden);
 
+    const direction = col.sortDirection
+        || col.defaultSortDirection
+        || SORT_DIRECTIONS.ASCEND;
+
+    const sortHandleCls = col.sortDirection
+        ? CLASS_NAMES.SORT_HANDLE_VISIBLE : '';
+
     const key = keyGenerator(col.name, 'grid-column');
 
     const nextColumnKey = visibleColumns && visibleColumns[index + 1]
@@ -32,19 +46,37 @@ export const Column = ({
     const handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey);
 
     const sortHandle = sortable
-        ? <SortHandle { ...{ col, columns, columnManager, dataSource, pager, store } } />
+        ? <SortHandle { ...{ col, columns, columnManager, dataSource, direction, pager, sortHandleCls, store } } />
         : null;
 
     const dragHandle = isResizable
         ? <DragHandle { ...{ col, dragAndDropManager, handleDrag } } /> : null;
 
-    const headerClass = col.className
+    let headerClass = col.className
         ? `${col.className} ${isResizable ? prefix('resizable') : ''}`
         : `${isResizable ? prefix('resizable') : ''}`;
 
+    if (sortHandleCls) {
+        headerClass = `${headerClass} ${sortHandleCls}`;
+    }
+
+    if (col.sortable) {
+        headerClass = `${headerClass} is-sortable`;
+    }
+
+    const clickArgs = {
+        columns,
+        col,
+        columnManager,
+        dataSource,
+        direction,
+        pager,
+        store
+    };
+
     const headerProps = {
         className: headerClass,
-        onClick: handleColumnClick.bind(scope, col),
+        onClick: handleColumnClick.bind(scope, clickArgs),
         onDragOver: (reactEvent) => {
             reactEvent.preventDefault();
         },
@@ -98,7 +130,34 @@ export const handleDrop = (droppedIndex, columns, store, reactEvent) => {
 
 };
 
-export const handleColumnClick = (col) => {
+export const handleSort = (columns, col, columnManager, dataSource, direction, pager, store) => {
+
+    const newDirection = direction === SORT_DIRECTIONS.ASCEND
+        ? SORT_DIRECTIONS.DESCEND
+        : SORT_DIRECTIONS.ASCEND;
+
+    store.dispatch(setSortDirection(columns, col.id, newDirection));
+
+    if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
+        columnManager.doSort(SORT_METHODS.LOCAL, col, newDirection, dataSource);
+    }
+
+    else if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.REMOTE) {
+        columnManager.doSort(SORT_METHODS.REMOTE, col, newDirection, dataSource, pager);
+    }
+
+    else {
+        console.warn('Sort method not defined!');
+    }
+};
+
+export const handleColumnClick = (
+    { columns, col, columnManager, dataSource, direction, pager, store }
+) => {
+    if (col.sortable) {
+        handleSort(columns, col, columnManager, dataSource, direction, pager, store);
+    }
+
     if (col.HANDLE_CLICK) {
         col.HANDLE_CLICK.apply(this, arguments);
     }

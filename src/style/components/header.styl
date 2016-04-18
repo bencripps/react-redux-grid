@@ -5,7 +5,7 @@
         border-bottom: 1px solid strongcolor
         color fontcolor
         font-family fontfamily
-        height: headerheight
+        height headerheight
         
         &.{headerhidden}
             visibility hidden
@@ -59,17 +59,10 @@
                     height 100%
                     transition(border)
                     
-            .{draggablecolumnclass}
-                cursor move
-                    
             &:hover
                 .{draghandleclass}
                     &::after
                         border-color strongcolor
-                        
-                 .{sorthandlevisibleclass}
-                    opacity 1
-                    visibility visible
                 
         th:nth-last-child(1), th:nth-last-child(2)
             overflow initial
