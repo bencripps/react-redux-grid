@@ -16,6 +16,9 @@ import {
 import { reorderColumn } from './../../../actions/core/ColumnManager';
 import { setSortDirection } from './../../../actions/GridActions';
 
+const isChrome = /Chrome/.test(navigator.userAgent)
+    && /Google Inc/.test(navigator.vendor);
+
 export const Column = ({
     scope, col, columns, columnManager, dataSource,
     dragAndDropManager, pager, store, index
@@ -77,9 +80,6 @@ export const Column = ({
     const headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        onDragOver: (reactEvent) => {
-            reactEvent.preventDefault();
-        },
         droppable: true,
         onDrop: handleDrop.bind(scope, index, columns, store),
         key,
@@ -87,6 +87,16 @@ export const Column = ({
             width: getWidth(col, key, columns, columnManager.config.defaultColumnWidth, index)
         }
     };
+
+    if (!isChrome) {
+        headerProps.onDragOver = (reactEvent) => {
+            // due to a bug in firefox, we need to set a global to
+            // preserve the x coords
+            // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event
+            window.reactGridXcoord = reactEvent.clientX;
+
+        };
+    }
 
     const innerHTML = <Text { ...{ col, index, columnManager, dragAndDropManager, sortHandle } } />;
 

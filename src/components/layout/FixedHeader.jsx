@@ -30,7 +30,7 @@ class FixedHeader extends Component {
 
     constructor() {
         super();
-        this.handleDrag = throttle(handleDrag, this, 10);
+        this.handleDrag = throttle(handleDrag, this, 5);
     }
 
     render() {
