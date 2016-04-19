@@ -77,7 +77,8 @@ export const plugins = {
     },
     EDITOR: {
         type: 'inline',
-        enabled: true
+        enabled: true,
+        focusOnEdit: true
     },
     PAGER: {
         enabled: true,

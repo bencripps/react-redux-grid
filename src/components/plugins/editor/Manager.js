@@ -7,7 +7,8 @@ export default class Manager {
 
         const defaults = {
             type: 'inline',
-            enabled: false
+            enabled: false,
+            focusOnEdit: true
         };
 
         const editModes = {
@@ -26,6 +27,7 @@ export default class Manager {
 
         const editorProps = {
             columns,
+            config: this.config,
             reducerKeys,
             store,
             events

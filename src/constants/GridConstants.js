@@ -62,7 +62,8 @@ export const CLASS_NAMES = {
             HIDDEN: 'hidden',
             SAVE_BUTTON: 'save-button',
             CANCEL_BUTTON: 'cancel-button',
-            BUTTON_CONTAINER: 'button-container'
+            BUTTON_CONTAINER: 'button-container',
+            INPUT_WRAPPER: 'editor-wrapper'
         }
     },
     GRID_ACTIONS: {

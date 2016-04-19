@@ -3,6 +3,8 @@ import { Input } from './Input.jsx';
 import { CLASS_NAMES } from './../../../constants/GridConstants';
 import { prefix } from './../../../util/prefix';
 
+const wrapperCls = prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
+
 export const Editor = ({ cellData, columns, editorState, index, isEditable, rowId, store }) => {
 
     let colName = columns
@@ -44,7 +46,7 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         );
 
         return (
-            <span> { input } </span>
+            <span { ...{ className: wrapperCls } }> { input } </span>
             );
     }
 
@@ -52,7 +54,7 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         && columns[index]
         && (columns[index].editable === undefined || columns[index].editable)) {
         return (
-            <span>
+            <span { ...{ className: wrapperCls } }>
                 <Input {
                     ...{ column: columns[index], columns, editorState, cellData, rowId, store } }
                 />
