@@ -22,15 +22,18 @@ class Menu extends Component {
 
         const { metaData, store } = this.props;
 
-        const menuItemProps = {
-            data: item,
-            metaData,
-            type: item.type,
-            key: keyFromObject(item),
-            store
-        };
+        if (!item.$$typeof) {
+            const menuItemProps = {
+                data: item,
+                metaData,
+                type: item.type,
+                key: keyFromObject(item),
+                store
+            };
 
-        return <MenuItem { ...menuItemProps } />;
+            return <MenuItem { ...menuItemProps } />;
+        }
+        return item;
     }
 
     render() {

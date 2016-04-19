@@ -241,6 +241,7 @@ Editor Defaults
 	        defaultColumnWidth: `${100 / columns.length}%`,
             minColumnWidth: 10,
             moveable: true,
+            headerActionItemBuilder: () => {},
             sortable: {
 	            enabled: true,
 	            method: 'local',
@@ -255,10 +256,11 @@ Column Manager Defaults
 2. `defaultColumnWidth`: `string template`, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template
 3. `minColumnWidth`: `int`, the minimum width a column can be dragged to
 4. `moveable`: `boolean`, whether the columns can be reordered by drag
-5. `sortable`: `object`, an object that describes whether columns can be sorted
-5a. `sortable.enabled`: `boolean`, whether sorting is enabled at the grid level
-5b. `sortable.method`: `string`, whether sorting will execute locally, or remotely, possible values: `['local', 'remote']`
-5c. `sortable.sortingSource`: `string`, where sorting data will be retrieved (a required parameter for remote sorting)
+5. `headerActionItemBuilder`: `func`, build a custom jsx component to be used as the header action items
+6. `sortable`: `object`, an object that describes whether columns can be sorted
+6a. `sortable.enabled`: `boolean`, whether sorting is enabled at the grid level
+6b. `sortable.method`: `string`, whether sorting will execute locally, or remotely, possible values: `['local', 'remote']`
+6c. `sortable.sortingSource`: `string`, where sorting data will be retrieved (a required parameter for remote sorting)
 
 ## Pagination
 

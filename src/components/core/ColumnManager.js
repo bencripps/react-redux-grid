@@ -16,6 +16,7 @@ export default class ColumnManager {
             minColumnWidth: 10,
             moveable: false,
             resizable: false,
+            headerActionItemBuilder: null,
             sortable: {
                 enabled: true,
                 method: SORT_METHODS.LOCAL,
@@ -93,6 +94,7 @@ export default class ColumnManager {
             editor: this.editor,
             reducerKeys,
             selModel: this.selModel,
+            headerActionItemBuilder: this.config.headerActionItemBuilder,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         };
 

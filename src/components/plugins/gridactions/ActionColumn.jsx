@@ -9,8 +9,20 @@ import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
-export const ActionColumn = ({ actions, columns, editor, iconCls,
-    menuState, rowId, rowData, store, type, rowIndex, reducerKeys }) => {
+export const ActionColumn = ({
+    actions,
+    columns,
+    editor,
+    headerActionItemBuilder,
+    iconCls,
+    menuState,
+    rowId,
+    rowData,
+    store,
+    type,
+    rowIndex,
+    reducerKeys
+}) => {
 
     const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
 
@@ -29,7 +41,7 @@ export const ActionColumn = ({ actions, columns, editor, iconCls,
     };
 
     return type === 'header'
-        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex)
+        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, headerActionItemBuilder)
         : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex);
 };
 
@@ -50,29 +62,40 @@ ActionColumn.defaultProps = {
 
 let removeableEvent;
 
-export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId) => {
+export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, headerActionItemBuilder) => {
 
-    const actions = columns.map((col) => {
+    let actions;
 
-        const isChecked = col.hidden !== undefined
-            ? !col.hidden : true;
+    if (!headerActionItemBuilder) {
 
-        return {
-            text: col.name,
-            menuItemType: 'checkbox',
-            checked: isChecked,
-            onCheckboxChange: () => {},
-            hideable: col.hideable,
-            dismissOnClick: false,
-            key: keyFromObject(col),
-            EVENT_HANDLER: () => {
-                if (col.hideable === undefined || col.hideable) {
-                    store.dispatch(setColumnVisibility(columns, col, col.hidden));
+        actions = columns.map((col) => {
+
+            const isChecked = col.hidden !== undefined
+                ? !col.hidden : true;
+
+            return {
+                text: col.name,
+                menuItemType: 'checkbox',
+                checked: isChecked,
+                onCheckboxChange: () => {},
+                hideable: col.hideable,
+                dismissOnClick: false,
+                key: keyFromObject(col),
+                EVENT_HANDLER: () => {
+                    if (col.hideable === undefined || col.hideable) {
+                        store.dispatch(setColumnVisibility(columns, col, col.hidden));
+                    }
                 }
-            }
-        };
+            };
 
-    });
+        });
+    }
+
+    else {
+        actions = columns.map(headerActionItemBuilder.bind(null, {
+            store
+        }));
+    }
 
     const menuItems = {
         menu: actions
