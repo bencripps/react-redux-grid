@@ -62,6 +62,13 @@ export default function editor(state = initialState, action) {
             [action.columnName]: value
         });
 
+        columns.forEach((col) => {
+            if (col.defaultValue !== undefined
+                && rowValues[col.dataIndex] === undefined) {
+                rowValues[col.dataIndex] = col.defaultValue;
+            }
+        });
+
         const valid = isRowValid(columns, rowValues);
 
         return state.set('editorState', Object.assign({}, state.get('editorState'), {
