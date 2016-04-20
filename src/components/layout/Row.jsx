@@ -48,8 +48,8 @@ export const Row = ({
 
 Row.propTypes = {
     columnManager: PropTypes.object.isRequired,
-    columns: PropTypes.arrayOf(PropTypes.Object).isRequired,
-    data: PropTypes.arrayOf(PropTypes.Object),
+    columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object),
     dataSource: PropTypes.object,
     editor: PropTypes.object,
     editorState: PropTypes.object,
