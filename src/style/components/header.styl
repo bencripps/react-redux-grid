@@ -33,19 +33,22 @@
                 text-overflow ellipsis
                 overflow hidden
                 width 80%
+                
+            &.sort-handle-visible
+               .{sorthandleclass}
+                   visibility visible
             
             .{sorthandleclass}
                 float left
-                opacity 0
                 transition(opacity)
                 visibility hidden
                 
-                &.descend
+                &.desc
                     icon('sort-up')
                     &::before
                         top -1px
             
-                &.ascend
+                &.asc
                     icon('sort-down')
                 
                 &::before

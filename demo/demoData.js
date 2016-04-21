@@ -142,6 +142,7 @@ export const columns = [
     {
         name: 'Name',
         dataIndex: 'Name',
+        sortable: true,
         width: '10%',
         className: 'additional-class',
         HANDLE_CLICK: () => { console.log('Header Click'); }
@@ -149,6 +150,7 @@ export const columns = [
     {
         name: 'Phone Number',
         dataIndex: 'Phone Number',
+        sortable: true,
         width: '20%',
         className: 'additional-class',
         editor: (value, editorState, rowId, cols, index) => {
@@ -165,12 +167,14 @@ export const columns = [
         name: 'Email',
         dataIndex: 'Email',
         width: '25%',
+        sortable: true,
         className: 'additional-class',
         defaultSortDirection: 'descend'
     },
     {
         name: 'Address',
         dataIndex: 'Address',
+        sortable: true,
         width: '35%',
         className: 'additional-class'
     }

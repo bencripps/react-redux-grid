@@ -39,7 +39,7 @@ export const Column = ({
         || SORT_DIRECTIONS.ASCEND;
 
     const sortHandleCls = col.sortDirection
-        ? CLASS_NAMES.SORT_HANDLE_VISIBLE : '';
+        ? prefix(CLASS_NAMES.SORT_HANDLE_VISIBLE) : '';
 
     const key = keyGenerator(col.name, 'grid-column');
 
@@ -64,7 +64,7 @@ export const Column = ({
     }
 
     if (col.sortable) {
-        headerClass = `${headerClass} is-sortable`;
+        headerClass = `${headerClass} ${prefix('is-sortable')}`;
     }
 
     const clickArgs = {
