@@ -80,8 +80,10 @@ export const Column = ({
     const headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        droppable: true,
         onDrop: handleDrop.bind(scope, index, columns, store),
+        onDragOver: (reactEvent) => {
+            reactEvent.preventDefault();
+        },
         key,
         style: {
             width: getWidth(col, key, columns, columnManager.config.defaultColumnWidth, index)
@@ -94,7 +96,7 @@ export const Column = ({
             // preserve the x coords
             // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event
             window.reactGridXcoord = reactEvent.clientX;
-
+            reactEvent.preventDefault();
         };
     }
 

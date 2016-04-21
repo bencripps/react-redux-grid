@@ -18,7 +18,6 @@ export const Text = ({ col, index, columnManager, dragAndDropManager, sortHandle
                 key: keyFromObject(col),
                 index: index
             };
-            console.log(data);
             reactEvent.dataTransfer.setData('Text', JSON.stringify(data));
         }
     });
