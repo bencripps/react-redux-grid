@@ -12,7 +12,7 @@ A Grid Component written in [React](https://facebook.github.io/react) using the 
 
 1. Local and/or Remote Data Source
 2. Local and/or Remote Pagination
-3. Extensive and extenable Column Definitions
+3. Extensive and extendable Column Definitions
 4. Draggable Column Width/Resizing
 5. Draggable Column Ordering
 5. Sortable Columns
@@ -310,8 +310,31 @@ Example:
 	    };
 	};
 
+## Grid Actions (Row Menu Actions)
 
+	export const plugins = {
+		GRID_ACTIONS: {
+	        iconCls: 'action-icon',
+	        menu: [
+	            {
+	                text: 'Menu Item',
+	                key: 'menu-item-key',
+	                EVENT_HANDLER: () => {
+	                    alert('Im a menu Item Action');
+	                }
+	            }
+	        ]
+	    }
+	};
 
+Grid Action Defaults
+
+1. `iconCls`: `string`, class to be used for the action icon
+2. `menu`: `arrayOf(object)`, menu items
+
+### Notes about Menu Items
+
+Each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.
 
 ## Selection Model
 

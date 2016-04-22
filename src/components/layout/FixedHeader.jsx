@@ -105,6 +105,7 @@ class FixedHeader extends Component {
                         { headers }
                     </tr>
                 </thead>
+                <tbody></tbody>
             </table>
         );
     }

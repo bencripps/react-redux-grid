@@ -63,7 +63,7 @@ class BulkActionToolbar extends Component {
             && plugins.BULK_ACTIONS.actions
             && plugins.BULK_ACTIONS.actions.length > 0
             ? getToolbar(plugins.BULK_ACTIONS.actions, bulkActionState, selectedRows)
-            : null;
+            : <div></div>;
 
         return toolbar;
     }

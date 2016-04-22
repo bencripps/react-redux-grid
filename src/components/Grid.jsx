@@ -103,7 +103,7 @@ class Grid extends Component {
     }
 
     render() {
-
+        
         const {
             columnState,
             data,
