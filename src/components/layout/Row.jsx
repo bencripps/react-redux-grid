@@ -87,7 +87,7 @@ export const addEmptyInsert = (cells, visibleColumns, plugins) => {
     return cells;
 };
 
-export const getCellData = (columns, row, key, index) => {
+export const getCellData = (columns, row, key, index, store) => {
 
     const valueAtDataIndex = row
         && columns[index]
@@ -105,7 +105,8 @@ export const getCellData = (columns, row, key, index) => {
             value: valueAtDataIndex,
             row,
             key,
-            index
+            index,
+            store
         });
     }
 
@@ -147,7 +148,7 @@ export const getRowComponents = (columns, columnManager, editor, editorState, re
         const cellProps = {
             index: i,
             rowId: id,
-            cellData: getCellData(columns, row, k, i),
+            cellData: getCellData(columns, row, k, i, store),
             columns,
             editor,
             events: events,

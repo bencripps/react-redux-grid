@@ -14,6 +14,12 @@ describe('State Getter Function', () => {
         expect(stateGetter(state, props, 'filterState', 'someProp')).toBeTruthy();
     });
 
+    it('Should return state even if the casing is off', () => {
+        const state = { filterState: { get: getState } };
+        const props = {};
+        expect(stateGetter(state, props, 'filterstate', 'someProp')).toBeTruthy();
+    });
+
     it('Should return null if it\'s not registered', () => {
         const state = { filterState: { get: getState } };
         const props = {};
@@ -45,4 +51,6 @@ describe('State Getter Function', () => {
         const props = {};
         expect(stateGetter(state, props, 'filterState', 'someProp')).toEqual(null);
     });
+
+
 });
