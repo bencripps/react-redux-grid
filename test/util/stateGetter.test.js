@@ -18,6 +18,8 @@ describe('State Getter Function', () => {
         const state = { filterState: { get: getState } };
         const props = {};
         expect(stateGetter(state, props, 'filterstate', 'someProp')).toBeTruthy();
+        expect(stateGetter(state, props, 'FILTERSTATE', 'someProp')).toBeTruthy();
+        expect(stateGetter(state, props, 'FilterState', 'someProp')).toBeTruthy();
     });
 
     it('Should return null if it\'s not registered', () => {
