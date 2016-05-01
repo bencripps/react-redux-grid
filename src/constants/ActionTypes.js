@@ -18,6 +18,7 @@ export const SET_SORT_DIRECTION = 'SET_SORT_DIRECTION';
 export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 
 export const DISMISS_ERROR = 'DISMISS_ERROR';
+export const ERROR_OCCURRED = 'ERROR_OCCURRED';
 
 export const SHOW_MENU = 'SHOW_MENU';
 export const HIDE_MENU = 'HIDE_MENU';

@@ -1,8 +1,8 @@
 const loaders = require('../webpack/loaders');
 const path = require('path');
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
-    ? ['PhantomJS', 'Chrome']
-    : ['PhantomJS'];
+    ? ['jsdom', 'Chrome']
+    : ['jsdom'];
 
 module.exports = function exports(config) {
     config.set({
@@ -18,10 +18,9 @@ module.exports = function exports(config) {
             'karma-es6-shim',
             'karma-webpack',
             'karma-babel-preprocessor',
-            'karma-phantomjs-launcher',
+            'karma-jsdom-launcher',
             'karma-sourcemap-loader',
             'karma-sinon-chai',
-            'phantomjs-prebuilt'
         ],
 
         preprocessors: {

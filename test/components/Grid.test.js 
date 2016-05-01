@@ -1,26 +1,152 @@
+/* eslint-enable describe it */
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Grid } from '../../src/components/Grid.jsx';
-import { mockStore } from '../testUtils/index';
+import { mount } from 'enzyme';
+import { ConnectedGrid } from './../../src/components/Grid.jsx';
+import { Store as GridStore } from './../../src/store/store';
+import { mockStore } from './../testUtils/index';
+
 import { gridColumns,
     localGridData,
-    gridActions
+    gridActions,
+    stateKey
 } from '../testUtils/data';
 
 const props = {
     data: localGridData,
     columns: gridColumns,
-    store: mockStore({}, ...gridActions)
+    stateKey,
+    store: mockStore({}, ...gridActions),
+    plugins: {}
 };
 
 props.store.subscribe = () => {};
 
-describe('A rendered Grid Component if columns, data, and a store are passed', () => {
+describe('A fully mounted simple grid', () => {
 
-    it('Should render with the correct className', () => {
-        const component = shallow(<Grid { ...props } />);
-        expect(component.props().className).toEqual('react-grid-container');
+    const simpleProps = {
+        ...props,
+        store: GridStore
+    };
+
+    const component = mount(<ConnectedGrid { ...simpleProps } />);
+
+    it('Should render with the correct number of rows', () => {
+        expect(
+            component.find('.react-grid-row').length
+        ).toEqual(2);
+    });
+
+    it('Should render 2 headers, only 1 visible', () => {
+        expect(
+            component.find('.react-grid-header').length
+        ).toEqual(2);
+
+        expect(
+            component.find('.react-grid-header.react-grid-header-hidden').length
+        ).toEqual(1);
+    });
+
+    it('Shouldn\'t render a pager', () => {
+        expect(
+            component.find('.react-grid-pager-toolbar').length
+        ).toEqual(0);
+    });
+
+    it('Shouldn\'t render 4 headers, 2 visible', () => {
+        expect(
+            component.find('.react-grid-header').find('th').length
+        ).toEqual(4);
+
+        expect(
+            component
+                .find('.react-grid-header.react-grid-header-hidden')
+                .find('th').length
+        ).toEqual(2);
+    });
+
+    it('Shouldn\'t render the bulk action plugin', () => {
+        expect(
+            component.find('.react-grid-bulkaction-container').length
+        ).toEqual(0);
+    });
+
+    it('Should render the correct cells', () => {
+        expect(
+            component.find('td').node.innerHTML
+        ).toContain('Michael Jordan');
+    });
+
+    it('Should render the correct number of cells', () => {
+        expect(
+            component.find('td').nodes.length
+        ).toEqual(4);
+    });
+
+});
+
+describe('A fully mounted grid with a custom pager', () => {
+
+    const customPagerProps = {
+        ...props,
+        store: GridStore,
+        plugins: {
+            PAGER: {
+                enabled: true,
+                pagerComponent: (
+                    <span className = { 'custom-pager' } >
+                        { 'Custom Pager' }
+                    </span>
+                    )
+            }
+        }
+    };
+
+    const component = mount(<ConnectedGrid { ...customPagerProps } />);
+
+    it('Should have a pager', () => {
+        expect(
+            component.find('.custom-pager').length
+        ).toEqual(1);
+    });
+
+});
+
+describe('A fully mounted grid with pager', () => {
+
+    const pagerProps = {
+        ...props,
+        store: GridStore,
+        plugins: {
+            PAGER: {
+                enabled: true,
+                pagingType: 'local'
+            }
+        }
+    };
+
+    const component = mount(<ConnectedGrid { ...pagerProps } />);
+
+    beforeEach((done) => {
+        component.update();
+
+        setTimeout(() => {
+            done();
+        }, 100);
+    });
+
+    it('Should have a pager', () => {
+        expect(
+            component.find('.react-grid-pager-toolbar').length
+        ).toEqual(1);
+    });
+
+    it('Should have the right pager message', () => {
+        expect(
+           component
+            .find('.react-grid-pager-toolbar').text()
+            .replace(/ +?|\n/g, '')
+        ).toContain('1through2of2RecordsDisplayed');
     });
 
 });

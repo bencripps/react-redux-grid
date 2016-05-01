@@ -6,7 +6,11 @@ describe('prefix utility function', () => {
     it('Should work with a destructured array of classes', () => {
         const classes = ['react', 'redux', 'grid', 'test'];
 
-        expect(prefix(...classes)).toEqual('react-grid-react react-grid-redux react-grid-grid react-grid-test');
+        expect(
+            prefix(...classes)
+        ).toEqual(
+            'react-grid-react react-grid-redux react-grid-grid react-grid-test'
+        );
     });
 
     it('Should work with a single class', () => {

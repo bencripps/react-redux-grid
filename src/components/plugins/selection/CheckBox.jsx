@@ -5,7 +5,7 @@ import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
 
-export const CheckBox = ({dataSource, rowId, selectedRows, store, type}) => {
+export const CheckBox = ({dataSource, rowId, selectedRows, store, stateKey, type}) => {
 
     const checkBoxContainerProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
@@ -15,7 +15,7 @@ export const CheckBox = ({dataSource, rowId, selectedRows, store, type}) => {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
         checked: selectedRows ? selectedRows[rowId] : false,
         type: 'checkbox',
-        onChange: handleChange.bind(this, dataSource, store, type)
+        onChange: handleChange.bind(this, dataSource, store, type, stateKey)
     };
 
     return type === 'header'
@@ -23,20 +23,21 @@ export const CheckBox = ({dataSource, rowId, selectedRows, store, type}) => {
         : getColumn(checkBoxContainerProps, checkBoxProps);
 };
 
-export const handleChange = (dataSource, store, type, reactEvent) => {
+export const handleChange = (dataSource, store, type, stateKey, reactEvent) => {
     const target = reactEvent.target;
 
     if (type === 'header') {
         if (target.checked) {
-            store.dispatch(selectAll(dataSource));
+            store.dispatch(selectAll({ stateKey, data: dataSource }));
         }
         else {
-            store.dispatch(deselectAll());
+            store.dispatch(deselectAll({ stateKey }));
         }
     }
 };
 
 export const getHeader = (checkBoxContainerProps, checkBoxProps) => {
+
     return (
         <th { ...checkBoxContainerProps } >
             <input type="checkbox" { ...checkBoxProps } />
@@ -67,9 +68,9 @@ CheckBox.defaultProps = {};
 function mapStateToProps(state, props) {
 
     return {
-        pager: stateGetter(state, props, 'pager', 'pagerState'),
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, props, 'selection', 'selectedRows')
+        pager: stateGetter(state, props, 'pager', props.stateKey),
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey)
     };
 }
 

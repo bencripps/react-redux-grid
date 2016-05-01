@@ -12,14 +12,14 @@ import {
 
 export const Button = ({
     buttonText, buttonTypes, dataSource, filter,
-    plugins, pager, type, store }) => {
+    plugins, pager, type, stateKey, store }) => {
 
     const buttonProps = {
         text: buttonText[type],
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.BUTTON,
         type === buttonTypes.CANCEL ? CLASS_NAMES.SECONDARY_CLASS : ''),
         onClick: handleButtonClick.bind(this, buttonTypes, dataSource,
-            filter, plugins, pager, type, store)
+            filter, plugins, pager, type, stateKey, store)
     };
 
     return (
@@ -45,7 +45,7 @@ Button.defaultProps = {
 
 };
 
-export const handleButtonClick = (buttonTypes, dataSource, filter, plugins, pager, type, store) => {
+export const handleButtonClick = (buttonTypes, dataSource, filter, plugins, pager, type, stateKey, store) => {
 
     const method = plugins.FILTER_CONTAINER.method
         ? plugins.FILTER_CONTAINER.method.toUpperCase()
@@ -60,20 +60,31 @@ export const handleButtonClick = (buttonTypes, dataSource, filter, plugins, page
     }
 
     if (type === buttonTypes.CANCEL) {
-        store.dispatch(showFilterMenu(true, true));
-        store.dispatch(clearFilterLocal(dataSource));
+        store.dispatch(showFilterMenu({ value: true, stateKey }));
+        store.dispatch(clearFilterLocal({ dataSource, stateKey }));
     }
 
     else if (type === buttonTypes.SUBMIT) {
 
         if (method === FILTER_METHODS.LOCAL) {
-            store.dispatch(doLocalFilter(
-                filterUtils.byMenu(filter.filterMenuValues, dataSource))
+            store.dispatch(
+                doLocalFilter({
+                    data: filterUtils.byMenu(filter.filterMenuValues, dataSource),
+                    stateKey
+                })
             );
         }
 
         else if (method === FILTER_METHODS.REMOTE) {
-            store.dispatch(doRemoteFilter(filter.filterMenuValues, pageIndex, pageSize, filterSource));
+            store.dispatch(
+                doRemoteFilter({
+                    filterParams: filter.filterMenuValues,
+                    pageIndex,
+                    pageSize,
+                    dataSource: filterSource,
+                    stateKey
+                })
+            );
         }
 
     }

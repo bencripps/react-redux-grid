@@ -5,7 +5,9 @@ import { prefix } from './../../../util/prefix';
 
 const wrapperCls = prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
 
-export const Editor = ({ cellData, columns, editorState, index, isEditable, rowId, store }) => {
+export const Editor = ({
+    cellData, columns, editorState, index, isEditable, rowId, stateKey, store
+}) => {
 
     let colName = columns
         && columns[index]
@@ -41,7 +43,8 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
                 rowId,
                 row: editorState.row,
                 columnIndex: index,
-                value: value
+                value: value,
+                stateKey
             }
         );
 
@@ -56,23 +59,36 @@ export const Editor = ({ cellData, columns, editorState, index, isEditable, rowI
         return (
             <span { ...{ className: wrapperCls } }>
                 <Input {
-                    ...{ column: columns[index], columns, editorState, cellData, rowId, store } }
+                        ...{
+                            column: columns[index],
+                            columns,
+                            editorState,
+                            cellData,
+                            rowId,
+                            stateKey,
+                            store
+                        }
+                    }
                 />
             </span>
             );
     }
 
     return (
-        <span { ...{ className: prefix(CLASS_NAMES.INACTIVE_CLASS) } } > { cellData } </span>
+        <span { ...{ className: prefix(CLASS_NAMES.INACTIVE_CLASS) } } >
+            { cellData }
+        </span>
         );
 };
 
 Editor.propTypes = {
     cellData: PropTypes.any,
     columns: PropTypes.array,
+    editorState: PropTypes.object,
     index: PropTypes.number,
     isEditable: PropTypes.bool,
     rowId: PropTypes.string,
+    stateKey: PropTypes.string,
     store: PropTypes.object
 };
 

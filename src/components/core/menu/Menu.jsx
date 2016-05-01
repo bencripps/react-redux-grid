@@ -11,6 +11,7 @@ class Menu extends Component {
     static propTypes = {
         menu: React.PropTypes.array,
         metaData: React.PropTypes.object,
+        stateKey: React.PropTypes.string,
         store: React.PropTypes.object
     };
 
@@ -20,7 +21,7 @@ class Menu extends Component {
 
     getMenuItem(item) {
 
-        const { metaData, store } = this.props;
+        const { metaData, stateKey, store } = this.props;
 
         if (!item.$$typeof) {
             const menuItemProps = {
@@ -28,6 +29,7 @@ class Menu extends Component {
                 metaData,
                 type: item.type,
                 key: keyFromObject(item),
+                stateKey,
                 store
             };
 

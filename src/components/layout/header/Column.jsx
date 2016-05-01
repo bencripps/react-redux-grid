@@ -7,7 +7,7 @@ import { Text } from './column/Text.jsx';
 import { keyGenerator } from './../../../util/keyGenerator';
 import { prefix } from './../../../util/prefix';
 
-import { 
+import {
     CLASS_NAMES,
     SORT_DIRECTIONS,
     SORT_METHODS
@@ -21,7 +21,7 @@ const isChrome = /Chrome/.test(navigator.userAgent)
 
 export const Column = ({
     scope, col, columns, columnManager, dataSource,
-    dragAndDropManager, pager, store, index
+    dragAndDropManager, pager, store, stateKey, index
 }) => {
 
     if (col.hidden) {
@@ -46,7 +46,7 @@ export const Column = ({
     const nextColumnKey = visibleColumns && visibleColumns[index + 1]
         ? keyGenerator(visibleColumns[index + 1].name, 'grid-column') : null;
 
-    const handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey);
+    const handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey, stateKey);
 
     const sortHandle = sortable
         ? <SortHandle { ...{ col, columns, columnManager, dataSource, direction, pager, sortHandleCls, store } } />
@@ -74,13 +74,14 @@ export const Column = ({
         dataSource,
         direction,
         pager,
+        stateKey,
         store
     };
 
     const headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        onDrop: handleDrop.bind(scope, index, columns, store),
+        onDrop: handleDrop.bind(scope, index, columns, stateKey, store),
         onDragOver: (reactEvent) => {
             reactEvent.preventDefault();
         },
@@ -119,10 +120,14 @@ Column.propTypes = {
     index: PropTypes.number,
     pager: PropTypes.object,
     scope: PropTypes.object,
+    stateKey: PropTypes.string,
     store: PropTypes.object
 };
 
-export const handleDrop = (droppedIndex, columns, store, reactEvent) => {
+export const handleDrop = (
+    droppedIndex, columns, stateKey, store, reactEvent
+) => {
+
     reactEvent.preventDefault();
     try {
         const colData = reactEvent
@@ -131,18 +136,27 @@ export const handleDrop = (droppedIndex, columns, store, reactEvent) => {
             : null;
 
         if (colData) {
-            store.dispatch(reorderColumn(colData.index, droppedIndex, columns));
+            store.dispatch(
+                reorderColumn({
+                    draggedIndex: colData.index,
+                    droppedIndex: droppedIndex,
+                    columns,
+                    stateKey
+                })
+            );
         }
 
     }
 
-    catch(e) {
+    catch (e) {
         console.warn('Invalid drop');
     }
 
 };
 
-export const handleSort = (columns, col, columnManager, dataSource, direction, pager, store) => {
+export const handleSort = (
+    columns, col, columnManager, dataSource, direction, pager, stateKey, store
+) => {
 
     const newDirection = direction === SORT_DIRECTIONS.ASCEND
         ? SORT_DIRECTIONS.DESCEND
@@ -150,12 +164,28 @@ export const handleSort = (columns, col, columnManager, dataSource, direction, p
 
     store.dispatch(setSortDirection(columns, col.id, newDirection));
 
-    if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.LOCAL) {
-        columnManager.doSort(SORT_METHODS.LOCAL, col, newDirection, dataSource);
+    if (columnManager.config.sortable.method.toUpperCase()
+        === SORT_METHODS.LOCAL) {
+        columnManager.doSort({
+            method: SORT_METHODS.LOCAL,
+            column: col,
+            direction: newDirection,
+            dataSource,
+            pagerState: null,
+            stateKey
+        });
     }
 
-    else if (columnManager.config.sortable.method.toUpperCase() === SORT_METHODS.REMOTE) {
-        columnManager.doSort(SORT_METHODS.REMOTE, col, newDirection, dataSource, pager);
+    else if (columnManager.config.sortable.method.toUpperCase()
+            === SORT_METHODS.REMOTE) {
+        columnManager.doSort({
+            method: SORT_METHODS.REMOTE,
+            column: col,
+            direction: newDirection,
+            dataSource,
+            pagerState: pager,
+            stateKey
+        });
     }
 
     else {
@@ -164,10 +194,10 @@ export const handleSort = (columns, col, columnManager, dataSource, direction, p
 };
 
 export const handleColumnClick = (
-    { columns, col, columnManager, dataSource, direction, pager, store }
+    { columns, col, columnManager, dataSource, direction, pager, stateKey, store }
 ) => {
     if (col.sortable) {
-        handleSort(columns, col, columnManager, dataSource, direction, pager, store);
+        handleSort(columns, col, columnManager, dataSource, direction, pager, stateKey, store);
     }
 
     if (col.HANDLE_CLICK) {

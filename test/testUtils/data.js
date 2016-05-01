@@ -7,14 +7,18 @@ import { keyGenerator } from '../../src/util/keyGenerator';
 
 // grid test data
 
+export const stateKey = 'test-stateKey';
+
 export const gridColumns = [
     {
         name: 'Player',
-        id: keyGenerator('Player', 'grid-column')
+        id: keyGenerator('Player', 'grid-column'),
+        dataIndex: 'name'
     },
     {
         name: 'Position',
-        id: keyGenerator('Player', 'grid-column')
+        id: keyGenerator('Player', 'grid-column'),
+        dataIndex: 'position'
     }
 ];
 

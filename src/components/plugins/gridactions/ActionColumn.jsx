@@ -19,6 +19,7 @@ export const ActionColumn = ({
     rowId,
     rowData,
     store,
+    stateKey,
     type,
     rowIndex,
     reducerKeys
@@ -29,7 +30,7 @@ export const ActionColumn = ({
     const containerProps = {
         className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
             ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
-        onClick: handleActionClick.bind(this, type, actions, rowId, store)
+        onClick: handleActionClick.bind(this, type, actions, rowId, stateKey, store)
     };
 
     const className = menuShown
@@ -41,8 +42,8 @@ export const ActionColumn = ({
     };
 
     return type === 'header'
-        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, headerActionItemBuilder)
-        : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex);
+        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder)
+        : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey);
 };
 
 ActionColumn.propTypes = {
@@ -62,7 +63,7 @@ ActionColumn.defaultProps = {
 
 let removeableEvent;
 
-export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, headerActionItemBuilder) => {
+export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder) => {
 
     let actions;
 
@@ -83,7 +84,14 @@ export const getHeader = (cols, containerProps, iconProps, menuShown, columns, s
                 key: keyFromObject(col),
                 EVENT_HANDLER: () => {
                     if (col.hideable === undefined || col.hideable) {
-                        store.dispatch(setColumnVisibility(columns, col, col.hidden));
+                        store.dispatch(
+                            setColumnVisibility({
+                                columns,
+                                column: col,
+                                isHidden: col.hidden,
+                                stateKey
+                            })
+                        );
                     }
                 }
             };
@@ -102,7 +110,7 @@ export const getHeader = (cols, containerProps, iconProps, menuShown, columns, s
     };
 
     const menu = menuShown ?
-        <Menu { ...{ columns: cols, actions: menuItems, type: 'header', store, editor, reducerKeys, rowId } } />
+        <Menu { ...{ columns: cols, actions: menuItems, type: 'header', store, editor, reducerKeys, rowId, stateKey } } />
         : null;
 
     return (
@@ -127,7 +135,7 @@ export const addKeysToActions = (action) => {
 };
 
 export const getColumn = (cols, containerProps, iconProps, menuShown,
-    actions, store, editor, reducerKeys, rowId, rowData, rowIndex) => {
+    actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey) => {
 
     const menu = menuShown
         ?
@@ -140,6 +148,7 @@ export const getColumn = (cols, containerProps, iconProps, menuShown,
             reducerKeys,
             rowId,
             columns: cols,
+            stateKey,
             rowIndex } }
         />
         : null;
@@ -153,7 +162,7 @@ export const getColumn = (cols, containerProps, iconProps, menuShown,
     );
 };
 
-export const handleHideMenu = (store, e) => {
+export const handleHideMenu = (stateKey, store, e) => {
 
     const isHeaderMenu = elementContains(e.target, prefix(CLASS_NAMES.HEADER));
 
@@ -167,22 +176,22 @@ export const handleHideMenu = (store, e) => {
         return false;
     }
 
-    setTimeout(() => { store.dispatch(hideMenu()); }, 0);
+    setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
 };
 
-export const handleActionClick = (type, actions, id, store, reactEvent) => {
+export const handleActionClick = (type, actions, id, stateKey, store, reactEvent) => {
     reactEvent.stopPropagation();
-    store.dispatch(showMenu(id));
+    store.dispatch(showMenu({id, stateKey }));
 
-    removeableEvent = handleHideMenu.bind(null, store);
+    removeableEvent = handleHideMenu.bind(null, stateKey, store);
 
     document.body.addEventListener('click', removeableEvent, false);
 };
 
 function mapStateToProps(state, props) {
     return {
-        menuState: stateGetter(state, props, 'menu', 'menuState'),
-        gridState: stateGetter(state, props, 'grid', 'gridState')
+        menuState: stateGetter(state, props, 'menu', props.stateKey),
+        gridState: stateGetter(state, props, 'grid', props.stateKey)
     };
 }
 

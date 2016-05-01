@@ -4,7 +4,3 @@ before_script: npm cache clear
 node_js:
   - "4.1"
   - "4.0"
-  - "0.12"
-  - "0.11"
-  - "0.10"
-  - "iojs"

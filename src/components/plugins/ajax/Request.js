@@ -29,7 +29,9 @@ function api(config) {
 function setRequestHeaders(request, config) {
 
     if (!config.headers || !config.headers.contentType) {
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader(
+            'Content-Type', 'application/x-www-form-urlencoded'
+        );
     }
 
     if (!config.headers) {
@@ -44,10 +46,18 @@ function setRequestHeaders(request, config) {
 function addAjaxEvents(request, config, resolver) {
 
     const getResponse = () => {
-        resolver(JSON.parse(request.responseText));
+        try {
+            resolver(JSON.parse(request.responseText));
+        }
+
+        catch (e) {
+            console.log(e);
+        }
     };
 
-    request.addEventListener('load', getResponse.bind(config.onSuccess, config.onSuccess));
+    request.addEventListener(
+        'load', getResponse.bind(config.onSuccess, config.onSuccess)
+    );
 }
 
 function buildQueryString(config) {

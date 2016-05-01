@@ -1,5 +1,5 @@
 export function stateGetter(state, props, key, entry) {
-    
+
     if (props
         && props.reducerKeys
         && Object.keys(props.reducerKeys).length > 0
@@ -15,6 +15,17 @@ export function stateGetter(state, props, key, entry) {
             : null;
     }
 
+    const firstTry = state
+        && state[key]
+        && state[key].get
+        && state[key].get(entry)
+        ? state[key].get(entry)
+        : null;
+
+    if (firstTry) {
+        return firstTry;
+    }
+
     const keys = Object.keys(state);
     const normalizedKeys = keys
         .map((s) => s.toLowerCase());
@@ -27,7 +38,7 @@ export function stateGetter(state, props, key, entry) {
             && state[keys[keyIndex]].get
             && state[keys[keyIndex]].get(entry)
             ? state[keys[keyIndex]].get(entry)
-            : null; 
+            : null;
     }
 
     return null;

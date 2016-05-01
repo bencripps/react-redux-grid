@@ -8,7 +8,9 @@ import sorter from '../../util/sorter';
 
 export default class ColumnManager {
 
-    init({plugins, store, events, selModel, editor, columns, reducerKeys, dataSource}) {
+    init({
+        plugins, store, events, selModel, editor, columns, dataSource
+    }) {
 
         const defaults = {
             defaultColumnWidth: `${100 / columns.length}%`,
@@ -51,9 +53,11 @@ export default class ColumnManager {
         this.config = config;
     }
 
-    doSort(method, column, direction, dataSource, pagerState) {
+    doSort({
+        method, column, direction, dataSource, pagerState, stateKey
+    }) {
 
-        const propName = camelize(column.name);
+        const propName = column.dataIndex || camelize(column.name);
 
         const sortParams = {
             sort: {
@@ -62,24 +66,43 @@ export default class ColumnManager {
             }
         };
 
-        const pageIndex = pagerState && pagerState.pageIndex ? pagerState.pageIndex : 0;
+        const pageIndex = pagerState
+            && pagerState.pageIndex
+            ? pagerState.pageIndex
+            : 0;
 
-        const pageSize = pagerState && pagerState.pageSize ? pagerState.pageSize : DEFAULT_PAGE_SIZE;
+        const pageSize = pagerState
+            && pagerState.pageSize
+            ? pagerState.pageSize
+            : DEFAULT_PAGE_SIZE;
 
         if (method === SORT_METHODS.LOCAL) {
             this.store.dispatch(
-                doLocalSort(
-                    this.sorter.sortBy(column.name, direction, dataSource)));
+                doLocalSort({
+                    data: this.sorter.sortBy(
+                        column.name, direction, dataSource
+                    ),
+                    stateKey
+                })
+            );
         }
 
         else {
             this.store.dispatch(
-                doRemoteSort(this.config.sortable.sortingSource, pageIndex, pageSize, sortParams
-            ));
+                doRemoteSort({
+                    dataSource: this.config.sortable.sortingSource,
+                    pageIndex,
+                    pageSize,
+                    sortParams,
+                    stateKey
+                })
+            );
         }
     }
 
-    addActionColumn(cells, type, id, reducerKeys, rowData, rowIndex) {
+    addActionColumn({
+        cells, type, id, reducerKeys, rowData, rowIndex, stateKey
+    }) {
 
         const { GRID_ACTIONS } = this.plugins;
         const cellsCopy = cells;
@@ -94,6 +117,7 @@ export default class ColumnManager {
             editor: this.editor,
             reducerKeys,
             selModel: this.selModel,
+            stateKey,
             headerActionItemBuilder: this.config.headerActionItemBuilder,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         };

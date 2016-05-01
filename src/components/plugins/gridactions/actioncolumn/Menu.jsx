@@ -3,11 +3,11 @@ import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
 import { handleEditClick } from './../../../../util/handleEditClick';
 
 export const Menu = (
-    { actions, columns, type, store, editor, reducerKeys, rowId, rowData, rowIndex }
+    { actions, columns, type, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey }
 ) => {
 
     if (editor.config.enabled && type !== 'header') {
-        actions.menu.unshift(getEditAction(editor, store, rowId, rowData, rowIndex, columns));
+        actions.menu.unshift(getEditAction(editor, store, rowId, rowData, rowIndex, columns, stateKey));
     }
 
     const menuProps = {
@@ -18,6 +18,7 @@ export const Menu = (
             rowIndex
         },
         reducerKeys,
+        stateKey,
         store
     };
 
@@ -26,10 +27,10 @@ export const Menu = (
     );
 };
 
-export const getEditAction = (editor, store, rowId, rowData, rowIndex, columns) => {
+export const getEditAction = (editor, store, rowId, rowData, rowIndex, columns, stateKey) => {
     return {
         text: 'Edit',
-        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex, columns),
+        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex, columns, stateKey),
         key: 'grid-edit-action'
     };
 };

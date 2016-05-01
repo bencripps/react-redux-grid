@@ -11,35 +11,53 @@ import {
 
 import { keyGenerator } from '../../../util/keyGenerator';
 
-export function editRow(rowId, top, rowData, rowIndex, columns, isCreate) {
-    return { type: EDIT_ROW, rowId, top, values: rowData, rowIndex, columns, isCreate };
+export function editRow({
+    rowId, top, rowData, rowIndex, columns, isCreate, stateKey
+}) {
+    return {
+        type: EDIT_ROW,
+        rowId,
+        top,
+        values: rowData,
+        rowIndex,
+        columns,
+        isCreate,
+        stateKey
+    };
 }
 
-export function dismissEditor() {
-    return { type: DISMISS_EDITOR };
+export function dismissEditor({ stateKey }) {
+    return { type: DISMISS_EDITOR, stateKey };
 }
 
-export function updateCellValue(value, name, column, columns) {
-    return { type: ROW_VALUE_CHANGE, value, columnName: name, column, columns };
+export function updateCellValue({ value, name, column, columns, stateKey }) {
+    return {
+        type: ROW_VALUE_CHANGE,
+        value,
+        columnName: name,
+        column,
+        columns,
+        stateKey
+    };
 }
 
-export function saveRow(values, rowIndex) {
-    return { type: SAVE_ROW, values, rowIndex };
+export function saveRow({ values, rowIndex, stateKey }) {
+    return { type: SAVE_ROW, values, rowIndex, stateKey };
 }
 
-export function cancelRow() {
-    return { type: CANCEL_ROW };
+export function cancelRow({ stateKey }) {
+    return { type: CANCEL_ROW, stateKey };
 }
 
-export function removeRow(rowIndex) {
-    return { type: REMOVE_ROW, rowIndex };
+export function removeRow({ rowIndex, stateKey }) {
+    return { type: REMOVE_ROW, rowIndex, stateKey };
 }
 
-export function setEditorValidation(validationState) {
-    return { type: EDITOR_VALIDATION, validationState };
+export function setEditorValidation({ validationState, stateKey }) {
+    return { type: EDITOR_VALIDATION, validationState, stateKey };
 }
 
-export function addNewRow(columns, data) {
+export function addNewRow({ columns, data, stateKey }) {
 
     return (dispatch) => {
         const rowId = keyGenerator('row', 0);
@@ -48,10 +66,18 @@ export function addNewRow(columns, data) {
         const rowIndex = 0;
         const isCreate = true;
 
-        dispatch({ type: ADD_NEW_ROW });
+        dispatch({ type: ADD_NEW_ROW, stateKey });
 
         dispatch(
-            editRow(rowId, top, rowData, rowIndex, columns, isCreate)
+            editRow({
+                rowId,
+                top,
+                rowData,
+                rowIndex,
+                columns,
+                isCreate,
+                stateKey
+            })
         );
     };
 }
