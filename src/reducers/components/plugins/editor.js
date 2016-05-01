@@ -43,7 +43,7 @@ export default function editor(state = initialState, action) {
 
         const isValid = isRowValid(action.columns, action.values);
 
-        return state.set('editorState', {
+        return state.setIn([action.stateKey], {
             row: {
                 key: action.rowId,
                 values: action.values,
@@ -55,8 +55,8 @@ export default function editor(state = initialState, action) {
         });
 
     case ROW_VALUE_CHANGE:
-        const { columns, value } = action;
-        const previous = state.get('editorState');
+        const { columns, value, stateKey } = action;
+        const previous = state.get(stateKey);
 
         const rowValues = Object.assign({}, previous.row.values, {
             [action.columnName]: value
@@ -71,7 +71,7 @@ export default function editor(state = initialState, action) {
 
         const valid = isRowValid(columns, rowValues);
 
-        return state.set('editorState', Object.assign({}, state.get('editorState'), {
+        return state.setIn([action.stateKey], {
             row: {
                 key: previous.row.key,
                 values: rowValues,
@@ -81,12 +81,12 @@ export default function editor(state = initialState, action) {
                 isCreate: previous.row.isCreate || false,
                 valid
             }
-        }));
+        });
 
     case REMOVE_ROW:
     case DISMISS_EDITOR:
     case CANCEL_ROW:
-        return state.set('editorState', {});
+        return state.setIn([action.stateKey], {});
 
     default:
         return state;

@@ -6,41 +6,35 @@ import {
     DESELECT_ALL
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({
-    selectedRows: fromJS.Map
-});
+const initialState = fromJS({});
 
 export default function selection(state = initialState, action) {
 
     switch (action.type) {
 
     case SELECT_ALL:
-
-        return state.set('selectedRows', action.selection);
+        return state.setIn([action.stateKey], action.selection);
 
     case DESELECT_ALL:
 
-        return state.set('selectedRows', {});
+        return state.setIn([action.stateKey], {});
 
     case SET_SELECTION:
 
-        const currentValue = state.get('selectedRows') ? state.get('selectedRows')[action.id] : false;
+        const currentValue = state.get(action.stateKey)
+            ? state.get(action.stateKey)[action.id]
+            : false;
 
-        if (action.clearSelections) {
-            return state.set('selectedRows',
-                {
-                    [action.id]: currentValue && action.allowDeselect ? false : true
-                }
-            );
+        if (action.clearSelections || !state.get(action.stateKey)) {
+            return state.setIn([action.stateKey], {
+                [action.id]: currentValue && action.allowDeselect ? false : true
+            });
         }
 
-        else {
-            return state.set('selectedRows', Object.assign({}, state.get('selectedRows'),
-                {
-                    [action.id]: currentValue && action.allowDeselect ? false : true
-                }
-            ));
-        }
+        // enable multiselect
+        return state.setIn([action.stateKey], {
+            [action.id]: currentValue && action.allowDeselect ? false : true
+        });
 
     default:
         return state;

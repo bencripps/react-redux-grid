@@ -1,5 +1,5 @@
 export function stateGetter(state, props, key, entry) {
-    
+
     if (props
         && props.reducerKeys
         && Object.keys(props.reducerKeys).length > 0

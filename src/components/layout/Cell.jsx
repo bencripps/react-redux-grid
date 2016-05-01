@@ -10,7 +10,7 @@ import { elementContains } from '../../util/elementContains';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
 export const Cell = (
-    { cellData, columns, editor, editorState, events, index, rowData, rowIndex, rowId, selectionModel, store }
+    { cellData, columns, editor, editorState, events, index, rowData, rowIndex, rowId, stateKey, selectionModel, store }
 ) => {
 
     const isEditable = editorState
@@ -24,7 +24,7 @@ export const Cell = (
             : null;
 
     const cellClickArguments = {
-        events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store
+        events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, stateKey, store
     };
 
     const cellProps = {
@@ -38,7 +38,7 @@ export const Cell = (
         cellProps.style.display = 'none';
     }
 
-    const cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, store);
+    const cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, stateKey, store);
 
     return (
         <td { ...cellProps }>
@@ -47,7 +47,7 @@ export const Cell = (
         );
 };
 
-export const getCellHTML = (cellData, editorState, isEditable, columns, index, rowId, store) => {
+export const getCellHTML = (cellData, editorState, isEditable, columns, index, rowId, stateKey, store) => {
 
     const editorProps = {
         cellData,
@@ -56,7 +56,8 @@ export const getCellHTML = (cellData, editorState, isEditable, columns, index, r
         index,
         isEditable,
         rowId,
-        store
+        store,
+        stateKey
     };
 
     return (
@@ -65,7 +66,7 @@ export const getCellHTML = (cellData, editorState, isEditable, columns, index, r
 };
 
 export const handleClick = (
-    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store }, reactEvent
+    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, stateKey, store }, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
@@ -75,11 +76,15 @@ export const handleClick = (
     if (selectionModel.defaults.editEvent === selectionModel.eventTypes.singleclick) {
 
         if (!editorState || Object.keys(editorState).length === 0) {
-            handleEditClick(editor, store, rowId, rowData, rowIndex, columns, { reactEvent });
+            handleEditClick(
+                editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent }
+            );
         }
 
         else if (editorState && editorState.row && editorState.row.rowIndex !== rowIndex) {
-            handleEditClick(editor, store, rowId, rowData, rowIndex, columns, { reactEvent });
+            handleEditClick(
+                editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent }
+            );
         }
     }
 
@@ -89,7 +94,7 @@ export const handleClick = (
 };
 
 export const handleDoubleClick = (
-    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, store }, reactEvent
+    { events, columns, cellData, editor, editorState, rowIndex, rowData, rowId, selectionModel, stateKey, store }, reactEvent
 ) => {
 
     if (reactEvent.target && elementContains(reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))) {
@@ -120,7 +125,7 @@ Cell.propTypes = {
 
 function mapStateToProps(state, props) {
     return {
-        editorState: stateGetter(state, props, 'editor', 'editorState')
+        editorState: stateGetter(state, props, 'editor', props.stateKey)
     };
 }
 

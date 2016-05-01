@@ -8,7 +8,9 @@ import {
     setFilterMenuValues
 } from './../../../../actions/plugins/filter/FilterActions';
 
-export const Input = ({ filter, field, store }) => {
+export const Input = ({ filter, field, stateKey, store }) => {
+
+    console.log(stateKey)
 
     const value = filter
         && filter.filterMenuValues
@@ -27,7 +29,7 @@ export const Input = ({ filter, field, store }) => {
         placeholder: field.placeholder,
         name: field.name,
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.FIELD.INPUT),
-        onChange: handleDynamicInputChange.bind(this, filter, store),
+        onChange: handleDynamicInputChange.bind(this, filter, stateKey, store),
         value
     };
 
@@ -57,7 +59,7 @@ Input.defaultProps = {
 
 };
 
-export const handleDynamicInputChange = (filter, store, reactEvent) => {
+export const handleDynamicInputChange = (filter, stateKey, store, reactEvent) => {
 
     const name = reactEvent.target.name;
     const value = reactEvent.target.value;
@@ -70,5 +72,5 @@ export const handleDynamicInputChange = (filter, store, reactEvent) => {
         return false;
     }
 
-    store.dispatch(setFilterMenuValues(newFilterValues));
+    store.dispatch(setFilterMenuValues({ filter: newFilterValues, stateKey }));
 };

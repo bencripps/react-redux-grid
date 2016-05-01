@@ -14,18 +14,14 @@ export default function pager(state = initialState, action) {
     switch (action.type) {
 
     case PAGE_LOCAL:
-        return state.set('pagerState', Object.assign({}, state.get('pagerState'),
-            {
-                pageIndex: action.pageIndex
-            }
-        ));
+        return state.setIn([action.stateKey], {
+            pageIndex: action.pageIndex
+        });
 
     case PAGE_REMOTE:
-        return state.set('pagerState', Object.assign({}, state.get('pagerState'),
-            {
-                pageIndex: action.pageIndex
-            }
-        ));
+        return state.setIn([action.stateKey], {
+            pageIndex: action.pageIndex
+        });
 
     default:
         return state;

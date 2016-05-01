@@ -4,18 +4,14 @@ import {
     REMOVE_TOOLBAR
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({
-    bulkActionState: {
-        isRemoved: true
-    }
-});
+const initialState = fromJS({});
 
 export default function bulkaction(state = initialState, action) {
 
     switch (action.type) {
 
     case REMOVE_TOOLBAR:
-        return state.set('bulkActionState', {
+        return state.setIn([action.stateKey], {
             isRemoved: action.value
         });
 

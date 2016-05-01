@@ -11,24 +11,30 @@ import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
 import Request from '../../../components/plugins/ajax/Request';
 
-export function setPage(index, type, BUTTON_TYPES) {
+export function setPage({ index, type, BUTTON_TYPES }) {
 
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
     return { type: PAGE_LOCAL, pageIndex };
 }
 
-export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields, sort, afterAsyncFunc) {
+export function setPageIndexAsync({
+    pageIndex, pageSize, dataSource, filterFields, sort, stateKey, afterAsyncFunc
+}) {
 
-    if (typeof datasource === 'function') {
+    if (typeof dataSource === 'function') {
 
         return (dispatch) => {
 
-            dispatch(dismissEditor());
+            dispatch(dismissEditor({ stateKey }));
 
-            dispatch(setLoaderState(true));
+            dispatch(
+                setLoaderState({ state: true, stateKey })
+            );
 
-            datasource({pageIndex, pageSize}, filterFields, sort).then((response) => {
+            dataSource(
+                {pageIndex, pageSize}, filterFields, sort
+            ).then((response) => {
 
                 if (response && response.data) {
 
@@ -37,10 +43,12 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields,
                         data: response.data,
                         total: response.total,
                         currentRecords: response.items,
-                        success: true
+                        success: true,
+                        stateKey
                     });
 
-                    if (afterAsyncFunc && typeof afterAsyncFunc === 'function') {
+                    if (afterAsyncFunc
+                        && typeof afterAsyncFunc === 'function') {
                         afterAsyncFunc();
                     }
                 }
@@ -55,26 +63,33 @@ export function setPageIndexAsync(pageIndex, pageSize, datasource, filterFields,
                     dispatch({
                         type: ERROR_OCCURRED,
                         error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true
+                        errorOccurred: true,
+                        stateKey
                     });
                 }
 
-                dispatch(setLoaderState(false));
+                dispatch(
+                    setLoaderState({ state: false, stateKey })
+                );
             });
         };
     }
 }
 
-export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
+export function setPageAsync({
+    index, pageSize, type, BUTTON_TYPES, dataSource, stateKey
+}) {
 
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
     return (dispatch) => {
 
-        dispatch(setLoaderState(true));
+        dispatch(
+            setLoaderState({ state: true, stateKey })
+        );
 
         return Request.api({
-            route: datasource,
+            route: dataSource,
             method: 'POST',
             data: {
                 pageIndex: pageIndex,
@@ -86,7 +101,8 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
 
                 dispatch({
                     type: PAGE_REMOTE,
-                    pageIndex: pageIndex
+                    pageIndex: pageIndex,
+                    stateKey
                 });
 
                 dispatch({
@@ -94,17 +110,21 @@ export function setPageAsync(index, pageSize, type, BUTTON_TYPES, datasource) {
                     data: response.data,
                     total: response.total,
                     currentRecords: response.data,
-                    success: true
+                    success: true,
+                    stateKey
                 });
 
-                dispatch(setLoaderState(false));
+                dispatch(
+                    setLoaderState({ state: false, stateKey })
+                );
             }
 
             else {
                 dispatch({
                     type: ERROR_OCCURRED,
                     error: response,
-                    errorOccurred: true
+                    errorOccurred: true,
+                    stateKey
                 });
             }
 

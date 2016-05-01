@@ -7,6 +7,8 @@ import { keyGenerator } from '../../src/util/keyGenerator';
 
 // grid test data
 
+export const stateKey = 'test-stateKey';
+
 export const gridColumns = [
     {
         name: 'Player',

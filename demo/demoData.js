@@ -5,6 +5,8 @@ import { Actions } from './../src/actions';
 
 export const pageSize = 20;
 
+export const stateKey = 'grid-stateKey';
+
 export const height = '400px';
 
 export const events = {
@@ -130,11 +132,17 @@ export const plugins = {
     }
 };
 
-export const editorFunc = (value, editorState, rowId, columns, idx, reactEvent) => {
+export const editorFunc = (
+    value, row, column, columns, columnIndex, stateKey, reactEvent
+) => {
     store.dispatch(
-        Actions.EditorActions.updateCellValue(
-            reactEvent.target.value, columns[idx].name
-        )
+        Actions.EditorActions.updateCellValue({
+            value: reactEvent.target.value,
+            name: column.dataIndex,
+            column,
+            columns,
+            stateKey
+        })
     );
 };
 
@@ -153,10 +161,18 @@ export const columns = [
         sortable: true,
         width: '20%',
         className: 'additional-class',
-        editor: (value, editorState, rowId, cols, index) => {
+        editor: (
+            /* eslint-disable  react/prop-types */
+            { column, columnIndex, row, stateKey, store, value }
+            /* eslint-enable  react/prop-types */
+        ) => {
             return (
                 <input
-                    onChange= { editorFunc.bind(null, value, editorState, rowId, cols, index) }
+                    onChange= {
+                        editorFunc.bind(
+                            null, value, row, column, columns, columnIndex, stateKey
+                        )
+                    }
                     type="tel"
                     value={ value }
                 />

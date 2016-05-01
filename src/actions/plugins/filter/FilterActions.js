@@ -15,7 +15,7 @@ import { setLoaderState } from '../../../actions/plugins/loader/LoaderActions';
 
 import { getAsyncData } from '../../../actions/GridActions';
 
-export function setFilter(value) {
+export function setFilter({ value, stateKey }) {
 
     const metaData = {
         filterMenuShown: false,
@@ -24,27 +24,29 @@ export function setFilter(value) {
     };
 
     if (value || value.length > 0) {
-        return { type: SET_FILTER_VALUE, value };
+        return { type: SET_FILTER_VALUE, value, stateKey };
     }
 
-    else {
-        return { type: SHOW_FILTER_MENU, metaData };
-    }
+    return { type: SHOW_FILTER_MENU, metaData, stateKey };
 
 }
 
-export function doLocalFilter(data) {
-    return { type: FILTER_DATA, data };
+export function doLocalFilter({ data, stateKey }) {
+    return { type: FILTER_DATA, data, stateKey };
 }
 
-export function doRemoteFilter(filterParams, pageIndex, pageSize, datasource) {
+export function doRemoteFilter(
+    { filterParams, pageIndex, pageSize, dataSource, stateKey }
+) {
 
     return (dispatch) => {
 
-        dispatch(setLoaderState(true));
+        dispatch(
+            setLoaderState({ state: true, stateKey })
+        );
 
         return Request.api({
-            route: datasource,
+            route: dataSource,
             method: 'POST',
             data: {
                 pageIndex: pageIndex,
@@ -73,25 +75,28 @@ export function doRemoteFilter(filterParams, pageIndex, pageSize, datasource) {
                 });
             }
 
-            dispatch(setLoaderState(false));
+            dispatch(
+                setLoaderState({ state: false, stateKey })
+            );
+
         });
 
     };
 }
 
-export function setFilterMenuValues(filter) {
-    return { type: SET_FILTER_MENU_VALUES, filter };
+export function setFilterMenuValues({ filter, stateKey }) {
+    return { type: SET_FILTER_MENU_VALUES, filter, stateKey };
 }
 
-export function clearFilterRemote(dataSource) {
-    return getAsyncData(dataSource);
+export function clearFilterRemote({ dataSource, stateKey }) {
+    return getAsyncData({ dataSource, stateKey });
 }
 
-export function clearFilterLocal() {
-    return { type: CLEAR_FILTER_LOCAL };
+export function clearFilterLocal({ stateKey }) {
+    return { type: CLEAR_FILTER_LOCAL, stateKey };
 }
 
-export function showFilterMenu(value, removeFilters) {
+export function showFilterMenu({ value, removeFilters, stateKey }) {
     const isShown = !value;
 
     const metaData = {
@@ -102,5 +107,5 @@ export function showFilterMenu(value, removeFilters) {
         metaData.filterMenuValues = {};
     }
 
-    return { type: SHOW_FILTER_MENU, metaData };
+    return { type: SHOW_FILTER_MENU, metaData, stateKey };
 }

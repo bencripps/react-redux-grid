@@ -9,6 +9,8 @@ import { localGridData } from './../../../../testUtils/data';
 
 const store = mockStore();
 
+const stateKey = 'stateKey';
+
 store.subscribe = () => {};
 
 const props = {
@@ -60,7 +62,9 @@ describe('handleButtonClick function with local paging', () => {
 
     it('The action should reflect the next page when clicked', () => {
         expect(
-            ButtonUtils.handleButtonClick(type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, localPagedStore)
+            ButtonUtils.handleButtonClick(
+                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, localPagedStore
+            )
         ).toEqual(undefined);
     });
 });
@@ -83,7 +87,9 @@ describe('handleButtonClick function with remote paging', () => {
 
     it('The action should reflect a loading state when clicking next with a remote pager', () => {
         expect(
-            ButtonUtils.handleButtonClick(type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, localPagedStore)
+            ButtonUtils.handleButtonClick(
+                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, localPagedStore
+            )
         ).toEqual(undefined);
     });
 });
@@ -107,7 +113,7 @@ describe('handleButtonClick function without a pagingType specified', () => {
     it('Should not dispatch an action', () => {
         expect(
             ButtonUtils.handleButtonClick(
-                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, uncalledStore
+                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, uncalledStore
             )
         ).toEqual(undefined);
     });

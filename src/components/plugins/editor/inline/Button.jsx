@@ -2,17 +2,37 @@ import React, { PropTypes } from 'react';
 
 import { prefix } from '../../../../util/prefix';
 import { CLASS_NAMES } from '../../../../constants/GridConstants';
-import { dismissEditor } from './../../../../actions/plugins/editor/EditorActions';
+import {
+    dismissEditor
+} from './../../../../actions/plugins/editor/EditorActions';
 import { saveRow } from './../../../../actions/plugins/editor/EditorActions';
 
-export const Button = ({ BUTTON_TYPES, saveText, cancelText, editorState, events, store, type }) => {
+export const Button = ({
+    BUTTON_TYPES,
+    saveText,
+    cancelText,
+    editorState,
+    events,
+    stateKey,
+    store,
+    type
+}) => {
 
     const text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
 
     const buttonProps = {
-        onClick: onButtonClick.bind(this, BUTTON_TYPES, editorState, events, type, store),
+        onClick: onButtonClick.bind(
+            this,
+            BUTTON_TYPES,
+            editorState,
+            events,
+            type,
+            stateKey,
+            store
+        ),
         className: type === BUTTON_TYPES.SAVE
-            ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON) : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
+            ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON)
+            : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
     };
 
     if (type === BUTTON_TYPES.SAVE
@@ -47,15 +67,23 @@ Button.defaultProps = {
     saveText: 'Save'
 };
 
-export const onButtonClick = (BUTTON_TYPES, editorState, events, type, store) => {
+export const onButtonClick = (
+    BUTTON_TYPES, editorState, events, type, stateKey, store
+) => {
 
     if (type === BUTTON_TYPES.CANCEL) {
-        store.dispatch(dismissEditor());
+        store.dispatch(dismissEditor({ stateKey }));
     }
 
     else if (type === BUTTON_TYPES.SAVE) {
 
-        store.dispatch(saveRow(editorState.row.values, editorState.row.rowIndex));
+        store.dispatch(
+            saveRow({
+                values: editorState.row.values,
+                rowIndex: editorState.row.rowIndex,
+                stateKey
+            })
+        );
 
         if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
             const values = editorState.row.values;
@@ -65,6 +93,6 @@ export const onButtonClick = (BUTTON_TYPES, editorState, events, type, store) =>
             });
         }
 
-        store.dispatch(dismissEditor());
+        store.dispatch(dismissEditor({ stateKey }));
     }
 };

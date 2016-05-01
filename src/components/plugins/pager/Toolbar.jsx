@@ -12,7 +12,7 @@ import { getCurrentRecords } from '../../../util/getCurrentRecords';
 export const PagerToolbar = ({
     BUTTON_TYPES, dataSource,
     pageSize, pager, pagerState, plugins,
-    recordType, store, toolbarRenderer}) => {
+    recordType, stateKey, store, toolbarRenderer}) => {
 
     const pagerDataSource = getPagingSource(plugins, dataSource);
 
@@ -37,6 +37,7 @@ export const PagerToolbar = ({
                         pagerState,
                         pagerDataSource,
                         toolbarRenderer,
+                        stateKey,
                         store)
                     : <div />;
 
@@ -121,6 +122,7 @@ export const getPager = (dataSource, pageSize,
                         pagerState,
                         pagerDataSource,
                         toolbarRenderer,
+                        stateKey,
                         store) => {
 
     const pageIndex = pager && pager.pageIndex || 0;
@@ -153,7 +155,8 @@ export const getPager = (dataSource, pageSize,
                     currentRecords,
                     total,
                     dataSource,
-                    store}
+                    stateKey,
+                    store }
                     }
                 />
                 <Button { ...{
@@ -165,6 +168,7 @@ export const getPager = (dataSource, pageSize,
                     currentRecords,
                     total,
                     dataSource,
+                    stateKey,
                     store }
                     }
                 />
@@ -187,9 +191,9 @@ export const getPagingSource = (plugins, dataSource) => {
 function mapStateToProps(state, props) {
 
     return {
-        pager: stateGetter(state, props, 'pager', 'pagerState'),
-        pagerState: stateGetter(state, props, 'dataSource', 'gridData'),
-        gridState: stateGetter(state, props, 'grid', 'gridState')
+        pager: stateGetter(state, props, 'pager', props.stateKey),
+        pagerState: stateGetter(state, props, 'dataSource', props.stateKey),
+        gridState: stateGetter(state, props, 'grid', props.stateKey)
     };
 }
 

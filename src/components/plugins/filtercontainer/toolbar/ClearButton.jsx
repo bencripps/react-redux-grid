@@ -8,7 +8,7 @@ import { setFilter,
     clearFilterLocal
 } from './../../../../actions/plugins/filter/FilterActions';
 
-export const ClearButton = ({ dataUri, method, store }) => {
+export const ClearButton = ({ dataUri, method, stateKey, store }) => {
 
     const buttonProps = {
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.CLEAR_BUTTON),
@@ -21,17 +21,17 @@ export const ClearButton = ({ dataUri, method, store }) => {
 
 };
 
-export const clearFilter = (dataSource, method, store) => {
+export const clearFilter = (dataSource, method, stateKey, store) => {
 
     if (method === FILTER_METHODS.LOCAL) {
-        store.dispatch(clearFilterLocal());
+        store.dispatch(clearFilterLocal({ stateKey }));
     }
 
     else if (method === FILTER_METHODS.REMOTE) {
-        store.dispatch(clearFilterRemote(dataSource));
+        store.dispatch(clearFilterRemote({ dataSource, stateKey }));
     }
 
-    store.dispatch(setFilter(''));
+    store.dispatch(setFilter({ filter: '', stateKey }));
 };
 
 ClearButton.propTypes = {};

@@ -3,7 +3,7 @@ import Inline from './Inline.jsx';
 
 export default class Manager {
 
-    init(plugins, store) {
+    init(plugins, stateKey, store) {
 
         const defaults = {
             type: 'inline',
@@ -18,6 +18,7 @@ export default class Manager {
         const config = plugins && plugins.EDITOR
             ? Object.assign(defaults, plugins.EDITOR) : defaults;
 
+        this.stateKey = stateKey;
         this.config = config;
         this.editModes = editModes;
         this.store = store;
@@ -30,6 +31,7 @@ export default class Manager {
             config: this.config,
             reducerKeys,
             store,
+            stateKey: this.stateKey,
             events
         };
 

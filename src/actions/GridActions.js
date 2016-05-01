@@ -7,8 +7,6 @@ import {
     SET_SORT_DIRECTION
 } from '../constants/ActionTypes';
 
-import { SORT_DIRECTIONS } from '../constants/GridConstants';
-
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
 
 import { dismissEditor } from '../actions/plugins/editor/EditorActions';
@@ -17,52 +15,68 @@ import { keyGenerator } from '../util/keyGenerator';
 
 import Request from '../components/plugins/ajax/Request';
 
-export function getAsyncData(datasource) {
+export function getAsyncData({ stateKey, dataSource }) {
 
     return (dispatch) => {
 
-        dispatch(dismissEditor());
+        dispatch(dismissEditor({ stateKey }));
 
-        dispatch(setLoaderState(true));
+        dispatch(
+            setLoaderState({state: true, stateKey })
+        );
 
-        if (typeof datasource === 'function') {
+        if (typeof dataSource === 'function') {
 
-            datasource().then((response) => {
+            dataSource().then((response) => {
 
                 if (response && response.data) {
+
+                    dispatch(
+                        setLoaderState({ state: false, stateKey })
+                    );
 
                     dispatch({
                         type: SET_DATA,
                         data: response.data,
                         total: response.total,
                         currentRecords: response.data,
-                        success: true
+                        success: true,
+                        stateKey
                     });
 
                 }
 
-                else {
-
-                    if (response && !response.data) {
-                        console.warn('A response was recieved but no data entry was found');
-                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
-                    }
-
-                    dispatch({
-                        type: ERROR_OCCURRED,
-                        error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true
-                    });
+                if (response && !response.data) {
+                    /* eslint-disable no-console */
+                    console.warn(
+                        `A response was recieved
+                         but no data entry was found`
+                    );
+                    console.warn(
+                        `Please see 
+                         https://github.com/bencripps/react-redux-grid
+                         for documentation`
+                    );
+                    /* eslint-enable no-console */
                 }
 
-                dispatch(setLoaderState(false));
+                dispatch({
+                    type: ERROR_OCCURRED,
+                    error: 'Unable to Retrieve Grid Data',
+                    errorOccurred: true,
+                    stateKey
+                });
+
+                dispatch(
+                    setLoaderState({ state: false, stateKey })
+                );
             });
         }
 
-        else if (typeof datasource === 'string') {
+        else if (typeof dataSource === 'string') {
 
             return Request.api({
-                route: datasource,
+                route: dataSource,
                 method: 'GET'
             }).then((response) => {
 
@@ -73,7 +87,8 @@ export function getAsyncData(datasource) {
                         data: response.data,
                         total: response.total,
                         currentRecords: response.data,
-                        success: true
+                        success: true,
+                        stateKey
                     });
 
                 }
@@ -82,31 +97,33 @@ export function getAsyncData(datasource) {
                     dispatch({
                         type: ERROR_OCCURRED,
                         error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true
+                        errorOccurred: true,
+                        stateKey
                     });
                 }
 
-                dispatch(setLoaderState(false));
+                dispatch(
+                    setLoaderState({state: false, stateKey })
+                );
             });
 
         }
 
-
     };
 }
 
-export function setColumns(cols) {
+export function setColumns({ columns, stateKey }) {
 
-    let columns = cols;
+    let cols = columns;
 
-    if (!columns[0].id) {
-        columns = cols.map((col) => {
+    if (!cols[0].id) {
+        cols = columns.map((col) => {
             col.id = keyGenerator(col.name, 'grid-column');
             return col;
         });
     }
 
-    return { type: SET_COLUMNS, columns };
+    return { type: SET_COLUMNS, columns: cols, stateKey };
 }
 
 export function setSortDirection(cols, id, sortDirection) {
@@ -131,17 +148,22 @@ export function setSortDirection(cols, id, sortDirection) {
     return { type: SET_SORT_DIRECTION, columns };
 }
 
-export function doLocalSort(data) {
-    return { type: SORT_DATA, data };
+export function doLocalSort({ data, stateKey }) {
+    return { type: SORT_DATA, data, stateKey };
 }
 
-export function doRemoteSort(datasource, pageIndex, pageSize, sortParams) {
+export function doRemoteSort(
+    { dataSource, pageIndex, pageSize, sortParams, stateKey }
+) {
+
     return (dispatch) => {
 
-        dispatch(setLoaderState(true));
+        dispatch(
+            setLoaderState({state: true, stateKey })
+        );
 
-        if (typeof datasource === 'function') {
-            return datasource({}, {}, sortParams).then((response) => {
+        if (typeof dataSource === 'function') {
+            return dataSource({}, {}, sortParams).then((response) => {
 
                 if (response && response.data) {
 
@@ -150,7 +172,8 @@ export function doRemoteSort(datasource, pageIndex, pageSize, sortParams) {
                         data: response.data,
                         total: response.total,
                         currentRecords: response.items,
-                        success: true
+                        success: true,
+                        stateKey
                     });
 
                 }
@@ -158,64 +181,76 @@ export function doRemoteSort(datasource, pageIndex, pageSize, sortParams) {
                 else {
 
                     if (response && !response.data) {
-                        console.warn('A response was recieved but no data entry was found');
-                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
+                        /* eslint-disable no-console */
+                        console.warn(
+                            `A response was recieved but no data
+                             entry was found`
+                        );
+                        console.warn(
+                            `Please see 
+                             https://github.com/bencripps/react-redux-grid 
+                             for documentation`
+                        );
+                        /* eslint-enable no-console */
                     }
 
                     dispatch({
                         type: ERROR_OCCURRED,
                         error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true
+                        errorOccurred: true,
+                        stateKey
                     });
                 }
 
-                dispatch(setLoaderState(false));
+                dispatch(
+                    setLoaderState({state: false, stateKey })
+                );
             });
 
         }
 
-        else {
-            return Request.api({
-                route: datasource,
-                method: 'POST',
-                data: {
-                    pageIndex: pageIndex,
-                    pageSize: pageSize,
-                    sort: sortParams.sort
-                }
-            }).then((response) => {
+        return Request.api({
+            route: dataSource,
+            method: 'POST',
+            data: {
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                sort: sortParams.sort
+            }
+        }).then((response) => {
 
-                if (response && response.data) {
+            if (response && response.data) {
 
-                    dispatch({
-                        type: SET_DATA,
-                        data: response.data,
-                        total: response.total,
-                        currentRecords: response.data,
-                        success: true
-                    });
+                dispatch({
+                    type: SET_DATA,
+                    data: response.data,
+                    total: response.total,
+                    currentRecords: response.data,
+                    success: true
+                });
 
-                }
+            }
 
-                else {
-                    dispatch({
-                        type: ERROR_OCCURRED,
-                        error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true
-                    });
-                }
+            else {
+                dispatch({
+                    type: ERROR_OCCURRED,
+                    error: 'Unable to Retrieve Grid Data',
+                    errorOccurred: true
+                });
+            }
 
-                dispatch(setLoaderState(false));
-            });
-        }
+            dispatch(
+                setLoaderState({state: false, stateKey })
+            );
+        });
 
     };
 }
 
-export function setColumnVisibility(columnsArr, column, isHidden) {
+export function setColumnVisibility({ columns, column, isHidden, stateKey }) {
     const hidden = !isHidden;
 
-    const columns = columnsArr.map((col) => {
+    const columnsArr = columns.map((col) => {
         if (col.name === column.name) {
             col.hidden = hidden;
         }
@@ -223,10 +258,10 @@ export function setColumnVisibility(columnsArr, column, isHidden) {
         return col;
     });
 
-    return { type: SET_COLUMNS, columns };
+    return { type: SET_COLUMNS, columns: columnsArr, stateKey };
 }
 
-export function resizeColumns(width, id, nextColumn, cols) {
+export function resizeColumns(width, id, nextColumn, cols, stateKey) {
 
     const columns = cols.map((col) => {
 
@@ -244,11 +279,12 @@ export function resizeColumns(width, id, nextColumn, cols) {
 
     return {
         type: RESIZE_COLUMNS,
+        stateKey,
         columns
     };
 
 }
 
-export function setData(data) {
-    return { type: SET_DATA, data };
+export function setData({ data, stateKey }) {
+    return { type: SET_DATA, data, stateKey };
 }

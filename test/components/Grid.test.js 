@@ -5,12 +5,14 @@ import { Grid } from '../../src/components/Grid.jsx';
 import { mockStore } from '../testUtils/index';
 import { gridColumns,
     localGridData,
-    gridActions
+    gridActions,
+    stateKey,
 } from '../testUtils/data';
 
 const props = {
     data: localGridData,
     columns: gridColumns,
+    stateKey,
     store: mockStore({}, ...gridActions)
 };
 

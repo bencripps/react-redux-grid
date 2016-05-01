@@ -15,23 +15,22 @@ export default function filter(state = initialState, action) {
     switch (action.type) {
 
     case SET_FILTER_VALUE:
-        return state.set('filterState', Object.assign({}, state.get('filterState'),
-            {
-                filterValue: action.value
-            }
-        ));
+        return state.mergeIn([action.stateKey], {
+            filterValue: action.value
+        });
 
     case SET_FILTER_MENU_VALUES:
-        return state.set('filterState', Object.assign({}, state.get('filterState'),
-            {
-                filterMenuValues: action.filter
-            }
-        ));
+        return state.mergeIn([action.stateKey], {
+            filterMenuValues: Object.assign(
+                state.get(action.stateKey).filterMenuValues || {}, action.filter
+            ),
+            filterMenuShown: true
+        });
 
     case SHOW_FILTER_MENU:
-        return state.set('filterState', Object.assign({}, state.get('filterState'),
-            action.metaData
-        ));
+        return state.setIn([action.stateKey], {
+            filterMenuShown: action.metaData.filterMenuShown
+        });
 
     default:
         return state;

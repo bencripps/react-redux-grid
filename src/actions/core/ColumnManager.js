@@ -2,7 +2,9 @@ import {
     SET_COLUMNS
 } from '../../constants/ActionTypes';
 
-export function reorderColumn(draggedIndex, droppedIndex, columns) {
+export const reorderColumn = ({
+    draggedIndex, droppedIndex, columns, stateKey
+}) => {
 
     const reorder = (cols, to, from) => {
         cols.splice(to, 0, cols.splice(from, 1)[0]);
@@ -13,6 +15,7 @@ export function reorderColumn(draggedIndex, droppedIndex, columns) {
 
     return {
         type: SET_COLUMNS,
-        columns: reorderedColumns
+        columns: reorderedColumns,
+        stateKey
     };
-}
+};

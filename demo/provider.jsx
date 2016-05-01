@@ -9,7 +9,8 @@ import {
     plugins,
     events,
     dataSource,
-    height
+    height,
+    stateKey
 } from '../demo/demoData';
 
 const gridData = {
@@ -20,6 +21,7 @@ const gridData = {
     events,
     dataSource,
     height,
+    stateKey,
     store: Store
 };
 
