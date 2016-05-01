@@ -18,7 +18,7 @@
     "test-browser": "karma start ./test/karma.config.js --browser",
     "watch-test": "",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
-    "prod": "webpack --pretty --config webpack/webpack.config.prod.js",
+    "prod": "webpack -p --config webpack/webpack.config.prod.js",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js"
   },
   "dependencies": {
@@ -66,7 +66,6 @@
     "karma-jasmine": "^0.3.6",
     "karma-jsdom-launcher": "^3.0.0",
     "karma-mocha": "^0.2.1",
-    "karma-phantomjs-launcher": "^1.0.0",
     "karma-sinon-chai": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",

@@ -47,15 +47,17 @@ describe('Cell Default Props', () => {
 describe('A rendered cell', () => {
 
     const component = cell(props);
-    // events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+
     const clickEventArgs = [
         props.events,
+        props.columns,
         props.cellData,
         props.editor,
         props.index,
         props.rowData,
         props.rowId,
         props.selectionModel,
+        'stateKey',
         {},
         {
             reactEvent: {}
@@ -86,7 +88,7 @@ describe('A rendered cell', () => {
 
     it('Should fire doubleclick event', () => {
         expect(component.props.onClick).toBeTruthy();
-        expect(component.props.onDoubleClick({}, cellData, {})).toEqual('Double-Click');
+        expect(component.props.onDoubleClick(...clickEventArgs)).toEqual('Double-Click');
     });
 
 });

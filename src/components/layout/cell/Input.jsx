@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 
-import { updateCellValue } from './../../../actions/plugins/editor/EditorActions';
+import {
+    updateCellValue
+} from './../../../actions/plugins/editor/EditorActions';
 
 export const Input = ({
     cellData,
@@ -36,7 +38,9 @@ export const Input = ({
 
     const inputProps = {
         disabled,
-        onChange: handleChange.bind(null, column, columns, rowId, stateKey, store),
+        onChange: () => {
+            handleChange(column, columns, rowId, stateKey, store);
+        },
         type: 'text',
         value: value,
         placeholder

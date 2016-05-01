@@ -16,8 +16,8 @@ const props = {
     data: localGridData,
     columns: gridColumns,
     stateKey,
-    store: mockStore({}, ...gridActions),
-    plugins: {}
+    plugins: {},
+    store: mockStore({}, ...gridActions)
 };
 
 props.store.subscribe = () => {};
@@ -53,10 +53,11 @@ describe('A fully mounted simple grid', () => {
         ).toEqual(0);
     });
 
-    it('Shouldn\'t render 4 headers, 2 visible', () => {
+    it('Shouldn\'t render 5 headers, 2 visible', () => {
+        // 5th header is a spacer for icon alignment
         expect(
             component.find('.react-grid-header').find('th').length
-        ).toEqual(4);
+        ).toEqual(5);
 
         expect(
             component

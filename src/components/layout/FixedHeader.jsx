@@ -32,8 +32,9 @@ class FixedHeader extends Component {
         } = this.props;
 
         const {
-            classes,
             bottom,
+            classes,
+            headerOffset,
             stuck,
             stuckToBottom,
             width
@@ -124,22 +125,7 @@ class FixedHeader extends Component {
             stateKey
         });
 
-        addEmptyInsert(headers, visibleColumns, plugins);
-
-        if (document.querySelector('.react-grid-header-fixed')) {
-            // to align the action icons due to scrollbar
-            const fixed = document
-                .querySelector('.react-grid-header-fixed').offsetWidth;
-            const hidden = document
-                .querySelector('.react-grid-header-hidden').offsetWidth;
-
-            headers.push(
-                <th
-                    key="colum-adjuster"
-                    style= { { width: (fixed - hidden) + 'px' }}
-                />
-            );
-        }
+        addEmptyInsert(headers, visibleColumns, plugins, headerOffset);
 
         return (
             <div>
@@ -176,10 +162,15 @@ class FixedHeader extends Component {
         }
     }
 
+    componentDidUpdate() {
+        this.getScrollWidth();
+    }
+
     constructor() {
         super();
         this.state = {
             stuck: false,
+            headerOffset: 0,
             classes: []
         };
         this.handleDrag = throttle(handleDrag, this, 5);
@@ -216,7 +207,7 @@ class FixedHeader extends Component {
 
     }
 
-    createScrollListener(config, headerDOM, tableHeight) {
+    createScrollListener(config, headerDOM) {
 
         const scope = this;
         let target = config.scrollTarget
@@ -230,6 +221,7 @@ class FixedHeader extends Component {
         const defaultListener = () => {
             const { stuck, stuckToBottom } = scope.state;
             const { top } = headerDOM.getBoundingClientRect();
+            const tableHeight = headerDOM.parentNode.clientHeight;
             const shouldStop = top + tableHeight - (headerDOM.clientHeight * 2);
 
             if (shouldStop < 0 && stuckToBottom) {
@@ -273,15 +265,37 @@ class FixedHeader extends Component {
         target.addEventListener('scroll',
             config.listener
                 ? config.listener.bind(this, {
-                    headerDOM,
-                    tableHeight
+                    headerDOM
                 }) : defaultListener
         );
     }
 
+    getScrollWidth() {
+        const header = ReactDOM.findDOMNode(this);
+        const { headerOffset } = this.state;
+
+        const fixed = header.querySelector('.react-grid-header-fixed');
+        const hidden = header
+            .parentNode.querySelector('.react-grid-header-hidden');
+
+        if (!fixed || !hidden) {
+            return;
+        }
+
+        const offset = fixed.offsetWidth - hidden.offsetWidth;
+
+        if (offset && offset !== headerOffset) {
+            this.setState({
+                headerOffset: offset
+            });
+        }
+    }
+
 }
 
-export const addEmptyInsert = (headers, visibleColumns, plugins) => {
+export const addEmptyInsert = (
+    headers, visibleColumns, plugins, headerOffset
+) => {
     if (!plugins) {
         return false;
     }
@@ -300,6 +314,15 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
         else {
             headers.push(<EmptyHeader key="empty-header" />);
         }
+    }
+
+    if (headerOffset !== undefined) {
+        headers.push(
+            <th
+                key="colum-adjuster"
+                style= { { width: `${headerOffset}px` }}
+            />
+            );
     }
 
 };

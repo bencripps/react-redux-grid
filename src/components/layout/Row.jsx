@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
-import { ConnectedCell as Cell } from './Cell.jsx';
+import { Cell } from './Cell.jsx';
 import { EmptyCell } from './row/EmptyCell.jsx';
 import { PlaceHolder } from './row/PlaceHolder.jsx';
 
 import { keyGenerator } from '../../util/keyGenerator';
 import { prefix } from '../../util/prefix';
-import { stateGetter } from '../../util/stateGetter';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -170,6 +168,7 @@ export const getRowComponents = (
             cellData: getCellData(columns, row, k, i, store),
             columns,
             editor,
+            editorState,
             events: events,
             key: keyGenerator(k),
             reducerKeys,
@@ -197,12 +196,12 @@ export const getRowComponents = (
     const rowProps = {
         key: id,
         className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
-        onClick: handleRowSingleClickEvent.bind(
-            this, events, row, id, selectionModel
-        ),
-        onDoubleClick: handleRowDoubleClickEvent.bind(
-            this, events, row, id, selectionModel
-        )
+        onClick: (e) => {
+            handleRowSingleClickEvent(events, row, id, selectionModel, e);
+        },
+        onDoubleClick: (e) => {
+            handleRowDoubleClickEvent(events, row, id, selectionModel, e);
+        }
     };
 
     columnManager.addActionColumn({
@@ -323,17 +322,3 @@ export const getRows = (
             ))
             : null;
 };
-
-function mapStateToProps(state, props) {
-    return {
-        columnState: stateGetter(state, props, 'grid', props.stateKey),
-        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
-        pager: stateGetter(state, props, 'pager', props.stateKey),
-        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
-        editorState: stateGetter(state, props, 'editor', props.stateKey)
-    };
-}
-
-const ConnectedRow = connect(mapStateToProps)(Row);
-
-export { Row, ConnectedRow };
