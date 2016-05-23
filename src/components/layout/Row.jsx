@@ -42,7 +42,7 @@ export const Row = ({
 
     const rowInsert = rowComponents
         ? rowComponents
-        : <PlaceHolder { ...emptyDataMessage } />;
+        : <PlaceHolder { ...{ emptyDataMessage } } />;
 
     return (
         <tbody>
