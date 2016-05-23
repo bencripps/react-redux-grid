@@ -8,7 +8,7 @@ import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES, FILTER_METHODS } from '../../../constants/GridConstants';
 
-export const FilterMenu = ({ buttonText, buttonTypes, dataSource, menuTitle, filter, plugins, pager, store }) => {
+export const FilterMenu = ({ buttonText, buttonTypes, dataSource, menuTitle, filter, plugins, pager, stateKey, store }) => {
 
     const menuContainerProps = {
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU.CONTAINER)
@@ -26,9 +26,9 @@ export const FilterMenu = ({ buttonText, buttonTypes, dataSource, menuTitle, fil
     const inputs = plugins.FILTER_CONTAINER.fields
         && plugins.FILTER_CONTAINER.fields.length > 0
         ? plugins.FILTER_CONTAINER.fields.map(
-                (field) => <Input { ...{ field, filter, store } }/>
+                (field) => <Input { ...{ field, filter, stateKey, store } }/>
             )
-        : null;
+        : null; 
 
     const buttonProps = {
         buttonText,
@@ -49,8 +49,8 @@ export const FilterMenu = ({ buttonText, buttonTypes, dataSource, menuTitle, fil
                 { inputs }
             </div>
             <div { ...buttonContainerProps }>
-                <Button { ...buttonProps } { ...{ type: buttonTypes.CANCEL } } />
-                <Button { ...buttonProps } { ...{ type: buttonTypes.SUBMIT } } />
+                <Button { ...buttonProps } { ...{ stateKey, type: buttonTypes.CANCEL } } />
+                <Button { ...buttonProps } { ...{ stateKey, type: buttonTypes.SUBMIT } } />
             </div>
         </div>
         );
@@ -59,9 +59,12 @@ export const FilterMenu = ({ buttonText, buttonTypes, dataSource, menuTitle, fil
 FilterMenu.propTypes = {
     buttonText: PropTypes.object,
     buttonTypes: PropTypes.object,
+    dataSource: PropTypes.object,
     filter: PropTypes.string,
     menuTitle: PropTypes.string.isRequired,
+    pager: PropTypes.object,
     plugins: PropTypes.object.isRequired,
+    stateKey: PropTypes.string,
     store: PropTypes.object.isRequired
 };
 
@@ -84,10 +87,10 @@ FilterMenu.defaultProps = {
 function mapStateToProps(state, props) {
 
     return {
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
-        filter: stateGetter(state, props, 'filter', 'filterState'),
-        pager: stateGetter(state, props, 'pager', 'pagerState')
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
+        filter: stateGetter(state, props, 'filter', props.stateKey),
+        pager: stateGetter(state, props, 'pager', props.stateKey)
     };
 }
 

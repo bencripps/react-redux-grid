@@ -5,7 +5,7 @@ import { ConnectedCheckBox as CheckBox } from './CheckBox.jsx';
 
 export default class Model {
 
-    init(plugins, store, events) {
+    init(plugins, stateKey, store, events) {
 
         const eventTypes = {
             singleclick: 'singleclick',
@@ -37,6 +37,7 @@ export default class Model {
         this.eventTypes = eventTypes;
         this.modes = modes;
         this.store = config.store;
+        this.stateKey = stateKey;
         this.events = events;
     }
 
@@ -50,7 +51,14 @@ export default class Model {
             this.events.HANDLE_BEFORE_BULKACTION_SHOW(selectionEvent);
         }
 
-        this.store.dispatch(setSelection(selectionEvent.id, this.defaults, this.modes));
+        this.store.dispatch(
+            setSelection({
+                id: selectionEvent.id,
+                defaults: this.defaults,
+                modes: this.modes,
+                stateKey: this.stateKey
+            })
+        );
 
         if (this.events.HANDLE_AFTER_SELECTION) {
             this.events.HANDLE_AFTER_SELECTION(selectionEvent);
@@ -62,15 +70,16 @@ export default class Model {
 
     }
 
-    updateCells(cells, rowId, type, reducerKeys) {
+    updateCells(cells, rowId, type, reducerKeys, stateKey) {
 
         const cellsUpdate = cells;
-
+        
         const checkBoxProps = {
             key: keyFromObject(rowId, ['checkbox-']),
             rowId,
             type,
             reducerKeys,
+            stateKey,
             store: this.store
         };
 

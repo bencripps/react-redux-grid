@@ -13,7 +13,7 @@ export default function loader(state = initialState, action) {
     switch (action.type) {
 
     case SET_LOADING_STATE:
-        return state.set('loaderState', action.state);
+        return state.setIn([action.stateKey], action.state);
 
     default:
         return state;

@@ -32,7 +32,7 @@ export class Inline extends Component {
 
     render() {
 
-        const { BUTTON_TYPES, editorState, events, store } = this.props;
+        const { BUTTON_TYPES, editorState, events, stateKey, store } = this.props;
 
         let top = -100;
 
@@ -55,8 +55,8 @@ export class Inline extends Component {
         return (
             <div { ...inlineEditorProps }>
                 <span { ...buttonContainerProps }>
-                    <Button { ...{ type: BUTTON_TYPES.SAVE, editorState, events, store } }/>
-                    <Button { ...{ type: BUTTON_TYPES.CANCEL, editorState, events, store } }/>
+                    <Button { ...{ type: BUTTON_TYPES.SAVE, editorState, events, stateKey, store } }/>
+                    <Button { ...{ type: BUTTON_TYPES.CANCEL, editorState, events, stateKey, store } }/>
                 </span>
             </div>
         );
@@ -65,7 +65,9 @@ export class Inline extends Component {
 }
 
 export const focusFirstEditor = () => {
-    const input = document.querySelector('.react-grid-edit .react-grid-editor-wrapper input:enabled');
+    const input = document.querySelector(
+        '.react-grid-edit .react-grid-editor-wrapper input:enabled'
+    );
 
     if (input && input.focus) {
         input.focus();
@@ -83,6 +85,7 @@ Inline.propTypes = {
     editorState: PropTypes.object,
     events: PropTypes.object,
     reducerKeys: PropTypes.object,
+    stateKey: PropTypes.string,
     store: PropTypes.object
 };
 
@@ -95,8 +98,8 @@ Inline.defaultProps = {
 
 function mapStateToProps(state, props) {
     return {
-        errorHandler: stateGetter(state, props, 'errorhandler', 'errorState'),
-        editorState: stateGetter(state, props, 'editor', 'editorState')
+        errorHandler: stateGetter(state, props, 'errorhandler', props.stateKey),
+        editorState: stateGetter(state, props, 'editor', props.stateKey)
     };
 }
 

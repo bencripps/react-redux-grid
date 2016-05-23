@@ -5,12 +5,12 @@ import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
 import { showFilterMenu } from './../../../../actions/plugins/filter/FilterActions';
 
-export const FilterButton = ({ filter, filterMenuShown, store }) => {
+export const FilterButton = ({ filter, filterMenuShown, store, stateKey }) => {
 
     const buttonProps = {
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.MENU_BUTTON,
             filterMenuShown ? CLASS_NAMES.ACTIVE_CLASS : ''),
-        onClick: handleFilterMenuButtonClick.bind(this, filter, store)
+        onClick: handleFilterMenuButtonClick.bind(this, filter, stateKey, store)
     };
 
     return (
@@ -19,9 +19,9 @@ export const FilterButton = ({ filter, filterMenuShown, store }) => {
 
 };
 
-export const handleFilterMenuButtonClick = (filter, store) => {
+export const handleFilterMenuButtonClick = (filter, stateKey, store) => {
     const shown = filter ? filter.filterMenuShown : false;
-    store.dispatch(showFilterMenu(shown));
+    store.dispatch(showFilterMenu({ value: shown, stateKey}));
 };
 
 FilterButton.propTypes = {

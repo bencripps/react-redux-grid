@@ -15,6 +15,7 @@ class BulkActionToolbar extends Component {
         plugins: PropTypes.object.isRequired,
         selectedRows: PropTypes.object,
         selectionModel: PropTypes.object.isRequired,
+        stateKey: PropTypes.string,
         store: PropTypes.object.isRequired
     };
 
@@ -24,38 +25,38 @@ class BulkActionToolbar extends Component {
     }
 
     componentDidUpdate() {
-        const { store, bulkActionState, selectedRows } = this.props;
+        const { store, stateKey, bulkActionState, selectedRows } = this.props;
         const isRemoved = bulkActionState && bulkActionState.isRemoved;
         const totalCount = getTotalSelection(selectedRows);
 
         if (totalCount === 0 && !isRemoved) {
             clearTimeout(this.removeTimeout);
             this.removeTimeout = setTimeout(() => {
-                store.dispatch(removeToolbar(true));
+                store.dispatch(removeToolbar({ state: true, stateKey }));
             }, 300);
         }
 
         else if (totalCount > 0 && isRemoved) {
-            store.dispatch(removeToolbar(false));
+            store.dispatch(removeToolbar({ state: false, stateKey }));
         }
     }
 
     handleChange(reactEvent) {
 
-        const { store, dataSource } = this.props;
+        const { stateKey, store, dataSource } = this.props;
 
         if (reactEvent.target && reactEvent.target.checked) {
-            store.dispatch(selectAll(dataSource));
+            store.dispatch(selectAll({ data: dataSource, stateKey }));
         }
 
         else {
-            store.dispatch(deselectAll());
+            store.dispatch(deselectAll({ stateKey }));
         }
     }
 
     render() {
 
-        const { bulkActionState, selectedRows, plugins } = this.props;
+        const { bulkActionState, selectedRows, stateKey, plugins } = this.props;
 
         const toolbar = plugins
             && plugins.BULK_ACTIONS
@@ -127,9 +128,9 @@ export const getAction = (action) => {
 function mapStateToProps(state, props) {
 
     return {
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
-        bulkActionState: stateGetter(state, props, 'bulkaction', 'bulkActionState')
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
+        bulkActionState: stateGetter(state, props, 'bulkaction', props.stateKey)
     };
 }
 

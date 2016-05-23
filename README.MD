@@ -61,6 +61,7 @@ If you're using the fonts that come bundles with the grid, you will also need an
 
 	const gridData = {
 		store: Store,
+		stateKey: 'unique-grid-id',
 		...data
 	};
 
@@ -103,6 +104,10 @@ You can import a reducer like so:
 	    dataSource,
 	    yourCustomReducer
 	};
+
+## What's a `stateKey`?
+
+A `stateKey` is a unique id associated with each grid instantiation, and is a required parameter. Because all grid data is stored in a `reducer`, we need a unique key to access each grid's subsection of data in these objects. If a grid is instantiated without a `stateKey`, it will will throw a user error in the console. If a duplicate `stateKey` is passed to grid it will throw a user error in the console. In short, please provide a unique `stateKey` to each grid you create.
 
 ## Data
 

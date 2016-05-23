@@ -12,12 +12,18 @@ import { getCurrentRecords } from '../../../util/getCurrentRecords';
 export const PagerToolbar = ({
     BUTTON_TYPES, dataSource,
     pageSize, pager, pagerState, plugins,
-    recordType, store, toolbarRenderer}) => {
+    recordType, stateKey, store, toolbarRenderer}) => {
 
     const pagerDataSource = getPagingSource(plugins, dataSource);
 
     const customComponent = getCustomComponent(plugins, {
-        dataSource, pageSize, pager, ...{ gridData: pagerState }, plugins, recordType, store
+        dataSource,
+        pageSize,
+        pager,
+        ...{ gridData: pagerState },
+        plugins,
+        recordType,
+        store
     });
 
     if (customComponent) {
@@ -37,6 +43,7 @@ export const PagerToolbar = ({
                         pagerState,
                         pagerDataSource,
                         toolbarRenderer,
+                        stateKey,
                         store)
                     : <div />;
 
@@ -64,7 +71,9 @@ PagerToolbar.defaultProps = {
         NEXT: 'NEXT',
         BACK: 'BACK'
     },
-    toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+    toolbarRenderer: (
+        pageIndex, pageSize, total, currentRecords, recordType
+    ) => {
         if (!currentRecords) {
             return `No ${recordType} Available`;
         }
@@ -83,15 +92,18 @@ export const getCustomComponent = (plugins, props) => {
         : false;
 };
 
-export const getCurrentRecordTotal = (pagerState, pageSize, pageIndex, plugins) => {
+export const getCurrentRecordTotal = (
+    pagerState, pageSize, pageIndex, plugins
+) => {
 
-    if (plugins.PAGER.pagingType === 'remote' && pagerState && pagerState.currentRecords) {
+    if (plugins.PAGER.pagingType === 'remote'
+        && pagerState
+        && pagerState.currentRecords) {
         return pagerState.currentRecords.length;
     }
 
     else if (plugins.PAGER.pagingType === 'local') {
         const records = getCurrentRecords(pagerState, pageIndex, pageSize);
-
         return records ? records.length : 0;
     }
 
@@ -121,6 +133,7 @@ export const getPager = (dataSource, pageSize,
                         pagerState,
                         pagerDataSource,
                         toolbarRenderer,
+                        stateKey,
                         store) => {
 
     const pageIndex = pager && pager.pageIndex || 0;
@@ -129,7 +142,9 @@ export const getPager = (dataSource, pageSize,
         className: prefix(CLASS_NAMES.PAGERTOOLBAR)
     };
 
-    const currentRecords = getCurrentRecordTotal(pagerState, pageSize, pageIndex, plugins, dataSource);
+    const currentRecords = getCurrentRecordTotal(
+        pagerState, pageSize, pageIndex, plugins, dataSource
+    );
 
     const total = getTotal(pagerState, plugins.PAGER);
 
@@ -153,7 +168,8 @@ export const getPager = (dataSource, pageSize,
                     currentRecords,
                     total,
                     dataSource,
-                    store}
+                    stateKey,
+                    store }
                     }
                 />
                 <Button { ...{
@@ -165,6 +181,7 @@ export const getPager = (dataSource, pageSize,
                     currentRecords,
                     total,
                     dataSource,
+                    stateKey,
                     store }
                     }
                 />
@@ -187,9 +204,9 @@ export const getPagingSource = (plugins, dataSource) => {
 function mapStateToProps(state, props) {
 
     return {
-        pager: stateGetter(state, props, 'pager', 'pagerState'),
-        pagerState: stateGetter(state, props, 'dataSource', 'gridData'),
-        gridState: stateGetter(state, props, 'grid', 'gridState')
+        pager: stateGetter(state, props, 'pager', props.stateKey),
+        pagerState: stateGetter(state, props, 'dataSource', props.stateKey),
+        gridState: stateGetter(state, props, 'grid', props.stateKey)
     };
 }
 

@@ -25,19 +25,24 @@ export const Row = ({
         reducerKeys,
         selectedRows,
         selectionModel,
+        stateKey,
         store
     }) => {
 
     const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
 
-    const rows = getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, store);
+    const rows = getRowSelection(
+        dataSource, pageIndex, pageSize, pager, plugins, stateKey, store
+    );
 
     const rowComponents = getRows(
         columns, columnManager, editor, editorState, reducerKeys,
-        rows, events, plugins, selectionModel, selectedRows, store
+        rows, events, plugins, selectionModel, selectedRows, stateKey, store
         );
 
-    const rowInsert = rowComponents ? rowComponents : <PlaceHolder { ...emptyDataMessage } />;
+    const rowInsert = rowComponents
+        ? rowComponents
+        : <PlaceHolder { ...emptyDataMessage } />;
 
     return (
         <tbody>
@@ -61,6 +66,7 @@ Row.propTypes = {
     reducerKeys: PropTypes.object,
     selectedRows: PropTypes.object,
     selectionModel: PropTypes.object,
+    stateKey: PropTypes.string,
     store: PropTypes.object.isRequired
 };
 
@@ -133,8 +139,21 @@ export const addEmptyCells = (rowData, columns) => {
     return rowData;
 };
 
-export const getRowComponents = (columns, columnManager, editor, editorState, reducerKeys,
-    row, events, plugins, selectionModel, selectedRows, store, index) => {
+export const getRowComponents = (
+    columns,
+    columnManager,
+    editor,
+    editorState,
+    reducerKeys,
+    row,
+    events,
+    plugins,
+    selectionModel,
+    selectedRows,
+    stateKey,
+    store,
+    index
+) => {
 
     const id = keyGenerator('row', index);
     const visibleColumns = columns.filter((col) => !col.hidden);
@@ -157,6 +176,7 @@ export const getRowComponents = (columns, columnManager, editor, editorState, re
             rowIndex: index,
             rowData: row,
             selectionModel,
+            stateKey,
             store
         };
 
@@ -177,13 +197,25 @@ export const getRowComponents = (columns, columnManager, editor, editorState, re
     const rowProps = {
         key: id,
         className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
-        onClick: handleRowSingleClickEvent.bind(this, events, row, id, selectionModel),
-        onDoubleClick: handleRowDoubleClickEvent.bind(this, events, row, id, selectionModel)
+        onClick: handleRowSingleClickEvent.bind(
+            this, events, row, id, selectionModel
+        ),
+        onDoubleClick: handleRowDoubleClickEvent.bind(
+            this, events, row, id, selectionModel
+        )
     };
 
-    columnManager.addActionColumn(cells, 'row', id, reducerKeys, row, index);
+    columnManager.addActionColumn({
+        cells,
+        type: 'row',
+        id,
+        reducerKeys,
+        rowData: row,
+        rowIndex: index,
+        stateKey
+    });
 
-    selectionModel.updateCells(cells, id, 'row', reducerKeys);
+    selectionModel.updateCells(cells, id, 'row', reducerKeys, stateKey);
 
     addEmptyInsert(cells, visibleColumns, plugins);
 
@@ -194,10 +226,14 @@ export const getRowComponents = (columns, columnManager, editor, editorState, re
     );
 };
 
-export const handleRowDoubleClickEvent = (events, rowData, rowId, selectionModel, reactEvent, id, browserEvent) => {
+export const handleRowDoubleClickEvent = (
+    events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
+) => {
     if (selectionModel
-            && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick
-            && selectionModel.defaults.editEvent !== selectionModel.eventTypes.doubleclick) {
+            && selectionModel.defaults.selectionEvent
+                === selectionModel.eventTypes.doubleclick
+            && selectionModel.defaults.editEvent
+                !== selectionModel.eventTypes.doubleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
@@ -207,15 +243,21 @@ export const handleRowDoubleClickEvent = (events, rowData, rowId, selectionModel
     }
 
     if (events.HANDLE_ROW_DOUBLE_CLICK) {
-        events.HANDLE_ROW_DOUBLE_CLICK.call(this, rowData, rowId, reactEvent, id, browserEvent);
+        events.HANDLE_ROW_DOUBLE_CLICK.call(
+            this, rowData, rowId, reactEvent, id, browserEvent
+        );
     }
 };
 
-export const handleRowSingleClickEvent = (events, rowData, rowId, selectionModel, reactEvent, id, browserEvent) => {
+export const handleRowSingleClickEvent = (
+    events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
+) => {
 
     if (selectionModel
-            && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick
-            && selectionModel.defaults.editEvent !== selectionModel.eventTypes.singleclick) {
+            && selectionModel.defaults.selectionEvent
+                === selectionModel.eventTypes.singleclick
+            && selectionModel.defaults.editEvent
+                !== selectionModel.eventTypes.singleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
@@ -225,11 +267,15 @@ export const handleRowSingleClickEvent = (events, rowData, rowId, selectionModel
     }
 
     if (events.HANDLE_ROW_CLICK) {
-        events.HANDLE_ROW_CLICK.call(this, rowData, rowId, reactEvent, id, browserEvent);
+        events.HANDLE_ROW_CLICK.call(
+            this, rowData, rowId, reactEvent, id, browserEvent
+        );
     }
 };
 
-export const getRowSelection = (dataSource, pageIndex, pageSize, pager, plugins) => {
+export const getRowSelection = (
+    dataSource, pageIndex, pageSize, pager, plugins
+) => {
     if (!dataSource) {
         return false;
     }
@@ -243,10 +289,24 @@ export const getRowSelection = (dataSource, pageIndex, pageSize, pager, plugins)
     return getCurrentRecords(dataSource, pageIndex, pageSize);
 };
 
-export const getRows = (columns, columnManager, editor, editorState, reducerKeys,
-    rows, events, plugins, selectionModel, selectedRows, store) => {
+export const getRows = (
+    columns,
+    columnManager,
+    editor,
+    editorState,
+    reducerKeys,
+    rows,
+    events,
+    plugins,
+    selectionModel,
+    selectedRows,
+    stateKey,
+    store
+) => {
+
     return Array.isArray(rows)
-            ? rows.map((row, i) => getRowComponents(
+            ? rows.map((row,
+             i) => getRowComponents(
                 columns,
                 columnManager,
                 editor,
@@ -257,6 +317,7 @@ export const getRows = (columns, columnManager, editor, editorState, reducerKeys
                 plugins,
                 selectionModel,
                 selectedRows,
+                stateKey,
                 store,
                 i
             ))
@@ -265,11 +326,11 @@ export const getRows = (columns, columnManager, editor, editorState, reducerKeys
 
 function mapStateToProps(state, props) {
     return {
-        columnState: stateGetter(state, props, 'grid', 'gridState'),
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        pager: stateGetter(state, props, 'pager', 'pagerState'),
-        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
-        editorState: stateGetter(state, props, 'editor', 'editorState')
+        columnState: stateGetter(state, props, 'grid', props.stateKey),
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        pager: stateGetter(state, props, 'pager', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
+        editorState: stateGetter(state, props, 'editor', props.stateKey)
     };
 }
 

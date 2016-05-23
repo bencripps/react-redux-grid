@@ -23,6 +23,7 @@ class Header extends Component {
         plugins: PropTypes.object,
         reducerKeys: PropTypes.object,
         selectionModel: PropTypes.object,
+        stateKey: PropTypes.string,
         store: PropTypes.object,
         visible: PropTypes.bool
     };
@@ -41,6 +42,7 @@ class Header extends Component {
             selectionModel,
             reducerKeys,
             store,
+            stateKey,
             pager,
             plugins,
             visible
@@ -77,10 +79,16 @@ class Header extends Component {
         };
 
         if (selectionModel) {
-            selectionModel.updateCells(headers, columns, 'header');
+            selectionModel.updateCells(headers, columns, 'header', stateKey);
         }
 
-        columnManager.addActionColumn(headers, 'header', keyFromObject(headers), reducerKeys);
+        columnManager.addActionColumn({
+            cells: headers,
+            type: 'header',
+            id: keyFromObject(headers),
+            reducerKeys,
+            stateKey
+        });
 
         addEmptyInsert(headers, visibleColumns, plugins);
 
@@ -130,9 +138,9 @@ export const handleColumnClick = (col) => {
 
 function mapStateToProps(state, props) {
     return {
-        columnState: stateGetter(state, props, 'grid', 'gridState'),
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        pager: stateGetter(state, props, 'pager', 'pagerState')
+        columnState: stateGetter(state, props, 'grid', props.stateKey),
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        pager: stateGetter(state, props, 'pager', props.stateKey)
     };
 }
 

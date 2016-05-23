@@ -30,7 +30,7 @@ LoadingBar.defaultProps = {};
 
 function mapStateToProps(state, props) {
     return {
-        isLoading: stateGetter(state, props, 'loader', 'loaderState')
+        isLoading: stateGetter(state, props, 'loader', props.stateKey)
     };
 }
 

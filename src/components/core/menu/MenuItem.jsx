@@ -11,6 +11,7 @@ class MenuItem extends Component {
         data: React.PropTypes.object,
         menuItemsTypes: React.PropTypes.object,
         metaData: React.PropTypes.object,
+        stateKey: React.PropTypes.string,
         store: React.PropTypes.object
     };
 
@@ -21,7 +22,7 @@ class MenuItem extends Component {
         metaData: {}
     };
 
-    handleMenuItemClick(data, metaData, reactEvent) {
+    handleMenuItemClick(data, metaData, stateKey, reactEvent) {
         if (reactEvent && reactEvent.stopPropagation) {
             reactEvent.stopPropagation();
         }
@@ -32,7 +33,7 @@ class MenuItem extends Component {
         const { store } = this.props;
 
         if (dismiss) {
-            store.dispatch(hideMenu());
+            store.dispatch(hideMenu({ stateKey }));
         }
 
         if (data.EVENT_HANDLER) {
@@ -58,11 +59,11 @@ class MenuItem extends Component {
     }
 
     render() {
-        const { data, metaData, menuItemsTypes } = this.props;
+        const { data, metaData, menuItemsTypes, stateKey } = this.props;
 
         const menuItemProps = {
             className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM),
-            onClick: this.handleMenuItemClick.bind(this, data, metaData)
+            onClick: this.handleMenuItemClick.bind(this, data, metaData, stateKey)
         };
 
         const checkboxComponent =

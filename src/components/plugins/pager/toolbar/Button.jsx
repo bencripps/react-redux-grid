@@ -9,11 +9,11 @@ import {
 
 export const Button = ({
         BUTTON_TYPES, type, pageIndex, pageSize, plugins,
-        currentRecords, total, dataSource, backButtonText, nextButtonText, store
+        currentRecords, total, dataSource, backButtonText, nextButtonText, stateKey, store
     }) => {
 
     const buttonProps = {
-        onClick: handleButtonClick.bind(this, type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, store),
+        onClick: handleButtonClick.bind(this, type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, store),
         children: type === BUTTON_TYPES.NEXT ? nextButtonText : backButtonText,
         disabled: isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES),
         className: prefix(CLASS_NAMES.BUTTONS.PAGER, type.toLowerCase())
@@ -24,16 +24,20 @@ export const Button = ({
     );
 };
 
-export const handleButtonClick = (type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, store) => {
+export const handleButtonClick = (type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, store) => {
 
     const PAGER = plugins.PAGER;
 
     if (PAGER.pagingType === 'local') {
-        store.dispatch(setPage(pageIndex, type, BUTTON_TYPES));
+        store.dispatch(
+            setPage({ index: pageIndex, type, BUTTON_TYPES, stateKey })
+        );
     }
 
     else if (PAGER.pagingType === 'remote' && dataSource) {
-        store.dispatch(setPageAsync(pageIndex, pageSize, type, BUTTON_TYPES, dataSource));
+        store.dispatch(
+            setPageAsync({index: pageIndex, pageSize, type, BUTTON_TYPES, dataSource, stateKey})
+        );
     }
 
     else {

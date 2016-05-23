@@ -11,14 +11,26 @@ import { prefix } from '../../../util/prefix';
 
 import filterUtils from '../../../util/filterUtils';
 import { stateGetter } from '../../../util/stateGetter';
-import { CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP } from '../../../constants/GridConstants';
+import {
+    CLASS_NAMES, FILTER_METHODS, KEYBOARD_MAP
+} from '../../../constants/GridConstants';
 import { setFilter,
     doLocalFilter,
     doRemoteFilter
 } from '../../../actions/plugins/filter/FilterActions';
 
-export const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, filter,
-    placeHolderText, pager, pageSize, plugins, store}) => {
+export const FilterToolbar = ({
+    columnManager,
+    dataSource,
+    defaultSortMethod,
+    filter,
+    placeHolderText,
+    pager,
+    pageSize,
+    plugins,
+    stateKey,
+    store
+}) => {
 
     const customComponent = plugins
         && plugins.FILTER_CONTAINER
@@ -33,8 +45,18 @@ export const FilterToolbar = ({ columnManager, dataSource, defaultSortMethod, fi
     const toolbar = plugins
         && plugins.FILTER_CONTAINER
         && plugins.FILTER_CONTAINER.enabled
-        ? getToolbar(columnManager, dataSource, defaultSortMethod, filter,
-            placeHolderText, pager, pageSize, plugins, store)
+        ? getToolbar(
+            columnManager,
+            dataSource,
+            defaultSortMethod,
+            filter,
+            placeHolderText,
+            pager,
+            pageSize,
+            plugins,
+            stateKey,
+            store
+        )
         : <div />;
 
     return toolbar;
@@ -58,8 +80,18 @@ FilterToolbar.defaultProps = {
     placeHolderText: 'Search'
 };
 
-export const getToolbar = (columnManager, dataSource, defaultSortMethod,
-    filter, placeHolderText, pager, pageSize, plugins, store) => {
+export const getToolbar = (
+    columnManager,
+    dataSource,
+    defaultSortMethod,
+    filter,
+    placeHolderText,
+    pager,
+    pageSize,
+    plugins,
+    stateKey,
+    store
+) => {
 
     const dataUri = columnManager.config.dataSource || '';
 
@@ -85,21 +117,32 @@ export const getToolbar = (columnManager, dataSource, defaultSortMethod,
     }
 
     const applicableButton = inputValue && inputValue.length > 0
-        ? <ClearButton { ...{ dataUri, method, store } } />
+        ? <ClearButton { ...{ dataUri, method, stateKey, store } } />
         : <SearchButton />;
 
     const filterMenuButton = plugins.FILTER_CONTAINER.enableFilterMenu
-        ? <FilterButton { ...{ filter, filterMenuShown, store } }/>
+        ? <FilterButton { ...{ filter, filterMenuShown, stateKey, store } }/>
         : null;
 
     const filterMenu = filterMenuShown
-        ? <FilterMenu { ...{ store, plugins } } />
+        ? <FilterMenu { ...{ store, stateKey, plugins } } />
         : null;
 
     return (
         <div { ...{ className: prefix(CLASS_NAMES.FILTER_CONTAINER.CONTAINER) } }>
-            <Input { ...{ dataSource, method, placeHolderText,
-    inputValue, plugins, pager, pageSize, store } }
+            <Input { 
+                    ...{ 
+                        dataSource,
+                        method,
+                        placeHolderText,
+                        inputValue,
+                        plugins,
+                        pager,
+                        pageSize,
+                        stateKey,
+                        store
+                    }
+                }
             />
             <div { ...{ className: prefix(CLASS_NAMES.FILTER_CONTAINER.BUTTON_CONTAINER) } }>
                 { applicableButton }
@@ -148,10 +191,10 @@ export const handleKeyUp = (value, method, dataSource, plugins, pager, pageSize,
 function mapStateToProps(state, props) {
 
     return {
-        dataSource: stateGetter(state, props, 'dataSource', 'gridData'),
-        selectedRows: stateGetter(state, props, 'selection', 'selectedRows'),
-        filter: stateGetter(state, props, 'filter', 'filterState'),
-        pager: stateGetter(state, props, 'pager', 'pagerState')
+        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
+        filter: stateGetter(state, props, 'filter', props.stateKey),
+        pager: stateGetter(state, props, 'pager',  props.stateKey)
     };
 }
 

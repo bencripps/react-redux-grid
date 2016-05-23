@@ -2,9 +2,15 @@ import React, { PropTypes } from 'react';
 
 import { updateCellValue } from './../../../actions/plugins/editor/EditorActions';
 
-export const Input = (
-    { cellData, column, columns, editorState, rowId, store }
-) => {
+export const Input = ({
+    cellData,
+    column,
+    columns,
+    editorState,
+    rowId,
+    stateKey,
+    store
+}) => {
 
     const colName = column
         && column.dataIndex
@@ -30,7 +36,7 @@ export const Input = (
 
     const inputProps = {
         disabled,
-        onChange: handleChange.bind(null, column, columns, rowId, store),
+        onChange: handleChange.bind(null, column, columns, rowId, stateKey, store),
         type: 'text',
         value: value,
         placeholder
@@ -42,17 +48,25 @@ export const Input = (
 };
 
 export const handleChange = (
-    columnDefinition, columns, rowId, store, reactEvent
+    columnDefinition, columns, rowId, stateKey, store, reactEvent
 ) => {
     store.dispatch(
-        updateCellValue(
-            reactEvent.target.value, columnDefinition.dataIndex, columnDefinition, columns
-        )
+        updateCellValue({
+            value: reactEvent.target.value,
+            name: columnDefinition.dataIndex,
+            column: columnDefinition,
+            columns,
+            stateKey
+        })
     );
 };
 
 Input.propTypes = {
     cellData: PropTypes.any,
     column: PropTypes.object,
+    columns: PropTypes.array,
+    editorState: PropTypes.object,
+    rowId: PropTypes.string,
+    stateKey: PropTypes.string,
     store: PropTypes.object
 };
