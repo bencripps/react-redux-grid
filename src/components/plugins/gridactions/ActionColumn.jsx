@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Menu } from './actioncolumn/Menu.jsx';
-import { showMenu, hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
+import {
+    showMenu, hideMenu
+} from '../../../actions/plugins/actioncolumn/MenuActions';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';

@@ -39,12 +39,12 @@ class Grid extends Component {
             ? columnState.columns
             : [];
 
-        if ((!columns || columns.length === 0) && columnManager.columns) {
-            columns = columnManager.columns;
+        if ((!columns || columns.length === 0) && this.columnManager.columns) {
+            columns = this.columnManager.columns;
         }
 
-        const editorComponent = editor.getComponent(
-            plugins, reducerKeys, store, events, selectionModel, editor, columns
+        const editorComponent = this.editor.getComponent(
+            plugins, reducerKeys, store, events, this.selectionModel, this.editor, columns
         );
 
         const containerProps = {
@@ -60,13 +60,13 @@ class Grid extends Component {
         const bulkActionProps = {
             plugins,
             reducerKeys,
-            selectionModel,
+            selectionModel: this.selectionModel,
             stateKey,
             store
         };
 
         const filterProps = {
-            columnManager,
+            columnManager: this.columnManager,
             pageSize,
             plugins,
             reducerKeys,
@@ -75,11 +75,11 @@ class Grid extends Component {
         };
 
         const headerProps = {
-            columnManager,
+            columnManager: this.columnManager,
             columns,
             plugins,
             reducerKeys,
-            selectionModel,
+            selectionModel: this.selectionModel,
             stateKey,
             store,
             visible: false
@@ -97,14 +97,14 @@ class Grid extends Component {
         };
 
         const rowProps = {
-            columnManager,
+            columnManager: this.columnManager,
             columns,
-            editor,
+            editor: this.editor,
             events,
             pageSize,
             plugins,
             reducerKeys,
-            selectionModel,
+            selectionModel: this.selectionModel,
             stateKey,
             store
         };
@@ -175,20 +175,30 @@ class Grid extends Component {
 
         this.setData();
 
-        columnManager.init({
+        this.columnManager.init({
             plugins,
             store,
             events,
-            selectionModel,
-            editor,
+            selectionModel: this.selectionModel,
+            editor: this.editor,
             columns,
             dataSource,
             reducerKeys
         });
 
-        selectionModel.init(plugins, stateKey, store, events);
+        this.selectionModel.init(plugins, stateKey, store, events);
 
-        editor.init(plugins, stateKey, store, events);
+        this.editor.init(plugins, stateKey, store, events);
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.columnManager = new ColumnManager();
+
+        this.editor = new Manager();
+
+        this.selectionModel = new Model();
     }
 
     static propTypes = {
@@ -252,12 +262,6 @@ class Grid extends Component {
         }
     }
 }
-
-export const columnManager = new ColumnManager();
-
-export const editor = new Manager();
-
-export const selectionModel = new Model();
 
 function mapStateToProps(state, props) {
     return {
