@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { Column } from './header/Column.jsx';
@@ -16,24 +17,6 @@ const dragAndDropManager = new DragAndDropManager();
 
 class FixedHeader extends Component {
 
-    static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columnState: PropTypes.object,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        dataSource: PropTypes.object,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object
-    };
-
-    constructor() {
-        super();
-        this.handleDrag = throttle(handleDrag, this, 5);
-    }
-
     render() {
 
         const {
@@ -47,6 +30,14 @@ class FixedHeader extends Component {
             pager,
             plugins
         } = this.props;
+
+        const {
+            classes,
+            bottom,
+            stuck,
+            stuckToBottom,
+            width
+        } = this.state;
 
         const visibleColumns = columns.filter((col) => !col.hidden);
         const headers = visibleColumns.map((col, i) => {
@@ -72,16 +63,57 @@ class FixedHeader extends Component {
         });
 
         const tableProps = {
-            className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_FIXED),
+            className: prefix(
+                CLASS_NAMES.TABLE,
+                CLASS_NAMES.HEADER_FIXED,
+                stuck ? CLASS_NAMES.HEADER_STUCK : '',
+                stuckToBottom ? CLASS_NAMES.HEADER_STUCK_BOTTOM : ''
+            ),
             cellSpacing: 0
         };
+
+        if (classes.length > 0) {
+            classes.forEach(cls => {
+                tableProps.className += ` ${cls}`;
+            });
+        }
+
+        else {
+            tableProps.className = prefix(
+                CLASS_NAMES.TABLE,
+                CLASS_NAMES.HEADER_FIXED,
+                stuck ? CLASS_NAMES.HEADER_STUCK : '',
+                stuckToBottom ? CLASS_NAMES.HEADER_STUCK_BOTTOM : ''
+            );
+        }
+
+        const fillerProps = {
+            style: {
+                height: `${(this.HEADER_HEIGHT || 25)}px`
+            }
+        };
+
+        const fillerCmp = stuck || stuckToBottom ?
+            <div { ...fillerProps } /> : null;
+
+        if (stuck || stuckToBottom) {
+            tableProps.style = {};
+            tableProps.style.width = `${width}px`;
+            tableProps.style.bottom = `${bottom}px`;
+        }
+
+        else {
+            tableProps.style = {};
+        }
 
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         };
 
         if (selectionModel) {
-            selectionModel.updateCells(headers, columns, 'header', null, stateKey);
+            selectionModel.updateCells(
+                headers, columns, 'header', null, stateKey
+            );
         }
 
         columnManager.addActionColumn({
@@ -96,8 +128,10 @@ class FixedHeader extends Component {
 
         if (document.querySelector('.react-grid-header-fixed')) {
             // to align the action icons due to scrollbar
-            const fixed = document.querySelector('.react-grid-header-fixed').offsetWidth;
-            const hidden = document.querySelector('.react-grid-header-hidden').offsetWidth;
+            const fixed = document
+                .querySelector('.react-grid-header-fixed').offsetWidth;
+            const hidden = document
+                .querySelector('.react-grid-header-hidden').offsetWidth;
 
             headers.push(
                 <th
@@ -108,16 +142,123 @@ class FixedHeader extends Component {
         }
 
         return (
-            <table { ...tableProps }>
-                <thead>
-                    <tr { ...headerProps }>
-                        { headers }
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div>
+             { fillerCmp }
+                <table { ...tableProps }>
+                    <thead>
+                        <tr { ...headerProps }>
+                            { headers }
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         );
     }
+
+    componentDidMount() {
+
+        const { plugins } = this.props;
+
+        const isSticky = plugins.STICKY_HEADER
+            ? plugins.STICKY_HEADER.enabled
+            : false;
+
+        const headerDOM = ReactDOM.findDOMNode(this);
+        const tableHeight = headerDOM.parentNode.clientHeight;
+
+        this.HEADER_HEIGHT = headerDOM.clientHeight;
+
+        if (isSticky && !this._scrollListener) {
+            this.createScrollListener(
+                plugins.STICKY_HEADER, headerDOM, tableHeight
+            );
+        }
+    }
+
+    constructor() {
+        super();
+        this.state = {
+            stuck: false,
+            classes: []
+        };
+        this.handleDrag = throttle(handleDrag, this, 5);
+    }
+
+    static propTypes = {
+        columnManager: PropTypes.object.isRequired,
+        columnState: PropTypes.object,
+        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+        dataSource: PropTypes.object,
+        pager: PropTypes.object,
+        plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
+        selectionModel: PropTypes.object,
+        stateKey: PropTypes.string,
+        store: PropTypes.object
+    };
+
+    createScrollListener(config, headerDOM, tableHeight) {
+
+        const scope = this;
+        let target = config.scrollTarget
+            ? document.querySelector(config.scrollTarget)
+            : document;
+
+        target = target || document;
+
+        const defaultListener = () => {
+            const { stuck, stuckToBottom } = scope.state;
+            const { top } = headerDOM.getBoundingClientRect();
+            const shouldStop = top + tableHeight - (headerDOM.clientHeight * 2);
+
+            if (shouldStop < 0 && stuckToBottom) {
+                return false;
+            }
+
+            if (stuck && shouldStop < 0) {
+                return scope.setState({
+                    stuck: false,
+                    stuckToBottom: true,
+                    width: headerDOM.clientWidth,
+                    bottom: headerDOM.clientHeight
+                });
+            }
+
+            if (top < 0 && !stuck) {
+                return scope.setState({
+                    stuck: true,
+                    stuckToBottom: false,
+                    width: headerDOM.clientWidth
+                });
+            }
+
+            else if (top > 0 && stuck) {
+                return scope.setState({
+                    stuck: false,
+                    stuckToBottom: false,
+                    width: null
+                });
+            }
+
+            if (stuck && shouldStop < 0) {
+                return scope.setState({
+                    stuck: false,
+                    stuckToBottom: false,
+                    width: null
+                });
+            }
+        };
+
+        target.addEventListener('scroll',
+            config.listener
+                ? config.listener.bind(this, {
+                    headerDOM,
+                    tableHeight
+                }) : defaultListener
+        );
+    }
+
 }
 
 export const addEmptyInsert = (headers, visibleColumns, plugins) => {
@@ -143,7 +284,16 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
 
 };
 
-export const handleDrag = (scope, columns, id, columnManager, store, nextColumnKey, stateKey, reactEvent) => {
+export const handleDrag = (
+    scope,
+    columns,
+    id,
+    columnManager,
+    store,
+    nextColumnKey,
+    stateKey,
+    reactEvent
+) => {
 
     const header = reactEvent.target.parentElement.parentElement;
     const columnNode = reactEvent.target.parentElement;

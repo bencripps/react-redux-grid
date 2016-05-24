@@ -13,6 +13,16 @@
         &.header-fixed
             box-shadow none
             zindex('.fixed-header')
+            
+            &.header-stuck
+                margin-left auto
+                margin-right auto
+                position fixed
+                top 0
+                
+            &.header-stuck-bottom
+                position absolute    
+        
         
         &.header-hidden
             thead,

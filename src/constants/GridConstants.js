@@ -35,6 +35,8 @@ export const CLASS_NAMES = {
     HEADER: 'header',
     HEADER_HIDDEN: 'header-hidden',
     HEADER_FIXED: 'header-fixed',
+    HEADER_STUCK: 'header-stuck',
+    HEADER_STUCK_BOTTOM: 'header-stuck-bottom',
     ROW: 'row',
     CELL: 'cell',
     PAGERTOOLBAR: 'pager-toolbar',

@@ -51,8 +51,11 @@ export const plugins = {
             sortingSource: 'http://react-redux-grid.herokuapp.com/getfakeData'
         }
     },
+    STICKY_HEADER: {
+        enabled: true
+    },
     FILTER_CONTAINER: {
-        enabled: true,
+        enabled: false,
         method: 'local',
         filterSource: 'http://react-redux-grid.herokuapp.com/getfakeData',
         enableFilterMenu: true,
