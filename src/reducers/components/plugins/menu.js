@@ -17,7 +17,6 @@ export default function menu(state = initialState, action) {
         });
 
     case HIDE_MENU:
-
         if (action.id) {
             return state.setIn([action.stateKey], {
                 [action.id]: false

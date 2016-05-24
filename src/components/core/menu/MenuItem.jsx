@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
@@ -79,10 +78,6 @@ class MenuItem extends Component {
     }
 }
 
-function mapStateToProps(state, props) {
-    return {};
-}
-
-const ConnectedMenuItem = connect(mapStateToProps)(MenuItem);
+const ConnectedMenuItem = MenuItem;
 
 export { MenuItem, ConnectedMenuItem };

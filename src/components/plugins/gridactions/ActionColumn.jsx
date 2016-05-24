@@ -32,7 +32,9 @@ export const ActionColumn = ({
     const containerProps = {
         className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
             ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
-        onClick: handleActionClick.bind(this, type, actions, rowId, stateKey, store)
+        onClick: handleActionClick.bind(
+            this, type, actions, rowId, stateKey, store
+        )
     };
 
     const className = menuShown
@@ -44,8 +46,34 @@ export const ActionColumn = ({
     };
 
     return type === 'header'
-        ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder)
-        : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey);
+        ? getHeader(
+            columns,
+            containerProps,
+            iconProps,
+            menuShown,
+            columns,
+            store,
+            editor,
+            reducerKeys,
+            rowId,
+            rowData,
+            rowIndex,
+            stateKey,
+            headerActionItemBuilder
+        ) : getColumn(
+            columns,
+            containerProps,
+            iconProps,
+            menuShown,
+            actions,
+            store,
+            editor,
+            reducerKeys,
+            rowId,
+            rowData,
+            rowIndex,
+            stateKey
+        );
 };
 
 ActionColumn.propTypes = {
@@ -65,7 +93,21 @@ ActionColumn.defaultProps = {
 
 let removeableEvent;
 
-export const getHeader = (cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder) => {
+export const getHeader = (
+    cols,
+    containerProps,
+    iconProps,
+    menuShown,
+    columns,
+    store,
+    editor,
+    reducerKeys,
+    rowId,
+    rowData,
+    rowIndex,
+    stateKey,
+    headerActionItemBuilder
+) => {
 
     let actions;
 
@@ -112,7 +154,15 @@ export const getHeader = (cols, containerProps, iconProps, menuShown, columns, s
     };
 
     const menu = menuShown ?
-        <Menu { ...{ columns: cols, actions: menuItems, type: 'header', store, editor, reducerKeys, rowId, stateKey } } />
+        <Menu { ...{ columns: cols,
+            actions: menuItems,
+            type: 'header',
+            store,
+            editor,
+            reducerKeys,
+            rowId,
+            stateKey } }
+        />
         : null;
 
     return (
@@ -136,8 +186,20 @@ export const addKeysToActions = (action) => {
     }
 };
 
-export const getColumn = (cols, containerProps, iconProps, menuShown,
-    actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey) => {
+export const getColumn = (
+    cols,
+    containerProps,
+    iconProps,
+    menuShown,
+    actions,
+    store,
+    editor,
+    reducerKeys,
+    rowId,
+    rowData,
+    rowIndex,
+    stateKey
+) => {
 
     const menu = menuShown
         ?
@@ -172,7 +234,7 @@ export const handleHideMenu = (stateKey, store, e) => {
         return false;
     }
 
-    document.body.removeEventListener('click', removeableEvent, false);
+    document.body.removeEventListener('click', removeableEvent);
 
     if (e.target.classList.contains('react-grid-action-icon')) {
         return false;
@@ -181,13 +243,16 @@ export const handleHideMenu = (stateKey, store, e) => {
     setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
 };
 
-export const handleActionClick = (type, actions, id, stateKey, store, reactEvent) => {
+export const handleActionClick = (
+    type, actions, id, stateKey, store, reactEvent
+) => {
+
     reactEvent.stopPropagation();
     store.dispatch(showMenu({id, stateKey }));
 
     removeableEvent = handleHideMenu.bind(null, stateKey, store);
 
-    document.body.addEventListener('click', removeableEvent, false);
+    document.body.addEventListener('click', removeableEvent);
 };
 
 function mapStateToProps(state, props) {
