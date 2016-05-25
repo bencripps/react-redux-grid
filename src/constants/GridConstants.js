@@ -71,6 +71,7 @@ export const CLASS_NAMES = {
     GRID_ACTIONS: {
         CONTAINER: 'action-container',
         SELECTED_CLASS: 'action-menu-selected',
+        NO_ACTIONS: 'no-actions',
         MENU: {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'

@@ -217,6 +217,12 @@ export const getColumn = (
         />
         : null;
 
+    if (actions && actions.menu && actions.menu.length === 0) {
+        iconProps.className += ` ${prefix(
+            CLASS_NAMES.GRID_ACTIONS.NO_ACTIONS
+        )}`;
+    }
+
     return (
         <td { ...containerProps }>
             <span { ...iconProps }>
