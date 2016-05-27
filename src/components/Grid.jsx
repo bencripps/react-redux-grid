@@ -24,6 +24,7 @@ class Grid extends Component {
     render() {
 
         const {
+            classNames,
             columnState,
             dataSource,
             height,
@@ -44,13 +45,21 @@ class Grid extends Component {
         }
 
         const editorComponent = this.editor.getComponent(
-            plugins, reducerKeys, store, events, this.selectionModel, this.editor, columns
+            plugins,
+            reducerKeys,
+            store,
+            events,
+            this.selectionModel,
+            this.editor,
+            columns
         );
 
         const containerProps = {
-            className: prefix(CLASS_NAMES.CONTAINER),
+            className: prefix(CLASS_NAMES.CONTAINER, ...classNames),
             reducerKeys
         };
+
+        console.log('class', classNames, containerProps);
 
         const messageProps = {
             reducerKeys,
@@ -202,6 +211,7 @@ class Grid extends Component {
     }
 
     static propTypes = {
+        classNames: PropTypes.array,
         columnState: PropTypes.object,
         columns: PropTypes.arrayOf(PropTypes.object).isRequired,
         data: PropTypes.arrayOf(PropTypes.object),
