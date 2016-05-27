@@ -229,6 +229,7 @@ class Grid extends Component {
     };
 
     static defaultProps = {
+        classNames: [],
         columns: [],
         events: {},
         height: '500px',
