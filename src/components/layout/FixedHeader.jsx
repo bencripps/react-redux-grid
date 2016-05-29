@@ -198,6 +198,24 @@ class FixedHeader extends Component {
         store: PropTypes.object
     };
 
+    setWidthResetListener(headerDOM) {
+
+        const scope = this;
+
+        window.addEventListener('resize', () => {
+
+            const { stuck } = this.state;
+
+            if (stuck) {
+                scope.setState({
+                    width: headerDOM.parentNode.getBoundingClientRect().width
+                });
+            }
+
+        });
+
+    }
+
     createScrollListener(config, headerDOM, tableHeight) {
 
         const scope = this;
@@ -206,6 +224,8 @@ class FixedHeader extends Component {
             : document;
 
         target = target || document;
+
+        this.setWidthResetListener(headerDOM);
 
         const defaultListener = () => {
             const { stuck, stuckToBottom } = scope.state;

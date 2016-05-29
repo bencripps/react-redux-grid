@@ -52,7 +52,7 @@ describe('The default toolbar instance', () => {
     });
 
     it('Should render a stateless component', () => {
-        expect(instance.constructor.name).toBe('StatelessComponent');
+        expect(instance.constructor.name).toBe('PagerToolbar');
     });
 
     it('Should have button types on props definition', () => {
@@ -97,12 +97,14 @@ describe('An Rendered Paging Toolbar HTML', () => {
 
         expect(component.html()).toEqual(
             [
+                '<div>',
                 '<div class="react-grid-pager-toolbar">',
                 '<span>',
                 '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
                 '<button class="react-grid-page-buttons react-grid-next">Next</button>',
                 '</span>',
                 '<span>No Records Available</span>',
+                '</div>',
                 '</div>'
             ].join('')
         );

@@ -342,19 +342,24 @@ Grid Action Defaults
 
 Each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.
 
-## Sticky Header
+## Sticky Header/Footer
 
-If you'd like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header feature.
+If you'd like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header/footer feature.
 	
 	export const plugins = {
 	    STICKY_HEADER: {
 	        enabled: true,
 	        scrollTarget: '#my-scrollable-div',
             listener: customFunc
+	    },
+	    STICKY_FOOTER: {
+	        enabled: true,
+	        scrollTarget: '#my-scrollable-div',
+            listener: customFunc
 	    }
 	}
 
-Sticky Header Defaults
+Sticky Header/Footer Defaults
 
 1.`enabled`: `boolean`, whether the sticky header is initialized
 2. `scrollTarget`, `string`, optional, useds as a selector to find the scrollable parent

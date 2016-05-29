@@ -54,6 +54,9 @@ export const plugins = {
     STICKY_HEADER: {
         enabled: true
     },
+    STICKY_FOOTER: {
+        enabled: true
+    },
     FILTER_CONTAINER: {
         enabled: false,
         method: 'local',

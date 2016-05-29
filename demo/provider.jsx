@@ -19,8 +19,7 @@ const gridData = {
     pageSize,
     plugins,
     events,
-    dataSource,
-    height,
+    height: '1400px',
     stateKey,
     store: Store
 };
