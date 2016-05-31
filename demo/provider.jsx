@@ -13,19 +13,20 @@ import {
     stateKey
 } from '../demo/demoData';
 
-const gridData = {
+const config = {
     columns,
     data,
+    dataSource,
     pageSize,
     plugins,
     events,
-    height: '1400px',
+    height,
     stateKey,
     store: Store
 };
 
 export default (
     <Provider store={ Store }>
-        <Grid { ...gridData } />
+        <Grid { ...config } />
     </Provider>
 );

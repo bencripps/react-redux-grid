@@ -60,16 +60,17 @@ export function getAsyncData({ stateKey, dataSource }) {
                     /* eslint-enable no-console */
                 }
 
-                dispatch({
+                dispatch(
+                    setLoaderState({ state: false, stateKey })
+                );
+
+                return dispatch({
                     type: ERROR_OCCURRED,
                     error: 'Unable to Retrieve Grid Data',
                     errorOccurred: true,
                     stateKey
                 });
 
-                dispatch(
-                    setLoaderState({ state: false, stateKey })
-                );
             });
         }
 

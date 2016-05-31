@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ConnectedHeader as Header} from './layout/Header.jsx';
 import { ConnectedFixedHeader as FixedHeader} from './layout/FixedHeader.jsx';
-import { ConnectedRow as Row } from './layout/Row.jsx';
+import { Row } from './layout/Row.jsx';
 import {
     ConnectedPagerToolbar as PagerToolbar
 } from './plugins/pager/Toolbar.jsx';
@@ -26,14 +26,17 @@ class Grid extends Component {
         const {
             classNames,
             columnState,
-            dataSource,
+            gridData,
             height,
             pageSize,
             plugins,
             events,
             reducerKeys,
             stateKey,
-            store
+            store,
+            pager,
+            editorState,
+            selectedRows
         } = this.props;
 
         let columns = columnState && columnState.columns
@@ -58,8 +61,6 @@ class Grid extends Component {
             className: prefix(CLASS_NAMES.CONTAINER, ...classNames),
             reducerKeys
         };
-
-        console.log('class', classNames, containerProps);
 
         const messageProps = {
             reducerKeys,
@@ -95,7 +96,8 @@ class Grid extends Component {
         };
 
         const fixedHeaderProps = Object.assign({
-            visible: true
+            visible: true,
+            gridData
         }, headerProps);
 
         const tableContainerProps = {
@@ -109,6 +111,11 @@ class Grid extends Component {
             columnManager: this.columnManager,
             columns,
             editor: this.editor,
+            columnState,
+            dataSource: gridData,
+            pager,
+            editorState,
+            selectedRows,
             events,
             pageSize,
             plugins,
@@ -126,7 +133,7 @@ class Grid extends Component {
         };
 
         const pagerProps = {
-            dataSource,
+            dataSource: gridData,
             pageSize,
             plugins,
             reducerKeys,
@@ -142,21 +149,21 @@ class Grid extends Component {
         };
 
         return (
-                <div { ...containerProps }>
-                    <Message { ...messageProps } />
-                    <BulkActionToolbar { ...bulkActionProps } />
-                    <FilterToolbar { ...filterProps } />
-                    <FixedHeader { ...fixedHeaderProps } />
-                    <div { ...tableContainerProps } >
-                        <table { ...tableProps }>
-                            <Header { ...headerProps } />
-                            <Row { ...rowProps } />
-                        </table>
-                        { editorComponent }
-                    </div>
-                    <PagerToolbar { ...pagerProps } />
-                    <LoadingBar { ...loadingBarProps } />
+            <div { ...containerProps }>
+                <Message { ...messageProps } />
+                <BulkActionToolbar { ...bulkActionProps } />
+                <FilterToolbar { ...filterProps } />
+                <FixedHeader { ...fixedHeaderProps } />
+                <div { ...tableContainerProps } >
+                    <table { ...tableProps }>
+                        <Header { ...headerProps } />
+                        <Row { ...rowProps } />
+                    </table>
+                    { editorComponent }
                 </div>
+                <PagerToolbar { ...pagerProps } />
+                <LoadingBar { ...loadingBarProps } />
+            </div>
         );
     }
 
@@ -216,14 +223,18 @@ class Grid extends Component {
         columns: PropTypes.arrayOf(PropTypes.object).isRequired,
         data: PropTypes.arrayOf(PropTypes.object),
         dataSource: PropTypes.any,
+        editorState: PropTypes.object,
         events: PropTypes.object,
+        gridData: PropTypes.object,
         height: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
         ]),
         pageSize: PropTypes.number,
+        pager: PropTypes.object,
         plugins: PropTypes.object,
         reducerKeys: PropTypes.object,
+        selectedRows: PropTypes.object,
         stateKey: PropTypes.string,
         store: PropTypes.object
     };
@@ -277,7 +288,10 @@ class Grid extends Component {
 function mapStateToProps(state, props) {
     return {
         columnState: stateGetter(state, props, 'grid', props.stateKey),
-        editorState: stateGetter(state, props, 'editor', props.stateKey)
+        gridData: stateGetter(state, props, 'dataSource', props.stateKey),
+        editorState: stateGetter(state, props, 'editor', props.stateKey),
+        pager: stateGetter(state, props, 'pager', props.stateKey),
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey)
     };
 }
 

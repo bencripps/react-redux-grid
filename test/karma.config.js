@@ -20,7 +20,7 @@ module.exports = function exports(config) {
             'karma-babel-preprocessor',
             'karma-jsdom-launcher',
             'karma-sourcemap-loader',
-            'karma-sinon-chai',
+            'karma-sinon-chai'
         ],
 
         preprocessors: {
@@ -42,7 +42,7 @@ module.exports = function exports(config) {
                 loaders: loaders
             },
             externals: {
-                'cheerio': 'window',
+                cheerio: 'window',
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },

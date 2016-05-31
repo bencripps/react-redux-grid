@@ -59,13 +59,13 @@ If you're using the fonts that come bundles with the grid, you will also need an
 
 	import { Grid, Store } from 'react-redux-grid'
 
-	const gridData = {
+	const config = {
 		store: Store,
 		stateKey: 'unique-grid-id',
 		...data
 	};
 
-	const GridInstance = <Grid { ...gridData } />
+	const GridInstance = <Grid { ...config } />
 
 ## Which Store do I use?
 
