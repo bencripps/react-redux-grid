@@ -120,7 +120,7 @@ class FixedHeader extends Component {
         columnManager.addActionColumn({
             cells: headers,
             type: 'header',
-            id: keyFromObject(headers),
+            id: 'header-row',
             reducerKeys,
             stateKey
         });
