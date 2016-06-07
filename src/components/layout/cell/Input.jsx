@@ -38,8 +38,8 @@ export const Input = ({
 
     const inputProps = {
         disabled,
-        onChange: () => {
-            handleChange(column, columns, rowId, stateKey, store);
+        onChange: (e) => {
+            handleChange(column, columns, rowId, stateKey, store, e);
         },
         type: 'text',
         value: value,
