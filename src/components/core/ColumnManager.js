@@ -2,7 +2,7 @@ import React from 'react';
 import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
 import { SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keyGenerator';
-import { camelize } from '../../util/camelize';
+import { nameFromDataIndex } from '../../util/getData';
 import { doLocalSort, doRemoteSort } from '../../actions/GridActions';
 import sorter from '../../util/sorter';
 
@@ -57,7 +57,7 @@ export default class ColumnManager {
         method, column, direction, dataSource, pagerState, stateKey
     }) {
 
-        const propName = column.dataIndex || camelize(column.name);
+        const propName = nameFromDataIndex(column);
 
         const sortParams = {
             sort: {
