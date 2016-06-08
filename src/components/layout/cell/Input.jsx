@@ -4,6 +4,10 @@ import {
     updateCellValue
 } from './../../../actions/plugins/editor/EditorActions';
 
+import {
+    nameFromDataIndex
+} from './../../../util/getData';
+
 export const Input = ({
     cellData,
     column,
@@ -14,10 +18,7 @@ export const Input = ({
     store
 }) => {
 
-    const colName = column
-        && column.dataIndex
-        ? column.dataIndex
-        : '';
+    const colName = nameFromDataIndex(column);
 
     const placeholder = column
         && column.placeholder
@@ -57,7 +58,7 @@ export const handleChange = (
     store.dispatch(
         updateCellValue({
             value: reactEvent.target.value,
-            name: columnDefinition.dataIndex,
+            name: nameFromDataIndex(columnDefinition),
             column: columnDefinition,
             columns,
             stateKey

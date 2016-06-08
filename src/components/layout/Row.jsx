@@ -6,6 +6,7 @@ import { PlaceHolder } from './row/PlaceHolder.jsx';
 
 import { keyGenerator } from '../../util/keyGenerator';
 import { prefix } from '../../util/prefix';
+import { getData } from '../../util/getData';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -93,11 +94,7 @@ export const addEmptyInsert = (cells, visibleColumns, plugins) => {
 
 export const getCellData = (columns, row, key, index, store) => {
 
-    const valueAtDataIndex = row
-        && columns[index]
-        && columns[index].dataIndex
-        ? row[columns[index].dataIndex]
-        : null;
+    const valueAtDataIndex = getData(row, columns, index);
 
     // if a render has been provided, default to this
     if (row
@@ -121,12 +118,16 @@ export const getCellData = (columns, row, key, index, store) => {
     }
 
     // else no data index found
-    console.warn('No dataIndex found for this column ', columns);
 };
 
 export const addEmptyCells = (rowData, columns) => {
 
     columns.forEach((col) => {
+
+        // const data = nameFromDataIndex(col);
+        // come back to this
+        // how we retrieve and store data, especially editable
+        // may need to be updated based on array dataIndex
 
         if (rowData && !rowData.hasOwnProperty(col.dataIndex)) {
             rowData[col.dataIndex] = '';

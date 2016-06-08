@@ -5,9 +5,13 @@ import {
     DISMISS_EDITOR,
     ROW_VALUE_CHANGE,
     CANCEL_ROW,
-    REMOVE_ROW,
-    EDITOR_VALIDATION
+    REMOVE_ROW
 } from '../../../constants/ActionTypes';
+
+import {
+    getData,
+    setDataAtDataIndex
+} from './../../../util/getData';
 
 const initialState = fromJS({
     editorState: fromJS.Map
@@ -25,7 +29,7 @@ export const isRowValid = (columns, rowValues) => {
     for (let i = 0; i < columns.length; i++) {
 
         const col = columns[i];
-        const val = isCellValid(col, rowValues[col.dataIndex]);
+        const val = isCellValid(col, getData(rowValues, columns, i));
 
         if (!val) {
             return false;
@@ -55,17 +59,18 @@ export default function editor(state = initialState, action) {
         });
 
     case ROW_VALUE_CHANGE:
-        const { columns, value, stateKey } = action;
+        const { column, columns, value, stateKey } = action;
         const previous = state.get(stateKey);
 
-        const rowValues = Object.assign({}, previous.row.values, {
-            [action.columnName]: value
-        });
+        const rowValues = setDataAtDataIndex(
+            previous.row.values, column.dataIndex, value
+        );
 
-        columns.forEach((col) => {
+        columns.forEach((col, i) => {
+            const val = getData(rowValues, columns, i);
             if (col.defaultValue !== undefined
-                && rowValues[col.dataIndex] === undefined) {
-                rowValues[col.dataIndex] = col.defaultValue;
+                && val === undefined || val === null) {
+                setDataAtDataIndex(rowValues, col.dataIndex, col.defaultValue);
             }
         });
 

@@ -209,7 +209,25 @@ To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The pl
 Column Defaults:
 
 1. `name`: `string`, title of column 
-2. `dataIndex`: `string`, the key accessor for the column value (required parameter)
+2. `dataIndex`: `string | arrayOf(string)`, the key accessor for the column value (required parameter). if data is provided as a complex object, deeply nested data can be accessed by providing an array of keys
+
+Example: 
+
+	const data = {
+		outer: {
+			middle: {
+				inner: 'rowValue'
+			}
+		}	
+	};
+
+You can access this data by providing the column the following dataIndex:
+
+	const column = {
+		name: 'Value',
+		dataIndex: ['outer', 'middle', 'inner']
+	};
+
 3. `editor`: `jsx element`, when an editor is used, this element will be rendered in place of the edited cell
 4. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
 5. `className`: `string`, additional class names to apply to columns header output
