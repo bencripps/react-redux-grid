@@ -12,8 +12,10 @@ export default class ColumnManager {
         plugins, store, events, selModel, editor, columns, dataSource
     }) {
 
+        const visibleColumns = columns.filter(col => !col.hidden);
+
         const defaults = {
-            defaultColumnWidth: `${100 / columns.length}%`,
+            defaultColumnWidth: `${100 / visibleColumns.length}%`,
             dataSource: dataSource,
             minColumnWidth: 10,
             moveable: false,
