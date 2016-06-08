@@ -107,6 +107,13 @@ class FixedHeader extends Component {
             tableProps.style = {};
         }
 
+        const theadProps = {
+            className: prefix(CLASS_NAMES.THEADER, headerOffset > 0
+                ? 'adjusted'
+                : ''
+            )
+        };
+
         const headerProps = {
             className: prefix(CLASS_NAMES.HEADER)
         };
@@ -131,7 +138,7 @@ class FixedHeader extends Component {
             <div>
              { fillerCmp }
                 <table { ...tableProps }>
-                    <thead>
+                    <thead { ...theadProps }>
                         <tr { ...headerProps }>
                             { headers }
                         </tr>

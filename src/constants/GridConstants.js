@@ -33,6 +33,7 @@ export const CLASS_NAMES = {
     TABLE: 'table',
     TABLE_CONTAINER: 'table-container',
     HEADER: 'header',
+    THEADER: 't-head',
     HEADER_HIDDEN: 'header-hidden',
     HEADER_FIXED: 'header-fixed',
     HEADER_STUCK: 'header-stuck',
