@@ -202,9 +202,9 @@ class FixedHeader extends Component {
 
         window.addEventListener('resize', () => {
 
-            const { stuck } = this.state;
+            const { stuck, stuckToBottom } = this.state;
 
-            if (stuck) {
+            if (stuck || stuckToBottom) {
                 scope.setState({
                     width: headerDOM.parentNode.getBoundingClientRect().width
                 });

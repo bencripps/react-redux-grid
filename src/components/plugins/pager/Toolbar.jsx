@@ -166,9 +166,9 @@ export class PagerToolbar extends Component {
 
         window.addEventListener('resize', () => {
 
-            const { stuck } = this.state;
+            const { stuck, stuckBottom } = this.state;
 
-            if (stuck) {
+            if (stuck || stuckBottom) {
                 scope.setState({
                     width: footerDOM.parentNode.getBoundingClientRect().width
                 });
