@@ -33,7 +33,7 @@ export const ActionColumn = ({
         className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
             ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
         onClick: handleActionClick.bind(
-            this, type, actions, rowId, stateKey, store
+            this, type, actions, rowId, stateKey, store, menuShown, reducerKeys
         )
     };
 
@@ -92,6 +92,7 @@ ActionColumn.defaultProps = {
 };
 
 let removeableEvent;
+let lastActionClicked;
 
 export const getHeader = (
     cols,
@@ -232,33 +233,94 @@ export const getColumn = (
     );
 };
 
-export const handleHideMenu = (stateKey, store, e) => {
+export const handleHideMenu = (
+    stateKey, store, initialTarget, reducerKeys, e
+) => {
 
-    const isHeaderMenu = elementContains(e.target, prefix(CLASS_NAMES.HEADER));
+    const occurredInHeader = elementContains(
+        e.target, 'react-grid-header'
+    );
 
-    if (isHeaderMenu) {
-        return false;
+    const isHeaderMenu = occurredInHeader
+        && e.target.classList.contains('react-grid-action-icon');
+
+    const isHeaderAction = occurredInHeader && elementContains(
+        e.target, 'react-grid-action-menu-container'
+    );
+
+    const isRowAction = elementContains(
+        e.target, 'react-grid-row'
+    ) && e.target.classList.contains('react-grid-action-icon');
+
+    const isSameNode = initialTarget === e.target
+        && !elementContains(e.target, 'react-grid-action-menu-container');
+
+    const isActionMenu = isSameNode && elementContains(
+        e.target, 'react-grid-action-container'
+    );
+
+    const menuKey = reducerKeys.menu || 'menu';
+
+    const menuState = store.getState()[menuKey]
+        .get(stateKey);
+
+    const headerMenuShown = menuState && menuState['header-row'];
+
+    const hide = () => {
+        setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
+    };
+
+    const removeEvent = () => {
+        document.body.removeEventListener('click', removeableEvent);
+    };
+
+    if (!isRowAction && !isSameNode && !occurredInHeader) {
+        hide();
+        removeEvent();
     }
 
-    document.body.removeEventListener('click', removeableEvent);
-
-    if (e.target.classList.contains('react-grid-action-icon')) {
-        return false;
+    else if (isRowAction && isSameNode) {
+        hide();
+        removeEvent();
     }
 
-    setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
+    else if (isActionMenu) {
+        hide();
+        removeEvent();
+    }
+
+    else if (occurredInHeader && !isHeaderAction && !isHeaderMenu) {
+        hide();
+        removeEvent();
+    }
+
+    // if the header menu is shown
+    // and were clicking on the action button
+    // close the menu
+    else if (headerMenuShown && isHeaderMenu) {
+        hide();
+        removeEvent();
+    }
+
+    else if (!isSameNode && !isHeaderAction) {
+        removeEvent();
+    }
 };
 
 export const handleActionClick = (
-    type, actions, id, stateKey, store, reactEvent
+    type, actions, id, stateKey, store, menuShown, reducerKeys, reactEvent
 ) => {
 
     reactEvent.stopPropagation();
     store.dispatch(showMenu({id, stateKey }));
 
-    removeableEvent = handleHideMenu.bind(null, stateKey, store);
+    if (!menuShown) {
+        removeableEvent = handleHideMenu.bind(
+            null, stateKey, store, reactEvent.target, reducerKeys
+        );
+        document.body.addEventListener('click', removeableEvent);
+    }
 
-    document.body.addEventListener('click', removeableEvent);
 };
 
 function mapStateToProps(state, props) {
