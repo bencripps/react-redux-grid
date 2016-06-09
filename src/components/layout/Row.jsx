@@ -249,9 +249,26 @@ export const handleRowDoubleClickEvent = (
     }
 };
 
+export const getSelectedText = () => {
+    let text = '';
+    if (typeof window.getSelection !== 'undefined') {
+        text = window.getSelection().toString();
+    }
+    else if (typeof document.selection !== 'undefined'
+        && document.selection.type === 'Text') {
+        text = document.selection.createRange().text;
+    }
+    return text;
+};
+
 export const handleRowSingleClickEvent = (
     events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
 ) => {
+
+
+    if (getSelectedText()) {
+        return false;
+    }
 
     if (selectionModel
             && selectionModel.defaults.selectionEvent
