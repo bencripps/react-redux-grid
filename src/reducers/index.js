@@ -10,7 +10,7 @@ import filter from './components/plugins/filter';
 import selection from './components/plugins/selection';
 import errorhandler from './components/plugins/errorhandler';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     bulkaction,
     dataSource,
     editor,
