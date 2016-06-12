@@ -301,7 +301,7 @@ export const handleHideMenu = (
         e.target, 'react-grid-action-container'
     );
 
-    const menuKey = reducerKeys.menu || 'Menu';
+    const menuKey = reducerKeys.menu || 'menu';
     const menu = store.getState()[menuKey];
     const menuState = menu ? menu.get(stateKey) : null;
 

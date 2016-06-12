@@ -16,7 +16,6 @@ export default function selection(state = initialState, action) {
         return state.setIn([action.stateKey], action.selection);
 
     case DESELECT_ALL:
-
         return state.setIn([action.stateKey], {});
 
     case SET_SELECTION:

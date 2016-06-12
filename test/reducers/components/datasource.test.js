@@ -1,13 +1,16 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS, List, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
     SET_DATA,
     DISMISS_EDITOR,
     REMOVE_ROW,
     ADD_NEW_ROW,
-    SAVE_ROW
+    SAVE_ROW,
+    SORT_DATA,
+    CLEAR_FILTER_LOCAL,
+    FILTER_DATA
 } from './../../../src/constants/ActionTypes';
 
 import
@@ -28,21 +31,21 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
+            dataSource(state, action)
+        ).toEqual(fromJS({
             'test-grid': {
-                currentRecords: [
-                    { x: 1 }, { x: 2 }
-                ],
                 data: [
                     { x: 1 }, { x: 2 }
                 ],
                 proxy: [
                     { x: 1 }, { x: 2 }
                 ],
-                total: 2
+                total: 2,
+                currentRecords: [
+                    { x: 1 }, { x: 2 }
+                ]
             }
-        });
+        }));
 
     });
 
@@ -57,15 +60,15 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
+            dataSource(state, action)
+        ).toEqual(fromJS({
             'test-grid': {
-                currentRecords: [{ x: 1 }, { x: 2 }],
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
-                total: 2
+                total: 2,
+                currentRecords: [{ x: 1 }, { x: 2 }]
             }
-        });
+        }));
 
     });
 
@@ -83,15 +86,15 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
+            dataSource(state, action)
+        ).toEqual(fromJS({
             'test-grid': {
-                currentRecords: [{ banana: 2 }],
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
-                total: 2
+                total: 2,
+                currentRecords: [{ banana: 2 }]
             }
-        });
+        }));
 
     });
 
@@ -347,6 +350,173 @@ describe('The grid dataSource reducer saveRow func', () => {
             type: SAVE_ROW,
             rowIndex: 0,
             values: { cell: 'newValues' }
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+
+    });
+
+});
+
+describe('The grid dataSource reducer sortData func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should update sort data', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: 2 },
+                    { cell: 1 }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: SORT_DATA,
+            data: [
+                { cell: 2 },
+                { cell: 1 }
+            ]
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+
+    });
+
+});
+
+describe('The grid dataSource reducer clearFilter func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 2 },
+                { cell: 1 }
+            ],
+            currentRecords: [
+                { cell: 2 },
+                { cell: 1 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should revert back to proxy if avail', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: CLEAR_FILTER_LOCAL
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+
+    });
+
+});
+
+describe('The grid dataSource reducer filterData func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should revert back to proxy if avail', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: 'newVals' },
+                    { cell: 'moreNewVals' }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: FILTER_DATA,
+            data: [
+                { cell: 'newVals' },
+                { cell: 'moreNewVals' }
+            ]
         };
 
         expect(

@@ -89,12 +89,14 @@ export default function dataSource(state = initialState, action) {
 
     case CLEAR_FILTER_LOCAL:
 
-        const existing = state.get(action.stateKey);
-        const recs = existing.proxy || existing.currentRecords;
+        const proxy = state.getIn([action.stateKey, 'proxy']);
+        const prevData = state.getIn([action.stateKey, 'data']);
+        const recs = proxy || prevData;
 
         return state.mergeIn([action.stateKey], {
             data: recs,
-            proxy: recs
+            proxy: recs,
+            currentRecords: recs
         });
 
     case FILTER_DATA:
