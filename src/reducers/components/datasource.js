@@ -15,20 +15,23 @@ export default function dataSource(state = initialState, action) {
     switch (action.type) {
 
     case SET_DATA:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             data: action.data,
             proxy: action.data,
             total: action.total || action.data.length,
             currentRecords: action.currentRecords || action.data
-        });
+        }));
 
     case DISMISS_EDITOR:
+        const previousProxy = state.getIn([action.stateKey, 'proxy']);
+        const previousTotal = state.getIn([action.stateKey, 'total']);
+
         if (state.get(action.stateKey)) {
-            return state.updateIn([action.stateKey], (values) => ({
-                data: values.proxy,
-                proxy: values.proxy,
-                currentRecords: values.proxy,
-                total: values.total,
+            return state.mergeIn([action.stateKey], fromJS({
+                data: previousProxy,
+                proxy: previousProxy,
+                currentRecords: previousProxy,
+                total: previousTotal,
                 isEditing: false
             }));
         }
@@ -36,50 +39,46 @@ export default function dataSource(state = initialState, action) {
         return state;
 
     case REMOVE_ROW:
-        const remainingRows = [...state.get(action.stateKey).data];
-        remainingRows.splice(action.rowIndex || 0, 1);
+        const remainingRows = state
+            .getIn([action.stateKey, 'data'])
+            .remove(action.rowIndex || 0, 1);
 
-        return state.updateIn([action.stateKey], (values) => ({
+        return state.mergeIn([action.stateKey], fromJS({
             data: remainingRows,
             proxy: remainingRows,
-            total: values.total,
-            currentRecords: values.currentRecords
+            currentRecords: remainingRows
         }));
 
     case ADD_NEW_ROW:
 
-        const existingData = state.get(action.stateKey);
+        const existingState = state.get(action.stateKey);
+        const isEditing = existingState && existingState.get('isEditing');
+        const data = existingState && existingState.get('data');
 
-        if (existingData && existingData.isEditing) {
+        if (existingState && isEditing) {
             return state;
         }
 
-        const rowModel = existingData
-            && existingData.data
-            && existingData.data.length > 0
-            && existingData.data[0]
-            ? existingData.data[0]
-            : {};
+        const newRow = data
+            && data.size > 0
+            && data.get(0)
+            ? data.get(0).map((k, v) => v = '')
+            : fromJS({});
 
-        const newRow = {};
-
-        Object.keys(rowModel).forEach((k) => newRow[k] = '');
-
-        return state.updateIn([action.stateKey], (values) => ({
-            ...values,
-            data: [newRow, ...values.data],
-            proxy: values.data,
+        return state.mergeIn([action.stateKey], fromJS({
+            data: data.unshift(newRow),
+            proxy: data,
             isEditing: true
         }));
 
     case SAVE_ROW:
-        const gridData = state.get(action.stateKey).data;
-        gridData[action.rowIndex] = action.values;
+        const gridData = state
+            .getIn([action.stateKey, 'data'])
+            .set(action.rowIndex, fromJS(action.values));
 
-        return state.updateIn([action.stateKey], (values) => ({
+        return state.mergeIn([action.stateKey], fromJS({
             data: gridData,
             proxy: gridData,
-            total: values.total,
             currentRecords: gridData
         }));
 

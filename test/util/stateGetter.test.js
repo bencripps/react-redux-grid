@@ -1,4 +1,5 @@
 import expect from 'expect';
+import { fromJS } from 'immutable';
 import { stateGetter } from './../../src/util/stateGetter';
 
 describe('State Getter Function', () => {
@@ -8,12 +9,44 @@ describe('State Getter Function', () => {
         return true;
     }
 
+    function getStateWithImmutable(...props) {
+        return fromJS({
+            x: 1
+        });
+    }
+
     it('Should return state if its registered', () => {
         const state = { filterState: { get: getState } };
         const props = {};
         expect(
             stateGetter(state, props, 'filterState', 'someProp')
         ).toBeTruthy();
+    });
+
+    it(['Should return plain object if state is stored as a immutable',
+        ' and using a dynamic reducerKey'].join(''), () => {
+        const state = { someFilterState: { get: getStateWithImmutable } };
+        const props = {
+            reducerKeys: {
+                filterState: 'someFilterState'
+            }
+        };
+
+        expect(
+            stateGetter(state, props, 'someFilterState', 'someProp')
+        ).toEqual({
+            x: 1
+        });
+    });
+
+    it('Should return plain object if state is stored as a immutable', () => {
+        const state = { filterState: { get: getStateWithImmutable } };
+        const props = {};
+        expect(
+            stateGetter(state, props, 'filterState', 'someProp')
+        ).toEqual({
+            x: 1
+        });
     });
 
     it('Should return state even if the casing is off', () => {
@@ -39,7 +72,7 @@ describe('State Getter Function', () => {
         ).toEqual(null);
     });
 
-    it('Should return state when a dynamic key is used if it\'s registerd', () => {
+    it('Should return state when a dynamic key is used if registerd', () => {
         const state = { someFilterState: { get: getState } };
         const props = {
             reducerKeys: {
@@ -51,7 +84,7 @@ describe('State Getter Function', () => {
         ).toBeTruthy();
     });
 
-    it('Should return null when a dynamic key is used if it`\s not registered', () => {
+    it('Should return null if a dynamic key is used if not registered', () => {
         const state = {};
         const props = {
             reducerKeys: {
@@ -70,6 +103,5 @@ describe('State Getter Function', () => {
             stateGetter(state, props, 'filterState', 'someProp')
         ).toEqual(null);
     });
-
 
 });

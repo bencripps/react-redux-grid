@@ -4,7 +4,10 @@ import { fromJS, List, Map } from 'immutable';
 
 import {
     SET_DATA,
-    DISMISS_EDITOR
+    DISMISS_EDITOR,
+    REMOVE_ROW,
+    ADD_NEW_ROW,
+    SAVE_ROW
 } from './../../../src/constants/ActionTypes';
 
 import
@@ -28,9 +31,15 @@ describe('The grid dataSource reducer setData func', () => {
             dataSource(state, action).toJS()
         ).toEqual({
             'test-grid': {
-                currentRecords: [{ x: 1 }, { x: 2 }],
-                data: [{ x: 1 }, { x: 2 }],
-                proxy: [{ x: 1 }, { x: 2 }],
+                currentRecords: [
+                    { x: 1 }, { x: 2 }
+                ],
+                data: [
+                    { x: 1 }, { x: 2 }
+                ],
+                proxy: [
+                    { x: 1 }, { x: 2 }
+                ],
                 total: 2
             }
         });
@@ -92,13 +101,32 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
 
     it('Should wipe previous values upon dissmiss', () => {
 
-        const state = fromJS({
+        const inState = fromJS({
             'test-grid': {
                 proxy: [
                     { cell: 1 },
-                    { cell: 2}
+                    { cell: 2 }
                 ],
                 total: 2
+            }
+        });
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2,
+                data: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                isEditing: false
             }
         });
 
@@ -107,8 +135,224 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
             type: DISMISS_EDITOR
         };
 
-        // expect(
-        //     dataSource(state, action)
-        // ).toEqual(state);
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
     });
+});
+
+describe('The grid dataSource reducer removeRow func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should remove row at 0 index of none is passed', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 2 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: REMOVE_ROW
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+    });
+
+    it('Should remove row at 1 index if arg is passed', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 }
+                ],
+                data: [
+                    { cell: 1 }
+                ],
+                currentRecords: [
+                    { cell: 1 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            rowIndex: 1,
+            type: REMOVE_ROW
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+
+    });
+
+});
+
+describe('The grid dataSource reducer addRow func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should add a new blank row if rows have been established', () => {
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: '' },
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2,
+                isEditing: true
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: ADD_NEW_ROW
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+    });
+
+    it('Should add a new blank row if no rows have been established', () => {
+        const innerState = fromJS({
+            'test-grid': {
+                proxy: [],
+                data: [],
+                currentRecords: [],
+                total: 0
+            }
+        });
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [],
+                data: [{}],
+                currentRecords: [],
+                total: 0,
+                isEditing: true
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: ADD_NEW_ROW
+        };
+
+        expect(
+            dataSource(innerState, action)
+        ).toEqual(outState);
+    });
+
+});
+
+describe('The grid dataSource reducer saveRow func', () => {
+
+    const inState = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2 }
+            ],
+            total: 2
+        }
+    });
+
+    it('Should update row values on save', () => {
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 'newValues' },
+                    { cell: 2 }
+                ],
+                data: [
+                    { cell: 'newValues' },
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 'newValues' },
+                    { cell: 2 }
+                ],
+                total: 2
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: SAVE_ROW,
+            rowIndex: 0,
+            values: { cell: 'newValues' }
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqual(outState);
+
+    });
+
 });

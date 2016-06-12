@@ -302,9 +302,8 @@ export const handleHideMenu = (
     );
 
     const menuKey = reducerKeys.menu || 'Menu';
-
-    const menuState = store.getState()[menuKey]
-        .get(stateKey);
+    const menu = store.getState()[menuKey];
+    const menuState = menu ? menu.get(stateKey) : null;
 
     const headerMenuShown = menuState && menuState['header-row'];
 
