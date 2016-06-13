@@ -1,8 +1,7 @@
 const loaders = require('../webpack/loaders');
-const path = require('path');
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['jsdom', 'Chrome']
-    : ['jsdom', 'Chrome'];
+    : ['jsdom'];
 
 module.exports = function exports(config) {
     config.set({

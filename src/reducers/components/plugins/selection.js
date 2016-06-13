@@ -13,27 +13,24 @@ export default function selection(state = initialState, action) {
     switch (action.type) {
 
     case SELECT_ALL:
-        return state.setIn([action.stateKey], action.selection);
+        return state.setIn([action.stateKey], fromJS(action.selection));
 
     case DESELECT_ALL:
-        return state.setIn([action.stateKey], {});
+        return state.setIn([action.stateKey], fromJS({}));
 
     case SET_SELECTION:
-
-        const currentValue = state.get(action.stateKey)
-            ? state.get(action.stateKey)[action.id]
-            : false;
+        const currentValue = state.getIn([action.stateKey, action.id]);
 
         if (action.clearSelections || !state.get(action.stateKey)) {
-            return state.setIn([action.stateKey], {
-                [action.id]: currentValue && action.allowDeselect ? false : true
-            });
+            return state.setIn([action.stateKey], fromJS({
+                [action.id]: action.allowDeselect ? !currentValue : true
+            }));
         }
 
-        // enable multiselect
-        return state.setIn([action.stateKey], {
-            [action.id]: currentValue && action.allowDeselect ? false : true
-        });
+        // multiselect
+        return state.mergeIn([action.stateKey], fromJS({
+            [action.id]: action.allowDeselect ? !currentValue : true
+        }));
 
     default:
         return state;
