@@ -6,8 +6,43 @@ import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 
 class MenuItem extends Component {
 
+    render() {
+        const {
+            data,
+            disabled,
+            metaData,
+            menuItemsTypes,
+            stateKey
+        } = this.props;
+
+        const menuItemProps = {
+            className: prefix(
+                CLASS_NAMES.GRID_ACTIONS.MENU.ITEM,
+                data.disabled ? CLASS_NAMES.GRID_ACTIONS.DISABLED : ''
+            ),
+            disabled: data.disabled,
+            onClick: (e) => {
+                return this.handleMenuItemClick(
+                    data, disabled, metaData, stateKey, e
+                );
+            }
+        };
+
+        const checkboxComponent =
+            data.menuItemType === menuItemsTypes.checkbox
+            ? this.getCheckbox(data) : null;
+
+        return (
+            <li { ...menuItemProps } >
+                { checkboxComponent }
+                { data.text }
+            </li>
+        );
+    }
+
     static propTypes = {
         data: React.PropTypes.object,
+        disabled: React.PropTypes.bool,
         menuItemsTypes: React.PropTypes.object,
         metaData: React.PropTypes.object,
         stateKey: React.PropTypes.string,
@@ -21,9 +56,13 @@ class MenuItem extends Component {
         metaData: {}
     };
 
-    handleMenuItemClick(data, metaData, stateKey, reactEvent) {
+    handleMenuItemClick(data, disabled, metaData, stateKey, reactEvent) {
         if (reactEvent && reactEvent.stopPropagation) {
             reactEvent.stopPropagation();
+        }
+
+        if (disabled) {
+            return false;
         }
 
         const dismiss = data.dismissOnClick !== undefined
@@ -54,26 +93,6 @@ class MenuItem extends Component {
 
         return (
             <input { ...checkboxProps } />
-        );
-    }
-
-    render() {
-        const { data, metaData, menuItemsTypes, stateKey } = this.props;
-
-        const menuItemProps = {
-            className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.ITEM),
-            onClick: this.handleMenuItemClick.bind(this, data, metaData, stateKey)
-        };
-
-        const checkboxComponent =
-            data.menuItemType === menuItemsTypes.checkbox
-            ? this.getCheckbox(data) : null;
-
-        return (
-            <li { ...menuItemProps } >
-                { checkboxComponent }
-                { data.text }
-            </li>
         );
     }
 }

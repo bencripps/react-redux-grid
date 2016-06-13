@@ -339,6 +339,15 @@ Example:
 	export const plugins = {
 		GRID_ACTIONS: {
 	        iconCls: 'action-icon',
+	        onMenuShow: ({ columns, rowData }) => {
+
+	        	console.log('This event fires before menushow');
+
+	        	if (rowData.isDisabled) {
+	        		return ['menu-item-key'] // this field will now be disabled
+	        	}
+
+	        },
 	        menu: [
 	            {
 	                text: 'Menu Item',
@@ -355,6 +364,7 @@ Grid Action Defaults
 
 1. `iconCls`: `string`, class to be used for the action icon
 2. `menu`: `arrayOf(object)`, menu items
+3. `onMenuShow`: `func`, a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.
 
 ### Notes about Menu Items
 

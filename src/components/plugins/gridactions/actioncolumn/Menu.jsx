@@ -2,12 +2,25 @@ import React, { PropTypes } from 'react';
 import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
 import { handleEditClick } from './../../../../util/handleEditClick';
 
-export const Menu = (
-    { actions, columns, type, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey }
-) => {
+export const Menu = ({
+    actions,
+    columns,
+    type,
+    store,
+    editor,
+    reducerKeys,
+    rowId,
+    rowData,
+    rowIndex,
+    stateKey
+}) => {
 
     if (editor.config.enabled && type !== 'header') {
-        actions.menu.unshift(getEditAction(editor, store, rowId, rowData, rowIndex, columns, stateKey));
+        actions.menu.unshift(
+            getEditAction(
+                editor, store, rowId, rowData, rowIndex, columns, stateKey
+            )
+        );
     }
 
     const menuProps = {
@@ -27,10 +40,14 @@ export const Menu = (
     );
 };
 
-export const getEditAction = (editor, store, rowId, rowData, rowIndex, columns, stateKey) => {
+export const getEditAction = (
+    editor, store, rowId, rowData, rowIndex, columns, stateKey
+) => {
     return {
         text: 'Edit',
-        EVENT_HANDLER: handleEditClick.bind(this, editor, store, rowId, rowData, rowIndex, columns, stateKey),
+        EVENT_HANDLER: handleEditClick.bind(
+            this, editor, store, rowId, rowData, rowIndex, columns, stateKey
+        ),
         key: 'grid-edit-action'
     };
 };
@@ -40,7 +57,10 @@ Menu.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object),
     editor: PropTypes.object,
     reducerKeys: PropTypes.object,
+    rowData: PropTypes.object,
     rowId: PropTypes.string,
+    rowIndex: PropTypes.string,
+    stateKey: PropTypes.string,
     store: PropTypes.object,
     type: PropTypes.string
 };

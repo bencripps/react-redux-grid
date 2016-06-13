@@ -12,10 +12,12 @@ const props = {
     store,
     menu: [
         {
-            text: 'add'
+            text: 'add',
+            key: 'add'
         },
         {
-            text: 'delete'
+            text: 'delete',
+            key: 'delete'
         }
     ]
 };
@@ -40,7 +42,9 @@ describe('A rendered Menu', () => {
     });
 
     it('Should have the correct class name', () => {
-        expect(component.props.className).toEqual('react-grid-action-menu-container');
+        expect(
+            component.props.className
+        ).toEqual('react-grid-action-menu-container');
     });
 
 });
@@ -49,14 +53,22 @@ describe('A Menu\'s child elements', () => {
 
     const component = menu(props);
 
-    // it('Should have 2 children', () => {
-    //     expect(component.props.children.length).toEqual(2);
-    // });
+    it('Should have 2 children', () => {
+        expect(component.props.children.length).toEqual(2);
+    });
 
-    // it('Should have the correct first child', () => {
-    //     expect(component.props.children[0].key).toEqual('YWRk');
-    //     expect(component.props.children[0].ref).toBeFalsy();
-    //     expect(component.props.children[0].props.data).toBeTruthy();
-    //     expect(component.props.children[0].props.data.text).toEqual(props.menu[0].text);
-    // });
+    it('Should have the correct first child', () => {
+        expect(
+            component.props.children[0].key
+        ).toEqual('YWRkYWRk');
+        expect(
+            component.props.children[0].ref
+        ).toBeFalsy();
+        expect(
+            component.props.children[0].props.data
+        ).toBeTruthy();
+        expect(
+            component.props.children[0].props.data.text
+        ).toEqual(props.menu[0].text);
+    });
 });

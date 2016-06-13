@@ -73,6 +73,7 @@ export const CLASS_NAMES = {
         CONTAINER: 'action-container',
         SELECTED_CLASS: 'action-menu-selected',
         NO_ACTIONS: 'no-actions',
+        DISABLED: 'disabled',
         MENU: {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'

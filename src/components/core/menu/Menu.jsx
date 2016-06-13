@@ -8,36 +8,6 @@ import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 class Menu extends Component {
 
-    static propTypes = {
-        menu: React.PropTypes.array,
-        metaData: React.PropTypes.object,
-        stateKey: React.PropTypes.string,
-        store: React.PropTypes.object
-    };
-
-    static defaultProps = {
-        metaData: {}
-    };
-
-    getMenuItem(item) {
-
-        const { metaData, stateKey, store } = this.props;
-
-        if (!item.$$typeof) {
-            const menuItemProps = {
-                data: item,
-                metaData,
-                type: item.type,
-                key: keyFromObject(item),
-                stateKey,
-                store
-            };
-
-            return <MenuItem { ...menuItemProps } />;
-        }
-        return item;
-    }
-
     render() {
 
         const { menu } = this.props;
@@ -58,11 +28,44 @@ class Menu extends Component {
             </ul>
         );
     }
+
+    static propTypes = {
+        menu: React.PropTypes.array,
+        metaData: React.PropTypes.object,
+        stateKey: React.PropTypes.string,
+        store: React.PropTypes.object
+    };
+
+    static defaultProps = {
+        metaData: {}
+    };
+
+    getMenuItem(item) {
+
+        const { metaData, stateKey, store } = this.props;
+
+        if (!item.$$typeof) {
+            const menuItemProps = {
+                data: item,
+                disabled: item.disabled,
+                metaData,
+                type: item.type,
+                key: keyFromObject(item),
+                stateKey,
+                store
+            };
+
+            return <MenuItem { ...menuItemProps } />;
+        }
+        return item;
+    }
 }
 
 export const getUniqueItems = (items) => {
     const keys = items.map((obj) => { return obj.key; });
-    const unique = items.filter((ob, i) => { return keys.indexOf(ob.key) === i; });
+    const unique = items.filter((ob, i) => {
+        return keys.indexOf(ob.key) === i;
+    });
     return unique;
 };
 

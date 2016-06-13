@@ -37,6 +37,13 @@ export const ActionColumn = ({
         )
     };
 
+    actions = enableActions(
+        menuShown,
+        actions,
+        columns,
+        rowData
+    );
+
     const className = menuShown
         ? prefix(actions.iconCls, 'active') || prefix(iconCls, 'active')
         : prefix(actions.iconCls) || prefix(iconCls);
@@ -92,7 +99,42 @@ ActionColumn.defaultProps = {
 };
 
 let removeableEvent;
-let lastActionClicked;
+
+export const enableActions = (
+    menuShown,
+    actions,
+    columns,
+    rowData
+) => {
+
+    if (menuShown
+        && actions
+        && typeof actions.onMenuShow === 'function') {
+
+        const disabled = actions.onMenuShow({
+            columns,
+            rowData
+        });
+
+        if (Array.isArray(disabled)) {
+            actions.menu.forEach(action => {
+                if (disabled.indexOf(action.key) !== -1) {
+                    action.disabled = true;
+                }
+            });
+        }
+
+    }
+
+    else {
+        actions.menu.forEach(action => {
+            action.disabled = false;
+        });
+    }
+
+    return actions;
+
+};
 
 export const getHeader = (
     cols,
@@ -270,27 +312,36 @@ export const handleHideMenu = (
         setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
     };
 
+    const actionDisabled = e.target
+        && e.target.classList.contains(
+            prefix(CLASS_NAMES.GRID_ACTIONS.DISABLED)
+        );
+
     const removeEvent = () => {
         document.body.removeEventListener('click', removeableEvent);
     };
 
+    if (actionDisabled) {
+        return false;
+    }
+
     if (!isRowAction && !isSameNode && !occurredInHeader) {
-        hide();
+        hide(e);
         removeEvent();
     }
 
     else if (isRowAction && isSameNode) {
-        hide();
+        hide(e);
         removeEvent();
     }
 
     else if (isActionMenu) {
-        hide();
+        hide(e);
         removeEvent();
     }
 
     else if (occurredInHeader && !isHeaderAction && !isHeaderMenu) {
-        hide();
+        hide(e);
         removeEvent();
     }
 
@@ -298,7 +349,7 @@ export const handleHideMenu = (
     // and were clicking on the action button
     // close the menu
     else if (headerMenuShown && isHeaderMenu) {
-        hide();
+        hide(e);
         removeEvent();
     }
 
