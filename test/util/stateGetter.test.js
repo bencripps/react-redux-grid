@@ -84,6 +84,21 @@ describe('State Getter Function', () => {
         ).toBeTruthy();
     });
 
+    it(['Should return state when a dynamic key ',
+        'is used, and has immutable state'].join(''), () => {
+        const state = { someFilterState: { get: getStateWithImmutable } };
+        const props = {
+            reducerKeys: {
+                filterState: 'someFilterState'
+            }
+        };
+        expect(
+            stateGetter(state, props, 'filterState', 'someProp')
+        ).toEqual({
+            x: 1
+        });
+    });
+
     it('Should return null if a dynamic key is used if not registered', () => {
         const state = {};
         const props = {

@@ -19,12 +19,17 @@ export function stateGetter(state, props, key, entry) {
 
         const dynamicKey = props.reducerKeys[key];
 
-        return state
+        const dynamicState = state
             && state[dynamicKey]
             && state[dynamicKey].get
             && state[dynamicKey].get(entry)
             ? state[dynamicKey].get(entry)
             : null;
+
+        return dynamicState &&
+            dynamicState.toJS
+            ? dynamicState.toJS()
+            : dynamicState;
     }
 
     const firstTry = state
