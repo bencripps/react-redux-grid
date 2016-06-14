@@ -14,14 +14,14 @@ export default function pager(state = initialState, action) {
     switch (action.type) {
 
     case PAGE_LOCAL:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             pageIndex: action.pageIndex
-        });
+        }));
 
     case PAGE_REMOTE:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             pageIndex: action.pageIndex
-        });
+        }));
 
     default:
         return state;

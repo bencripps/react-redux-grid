@@ -12,20 +12,18 @@ export default function menu(state = initialState, action) {
     switch (action.type) {
 
     case SHOW_MENU:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             [action.id]: true
-        });
+        }));
 
     case HIDE_MENU:
         if (action.id) {
-            return state.setIn([action.stateKey], {
+            return state.setIn([action.stateKey], fromJS({
                 [action.id]: false
-            });
+            }));
         }
 
-        else {
-            return state.setIn([action.stateKey], {});
-        }
+        return state.setIn([action.stateKey], fromJS({}));
 
     default:
         return state;
