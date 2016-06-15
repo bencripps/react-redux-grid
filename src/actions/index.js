@@ -4,7 +4,8 @@ import * as ColumnManagerActions from './core/ColumnManager';
 
 import * as EditorActions from './plugins/editor/EditorActions';
 
-import * as ErrorHandlerActions from './plugins/errorhandler/ErrorHandlerActions';
+import * as ErrorHandlerActions
+from './plugins/errorhandler/ErrorHandlerActions';
 
 import * as FilterActions from './plugins/filter/FilterActions';
 
@@ -30,3 +31,5 @@ export const Actions = {
     PagerActions,
     SelectionActions
 };
+
+export default Actions;

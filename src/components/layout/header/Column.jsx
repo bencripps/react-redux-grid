@@ -46,10 +46,28 @@ export const Column = ({
     const nextColumnKey = visibleColumns && visibleColumns[index + 1]
         ? keyGenerator(visibleColumns[index + 1].name, 'grid-column') : null;
 
-    const handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey, stateKey);
+    const handleDrag = scope.handleDrag.bind(
+        scope,
+        scope,
+        columns,
+        key,
+        columnManager,
+        store,
+        nextColumnKey,
+        stateKey
+    );
 
     const sortHandle = sortable
-        ? <SortHandle { ...{ col, columns, columnManager, dataSource, direction, pager, sortHandleCls, store } } />
+        ? <SortHandle { ...{
+            col,
+            columns,
+            columnManager,
+            dataSource,
+            direction,
+            pager,
+            sortHandleCls,
+            store }
+        } />
         : null;
 
     const dragHandle = isResizable
@@ -87,7 +105,13 @@ export const Column = ({
         },
         key,
         style: {
-            width: getWidth(col, key, columns, columnManager.config.defaultColumnWidth, index)
+            width: getWidth(
+                col,
+                key,
+                columns,
+                columnManager.config.defaultColumnWidth,
+                index
+            )
         }
     };
 
@@ -101,7 +125,14 @@ export const Column = ({
         };
     }
 
-    const innerHTML = <Text { ...{ col, index, columnManager, dragAndDropManager, sortHandle } } />;
+    const innerHTML = (
+        <Text { ...{ col,
+            index,
+            columnManager,
+            dragAndDropManager,
+            sortHandle } }
+        />
+    );
 
     return (
         <th { ...headerProps } >
@@ -162,7 +193,14 @@ export const handleSort = (
         ? SORT_DIRECTIONS.DESCEND
         : SORT_DIRECTIONS.ASCEND;
 
-    store.dispatch(setSortDirection(columns, col.id, newDirection));
+    store.dispatch(
+        setSortDirection({
+            columns,
+            id: col.id,
+            sortDirection: newDirection,
+            stateKey
+        })
+    );
 
     if (columnManager.config.sortable.method.toUpperCase()
         === SORT_METHODS.LOCAL) {
@@ -193,11 +231,27 @@ export const handleSort = (
     }
 };
 
-export const handleColumnClick = (
-    { columns, col, columnManager, dataSource, direction, pager, stateKey, store }
-) => {
+export const handleColumnClick = ({
+    columns,
+    col,
+    columnManager,
+    dataSource,
+    direction,
+    pager,
+    stateKey,
+    store
+}) => {
     if (col.sortable) {
-        handleSort(columns, col, columnManager, dataSource, direction, pager, stateKey, store);
+        handleSort(
+            columns,
+            col,
+            columnManager,
+            dataSource,
+            direction,
+            pager,
+            stateKey,
+            store
+        );
     }
 
     if (col.HANDLE_CLICK) {
@@ -215,9 +269,8 @@ export const isSortable = (col, columnManager) => {
         return columnManager.config.sortable.enabled;
     }
 
-    else {
-        return columnManager.config.defaultSortable;
-    }
+    return columnManager.config.defaultSortable;
+
 };
 
 export const getWidth = (col, key, columns, defaultColumnWidth) => {
@@ -254,7 +307,5 @@ export const isColumnResizable = (col, columnManager) => {
         return columnManager.config.resizable;
     }
 
-    else {
-        return columnManager.config.defaultResizable;
-    }
+    return columnManager.config.defaultResizable;
 };

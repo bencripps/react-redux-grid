@@ -35,7 +35,7 @@ export function getAsyncData({ stateKey, dataSource }) {
                         setLoaderState({ state: false, stateKey })
                     );
 
-                    return dispatch({
+                    dispatch({
                         type: SET_DATA,
                         data: response.data,
                         total: response.total,
@@ -43,7 +43,7 @@ export function getAsyncData({ stateKey, dataSource }) {
                         success: true,
                         stateKey
                     });
-
+                    return;
                 }
 
                 if (response && !response.data) {
@@ -53,7 +53,7 @@ export function getAsyncData({ stateKey, dataSource }) {
                          but no data entry was found`
                     );
                     console.warn(
-                        `Please see 
+                        `Please see
                          https://github.com/bencripps/react-redux-grid
                          for documentation`
                     );
@@ -64,7 +64,7 @@ export function getAsyncData({ stateKey, dataSource }) {
                     setLoaderState({ state: false, stateKey })
                 );
 
-                return dispatch({
+                dispatch({
                     type: ERROR_OCCURRED,
                     error: 'Unable to Retrieve Grid Data',
                     errorOccurred: true,
@@ -127,11 +127,13 @@ export function setColumns({ columns, stateKey }) {
     return { type: SET_COLUMNS, columns: cols, stateKey };
 }
 
-export function setSortDirection(cols, id, sortDirection) {
+export function setSortDirection({
+    columns, id, sortDirection, stateKey
+}) {
 
-    let columns = cols;
+    let cols = columns;
 
-    columns = cols.map((col) => {
+    cols = columns.map((col) => {
 
         if (col.id === id) {
             col.sortDirection = sortDirection;
@@ -146,7 +148,7 @@ export function setSortDirection(cols, id, sortDirection) {
         return col;
     });
 
-    return { type: SET_SORT_DIRECTION, columns };
+    return { type: SET_SORT_DIRECTION, columns: cols, stateKey };
 }
 
 export function doLocalSort({ data, stateKey }) {
@@ -188,8 +190,8 @@ export function doRemoteSort(
                              entry was found`
                         );
                         console.warn(
-                            `Please see 
-                             https://github.com/bencripps/react-redux-grid 
+                            `Please see
+                             https://github.com/bencripps/react-redux-grid
                              for documentation`
                         );
                         /* eslint-enable no-console */
@@ -262,9 +264,9 @@ export function setColumnVisibility({ columns, column, isHidden, stateKey }) {
     return { type: SET_COLUMNS, columns: columnsArr, stateKey };
 }
 
-export function resizeColumns(width, id, nextColumn, cols, stateKey) {
+export function resizeColumns({ width, id, nextColumn, columns, stateKey }) {
 
-    const columns = cols.map((col) => {
+    const cols = columns.map((col) => {
 
         if (col.id === id) {
             col.width = `${width}%`;
@@ -281,7 +283,7 @@ export function resizeColumns(width, id, nextColumn, cols, stateKey) {
     return {
         type: RESIZE_COLUMNS,
         stateKey,
-        columns
+        columns: cols
     };
 
 }

@@ -379,10 +379,16 @@ export const handleDrag = (
         return false;
     }
 
-    store.dispatch(resizeColumns(width, id, {
-        id: nextColumnKey,
-        width: nextColWidth
-    }, columns, stateKey));
+    store.dispatch(resizeColumns({
+        width,
+        id,
+        nextColumn: {
+            id: nextColumnKey,
+            width: nextColWidth
+        },
+        columns,
+        stateKey
+    }));
 
 };
 
