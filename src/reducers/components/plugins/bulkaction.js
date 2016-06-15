@@ -11,9 +11,9 @@ export default function bulkaction(state = initialState, action) {
     switch (action.type) {
 
     case REMOVE_TOOLBAR:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             isRemoved: action.value
-        });
+        }));
 
     default:
         return state;

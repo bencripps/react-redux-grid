@@ -6,9 +6,7 @@ import {
     SET_FILTER_MENU_VALUES
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({
-    filterState: fromJS.Map
-});
+const initialState = fromJS({});
 
 export default function filter(state = initialState, action) {
 
@@ -20,17 +18,20 @@ export default function filter(state = initialState, action) {
         });
 
     case SET_FILTER_MENU_VALUES:
+
+        const newValues = state
+            .mergeIn([action.stateKey, 'filterMenuValues'], action.filter)
+            .getIn([action.stateKey, 'filterMenuValues']);
+
         return state.mergeIn([action.stateKey], {
-            filterMenuValues: Object.assign(
-                state.get(action.stateKey).filterMenuValues || {}, action.filter
-            ),
+            filterMenuValues: newValues,
             filterMenuShown: true
         });
 
     case SHOW_FILTER_MENU:
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             filterMenuShown: action.metaData.filterMenuShown
-        });
+        }));
 
     default:
         return state;

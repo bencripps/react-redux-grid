@@ -59,7 +59,7 @@ Menu.propTypes = {
     reducerKeys: PropTypes.object,
     rowData: PropTypes.object,
     rowId: PropTypes.string,
-    rowIndex: PropTypes.string,
+    rowIndex: PropTypes.number,
     stateKey: PropTypes.string,
     store: PropTypes.object,
     type: PropTypes.string

@@ -45,8 +45,8 @@ export const ActionColumn = ({
     );
 
     const className = menuShown
-        ? prefix(actions.iconCls, 'active') || prefix(iconCls, 'active')
-        : prefix(actions.iconCls) || prefix(iconCls);
+        ? prefix(actions.iconCls || iconCls, 'active')
+        : prefix(actions.iconCls || iconCls);
 
     const iconProps = {
         className
@@ -301,12 +301,11 @@ export const handleHideMenu = (
         e.target, 'react-grid-action-container'
     );
 
-    const menuKey = reducerKeys.menu || 'Menu';
+    const menuKey = reducerKeys.menu || 'menu';
+    const menu = store.getState()[menuKey];
+    const menuState = menu ? menu.get(stateKey) : null;
 
-    const menuState = store.getState()[menuKey]
-        .get(stateKey);
-
-    const headerMenuShown = menuState && menuState['header-row'];
+    const headerMenuShown = menuState && menuState.get('header-row');
 
     const hide = () => {
         setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);

@@ -47,7 +47,7 @@ export default function editor(state = initialState, action) {
 
         const isValid = isRowValid(action.columns, action.values);
 
-        return state.setIn([action.stateKey], {
+        return state.setIn([action.stateKey], fromJS({
             row: {
                 key: action.rowId,
                 values: action.values,
@@ -56,14 +56,14 @@ export default function editor(state = initialState, action) {
                 valid: isValid,
                 isCreate: action.isCreate || false
             }
-        });
+        }));
 
     case ROW_VALUE_CHANGE:
         const { column, columns, value, stateKey } = action;
-        const previous = state.get(stateKey);
+        const previousValues = state.getIn([stateKey, 'row', 'values']).toJS();
 
         const rowValues = setDataAtDataIndex(
-            previous.row.values, column.dataIndex, value
+            previousValues, column.dataIndex, value
         );
 
         columns.forEach((col, i) => {
@@ -76,22 +76,16 @@ export default function editor(state = initialState, action) {
 
         const valid = isRowValid(columns, rowValues);
 
-        return state.setIn([action.stateKey], {
-            row: {
-                key: previous.row.key,
-                values: rowValues,
-                rowIndex: previous.row.rowIndex,
-                previousValues: previous.row.values,
-                top: previous.row.top,
-                isCreate: previous.row.isCreate || false,
-                valid
-            }
-        });
+        return state.mergeIn([action.stateKey, 'row'], fromJS({
+            values: rowValues,
+            previousValues: state.getIn([stateKey, 'row', 'values']),
+            valid
+        }));
 
     case REMOVE_ROW:
     case DISMISS_EDITOR:
     case CANCEL_ROW:
-        return state.setIn([action.stateKey], {});
+        return state.setIn([action.stateKey], fromJS({}));
 
     default:
         return state;

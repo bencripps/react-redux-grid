@@ -1,3 +1,15 @@
+/*
+* central function to retrieve state from reducer
+* used inside of mapStateToProps by grid and other plugins
+* @returns {object} state
+
+* will not return immutable object, only plain JS object
+
+* if a dynamic reducerKey is passed, it will favor that key
+* over the build in grid keys
+
+*/
+
 export function stateGetter(state, props, key, entry) {
 
     if (props
@@ -7,12 +19,17 @@ export function stateGetter(state, props, key, entry) {
 
         const dynamicKey = props.reducerKeys[key];
 
-        return state
+        const dynamicState = state
             && state[dynamicKey]
             && state[dynamicKey].get
             && state[dynamicKey].get(entry)
             ? state[dynamicKey].get(entry)
             : null;
+
+        return dynamicState &&
+            dynamicState.toJS
+            ? dynamicState.toJS()
+            : dynamicState;
     }
 
     const firstTry = state
@@ -23,7 +40,7 @@ export function stateGetter(state, props, key, entry) {
         : null;
 
     if (firstTry) {
-        return firstTry;
+        return firstTry.toJS ? firstTry.toJS() : firstTry;
     }
 
     const keys = Object.keys(state);
@@ -33,12 +50,16 @@ export function stateGetter(state, props, key, entry) {
     const keyIndex = normalizedKeys.indexOf(key.toLowerCase());
 
     if (keyIndex !== -1) {
-        return state
+        const secondTry = state
             && state[keys[keyIndex]]
             && state[keys[keyIndex]].get
             && state[keys[keyIndex]].get(entry)
             ? state[keys[keyIndex]].get(entry)
             : null;
+
+        return secondTry && secondTry.toJS
+            ? secondTry.toJS()
+            : secondTry;
     }
 
     return null;
