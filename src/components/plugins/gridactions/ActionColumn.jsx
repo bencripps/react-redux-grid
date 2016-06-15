@@ -45,8 +45,8 @@ export const ActionColumn = ({
     );
 
     const className = menuShown
-        ? prefix(actions.iconCls, 'active') || prefix(iconCls, 'active')
-        : prefix(actions.iconCls) || prefix(iconCls);
+        ? prefix(actions.iconCls || iconCls, 'active')
+        : prefix(actions.iconCls || iconCls);
 
     const iconProps = {
         className
@@ -305,7 +305,7 @@ export const handleHideMenu = (
     const menu = store.getState()[menuKey];
     const menuState = menu ? menu.get(stateKey) : null;
 
-    const headerMenuShown = menuState && menuState['header-row'];
+    const headerMenuShown = menuState && menuState.get('header-row');
 
     const hide = () => {
         setTimeout(() => { store.dispatch(hideMenu({ stateKey })); }, 0);
