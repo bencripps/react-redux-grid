@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import { connect } from 'react-redux';
 
 import { Column } from './header/Column.jsx';
 import { EmptyHeader } from './header/EmptyHeader.jsx';
@@ -13,25 +12,6 @@ import { CLASS_NAMES } from '../../constants/GridConstants';
 const dragAndDropManager = new DragAndDropManager();
 
 class Header extends Component {
-
-    static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columnState: PropTypes.object,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        dataSource: PropTypes.object,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object,
-        visible: PropTypes.bool
-    };
-
-    constructor() {
-        super();
-        this.handleDrag = handleDrag;
-    }
 
     render() {
 
@@ -100,6 +80,25 @@ class Header extends Component {
             </thead>
         );
     }
+
+    constructor() {
+        super();
+        this.handleDrag = handleDrag;
+    }
+
+    static propTypes = {
+        columnManager: PropTypes.object.isRequired,
+        columnState: PropTypes.object,
+        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+        dataSource: PropTypes.object,
+        pager: PropTypes.object,
+        plugins: PropTypes.object,
+        reducerKeys: PropTypes.object,
+        selectionModel: PropTypes.object,
+        stateKey: PropTypes.string,
+        store: PropTypes.object,
+        visible: PropTypes.bool
+    };
 }
 
 export const addEmptyInsert = (headers, visibleColumns, plugins) => {
@@ -136,16 +135,4 @@ export const handleColumnClick = (col) => {
     }
 };
 
-function mapStateToProps(state, props) {
-    return {
-        columnState: stateGetter(state, props, 'grid', props.stateKey),
-        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
-        pager: stateGetter(state, props, 'pager', props.stateKey)
-    };
-}
-
-const ConnectedHeader = connect(mapStateToProps)(Header);
-
-export { Header, ConnectedHeader };
-
-export default connect(mapStateToProps)(Header);
+export default Header;

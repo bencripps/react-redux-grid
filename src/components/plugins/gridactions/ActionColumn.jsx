@@ -3,11 +3,9 @@ import { Menu } from './actioncolumn/Menu.jsx';
 import {
     showMenu, hideMenu
 } from '../../../actions/plugins/actioncolumn/MenuActions';
-import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { elementContains } from '../../../util/elementContains';
-import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
@@ -373,11 +371,4 @@ export const handleActionClick = (
 
 };
 
-function mapStateToProps(state, props) {
-    return {
-        menuState: stateGetter(state, props, 'menu', props.stateKey),
-        gridState: stateGetter(state, props, 'grid', props.stateKey)
-    };
-}
-
-export default connect(mapStateToProps)(ActionColumn);
+export default ActionColumn;

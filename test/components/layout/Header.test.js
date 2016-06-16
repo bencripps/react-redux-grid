@@ -1,8 +1,10 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Header } from './../../../src/components/layout/Header.jsx';
-import { mockStore, getColumnManager, getSelModel } from './../../testUtils/index';
+import Header from './../../../src/components/layout/Header.jsx';
+import { 
+    mockStore, getColumnManager, getSelModel
+} from './../../testUtils/index';
 import {
     gridColumns,
     gridActions,
@@ -40,7 +42,9 @@ describe('Header Columns', () => {
 
     const component = header(props);
 
-    expect(component.props.children.props.className).toEqual('react-grid-header react-grid-header-hidden');
+    expect(
+        component.props.children.props.className
+    ).toEqual('react-grid-header react-grid-header-hidden');
     expect(component.props.children.props.children.length).toEqual(2);
 
 });

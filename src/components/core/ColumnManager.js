@@ -103,7 +103,7 @@ export default class ColumnManager {
     }
 
     addActionColumn({
-        cells, type, id, reducerKeys, rowData, rowIndex, stateKey
+        cells, columns, type, id, reducerKeys, rowData, rowIndex, menuState, stateKey
     }) {
 
         const { GRID_ACTIONS } = this.plugins;
@@ -120,6 +120,8 @@ export default class ColumnManager {
             reducerKeys,
             selModel: this.selModel,
             stateKey,
+            menuState,
+            gridState: columns,
             headerActionItemBuilder: this.config.headerActionItemBuilder,
             key: keyFromObject(cells, ['row', 'actionhandler'])
         };

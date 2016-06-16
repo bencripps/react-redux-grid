@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 
 import { Column } from './header/Column.jsx';
 import { EmptyHeader } from './header/EmptyHeader.jsx';
@@ -8,7 +7,7 @@ import { EmptyHeader } from './header/EmptyHeader.jsx';
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
 import { keyFromObject } from '../../util/keyGenerator';
-import { throttle } from '../../util/throttle';
+import { debounce, throttle } from '../../util/throttle';
 import { stateGetter } from '../../util/stateGetter';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
@@ -28,7 +27,8 @@ class FixedHeader extends Component {
             stateKey,
             store,
             pager,
-            plugins
+            plugins,
+            menuState
         } = this.props;
 
         const {
@@ -125,11 +125,13 @@ class FixedHeader extends Component {
         }
 
         columnManager.addActionColumn({
+            columns,
             cells: headers,
             type: 'header',
             id: 'header-row',
             reducerKeys,
-            stateKey
+            stateKey,
+            menuState
         });
 
         addEmptyInsert(headers, visibleColumns, plugins, headerOffset);
@@ -170,7 +172,24 @@ class FixedHeader extends Component {
     }
 
     componentDidUpdate() {
-        this.getScrollWidth();
+
+        if (!this.updateFunc) {
+            this.updateFunc = debounce(this.getScrollWidth, 1000, true);
+        }
+
+        this.updateFunc();
+    }
+
+    componentWillUnmount() {
+        if (this.scrollTarget) {
+            this.scrollTarget.removeEventListener(
+                'scroll', this._scrollListener
+            );
+        }
+
+        if (this._scrollListener) {
+            delete this._scrollListener;
+        }
     }
 
     constructor() {
@@ -188,6 +207,7 @@ class FixedHeader extends Component {
         columnState: PropTypes.object,
         columns: PropTypes.arrayOf(PropTypes.object).isRequired,
         dataSource: PropTypes.object,
+        menuState: PropTypes.object,
         pager: PropTypes.object,
         plugins: PropTypes.object,
         reducerKeys: PropTypes.object,
@@ -269,12 +289,14 @@ class FixedHeader extends Component {
             }
         };
 
-        target.addEventListener('scroll',
-            config.listener
-                ? config.listener.bind(this, {
-                    headerDOM
-                }) : defaultListener
-        );
+        this._scrollListener = config.listener
+            ? config.listener.bind(this, {
+                headerDOM
+            }) : defaultListener;
+
+        this.scrollTarget = target;
+
+        this.scrollTarget.addEventListener('scroll', this._scrollListener);
     }
 
     getScrollWidth() {
@@ -398,16 +420,4 @@ export const handleColumnClick = (col) => {
     }
 };
 
-function mapStateToProps(state, props) {
-    return {
-        columnState: stateGetter(state, props, 'grid', props.stateKey),
-        dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
-        pager: stateGetter(state, props, 'pager', props.stateKey)
-    };
-}
-
-const ConnectedFixedHeader = connect(mapStateToProps)(FixedHeader);
-
-export { FixedHeader, ConnectedFixedHeader };
-
-export default connect(mapStateToProps)(FixedHeader);
+export default FixedHeader;

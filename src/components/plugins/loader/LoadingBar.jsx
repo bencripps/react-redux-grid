@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
-import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 export const LoadingBar = ({ isLoading, plugins }) => {
@@ -28,10 +26,4 @@ LoadingBar.propTypes = {
 
 LoadingBar.defaultProps = {};
 
-function mapStateToProps(state, props) {
-    return {
-        isLoading: stateGetter(state, props, 'loader', props.stateKey)
-    };
-}
-
-export default connect(mapStateToProps)(LoadingBar);
+export default LoadingBar;

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { ConnectedHeader as Header} from './layout/Header.jsx';
-import { ConnectedFixedHeader as FixedHeader} from './layout/FixedHeader.jsx';
+import Header from './layout/Header.jsx';
+import FixedHeader from './layout/FixedHeader.jsx';
 import { Row } from './layout/Row.jsx';
 import {
     ConnectedPagerToolbar as PagerToolbar
@@ -28,6 +28,7 @@ class Grid extends Component {
             columnState,
             gridData,
             height,
+            isLoading,
             pageSize,
             plugins,
             events,
@@ -36,7 +37,8 @@ class Grid extends Component {
             store,
             pager,
             editorState,
-            selectedRows
+            selectedRows,
+            menuState
         } = this.props;
 
         let columns = columnState && columnState.columns
@@ -75,6 +77,11 @@ class Grid extends Component {
             store
         };
 
+        const bulkActionCmp = plugins.BULK_ACTIONS
+            && plugins.BULK_ACTIONS.enabled
+            ? <BulkActionToolbar { ...bulkActionProps } />
+            : null;
+
         const filterProps = {
             columnManager: this.columnManager,
             pageSize,
@@ -84,15 +91,24 @@ class Grid extends Component {
             store
         };
 
+        const filterCmp = plugins.FILTER_CONTAINER
+            && plugins.FILTER_CONTAINER.enabled
+            ? <FilterToolbar { ...filterProps } />
+            : null;
+
         const headerProps = {
             columnManager: this.columnManager,
             columns,
             plugins,
             reducerKeys,
+            dataSource: gridData,
+            pager,
+            columnState,
             selectionModel: this.selectionModel,
             stateKey,
             store,
-            visible: false
+            visible: false,
+            menuState
         };
 
         const fixedHeaderProps = Object.assign({
@@ -122,7 +138,8 @@ class Grid extends Component {
             reducerKeys,
             selectionModel: this.selectionModel,
             stateKey,
-            store
+            store,
+            menuState
         };
 
         const tableProps = {
@@ -145,14 +162,15 @@ class Grid extends Component {
             plugins,
             reducerKeys,
             stateKey,
-            store
+            store,
+            isLoading
         };
 
         return (
             <div { ...containerProps }>
                 <Message { ...messageProps } />
-                <BulkActionToolbar { ...bulkActionProps } />
-                <FilterToolbar { ...filterProps } />
+                { bulkActionCmp }
+                { filterCmp }
                 <FixedHeader { ...fixedHeaderProps } />
                 <div { ...tableContainerProps } >
                     <table { ...tableProps }>
@@ -230,6 +248,8 @@ class Grid extends Component {
             PropTypes.string,
             PropTypes.number
         ]),
+        isLoading: PropTypes.bool,
+        menuState: PropTypes.object,
         pageSize: PropTypes.number,
         pager: PropTypes.object,
         plugins: PropTypes.object,
@@ -291,7 +311,9 @@ function mapStateToProps(state, props) {
         gridData: stateGetter(state, props, 'dataSource', props.stateKey),
         editorState: stateGetter(state, props, 'editor', props.stateKey),
         pager: stateGetter(state, props, 'pager', props.stateKey),
-        selectedRows: stateGetter(state, props, 'selection', props.stateKey)
+        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
+        menuState: stateGetter(state, props, 'menu', props.stateKey),
+        isLoading: stateGetter(state, props, 'loader', props.stateKey)
     };
 }
 

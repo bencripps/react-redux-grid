@@ -18,6 +18,7 @@ export const Row = ({
         editorState,
         emptyDataMessage,
         events,
+        menuState,
         pageSize,
         pager,
         plugins,
@@ -35,7 +36,7 @@ export const Row = ({
     );
 
     const rowComponents = getRows(
-        columns, columnManager, editor, editorState, reducerKeys,
+        columns, columnManager, editor, editorState, menuState, reducerKeys,
         rows, events, plugins, selectionModel, selectedRows, stateKey, store
         );
 
@@ -59,6 +60,7 @@ Row.propTypes = {
     editorState: PropTypes.object,
     emptyDataMessage: PropTypes.string,
     events: PropTypes.object,
+    menuState: PropTypes.object,
     pageSize: PropTypes.number,
     pager: PropTypes.object,
     plugins: PropTypes.object,
@@ -143,6 +145,7 @@ export const getRowComponents = (
     columnManager,
     editor,
     editorState,
+    menuState,
     reducerKeys,
     row,
     events,
@@ -207,12 +210,14 @@ export const getRowComponents = (
 
     columnManager.addActionColumn({
         cells,
+        columns,
         type: 'row',
         id,
         reducerKeys,
         rowData: row,
         rowIndex: index,
-        stateKey
+        stateKey,
+        menuState
     });
 
     selectionModel.updateCells(cells, id, 'row', reducerKeys, stateKey);
@@ -265,7 +270,6 @@ export const handleRowSingleClickEvent = (
     events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
 ) => {
 
-
     if (getSelectedText()) {
         return false;
     }
@@ -311,6 +315,7 @@ export const getRows = (
     columnManager,
     editor,
     editorState,
+    menuState,
     reducerKeys,
     rows,
     events,
@@ -328,6 +333,7 @@ export const getRows = (
                 columnManager,
                 editor,
                 editorState,
+                menuState,
                 reducerKeys,
                 row,
                 events,
