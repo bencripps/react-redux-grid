@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { keyFromObject } from '../../../util/keyGenerator';
+import { isPluginEnabled } from '../../../util/isPluginEnabled';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import {
     removeToolbar
@@ -15,11 +16,9 @@ class BulkActionToolbar extends Component {
 
     render() {
 
-        const { bulkActionState, selectedRows, stateKey, plugins } = this.props;
+        const { bulkActionState, selectedRows, plugins } = this.props;
 
-        const toolbar = plugins
-            && plugins.BULK_ACTIONS
-            && plugins.BULK_ACTIONS.enabled
+        const toolbar = isPluginEnabled(plugins, 'BULK_ACTIONS')
             && plugins.BULK_ACTIONS.actions
             && plugins.BULK_ACTIONS.actions.length > 0
             ? getToolbar(

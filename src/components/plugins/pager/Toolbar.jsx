@@ -6,6 +6,7 @@ import { Button } from './toolbar/Button.jsx';
 import { Description } from './toolbar/Description.jsx';
 
 import { prefix } from '../../../util/prefix';
+import { isPluginEnabled } from '../../../util/isPluginEnabled';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
@@ -45,9 +46,7 @@ export class PagerToolbar extends Component {
             return customComponent;
         }
 
-        const component = plugins
-                        && plugins.PAGER
-                        && plugins.PAGER.enabled
+        const component = isPluginEnabled(plugins, 'PAGER')
                         ? getPager(
                             pagerDataSource,
                             pageSize,

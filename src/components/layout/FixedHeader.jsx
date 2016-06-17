@@ -6,9 +6,8 @@ import { EmptyHeader } from './header/EmptyHeader.jsx';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
-import { keyFromObject } from '../../util/keyGenerator';
 import { debounce, throttle } from '../../util/throttle';
-import { stateGetter } from '../../util/stateGetter';
+import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
 
@@ -155,9 +154,7 @@ class FixedHeader extends Component {
 
         const { plugins } = this.props;
 
-        const isSticky = plugins.STICKY_HEADER
-            ? plugins.STICKY_HEADER.enabled
-            : false;
+        const isSticky = isPluginEnabled(plugins, 'STICKY_HEADER');
 
         const headerDOM = ReactDOM.findDOMNode(this);
         const tableHeight = headerDOM.parentNode.clientHeight;

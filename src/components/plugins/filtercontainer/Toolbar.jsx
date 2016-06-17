@@ -8,6 +8,7 @@ import { ClearButton } from './toolbar/ClearButton.jsx';
 import { FilterButton } from './toolbar/FilterButton.jsx';
 
 import { prefix } from '../../../util/prefix';
+import { isPluginEnabled } from '../../../util/prefix';
 
 import filterUtils from '../../../util/filterUtils';
 import { stateGetter } from '../../../util/stateGetter';
@@ -42,9 +43,7 @@ export const FilterToolbar = ({
         return customComponent;
     }
 
-    const toolbar = plugins
-        && plugins.FILTER_CONTAINER
-        && plugins.FILTER_CONTAINER.enabled
+    const toolbar = isPluginEnabled(plugins, 'FILTER_CONTAINER')
         ? getToolbar(
             columnManager,
             dataSource,
@@ -194,7 +193,7 @@ function mapStateToProps(state, props) {
         dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
         selectedRows: stateGetter(state, props, 'selection', props.stateKey),
         filter: stateGetter(state, props, 'filter', props.stateKey),
-        pager: stateGetter(state, props, 'pager',  props.stateKey)
+        pager: stateGetter(state, props, 'pager', props.stateKey)
     };
 }
 

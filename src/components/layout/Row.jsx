@@ -7,6 +7,7 @@ import { PlaceHolder } from './row/PlaceHolder.jsx';
 import { keyGenerator } from '../../util/keyGenerator';
 import { prefix } from '../../util/prefix';
 import { getData } from '../../util/getData';
+import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -301,8 +302,7 @@ export const getRowSelection = (
         return false;
     }
 
-    if (!plugins.PAGER
-        || !plugins.PAGER.enabled
+    if (!isPluginEnabled(plugins, 'PAGER')
         || plugins.PAGER.pagingType === 'remote') {
         return dataSource.data;
     }

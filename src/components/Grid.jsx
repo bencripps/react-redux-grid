@@ -17,6 +17,7 @@ import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import { getAsyncData, setData, setColumns } from '../actions/GridActions';
 import { stateGetter } from '../util/stateGetter';
+import { isPluginEnabled } from '../util/isPluginEnabled';
 import '../style/main.styl';
 
 class Grid extends Component {
@@ -77,8 +78,7 @@ class Grid extends Component {
             store
         };
 
-        const bulkActionCmp = plugins.BULK_ACTIONS
-            && plugins.BULK_ACTIONS.enabled
+        const bulkActionCmp = isPluginEnabled(plugins, 'BULK_ACTIONS')
             ? <BulkActionToolbar { ...bulkActionProps } />
             : null;
 
@@ -91,8 +91,7 @@ class Grid extends Component {
             store
         };
 
-        const filterCmp = plugins.FILTER_CONTAINER
-            && plugins.FILTER_CONTAINER.enabled
+        const filterCmp = isPluginEnabled(plugins, 'FILTER_CONTAINER')
             ? <FilterToolbar { ...filterProps } />
             : null;
 

@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react';
 import { prefix } from '../../../util/prefix';
+import { isPluginEnabled } from '../../../util/isPluginEnabled';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 export const LoadingBar = ({ isLoading, plugins }) => {
 
-    const showLoader = plugins
-                        && plugins.LOADER
-                        && plugins.LOADER.enabled
-                        && isLoading;
+    const showLoader = isPluginEnabled(plugins, 'LOADER')
+        && isLoading;
 
     const loadingBarProps = {
         className: prefix(CLASS_NAMES.LOADING_BAR, showLoader ? 'active' : '')
