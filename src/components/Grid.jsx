@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { fromJS, is } from 'immutable';
 import { connect } from 'react-redux';
 import Header from './layout/Header.jsx';
 import FixedHeader from './layout/FixedHeader.jsx';
@@ -242,15 +243,14 @@ class Grid extends Component {
                 columns: ''
             };
 
-            const nextStateProps = JSON.stringify(
-                mapStateToProps(store.getState(), propsWithoutPlugins)
-            );
+            const nextStateProps =
+                fromJS(mapStateToProps(store.getState(), propsWithoutPlugins));
 
-            nextProps = JSON.stringify(nextPropsWithoutPlugins);
+            nextProps = fromJS(nextPropsWithoutPlugins);
 
             result = (
-                nextProps !== this._lastProps
-                || nextStateProps !== this._stateProps
+                !is(nextProps, this._lastProps)
+                || !is(nextStateProps, this._stateProps)
             );
 
             this._stateProps = nextStateProps;
