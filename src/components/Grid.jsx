@@ -224,6 +224,42 @@ class Grid extends Component {
         this.editor.init(plugins, stateKey, store, events);
     }
 
+    shouldComponentUpdate(nextProps) {
+        let result = true;
+
+        try {
+            const { store } = this.props;
+
+            const propsWithoutPlugins = {
+                ...this.props,
+                plugins: {},
+                columns: ''
+            };
+
+            const nextPropsWithoutPlugins = {
+                ...nextProps,
+                plugins: {},
+                columns: ''
+            };
+
+            const nextStateProps = JSON.stringify(
+                mapStateToProps(store.getState(), propsWithoutPlugins)
+            );
+
+            nextProps = JSON.stringify(nextPropsWithoutPlugins);
+
+            result = (
+                nextProps !== this._lastProps
+                || nextStateProps !== this._stateProps
+            );
+
+            this._stateProps = nextStateProps;
+            this._lastProps = nextProps;
+        } catch (e) { } // eslint-disable-line
+
+        return result;
+    }
+
     constructor(props) {
         super(props);
 
