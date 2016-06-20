@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Input } from './Input.jsx';
-import { CLASS_NAMES } from './../../../constants/GridConstants';
-import { prefix } from './../../../util/prefix';
-import { nameFromDataIndex } from './../../../util/getData';
+import { CLASS_NAMES } from './../../../../../constants/GridConstants';
+import { prefix } from './../../../../../util/prefix';
+import { nameFromDataIndex } from './../../../../../util/getData';
 
 const wrapperCls = prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
 

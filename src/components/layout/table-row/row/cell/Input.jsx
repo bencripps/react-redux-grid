@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 
 import {
     updateCellValue
-} from './../../../actions/plugins/editor/EditorActions';
+} from './../../../../../actions/plugins/editor/EditorActions';
 
 import {
     nameFromDataIndex
-} from './../../../util/getData';
+} from './../../../../../util/getData';
 
 export const Input = ({
     cellData,

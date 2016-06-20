@@ -97,7 +97,7 @@ export const plugins = {
         enabled: true
     },
     SELECTION_MODEL: {
-        mode: 'checkbox-multi',
+        mode: 'multi',
         enabled: true,
         allowDeselect: true,
         activeCls: 'active',
@@ -202,4 +202,4 @@ export const columns = [
     }
 ];
 
-export { data } from './data';
+export { halfData as data } from './data';

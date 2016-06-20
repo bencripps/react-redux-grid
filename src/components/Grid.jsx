@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { fromJS, is } from 'immutable';
 import { connect } from 'react-redux';
 import Header from './layout/Header.jsx';
 import FixedHeader from './layout/FixedHeader.jsx';
-import { Row } from './layout/Row.jsx';
+import Row from './layout/TableRow.jsx';
 import {
     ConnectedPagerToolbar as PagerToolbar
 } from './plugins/pager/Toolbar.jsx';
@@ -17,7 +16,8 @@ import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import { getAsyncData, setData, setColumns } from '../actions/GridActions';
-import { stateGetter } from '../util/stateGetter';
+import { mapStateToProps } from '../util/mapStateToProps';
+import { shouldGridUpdate } from '../util/shouldComponentUpdate';
 import { isPluginEnabled } from '../util/isPluginEnabled';
 import '../style/main.styl';
 
@@ -225,43 +225,10 @@ class Grid extends Component {
         this.editor.init(plugins, stateKey, store, events);
     }
 
-    shouldComponentUpdate(nextProps) {
-        let result = true;
-
-        try {
-            const { store } = this.props;
-
-            const propsWithoutPlugins = {
-                ...this.props,
-                plugins: {},
-                columns: ''
-            };
-
-            const nextPropsWithoutPlugins = {
-                ...nextProps,
-                plugins: {},
-                columns: ''
-            };
-
-            const nextStateProps =
-                fromJS(mapStateToProps(store.getState(), propsWithoutPlugins));
-
-            nextProps = fromJS(nextPropsWithoutPlugins);
-
-            result = (
-                !is(nextProps, this._lastProps)
-                || !is(nextStateProps, this._stateProps)
-            );
-
-            this._stateProps = nextStateProps;
-            this._lastProps = nextProps;
-        } catch (e) { } // eslint-disable-line
-
-        return result;
-    }
-
     constructor(props) {
         super(props);
+
+        this.shouldComponentUpdate = shouldGridUpdate.bind(this);
 
         this.columnManager = new ColumnManager();
 
@@ -338,18 +305,6 @@ class Grid extends Component {
             store.dispatch(setColumns({ columns, stateKey }));
         }
     }
-}
-
-function mapStateToProps(state, props) {
-    return {
-        columnState: stateGetter(state, props, 'grid', props.stateKey),
-        gridData: stateGetter(state, props, 'dataSource', props.stateKey),
-        editorState: stateGetter(state, props, 'editor', props.stateKey),
-        pager: stateGetter(state, props, 'pager', props.stateKey),
-        selectedRows: stateGetter(state, props, 'selection', props.stateKey),
-        menuState: stateGetter(state, props, 'menu', props.stateKey),
-        isLoading: stateGetter(state, props, 'loader', props.stateKey)
-    };
 }
 
 const ConnectedGrid = connect(mapStateToProps)(Grid);

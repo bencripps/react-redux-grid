@@ -1,13 +1,10 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 import { Editor } from './cell/Editor.jsx';
-
-import { prefix } from '../../util/prefix';
-import { stateGetter } from '../../util/stateGetter';
-import { handleEditClick } from '../../util/handleEditClick';
-import { elementContains } from '../../util/elementContains';
-import { CLASS_NAMES } from '../../constants/GridConstants';
+import { prefix } from '../../../../util/prefix';
+import { handleEditClick } from './../../../../util/handleEditClick';
+import { elementContains } from './../../../../util/elementContains';
+import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
 export const Cell = ({
     cellData,

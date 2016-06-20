@@ -1,4 +1,4 @@
-export const data = [
+export const allData = [
     {
         "gender": "Female",
         "Name": "Kelly",
@@ -6999,4 +6999,6 @@ export const data = [
         "Email": "brayrr@indiegogo.com",
         "Address": "bholmesrr@moonfruit.com"
     }
-]
+];
+
+export const halfData = allData.slice(0, 500);
