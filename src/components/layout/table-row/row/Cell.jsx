@@ -100,7 +100,9 @@ export const getCellHTML = (
     }
 
     return (
-        <span> { cellData } </span>
+        <span>
+            { cellData }
+        </span>
         );
 
 };
