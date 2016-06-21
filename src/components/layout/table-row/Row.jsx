@@ -32,12 +32,13 @@ export class Row extends Component {
 
         const id = keyGenerator('row', index);
         const visibleColumns = columns.filter((col) => !col.hidden);
+        const cellValues = getCellValues(columns, row);
 
         if (Object.keys(row).length !== columns.length) {
             addEmptyCells(row, columns);
         }
 
-        const cells = Object.keys(row).map((k, i) => {
+        const cells = Object.keys(cellValues).map((k, i) => {
 
             const cellProps = {
                 index: i,
@@ -50,7 +51,7 @@ export class Row extends Component {
                 key: keyGenerator(k),
                 reducerKeys,
                 rowIndex: index,
-                rowData: row,
+                rowData: cellValues,
                 selectionModel,
                 stateKey,
                 store
@@ -139,6 +140,18 @@ export class Row extends Component {
     };
 
 }
+
+export const getCellValues = (columns, row) => {
+
+    const result = {};
+    const dataIndexes = columns.map(col => col.dataIndex);
+    
+    dataIndexes.forEach(idx => {
+        result[idx] = row[idx];
+    });
+
+    return result;
+};
 
 export const addEmptyInsert = (cells, visibleColumns, plugins) => {
 
