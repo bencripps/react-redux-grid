@@ -17,7 +17,12 @@ import
     dataSource
 from './../../../src/reducers/components/datasource';
 
+import {
+    resetLastUpdate
+} from './../../../src/util/lastUpdate';
+
 describe('The grid dataSource reducer setData func', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set data with a total', () => {
 
@@ -27,12 +32,12 @@ describe('The grid dataSource reducer setData func', () => {
             stateKey: 'test-grid',
             type: SET_DATA,
             total: 2,
-            data: [{x: 1}, {x: 2}]
+            data: [{ x: 1 }, { x: 2 }]
         };
 
         expect(
             dataSource(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 data: [
                     { x: 1 }, { x: 2 }
@@ -43,7 +48,8 @@ describe('The grid dataSource reducer setData func', () => {
                 total: 2,
                 currentRecords: [
                     { x: 1 }, { x: 2 }
-                ]
+                ],
+                lastUpdate: 1
             }
         }));
 
@@ -61,12 +67,13 @@ describe('The grid dataSource reducer setData func', () => {
 
         expect(
             dataSource(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
                 total: 2,
-                currentRecords: [{ x: 1 }, { x: 2 }]
+                currentRecords: [{ x: 1 }, { x: 2 }],
+                lastUpdate: 1
             }
         }));
 
@@ -82,17 +89,19 @@ describe('The grid dataSource reducer setData func', () => {
             data: [{x: 1}, {x: 2}],
             currentRecords: [
                 { banana: 2 }
-            ]
+            ],
+            lastUpdate: 1
         };
 
         expect(
             dataSource(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
                 total: 2,
-                currentRecords: [{ banana: 2 }]
+                currentRecords: [{ banana: 2 }],
+                lastUpdate: 1
             }
         }));
 
@@ -101,6 +110,7 @@ describe('The grid dataSource reducer setData func', () => {
 });
 
 describe('The grid dataSource reducer dissmissEditor func', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should wipe previous values upon dissmiss', () => {
 
@@ -129,7 +139,8 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
                     { cell: 1 },
                     { cell: 2 }
                 ],
-                isEditing: false
+                isEditing: false,
+                lastUpdate: 1
             }
         });
 
@@ -140,11 +151,12 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 });
 
 describe('The grid dataSource reducer removeRow func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -160,7 +172,8 @@ describe('The grid dataSource reducer removeRow func', () => {
                 { cell: 1 },
                 { cell: 2 }
             ],
-            total: 2
+            total: 2,
+            lastUpdate: 1
         }
     });
 
@@ -177,7 +190,8 @@ describe('The grid dataSource reducer removeRow func', () => {
                 currentRecords: [
                     { cell: 2 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -188,7 +202,7 @@ describe('The grid dataSource reducer removeRow func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 
     it('Should remove row at 1 index if arg is passed', () => {
@@ -204,7 +218,8 @@ describe('The grid dataSource reducer removeRow func', () => {
                 currentRecords: [
                     { cell: 1 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -216,13 +231,14 @@ describe('The grid dataSource reducer removeRow func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
 
     });
 
 });
 
 describe('The grid dataSource reducer addRow func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -259,7 +275,8 @@ describe('The grid dataSource reducer addRow func', () => {
                     { cell: 2 }
                 ],
                 total: 2,
-                isEditing: true
+                isEditing: true,
+                lastUpdate: 1
             }
         });
 
@@ -270,7 +287,7 @@ describe('The grid dataSource reducer addRow func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 
     it('Should add a new blank row if no rows have been established', () => {
@@ -279,7 +296,8 @@ describe('The grid dataSource reducer addRow func', () => {
                 proxy: [],
                 data: [],
                 currentRecords: [],
-                total: 0
+                total: 0,
+                lastUpdate: 1
             }
         });
 
@@ -289,7 +307,8 @@ describe('The grid dataSource reducer addRow func', () => {
                 data: [{}],
                 currentRecords: [],
                 total: 0,
-                isEditing: true
+                isEditing: true,
+                lastUpdate: 1
             }
         });
 
@@ -300,12 +319,13 @@ describe('The grid dataSource reducer addRow func', () => {
 
         expect(
             dataSource(innerState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 
 });
 
 describe('The grid dataSource reducer saveRow func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -321,7 +341,8 @@ describe('The grid dataSource reducer saveRow func', () => {
                 { cell: 1 },
                 { cell: 2 }
             ],
-            total: 2
+            total: 2,
+            lastUpdate: 1
         }
     });
 
@@ -341,7 +362,8 @@ describe('The grid dataSource reducer saveRow func', () => {
                     { cell: 'newValues' },
                     { cell: 2 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -354,13 +376,14 @@ describe('The grid dataSource reducer saveRow func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
 
     });
 
 });
 
 describe('The grid dataSource reducer sortData func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -376,7 +399,8 @@ describe('The grid dataSource reducer sortData func', () => {
                 { cell: 1 },
                 { cell: 2 }
             ],
-            total: 2
+            total: 2,
+            lastUpdate: 1
         }
     });
 
@@ -396,7 +420,8 @@ describe('The grid dataSource reducer sortData func', () => {
                     { cell: 1 },
                     { cell: 2 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -411,13 +436,14 @@ describe('The grid dataSource reducer sortData func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
 
     });
 
 });
 
 describe('The grid dataSource reducer clearFilter func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -433,7 +459,8 @@ describe('The grid dataSource reducer clearFilter func', () => {
                 { cell: 2 },
                 { cell: 1 }
             ],
-            total: 2
+            total: 2,
+            lastUpdate: 1
         }
     });
 
@@ -453,7 +480,8 @@ describe('The grid dataSource reducer clearFilter func', () => {
                     { cell: 1 },
                     { cell: 2 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -464,13 +492,14 @@ describe('The grid dataSource reducer clearFilter func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
 
     });
 
 });
 
 describe('The grid dataSource reducer filterData func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const inState = fromJS({
         'test-grid': {
@@ -486,7 +515,8 @@ describe('The grid dataSource reducer filterData func', () => {
                 { cell: 1 },
                 { cell: 2 }
             ],
-            total: 2
+            total: 2,
+            lastUpdate: 1
         }
     });
 
@@ -506,7 +536,8 @@ describe('The grid dataSource reducer filterData func', () => {
                     { cell: 1 },
                     { cell: 2 }
                 ],
-                total: 2
+                total: 2,
+                lastUpdate: 1
             }
         });
 
@@ -521,7 +552,7 @@ describe('The grid dataSource reducer filterData func', () => {
 
         expect(
             dataSource(inState, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
 
     });
 

@@ -84,7 +84,7 @@ describe('Integration Test for Grid Actions', () => {
                     .className
             ).toContain('react-grid-action-menu-selected');
             done();
-        }, 200);
+        }, 1000);
 
     });
 });

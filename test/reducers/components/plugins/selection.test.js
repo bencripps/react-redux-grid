@@ -12,7 +12,13 @@ import
     selection
 from './../../../../src/reducers/components/plugins/selection';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The selectAll func in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
 
     const state = fromJS({
         'test-grid': {
@@ -33,11 +39,12 @@ describe('The selectAll func in the selection reducer', () => {
     it('Should return all rows as selected', () => {
         expect(
             selection(state, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
                 'test-grid': {
                     fakeRow: true,
-                    anotherRow: true
+                    anotherRow: true,
+                    lastUpdate: 1
                 }
             })
         );
@@ -46,6 +53,7 @@ describe('The selectAll func in the selection reducer', () => {
 });
 
 describe('The deselectAll func in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
 
     const state = fromJS({
         'test-grid': {
@@ -62,9 +70,9 @@ describe('The deselectAll func in the selection reducer', () => {
     it('Should return an empty map upon deselect', () => {
         expect(
             selection(state, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
-                'test-grid': {}
+                'test-grid': { lastUpdate: 1 }
             })
         );
     });
@@ -72,6 +80,7 @@ describe('The deselectAll func in the selection reducer', () => {
 });
 
 describe('The setSelection func in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
 
     const state = fromJS({
         'test-grid': {
@@ -92,10 +101,11 @@ describe('The setSelection func in the selection reducer', () => {
 
         expect(
             selection(state, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
                 'test-grid': {
-                    anotherRow: true
+                    anotherRow: true,
+                    lastUpdate: 1
                 }
             })
         );
@@ -114,10 +124,11 @@ describe('The setSelection func in the selection reducer', () => {
 
         expect(
             selection(state, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
                 'test-grid': {
-                    fakeRow: false
+                    fakeRow: false,
+                    lastUpdate: 1
                 }
             })
         );
@@ -135,10 +146,11 @@ describe('The setSelection func in the selection reducer', () => {
 
         expect(
             selection(innerState, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
                 'test-grid': {
-                    fakeRow: true
+                    fakeRow: true,
+                    lastUpdate: 1
                 }
             })
         );
@@ -161,11 +173,12 @@ describe('The setSelection func in the selection reducer', () => {
 
         expect(
             selection(selectedState, action)
-        ).toEqual(
+        ).toEqualImmutable(
             fromJS({
                 'test-grid': {
                     fakeRow: true,
-                    anotherRow: true
+                    anotherRow: true,
+                    lastUpdate: 1
                 }
             })
         );

@@ -11,7 +11,13 @@ import
     pager
 from './../../../../src/reducers/components/plugins/pager';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The pager reducer PAGE_LOCAL action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set pageIndex locally', () => {
 
@@ -25,9 +31,10 @@ describe('The pager reducer PAGE_LOCAL action', () => {
 
         expect(
             pager(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                pageIndex: 26
+                pageIndex: 26,
+                lastUpdate: 1
             }
         }));
 
@@ -36,6 +43,7 @@ describe('The pager reducer PAGE_LOCAL action', () => {
 });
 
 describe('The pager reducer PAGE_REMOTE action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set pageIndex locally', () => {
 
@@ -49,9 +57,10 @@ describe('The pager reducer PAGE_REMOTE action', () => {
 
         expect(
             pager(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                pageIndex: 19
+                pageIndex: 19,
+                lastUpdate: 1
             }
         }));
 

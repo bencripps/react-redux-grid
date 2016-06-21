@@ -12,7 +12,13 @@ import
     filter
 from './../../../../src/reducers/components/plugins/filter';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The filter reducer SET_FILTER_VALUE action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set a filter value, maintaining previous reducer state', () => {
 
@@ -32,12 +38,13 @@ describe('The filter reducer SET_FILTER_VALUE action', () => {
 
         expect(
             filter(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 filterMenuShown: true,
                 filterValue: {
                     someProp: 'filtering on prop'
-                }
+                },
+                lastUpdate: 1
             }
         }));
 
@@ -46,6 +53,7 @@ describe('The filter reducer SET_FILTER_VALUE action', () => {
 });
 
 describe('The filter reducer SHOW_FILTER_MENU action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should show filter menu, wiping previous state', () => {
 
@@ -66,9 +74,10 @@ describe('The filter reducer SHOW_FILTER_MENU action', () => {
 
         expect(
             filter(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                filterMenuShown: true
+                filterMenuShown: true,
+                lastUpdate: 1
             }
         }));
 
@@ -77,6 +86,7 @@ describe('The filter reducer SHOW_FILTER_MENU action', () => {
 });
 
 describe('The filter reducer SET_FILTER_MENU_VALUES action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should show filter menu, merging new filter vals with old', () => {
 
@@ -100,13 +110,14 @@ describe('The filter reducer SET_FILTER_MENU_VALUES action', () => {
 
         expect(
             filter(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 filterMenuShown: true,
                 filterMenuValues: {
                     someProp: 1,
                     newProp: 'newVal'
-                }
+                },
+                lastUpdate: 1
             }
         }));
 
@@ -126,12 +137,13 @@ describe('The filter reducer SET_FILTER_MENU_VALUES action', () => {
 
         expect(
             filter(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 filterMenuValues: {
                     newProp: 'newVal'
                 },
-                filterMenuShown: true
+                filterMenuShown: true,
+                lastUpdate: 1
             }
         }));
 

@@ -15,13 +15,15 @@
   "main": "src/index.js",
   "scripts": {
     "test": "karma start ./test/karma.config.js",
-    "test-browser": "karma start ./test/karma.config.js --browser",
-    "watch-test": "",
+    "test-browser": "npm test -- --browser",
+    "test-watch": "npm test -- --no-single-run --no-suppress-error-summary",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
+    "lint": "eslint ./src",
     "prod": "webpack -p --config webpack/webpack.config.prod.js",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "font-awesome": "^4.6.1",
     "immutable": "^3.8.1",
     "react": "^15.0.1",

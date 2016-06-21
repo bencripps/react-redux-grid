@@ -30,7 +30,7 @@ class Grid extends Component {
             columnState,
             gridData,
             height,
-            isLoading,
+            loadingState,
             pageSize,
             plugins,
             events,
@@ -163,7 +163,7 @@ class Grid extends Component {
             reducerKeys,
             stateKey,
             store,
-            isLoading
+            loadingState
         };
 
         return (
@@ -250,7 +250,7 @@ class Grid extends Component {
             PropTypes.string,
             PropTypes.number
         ]),
-        isLoading: PropTypes.bool,
+        loadingState: PropTypes.object,
         menuState: PropTypes.object,
         pageSize: PropTypes.number,
         pager: PropTypes.object,

@@ -5,7 +5,9 @@ import {
     HIDE_MENU
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function menu(state = initialState, action) {
 
@@ -13,17 +15,22 @@ export default function menu(state = initialState, action) {
 
     case SHOW_MENU:
         return state.setIn([action.stateKey], fromJS({
-            [action.id]: true
+            [action.id]: true,
+            lastUpdate: generateLastUpdate()
         }));
 
     case HIDE_MENU:
         if (action.id) {
             return state.setIn([action.stateKey], fromJS({
-                [action.id]: false
+                [action.id]: false,
+                lastUpdate: generateLastUpdate()
             }));
         }
 
-        return state.setIn([action.stateKey], fromJS({}));
+        return state.setIn(
+            [action.stateKey],
+            fromJS({ lastUpdate: generateLastUpdate() })
+        );
 
     default:
         return state;

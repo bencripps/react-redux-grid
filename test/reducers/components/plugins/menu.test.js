@@ -11,7 +11,13 @@ import
     menu
 from './../../../../src/reducers/components/plugins/menu';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The menu reducer SHOW_MENU action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should show a menu, hiding the previously opened menu', () => {
 
@@ -29,9 +35,10 @@ describe('The menu reducer SHOW_MENU action', () => {
 
         expect(
             menu(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                newId: true
+                newId: true,
+                lastUpdate: 1
             }
         }));
 
@@ -49,9 +56,10 @@ describe('The menu reducer SHOW_MENU action', () => {
 
         expect(
             menu(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                newId: true
+                newId: true,
+                lastUpdate: 1
             }
         }));
 
@@ -60,6 +68,7 @@ describe('The menu reducer SHOW_MENU action', () => {
 });
 
 describe('The menu reducer HIDE_MENU action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should hide a menu, also hiding the previously opened menu', () => {
 
@@ -77,9 +86,10 @@ describe('The menu reducer HIDE_MENU action', () => {
 
         expect(
             menu(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                newId: false
+                newId: false,
+                lastUpdate: 1
             }
         }));
 
@@ -97,9 +107,10 @@ describe('The menu reducer HIDE_MENU action', () => {
 
         expect(
             menu(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
-                newId: false
+                newId: false,
+                lastUpdate: 1
             }
         }));
 

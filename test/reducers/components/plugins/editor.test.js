@@ -15,6 +15,11 @@ import
     { isCellValid, isRowValid }
 from './../../../../src/reducers/components/plugins/editor';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The editor reducer isCellValid func', () => {
 
     it('Should use a validator if avail', () => {
@@ -151,6 +156,7 @@ describe('The editor reducer isRowValid func', () => {
 });
 
 describe('The editor reducer EDIT_ROW action', () => {
+    beforeEach(() => resetLastUpdate());
 
     const state = fromJS({});
 
@@ -183,7 +189,7 @@ describe('The editor reducer EDIT_ROW action', () => {
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 row: {
                     key: 'rowid-2',
@@ -195,7 +201,8 @@ describe('The editor reducer EDIT_ROW action', () => {
                     top: 30,
                     valid: true,
                     isCreate: false
-                }
+                },
+                lastUpdate: 1
             }
         }));
     });
@@ -230,7 +237,7 @@ describe('The editor reducer EDIT_ROW action', () => {
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 row: {
                     key: 'rowid-2',
@@ -242,7 +249,8 @@ describe('The editor reducer EDIT_ROW action', () => {
                     top: 30,
                     valid: false,
                     isCreate: true
-                }
+                },
+                lastUpdate: 1
             }
         }));
 
@@ -251,6 +259,7 @@ describe('The editor reducer EDIT_ROW action', () => {
 });
 
 describe('The editor reducer ROW_VALUE_CHANGE action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should return the correct rowValue change response', () => {
 
@@ -298,7 +307,7 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 row: {
                     key: 'rowid-2',
@@ -314,7 +323,8 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
                         col1: NaN,
                         col2: NaN
                     }
-                }
+                },
+                lastUpdate: 1
             }
         }));
 
@@ -326,6 +336,7 @@ describe([
     'The editor reducer REMOVE_ROW action, ',
     'The editor reducer DISMISS_EDITOR action, ',
     'The editor reducer CANCEL_ROW action'].join(''), () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should wipe the values upon remove', () => {
 
@@ -352,8 +363,8 @@ describe([
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
-            'test-grid': {}
+        ).toEqualImmutable(fromJS({
+            'test-grid': { lastUpdate: 1 }
         }));
     });
 
@@ -382,8 +393,8 @@ describe([
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
-            'test-grid': {}
+        ).toEqualImmutable(fromJS({
+            'test-grid': { lastUpdate: 1}
         }));
     });
 
@@ -412,8 +423,8 @@ describe([
 
         expect(
             editor(state, action)
-        ).toEqual(fromJS({
-            'test-grid': {}
+        ).toEqualImmutable(fromJS({
+            'test-grid': { lastUpdate: 1 }
         }));
     });
 

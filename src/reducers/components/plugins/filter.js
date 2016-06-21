@@ -6,7 +6,9 @@ import {
     SET_FILTER_MENU_VALUES
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function filter(state = initialState, action) {
 
@@ -14,7 +16,8 @@ export default function filter(state = initialState, action) {
 
     case SET_FILTER_VALUE:
         return state.mergeIn([action.stateKey], {
-            filterValue: action.value
+            filterValue: action.value,
+            lastUpdate: generateLastUpdate()
         });
 
     case SET_FILTER_MENU_VALUES:
@@ -25,12 +28,14 @@ export default function filter(state = initialState, action) {
 
         return state.mergeIn([action.stateKey], {
             filterMenuValues: newValues,
-            filterMenuShown: true
+            filterMenuShown: true,
+            lastUpdate: generateLastUpdate()
         });
 
     case SHOW_FILTER_MENU:
         return state.setIn([action.stateKey], fromJS({
-            filterMenuShown: action.metaData.filterMenuShown
+            filterMenuShown: action.metaData.filterMenuShown,
+            lastUpdate: generateLastUpdate()
         }));
 
     default:

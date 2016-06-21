@@ -2,9 +2,11 @@ import { fromJS } from 'immutable';
 
 import {
     REMOVE_TOOLBAR
-} from '../../../constants/ActionTypes';
+} from './../../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function bulkaction(state = initialState, action) {
 
@@ -12,7 +14,8 @@ export default function bulkaction(state = initialState, action) {
 
     case REMOVE_TOOLBAR:
         return state.setIn([action.stateKey], fromJS({
-            isRemoved: action.value
+            isRemoved: action.value,
+            lastUpdate: generateLastUpdate()
         }));
 
     default:

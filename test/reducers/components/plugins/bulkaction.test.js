@@ -10,7 +10,13 @@ import
     bulkaction
 from './../../../../src/reducers/components/plugins/bulkaction';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The bulkaction reducer', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set toolbar as visible', () => {
 
@@ -31,7 +37,8 @@ describe('The bulkaction reducer', () => {
         ).toEqual(
             fromJS({
                 'test-grid': {
-                    isRemoved: false
+                    isRemoved: false,
+                    lastUpdate: 1
                 }
             })
         );
@@ -57,7 +64,8 @@ describe('The bulkaction reducer', () => {
         ).toEqual(
             fromJS({
                 'test-grid': {
-                    isRemoved: true
+                    isRemoved: true,
+                    lastUpdate: 1
                 }
             })
         );

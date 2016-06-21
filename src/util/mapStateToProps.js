@@ -8,6 +8,6 @@ export function mapStateToProps(state, props) {
         pager: stateGetter(state, props, 'pager', props.stateKey),
         selectedRows: stateGetter(state, props, 'selection', props.stateKey),
         menuState: stateGetter(state, props, 'menu', props.stateKey),
-        isLoading: stateGetter(state, props, 'loader', props.stateKey)
+        loadingState: stateGetter(state, props, 'loader', props.stateKey)
     };
 }

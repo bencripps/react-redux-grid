@@ -11,7 +11,13 @@ import
     errorhandler
 from './../../../../src/reducers/components/plugins/errorhandler';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The errorhandler reducer', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set an error if state was blank', () => {
 
@@ -25,10 +31,11 @@ describe('The errorhandler reducer', () => {
 
         expect(
             errorhandler(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 error: 'A generic error occurred dude',
-                errorOccurred: true
+                errorOccurred: true,
+                lastUpdate: 1
             }
         }));
 
@@ -51,10 +58,11 @@ describe('The errorhandler reducer', () => {
 
         expect(
             errorhandler(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 error: 'A newer error happened',
-                errorOccurred: true
+                errorOccurred: true,
+                lastUpdate: 1
             }
         }));
 
@@ -65,7 +73,8 @@ describe('The errorhandler reducer', () => {
         const state = fromJS({
             'test-grid': {
                 error: 'A generic error occurred dude',
-                errorOccurred: true
+                errorOccurred: true,
+                lastUpdate: 1
             }
         });
 
@@ -76,10 +85,11 @@ describe('The errorhandler reducer', () => {
 
         expect(
             errorhandler(state, action)
-        ).toEqual(fromJS({
+        ).toEqualImmutable(fromJS({
             'test-grid': {
                 error: '',
-                errorOccurred: false
+                errorOccurred: false,
+                lastUpdate: 1
             }
         }));
 

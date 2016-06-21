@@ -4,9 +4,11 @@ import {
     SET_COLUMNS,
     RESIZE_COLUMNS,
     SET_SORT_DIRECTION
-} from '../../constants/ActionTypes';
+} from './../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function gridState(state = initialState, action) {
 
@@ -14,17 +16,20 @@ export default function gridState(state = initialState, action) {
 
     case SET_COLUMNS:
         return state.setIn([action.stateKey], fromJS({
-            columns: action.columns
+            columns: action.columns,
+            lastUpdate: generateLastUpdate()
         }));
 
     case SET_SORT_DIRECTION:
         return state.setIn([action.stateKey], fromJS({
-            columns: action.columns
+            columns: action.columns,
+            lastUpdate: generateLastUpdate()
         }));
 
     case RESIZE_COLUMNS:
         return state.setIn([action.stateKey], fromJS({
-            columns: action.columns
+            columns: action.columns,
+            lastUpdate: generateLastUpdate()
         }));
 
     default:

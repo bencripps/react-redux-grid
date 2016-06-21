@@ -5,7 +5,9 @@ import {
     DISMISS_ERROR
 } from '../../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function errorhandler(state = initialState, action) {
 
@@ -14,13 +16,15 @@ export default function errorhandler(state = initialState, action) {
     case ERROR_OCCURRED:
         return state.set(action.stateKey, fromJS({
             error: action.error,
-            errorOccurred: true
+            errorOccurred: true,
+            lastUpdate: generateLastUpdate()
         }));
 
     case DISMISS_ERROR:
         return state.set(action.stateKey, fromJS({
             error: '',
-            errorOccurred: false
+            errorOccurred: false,
+            lastUpdate: generateLastUpdate()
         }));
 
     default:
