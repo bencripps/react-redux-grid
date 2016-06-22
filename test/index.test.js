@@ -1,5 +1,26 @@
 import * as imports from './../src/';
+import { is } from 'immutable';
 import expect from 'expect';
+import { diff } from 'deep-diff';
+
+expect.extend({
+    toEqualImmutable(expected) {
+        expect.assert(
+            is(this.actual, expected),
+            'Expected \n%s\nto be equivalent to actual \n%s\n Diff: %s',
+            expected,
+            this.actual,
+            diff(
+                expected && expected.toJS
+                    ? expected.toJS()
+                    : expected,
+                this.actual && this.actual.toJS
+                    ? this.actual.toJS()
+                    : this.actual
+            )
+        );
+    }
+});
 
 function reducerTest(reducerKey) {
     expect(imports.Reducers[reducerKey]).toBeTruthy();

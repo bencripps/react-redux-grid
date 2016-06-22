@@ -4,8 +4,10 @@ import {
     SET_LOADING_STATE
 } from '../../../constants/ActionTypes';
 
+import { generateLastUpdate } from './../../../util/lastUpdate';
+
 const initialState = fromJS({
-    loaderState: fromJS.Map
+    lastUpdate: generateLastUpdate()
 });
 
 export default function loader(state = initialState, action) {
@@ -13,7 +15,10 @@ export default function loader(state = initialState, action) {
     switch (action.type) {
 
     case SET_LOADING_STATE:
-        return state.setIn([action.stateKey], action.state);
+        return state.mergeIn([action.stateKey], {
+            isLoading: action.state,
+            lastUpdate: generateLastUpdate()
+        });
 
     default:
         return state;

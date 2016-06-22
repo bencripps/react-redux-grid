@@ -1,45 +1,28 @@
 import { fromJS, is } from 'immutable';
-import { mapStateToProps } from './mapStateToProps';
+import deepEqual from 'deep-equal';
 import { keyGenerator } from './keyGenerator';
+import { getLastUpdate } from './lastUpdate';
 
 export function shouldGridUpdate(nextProps) {
     let result = true;
 
-    try {
-        const { store } = this.props;
+    const { reducerKeys, stateKey, store } = this.props;
 
-        const propsWithoutPlugins = {
-            ...this.props,
-            plugins: {},
-            columns: ''
-        };
+    const nextUpdate = getLastUpdate(store, stateKey, reducerKeys);
 
-        const nextPropsWithoutPlugins = {
-            ...nextProps,
-            plugins: {},
-            columns: ''
-        };
+    result = (
+        !deepEqual(nextUpdate, this._lastUpdate)
+        || !equalProps(nextProps, this._lastProps)
+    );
 
-        const nextStateProps =
-            fromJS(mapStateToProps(store.getState(), propsWithoutPlugins));
-
-        nextProps = fromJS(nextPropsWithoutPlugins);
-
-        result = (
-            !is(nextProps, this._lastProps)
-            || !is(nextStateProps, this._stateProps)
-        );
-
-        this._stateProps = nextStateProps;
-        this._lastProps = nextProps;
-    } catch (e) { } // eslint-disable-line
+    this._lastUpdate = nextUpdate;
+    this._lastProps = nextProps;
 
     return result;
 }
 
 export function shouldRowUpdate(nextProps) {
     let result = true;
-
     const {
         columns,
         editorState,
@@ -93,3 +76,9 @@ export function shouldRowUpdate(nextProps) {
 
     return result;
 }
+
+export const equalProps = (props = {}, newProps = {}) => {
+    return props.height === newProps.height
+        && deepEqual(props.classNames, newProps.classNames)
+        && deepEqual(props.events, newProps.events);
+};

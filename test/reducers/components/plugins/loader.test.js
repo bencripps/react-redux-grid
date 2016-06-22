@@ -10,7 +10,13 @@ import
     loader
 from './../../../../src/reducers/components/plugins/loader';
 
+import {
+    generateLastUpdate,
+    resetLastUpdate
+} from './../../../../src/util/lastUpdate';
+
 describe('The loader reducer SET_LOADING_STATE action', () => {
+    beforeEach(() => resetLastUpdate());
 
     it('Should set loading to true', () => {
 
@@ -24,8 +30,11 @@ describe('The loader reducer SET_LOADING_STATE action', () => {
 
         expect(
             loader(state, action)
-        ).toEqual(fromJS({
-            'test-grid': true
+        ).toEqualImmutable(fromJS({
+            'test-grid': {
+                isLoading: true,
+                lastUpdate: 1
+            }
         }));
 
     });
@@ -42,8 +51,11 @@ describe('The loader reducer SET_LOADING_STATE action', () => {
 
         expect(
             loader(state, action)
-        ).toEqual(fromJS({
-            'test-grid': false
+        ).toEqualImmutable(fromJS({
+            'test-grid': {
+                isLoading: false,
+                lastUpdate: 1
+            }
         }));
 
     });

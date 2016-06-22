@@ -15,6 +15,7 @@ describe('shouldGridUpdate utility function', () => {
     component.props.store = store;
 
     const nextProps = {
+        classNames: ['blurg'],
         columns: [
             {
                 name: 'col1',
@@ -45,28 +46,13 @@ describe('shouldGridUpdate utility function', () => {
 
         const alteredNextProps = {
             ...nextProps,
-            menuState: false
+            classNames: ['food']
         };
 
         expect(
            shouldGridUpdate.call(component, alteredNextProps)
         ).toEqual(
             true
-        );
-
-    });
-
-    it('return true if props have changed', () => {
-
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: false
-        };
-
-        expect(
-           shouldGridUpdate.call(component, alteredNextProps)
-        ).toEqual(
-            false
         );
 
     });

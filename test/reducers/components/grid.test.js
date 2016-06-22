@@ -12,6 +12,10 @@ import
     grid
 from './../../../src/reducers/components/grid';
 
+import {
+    resetLastUpdate
+} from './../../../src/util/lastUpdate';
+
 const columns = [
     {
         name: 'col1',
@@ -25,6 +29,7 @@ const columns = [
 ];
 
 describe('The grid reducer setCol func', () => {
+    beforeEach(() => resetLastUpdate());
 
     const state = fromJS({});
 
@@ -36,19 +41,22 @@ describe('The grid reducer setCol func', () => {
 
     const outState = fromJS({
         'test-grid': {
-            columns
+            columns,
+            lastUpdate: 1
         }
     });
 
     it('Should set passing cols', () => {
         expect(
             grid(state, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 
 });
 
 describe('The grid reducer SET_SORT_DIRECTION func', () => {
+    beforeEach(() => resetLastUpdate());
+
     const state = fromJS({});
 
     const action = {
@@ -59,18 +67,21 @@ describe('The grid reducer SET_SORT_DIRECTION func', () => {
 
     const outState = fromJS({
         'test-grid': {
-            columns
+            columns,
+            lastUpdate: 1
         }
     });
 
     it('Should set cols after sort action', () => {
         expect(
             grid(state, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 });
 
 describe('The grid reducer resizeCols func', () => {
+    beforeEach(() => resetLastUpdate());
+
     const state = fromJS({});
 
     const action = {
@@ -81,14 +92,15 @@ describe('The grid reducer resizeCols func', () => {
 
     const outState = fromJS({
         'test-grid': {
-            columns
+            columns,
+            lastUpdate: 1
         }
     });
 
     it('Should set cols after resize action', () => {
         expect(
             grid(state, action)
-        ).toEqual(outState);
+        ).toEqualImmutable(outState);
     });
 
 });

@@ -9,7 +9,9 @@ import { SET_DATA,
     SORT_DATA
 } from '../../constants/ActionTypes';
 
-const initialState = fromJS({});
+import { generateLastUpdate } from './../../util/lastUpdate';
+
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
 export default function dataSource(state = initialState, action) {
     switch (action.type) {
@@ -19,7 +21,8 @@ export default function dataSource(state = initialState, action) {
             data: action.data,
             proxy: action.data,
             total: action.total || action.data.length,
-            currentRecords: action.currentRecords || action.data
+            currentRecords: action.currentRecords || action.data,
+            lastUpdate: generateLastUpdate()
         }));
 
     case DISMISS_EDITOR:
@@ -32,7 +35,8 @@ export default function dataSource(state = initialState, action) {
                 proxy: previousProxy,
                 currentRecords: previousProxy,
                 total: previousTotal,
-                isEditing: false
+                isEditing: false,
+                lastUpdate: generateLastUpdate()
             }));
         }
 
@@ -46,7 +50,8 @@ export default function dataSource(state = initialState, action) {
         return state.mergeIn([action.stateKey], fromJS({
             data: remainingRows,
             proxy: remainingRows,
-            currentRecords: remainingRows
+            currentRecords: remainingRows,
+            lastUpdate: generateLastUpdate()
         }));
 
     case ADD_NEW_ROW:
@@ -68,7 +73,8 @@ export default function dataSource(state = initialState, action) {
         return state.mergeIn([action.stateKey], fromJS({
             data: data.unshift(newRow),
             proxy: data,
-            isEditing: true
+            isEditing: true,
+            lastUpdate: generateLastUpdate()
         }));
 
     case SAVE_ROW:
@@ -79,12 +85,14 @@ export default function dataSource(state = initialState, action) {
         return state.mergeIn([action.stateKey], fromJS({
             data: gridData,
             proxy: gridData,
-            currentRecords: gridData
+            currentRecords: gridData,
+            lastUpdate: generateLastUpdate()
         }));
 
     case SORT_DATA:
         return state.mergeIn([action.stateKey], {
-            data: action.data
+            data: action.data,
+            lastUpdate: generateLastUpdate()
         });
 
     case CLEAR_FILTER_LOCAL:
@@ -96,12 +104,14 @@ export default function dataSource(state = initialState, action) {
         return state.mergeIn([action.stateKey], {
             data: recs,
             proxy: recs,
-            currentRecords: recs
+            currentRecords: recs,
+            lastUpdate: generateLastUpdate()
         });
 
     case FILTER_DATA:
         return state.mergeIn([action.stateKey], {
-            data: action.data
+            data: action.data,
+            lastUpdate: generateLastUpdate()
         });
 
     default:
