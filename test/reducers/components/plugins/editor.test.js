@@ -282,7 +282,8 @@ describe('The editor reducer REPOSITION_EDITOR action', () => {
 
         const action = {
             type: REPOSITION_EDITOR,
-            top: 301
+            top: 301,
+            stateKey: 'test-grid'
         };
 
         expect(
@@ -298,11 +299,7 @@ describe('The editor reducer REPOSITION_EDITOR action', () => {
                     rowIndex: 2,
                     top: 301,
                     valid: false,
-                    isCreate: true,
-                    previousValues: {
-                        col1: NaN,
-                        col2: NaN
-                    }
+                    isCreate: true
                 },
                 lastUpdate: 1
             }

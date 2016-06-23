@@ -41,9 +41,7 @@ describe('Integration Test for Grid Actions', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...simpleProps } />, {
-        attachTo: document.body
-    });
+    const component = mount(<ConnectedGrid { ...simpleProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
