@@ -7,7 +7,8 @@ import {
     DISMISS_EDITOR,
     ROW_VALUE_CHANGE,
     CANCEL_ROW,
-    REMOVE_ROW
+    REMOVE_ROW,
+    REPOSITION_EDITOR
 } from './../../../../src/constants/ActionTypes';
 
 import
@@ -254,6 +255,58 @@ describe('The editor reducer EDIT_ROW action', () => {
             }
         }));
 
+    });
+
+});
+
+describe('The editor reducer REPOSITION_EDITOR action', () => {
+    beforeEach(() => resetLastUpdate());
+
+    it('Should set the new editor top', () => {
+
+        const state = fromJS({
+            'test-grid': {
+                row: {
+                    key: 'rowid-2',
+                    values: {
+                        col1: NaN,
+                        col2: NaN
+                    },
+                    rowIndex: 2,
+                    top: 30,
+                    valid: false,
+                    isCreate: true
+                }
+            }
+        });
+
+        const action = {
+            type: REPOSITION_EDITOR,
+            top: 301
+        };
+
+        expect(
+            editor(state, action)
+        ).toEqualImmutable(fromJS({
+            'test-grid': {
+                row: {
+                    key: 'rowid-2',
+                    values: {
+                        col1: NaN,
+                        col2: NaN
+                    },
+                    rowIndex: 2,
+                    top: 301,
+                    valid: false,
+                    isCreate: true,
+                    previousValues: {
+                        col1: NaN,
+                        col2: NaN
+                    }
+                },
+                lastUpdate: 1
+            }
+        }));
     });
 
 });

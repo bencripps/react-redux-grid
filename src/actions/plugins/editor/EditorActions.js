@@ -6,6 +6,7 @@ import {
     EDITOR_VALIDATION,
     ROW_VALUE_CHANGE,
     REMOVE_ROW,
+    REPOSITION_EDITOR,
     SAVE_ROW
 } from '../../../constants/ActionTypes';
 
@@ -23,6 +24,14 @@ export function editRow({
         columns,
         isCreate,
         stateKey
+    };
+}
+
+export function repositionEditor({ top, stateKey }) {
+    return {
+        type: REPOSITION_EDITOR,
+        stateKey,
+        top
     };
 }
 

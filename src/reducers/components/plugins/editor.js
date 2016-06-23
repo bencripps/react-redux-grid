@@ -5,7 +5,8 @@ import {
     DISMISS_EDITOR,
     ROW_VALUE_CHANGE,
     CANCEL_ROW,
-    REMOVE_ROW
+    REMOVE_ROW,
+    REPOSITION_EDITOR
 } from '../../../constants/ActionTypes';
 
 import {
@@ -88,6 +89,20 @@ export default function editor(state = initialState, action) {
         return state.setIn(
             [action.stateKey, 'lastUpdate'],
             generateLastUpdate()
+        );
+
+    case REPOSITION_EDITOR:
+
+        const row = state.mergeIn([action.stateKey, 'row'], {
+            top: action.top
+        }).getIn([action.stateKey, 'row']);
+
+        return state.mergeIn(
+            [action.stateKey],
+            fromJS({
+                row: row,
+                lastUpdate: generateLastUpdate()
+            })
         );
 
     case REMOVE_ROW:

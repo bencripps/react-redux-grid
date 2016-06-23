@@ -5,34 +5,23 @@ import { Button } from './inline/Button.jsx';
 
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
+import { getEditorTop } from '../../../util/getEditorTop';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
+import {
+    repositionEditor
+} from '../../../actions/plugins/editor/EditorActions';
 
 export class Inline extends Component {
-    componentDidUpdate() {
-        /*
-        * lifecycle event used to focus on first available input
-        */
-
-        const { config, editorState } = this.props;
-
-        if (!config.focusOnEdit) {
-            return false;
-        }
-
-        if (isEditorShown(editorState) && this.editedRow !== editorState.row.rowIndex) {
-            this.editedRow = editorState.row.rowIndex;
-            focusFirstEditor();
-        }
-
-        else if (!isEditorShown(editorState)) {
-            this.editedRow = null;
-        }
-
-    }
 
     render() {
 
-        const { BUTTON_TYPES, editorState, events, stateKey, store } = this.props;
+        const {
+            BUTTON_TYPES,
+            editorState,
+            events,
+            stateKey,
+            store
+        } = this.props;
 
         let top = -100;
 
@@ -41,8 +30,12 @@ export class Inline extends Component {
         }
 
         const inlineEditorProps = {
-            className: prefix(CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row
-                ? CLASS_NAMES.EDITOR.INLINE.SHOWN : CLASS_NAMES.EDITOR.INLINE.HIDDEN),
+            className: prefix(
+                CLASS_NAMES.EDITOR.INLINE.CONTAINER,
+                editorState && editorState.row
+                    ? CLASS_NAMES.EDITOR.INLINE.SHOWN
+                    : CLASS_NAMES.EDITOR.INLINE.HIDDEN
+            ),
             style: {
                 top: `${top}px`
             }
@@ -55,14 +48,88 @@ export class Inline extends Component {
         return (
             <div { ...inlineEditorProps }>
                 <span { ...buttonContainerProps }>
-                    <Button { ...{ type: BUTTON_TYPES.SAVE, editorState, events, stateKey, store } }/>
-                    <Button { ...{ type: BUTTON_TYPES.CANCEL, editorState, events, stateKey, store } }/>
+                    <Button { ...{
+                        type: BUTTON_TYPES.SAVE,
+                        editorState,
+                        events,
+                        stateKey,
+                        store }
+                    }/>
+                    <Button { ...{
+                        type: BUTTON_TYPES.CANCEL,
+                        editorState,
+                        events,
+                        stateKey,
+                        store
+                    } }/>
                 </span>
             </div>
         );
     }
 
+    componentDidUpdate() {
+        /*
+        * lifecycle event used to focus on first available input
+        */
+
+        const { config, editorState, store, stateKey } = this.props;
+
+        resetEditorPosition(editorState, store, stateKey);
+
+        if (!config.focusOnEdit) {
+            return false;
+        }
+
+        if (isEditorShown(editorState)
+            && this.editedRow !== editorState.row.rowIndex) {
+            this.editedRow = editorState.row.rowIndex;
+            focusFirstEditor();
+        }
+
+        else if (!isEditorShown(editorState)) {
+            this.editedRow = null;
+        }
+
+    }
+
 }
+
+export const getRowFromInput = (inputEl) => {
+
+    while (inputEl !== null && inputEl.classList) {
+        if (inputEl.classList.contains('react-grid-row')) {
+            return inputEl;
+        }
+
+        inputEl = inputEl.parentNode;
+    }
+
+    return null;
+
+};
+
+export const resetEditorPosition = (editorState, store, stateKey) => {
+    const input = document.querySelector(
+        '.react-grid-edit .react-grid-editor-wrapper input:enabled'
+    );
+
+    if (input) {
+        const row = getRowFromInput(input);
+
+        if (row && editorState) {
+            const top = getEditorTop(row);
+
+            if (top !== editorState.row.top) {
+                store.dispatch(repositionEditor({
+                    stateKey,
+                    top
+                }));
+            }
+
+        }
+    }
+
+};
 
 export const focusFirstEditor = () => {
     const input = document.querySelector(

@@ -29,6 +29,7 @@ export const REORDER_COLUMN = 'REORDER_COLUMN';
 export const NO_EVENT = 'NO_EVENT';
 
 export const EDIT_ROW = 'EDIT_ROW';
+export const REPOSITION_EDITOR = 'REPOSITION_EDITOR';
 export const REMOVE_ROW = 'REMOVE_ROW';
 export const ADD_NEW_ROW = 'ADD_NEW_ROW';
 export const CANCEL_ROW = 'CANCEL_ROW';
