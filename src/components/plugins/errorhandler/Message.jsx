@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { dismissError } from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
+import {
+    dismissError
+} from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
 
 export const Message = ({ errorHandler, plugins, store }) => {
 
@@ -15,7 +17,8 @@ export const Message = ({ errorHandler, plugins, store }) => {
 
     const showError = errorHandler && errorHandler.errorOccurred;
 
-    const message = errorHandler && errorHandler.error ? errorHandler.error : defaultMessage;
+    const message = errorHandler && errorHandler.error
+        ? errorHandler.error : defaultMessage;
 
     const errorMessage = getMessage(message, showError, store);
 
@@ -29,7 +32,10 @@ export const handleButtonClick = (store) => {
 export const getMessage = (message, isShown, store) => {
 
     const messageContainerProps = {
-        className: prefix(CLASS_NAMES.ERROR_HANDLER.CONTAINER, isShown ? 'shown' : null)
+        className: prefix(
+            CLASS_NAMES.ERROR_HANDLER.CONTAINER,
+            isShown ? 'shown' : null
+        )
     };
 
     const messageProps = {

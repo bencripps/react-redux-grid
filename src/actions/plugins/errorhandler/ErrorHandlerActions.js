@@ -2,6 +2,6 @@ import {
     DISMISS_ERROR
 } from '../../../constants/ActionTypes';
 
-export function dismissError() {
-    return { type: DISMISS_ERROR };
+export function dismissError({ stateKey }) {
+    return { type: DISMISS_ERROR, stateKey };
 }

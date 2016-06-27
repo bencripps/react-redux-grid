@@ -9,6 +9,9 @@ module.exports = function exports(config) {
         files: [
             './../webpack/webpack.test.js'
         ],
+        client: {
+            captureConsole: false
+        },
         frameworks: ['chai', 'mocha', 'es6-shim', 'sinon-chai'],
         plugins: [
             'karma-chrome-launcher',
@@ -19,7 +22,8 @@ module.exports = function exports(config) {
             'karma-babel-preprocessor',
             'karma-jsdom-launcher',
             'karma-sourcemap-loader',
-            'karma-sinon-chai'
+            'karma-sinon-chai',
+            'karma-spec-reporter'
         ],
 
         preprocessors: {
@@ -31,9 +35,13 @@ module.exports = function exports(config) {
                 presets: ['es2015']
             }
         },
-
-        phantomjsLauncher: {
-            exitOnResourceError: false
+        reporters: ['spec'],
+        specReporter: {
+            maxLogLines: 20,
+            suppressErrorSummary: false,
+            suppressFailed: false,
+            suppressPassed: false,
+            suppressSkipped: false
         },
         singleRun: BROWSERS.length === 1,
         webpack: {
@@ -57,11 +65,13 @@ module.exports = function exports(config) {
                 fs: 'empty'
             },
             devServer: {
-                quiet: false
-            },
-            webpackMiddleware: {
-                noInfo: true
+                quiet: true,
+                stats: 'errors-only'
             }
+        },
+        webpackMiddleware: {
+            noInfo: true,
+            quiet: true
         }
     });
 };
