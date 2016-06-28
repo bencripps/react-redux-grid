@@ -1,7 +1,17 @@
 const loaders = require('../webpack/loaders');
+const preLoaders = require('../webpack/preloaders');
+
 const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['jsdom', 'Chrome']
     : ['jsdom'];
+
+const COVERAGE = process.argv && process.argv.indexOf('--coverage') !== -1;
+
+const PRELOADERS = COVERAGE ? preLoaders : [];
+
+const REPORTERS = COVERAGE
+    ? ['spec', 'coverage']
+    : ['spec'];
 
 module.exports = function exports(config) {
     config.set({
@@ -16,7 +26,9 @@ module.exports = function exports(config) {
         plugins: [
             'karma-chrome-launcher',
             'karma-chai',
+            'karma-coverage',
             'karma-mocha',
+            'karma-mocha-reporter',
             'karma-es6-shim',
             'karma-webpack',
             'karma-babel-preprocessor',
@@ -35,7 +47,7 @@ module.exports = function exports(config) {
                 presets: ['es2015']
             }
         },
-        reporters: ['spec'],
+        reporters: REPORTERS,
         specReporter: {
             maxLogLines: 20,
             suppressErrorSummary: false,
@@ -45,7 +57,15 @@ module.exports = function exports(config) {
         },
         singleRun: BROWSERS.length === 1,
         webpack: {
+            isparta: {
+                embedSource: true,
+                noAutoWrap: true,
+                babel: {
+                    presets: ['es2015', 'stage-0', 'react']
+                }
+            },
             module: {
+                preLoaders: PRELOADERS,
                 loaders: loaders
             },
             externals: {
@@ -53,25 +73,23 @@ module.exports = function exports(config) {
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },
-            resolve: {
-                extensions: [
-                    '',
-                    '.js',
-                    '.test.js'
-                ]
-            },
             target: 'web',
             node: {
                 fs: 'empty'
             },
             devServer: {
-                quiet: true,
-                stats: 'errors-only'
+                quiet: false
             }
         },
         webpackMiddleware: {
             noInfo: true,
             quiet: true
+        },
+        coverageReporter: {
+            reporters: [
+                { type: 'text' },
+                { type: 'lcovonly', subdir: './../../' }
+            ]
         }
     });
 };

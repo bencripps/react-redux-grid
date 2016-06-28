@@ -297,4 +297,6 @@ describe('The grid addNewRow Action', () => {
                     values: {}
                 }
             ]);
+    });
+
 });

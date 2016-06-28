@@ -4,3 +4,6 @@ before_script: npm cache clean
 node_js:
   - "4.1"
   - "4.0"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
