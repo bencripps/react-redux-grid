@@ -174,7 +174,7 @@ export function doRemoteSort(
                         type: SET_DATA,
                         data: response.data,
                         total: response.total,
-                        currentRecords: response.items,
+                        currentRecords: response.data,
                         success: true,
                         stateKey
                     });

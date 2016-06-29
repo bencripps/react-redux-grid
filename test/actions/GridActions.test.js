@@ -5,6 +5,7 @@ import {
     setColumns,
     setSortDirection,
     doLocalSort,
+    doRemoteSort,
     setColumnVisibility,
     resizeColumns,
     setData
@@ -98,6 +99,60 @@ describe('The getAsyncData actions', () => {
             ]);
             done();
         }, 0);
+
+    });
+
+});
+
+describe('The getAsyncData actions', () => {
+
+    it([
+        'Should return the correct remote sort ',
+        'response when datasource is a func'].join(''), (done) => {
+        const res = [];
+
+        const dataSource = () => (
+            new Promise(resolve => resolve({
+                data: [],
+                total: 0
+            }))
+        );
+
+        const dispatch = val => (res.push(val));
+
+        doRemoteSort({
+            dataSource,
+            pageIndex: 1,
+            pageSize: 30,
+            sortParams: {
+                name: 'ASC'
+            },
+            stateKey: 'test-grid'
+        })(dispatch);
+
+        setTimeout(() => {
+            expect(res).toEqual([
+                {
+                    state: true,
+                    stateKey: 'test-grid',
+                    type: 'SET_LOADING_STATE'
+                },
+                {
+                    currentRecords: [],
+                    data: [],
+                    stateKey: 'test-grid',
+                    success: true,
+                    total: 0,
+                    type: 'SET_DATA'
+                },
+                {
+                    state: false,
+                    stateKey: 'test-grid',
+                    type: 'SET_LOADING_STATE'
+                }
+            ]);
+            done();
+        }, 10);
 
     });
 

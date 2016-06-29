@@ -4,6 +4,13 @@ export const ROW_HEIGHT = 26;
 
 export const DEFAULT_PAGE_SIZE = 20;
 
+export const SELECTION_MODES = {
+    single: 'single',
+    multi: 'multi',
+    checkboxSingle: 'checkbox-single',
+    checkboxMulti: 'checkbox-multi'
+};
+
 export const SORT_DIRECTIONS = {
     ASCEND: 'ASC',
     DESCEND: 'DESC'

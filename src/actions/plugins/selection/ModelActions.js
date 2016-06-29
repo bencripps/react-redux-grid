@@ -22,7 +22,7 @@ export function deselectAll({ stateKey }) {
 }
 
 export function setSelection({
-    id, defaults, modes, stateKey
+    id, defaults = {}, modes = {}, stateKey
 }) {
 
     const allowDeselect = defaults.allowDeselect;

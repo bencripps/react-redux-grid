@@ -2,6 +2,7 @@ import React from 'react';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
 import { ConnectedCheckBox as CheckBox } from './CheckBox.jsx';
+import { SELECTION_MODES } from './../../../constants/GridConstants';
 
 export default class Model {
 
@@ -12,12 +13,7 @@ export default class Model {
             doubleclick: 'doubleclick'
         };
 
-        const modes = {
-            single: 'single',
-            multi: 'multi',
-            checkboxSingle: 'checkbox-single',
-            checkboxMulti: 'checkbox-multi'
-        };
+        const modes = SELECTION_MODES;
 
         const defaults = {
             mode: modes.single,

@@ -16,7 +16,7 @@
   "scripts": {
     "test": "karma start ./test/karma.config.js -- --coverage",
     "test-browser": "npm test -- --browser",
-    "test-watch": "npm test -- --no-single-run --no-suppress-error-summary",
+    "test-watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary",
     "test-coverage": "npm test -- --coverage --no-single-run --no-suppress-error-summary",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
     "lint": "eslint ./src",
