@@ -7,6 +7,9 @@ const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
 
 const COVERAGE = process.argv && process.argv.indexOf('--coverage') !== -1;
 
+const SINGLE_RUN = process.argv
+    && process.argv.indexOf('--no-single-run') === -1;
+
 const PRELOADERS = COVERAGE ? preLoaders : [];
 
 const REPORTERS = COVERAGE
@@ -55,7 +58,7 @@ module.exports = function exports(config) {
             suppressPassed: false,
             suppressSkipped: false
         },
-        singleRun: BROWSERS.length === 1,
+        singleRun: SINGLE_RUN,
         webpack: {
             isparta: {
                 embedSource: true,

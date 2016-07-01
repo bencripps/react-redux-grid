@@ -6,7 +6,7 @@ module.exports = [
     },
     {
         test: /\.js$|\.jsx$/,
-        exclude: /node_modules|\.test\.js/,
+        exclude: /node_modules|test|\.test\.js/,
         loader: 'isparta'
     }
 ];

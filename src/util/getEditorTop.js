@@ -1,4 +1,4 @@
-const OFFSET = 7;
+export const OFFSET = 7;
 
 export const getEditorTop = (rowElement) => {
 

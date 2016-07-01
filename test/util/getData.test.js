@@ -23,6 +23,18 @@ describe('nameFromDataIndex utility function', () => {
 
     });
 
+    it('Should return empty string if no col is passed', () => {
+
+        const column = null;
+
+        expect(
+            nameFromDataIndex(column)
+        ).toEqual(
+            ''
+        );
+
+    });
+
     it('Should work with a name', () => {
 
         const column = {
@@ -55,6 +67,69 @@ describe('nameFromDataIndex utility function', () => {
 });
 
 describe('getData utility function', () => {
+
+    it('Should return undefined if no column is present', () => {
+
+        const rowData = {
+            col1: 'banana',
+            col2: 'orange',
+            col3: 'apple'
+        };
+
+        const columns = [
+            {
+                name: 'fruit',
+                dataIndex: 'col1'
+            },
+            {
+                name: 'another fruit',
+                dataIndex: 'col2'
+            },
+            {
+                name: 'yet another fruit',
+                dataIndex: 'col3'
+            }
+        ];
+
+        const colIndex = 3;
+
+        expect(
+            getData(rowData, columns, colIndex)
+        ).toEqual(
+            undefined
+        );
+
+    });
+
+    it('Should throw an error if no dataIndex is defined', () => {
+
+        const rowData = {
+            col1: 'banana',
+            col2: 'orange',
+            col3: 'apple'
+        };
+
+        const columns = [
+            {
+                name: 'fruit',
+                dataIndex: 'col1'
+            },
+            {
+                name: 'another fruit'
+            },
+            {
+                name: 'yet another fruit',
+                dataIndex: 'col3'
+            }
+        ];
+
+        const colIndex = 1;
+
+        expect(() => {
+            getData(rowData, columns, colIndex);
+        }).toThrow('No dataIndex found on column', columns[colIndex]);
+
+    });
 
     it('Should fetch data with a string key', () => {
 
@@ -155,12 +230,14 @@ describe('getData utility function', () => {
 
         const colIndex = 0;
 
-        expect(getData(
-            rowData,
-            columns,
-            colIndex
-        )).toEqual(
-            ''
+        expect(() => {
+            getData(
+                rowData,
+                columns,
+                colIndex
+            );
+        }).toThrow(
+            'Invalid key path'
         );
 
     });
@@ -187,6 +264,23 @@ describe('setDataAtDataIndex function', () => {
                 inner: 'newValue'
             }
         });
+    });
+
+    it('Should throw an error if an invalid key path is passed', () => {
+
+        const rowValues = {
+            'new': {
+                thing: 'oldValue'
+            }
+        };
+
+        expect(() => {
+            setDataAtDataIndex(
+                rowValues,
+                ['new', 'invalidKey'],
+                'newValue'
+            );
+        }).toThrow('Invalid key path');
     });
 
     it('Should work with a string', () => {
@@ -242,12 +336,12 @@ describe('getValueFromDataIndexArr function', () => {
             }
         };
 
-        expect(
+        expect(() => {
             getValueFromDataIndexArr(
                 rowData,
                 ['outer', 'inner', 'fake', 'value']
-            )
-        ).toEqual('');
+            );
+        }).toThrow('Invalid key path');
     });
 
 });

@@ -40,10 +40,10 @@ export const setDataAtDataIndex = (rowData = {}, dataIndex, val) => {
 
     for (let i = 0; i < dataIndex.length - 1; i++) {
         temp = temp[dataIndex[i]];
+    }
 
-        if (!temp) {
-            return;
-        }
+    if (!temp[dataIndex[[dataIndex.length - 1]]]) {
+        throw new Error('Invalid key path');
     }
 
     temp[dataIndex[dataIndex.length - 1]] = val;
@@ -55,11 +55,12 @@ export const getValueFromDataIndexArr = (rowData, dataIndex) => {
     let temp = rowData;
 
     for (let i = 0; i < dataIndex.length; i++) {
-        temp = temp[dataIndex[i]];
 
-        if (!temp) {
-            return '';
+        if (!temp[dataIndex[i]]) {
+            throw new Error('Invalid key path');
         }
+
+        temp = temp[dataIndex[i]];
     }
 
     return temp;

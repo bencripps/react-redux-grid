@@ -31,7 +31,9 @@ class FilterUtils {
             for (let i = 0; i < keys.length; i++) {
 
                 const key = keys[i].toLowerCase();
-                const value = filterObj[key] ? filterObj[key].toLowerCase() : null;
+                const value = filterObj[key]
+                    ? filterObj[key].toLowerCase()
+                    : null;
 
                 if (filterObj[key]) {
                     if (obj[keys[i]].toLowerCase().indexOf(value) === -1) {
