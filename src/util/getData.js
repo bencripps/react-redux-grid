@@ -57,7 +57,10 @@ export const getValueFromDataIndexArr = (rowData, dataIndex) => {
     for (let i = 0; i < dataIndex.length; i++) {
 
         if (!temp[dataIndex[i]]) {
-            throw new Error('Invalid key path');
+            // preferring silent failure on get
+            // but we throw an error on the update
+            // if the key path is invalid
+            return '';
         }
 
         temp = temp[dataIndex[i]];

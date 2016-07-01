@@ -230,15 +230,11 @@ describe('getData utility function', () => {
 
         const colIndex = 0;
 
-        expect(() => {
-            getData(
-                rowData,
-                columns,
-                colIndex
-            );
-        }).toThrow(
-            'Invalid key path'
-        );
+        expect(getData(
+            rowData,
+            columns,
+            colIndex
+        )).toEqual('');
 
     });
 });
@@ -336,12 +332,10 @@ describe('getValueFromDataIndexArr function', () => {
             }
         };
 
-        expect(() => {
-            getValueFromDataIndexArr(
-                rowData,
-                ['outer', 'inner', 'fake', 'value']
-            );
-        }).toThrow('Invalid key path');
+        expect(getValueFromDataIndexArr(
+            rowData,
+            ['outer', 'inner', 'fake', 'value']
+        )).toEqual('');
     });
 
 });
