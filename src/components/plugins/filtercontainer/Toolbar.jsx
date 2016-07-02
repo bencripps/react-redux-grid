@@ -8,7 +8,7 @@ import { ClearButton } from './toolbar/ClearButton.jsx';
 import { FilterButton } from './toolbar/FilterButton.jsx';
 
 import { prefix } from '../../../util/prefix';
-import { isPluginEnabled } from '../../../util/prefix';
+import { isPluginEnabled } from '../../../util/isPluginEnabled';
 
 import filterUtils from '../../../util/filterUtils';
 import { stateGetter } from '../../../util/stateGetter';
@@ -128,9 +128,11 @@ export const getToolbar = (
         : null;
 
     return (
-        <div { ...{ className: prefix(CLASS_NAMES.FILTER_CONTAINER.CONTAINER) } }>
-            <Input { 
-                    ...{ 
+        <div { ...{ className: prefix(
+            CLASS_NAMES.FILTER_CONTAINER.CONTAINER) }
+        } >
+            <Input {
+                    ...{
                         dataSource,
                         method,
                         placeHolderText,
@@ -141,9 +143,12 @@ export const getToolbar = (
                         stateKey,
                         store
                     }
+            } />
+            <div { ...
+                { className: prefix(
+                    CLASS_NAMES.FILTER_CONTAINER.BUTTON_CONTAINER)
                 }
-            />
-            <div { ...{ className: prefix(CLASS_NAMES.FILTER_CONTAINER.BUTTON_CONTAINER) } }>
+            }>
                 { applicableButton }
                 { filterMenuButton }
             </div>
@@ -159,7 +164,9 @@ export const setFilterValue = (store, reactEvent) => {
     store.dispatch(setFilter(value));
 };
 
-export const handleKeyUp = (value, method, dataSource, plugins, pager, pageSize, store, reactEvent) => {
+export const handleKeyUp = (
+    value, method, dataSource, plugins, pager, pageSize, store, reactEvent
+) => {
 
     const filterSource = plugins.FILTER_CONTAINER;
 
