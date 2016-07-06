@@ -80,9 +80,11 @@ class BulkActionToolbar extends Component {
 
 export const getTotalSelection = (selectedRows) => {
     const count = selectedRows
-            && Object.keys(selectedRows).length
-            ? Object.keys(selectedRows).filter((k) => selectedRows[k]).length
-            : 0;
+        && Object.keys(selectedRows).length
+        ? Object.keys(selectedRows).filter((k) =>
+            selectedRows[k] && k !== 'lastUpdate'
+        ).length
+        : 0;
 
     return count;
 };
