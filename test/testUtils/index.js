@@ -45,7 +45,7 @@ export function getColumnManager() {
 
     columnManager.init({
         plugins: {},
-        store: mockStore,
+        store: mockStore(),
         events: {},
         selModel: getSelModel(),
         editor: {},

@@ -82,7 +82,7 @@ export default class ColumnManager {
             this.store.dispatch(
                 doLocalSort({
                     data: this.sorter.sortBy(
-                        column.name, direction, dataSource
+                        column.dataIndex, direction, dataSource
                     ),
                     stateKey
                 })
