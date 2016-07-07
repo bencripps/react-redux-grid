@@ -13,24 +13,42 @@ import {
     plugins,
     events,
     dataSource,
-    height,
-    stateKey
+    height
 } from '../demo/demoData';
 
-const config = {
+const localConfig = {
     columns,
     data,
+    pageSize,
+    plugins,
+    events,
+    height,
+    stateKey: 'local-data-grid-stateKey',
+    store: Store
+};
+
+const remoteConfig = {
+    columns,
     dataSource,
     pageSize,
     plugins,
     events,
     height,
-    stateKey,
+    stateKey: 'remote-data-grid-stateKey',
     store: Store
 };
 
 export default (
     <Provider store={ Store }>
-        <Grid { ...config } />
+        <div>
+            <div>
+                <h1>Local Data Grid</h1>
+                <Grid { ...localConfig } />
+            </div>
+            <div>
+                <h1>Remote Data Grid</h1>
+                <Grid { ...remoteConfig } />
+            </div>
+        </div>
     </Provider>
 );
