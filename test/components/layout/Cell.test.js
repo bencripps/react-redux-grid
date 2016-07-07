@@ -1,154 +1,196 @@
-// import expect from 'expect';
-// import React from 'react';
-// import TestUtils from 'react-addons-test-utils';
-// import { Cell } from './../../../src/components/layout/Cell.jsx';
-// import { cellData, gridColumns } from './../../testUtils/data';
+import expect from 'expect';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import { Cell } from './../../../src/components/layout/table-row/row/Cell.jsx';
+import { Editor } from './../../../src/components/layout/table-row/row/cell/Editor.jsx';
+import util from 'util'
 
-// const props = {
-//     cellData,
-//     events: {
-//         HANDLE_CELL_CLICK: () => {
-//             return 'Clicked';
-//         },
-//         HANDLE_CELL_DOUBLE_CLICK: () => {
-//             return 'Double-Click';
-//         }
-//     },
-//     editor: {},
-//     selectionModel: {
-//         defaults: {
-//             editEvent: 'none'
-//         },
-//         eventTypes: {}
-//     },
-//     rowId: 'rowId',
-//     editorState: {},
-//     columns: gridColumns,
-//     index: 0
-// };
+const gridColumns = [
+    {
+        name: 'Player Name',
+        dataIndex: 'name'
+    },
+    {
+        name: 'Position',
+        dataIndex: 'position',
+        editor: [
+            { name: "Point Guard", value: "PG" },
+            { name: "Shooting Guard", value: "SG" },
+            { name: "Small Forward", value: "SF" },
+            { name: "Point Guard", value: "PW" },
+            { name: "Center", value: "C" }
+        ]
+    }
+];
+const cellData = "PW"
 
-// function cell(cmpProps) {
-//     const element = React.createElement(Cell, cmpProps);
-//     const renderer = TestUtils.createRenderer();
-//     renderer.render(element);
-//     return renderer.getRenderOutput();
-// }
+const props = {
+    cellData,
+    events: {
+        HANDLE_CELL_CLICK: () => {
+            return 'Clicked';
+        },
+        HANDLE_CELL_DOUBLE_CLICK: () => {
+            return 'Double-Click';
+        }
+    },
+    editor: {},
+    selectionModel: {
+        defaults: {
+            editEvent: 'none'
+        },
+        eventTypes: {}
+    },
+    rowId: 'rowId',
+    editorState: {},
+    columns: gridColumns,
+    index: 0
+};
 
-// describe('Cell Default Props', () => {
-//     const component = <Cell { ...props } />;
-//     const internalProps = component.props;
+function cell(cmpProps) {
+    const element = React.createElement(Cell, cmpProps);
+    const renderer = TestUtils.createRenderer();
+    renderer.render(element);
+    return renderer.getRenderOutput();
+}
 
-//     it('Should be rendered with correct default props', () => {
-//         expect(internalProps.cellData).toEqual(props.cellData);
-//     });
+describe('Cell Default Props', () => {
+    const component = <Cell { ...props } />;
+    const internalProps = component.props;
 
-// });
+    it('Should be rendered with correct default props', () => {
+        expect(internalProps.cellData).toEqual(props.cellData);
+    });
 
-// describe('A rendered cell', () => {
+});
 
-//     const component = cell(props);
+describe('A rendered cell in edit mode', () => {
+    props.editorState = { row: { key: 'rowId' } }
+    const component = cell(props);
+    const internalSpan = component.props.children;
 
-//     const clickEventArgs = [
-//         props.events,
-//         props.columns,
-//         props.cellData,
-//         props.editor,
-//         props.index,
-//         props.rowData,
-//         props.rowId,
-//         props.selectionModel,
-//         'stateKey',
-//         {},
-//         {
-//             reactEvent: {}
-//         }
-//     ];
+    it('Should be rendered with an Editor instance', () => {
 
-//     it('Should have editable property but shouldn\'t be ediable', () => {
-//         expect(component.props.contentEditable).toBeFalsy();
-//     });
+        const editorProps = {
+            cellData: props.cellData,
+            columns: props.columns,
+            editorState: props.editorState,
+            index: props.index,
+            isEditable: true,
+            rowId: props.rowId,
+            store: props.store,
+            stateKey: props.stateKey
+        };
 
-//     it('Should have the correct class name', () => {
-//         expect(component.props.className).toEqual('react-grid-cell');
-//     });
+        expect(internalSpan).toEqual(<Editor {...editorProps} />);
+    });
+});
 
-//     it('Should have the DOM type', () => {
-//         expect(component.type).toEqual('td');
-//     });
+describe('A rendered cell', () => {
 
-//     it('Should have the correct class name', () => {
-//         expect(component.props.className).toEqual('react-grid-cell');
-//     });
+    const component = cell(props);
 
-//     it('Should fire click event', () => {
-//         expect(component.props.onClick).toBeTruthy();
-//         // events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
-//         expect(component.props.onClick(...clickEventArgs)).toEqual('Clicked');
-//     });
+    const clickEventArgs = [
+        props.events,
+        props.columns,
+        props.cellData,
+        props.editor,
+        props.index,
+        props.rowData,
+        props.rowId,
+        props.selectionModel,
+        'stateKey',
+        {},
+        {
+            reactEvent: {}
+        }
+    ];
 
-//     it('Should fire doubleclick event', () => {
-//         expect(component.props.onClick).toBeTruthy();
-//         expect(component.props.onDoubleClick(...clickEventArgs)).toEqual('Double-Click');
-//     });
+    it('Should have editable property but shouldn\'t be editable', () => {
+        expect(component.props.contentEditable).toBeFalsy();
+    });
 
-// });
+    it('Should have the correct class name', () => {
+        expect(component.props.className).toEqual('react-grid-cell');
+    });
 
-// describe('A visible column', () => {
+    it('Should have the DOM type', () => {
+        expect(component.type).toEqual('td');
+    });
 
-//     const visibleCellProps = {
-//         cellData,
-//         events: {
-//             HANDLE_CELL_CLICK: () => {
-//                 return 'Clicked';
-//             },
-//             HANDLE_CELL_DOUBLE_CLICK: () => {
-//                 return 'Double-Click';
-//             }
-//         },
-//         rowId: 'rowId',
-//         editorState: {},
-//         columns: [
-//             {
-//                 hidden: false
-//             }
-//         ],
-//         index: 0
-//     };
+    it('Should have the correct class name', () => {
+        expect(component.props.className).toEqual('react-grid-cell');
+    });
 
-//     const component = cell(visibleCellProps);
+    it('Should fire click event', () => {
+        expect(component.props.onClick).toBeTruthy();
+        // events, cellData, editor, index, rowData, rowId, selectionModel, store, reactEvent
+        expect(component.props.onClick(...clickEventArgs)).toEqual('Clicked');
+    });
 
-//     it('Should render a visible column', () => {
-//         expect(component.props.style).toEqual({});
-//     });
+    it('Should fire doubleclick event', () => {
+        expect(component.props.onClick).toBeTruthy();
+        expect(component.props.onDoubleClick(...clickEventArgs)).toEqual('Double-Click');
+    });
 
-// });
+});
 
-// describe('A hidden column', () => {
+describe('A visible column', () => {
 
-//     const hiddenCellProps = {
-//         cellData,
-//         events: {
-//             HANDLE_CELL_CLICK: () => {
-//                 return 'Clicked';
-//             },
-//             HANDLE_CELL_DOUBLE_CLICK: () => {
-//                 return 'Double-Click';
-//             }
-//         },
-//         rowId: 'rowId',
-//         editorState: {},
-//         columns: [
-//             {
-//                 hidden: true
-//             }
-//         ],
-//         index: 0
-//     };
+    const visibleCellProps = {
+        cellData,
+        events: {
+            HANDLE_CELL_CLICK: () => {
+                return 'Clicked';
+            },
+            HANDLE_CELL_DOUBLE_CLICK: () => {
+                return 'Double-Click';
+            }
+        },
+        rowId: 'rowId',
+        editorState: {},
+        columns: [
+            {
+                hidden: false
+            }
+        ],
+        index: 0
+    };
 
-//     const component = cell(hiddenCellProps);
+    const component = cell(visibleCellProps);
 
-//     it('Should render a hidden column', () => {
-//         expect(component.props.style.display).toEqual('none');
-//     });
+    it('Should render a visible column', () => {
+        expect(component.props.style).toEqual({});
+    });
 
-// });
+});
+
+describe('A hidden column', () => {
+
+    const hiddenCellProps = {
+        cellData,
+        events: {
+            HANDLE_CELL_CLICK: () => {
+                return 'Clicked';
+            },
+            HANDLE_CELL_DOUBLE_CLICK: () => {
+                return 'Double-Click';
+            }
+        },
+        rowId: 'rowId',
+        editorState: {},
+        columns: [
+            {
+                hidden: true
+            }
+        ],
+        index: 0
+    };
+
+    const component = cell(hiddenCellProps);
+
+    it('Should render a hidden column', () => {
+        expect(component.props.style.display).toEqual('none');
+    });
+
+});

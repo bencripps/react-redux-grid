@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Input } from './Input.jsx';
+import { Select } from './Select.jsx';
 import { CLASS_NAMES } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
 import { nameFromDataIndex } from './../../../../../util/getData';
@@ -29,49 +30,74 @@ export const Editor = ({
         ? editorState.row.values[colName]
         : null;
 
-    if (isEditable
+    const showEditor = (
+        isEditable
         && columns[index]
-        && columns[index].editor
         && (columns[index].editable === undefined || columns[index].editable)
-        && typeof columns[index].editor === 'function') {
+    );
 
-        const input = columns[index].editor(
-            {
-                column: columns[index],
-                columns,
-                store,
-                rowId,
-                row: editorState.row,
-                columnIndex: index,
-                value: value,
-                stateKey
-            }
+    if (showEditor) {
+        const showCustomEditor = (
+            columns[index].editor
+            && typeof columns[index].editor === 'function'
+        );
+        const showSelectEditor = (
+            columns[index].editor
+            && Array.isArray(columns[index].editor)
         );
 
-        return (
-            <span { ...{ className: wrapperCls } }> { input } </span>
+        if (showCustomEditor) {
+            const input = columns[index].editor(
+                {
+                    column: columns[index],
+                    columns,
+                    store,
+                    rowId,
+                    row: editorState.row,
+                    columnIndex: index,
+                    value: value,
+                    stateKey
+                }
             );
-    }
 
-    else if (isEditable
-        && columns[index]
-        && (columns[index].editable === undefined || columns[index].editable)) {
-        return (
-            <span { ...{ className: wrapperCls } }>
-                <Input {
-                        ...{
-                            column: columns[index],
-                            columns,
-                            editorState,
-                            cellData,
-                            rowId,
-                            stateKey,
-                            store
+            return (
+                <span { ...{ className: wrapperCls } }> { input } </span>
+                );
+        } else if (showSelectEditor) {
+            return (
+                <span { ...{ className: wrapperCls } }>
+                    <Select {
+                            ...{
+                                column: columns[index],
+                                columns,
+                                editorState,
+                                cellData,
+                                rowId,
+                                stateKey,
+                                store
+                            }
                         }
-                    }
-                />
-            </span>
-            );
+                    />
+                </span>
+                );
+        } else {
+            return (
+                <span { ...{ className: wrapperCls } }>
+                    <Input {
+                            ...{
+                                column: columns[index],
+                                columns,
+                                editorState,
+                                cellData,
+                                rowId,
+                                stateKey,
+                                store
+                            }
+                        }
+                    />
+                </span>
+                );
+        }
     }
 
     return (
