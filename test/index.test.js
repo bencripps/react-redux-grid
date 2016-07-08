@@ -68,39 +68,39 @@ describe('Reducers Export', () =>{
     });
 
     it('Should export a DataSource Reducer', () =>{
-        reducerTest('DataSource');
+        reducerTest('dataSource');
     });
 
     it('Should export a Grid Reducer', () =>{
-        reducerTest('Grid');
+        reducerTest('grid');
     });
 
     it('Should export a BulkActions Reducer', () =>{
-        reducerTest('BulkActions');
+        reducerTest('bulkAction');
     });
 
     it('Should export a Editor Reducer', () =>{
-        reducerTest('Editor');
+        reducerTest('editor');
     });
 
     it('Should export a ErrorHandler Reducer', () =>{
-        reducerTest('ErrorHandler');
+        reducerTest('errorHandler');
     });
 
     it('Should export a Loader Reducer', () =>{
-        reducerTest('Loader');
+        reducerTest('loader');
     });
 
     it('Should export a Menu Reducer', () =>{
-        reducerTest('Menu');
+        reducerTest('menu');
     });
 
     it('Should export a Pager Reducer', () =>{
-        reducerTest('Pager');
+        reducerTest('pager');
     });
 
     it('Should export a Selection Reducer', () =>{
-        reducerTest('Selection');
+        reducerTest('selection');
     });
 
 });

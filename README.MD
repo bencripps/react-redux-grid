@@ -72,31 +72,31 @@ In the demo `provider.jsx`, we are simply passing the store at path`'../src/stor
 If you elect to use a custom store, the core component's reducers are also exposed from within the core export:
 
 ```javascript
-const Reducers = {
-    DataSource: datasource,
-    Grid: grid,
-    BulkActions: bulkaction,
-    Editor: editor,
-    ErrorHandler: errorhandler,
-    Loader: loader,
-    Menu: menu,
-    Pager: pager,
-    Selection: selection
+export const Reducers = {
+    bulkAction: bulkaction,
+    dataSource,
+    editor,
+    errorHandler: errorhandler,
+    grid,
+    loader,
+    menu,
+    pager,
+    selection
 };
 ```
 
 You can import a reducer like so:
 
 ```javascript
-import { Reducers } from 'react-redux-grid';
-
-const dataSource = Reducers.DataSource;
+import { Reducers as gridReducers } from 'react-redux-grid';
 
 const rootReducer = combineReducers({
-    dataSource,
+    ...gridReducers,
     yourCustomReducer
 };
 ```
+
+For more information about importing `Reducers`, check out [grid reducers in depth](docs/USING_GRID_REDUCERS.md)
 
 ## What's a `stateKey`?
 
