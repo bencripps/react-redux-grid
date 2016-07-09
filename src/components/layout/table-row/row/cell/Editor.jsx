@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Input } from './Input.jsx';
-import { Select } from './Select.jsx';
+import { Input } from './editors/Input.jsx';
+import { Select } from './editors/Select.jsx';
 import { CLASS_NAMES } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
 import { nameFromDataIndex } from './../../../../../util/getData';
@@ -11,16 +11,18 @@ export const Editor = ({
     cellData, columns, editorState, index, isEditable, rowId, stateKey, store
 }) => {
 
+    let column = columns[index]
+
     let colName = columns
-        && columns[index]
-        ? nameFromDataIndex(columns[index])
+        && column
+        ? nameFromDataIndex(column)
         : '';
 
     if (!colName) {
         colName = columns
-        && columns[index]
-        && columns[index].name
-        ? columns[index].name
+        && column
+        && column.name
+        ? column.name
         : '';
     }
 
@@ -32,24 +34,24 @@ export const Editor = ({
 
     const showEditor = (
         isEditable
-        && columns[index]
-        && (columns[index].editable === undefined || columns[index].editable)
+        && column
+        && (column.editable === undefined || column.editable)
     );
 
     if (showEditor) {
         const showCustomEditor = (
-            columns[index].editor
-            && typeof columns[index].editor === 'function'
+            column.editor
+            && typeof column.editor === 'function'
         );
         const showSelectEditor = (
-            columns[index].editor
-            && Array.isArray(columns[index].editor)
+            column.editor
+            && Array.isArray(column.editor)
         );
 
         if (showCustomEditor) {
-            const input = columns[index].editor(
+            const input = column.editor(
                 {
-                    column: columns[index],
+                    column,
                     columns,
                     store,
                     rowId,
@@ -68,7 +70,7 @@ export const Editor = ({
                 <span { ...{ className: wrapperCls } }>
                     <Select {
                             ...{
-                                column: columns[index],
+                                column,
                                 columns,
                                 editorState,
                                 cellData,
@@ -85,7 +87,7 @@ export const Editor = ({
                 <span { ...{ className: wrapperCls } }>
                     <Input {
                             ...{
-                                column: columns[index],
+                                column,
                                 columns,
                                 editorState,
                                 cellData,

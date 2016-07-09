@@ -1,14 +1,15 @@
+
 import React, { PropTypes } from 'react';
 
 import {
     updateCellValue
-} from './../../../../../actions/plugins/editor/EditorActions';
+} from './../../../../../../actions/plugins/editor/EditorActions';
 
 import {
     nameFromDataIndex
-} from './../../../../../util/getData';
+} from './../../../../../../util/getData';
 
-export const Input = ({
+export const Select = ({
     cellData,
     column,
     columns,
@@ -19,11 +20,6 @@ export const Input = ({
 }) => {
 
     const colName = nameFromDataIndex(column);
-
-    const placeholder = column
-        && column.placeholder
-        ? column.placeholder
-        : false;
 
     const value = editorState
         && editorState.row
@@ -37,18 +33,33 @@ export const Input = ({
         && !editorState.row.isCreate
         && column.editable === 'create';
 
-    const inputProps = {
-        disabled,
+    const options = column.editor. map(item => {
+        let pair
+        if (typeof item === 'string') {
+            pair = { name: item, value: item }
+        } else {
+            pair = item
+        }
+
+        return (
+            <option value={pair.value}>
+                {pair.name}
+            </option>
+            );
+        }
+    );
+
+    const selectProps = {
+        defaultValue: value,
         onChange: (e) => {
             handleChange(column, columns, rowId, stateKey, store, e);
-        },
-        type: 'text',
-        value: value,
-        placeholder
-    };
+        }
+    }
 
     return (
-        <input { ...inputProps } />
+        <select {...selectProps}>
+            { options }
+        </select>
     );
 };
 
@@ -66,7 +77,7 @@ export const handleChange = (
     );
 };
 
-Input.propTypes = {
+Select.propTypes = {
     cellData: PropTypes.any,
     column: PropTypes.object,
     columns: PropTypes.array,

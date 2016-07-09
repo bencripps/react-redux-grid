@@ -1,15 +1,14 @@
-
 import React, { PropTypes } from 'react';
 
 import {
     updateCellValue
-} from './../../../../../actions/plugins/editor/EditorActions';
+} from './../../../../../../actions/plugins/editor/EditorActions';
 
 import {
     nameFromDataIndex
-} from './../../../../../util/getData';
+} from './../../../../../../util/getData';
 
-export const Select = ({
+export const Input = ({
     cellData,
     column,
     columns,
@@ -20,6 +19,16 @@ export const Select = ({
 }) => {
 
     const colName = nameFromDataIndex(column);
+
+    const inputType = column
+        && column.editor
+        ? column.editor
+        : 'text'
+
+    const placeholder = column
+        && column.placeholder
+        ? column.placeholder
+        : false;
 
     const value = editorState
         && editorState.row
@@ -33,37 +42,18 @@ export const Select = ({
         && !editorState.row.isCreate
         && column.editable === 'create';
 
-    const options = column.editor. map(item => {
-        let pair
-        if (typeof item === 'string') {
-            pair = { name: item, value: item }
-        } else {
-            pair = item
-        }
-
-        return (
-            <option value={pair.value}>
-                {pair.name}
-            </option>
-            );
-        }
-    );
-
-    const selectProps = {
-        defaultValue: value,  
+    const inputProps = {
+        disabled,
         onChange: (e) => {
             handleChange(column, columns, rowId, stateKey, store, e);
-        }
-    }
+        },
+        type: inputType,
+        value: value,
+        placeholder
+    };
 
     return (
-        <select defaultValue={value} className="react-grid-edit-item" onChange={(e) => {
-                handleChange(column, columns, rowId, stateKey, store, e);
-            }
-        }
-        >
-            { options }
-        </select>
+        <input { ...inputProps } />
     );
 };
 
@@ -81,7 +71,7 @@ export const handleChange = (
     );
 };
 
-Select.propTypes = {
+Input.propTypes = {
     cellData: PropTypes.any,
     column: PropTypes.object,
     columns: PropTypes.array,
