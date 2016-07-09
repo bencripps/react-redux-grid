@@ -1,8 +1,8 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Cell } from './../../../src/components/layout/table-row/row/Cell.jsx';
-import { Editor } from './../../../src/components/layout/table-row/row/cell/Editor.jsx';
+import { Cell } from './../../../../src/components/layout/table-row/row/Cell.jsx';
+import { Editor } from './../../../../src/components/layout/table-row/row/cell/Editor.jsx';
 import util from 'util'
 
 const gridColumns = [

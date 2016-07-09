@@ -2,12 +2,12 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Editor } from './../../../src/components/layout/table-row/row/cell/Editor.jsx';
-import { Input } from './../../../src/components/layout/table-row/row/cell/editors/Input.jsx';
-import { Select } from './../../../src/components/layout/table-row/row/cell/editors/Select.jsx';
-import { mockStore } from './../../testUtils/index';
-import { CLASS_NAMES } from './../../../src/constants/GridConstants';
-import { prefix } from './../../../src/util/prefix';
+import { Editor } from './../../../../src/components/layout/table-row/row/cell/Editor.jsx';
+import { Input } from './../../../../src/components/layout/table-row/row/cell/editors/Input.jsx';
+import { Select } from './../../../../src/components/layout/table-row/row/cell/editors/Select.jsx';
+import { mockStore } from './../../../testUtils/index';
+import { CLASS_NAMES } from './../../../../src/constants/GridConstants';
+import { prefix } from './../../../../src/util/prefix';
 import util from 'util'
 
 const gridColumns = [

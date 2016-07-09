@@ -41,6 +41,10 @@ export const localGridData = [
         position: 'Shooting Guard'
     },
     {
+        name: 'David Robinson',
+        position: 'Center'
+    },
+    {
         name: 'Charles Barkley',
         position: 'Power Forward'
     }

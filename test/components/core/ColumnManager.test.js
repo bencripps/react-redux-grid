@@ -24,11 +24,36 @@ props.store.subscribe = () => {};
 describe('A ColumnManager', () => {
 
     const manager = getColumnManager();
-    const store = manager.store
+    const store = manager.store;
 
-    it("Should sort locally", () => {
+    it("Should sort asc name locally", () => {
+        expect(store.dispatch).toExist();
+        
+        manager.doSort({
+            method: SORT_METHODS.LOCAL,
+            column: gridColumns[0],
+            direction: SORT_DIRECTIONS.ASCEND,
+            dataSource: { data: localGridData },
+            stateKey: "__sorter__"
+        })
 
-        expect(store.dispatch).toExist()
+        const after = store.getActions();
+        store.clearActions();
+
+        expect(after).toEqual([{ 
+            data: [
+                { name: 'Michael Jordan', position: 'Shooting Guard' },
+                { name: 'David Robinson', position: 'Center' },
+                { name: 'Charles Barkley', position: 'Power Forward' }
+            ], 
+            stateKey: '__sorter__', 
+            type: 'SORT_DATA' 
+        }]);
+
+    });
+
+    it("Should sort desc name locally", () => {
+        expect(store.dispatch).toExist();
         
         manager.doSort({
             method: SORT_METHODS.LOCAL,
@@ -38,12 +63,14 @@ describe('A ColumnManager', () => {
             stateKey: "__sorter__"
         })
 
-        const after = store.getActions()
+        const after = store.getActions();
+        store.clearActions();
 
         expect(after).toEqual([{ 
             data: [
-            { name: 'Charles Barkley', position: 'Power Forward' },     
-            { name: 'Michael Jordan', position: 'Shooting Guard' }
+                { name: 'Charles Barkley', position: 'Power Forward' },
+                { name: 'David Robinson', position: 'Center' },     
+                { name: 'Michael Jordan', position: 'Shooting Guard' }
             ], 
             stateKey: '__sorter__', 
             type: 'SORT_DATA' 
