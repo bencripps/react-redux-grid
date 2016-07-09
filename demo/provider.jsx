@@ -38,17 +38,16 @@ const remoteConfig = {
     store: Store
 };
 
-export default (
-    <Provider store={ Store }>
-        <div>
-            <div>
-                <h1>Local Data Grid</h1>
-                <Grid { ...localConfig } />
-            </div>
-            <div>
-                <h1>Remote Data Grid</h1>
-                <Grid { ...remoteConfig } />
-            </div>
-        </div>
+function provider(config) {
+    return (
+        <Provider store={ Store }>
+        <Grid { ...config } />
     </Provider>
-);
+    )
+};
+
+export {
+    provider,
+    localConfig,
+    remoteConfig
+}
