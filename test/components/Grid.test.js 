@@ -34,7 +34,7 @@ describe('A fully mounted simple grid', () => {
     it('Should render with the correct number of rows', () => {
         expect(
             component.find('.react-grid-row').length
-        ).toEqual(2);
+        ).toEqual(localGridData.length);
     });
 
     it('Should render 2 headers, only 1 visible', () => {
@@ -81,7 +81,7 @@ describe('A fully mounted simple grid', () => {
     it('Should render the correct number of cells', () => {
         expect(
             component.find('td').nodes.length
-        ).toEqual(4);
+        ).toEqual(localGridData.length * 2);
     });
 
 });
@@ -143,11 +143,12 @@ describe('A fully mounted grid with pager', () => {
     });
 
     it('Should have the right pager message', () => {
+        const maxRecords = localGridData.length
         expect(
            component
             .find('.react-grid-pager-toolbar').text()
             .replace(/ +?|\n/g, '')
-        ).toContain('1through2of2RecordsDisplayed');
+        ).toContain(`1through${maxRecords}of${maxRecords}RecordsDisplayed`);
     });
 
 });

@@ -39,7 +39,7 @@ describe('Integration Test for Inline Editor', () => {
     it('Should render with the correct number of rows', () => {
         expect(
             component.find('.react-grid-row').length
-        ).toEqual(2);
+        ).toEqual(localGridData.length);
     });
 
     it('Should dispatch the inline editor on click of cell', (done) => {
@@ -98,7 +98,7 @@ describe('Integration Test for a grid without Inline Editor', () => {
     it('Should render with the correct number of rows', () => {
         expect(
             component.find('.react-grid-row').length
-        ).toEqual(2);
+        ).toEqual(localGridData.length);
     });
 
     it('Should dispatch the inline editor on click of cell', (done) => {

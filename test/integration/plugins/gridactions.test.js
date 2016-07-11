@@ -46,7 +46,7 @@ describe('Integration Test for Grid Actions', () => {
     it('Should render with the correct number of rows', () => {
         expect(
             component.find('.react-grid-row').length
-        ).toEqual(2);
+        ).toEqual(localGridData.length);
     });
 
     it('Should render each row with action icons', () => {
@@ -54,7 +54,7 @@ describe('Integration Test for Grid Actions', () => {
         // + the hidden header, + the fixed (visible) header
         expect(
             component.find('.react-grid-action-icon').length
-        ).toEqual(4);
+        ).toEqual(localGridData.length + 2);
     });
 
     it('Should render each row with action icons', () => {

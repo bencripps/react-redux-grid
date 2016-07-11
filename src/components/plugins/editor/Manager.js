@@ -45,9 +45,6 @@ export default class Manager {
             );
         }
 
-        else {
-            return null;
-        }
+        return null;
     }
-
 }

@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 
 import {
     updateCellValue
-} from './../../../../../actions/plugins/editor/EditorActions';
+} from './../../../../../../actions/plugins/editor/EditorActions';
 
 import {
     nameFromDataIndex
-} from './../../../../../util/getData';
+} from './../../../../../../util/getData';
 
 export const Input = ({
     cellData,
@@ -19,6 +19,11 @@ export const Input = ({
 }) => {
 
     const colName = nameFromDataIndex(column);
+
+    const inputType = column
+        && column.editor
+        ? column.editor
+        : 'text'
 
     const placeholder = column
         && column.placeholder
@@ -42,7 +47,7 @@ export const Input = ({
         onChange: (e) => {
             handleChange(column, columns, rowId, stateKey, store, e);
         },
-        type: 'text',
+        type: inputType,
         value: value,
         placeholder
     };

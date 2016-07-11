@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Input } from './Input.jsx';
+import { Input } from './editors/Input.jsx';
+import { Select } from './editors/Select.jsx';
 import { CLASS_NAMES } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
 import { nameFromDataIndex } from './../../../../../util/getData';
@@ -10,16 +11,18 @@ export const Editor = ({
     cellData, columns, editorState, index, isEditable, rowId, stateKey, store
 }) => {
 
+    let column = columns[index]
+
     let colName = columns
-        && columns[index]
-        ? nameFromDataIndex(columns[index])
+        && column
+        ? nameFromDataIndex(column)
         : '';
 
     if (!colName) {
         colName = columns
-        && columns[index]
-        && columns[index].name
-        ? columns[index].name
+        && column
+        && column.name
+        ? column.name
         : '';
     }
 
@@ -29,49 +32,74 @@ export const Editor = ({
         ? editorState.row.values[colName]
         : null;
 
-    if (isEditable
-        && columns[index]
-        && columns[index].editor
-        && (columns[index].editable === undefined || columns[index].editable)
-        && typeof columns[index].editor === 'function') {
+    const showEditor = (
+        isEditable
+        && column
+        && (column.editable === undefined || column.editable)
+    );
 
-        const input = columns[index].editor(
-            {
-                column: columns[index],
-                columns,
-                store,
-                rowId,
-                row: editorState.row,
-                columnIndex: index,
-                value: value,
-                stateKey
-            }
+    if (showEditor) {
+        const showCustomEditor = (
+            column.editor
+            && typeof column.editor === 'function'
+        );
+        const showSelectEditor = (
+            column.editor
+            && Array.isArray(column.editor)
         );
 
-        return (
-            <span { ...{ className: wrapperCls } }> { input } </span>
+        if (showCustomEditor) {
+            const input = column.editor(
+                {
+                    column,
+                    columns,
+                    store,
+                    rowId,
+                    row: editorState.row,
+                    columnIndex: index,
+                    value: value,
+                    stateKey
+                }
             );
-    }
 
-    else if (isEditable
-        && columns[index]
-        && (columns[index].editable === undefined || columns[index].editable)) {
-        return (
-            <span { ...{ className: wrapperCls } }>
-                <Input {
-                        ...{
-                            column: columns[index],
-                            columns,
-                            editorState,
-                            cellData,
-                            rowId,
-                            stateKey,
-                            store
+            return (
+                <span { ...{ className: wrapperCls } }> { input } </span>
+                );
+        } else if (showSelectEditor) {
+            return (
+                <span { ...{ className: wrapperCls } }>
+                    <Select {
+                            ...{
+                                column,
+                                columns,
+                                editorState,
+                                cellData,
+                                rowId,
+                                stateKey,
+                                store
+                            }
                         }
-                    }
-                />
-            </span>
-            );
+                    />
+                </span>
+                );
+        } else {
+            return (
+                <span { ...{ className: wrapperCls } }>
+                    <Input {
+                            ...{
+                                column,
+                                columns,
+                                editorState,
+                                cellData,
+                                rowId,
+                                stateKey,
+                                store
+                            }
+                        }
+                    />
+                </span>
+                );
+        }
     }
 
     return (
