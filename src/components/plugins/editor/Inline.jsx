@@ -11,6 +11,11 @@ import {
     repositionEditor
 } from '../../../actions/plugins/editor/EditorActions';
 
+const INPUT_SELECTOR = [
+    '.react-grid-edit .react-grid-editor-wrapper input:enabled,',
+    '.react-grid-edit .react-grid-editor-wrapper select:enabled'
+].join(' ');
+
 export class Inline extends Component {
 
     render() {
@@ -109,9 +114,7 @@ export const getRowFromInput = (inputEl) => {
 };
 
 export const resetEditorPosition = (editorState, store, stateKey) => {
-    const input = document.querySelector(
-        '.react-grid-edit .react-grid-editor-wrapper input:enabled'
-    );
+    const input = document.querySelector(INPUT_SELECTOR);
 
     if (input) {
         const row = getRowFromInput(input);
@@ -132,9 +135,7 @@ export const resetEditorPosition = (editorState, store, stateKey) => {
 };
 
 export const focusFirstEditor = () => {
-    const input = document.querySelector(
-        '.react-grid-edit .react-grid-editor-wrapper input:enabled'
-    );
+    const input = document.querySelector(INPUT_SELECTOR);
 
     if (input && input.focus) {
         input.focus();
