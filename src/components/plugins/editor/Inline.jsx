@@ -120,7 +120,11 @@ export const resetEditorPosition = (editorState, store, stateKey, dom) => {
     if (input) {
         const row = getRowFromInput(input);
 
-        if (row && editorState) {
+        if (row
+            && editorState
+            && editorState.row
+            && editorState.row.top) {
+
             const top = getEditorTop(row);
 
             if (top !== editorState.row.top) {
