@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import { Button } from './inline/Button.jsx';
@@ -76,10 +77,10 @@ export class Inline extends Component {
         /*
         * lifecycle event used to focus on first available input
         */
-
+        const dom = ReactDOM.findDOMNode(this);
         const { config, editorState, store, stateKey } = this.props;
 
-        resetEditorPosition(editorState, store, stateKey);
+        resetEditorPosition(editorState, store, stateKey, dom);
 
         if (!config.focusOnEdit) {
             return false;
@@ -88,7 +89,7 @@ export class Inline extends Component {
         if (isEditorShown(editorState)
             && this.editedRow !== editorState.row.rowIndex) {
             this.editedRow = editorState.row.rowIndex;
-            focusFirstEditor();
+            focusFirstEditor(dom);
         }
 
         else if (!isEditorShown(editorState)) {
@@ -113,8 +114,8 @@ export const getRowFromInput = (inputEl) => {
 
 };
 
-export const resetEditorPosition = (editorState, store, stateKey) => {
-    const input = document.querySelector(INPUT_SELECTOR);
+export const resetEditorPosition = (editorState, store, stateKey, dom) => {
+    const input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
     if (input) {
         const row = getRowFromInput(input);
@@ -134,8 +135,8 @@ export const resetEditorPosition = (editorState, store, stateKey) => {
 
 };
 
-export const focusFirstEditor = () => {
-    const input = document.querySelector(INPUT_SELECTOR);
+export const focusFirstEditor = (dom) => {
+    const input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
     if (input && input.focus) {
         input.focus();

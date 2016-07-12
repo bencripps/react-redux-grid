@@ -24,7 +24,9 @@ export default class Manager {
         this.store = store;
     }
 
-    getComponent(plugins, reducerKeys, store, events, selectionModel, editor, columns) {
+    getComponent(
+        plugins, reducerKeys, store, events, selectionModel, editor, columns
+    ) {
 
         const editorProps = {
             columns,
@@ -45,9 +47,7 @@ export default class Manager {
             );
         }
 
-        else {
-            return null;
-        }
+        return null;
     }
 
 }
