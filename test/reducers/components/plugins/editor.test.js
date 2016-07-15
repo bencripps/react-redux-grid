@@ -13,13 +13,149 @@ import {
 
 import
     editor,
-    { isCellValid, isRowValid }
+    { isCellValid, isRowValid, setDisabled, handleChangeFunc }
 from './../../../../src/reducers/components/plugins/editor';
 
 import {
     generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
+
+describe('The editor reducer handleChangeFunc func', () => {
+
+    it('Should leave values unchanged', () => {
+        const rowValues = {
+            val1: true,
+            val2: 'banana'
+        };
+
+        const col = {
+            dataIndex: 'val1',
+            name: 'Val'
+        };
+
+        expect(handleChangeFunc(col, rowValues))
+            .toEqual(rowValues);
+
+    });
+
+    it('Should update a single value', () => {
+        const rowValues = {
+            val1: true,
+            val2: 'banana'
+        };
+
+        const col = {
+            dataIndex: 'val1',
+            name: 'Val',
+            change: ({ values }) => {
+                if (values.val1) {
+                    return {
+                        val2: 'notABanana'
+                    };
+                }
+            }
+        };
+
+        expect(handleChangeFunc(col, rowValues))
+            .toEqual({
+                val1: true,
+                val2: 'notABanana'
+            });
+
+    });
+
+    it('Should update multiple value', () => {
+        const rowValues = {
+            val1: true,
+            val2: 'banana'
+        };
+
+        const col = {
+            dataIndex: 'val1',
+            name: 'Val',
+            change: ({ values }) => {
+                if (values.val1) {
+                    return {
+                        val2: 'notABanana',
+                        val1: false
+                    };
+                }
+            }
+        };
+
+        expect(handleChangeFunc(col, rowValues))
+            .toEqual({
+                val1: false,
+                val2: 'notABanana'
+            });
+
+    });
+
+});
+
+describe('The editor reducer isCellValid func', () => {
+
+    const col = {
+        dataIndex: 'name',
+        name: 'Name',
+        disabled: ({ value }) => {
+            return value === 'ben';
+        }
+    };
+
+    it('Should return false', () => {
+        expect(
+            setDisabled(col, 'Matt', {})
+        ).toEqual(false);
+
+    });
+
+    it('Should return true', () => {
+        expect(
+            setDisabled(col, 'Ben', {})
+        ).toEqual(false);
+    });
+
+    it('Should return true if prop is explicitly set', () => {
+        const explicitCol = {
+            dataIndex: 'name',
+            name: 'Name',
+            disabled: true
+        };
+        expect(
+            setDisabled(explicitCol, 'Ben', {})
+        ).toEqual(true);
+    });
+
+    it('Should return false if prop is explicitly set', () => {
+        const explicitCol = {
+            dataIndex: 'name',
+            name: 'Name',
+            disabled: false
+        };
+        expect(
+            setDisabled(explicitCol, 'Ben', {})
+        ).toEqual(false);
+    });
+
+    it('Should return true with a more complex scenario', () => {
+
+        const complexCol = {
+            dataIndex: 'name',
+            name: 'Name',
+            disabled: ({ value, values }) => {
+                return value !== 'ben' && values.shouldDisable;
+            }
+        };
+
+        expect(
+            setDisabled(complexCol, 'Matt', { shouldDisable: true })
+        ).toEqual(true);
+
+    });
+
+});
 
 describe('The editor reducer isCellValid func', () => {
 
@@ -201,7 +337,15 @@ describe('The editor reducer EDIT_ROW action', () => {
                     rowIndex: 2,
                     top: 30,
                     valid: true,
-                    isCreate: false
+                    isCreate: false,
+                    overrides: {
+                        col1: {
+                            disabled: false
+                        },
+                        col2: {
+                            disabled: false
+                        }
+                    }
                 },
                 lastUpdate: 1
             }
@@ -249,11 +393,78 @@ describe('The editor reducer EDIT_ROW action', () => {
                     rowIndex: 2,
                     top: 30,
                     valid: false,
-                    isCreate: true
+                    isCreate: true,
+                    overrides: {
+                        col1: {
+                            disabled: false
+                        },
+                        col2: {
+                            disabled: false
+                        }
+                    }
                 },
                 lastUpdate: 1
             }
         }));
+
+        it('Should return the correct edit-create with disable', () => {
+
+            const disableAction = {
+                type: EDIT_ROW,
+                stateKey: 'test-grid',
+                columns: [
+                    {
+                        name: 'Col1',
+                        dataIndex: 'col1',
+                        validator: ({ value }) => {
+                            return value === 2;
+                        },
+                        disabled: () => {
+                            return true;
+                        }
+                    },
+                    {
+                        name: 'Col2',
+                        dataIndex: 'col2'
+                    }
+                ],
+                values: {
+                    col1: 1,
+                    col2: 2
+                },
+                rowIndex: 2,
+                isCreate: true,
+                rowId: 'rowid-2',
+                top: 30
+            };
+
+            expect(
+                editor(state, disableAction)
+            ).toEqualImmutable(fromJS({
+                'test-grid': {
+                    row: {
+                        key: 'rowid-2',
+                        values: {
+                            col1: 1,
+                            col2: 2
+                        },
+                        rowIndex: 2,
+                        top: 30,
+                        valid: false,
+                        isCreate: true,
+                        overrides: {
+                            col1: {
+                                disabled: true
+                            },
+                            col2: {
+                                disabled: false
+                            }
+                        }
+                    },
+                    lastUpdate: 1
+                }
+            }));
+        });
 
     });
 
@@ -324,7 +535,8 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
                     rowIndex: 2,
                     top: 30,
                     valid: false,
-                    isCreate: true
+                    isCreate: true,
+                    overrides: {}
                 }
             }
         });
@@ -341,7 +553,7 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
                 },
                 {
                     name: 'Col2',
-                    dataIndex: 'col2'
+                    dataIndex: 'col1'
                 }
             ],
             column: {
@@ -369,6 +581,14 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
                     top: 30,
                     valid: true,
                     isCreate: true,
+                    overrides: {
+                        col1: {
+                            disabled: false
+                        },
+                        col2: {
+                            disabled: false
+                        }
+                    },
                     previousValues: {
                         col1: NaN,
                         col2: NaN

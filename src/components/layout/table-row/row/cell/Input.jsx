@@ -20,6 +20,13 @@ export const Input = ({
 
     const colName = nameFromDataIndex(column);
 
+    const overrides = editorState
+        && editorState.row
+        && editorState.row.values
+        && editorState.row.overrides[colName] !== undefined
+        ? editorState.row.overrides[colName]
+        : {};
+
     const placeholder = column
         && column.placeholder
         ? column.placeholder
@@ -32,10 +39,10 @@ export const Input = ({
         ? editorState.row.values[colName]
         : cellData;
 
-    const disabled = editorState
+    const disabled = overrides.disabled || (editorState
         && editorState.row
         && !editorState.row.isCreate
-        && column.editable === 'create';
+        && column.editable === 'create');
 
     const inputProps = {
         disabled,

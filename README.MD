@@ -216,8 +216,19 @@ export const columns = [
            },
         hidden: false,
         placeholder: 'Name',
-        validator: (val) => {
-            return val.length > 0;
+        validator: ({ value, values }) => {
+            return value.length > 0;
+        },
+        change: ({ values }) => {
+            return {
+                otherColDataIndex: 'newValue'
+            };
+        },
+        disabled: ({ value, values }) => {
+            if (value === 'ShouldDisabled') {
+                return true;
+            }
+            return false;
         },
         hideable: false,
         resizable: false,
@@ -262,7 +273,9 @@ const column = {
 10. `moveable`: `boolean`, whether this column can be moved
 10. `placeholder`: `string`, the placeholder that will be used for the editor input
 10. `validator`: `func`, a func that should return a boolean, to determine if the newly input value is valid
-11. `HANDLE_CLICK`: `func`, click handler assigned to column
+11. `change`: `func`, a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.
+12. `disabled`: `bool || func`, whether the field should be disabled while in edit mode.
+13. `HANDLE_CLICK`: `func`, click handler assigned to column
 
 ## Editor
 ```javascript

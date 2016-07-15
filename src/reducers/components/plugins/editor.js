@@ -11,7 +11,8 @@ import {
 
 import {
     getData,
-    setDataAtDataIndex
+    setDataAtDataIndex,
+    nameFromDataIndex
 } from './../../../util/getData';
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
@@ -56,13 +57,41 @@ export const setDisabled = (col = {}, value, values) => {
 
 };
 
+export const handleChangeFunc = (col, rowValues) => {
+
+    if (!col.change || !typeof col.change === 'function') {
+        return rowValues;
+    }
+
+    const overrideValue = col.change({ values: rowValues }) || {};
+
+    Object.keys(overrideValue).forEach(k => {
+        rowValues[k] = overrideValue[k];
+    });
+
+    return rowValues;
+};
+
 export default function editor(state = initialState, action) {
 
     switch (action.type) {
 
     case EDIT_ROW:
 
-        const isValid = isRowValid(action.columns, action.values);
+        const { values } = action;
+        const isValid = isRowValid(action.columns, values);
+        const iOverrides = state.getIn([stateKey, 'row', 'overrides'])
+            ? state.getIn([stateKey, 'row', 'overrides']).toJS()
+            : {};
+
+        action.columns.forEach((col, i) => {
+            const val = getData(values, action.columns, i);
+            const dataIndex = col.dataIndex;
+
+            // setting disabled
+            iOverrides[dataIndex] = iOverrides[dataIndex] || {};
+            iOverrides[dataIndex].disabled = setDisabled(col, val, values);
+        });
 
         return state.setIn([action.stateKey], fromJS({
             row: {
@@ -71,7 +100,8 @@ export default function editor(state = initialState, action) {
                 rowIndex: action.rowIndex,
                 top: action.top,
                 valid: isValid,
-                isCreate: action.isCreate || false
+                isCreate: action.isCreate || false,
+                overrides: iOverrides
             },
             lastUpdate: generateLastUpdate()
         }));
@@ -79,20 +109,30 @@ export default function editor(state = initialState, action) {
     case ROW_VALUE_CHANGE:
         const { column, columns, value, stateKey } = action;
         const previousValues = state.getIn([stateKey, 'row', 'values']).toJS();
+        const overrides = state.getIn([stateKey, 'row', 'overrides']).toJS();
 
-        const rowValues = setDataAtDataIndex(
+        let rowValues = setDataAtDataIndex(
             previousValues, column.dataIndex, value
         );
 
         columns.forEach((col, i) => {
             const val = getData(rowValues, columns, i);
+            const dataIndex = col.dataIndex;
 
+            // interpreting `change func` to set final values
+            // happens first, due to other validation
+            rowValues = handleChangeFunc(col, rowValues);
+
+
+            // setting default value
             if (col.defaultValue !== undefined
                 && val === undefined || val === null) {
-                setDataAtDataIndex(rowValues, col.dataIndex, col.defaultValue);
+                setDataAtDataIndex(rowValues, dataIndex, col.defaultValue);
             }
 
-            col._disabled = setDisabled(col, val, rowValues);
+            // setting disabled
+            overrides[dataIndex] = overrides[dataIndex] || {};
+            overrides[dataIndex].disabled = setDisabled(col, val, rowValues);
 
         });
 
@@ -101,7 +141,8 @@ export default function editor(state = initialState, action) {
         state = state.mergeIn([action.stateKey, 'row'], {
             values: rowValues,
             previousValues: state.getIn([stateKey, 'row', 'values']),
-            valid
+            valid,
+            overrides
         });
 
         return state.setIn(
