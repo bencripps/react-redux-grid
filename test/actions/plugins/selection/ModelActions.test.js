@@ -87,7 +87,8 @@ describe('The grid setSelection Action', () => {
                 mode: SELECTION_MODES.single
             },
             modes: SELECTION_MODES,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            index: 4
         };
 
         expect(setSelection(action))
@@ -96,7 +97,8 @@ describe('The grid setSelection Action', () => {
                 clearSelections: true,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: SET_SELECTION
+                type: SET_SELECTION,
+                index: 4
             });
     });
 
@@ -112,7 +114,8 @@ describe('The grid setSelection Action', () => {
                 mode: SELECTION_MODES.multi
             },
             modes: SELECTION_MODES,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            index: 11
         };
 
         expect(setSelection(action))
@@ -120,7 +123,8 @@ describe('The grid setSelection Action', () => {
                 allowDeselect: false,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: SET_SELECTION
+                type: SET_SELECTION,
+                index: 11
             });
     });
 
@@ -136,7 +140,8 @@ describe('The grid setSelection Action', () => {
                 mode: SELECTION_MODES.single
             },
             modes: SELECTION_MODES,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            index: 9
         };
 
         expect(setSelection(action))
@@ -145,7 +150,8 @@ describe('The grid setSelection Action', () => {
                 clearSelections: true,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: SET_SELECTION
+                type: SET_SELECTION,
+                index: 9
             });
     });
 
@@ -161,7 +167,8 @@ describe('The grid setSelection Action', () => {
                 mode: SELECTION_MODES.checkboxSingle
             },
             modes: SELECTION_MODES,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            index: 1
         };
 
         expect(setSelection(action))
@@ -170,7 +177,8 @@ describe('The grid setSelection Action', () => {
                 clearSelections: true,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: SET_SELECTION
+                type: SET_SELECTION,
+                index: 1
             });
     });
 
@@ -185,7 +193,8 @@ describe('The grid setSelection Action', () => {
                 mode: SELECTION_MODES.multi
             },
             modes: SELECTION_MODES,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            index: 4
         };
 
         expect(setSelection(action))
@@ -193,7 +202,8 @@ describe('The grid setSelection Action', () => {
                 allowDeselect: true,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: 'SET_SELECTION'
+                type: 'SET_SELECTION',
+                index: 4
             });
     });
 });

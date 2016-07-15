@@ -27,17 +27,30 @@ export default function selection(state = initialState, action) {
 
     case SET_SELECTION:
         const currentValue = state.getIn([action.stateKey, action.id]);
+        const currentIndexes = state.getIn(
+            [action.stateKey, 'indexes']
+        );
+        const isSelectAction = action.allowDeselect ? !currentValue : true;
+        const indexes = setIndexes(
+            action.index,
+            currentIndexes && currentIndexes.toJS
+                ? currentIndexes.toJS()
+                : currentIndexes,
+            !isSelectAction
+        );
 
         if (action.clearSelections || !state.get(action.stateKey)) {
             return state.setIn([action.stateKey], fromJS({
-                [action.id]: action.allowDeselect ? !currentValue : true,
+                [action.id]: isSelectAction,
+                indexes: isSelectAction ? [action.index] : [],
                 lastUpdate: generateLastUpdate()
             }));
         }
 
         // multiselect
         return state.mergeIn([action.stateKey], fromJS({
-            [action.id]: action.allowDeselect ? !currentValue : true,
+            [action.id]: isSelectAction,
+            indexes,
             lastUpdate: generateLastUpdate()
         }));
 
@@ -45,3 +58,62 @@ export default function selection(state = initialState, action) {
         return state;
     }
 }
+
+export const setIndexes = (ids, previous = [], isRemove) => {
+
+    if (!isRemove) {
+
+        if (Array.isArray(ids)) {
+
+            ids.forEach(id => {
+                if (previous.indexOf(id) === -1) {
+                    previous.push(id);
+                }
+            });
+
+        }
+
+        else {
+
+            if (previous.indexOf(ids) !== -1) {
+                return previous;
+            }
+
+            previous.push(ids);
+            return previous;
+
+        }
+    }
+
+    else if (isRemove) {
+
+        let idx;
+
+        if (Array.isArray(ids)) {
+
+            ids.forEach(id => {
+                idx = previous.indexOf(id);
+                if (idx !== -1) {
+                    previous.splice(idx, 1);
+                }
+            });
+
+        }
+
+        else {
+
+            idx = previous.indexOf(ids);
+
+            if (idx !== -1) {
+                previous.splice(idx, 1);
+                return previous;
+            }
+
+            return previous;
+
+        }
+
+    }
+
+    return previous;
+};

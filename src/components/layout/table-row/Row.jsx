@@ -77,10 +77,14 @@ export class Row extends Component {
             key: id,
             className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
             onClick: (e) => {
-                handleRowSingleClickEvent(events, row, id, selectionModel, e);
+                handleRowSingleClickEvent(
+                    events, row, id, selectionModel, index, e
+                );
             },
             onDoubleClick: (e) => {
-                handleRowDoubleClickEvent(events, row, id, selectionModel, e);
+                handleRowDoubleClickEvent(
+                    events, row, id, selectionModel, index, e
+                );
             }
         };
 
@@ -145,7 +149,7 @@ export const getCellValues = (columns, row) => {
 
     const result = {};
     const dataIndexes = columns.map(col => col.dataIndex);
-    
+
     dataIndexes.forEach(idx => {
         result[idx] = row[idx];
     });
@@ -219,7 +223,7 @@ export const addEmptyCells = (rowData, columns) => {
 };
 
 export const handleRowDoubleClickEvent = (
-    events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
+    events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent
 ) => {
     if (selectionModel
             && selectionModel.defaults.selectionEvent
@@ -230,7 +234,8 @@ export const handleRowDoubleClickEvent = (
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
             eventData: reactEvent,
-            id: rowId
+            id: rowId,
+            index
         });
     }
 
@@ -254,7 +259,7 @@ export const getSelectedText = () => {
 };
 
 export const handleRowSingleClickEvent = (
-    events, rowData, rowId, selectionModel, reactEvent, id, browserEvent
+    events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent
 ) => {
 
     if (getSelectedText()) {
@@ -270,7 +275,8 @@ export const handleRowSingleClickEvent = (
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
             eventData: reactEvent,
-            id: rowId
+            id: rowId,
+            index
         });
     }
 

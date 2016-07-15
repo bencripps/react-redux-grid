@@ -9,7 +9,8 @@ import {
 } from './../../../../src/constants/ActionTypes';
 
 import
-    selection
+    selection,
+    { setIndexes }
 from './../../../../src/reducers/components/plugins/selection';
 
 import {
@@ -79,13 +80,82 @@ describe('The deselectAll func in the selection reducer', () => {
 
 });
 
+describe('The setSelection setIndexes tests', () => {
+
+    it('Should set an index if none are present', () => {
+
+        expect(
+            setIndexes(1, undefined)
+        ).toEqual([
+            1
+        ]);
+
+    });
+
+    it('Should not set duplicate index', () => {
+
+        expect(
+            setIndexes(1, [1])
+        ).toEqual([
+            1
+        ]);
+
+    });
+
+    it(['Should not set duplicate index,',
+        'but be able to add array values'].join(' '), () => {
+
+        expect(
+            setIndexes([1, 2], [1])
+        ).toEqual([
+            1, 2
+        ]);
+
+    });
+
+    it('Should not set duplicate index even if they are passed', () => {
+
+        expect(
+            setIndexes([1, 2, 3, 4, 4], [1])
+        ).toEqual([
+            1, 2, 3, 4
+        ]);
+
+    });
+
+    it('Should remove a value', () => {
+
+        expect(
+            setIndexes(1, [1], true)
+        ).toEqual([]);
+
+    });
+
+    it('Should remove multiple values', () => {
+
+        expect(
+            setIndexes([1, 2], [1, 2, 3], true)
+        ).toEqual([3]);
+
+    });
+
+    it('Should remove multiple values, and return empty arr', () => {
+
+        expect(
+            setIndexes([1, 2], [1, 2, 3], true)
+        ).toEqual([3]);
+
+    });
+});
+
 describe('The setSelection func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
     const state = fromJS({
         'test-grid': {
             fakeRow: true,
-            anotherRow: false
+            anotherRow: false,
+            indexes: [0]
         }
     });
 
@@ -96,7 +166,8 @@ describe('The setSelection func in the selection reducer', () => {
             type: SET_SELECTION,
             stateKey: 'test-grid',
             clearSelections: true,
-            id: 'anotherRow'
+            id: 'anotherRow',
+            index: 1
         };
 
         expect(
@@ -105,13 +176,14 @@ describe('The setSelection func in the selection reducer', () => {
             fromJS({
                 'test-grid': {
                     anotherRow: true,
-                    lastUpdate: 1
+                    lastUpdate: 1,
+                    indexes: [1]
                 }
             })
         );
     });
 
-    it(['Should should deselect a value if already selected, ',
+    it(['Should deselect a value if already selected, ',
         'and clearSelections is passed'].join(''), () => {
 
         const action = {
@@ -119,7 +191,8 @@ describe('The setSelection func in the selection reducer', () => {
             stateKey: 'test-grid',
             clearSelections: true,
             allowDeselect: true,
-            id: 'fakeRow'
+            id: 'fakeRow',
+            index: 1
         };
 
         expect(
@@ -128,7 +201,8 @@ describe('The setSelection func in the selection reducer', () => {
             fromJS({
                 'test-grid': {
                     fakeRow: false,
-                    lastUpdate: 1
+                    lastUpdate: 1,
+                    indexes: []
                 }
             })
         );
@@ -141,7 +215,8 @@ describe('The setSelection func in the selection reducer', () => {
         const action = {
             type: SET_SELECTION,
             stateKey: 'test-grid',
-            id: 'fakeRow'
+            id: 'fakeRow',
+            index: 11
         };
 
         expect(
@@ -150,7 +225,8 @@ describe('The setSelection func in the selection reducer', () => {
             fromJS({
                 'test-grid': {
                     fakeRow: true,
-                    lastUpdate: 1
+                    lastUpdate: 1,
+                    indexes: [11]
                 }
             })
         );
@@ -160,7 +236,8 @@ describe('The setSelection func in the selection reducer', () => {
 
         const selectedState = fromJS({
             'test-grid': {
-                fakeRow: true
+                fakeRow: true,
+                indexes: [0]
             }
         });
 
@@ -168,7 +245,8 @@ describe('The setSelection func in the selection reducer', () => {
             type: SET_SELECTION,
             stateKey: 'test-grid',
             id: 'anotherRow',
-            clearSelections: false
+            clearSelections: false,
+            index: 1
         };
 
         expect(
@@ -178,6 +256,7 @@ describe('The setSelection func in the selection reducer', () => {
                 'test-grid': {
                     fakeRow: true,
                     anotherRow: true,
+                    indexes: [0, 1],
                     lastUpdate: 1
                 }
             })

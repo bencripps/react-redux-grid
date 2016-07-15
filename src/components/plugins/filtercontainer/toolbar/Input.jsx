@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
-import { CLASS_NAMES, KEYBOARD_MAP, FILTER_METHODS } from './../../../../constants/GridConstants';
+import {
+    CLASS_NAMES, KEYBOARD_MAP, FILTER_METHODS
+} from './../../../../constants/GridConstants';
 
 import filterUtils from './../../../../util/filterUtils';
 import { setFilter,
@@ -9,8 +11,16 @@ import { setFilter,
     doRemoteFilter
 } from './../../../../actions/plugins/filter/FilterActions';
 
-export const Input = ({ dataSource, method, placeHolderText,
-    inputValue, plugins, pager, pageSize, store }) => {
+export const Input = ({
+    dataSource,
+    method,
+    placeHolderText,
+    inputValue,
+    plugins,
+    pager,
+    pageSize,
+    store
+}) => {
 
     const inputProps = {
         className: prefix(CLASS_NAMES.FILTER_CONTAINER.INPUT),
@@ -21,12 +31,12 @@ export const Input = ({ dataSource, method, placeHolderText,
         value: inputValue
     };
 
-    return (
-            <input { ...inputProps } />
-        );
+    return <input { ...inputProps } />;
 };
 
-export const handleKeyUp = (value, method, dataSource, plugins, pager, pageSize, store, reactEvent) => {
+export const handleKeyUp = (
+    value, method, dataSource, plugins, pager, pageSize, store, reactEvent
+) => {
 
     const filterSource = plugins.FILTER_CONTAINER;
 

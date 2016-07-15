@@ -82,7 +82,9 @@ export const getTotalSelection = (selectedRows) => {
     const count = selectedRows
         && Object.keys(selectedRows).length
         ? Object.keys(selectedRows).filter((k) =>
-            selectedRows[k] && k !== 'lastUpdate'
+            selectedRows[k]
+                && k !== 'lastUpdate'
+                && k !== 'indexes'
         ).length
         : 0;
 

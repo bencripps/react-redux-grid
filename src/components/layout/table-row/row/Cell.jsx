@@ -46,7 +46,9 @@ export const Cell = ({
     };
 
     const cellProps = {
-        className: prefix(CLASS_NAMES.CELL),
+        className: prefix(CLASS_NAMES.CELL,
+            isEditable ? 'edit' : ''
+        ),
         onClick: (e) => {
             return handleClick(cellClickArguments, e);
         },

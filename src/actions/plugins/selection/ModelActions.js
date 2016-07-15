@@ -22,7 +22,7 @@ export function deselectAll({ stateKey }) {
 }
 
 export function setSelection({
-    id, defaults = {}, modes = {}, stateKey
+    id, defaults = {}, modes = {}, stateKey, index
 }) {
 
     const allowDeselect = defaults.allowDeselect;
@@ -35,15 +35,29 @@ export function setSelection({
     }
 
     if (defaults.mode === modes.single) {
-        return { type: SET_SELECTION, id, clearSelections, allowDeselect, stateKey };
+        return {
+            type: SET_SELECTION,
+            id,
+            clearSelections,
+            allowDeselect,
+            index,
+            stateKey
+        };
     }
 
     else if (defaults.mode === modes.multi) {
-        return { type: SET_SELECTION, id, allowDeselect, stateKey };
+        return { type: SET_SELECTION, id, allowDeselect, index, stateKey };
     }
 
     else if (defaults.mode === modes.checkboxSingle
         || defaults.mode === modes.checkboxMulti) {
-        return { type: SET_SELECTION, id, clearSelections, allowDeselect, stateKey };
+        return {
+            type: SET_SELECTION,
+            id,
+            clearSelections,
+            allowDeselect,
+            index,
+            stateKey
+        };
     }
 }

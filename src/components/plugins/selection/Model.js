@@ -50,6 +50,7 @@ export default class Model {
         this.store.dispatch(
             setSelection({
                 id: selectionEvent.id,
+                index: selectionEvent.index,
                 defaults: this.defaults,
                 modes: this.modes,
                 stateKey: this.stateKey
