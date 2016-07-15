@@ -3,7 +3,8 @@ import { fromJS } from 'immutable';
 import {
     SET_SELECTION,
     SELECT_ALL,
-    DESELECT_ALL
+    DESELECT_ALL,
+    SET_DATA
 } from '../../../constants/ActionTypes';
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
@@ -21,6 +22,11 @@ export default function selection(state = initialState, action) {
         }));
 
     case DESELECT_ALL:
+        return state.setIn([action.stateKey], fromJS({
+            lastUpdate: generateLastUpdate()
+        }));
+
+    case SET_DATA:
         return state.setIn([action.stateKey], fromJS({
             lastUpdate: generateLastUpdate()
         }));

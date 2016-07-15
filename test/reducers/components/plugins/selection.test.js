@@ -5,7 +5,8 @@ import { fromJS } from 'immutable';
 import {
     SELECT_ALL,
     SET_SELECTION,
-    DESELECT_ALL
+    DESELECT_ALL,
+    SET_DATA
 } from './../../../../src/constants/ActionTypes';
 
 import
@@ -146,6 +147,33 @@ describe('The setSelection setIndexes tests', () => {
         ).toEqual([3]);
 
     });
+});
+
+describe('The SET_DATA action in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
+
+    const state = fromJS({
+        'test-grid': {
+            fakeRow: true,
+            anotherRow: false,
+            indexes: [0]
+        }
+    });
+
+    const action = {
+        type: SET_DATA,
+        stateKey: 'test-grid'
+    };
+
+    it('Should wipe out all previous selections', () => {
+        expect(selection(state, action))
+            .toEqualImmutable(fromJS({
+                'test-grid': {
+                    lastUpdate: 1
+                }
+            }));
+    });
+
 });
 
 describe('The setSelection func in the selection reducer', () => {

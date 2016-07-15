@@ -20,19 +20,19 @@ const initialState = fromJS({
     lastUpdate: generateLastUpdate()
 });
 
-export const isCellValid = ({ validator }, value) => {
+export const isCellValid = ({ validator }, value, values) => {
     if (!validator || !typeof validator === 'function') {
         return true;
     }
 
-    return validator({value});
+    return validator({ value, values });
 };
 
 export const isRowValid = (columns, rowValues) => {
     for (let i = 0; i < columns.length; i++) {
 
         const col = columns[i];
-        const val = isCellValid(col, getData(rowValues, columns, i));
+        const val = isCellValid(col, getData(rowValues, columns, i), rowValues);
 
         if (!val) {
             return false;
@@ -40,6 +40,20 @@ export const isRowValid = (columns, rowValues) => {
     }
 
     return true;
+};
+
+export const setDisabled = (col = {}, value, values) => {
+
+    if (col.disabled === true || col.disabled === 'false') {
+        return col.disabled;
+    }
+
+    if (typeof col.disabled === 'function') {
+        return col.disabled({ column: col, value, values });
+    }
+
+    return false;
+
 };
 
 export default function editor(state = initialState, action) {
@@ -72,10 +86,14 @@ export default function editor(state = initialState, action) {
 
         columns.forEach((col, i) => {
             const val = getData(rowValues, columns, i);
+
             if (col.defaultValue !== undefined
                 && val === undefined || val === null) {
                 setDataAtDataIndex(rowValues, col.dataIndex, col.defaultValue);
             }
+
+            col._disabled = setDisabled(col, val, rowValues);
+
         });
 
         const valid = isRowValid(columns, rowValues);
