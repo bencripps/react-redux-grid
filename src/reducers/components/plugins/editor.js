@@ -108,8 +108,12 @@ export default function editor(state = initialState, action) {
 
     case ROW_VALUE_CHANGE:
         const { column, columns, value, stateKey } = action;
-        const previousValues = state.getIn([stateKey, 'row', 'values']).toJS();
-        const overrides = state.getIn([stateKey, 'row', 'overrides']).toJS();
+        const previousValues = state.getIn([stateKey, 'row', 'values'])
+            ? state.getIn([stateKey, 'row', 'values']).toJS()
+            : {};
+        const overrides = state.getIn([stateKey, 'row', 'overrides'])
+            ? state.getIn([stateKey, 'row', 'overrides']).toJS()
+            : {};
 
         let rowValues = setDataAtDataIndex(
             previousValues, column.dataIndex, value
@@ -122,7 +126,6 @@ export default function editor(state = initialState, action) {
             // interpreting `change func` to set final values
             // happens first, due to other validation
             rowValues = handleChangeFunc(col, rowValues);
-
 
             // setting default value
             if (col.defaultValue !== undefined

@@ -62,6 +62,7 @@ export const Input = ({
 export const handleChange = (
     columnDefinition, columns, rowId, stateKey, store, reactEvent
 ) => {
+
     store.dispatch(
         updateCellValue({
             value: reactEvent.target.value,

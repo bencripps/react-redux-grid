@@ -277,6 +277,11 @@ const column = {
 12. `disabled`: `bool || func`, whether the field should be disabled while in edit mode.
 13. `HANDLE_CLICK`: `func`, click handler assigned to column
 
+##### Further Information
+
+1. [`renderers` in depth](docs/USING_CUSTOM_RENDERERS.md)
+2. [`editors` in depth](docs/USING_CUSTOM_EDITORS.md)
+
 ## Editor
 ```javascript
 export const plugins = {
