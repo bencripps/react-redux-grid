@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import { prefix } from '../../../../util/prefix';
-import { CLASS_NAMES } from '../../../../constants/GridConstants';
+import { prefix } from './../../../../util/prefix';
+import { CLASS_NAMES } from './../../../../constants/GridConstants';
 import {
     dismissEditor
 } from './../../../../actions/plugins/editor/EditorActions';
@@ -22,7 +22,7 @@ export const Button = ({
 
     const buttonProps = {
         onClick: onButtonClick.bind(
-            this,
+            null,
             BUTTON_TYPES,
             editorState,
             events,
@@ -52,8 +52,10 @@ export const Button = ({
 Button.propTypes = {
     BUTTON_TYPES: PropTypes.object,
     cancelText: PropTypes.string,
+    editorState: PropTypes.object,
     events: PropTypes.object,
     saveText: PropTypes.string,
+    stateKey: PropTypes.string,
     store: PropTypes.object,
     type: PropTypes.string
 };
@@ -64,12 +66,28 @@ Button.defaultProps = {
         SAVE: 'SAVE'
     },
     cancelText: 'Cancel',
+    editorState: {},
     saveText: 'Save'
 };
 
 export const onButtonClick = (
     BUTTON_TYPES, editorState, events, type, stateKey, store
 ) => {
+
+    if (type === BUTTON_TYPES.SAVE
+        && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
+        const values = editorState.row.values;
+
+        const result = events.HANDLE_BEFORE_INLINE_EDITOR_SAVE({
+            values, editorState
+        });
+
+        // early exit if custom event returns false
+        // dont do save or dismiss editor
+        if (result === false) {
+            return;
+        }
+    }
 
     if (type === BUTTON_TYPES.CANCEL) {
         store.dispatch(dismissEditor({ stateKey }));

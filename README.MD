@@ -571,7 +571,10 @@ export const events = {
     HANDLE_AFTER_SELECTION: () => {
         console.log('On After Selection');
     },
-    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {
+    HANDLE_BEFORE_INLINE_EDITOR_SAVE: (values, editorState) => {
+        console.log('This is your chance to return false, or dispatch another action before save');
+    },
+    HANDLE_AFTER_INLINE_EDITOR_SAVE: (values, editorState) => {
         console.log('On After Save Inline Editor Event');
     },
     HANDLE_BEFORE_BULKACTION_SHOW: () => {
