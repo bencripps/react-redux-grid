@@ -22,6 +22,70 @@ const props = {
 
 props.store.subscribe = () => {};
 
+describe('A fully mounted simple grid with invalid props', () => {
+
+    const invalidDataProps = {
+        ...props,
+        store: GridStore,
+        data: null,
+        dataSource: null
+    };
+
+    const invalidColProps = {
+        ...props,
+        store: GridStore,
+        columns: null
+    };
+
+    const invalidStateKeyProps = {
+        ...props,
+        stateKey: null
+    };
+
+    const invalidData = () => {
+        return mount(<ConnectedGrid { ...invalidDataProps } />);
+    };
+
+    const invalidCol = () => {
+        return mount(<ConnectedGrid { ...invalidColProps } />);
+    };
+
+    const invalidStore = () => {
+        const invalidStoreProps = {
+            ...props,
+            stateKey: 'banana',
+            store: {}
+        };
+
+        return mount(<ConnectedGrid { ...invalidStoreProps } />);
+    };
+
+    const invalidStateKey = () => {
+        return mount(<ConnectedGrid { ...invalidStateKeyProps } />);
+    };
+
+    it('Should throw an error', () => {
+        expect(invalidData)
+            .toThrow('A data source, or a static data set is required');
+    });
+
+    it('Should throw the column error', () => {
+        expect(invalidCol)
+            .toThrow('A columns array is required');
+    });
+
+    // it('Should throw the store error', () => {
+    //     expect(invalidStore)
+    //         .toThrow('Component must be intialized with a valid store');
+    // });
+
+    it('Should throw the stateKey error', () => {
+        expect(invalidStateKey)
+            .toThrow('A stateKey is required to intialize the grid');
+    });
+
+});
+
 describe('A fully mounted simple grid', () => {
 
     const simpleProps = {

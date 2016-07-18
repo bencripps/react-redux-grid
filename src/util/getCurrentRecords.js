@@ -3,7 +3,9 @@ export const getCurrentRecords = (dataSource, pageIndex, pageSize) => {
         return null;
     }
 
-    const selectedRows = dataSource.data.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+    const selectedRows = dataSource.data.slice(
+        pageIndex * pageSize, (pageIndex + 1) * pageSize
+    );
 
     return selectedRows;
 };

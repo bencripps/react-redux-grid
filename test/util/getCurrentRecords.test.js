@@ -51,4 +51,9 @@ describe('getCurrentRecords utility function', () => {
         expect(getCurrentRecords(dataSource, 0, 2).length).toEqual(2);
     });
 
+    it('Should return null', () => {
+        expect(getCurrentRecords(false, 0, 5))
+            .toEqual(null);
+    });
+
 });

@@ -1,0 +1,51 @@
+/* eslint-enable describe it sinon */
+
+import expect from 'expect';
+import {
+    throttle, debounce
+} from './../../src/util/throttle';
+
+describe('throttle utility function', () => {
+
+    it('Should call a function', () => {
+        const spy = sinon.spy();
+        const func = throttle(spy, null);
+
+        func();
+
+        expect(spy.called)
+            .toEqual(true);
+    });
+
+    it('Should call a function only once', () => {
+        const spy = sinon.spy();
+        const func = throttle(spy, null);
+
+        for (let i = 0; i < 10; i++) {
+            func();
+        }
+
+        expect(spy.callCount)
+            .toEqual(1);
+    });
+});
+
+describe('debounce utility function', () => {
+
+    it('Should call a function after timeout', (done) => {
+        const spy = sinon.spy();
+        const func = debounce(spy, 100);
+
+        func();
+
+        expect(spy.called)
+            .toEqual(false);
+
+        setTimeout(() => {
+            expect(spy.called)
+                .toEqual(true);
+            done();
+        }, 101);
+    });
+
+});
