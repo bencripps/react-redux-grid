@@ -189,7 +189,22 @@ export const handleDoubleClick = ({
         reactEvent.stopPropagation();
     }
 
-    if (selectionModel.defaults.editEvent
+    // if a row is clicked and the editorState is empty except
+    // for last update integer, trigger edit event
+    if (!editorState || Object.keys(editorState).length === 1) {
+        handleEditClick(
+            editor,
+            store,
+            rowId,
+            rowData,
+            rowIndex,
+            columns,
+            stateKey,
+            { reactEvent }
+        );
+    }
+
+    else if (selectionModel.defaults.editEvent
         === selectionModel.eventTypes.doubleclick) {
         handleEditClick(
             editor,
@@ -197,6 +212,8 @@ export const handleDoubleClick = ({
             rowId,
             rowData,
             rowIndex,
+            columns,
+            stateKey,
             { reactEvent }
         );
     }
@@ -221,5 +238,3 @@ Cell.propTypes = {
     stateKey: PropTypes.string,
     store: PropTypes.object
 };
-
-export { Cell };
