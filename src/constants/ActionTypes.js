@@ -34,6 +34,7 @@ export const REMOVE_ROW = 'REMOVE_ROW';
 export const ADD_NEW_ROW = 'ADD_NEW_ROW';
 export const CANCEL_ROW = 'CANCEL_ROW';
 export const SAVE_ROW = 'SAVE_ROW';
+export const UPDATE_ROW = 'UPDATE_ROW';
 export const ROW_VALUE_CHANGE = 'ROW_VALUE_CHANGE';
 export const DISMISS_EDITOR = 'DISMISS_EDITOR';
 

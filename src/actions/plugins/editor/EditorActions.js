@@ -7,7 +7,8 @@ import {
     ROW_VALUE_CHANGE,
     REMOVE_ROW,
     REPOSITION_EDITOR,
-    SAVE_ROW
+    SAVE_ROW,
+    UPDATE_ROW
 } from '../../../constants/ActionTypes';
 
 import { keyGenerator } from '../../../util/keyGenerator';
@@ -64,6 +65,15 @@ export function removeRow({ rowIndex, stateKey }) {
 
 export function setEditorValidation({ validationState, stateKey }) {
     return { type: EDITOR_VALIDATION, validationState, stateKey };
+}
+
+export function updateRow({ stateKey, rowIndex, values }) {
+    return {
+        type: UPDATE_ROW,
+        stateKey,
+        rowIndex,
+        values
+    };
 }
 
 export function addNewRow({ columns, data, stateKey }) {

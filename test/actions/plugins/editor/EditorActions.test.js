@@ -9,7 +9,8 @@ import {
     ROW_VALUE_CHANGE,
     REMOVE_ROW,
     REPOSITION_EDITOR,
-    SAVE_ROW
+    SAVE_ROW,
+    UPDATE_ROW
 } from './../../../../src/constants/ActionTypes';
 
 import {
@@ -21,7 +22,8 @@ import {
     cancelRow,
     removeRow,
     setEditorValidation,
-    addNewRow
+    addNewRow,
+    updateRow
 } from './../../../../src/actions/plugins/editor/EditorActions';
 
 describe('The grid editRow Action', () => {
@@ -241,6 +243,32 @@ describe('The grid setEditorValidation Action', () => {
                 type: EDITOR_VALIDATION,
                 validationState: true,
                 stateKey: 'test-grid'
+            });
+    });
+
+});
+
+describe('The grid updateRow Action', () => {
+
+    const action = {
+        type: UPDATE_ROW,
+        stateKey: 'test-grid',
+        rowIndex: 2,
+        values: {
+            valueToUpdate: true
+        }
+    };
+
+    it('Should return the updateRow action', () => {
+
+        expect(updateRow(action))
+            .toEqual({
+                type: UPDATE_ROW,
+                stateKey: 'test-grid',
+                rowIndex: 2,
+                values: {
+                    valueToUpdate: true
+                }
             });
     });
 

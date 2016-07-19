@@ -6,7 +6,8 @@ import { SET_DATA,
     FILTER_DATA,
     REMOVE_ROW,
     SAVE_ROW,
-    SORT_DATA
+    SORT_DATA,
+    UPDATE_ROW
 } from '../../constants/ActionTypes';
 
 import { generateLastUpdate } from './../../util/lastUpdate';
@@ -53,6 +54,28 @@ export default function dataSource(state = initialState, action) {
             currentRecords: remainingRows,
             lastUpdate: generateLastUpdate()
         }));
+
+    case UPDATE_ROW:
+
+        const existingData = state.getIn([action.stateKey, 'data']);
+        const prevRow = existingData
+            ? existingData.get(action.rowIndex)
+            : null;
+
+        if (!prevRow) {
+            return state;
+        }
+
+        const updatedRow = prevRow.merge(action.values);
+        const updatedData = state.getIn([action.stateKey, 'data'])
+            .set(action.rowIndex, updatedRow);
+
+        return state.mergeIn([action.stateKey], {
+            data: updatedData,
+            proxy: updatedData,
+            currentRecords: updatedData,
+            lastUpdate: generateLastUpdate()
+        });
 
     case ADD_NEW_ROW:
 

@@ -10,7 +10,8 @@ import {
     SAVE_ROW,
     SORT_DATA,
     CLEAR_FILTER_LOCAL,
-    FILTER_DATA
+    FILTER_DATA,
+    UPDATE_ROW
 } from './../../../src/constants/ActionTypes';
 
 import
@@ -496,6 +497,112 @@ describe('The grid dataSource reducer clearFilter func', () => {
 
     });
 
+});
+
+describe('The grid dataSource reducer updateRow action', () => {
+    beforeEach(() => resetLastUpdate());
+
+    const inStateForUpdate = fromJS({
+        'test-grid': {
+            proxy: [
+                { cell: 1 },
+                { cell: 2, otherCell: 2 }
+            ],
+            data: [
+                { cell: 1 },
+                { cell: 2, otherCell: 2 }
+            ],
+            currentRecords: [
+                { cell: 1 },
+                { cell: 2, otherCell: 2 }
+            ],
+            total: 2,
+            lastUpdate: 1
+        }
+    });
+
+    it('Should update a single value', () => {
+
+        const action = {
+            stateKey: 'test-grid',
+            type: UPDATE_ROW,
+            rowIndex: 1,
+            values: {
+                cell: 'moreNewVals'
+            }
+        };
+
+        expect(dataSource(inStateForUpdate, action))
+            .toEqualImmutable(fromJS({
+                'test-grid': {
+                    proxy: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 2 }
+                    ],
+                    data: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 2 }
+                    ],
+                    currentRecords: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 2 }
+                    ],
+                    total: 2,
+                    lastUpdate: 1
+                }
+            }));
+    });
+
+    it('Should update a multiple value', () => {
+
+        const action = {
+            stateKey: 'test-grid',
+            type: UPDATE_ROW,
+            rowIndex: 1,
+            values: {
+                cell: 'moreNewVals',
+                otherCell: 'newValforCell2'
+            }
+        };
+
+        expect(dataSource(inStateForUpdate, action))
+            .toEqualImmutable(fromJS({
+                'test-grid': {
+                    proxy: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 'newValforCell2' }
+                    ],
+                    data: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 'newValforCell2' }
+                    ],
+                    currentRecords: [
+                        { cell: 1 },
+                        { cell: 'moreNewVals', otherCell: 'newValforCell2' }
+                    ],
+                    total: 2,
+                    lastUpdate: 1
+                }
+            }));
+
+    });
+
+    it('Should return existing state if index doesnt exist', () => {
+
+        const action = {
+            stateKey: 'test-grid',
+            type: UPDATE_ROW,
+            rowIndex: 100,
+            values: {
+                cell: 'moreNewVals',
+                otherCell: 'newValforCell2'
+            }
+        };
+
+        expect(dataSource(inStateForUpdate, action))
+            .toEqualImmutable(fromJS(inStateForUpdate));
+
+    });
 });
 
 describe('The grid dataSource reducer filterData func', () => {
