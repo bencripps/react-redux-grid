@@ -164,6 +164,71 @@ describe('The Grid Cell Component', () => {
 
     });
 
+    it('Should fire stopPropagation if cell is in edit mode on click', () => {
+
+        const noEventProps = {
+            ...props,
+            editorState: {
+                row: {
+                    key: 'some-id'
+                }
+            }
+        };
+
+        const component = mount(<Cell { ...noEventProps } />);
+
+        component.node.classList = {};
+        component.node.classList.contains = () => { return true; };
+
+        const spy = sinon.spy();
+
+        expect(spy.called)
+            .toEqual(false);
+
+        component.simulate('click', {
+            target: component.node,
+            stopPropagation: spy
+        });
+
+        expect(
+            spy.called
+        ).toEqual(true);
+
+    });
+
+    it(['Should fire stopPropagation if cell',
+        'is in edit mode on dbl click'].join(' '), () => {
+
+        const noEventProps = {
+            ...props,
+            editorState: {
+                row: {
+                    key: 'some-id'
+                }
+            }
+        };
+
+        const component = mount(<Cell { ...noEventProps } />);
+
+        component.node.classList = {};
+        component.node.classList.contains = () => { return true; };
+
+        const spy = sinon.spy();
+
+        expect(spy.called)
+            .toEqual(false);
+
+        component.simulate('dblclick', {
+            target: component.node,
+            stopPropagation: spy
+        });
+
+        expect(
+            spy.called
+        ).toEqual(true);
+
+    });
+
     it('Should fire edit event on dbl click', () => {
 
         const modifiedSelModel = getSelModel();
