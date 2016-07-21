@@ -27,8 +27,17 @@ export default function dataSource(state = initialState, action) {
         }));
 
     case DISMISS_EDITOR:
+        const previousData = state.getIn([action.stateKey, 'data']);
         const previousProxy = state.getIn([action.stateKey, 'proxy']);
-        const previousTotal = state.getIn([action.stateKey, 'total']);
+        let previousTotal = state.getIn([action.stateKey, 'total']);
+
+        // upon dismiss, if a new row was in edit
+        // but isn't save, update the total to reflect that
+        if (previousData
+            && previousProxy
+            && previousData.size > previousProxy.size) {
+            previousTotal = previousProxy.size;
+        }
 
         if (state.get(action.stateKey)) {
             return state.mergeIn([action.stateKey], fromJS({
@@ -93,11 +102,14 @@ export default function dataSource(state = initialState, action) {
             ? data.get(0).map((k, v) => v = '')
             : fromJS({});
 
+        const newData = data.unshift(newRow);
+
         return state.mergeIn([action.stateKey], fromJS({
-            data: data.unshift(newRow),
+            data: newData,
             proxy: data,
             isEditing: true,
-            lastUpdate: generateLastUpdate()
+            lastUpdate: generateLastUpdate(),
+            total: newData.size
         }));
 
     case SAVE_ROW:

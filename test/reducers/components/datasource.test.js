@@ -154,6 +154,54 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
             dataSource(inState, action)
         ).toEqualImmutable(outState);
     });
+
+    it('Should decrement total if proxy less values than data', () => {
+
+        const inState = fromJS({
+            'test-grid': {
+                data: [
+                    { cell: 1 },
+                    { cell: 2 },
+                    { cell: 3 }
+
+                ],
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 3
+            }
+        });
+
+        const outState = fromJS({
+            'test-grid': {
+                proxy: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                total: 2,
+                data: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                currentRecords: [
+                    { cell: 1 },
+                    { cell: 2 }
+                ],
+                isEditing: false,
+                lastUpdate: 1
+            }
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            type: DISMISS_EDITOR
+        };
+
+        expect(
+            dataSource(inState, action)
+        ).toEqualImmutable(outState);
+    });
 });
 
 describe('The grid dataSource reducer removeRow func', () => {
@@ -275,7 +323,7 @@ describe('The grid dataSource reducer addRow func', () => {
                     { cell: 1 },
                     { cell: 2 }
                 ],
-                total: 2,
+                total: 3,
                 isEditing: true,
                 lastUpdate: 1
             }
@@ -307,7 +355,7 @@ describe('The grid dataSource reducer addRow func', () => {
                 proxy: [],
                 data: [{}],
                 currentRecords: [],
-                total: 0,
+                total: 1,
                 isEditing: true,
                 lastUpdate: 1
             }
