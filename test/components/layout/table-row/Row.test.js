@@ -7,7 +7,7 @@ import { keyGenerator } from '../../../../src/util/keyGenerator';
 import { getSelModel, getColumnManager } from './../../../testUtils/';
 import store from './../../../../src/store/store';
 import {
-    Row
+    Row, getSelectedText
 } from './../../../../src/components/layout/table-row/Row.jsx';
 
 describe('The Grid Row Component', () => {
@@ -261,6 +261,54 @@ describe('The Grid Row Component', () => {
         ).toEqual(
             '<div><span>Name:</span><span>Michael Jordan</span></div>'
         );
+
+    });
+
+    it('Should fire custom row click event', () => {
+
+        const modifiedSelModel = getSelModel();
+
+        modifiedSelModel.defaults.selectionEvent = 'dblclick';
+
+        const clickProps = {
+            ...props,
+            selectionModel: modifiedSelModel,
+            events: {
+                HANDLE_ROW_CLICK: sinon.spy()
+            }
+        };
+
+        const component = mount(<Row { ...clickProps } />);
+
+        component.simulate('click');
+
+        expect(
+            clickProps.events.HANDLE_ROW_CLICK.called
+        ).toEqual(true);
+
+    });
+
+    it('Should fire custom row click event', () => {
+
+        const modifiedSelModel = getSelModel();
+
+        modifiedSelModel.defaults.selectionEvent = 'singleclick';
+
+        const clickProps = {
+            ...props,
+            selectionModel: modifiedSelModel,
+            events: {
+                HANDLE_ROW_DOUBLE_CLICK: sinon.spy()
+            }
+        };
+
+        const component = mount(<Row { ...clickProps } />);
+
+        component.simulate('dblclick');
+
+        expect(
+            clickProps.events.HANDLE_ROW_DOUBLE_CLICK.called
+        ).toEqual(true);
 
     });
 });

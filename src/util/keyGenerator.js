@@ -5,10 +5,10 @@ export function keyGenerator(...keywords) {
 export function keyFromObject(obj, additionalStrings) {
 
     if (additionalStrings && Array.isArray(additionalStrings)) {
-        return btoa(additionalStrings.join('') + Object.keys(obj).map((k) => obj[k]).join(''));
+        return btoa(
+            additionalStrings.join('') + Object.keys(obj
+        ).map((k) => obj[k]).join(''));
     }
 
-    else {
-        return btoa(Object.keys(obj).map((k) => obj[k]).join(''));
-    }
+    return btoa(Object.keys(obj).map((k) => obj[k]).join(''));
 }

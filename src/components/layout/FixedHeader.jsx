@@ -300,7 +300,8 @@ class FixedHeader extends Component {
         const header = ReactDOM.findDOMNode(this);
         const { headerOffset } = this.state;
 
-        const fixed = header.querySelector('.react-grid-header-fixed');
+        const fixed = header
+            .querySelector('.react-grid-header-fixed');
         const hidden = header
             .parentNode.querySelector('.react-grid-header-hidden');
 

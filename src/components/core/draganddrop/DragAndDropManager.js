@@ -27,11 +27,11 @@ export default class DragAndDropManager {
         );
         /**
         * hiding the chrome default drag image -- go upvote this
-        * http://stackoverflow.com/questions/7680285/how-do-you-turn-off-setdragimage
+        * 7680285/how-do-you-turn-off-setdragimage
         **/
 
         const dragIcon = document.createElement('img');
-        dragIcon.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        dragIcon.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; // eslint-disable-line max-len
 
         if (reactEvent.dataTransfer.setDragImage) {
             reactEvent.dataTransfer.setDragImage(dragIcon, -10, -10);

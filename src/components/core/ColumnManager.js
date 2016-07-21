@@ -103,7 +103,15 @@ export default class ColumnManager {
     }
 
     addActionColumn({
-        cells, columns, type, id, reducerKeys, rowData, rowIndex, menuState, stateKey
+        cells,
+        columns,
+        type,
+        id,
+        reducerKeys,
+        rowData,
+        rowIndex,
+        menuState,
+        stateKey
     }) {
 
         const { GRID_ACTIONS } = this.plugins;

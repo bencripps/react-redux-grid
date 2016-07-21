@@ -19,7 +19,13 @@ export function setPage({ index, type, BUTTON_TYPES }) {
 }
 
 export function setPageIndexAsync({
-    pageIndex, pageSize, dataSource, filterFields, sort, stateKey, afterAsyncFunc
+    pageIndex,
+    pageSize,
+    dataSource,
+    filterFields,
+    sort,
+    stateKey,
+    afterAsyncFunc
 }) {
 
     if (typeof dataSource === 'function') {
@@ -56,8 +62,15 @@ export function setPageIndexAsync({
                 else {
 
                     if (response && !response.data) {
-                        console.warn('A response was recieved but no data entry was found');
-                        console.warn('Please see https://github.com/bencripps/react-redux-grid for documentation');
+                        console.warn([
+                            'A response was recieved but',
+                            'no data entry was found'
+                        ].join(' '));
+                        console.warn([
+                            'Please see',
+                            'https://github.com/bencripps/react-redux-grid',
+                            'for documentation'
+                        ].join(' '));
                     }
 
                     dispatch({
