@@ -1,5 +1,6 @@
 import expect from 'expect';
 import React from 'react';
+import { fromJS } from 'immutable';
 import { mount } from 'enzyme';
 import FixedHeader from './../../../src/components/layout/FixedHeader.jsx';
 
@@ -88,6 +89,54 @@ describe('The Grid Fixed header component', () => {
         ).toEqual(
             'react-grid-table react-grid-header-fixed custom classes'
         );
+
+    });
+
+    it('Should trigger a valid drag event to resize cols', () => {
+
+        const modifiedColManager = getColumnManager();
+        modifiedColManager.config.resizable = true;
+
+        const draggableProps = {
+            ...props,
+            columns: [
+                {
+                    name: 'Player',
+                    id: 'UGxheWVyZ3JpZC1jb2x1bW4=',
+                    dataIndex: 'name'
+                },
+                {
+                    name: 'Position',
+                    dataIndex: 'position',
+                    id: 'UG9zaXRpb25ncmlkLWNvbHVtbg=='
+                }
+            ],
+            columnManager: modifiedColManager
+        };
+
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        container.style.width = '500px';
+
+        const component = mount(<FixedHeader { ...draggableProps } />, {
+            attachTo: container
+        });
+
+        component
+            .find('.react-grid-drag-handle')
+            .first()
+            .simulate('drag', {
+                clientX: 100
+            });
+
+        expect(
+            store
+                .getState()
+                .grid
+                .getIn(['test-grid', 'columns'])
+                .first()
+                .get('width')
+        ).toContain('%');
 
     });
 

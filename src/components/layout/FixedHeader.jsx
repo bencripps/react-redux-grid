@@ -412,10 +412,4 @@ export const handleDrag = (
 
 };
 
-export const handleColumnClick = (col) => {
-    if (col.HANDLE_CLICK) {
-        col.HANDLE_CLICK.apply(this, arguments);
-    }
-};
-
 export default FixedHeader;
