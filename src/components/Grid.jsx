@@ -8,7 +8,6 @@ import {
 } from './plugins/pager/Toolbar.jsx';
 import { Message } from './plugins/errorhandler/Message.jsx';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar.jsx';
-import FilterToolbar from './plugins/filtercontainer/Toolbar.jsx';
 import LoadingBar from './plugins/loader/LoadingBar.jsx';
 import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
@@ -81,19 +80,6 @@ class Grid extends Component {
 
         const bulkActionCmp = isPluginEnabled(plugins, 'BULK_ACTIONS')
             ? <BulkActionToolbar { ...bulkActionProps } />
-            : null;
-
-        const filterProps = {
-            columnManager: this.columnManager,
-            pageSize,
-            plugins,
-            reducerKeys,
-            stateKey,
-            store
-        };
-
-        const filterCmp = isPluginEnabled(plugins, 'FILTER_CONTAINER')
-            ? <FilterToolbar { ...filterProps } />
             : null;
 
         const headerProps = {
@@ -170,7 +156,6 @@ class Grid extends Component {
             <div { ...containerProps }>
                 <Message { ...messageProps } />
                 { bulkActionCmp }
-                { filterCmp }
                 <FixedHeader { ...fixedHeaderProps } />
                 <div { ...tableContainerProps } >
                     <table { ...tableProps }>

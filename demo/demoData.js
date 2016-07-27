@@ -57,32 +57,6 @@ export const plugins = {
     STICKY_FOOTER: {
         enabled: true
     },
-    FILTER_CONTAINER: {
-        enabled: false,
-        method: 'local',
-        filterSource: 'http://react-redux-grid.herokuapp.com/getfakeData',
-        enableFilterMenu: true,
-        fields: [
-            {
-                name: 'name',
-                label: 'Name',
-                placeholder: 'Name',
-                type: 'text'
-            },
-            {
-                name: 'address',
-                label: 'Address',
-                placeholder: 'Address',
-                type: 'number'
-            },
-            {
-                name: 'date',
-                label: 'Date',
-                placeholder: 'Date',
-                type: 'date'
-            }
-        ]
-    },
     EDITOR: {
         type: 'inline',
         enabled: true,

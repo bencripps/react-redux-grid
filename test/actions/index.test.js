@@ -15,7 +15,6 @@ describe('The Grid Actions Export', () => {
         expect(Actions.ColumnManagerActions).toBeA('object');
         expect(Actions.EditorActions).toBeA('object');
         expect(Actions.ErrorHandlerActions).toBeA('object');
-        expect(Actions.FilterActions).toBeA('object');
         expect(Actions.LoaderActions).toBeA('object');
         expect(Actions.MenuActions).toBeA('object');
         expect(Actions.PagerActions).toBeA('object');
