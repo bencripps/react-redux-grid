@@ -1,6 +1,6 @@
 import { SORT_DIRECTIONS } from '../constants/GridConstants';
 
-class Sorter {
+export class Sorter {
     constructor() {
 
     }
