@@ -27,7 +27,7 @@ describe('Grid reducer exports', () => {
     it('Should export a Reducers object', () => {
         expect(
             reducerList.length
-        ).toEqual(10);
+        ).toEqual(9);
     });
 
     it('Should export all reducers', () => {
@@ -45,10 +45,6 @@ describe('Grid reducer exports', () => {
 
         expect(
             reducerList.indexOf('ErrorHandler')
-        ).toNotEqual(-1);
-
-        expect(
-            reducerList.indexOf('Filter')
         ).toNotEqual(-1);
 
         expect(

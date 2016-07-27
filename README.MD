@@ -98,7 +98,6 @@ const Reducers = {
     BulkActions: bulkaction,
     Editor: editor,
     ErrorHandler: errorhandler,
-    Filter: filter,
     Loader: loader,
     Menu: menu,
     Pager: pager,
@@ -473,39 +472,6 @@ export const plugins = {
     }
 };
 ```
-
-## Filter Container and Menu
-```javascript
-export const plugins = {
-
-    FILTER_CONTAINER: {
-        enabled: true,
-        method: 'local',
-        filterSource: 'http://url/to/pagingdata',
-        component: false,
-        enableFilterMenu: true
-        fields: [
-            {
-                name: 'name',
-                label: 'Name',
-                placeholder: 'Name',
-                type: 'text'
-            }
-        ]
-    }
-};
-```
-
-Filter Container and Menu Defaults
-
-1. `enabled`: `string`, whether the container should be used
-2. `method`: `string`, what type of filter method should be used, possible values: `['local', 'remote']`
-3. `filterSource`, `string`, if remote filtering is used, a URI is required
-4. `enableFilterMenu`, `boolean`, whether a filter menu should be created
-5. `component`, `jsx`, if you'd like to add a custom component on top of the grid, provide a jsx component
-6. `fields`: `array of objects`, an array containing objects that desribe filter fields to be registered in the filter menu
-6a. `field.object`, `object`, fields require a `name` parameter, and the name should correspond with a column name.
-
 Error Handler Defaults
 
 1. `defaultErrorMessage`: `string`, the default error message to display when no error information is available
@@ -635,25 +601,6 @@ export const CLASS_NAMES = {
         MENU: {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'
-        }
-    },
-    FILTER_CONTAINER: {
-        CONTAINER: 'filter-container',
-        INPUT: 'filter-input',
-        SEARCH_BUTTON: 'filter-search-button',
-        MENU_BUTTON: 'filter-menu-button',
-        CLEAR_BUTTON: 'filter-clear-button',
-        BUTTON_CONTAINER: 'filter-button-container',
-        MENU: {
-            CONTAINER: 'advanced-filter-menu-container',
-            TITLE: 'advanced-filter-menu-title',
-            BUTTON: 'advanced-filter-menu-button',
-            BUTTON_CONTAINER: 'advanced-filter-menu-button-container',
-            FIELD: {
-                CONTAINER: 'advanced-filter-menu-field-container',
-                LABEL: 'advanced-filter-menu-field-label',
-                INPUT: 'advanced-filter-menu-field-input'
-            }
         }
     },
     BULK_ACTIONS: {

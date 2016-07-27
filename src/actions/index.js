@@ -7,8 +7,6 @@ import * as EditorActions from './plugins/editor/EditorActions';
 import * as ErrorHandlerActions
 from './plugins/errorhandler/ErrorHandlerActions';
 
-import * as FilterActions from './plugins/filter/FilterActions';
-
 import * as GridActions from './GridActions';
 
 import * as LoaderActions from './plugins/loader/LoaderActions';
@@ -24,7 +22,6 @@ export const Actions = {
     ColumnManagerActions,
     EditorActions,
     ErrorHandlerActions,
-    FilterActions,
     GridActions,
     LoaderActions,
     MenuActions,

@@ -64,7 +64,7 @@ describe('Reducers Export', () =>{
     it('Should export all Reducers', () =>{
         expect(imports.Reducers).toBeTruthy();
         expect(typeof imports.Reducers).toEqual('object');
-        expect(Object.keys(imports.Reducers).length).toEqual(10);
+        expect(Object.keys(imports.Reducers).length).toEqual(9);
     });
 
     it('Should export a DataSource Reducer', () =>{
@@ -85,10 +85,6 @@ describe('Reducers Export', () =>{
 
     it('Should export a ErrorHandler Reducer', () =>{
         reducerTest('ErrorHandler');
-    });
-
-    it('Should export a Filter Reducer', () =>{
-        reducerTest('Filter');
     });
 
     it('Should export a Loader Reducer', () =>{

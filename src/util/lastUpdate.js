@@ -5,7 +5,6 @@ const REDUCER_KEYS = {
     DataSource: 'dataSource',
     Editor: 'editor',
     ErrorHandler: 'errorhandler',
-    Filter: 'filter',
     Grid: 'grid',
     Loader: 'loader',
     Menu: 'menu',

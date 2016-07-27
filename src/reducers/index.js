@@ -6,7 +6,6 @@ import menu from './components/plugins/menu';
 import pager from './components/plugins/pager';
 import loader from './components/plugins/loader';
 import bulkaction from './components/plugins/bulkaction';
-import filter from './components/plugins/filter';
 import selection from './components/plugins/selection';
 import errorhandler from './components/plugins/errorhandler';
 
@@ -19,7 +18,6 @@ export const rootReducer = combineReducers({
     menu,
     pager,
     loader,
-    filter,
     selection
 });
 
@@ -28,7 +26,6 @@ export const Reducers = {
     DataSource: dataSource,
     Editor: editor,
     ErrorHandler: errorhandler,
-    Filter: filter,
     Grid: grid,
     Loader: loader,
     Menu: menu,
