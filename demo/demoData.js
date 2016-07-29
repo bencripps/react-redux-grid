@@ -2,12 +2,11 @@ import React from 'react';
 
 import store from './../src/store/store';
 import { Actions } from './../src/actions';
+import util from 'util'
 
 export const pageSize = 20;
 
-export const stateKey = 'grid-stateKey';
-
-export const height = '';
+export const height = '500px';
 
 export const events = {
     HANDLE_CELL_CLICK: (cell, reactEvent, id, browserEvent) => {
@@ -28,8 +27,9 @@ export const events = {
     HANDLE_AFTER_SELECTION: () => {
         console.log('On After Selection');
     },
-    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {
+    HANDLE_AFTER_INLINE_EDITOR_SAVE: (params) => {
         console.log('On After Save Inline Editor Event');
+        console.log(util.inspect(params))
     },
     HANDLE_BEFORE_BULKACTION_SHOW: () => {
         console.log('On Before Bulk Action Show');
@@ -126,7 +126,19 @@ export const editorFunc = (
     );
 };
 
+// column.editor:
+// 1. a function
+// 2. an array (of strings or {name, value})
+// 3. undefined - returns <input text />
 export const columns = [
+    {
+        name: 'Gender',
+        dataIndex: 'gender',
+        sortable: true,
+        width: '10%',
+        className: 'additional-class',
+        editor: ["Male", "Female"]
+    },
     {
         name: 'Name',
         dataIndex: 'Name',
@@ -148,6 +160,7 @@ export const columns = [
         ) => {
             return (
                 <input
+                    className="react-grid-edit-item"
                     onChange= {
                         editorFunc.bind(
                             null, value, row, column, columns, columnIndex, stateKey
