@@ -241,6 +241,7 @@ export const handleColumnClick = ({
     stateKey,
     store
 }) => {
+
     if (col.sortable) {
         handleSort(
             columns,
