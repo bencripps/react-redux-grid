@@ -128,12 +128,17 @@ export const editorFunc = (
 
 export const columns = [
     {
+        name: 'GUID',
+        dataIndex: 'GUID',
+        hidden: true,
+        createKeyFrom: true
+    },
+    {
         name: 'Name',
         dataIndex: 'Name',
         sortable: true,
         width: '10%',
         className: 'additional-class',
-        createKeyFrom: true,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {

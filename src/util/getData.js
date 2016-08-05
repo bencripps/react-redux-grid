@@ -29,7 +29,7 @@ export const getData = (
 
 };
 
-export const getRowKey = (columns, rowValues, index) => {
+export const getRowKey = (columns, rowValues, index, suffix) => {
 
     const uniqueCol = columns.filter(col => col.createKeyFrom);
     let val = index;
@@ -43,6 +43,10 @@ export const getRowKey = (columns, rowValues, index) => {
         val = rowValues && rowValues[dataIndex]
             ? rowValues[dataIndex]
             : index;
+    }
+
+    if (suffix) {
+        val = `${val}-${suffix}`;
     }
 
     return val;

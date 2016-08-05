@@ -58,6 +58,31 @@ describe('The getRowKey utility function', () => {
 
     });
 
+    it('Should work with a suffix', () => {
+
+        const columns = [
+            {
+                dataIndex: 'hat',
+                createKeyFrom: true
+            },
+            {
+                dataIndex: 'phone'
+            }
+        ];
+
+        const rowValues = {
+            hat: 'hattt',
+            phone: '123'
+        };
+
+        const index = 0;
+
+        expect(
+            getRowKey(columns, rowValues, index, 'suffix')
+        ).toEqual('hattt-suffix');
+
+    });
+
     it('Should throw an error if two cols declare createKeyFrom', () => {
 
         const columns = [

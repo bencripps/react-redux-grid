@@ -48,7 +48,6 @@ export class Row extends Component {
                 editor,
                 editorState,
                 events: events,
-                key: keyGenerator(k),
                 reducerKeys,
                 rowIndex: index,
                 rowData: cellValues,
@@ -57,7 +56,7 @@ export class Row extends Component {
                 store
             };
 
-            const key = getRowKey(columns, row, i);
+            const key = getRowKey(columns, row, i, columns[i].dataIndex);
 
             return (
                 <Cell
@@ -80,7 +79,6 @@ export class Row extends Component {
             : '';
 
         const rowProps = {
-            key: id,
             className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
             onClick: (e) => {
                 handleRowSingleClickEvent(
