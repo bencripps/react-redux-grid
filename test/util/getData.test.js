@@ -3,8 +3,88 @@ import {
     getData,
     nameFromDataIndex,
     getValueFromDataIndexArr,
-    setDataAtDataIndex
+    setDataAtDataIndex,
+    getRowKey
 } from './../../src/util/getData';
+
+describe('The getRowKey utility function', () => {
+
+    it('Should return an index when no unique prop is declared', () => {
+
+        const columns = [
+            {
+                dataIndex: 'hat'
+            },
+            {
+                dataIndex: 'phone'
+            }
+        ];
+
+        const rowValues = {
+            hat: 'hattt',
+            phone: '123'
+        };
+
+        const index = 0;
+
+        expect(
+            getRowKey(columns, rowValues, index)
+        ).toEqual(0);
+
+    });
+
+    it('Should return the value when unique prop is declared', () => {
+
+        const columns = [
+            {
+                dataIndex: 'hat',
+                createKeyFrom: true
+            },
+            {
+                dataIndex: 'phone'
+            }
+        ];
+
+        const rowValues = {
+            hat: 'hattt',
+            phone: '123'
+        };
+
+        const index = 0;
+
+        expect(
+            getRowKey(columns, rowValues, index)
+        ).toEqual('hattt');
+
+    });
+
+    it('Should throw an error if two cols declare createKeyFrom', () => {
+
+        const columns = [
+            {
+                dataIndex: 'hat',
+                createKeyFrom: true
+            },
+            {
+                dataIndex: 'phone',
+                createKeyFrom: true
+            }
+        ];
+
+        const rowValues = {
+            hat: 'hattt',
+            phone: '123'
+        };
+
+        const index = 0;
+
+        expect(() => {
+            getRowKey(columns, rowValues, index);
+        }).toThrow('Only one column can declare createKeyFrom');
+
+    });
+
+});
 
 describe('nameFromDataIndex utility function', () => {
 

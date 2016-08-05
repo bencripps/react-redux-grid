@@ -4,6 +4,7 @@ import Row from './table-row/Row.jsx';
 import { PlaceHolder } from './row/PlaceHolder.jsx';
 import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
+import { getRowKey } from '../../util/getData';
 
 export class TableRow extends Component {
 
@@ -96,9 +97,11 @@ export const getRowComponents = (
     index
 ) => {
 
+    const key = getRowKey(columns, row, index);
+
     return (
         <Row
-            key={ index }
+            key={ key }
             {
                 ...{
                     columns,

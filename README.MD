@@ -232,7 +232,8 @@ export const columns = [
         hideable: false,
         resizable: false,
         moveable: false,
-        HANDLE_CLICK: () => { console.log('Header Click'); }
+        HANDLE_CLICK: () => { console.log('Header Click'); },
+        createKeyFrom: true
     }
 ];
 ```
@@ -274,7 +275,7 @@ const column = {
 10. `validator`: `func`, a func that should return a boolean, to determine if the newly input value is valid
 11. `change`: `func`, a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.
 12. `disabled`: `bool || func`, whether the field should be disabled while in edit mode.
-13. `HANDLE_CLICK`: `func`, click handler assigned to column
+13. `createKeyFrom`: `bool`, see [full documentation on createFromKey](docs/CREATE_FROM_KEY.md)
 
 ##### Further Information
 

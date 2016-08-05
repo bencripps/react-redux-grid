@@ -133,6 +133,7 @@ export const columns = [
         sortable: true,
         width: '10%',
         className: 'additional-class',
+        createKeyFrom: true,
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {

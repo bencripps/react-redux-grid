@@ -6,7 +6,7 @@ import { EmptyCell } from './row/EmptyCell.jsx';
 import { keyGenerator } from '../../../util/keyGenerator';
 import { shouldRowUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
-import { getData } from '../../../util/getData';
+import { getData, getRowKey } from '../../../util/getData';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 export class Row extends Component {
@@ -57,9 +57,11 @@ export class Row extends Component {
                 store
             };
 
+            const key = getRowKey(columns, row, i);
+
             return (
                 <Cell
-                    key={ i }
+                    key={ key }
                     { ...cellProps }
                 />);
 

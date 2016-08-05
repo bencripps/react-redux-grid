@@ -29,6 +29,25 @@ export const getData = (
 
 };
 
+export const getRowKey = (columns, rowValues, index) => {
+
+    const uniqueCol = columns.filter(col => col.createKeyFrom);
+    let val = index;
+
+    if (uniqueCol.length > 1) {
+        throw new Error('Only one column can declare createKeyFrom');
+    }
+
+    if (uniqueCol.length > 0) {
+        const dataIndex = nameFromDataIndex(uniqueCol[0]);
+        val = rowValues && rowValues[dataIndex]
+            ? rowValues[dataIndex]
+            : index;
+    }
+
+    return val;
+};
+
 export const setDataAtDataIndex = (rowData = {}, dataIndex, val) => {
 
     if (typeof dataIndex === 'string') {
