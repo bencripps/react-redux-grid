@@ -57,7 +57,11 @@ export class Row extends Component {
                 store
             };
 
-            return <Cell { ...cellProps } />;
+            return (
+                <Cell
+                    key={ i }
+                    { ...cellProps }
+                />);
 
         });
 

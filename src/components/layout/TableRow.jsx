@@ -97,25 +97,27 @@ export const getRowComponents = (
 ) => {
 
     return (
-        <Row {
-            ...{
-                columns,
-                columnManager,
-                editor,
-                editorState,
-                menuState,
-                reducerKeys,
-                row,
-                events,
-                plugins,
-                selectionModel,
-                selectedRows,
-                stateKey,
-                store,
-                index
+        <Row
+            key={ index }
+            {
+                ...{
+                    columns,
+                    columnManager,
+                    editor,
+                    editorState,
+                    menuState,
+                    reducerKeys,
+                    row,
+                    events,
+                    plugins,
+                    selectionModel,
+                    selectedRows,
+                    stateKey,
+                    store,
+                    index
+                }
             }
-        } />
-        );
+        />);
 };
 
 export const getRowSelection = (
