@@ -171,7 +171,7 @@ class FixedHeader extends Component {
     componentDidUpdate() {
 
         if (!this.updateFunc) {
-            this.updateFunc = debounce(this.getScrollWidth, 1000, true);
+            this.updateFunc = debounce(this.getScrollWidth, 200);
         }
 
         this.updateFunc();
@@ -311,7 +311,7 @@ class FixedHeader extends Component {
 
         const offset = fixed.offsetWidth - hidden.offsetWidth;
 
-        if (offset && offset !== headerOffset) {
+        if (offset !== undefined && offset !== headerOffset) {
             this.setState({
                 headerOffset: offset
             });
