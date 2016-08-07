@@ -22,6 +22,9 @@ module.exports = {
     node: {
         fs: 'empty'
     },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
     module: {
         eslint: {
             configFile: '.eslintrc',

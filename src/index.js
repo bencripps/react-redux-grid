@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { ConnectedGrid } from './components/Grid.jsx';
+import { ConnectedGrid } from './components/Grid';
 import Store from './store/store';
 
 import { Reducers } from './reducers';

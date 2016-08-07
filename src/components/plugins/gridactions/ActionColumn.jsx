@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Menu } from './actioncolumn/Menu.jsx';
+import { Menu } from './actioncolumn/Menu';
 import {
     showMenu, hideMenu
 } from '../../../actions/plugins/actioncolumn/MenuActions';

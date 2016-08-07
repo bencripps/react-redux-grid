@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 
-import { DragHandle } from './column/DragHandle.jsx';
-import { SortHandle } from './column/SortHandle.jsx';
-import { Text } from './column/Text.jsx';
+import { DragHandle } from './column/DragHandle';
+import { SortHandle } from './column/SortHandle';
+import { Text } from './column/Text';
 
 import { keyGenerator } from './../../../util/keyGenerator';
 import { prefix } from './../../../util/prefix';

@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionColumn from '../plugins/gridactions/ActionColumn.jsx';
+import ActionColumn from '../plugins/gridactions/ActionColumn';
 import { SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keyGenerator';
 import { nameFromDataIndex } from '../../util/getData';

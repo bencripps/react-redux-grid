@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import { Button } from './toolbar/Button.jsx';
-import { Description } from './toolbar/Description.jsx';
+import { Button } from './toolbar/Button';
+import { Description } from './toolbar/Description';
 
 import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';

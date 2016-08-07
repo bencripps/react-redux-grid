@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-import { Button } from './inline/Button.jsx';
+import { Button } from './inline/Button';
 
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
