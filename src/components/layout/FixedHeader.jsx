@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Column } from './header/Column.jsx';
-import { EmptyHeader } from './header/EmptyHeader.jsx';
+import { Column } from './header/Column';
+import { EmptyHeader } from './header/EmptyHeader';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';

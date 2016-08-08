@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu.jsx';
+import { ConnectedMenu as MenuCmp } from './../../../core/menu/Menu';
 import { handleEditClick } from './../../../../util/handleEditClick';
 
 export const Menu = ({

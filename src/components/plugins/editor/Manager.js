@@ -1,5 +1,5 @@
 import React from 'react';
-import Inline from './Inline.jsx';
+import Inline from './Inline';
 
 export default class Manager {
 

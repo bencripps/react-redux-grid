@@ -35,33 +35,7 @@ Add Grid to `node_modules`
 npm install react-redux-grid
 ```
 
-Include Grid in Webpack Build via Loaders
-
-```javascript
-var loaders = [
-    {
-        test: /\.js$|\.jsx$/,
-        loaders: ['react-hot', 'babel-loader'],
-        exclude: /[\\\/]node_modules[\\\/](?!react-redux-grid)/,
-    },
-    {
-        test: /\.styl$/,
-        exclude: /[\\\/]node_modules[\\\/](?!react-redux-grid)/,
-        loaders: ['style-loader', 'css-loader', 'stylus-loader']
-    }
-];
-```
-
-Because the grid gets installed in the `node_modules` directory, we must add the specific folder to the `exclude` config entry in webpack. This way, when you `import` the grid, webpack will know which loader to use to parse the files.
-
-If you're using the fonts that come bundles with the grid, you will also need an additonal loader:
-
-```javascript
-{
-    test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-    loaders: ['url-loader?limit=10000&mimetype=application/font-woff' ]
-}
-```
+**Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
 ## Usage
 
@@ -630,33 +604,8 @@ const gridProps = {
 const grid = <Grid { ...gridProps } />;
 ```
 
-#### I see fonts are included in the package. Do I have to build them with my webpack? Do I have to use them at all?
+#### I see fonts aren't included in the package. Do I have to build them with my webpack? Do I have to use them at all?
 
-The fonts will be used by default. If you'd like to remove them from the build process entirely (and thus remove them from the Grid), set a stylus variable!
+The grid expects FontAwesome to be available. The grid component doesn't ship with fonts since that's a bad practice. For the grid to work correcrly, you will need to make FontAwesome available either via build process, or linking to them externally.
 
-You can do this via JS, stylus, or webpack:
-
-###### JS
-```javascript
-const stylus = import('stylus');
-
-stylus.define('$include_fonts', false);
-```
-
-###### Stylus
-```stylus
-$include_fonts = false
-```
-
-###### Webpack
-```stylus
-// variables.styl
-$include_fonts = false
-```
-```javascript
-stylus: {
-    'import': [
-        path.join(__dirname, 'build/variables.styl')
-    ]
-}
-```
+Please see font awesome's documentation for more [information](http://fontawesome.io/)

@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from './layout/Header.jsx';
-import FixedHeader from './layout/FixedHeader.jsx';
-import Row from './layout/TableRow.jsx';
+import Header from './layout/Header';
+import FixedHeader from './layout/FixedHeader';
+import Row from './layout/TableRow';
 import {
     ConnectedPagerToolbar as PagerToolbar
-} from './plugins/pager/Toolbar.jsx';
-import { Message } from './plugins/errorhandler/Message.jsx';
-import BulkActionToolbar from './plugins/bulkactions/Toolbar.jsx';
-import LoadingBar from './plugins/loader/LoadingBar.jsx';
+} from './plugins/pager/Toolbar';
+import { Message } from './plugins/errorhandler/Message';
+import BulkActionToolbar from './plugins/bulkactions/Toolbar';
+import LoadingBar from './plugins/loader/LoadingBar';
 import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
@@ -18,7 +18,8 @@ import { getAsyncData, setData, setColumns } from '../actions/GridActions';
 import { mapStateToProps } from '../util/mapStateToProps';
 import { shouldGridUpdate } from '../util/shouldComponentUpdate';
 import { isPluginEnabled } from '../util/isPluginEnabled';
-import '../style/main.styl';
+
+import './../style/main.styl';
 
 class Grid extends Component {
 

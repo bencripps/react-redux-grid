@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
-import Row from './table-row/Row.jsx';
-import { PlaceHolder } from './row/PlaceHolder.jsx';
+import Row from './table-row/Row';
+import { PlaceHolder } from './row/PlaceHolder';
 import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { getRowKey } from '../../util/getData';

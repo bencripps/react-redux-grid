@@ -67,6 +67,9 @@ module.exports = function exports(config) {
                     presets: ['es2015', 'stage-0', 'react']
                 }
             },
+            resolve: {
+                extensions: ['', '.js', '.jsx']
+            },
             module: {
                 preLoaders: PRELOADERS,
                 loaders: loaders

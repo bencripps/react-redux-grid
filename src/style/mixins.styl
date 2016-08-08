@@ -6,17 +6,17 @@ button(backgroundcolor, color = whitecolor)
     cursor pointer
     font-family fontfamily
     opacity 1
-    
+
     &:focus
         outline none
-    
+
     &:active
         opacity 1
         background-color lighten(backgroundcolor, 30%)
-        
-    &:hover 
+
+    &:hover
         opacity .6
-        
+
     &:disabled
         background-color whitecolor
         color blackcolor
@@ -26,10 +26,10 @@ border-radius()
   -webkit-border-radius arguments
   -moz-border-radius arguments
   border-radius arguments
-  
+
 boxshadow(depth = 1, shadowcolor = rgba(0,0,0,0.16), secondaryshadowcolor = rgba(0,0,0,0.23))
     box-shadow: depth * 2px depth * 3px depth * 6px shadowcolor, 0 3px 6px secondaryshadowcolor
-        
+
 webfont($family, $files...)
     @font-face
         font-family $family
@@ -38,9 +38,9 @@ webfont($family, $files...)
             $type = $file.type
             $format = $file.format
             src url($font + $type) format($format)
-        font-weight normarl
+        font-weight normal
         font-style normal
-    
+
 input()
     border 1px solid strongcolor
     border-radius(3px)
@@ -51,19 +51,19 @@ input()
     padding 0px
     text-indent 5px
     transition(color)
-    
-    &:focus 
+
+    &:focus
         color darken(editcolor, 20%)
         outline none
-    
+
 multipletransition(arguments...)
     transition((arguments))
- 
+
 transition(property, duration = 150ms, function = cubic-bezier(.17,.67,.83,.67))
-    transition-duration duration   
+    transition-duration duration
     transition-property property
     transition-timing-function function
-  
+
 zindex(elem)
   z-index zarray[elem]
-    
+

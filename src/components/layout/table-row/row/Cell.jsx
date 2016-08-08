@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { Editor } from './cell/Editor.jsx';
+import { Editor } from './cell/Editor';
 import { prefix } from '../../../../util/prefix';
 import { handleEditClick } from './../../../../util/handleEditClick';
 import { elementContains } from './../../../../util/elementContains';

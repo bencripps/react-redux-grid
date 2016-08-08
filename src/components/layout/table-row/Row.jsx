@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Cell } from './row/Cell.jsx';
-import { EmptyCell } from './row/EmptyCell.jsx';
+import { Cell } from './row/Cell';
+import { EmptyCell } from './row/EmptyCell';
 
 import { keyGenerator } from '../../../util/keyGenerator';
 import { shouldRowUpdate } from '../../../util/shouldComponentUpdate';

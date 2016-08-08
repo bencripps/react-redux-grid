@@ -22,5 +22,8 @@ module.exports = {
         },
         loaders: loaders
     },
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
     devtool: 'inline-source-map'
 };

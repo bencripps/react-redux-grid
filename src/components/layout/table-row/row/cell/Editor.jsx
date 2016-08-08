@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Input } from './Input.jsx';
+import { Input } from './Input';
 import { CLASS_NAMES } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
 import { nameFromDataIndex } from './../../../../../util/getData';
