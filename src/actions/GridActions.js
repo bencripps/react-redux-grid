@@ -4,7 +4,8 @@ import {
     SET_COLUMNS,
     SORT_DATA,
     RESIZE_COLUMNS,
-    SET_SORT_DIRECTION
+    SET_SORT_DIRECTION,
+    HIDE_HEADER
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -290,4 +291,8 @@ export function resizeColumns({ width, id, nextColumn, columns, stateKey }) {
 
 export function setData({ data, stateKey }) {
     return { type: SET_DATA, data, stateKey };
+}
+
+export function setHeaderVisibility({ hidden, stateKey }) {
+    return { type: HIDE_HEADER, headerHidden: hidden, stateKey };
 }

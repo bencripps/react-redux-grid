@@ -20,6 +20,7 @@ class FixedHeader extends Component {
         const {
             columns,
             columnManager,
+            columnState,
             dataSource,
             reducerKeys,
             selectionModel,
@@ -135,8 +136,17 @@ class FixedHeader extends Component {
 
         addEmptyInsert(headers, visibleColumns, plugins, headerOffset);
 
+        const isHidden = columnState
+            && columnState.headerHidden;
+
+        const containerProps = {
+            className: prefix(CLASS_NAMES.HEADER_FIXED_CONTAINER,
+                isHidden ? 'hidden' : ''
+            )
+        };
+
         return (
-            <div>
+            <div { ...containerProps }>
              { fillerCmp }
                 <table { ...tableProps }>
                     <thead { ...theadProps }>
@@ -144,7 +154,7 @@ class FixedHeader extends Component {
                             { headers }
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody />
                 </table>
             </div>
         );

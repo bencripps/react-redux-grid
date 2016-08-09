@@ -11,6 +11,7 @@ exports.doRemoteSort = doRemoteSort;
 exports.setColumnVisibility = setColumnVisibility;
 exports.resizeColumns = resizeColumns;
 exports.setData = setData;
+exports.setHeaderVisibility = setHeaderVisibility;
 
 var _ActionTypes = require('../constants/ActionTypes');
 
@@ -281,4 +282,11 @@ function setData(_ref8) {
     var stateKey = _ref8.stateKey;
 
     return { type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey };
+}
+
+function setHeaderVisibility(_ref9) {
+    var hidden = _ref9.hidden;
+    var stateKey = _ref9.stateKey;
+
+    return { type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey };
 }

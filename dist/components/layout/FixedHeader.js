@@ -54,6 +54,7 @@ var FixedHeader = function (_Component) {
             var _props = this.props;
             var columns = _props.columns;
             var columnManager = _props.columnManager;
+            var columnState = _props.columnState;
             var dataSource = _props.dataSource;
             var reducerKeys = _props.reducerKeys;
             var selectionModel = _props.selectionModel;
@@ -147,9 +148,15 @@ var FixedHeader = function (_Component) {
 
             addEmptyInsert(headers, visibleColumns, plugins, headerOffset);
 
+            var isHidden = columnState && columnState.headerHidden;
+
+            var containerProps = {
+                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.HEADER_FIXED_CONTAINER, isHidden ? 'hidden' : '')
+            };
+
             return _react2.default.createElement(
                 'div',
-                null,
+                containerProps,
                 fillerCmp,
                 _react2.default.createElement(
                     'table',

@@ -48,6 +48,7 @@ var CLASS_NAMES = exports.CLASS_NAMES = {
     THEADER: 't-head',
     HEADER_HIDDEN: 'header-hidden',
     HEADER_FIXED: 'header-fixed',
+    HEADER_FIXED_CONTAINER: 'header-fixed-container',
     HEADER_STUCK: 'header-stuck',
     HEADER_STUCK_BOTTOM: 'header-stuck-bottom',
     ROW: 'row',

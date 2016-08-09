@@ -25,6 +25,7 @@ export const HIDE_MENU = 'HIDE_MENU';
 
 export const RESIZE_COLUMNS = 'RESIZE_COLUMNS';
 export const REORDER_COLUMN = 'REORDER_COLUMN';
+export const HIDE_HEADER = 'HIDE_HEADER';
 
 export const NO_EVENT = 'NO_EVENT';
 

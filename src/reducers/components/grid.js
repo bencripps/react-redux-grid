@@ -3,7 +3,8 @@ import { fromJS } from 'immutable';
 import {
     SET_COLUMNS,
     RESIZE_COLUMNS,
-    SET_SORT_DIRECTION
+    SET_SORT_DIRECTION,
+    HIDE_HEADER
 } from './../../constants/ActionTypes';
 
 import { generateLastUpdate } from './../../util/lastUpdate';
@@ -14,20 +15,26 @@ export default function gridState(state = initialState, action) {
 
     switch (action.type) {
 
+    case HIDE_HEADER:
+        return state.mergeIn([action.stateKey], fromJS({
+            headerHidden: action.headerHidden,
+            lastUpdate: generateLastUpdate()
+        }));
+
     case SET_COLUMNS:
-        return state.setIn([action.stateKey], fromJS({
+        return state.mergeIn([action.stateKey], fromJS({
             columns: action.columns,
             lastUpdate: generateLastUpdate()
         }));
 
     case SET_SORT_DIRECTION:
-        return state.setIn([action.stateKey], fromJS({
+        return state.mergeIn([action.stateKey], fromJS({
             columns: action.columns,
             lastUpdate: generateLastUpdate()
         }));
 
     case RESIZE_COLUMNS:
-        return state.setIn([action.stateKey], fromJS({
+        return state.mergeIn([action.stateKey], fromJS({
             columns: action.columns,
             lastUpdate: generateLastUpdate()
         }));

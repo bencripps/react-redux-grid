@@ -20,20 +20,26 @@ function gridState() {
 
     switch (action.type) {
 
+        case _ActionTypes.HIDE_HEADER:
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
+                headerHidden: action.headerHidden,
+                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
+            }));
+
         case _ActionTypes.SET_COLUMNS:
-            return state.setIn([action.stateKey], (0, _immutable.fromJS)({
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
                 columns: action.columns,
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));
 
         case _ActionTypes.SET_SORT_DIRECTION:
-            return state.setIn([action.stateKey], (0, _immutable.fromJS)({
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
                 columns: action.columns,
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));
 
         case _ActionTypes.RESIZE_COLUMNS:
-            return state.setIn([action.stateKey], (0, _immutable.fromJS)({
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
                 columns: action.columns,
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));

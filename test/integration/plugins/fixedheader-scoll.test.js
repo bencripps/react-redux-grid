@@ -4,6 +4,7 @@ import expect from 'expect';
 import { mount } from 'enzyme';
 import { ConnectedGrid } from './../../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../../src/store/store';
+import { Actions } from './../../../src/';
 
 import {
     gridColumns,
@@ -49,6 +50,33 @@ describe('Integration Test Fixed Header Scroll Events', () => {
         ).toContain('react-grid-header-stuck');
     }, 10);
 
+});
+
+describe('Integration Test for Hidden Fixed Header Action', () => {
+
+    const hideProps = {
+        ...props,
+        store: GridStore,
+        plugins: {}
+    };
+
+    const component = mount(<ConnectedGrid { ...hideProps } />);
+
+    GridStore.dispatch(
+        Actions.GridActions.setHeaderVisibility({
+            stateKey: hideProps.stateKey,
+            hidden: true
+        })
+    );
+
+    expect(
+        component
+            .find('.react-grid-header-fixed-container')
+            .props()
+            .className
+    ).toContain(
+        'react-grid-hidden'
+    );
 });
 
 describe('Integration Test Fixed Header for custom Scroll Events', () => {

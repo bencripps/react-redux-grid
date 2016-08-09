@@ -1,6 +1,5 @@
 import expect from 'expect';
 import React from 'react';
-import { fromJS } from 'immutable';
 import { mount } from 'enzyme';
 import FixedHeader from './../../../src/components/layout/FixedHeader.jsx';
 
