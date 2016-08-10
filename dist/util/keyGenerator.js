@@ -3,14 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _arrayFrom = require('array-from');
+
+var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
+
 exports.keyGenerator = keyGenerator;
 exports.keyFromObject = keyFromObject;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function keyGenerator() {
     for (var _len = arguments.length, keywords = Array(_len), _key = 0; _key < _len; _key++) {
         keywords[_key] = arguments[_key];
     }
 
-    return btoa(Array.from(keywords).join(''));
+    return btoa((0, _arrayFrom2.default)(keywords).join(''));
 }
 
 function keyFromObject(obj, additionalStrings) {
