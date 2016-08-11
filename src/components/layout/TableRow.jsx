@@ -6,6 +6,8 @@ import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { getRowKey } from '../../util/getData';
 
+const { arrayOf, bool, func, number, object, oneOf, string } = PropTypes;
+
 export class TableRow extends Component {
 
     render() {
@@ -17,13 +19,16 @@ export class TableRow extends Component {
             editorState,
             emptyDataMessage,
             events,
+            gridType,
             menuState,
             pageSize,
             pager,
             plugins,
             reducerKeys,
+            readFunc,
             selectedRows,
             selectionModel,
+            showTreeRootNode,
             stateKey,
             store
         } = this.props;
@@ -35,9 +40,23 @@ export class TableRow extends Component {
         );
 
         const rowComponents = getRows(
-            columns, columnManager, editor, editorState, menuState, reducerKeys,
-            rows, events, plugins, selectionModel, selectedRows, stateKey, store
-            );
+            columns,
+            columnManager,
+            editor,
+            editorState,
+            gridType,
+            menuState,
+            reducerKeys,
+            readFunc,
+            rows,
+            events,
+            plugins,
+            selectionModel,
+            selectedRows,
+            showTreeRootNode,
+            stateKey,
+            store
+        );
 
         const rowInsert = rowComponents
             ? rowComponents
@@ -55,23 +74,28 @@ export class TableRow extends Component {
     }
 
     static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        data: PropTypes.arrayOf(PropTypes.object),
-        dataSource: PropTypes.object,
-        editor: PropTypes.object,
-        editorState: PropTypes.object,
-        emptyDataMessage: PropTypes.string,
-        events: PropTypes.object,
-        menuState: PropTypes.object,
-        pageSize: PropTypes.number,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectedRows: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object.isRequired
+        columnManager: object.isRequired,
+        columns: arrayOf(object).isRequired,
+        data: arrayOf(object),
+        dataSource: object,
+        editor: object,
+        editorState: object,
+        emptyDataMessage: string,
+        events: object,
+        gridType: oneOf([
+            'tree', 'grid'
+        ]),
+        menuState: object,
+        pageSize: number,
+        pager: object,
+        plugins: object,
+        readFunc: func,
+        reducerKeys: object,
+        selectedRows: object,
+        selectionModel: object,
+        showTreeRootNode: bool,
+        stateKey: string,
+        store: object.isRequired
     };
 
     static defaultProps = {
@@ -85,13 +109,16 @@ export const getRowComponents = (
     columnManager,
     editor,
     editorState,
+    gridType,
     menuState,
     reducerKeys,
+    readFunc,
     row,
     events,
     plugins,
     selectionModel,
     selectedRows,
+    showTreeRootNode,
     stateKey,
     store,
     index
@@ -108,13 +135,16 @@ export const getRowComponents = (
                     columnManager,
                     editor,
                     editorState,
+                    gridType,
                     menuState,
                     reducerKeys,
+                    readFunc,
                     row,
                     events,
                     plugins,
                     selectionModel,
                     selectedRows,
+                    showTreeRootNode,
                     stateKey,
                     store,
                     index
@@ -143,13 +173,16 @@ export const getRows = (
     columnManager,
     editor,
     editorState,
+    gridType,
     menuState,
     reducerKeys,
+    readFunc,
     rows,
     events,
     plugins,
     selectionModel,
     selectedRows,
+    showTreeRootNode,
     stateKey,
     store
 ) => {
@@ -161,13 +194,16 @@ export const getRows = (
                 columnManager,
                 editor,
                 editorState,
+                gridType,
                 menuState,
                 reducerKeys,
+                readFunc,
                 row,
                 events,
                 plugins,
                 selectionModel,
                 selectedRows,
+                showTreeRootNode,
                 stateKey,
                 store,
                 i

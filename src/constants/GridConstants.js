@@ -48,6 +48,7 @@ export const CLASS_NAMES = {
     HEADER_STUCK_BOTTOM: 'header-stuck-bottom',
     ROW: 'row',
     CELL: 'cell',
+    CELL_TREE_ARROW: 'cell-tree-arrow',
     PAGERTOOLBAR: 'pager-toolbar',
     EMPTY_ROW: 'empty-row',
     EDITED_CELL: 'edit',

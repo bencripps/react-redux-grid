@@ -7,25 +7,26 @@
 [![codecov](https://codecov.io/gh/bencripps/react-redux-grid/branch/master/graph/badge.svg)](https://codecov.io/gh/bencripps/react-redux-grid)
 [![Gitter](https://img.shields.io/gitter/room/bencripps/react-redux-grid.svg?maxAge=2592000)](https://gitter.im/bencripps/react-redux-grid)
 
-A Grid Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
+A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
 
 [Demo](http://react-redux-grid.herokuapp.com/)
 
 ## Feature List
 
-1. Local and/or Remote Data Source
-2. Local and/or Remote Pagination
-3. Extensive and extendable Column Definitions
-4. Draggable Column Width/Resizing
-5. Draggable Column Ordering
-5. Sortable Columns
-6. Grid Action Menus
-7. Bulk Action Toolbar
-8. Selection Model (Single, MultiSelect, Checkbox)
-9. Event Handling for all kinds of DOM Events (List Below)
-10. Extendable and Modular Style Built with JavaScript
-11. Loading Mask
-12. Built-in Error Handling Module
+1. Flat List or Tree Structure
+2. Local and/or Remote Data Source
+3. Local and/or Remote Pagination
+4. Extensive and extendable Column Definitions
+5. Draggable Column Width/Resizing
+6. Draggable Column Ordering
+7. Sortable Columns
+8. Grid Action Menus
+9. Bulk Action Toolbar
+10. Selection Model (Single, MultiSelect, Checkbox)
+11. Event Handling for all kinds of DOM Events (List Below)
+12. Extendable and Modular Style Built with JavaScript
+13. Loading Mask
+14. Built-in Error Handling Module
 
 ## Installation
 
@@ -50,6 +51,10 @@ const config = {
 
 const GridInstance = <Grid { ...config } />
 ```
+
+## Creating a Tree Grid
+
+For more information abot creating a tree grid, please see [tree grid in depth](docs/USING_TREE.md)
 
 ## Which Store do I use?
 

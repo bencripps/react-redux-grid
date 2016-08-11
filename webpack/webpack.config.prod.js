@@ -18,7 +18,7 @@ module.exports = {
         loaders: loaders
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx', '.styl']
     },
     plugins: [
         new webpack.DefinePlugin({

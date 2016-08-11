@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _arrayFrom = require('array-from');
+
+var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
+
 exports.default = dataSource;
 
 var _immutable = require('immutable');
@@ -10,6 +15,16 @@ var _immutable = require('immutable');
 var _ActionTypes = require('../../constants/ActionTypes');
 
 var _lastUpdate = require('./../../util/lastUpdate');
+
+var _getTreePathFromId = require('./../../util/getTreePathFromId');
+
+var _setTreeValue = require('./../../util/setTreeValue');
+
+var _treeToFlatList = require('./../../util/treeToFlatList');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
 
 var initialState = (0, _immutable.fromJS)({ lastUpdate: (0, _lastUpdate.generateLastUpdate)() });
 
@@ -24,7 +39,30 @@ function dataSource() {
                 data: action.data,
                 proxy: action.data,
                 total: action.total || action.data.length,
+                treeData: action.treeData,
+                gridType: action.gridType || 'grid',
                 currentRecords: action.currentRecords || action.data,
+                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
+            }));
+
+        case _ActionTypes.SET_TREE_DATA_PARTIAL:
+            var treeVals = state.getIn([action.stateKey, 'treeData']).toJS();
+            var flattened = state.getIn([action.stateKey, 'data']).toJS();
+            var pathToNode = [-1].concat(_toConsumableArray((0, _getTreePathFromId.getTreePathFromId)(flattened, action.parentId)));
+            var newTreeValues = (0, _setTreeValue.setTreeValue)(treeVals, pathToNode, { children: action.data });
+
+            var newFlatList = (0, _treeToFlatList.treeToFlatList)(newTreeValues);
+
+            if (!action.showTreeRootNode) {
+                newFlatList.shift();
+            }
+
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
+                data: newFlatList,
+                proxy: newFlatList,
+                currentRecords: newFlatList,
+                treeData: newTreeValues,
+                total: newFlatList.length,
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));
 
@@ -103,6 +141,30 @@ function dataSource() {
                 isEditing: true,
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)(),
                 total: newData.size
+            }));
+
+        case _ActionTypes.SET_TREE_NODE_VISIBILITY:
+
+            var treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
+            var tree = state.getIn([action.stateKey, 'treeData']).toJS();
+            var currentVisibility = !!treeFlatList.find(function (node) {
+                return node._id === action.id;
+            })._hideChildren;
+            var path = [-1].concat(_toConsumableArray((0, _getTreePathFromId.getTreePathFromId)(treeFlatList, action.id)));
+            var newTree = (0, _setTreeValue.setTreeValue)(tree, path, { _hideChildren: !currentVisibility
+            });
+            var flattenedTree = (0, _treeToFlatList.treeToFlatList)(newTree);
+
+            // remove root-node
+            if (!action.showTreeRootNode) {
+                flattenedTree.shift();
+            }
+
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
+                data: flattenedTree,
+                currentRecords: flattenedTree,
+                treeData: newTree,
+                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));
 
         case _ActionTypes.SAVE_ROW:

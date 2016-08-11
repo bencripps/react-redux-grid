@@ -13,14 +13,18 @@ import {
     plugins,
     events,
     dataSource,
+    treeDataSource,
     height,
-    stateKey
+    stateKey,
+    treeData
 } from '../demo/demoData';
 
 const config = {
     columns,
-    data,
+    // data: treeData,
+    // dataSource: treeDataSource,
     dataSource,
+    // gridType: 'tree',
     pageSize,
     plugins,
     events,

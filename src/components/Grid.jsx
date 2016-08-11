@@ -14,12 +14,29 @@ import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
-import { getAsyncData, setData, setColumns } from '../actions/GridActions';
+import {
+    getAsyncData,
+    setData,
+    setColumns,
+    setTreeData
+} from '../actions/GridActions';
 import { mapStateToProps } from '../util/mapStateToProps';
 import { shouldGridUpdate } from '../util/shouldComponentUpdate';
 import { isPluginEnabled } from '../util/isPluginEnabled';
 
 import './../style/main.styl';
+
+const {
+    any,
+    array,
+    arrayOf,
+    bool,
+    object,
+    oneOf,
+    oneOfType,
+    number,
+    string
+} = PropTypes;
 
 class Grid extends Component {
 
@@ -40,16 +57,13 @@ class Grid extends Component {
             pager,
             editorState,
             selectedRows,
-            menuState
+            menuState,
+            showTreeRootNode
         } = this.props;
 
-        let columns = columnState && columnState.columns
+        const columns = columnState && columnState.columns
             ? columnState.columns
             : [];
-
-        if ((!columns || columns.length === 0) && this.columnManager.columns) {
-            columns = this.columnManager.columns;
-        }
 
         const editorComponent = this.editor.getComponent(
             plugins,
@@ -95,7 +109,8 @@ class Grid extends Component {
             stateKey,
             store,
             visible: false,
-            menuState
+            menuState,
+            gridType: this.gridType
         };
 
         const fixedHeaderProps = Object.assign({
@@ -116,6 +131,7 @@ class Grid extends Component {
             editor: this.editor,
             columnState,
             dataSource: gridData,
+            readFunc: this.setData.bind(this),
             pager,
             editorState,
             selectedRows,
@@ -126,7 +142,9 @@ class Grid extends Component {
             selectionModel: this.selectionModel,
             stateKey,
             store,
-            menuState
+            showTreeRootNode,
+            menuState,
+            gridType: this.gridType
         };
 
         const tableProps = {
@@ -176,12 +194,17 @@ class Grid extends Component {
         const {
             columns,
             dataSource,
+            gridType,
             events,
             plugins,
             reducerKeys,
             stateKey,
             store
         } = this.props;
+
+        this.gridType = gridType === 'tree'
+            ? 'tree'
+            : 'grid';
 
         if (!store || !store.dispatch) {
             throw new Error('Component must be intialized with a valid store');
@@ -224,27 +247,32 @@ class Grid extends Component {
     }
 
     static propTypes = {
-        classNames: PropTypes.array,
-        columnState: PropTypes.object,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        data: PropTypes.arrayOf(PropTypes.object),
-        dataSource: PropTypes.any,
-        editorState: PropTypes.object,
-        events: PropTypes.object,
-        gridData: PropTypes.object,
-        height: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
+        classNames: array,
+        columnState: object,
+        columns: arrayOf(object).isRequired,
+        data: arrayOf(object),
+        dataSource: any,
+        editorState: object,
+        events: object,
+        expandOnLoad: bool,
+        gridData: object,
+        gridType: oneOf([
+            'tree', 'grid'
         ]),
-        loadingState: PropTypes.object,
-        menuState: PropTypes.object,
-        pageSize: PropTypes.number,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectedRows: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object
+        height: oneOfType([
+            string,
+            number
+        ]),
+        loadingState: object,
+        menuState: object,
+        pageSize: number,
+        pager: object,
+        plugins: object,
+        reducerKeys: object,
+        selectedRows: object,
+        showTreeRootNode: bool,
+        stateKey: string,
+        store: object
     };
 
     static defaultProps = {
@@ -253,28 +281,72 @@ class Grid extends Component {
         events: {},
         height: '500px',
         pageSize: 25,
-        reducerKeys: {}
+        reducerKeys: {},
+        showTreeRootNode: false
     };
 
-    setData() {
+    setData(extraParams = {}) {
 
-        const { dataSource, data, stateKey, store } = this.props;
+        const {
+            dataSource,
+            data,
+            expandOnLoad,
+            showTreeRootNode,
+            stateKey,
+            store
+        } = this.props;
 
-        if (typeof dataSource === 'string'
-                || typeof dataSource === 'function') {
-            store.dispatch(
-                getAsyncData({ stateKey, dataSource })
-            );
+        if (this.gridType === 'tree') {
+            if (typeof dataSource === 'string'
+                    || typeof dataSource === 'function') {
+                store.dispatch(
+                    getAsyncData({
+                        stateKey,
+                        dataSource,
+                        type: 'tree',
+                        showTreeRootNode,
+                        extraParams: {
+                            ...extraParams,
+                            expandOnLoad
+                        }
+                    })
+                );
+            }
+
+            else {
+                store.dispatch(
+                    setTreeData({
+                        stateKey,
+                        data,
+                        showTreeRootNode,
+                        extraParams: {
+                            ...extraParams,
+                            expandOnLoad
+                        }
+                    })
+                );
+            }
         }
 
-        else if (data) {
-            store.dispatch(
-                setData({ stateKey, data })
-            );
-        }
+        else if (this.gridType === 'grid') {
+            if (typeof dataSource === 'string'
+                    || typeof dataSource === 'function') {
+                store.dispatch(
+                    getAsyncData({ stateKey, dataSource, extraParams })
+                );
+            }
 
-        else {
-            throw new Error('A data source, or a static data set is required');
+            else if (data) {
+                store.dispatch(
+                    setData({ stateKey, data })
+                );
+            }
+
+            else {
+                throw new Error(
+                    'A data source, or a static data set is required'
+                );
+            }
         }
 
     }

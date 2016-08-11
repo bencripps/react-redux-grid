@@ -2,10 +2,12 @@ import {
     SET_DATA,
     ERROR_OCCURRED,
     SET_COLUMNS,
+    SET_TREE_NODE_VISIBILITY,
     SORT_DATA,
     RESIZE_COLUMNS,
     SET_SORT_DIRECTION,
-    HIDE_HEADER
+    HIDE_HEADER,
+    SET_TREE_DATA_PARTIAL
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -14,9 +16,13 @@ import { dismissEditor } from '../actions/plugins/editor/EditorActions';
 
 import { keyGenerator } from '../util/keyGenerator';
 
+import { treeToFlatList } from '../util/treeToFlatList';
+
 import Request from '../components/plugins/ajax/Request';
 
-export function getAsyncData({ stateKey, dataSource }) {
+export function getAsyncData({
+    stateKey, dataSource, type, showTreeRootNode, extraParams = {}
+}) {
 
     return (dispatch) => {
 
@@ -28,7 +34,10 @@ export function getAsyncData({ stateKey, dataSource }) {
 
         if (typeof dataSource === 'function') {
 
-            dataSource().then((response) => {
+            // passing extraParams.parentId
+            // to custom func so they can do partial
+            // loading
+            dataSource(extraParams).then((response) => {
 
                 if (response && response.data) {
 
@@ -36,14 +45,31 @@ export function getAsyncData({ stateKey, dataSource }) {
                         setLoaderState({ state: false, stateKey })
                     );
 
-                    dispatch({
-                        type: SET_DATA,
-                        data: response.data,
-                        total: response.total,
-                        currentRecords: response.data,
-                        success: true,
-                        stateKey
-                    });
+                    if (type !== 'tree') {
+
+                        dispatch({
+                            type: SET_DATA,
+                            data: response.data,
+                            total: response.total,
+                            currentRecords: response.data,
+                            success: true,
+                            stateKey
+                        });
+                    }
+
+                    else {
+                        // upon the return of read
+                        // response needs to clarify
+                        // whether this is a partial update
+                        dispatch(setTreeData({
+                            data: response.data,
+                            stateKey,
+                            showTreeRootNode,
+                            parentId: extraParams.parentId,
+                            partial: response.partial
+                        }));
+                    }
+
                     return;
                 }
 
@@ -77,38 +103,80 @@ export function getAsyncData({ stateKey, dataSource }) {
 
         else if (typeof dataSource === 'string') {
 
-            return Request.api({
-                route: dataSource,
-                method: 'GET'
-            }).then((response) => {
+            if (type !== 'tree') {
 
-                if (response && response.data) {
+                return Request.api({
+                    route: dataSource,
+                    method: 'GET'
+                }).then((response) => {
 
-                    dispatch({
-                        type: SET_DATA,
-                        data: response.data,
-                        total: response.total,
-                        currentRecords: response.data,
-                        success: true,
-                        stateKey
-                    });
+                    if (response && response.data) {
 
-                }
+                        dispatch({
+                            type: SET_DATA,
+                            data: response.data,
+                            total: response.total,
+                            currentRecords: response.data,
+                            success: true,
+                            stateKey
+                        });
 
-                else {
-                    dispatch({
-                        type: ERROR_OCCURRED,
-                        error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true,
-                        stateKey
-                    });
-                }
+                    }
 
-                dispatch(
-                    setLoaderState({state: false, stateKey })
-                );
-            });
+                    else {
+                        dispatch({
+                            type: ERROR_OCCURRED,
+                            error: 'Unable to Retrieve Grid Data',
+                            errorOccurred: true,
+                            stateKey
+                        });
+                    }
 
+                    dispatch(
+                        setLoaderState({state: false, stateKey })
+                    );
+                });
+
+            }
+
+            else {
+
+                return Request.api({
+                    route: dataSource,
+                    method: 'GET',
+                    queryStringParams: {
+                        parentId: extraParams.parentId
+                    }
+                }).then((response) => {
+
+                    if (response && response.data) {
+
+                        // response needs to specify
+                        // whether this is full or partial update
+                        dispatch(setTreeData({
+                            data: response.data,
+                            stateKey,
+                            showTreeRootNode,
+                            partial: response.partial,
+                            parentId: extraParams.parentId
+                        }));
+
+                    }
+
+                    else {
+                        dispatch({
+                            type: ERROR_OCCURRED,
+                            error: 'Unable to Retrieve Grid Data',
+                            errorOccurred: true,
+                            stateKey
+                        });
+                    }
+
+                    dispatch(
+                        setLoaderState({state: false, stateKey })
+                    );
+                });
+            }
         }
 
     };
@@ -291,6 +359,52 @@ export function resizeColumns({ width, id, nextColumn, columns, stateKey }) {
 
 export function setData({ data, stateKey }) {
     return { type: SET_DATA, data, stateKey };
+}
+
+export function setTreeData({
+    data, stateKey, showTreeRootNode, partial, parentId
+}) {
+
+    // if this is a partial update to
+    // a tree grid, dispatch separate action;
+    if (partial) {
+        return {
+            type: SET_TREE_DATA_PARTIAL,
+            data: data,
+            stateKey,
+            gridType: 'tree',
+            showTreeRootNode,
+            parentId
+        };
+    }
+
+    const flat = treeToFlatList(data);
+
+    if (!showTreeRootNode) {
+        flat.shift();
+    }
+
+    // remove root node
+
+    return {
+        type: SET_DATA,
+        data: flat,
+        stateKey,
+        gridType: 'tree',
+        treeData: data
+    };
+}
+
+export function setTreeNodeVisibility({
+    id, visible, stateKey, showTreeRootNode
+}) {
+    return {
+        type: SET_TREE_NODE_VISIBILITY,
+        id,
+        visible,
+        stateKey,
+        showTreeRootNode
+    };
 }
 
 export function setHeaderVisibility({ hidden, stateKey }) {

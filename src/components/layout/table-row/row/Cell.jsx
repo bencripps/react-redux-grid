@@ -6,24 +6,39 @@ import { handleEditClick } from './../../../../util/handleEditClick';
 import { elementContains } from './../../../../util/elementContains';
 import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
+import TreeArrow from './cell/TreeArrow';
+
 export const Cell = ({
     cellData,
     columns,
     editor,
     editorState,
     events,
+    gridType,
     index,
+    readFunc,
     rowData,
     rowIndex,
     rowId,
     stateKey,
     selectionModel,
-    store
+    store,
+    showTreeRootNode,
+    treeData
 }) => {
 
     const isEditable = editorState
             && editorState.row
             && editorState.row.key === rowId;
+
+    const isExpandable = treeData.expandable && !treeData.leaf;
+
+    const shouldNest = treeData.expandable;
+
+    const depth = treeData.depth !== undefined
+        && gridType === 'tree'
+        ? treeData.depth
+        : null;
 
     const hidden = columns
             && columns[index]
@@ -47,7 +62,10 @@ export const Cell = ({
 
     const cellProps = {
         className: prefix(CLASS_NAMES.CELL,
-            isEditable ? 'edit' : ''
+            isEditable ? 'edit' : '',
+            isExpandable ? 'expand' : '',
+            shouldNest ? 'tree-nested' : '',
+            depth !== null ? `tree-node-depth-${depth}` : ''
         ),
         onClick: (e) => {
             return handleClick(cellClickArguments, e);
@@ -62,6 +80,25 @@ export const Cell = ({
         cellProps.style.display = 'none';
     }
 
+    const arrowProps = {
+        isEditable,
+        isExpandable,
+        isExpanded: treeData.isExpanded,
+        hasChildren: treeData.hasChildren,
+        shouldNest,
+        depth,
+        id: treeData.id,
+        readFunc,
+        showTreeRootNode,
+        stateKey,
+        store
+    };
+
+    const arrow = gridType === 'tree'
+        && shouldNest
+        ? <TreeArrow { ...arrowProps } />
+        : null;
+
     const cellHTML = getCellHTML(
         cellData,
         editorState,
@@ -75,6 +112,7 @@ export const Cell = ({
 
     return (
         <td { ...cellProps }>
+            { arrow }
             { cellHTML }
         </td>
         );
@@ -223,18 +261,30 @@ export const handleDoubleClick = ({
     }
 };
 
+const { any, array, bool, func, object, oneOf, number, string } = PropTypes;
+
 Cell.propTypes = {
-    cellData: PropTypes.any,
-    columns: PropTypes.array,
-    data: PropTypes.func,
-    editor: PropTypes.object,
-    editorState: PropTypes.object,
-    events: PropTypes.object,
-    index: PropTypes.number,
-    rowData: PropTypes.object,
-    rowId: PropTypes.string,
-    rowIndex: PropTypes.number,
-    selectionModel: PropTypes.object,
-    stateKey: PropTypes.string,
-    store: PropTypes.object
+    cellData: any,
+    columns: array,
+    data: func,
+    editor: object,
+    editorState: object,
+    events: object,
+    gridType: oneOf([
+        'tree', 'grid'
+    ]),
+    index: number,
+    readFunc: func,
+    rowData: object,
+    rowId: string,
+    rowIndex: number,
+    selectionModel: object,
+    showTreeRootNode: bool,
+    stateKey: string,
+    store: object,
+    treeData: object
+};
+
+Cell.defaultProps = {
+    treeData: {}
 };

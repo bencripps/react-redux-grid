@@ -23,7 +23,7 @@ module.exports = {
         fs: 'empty'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx', '.styl']
     },
     module: {
         eslint: {

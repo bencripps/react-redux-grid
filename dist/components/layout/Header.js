@@ -22,8 +22,6 @@ var _DragAndDropManager2 = _interopRequireDefault(_DragAndDropManager);
 
 var _prefix = require('../../util/prefix');
 
-var _stateGetter = require('../../util/stateGetter');
-
 var _keyGenerator = require('../../util/keyGenerator');
 
 var _GridConstants = require('../../constants/GridConstants');
@@ -35,6 +33,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var arrayOf = _react.PropTypes.arrayOf;
+var bool = _react.PropTypes.bool;
+var object = _react.PropTypes.object;
+var string = _react.PropTypes.string;
+
 
 var dragAndDropManager = new _DragAndDropManager2.default();
 
@@ -126,17 +130,17 @@ var Header = function (_Component) {
 }(_react.Component);
 
 Header.propTypes = {
-    columnManager: _react.PropTypes.object.isRequired,
-    columnState: _react.PropTypes.object,
-    columns: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
-    dataSource: _react.PropTypes.object,
-    pager: _react.PropTypes.object,
-    plugins: _react.PropTypes.object,
-    reducerKeys: _react.PropTypes.object,
-    selectionModel: _react.PropTypes.object,
-    stateKey: _react.PropTypes.string,
-    store: _react.PropTypes.object,
-    visible: _react.PropTypes.bool
+    columnManager: object.isRequired,
+    columnState: object,
+    columns: arrayOf(object).isRequired,
+    dataSource: object,
+    pager: object,
+    plugins: object,
+    reducerKeys: object,
+    selectionModel: object,
+    stateKey: string,
+    store: object,
+    visible: bool
 };
 var addEmptyInsert = exports.addEmptyInsert = function addEmptyInsert(headers, visibleColumns, plugins) {
 

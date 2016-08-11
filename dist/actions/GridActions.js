@@ -11,6 +11,8 @@ exports.doRemoteSort = doRemoteSort;
 exports.setColumnVisibility = setColumnVisibility;
 exports.resizeColumns = resizeColumns;
 exports.setData = setData;
+exports.setTreeData = setTreeData;
+exports.setTreeNodeVisibility = setTreeNodeVisibility;
 exports.setHeaderVisibility = setHeaderVisibility;
 
 var _ActionTypes = require('../constants/ActionTypes');
@@ -21,6 +23,8 @@ var _EditorActions = require('../actions/plugins/editor/EditorActions');
 
 var _keyGenerator = require('../util/keyGenerator');
 
+var _treeToFlatList = require('../util/treeToFlatList');
+
 var _Request = require('../components/plugins/ajax/Request');
 
 var _Request2 = _interopRequireDefault(_Request);
@@ -30,6 +34,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function getAsyncData(_ref) {
     var stateKey = _ref.stateKey;
     var dataSource = _ref.dataSource;
+    var type = _ref.type;
+    var showTreeRootNode = _ref.showTreeRootNode;
+    var _ref$extraParams = _ref.extraParams;
+    var extraParams = _ref$extraParams === undefined ? {} : _ref$extraParams;
 
 
     return function (dispatch) {
@@ -40,20 +48,38 @@ function getAsyncData(_ref) {
 
         if (typeof dataSource === 'function') {
 
-            dataSource().then(function (response) {
+            // passing extraParams.parentId
+            // to custom func so they can do partial
+            // loading
+            dataSource(extraParams).then(function (response) {
 
                 if (response && response.data) {
 
                     dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
 
-                    dispatch({
-                        type: _ActionTypes.SET_DATA,
-                        data: response.data,
-                        total: response.total,
-                        currentRecords: response.data,
-                        success: true,
-                        stateKey: stateKey
-                    });
+                    if (type !== 'tree') {
+
+                        dispatch({
+                            type: _ActionTypes.SET_DATA,
+                            data: response.data,
+                            total: response.total,
+                            currentRecords: response.data,
+                            success: true,
+                            stateKey: stateKey
+                        });
+                    } else {
+                        // upon the return of read
+                        // response needs to clarify
+                        // whether this is a partial update
+                        dispatch(setTreeData({
+                            data: response.data,
+                            stateKey: stateKey,
+                            showTreeRootNode: showTreeRootNode,
+                            parentId: extraParams.parentId,
+                            partial: response.partial
+                        }));
+                    }
+
                     return;
                 }
 
@@ -75,32 +101,67 @@ function getAsyncData(_ref) {
             });
         } else if (typeof dataSource === 'string') {
 
-            return _Request2.default.api({
-                route: dataSource,
-                method: 'GET'
-            }).then(function (response) {
+            if (type !== 'tree') {
 
-                if (response && response.data) {
+                return _Request2.default.api({
+                    route: dataSource,
+                    method: 'GET'
+                }).then(function (response) {
 
-                    dispatch({
-                        type: _ActionTypes.SET_DATA,
-                        data: response.data,
-                        total: response.total,
-                        currentRecords: response.data,
-                        success: true,
-                        stateKey: stateKey
-                    });
-                } else {
-                    dispatch({
-                        type: _ActionTypes.ERROR_OCCURRED,
-                        error: 'Unable to Retrieve Grid Data',
-                        errorOccurred: true,
-                        stateKey: stateKey
-                    });
-                }
+                    if (response && response.data) {
 
-                dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
-            });
+                        dispatch({
+                            type: _ActionTypes.SET_DATA,
+                            data: response.data,
+                            total: response.total,
+                            currentRecords: response.data,
+                            success: true,
+                            stateKey: stateKey
+                        });
+                    } else {
+                        dispatch({
+                            type: _ActionTypes.ERROR_OCCURRED,
+                            error: 'Unable to Retrieve Grid Data',
+                            errorOccurred: true,
+                            stateKey: stateKey
+                        });
+                    }
+
+                    dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
+                });
+            } else {
+
+                return _Request2.default.api({
+                    route: dataSource,
+                    method: 'GET',
+                    queryStringParams: {
+                        parentId: extraParams.parentId
+                    }
+                }).then(function (response) {
+
+                    if (response && response.data) {
+
+                        // response needs to specify
+                        // whether this is full or partial update
+                        dispatch(setTreeData({
+                            data: response.data,
+                            stateKey: stateKey,
+                            showTreeRootNode: showTreeRootNode,
+                            partial: response.partial,
+                            parentId: extraParams.parentId
+                        }));
+                    } else {
+                        dispatch({
+                            type: _ActionTypes.ERROR_OCCURRED,
+                            error: 'Unable to Retrieve Grid Data',
+                            errorOccurred: true,
+                            stateKey: stateKey
+                        });
+                    }
+
+                    dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
+                });
+            }
         }
     };
 }
@@ -284,9 +345,62 @@ function setData(_ref8) {
     return { type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey };
 }
 
-function setHeaderVisibility(_ref9) {
-    var hidden = _ref9.hidden;
+function setTreeData(_ref9) {
+    var data = _ref9.data;
     var stateKey = _ref9.stateKey;
+    var showTreeRootNode = _ref9.showTreeRootNode;
+    var partial = _ref9.partial;
+    var parentId = _ref9.parentId;
+
+
+    // if this is a partial update to
+    // a tree grid, dispatch separate action;
+    if (partial) {
+        return {
+            type: _ActionTypes.SET_TREE_DATA_PARTIAL,
+            data: data,
+            stateKey: stateKey,
+            gridType: 'tree',
+            showTreeRootNode: showTreeRootNode,
+            parentId: parentId
+        };
+    }
+
+    var flat = (0, _treeToFlatList.treeToFlatList)(data);
+
+    if (!showTreeRootNode) {
+        flat.shift();
+    }
+
+    // remove root node
+
+    return {
+        type: _ActionTypes.SET_DATA,
+        data: flat,
+        stateKey: stateKey,
+        gridType: 'tree',
+        treeData: data
+    };
+}
+
+function setTreeNodeVisibility(_ref10) {
+    var id = _ref10.id;
+    var visible = _ref10.visible;
+    var stateKey = _ref10.stateKey;
+    var showTreeRootNode = _ref10.showTreeRootNode;
+
+    return {
+        type: _ActionTypes.SET_TREE_NODE_VISIBILITY,
+        id: id,
+        visible: visible,
+        stateKey: stateKey,
+        showTreeRootNode: showTreeRootNode
+    };
+}
+
+function setHeaderVisibility(_ref11) {
+    var hidden = _ref11.hidden;
+    var stateKey = _ref11.stateKey;
 
     return { type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey };
 }

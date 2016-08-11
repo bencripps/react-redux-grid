@@ -40,6 +40,9 @@ export const events = {
 };
 
 export const dataSource = 'http://react-redux-grid.herokuapp.com/getfakeData';
+export const treeDataSource = (
+    'http://react-redux-grid.herokuapp.com/gettreeData'
+);
 
 export const plugins = {
     COLUMN_MANAGER: {
@@ -128,24 +131,24 @@ export const editorFunc = (
 
 export const columns = [
     {
+        name: 'Name',
+        dataIndex: 'Name',
+        sortable: true,
+        width: '40%',
+        className: 'additional-class',
+        expandable: true,
+        HANDLE_CLICK: () => { console.log('Header Click'); }
+    },
+    {
         name: 'GUID',
         dataIndex: 'GUID',
         hidden: true,
         createKeyFrom: true
     },
     {
-        name: 'Name',
-        dataIndex: 'Name',
-        sortable: true,
-        width: '10%',
-        className: 'additional-class',
-        HANDLE_CLICK: () => { console.log('Header Click'); }
-    },
-    {
         name: 'Phone Number',
         dataIndex: 'Phone Number',
         sortable: true,
-        width: '20%',
         className: 'additional-class',
         editor: (
             /* eslint-disable  react/prop-types */
@@ -168,7 +171,6 @@ export const columns = [
     {
         name: 'Email',
         dataIndex: 'Email',
-        width: '25%',
         sortable: true,
         className: 'additional-class',
         defaultSortDirection: 'descend'
@@ -177,9 +179,8 @@ export const columns = [
         name: 'Address',
         dataIndex: 'Address',
         sortable: true,
-        width: '35%',
         className: 'additional-class'
     }
 ];
 
-export { halfData as data } from './data';
+export { halfData as data, treeData } from './data';

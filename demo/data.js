@@ -1000,3 +1000,101 @@ export const allData =  [{"GUID":"303094f6-7dcd-40c0-8b21-d34bf815d58f","Name":"
 {"GUID":"3cc6a311-b433-4b5c-9695-0e214f45be5c","Name":"Phillip","Email":"pboydrr@nifty.com","Gender":"Male","Address":"90319 Becker Avenue","Phone Number":"62-(342)203-1560"}]
 
 export const halfData = allData.slice(0, 500);
+
+export const treeData ={
+    root: {
+        id: -1,
+        'Name': 'Root',
+        children: [
+            {
+                id: 1,
+                parentId: -1,
+                Name: 'Category 1',
+                GUID: '8f7152dc-fed7-4a65-afcf-527fceb99865',
+                Email: 'hgardnero6@ed.gov',
+                Gender: 'Male',
+                Address: '605 Manley Park',
+                'Phone Number': '31-(678)495-4134',
+                children: [
+                    {
+                        id: 11,
+                        parentId: 1,
+                        Name: 'Category 11',
+                        GUID: '8f7152dc-fed7-4a65-afcf-527fceb991865',
+                        Email: 'hgardneross6@ed.gov',
+                        Gender: 'Male',
+                        Address: '12 Manley Park',
+                        'Phone Number': '31-(678)495-4134',
+                    },
+                    {
+                        id: 12,
+                        parentId: 1,
+                        Name: 'Category 12',
+                        GUID: '8f7152dc-fed7-4acf-527fceb991865',
+                        Email: 'hgardneross6@ed.gov',
+                        Gender: 'Male',
+                        Address: '12 Manley Park',
+                        'Phone Number': '31-(678)495-4134',
+                        children: [
+                             {
+                                id: 121,
+                                parentId: 12,
+                                Name: 'Category 121',
+                                GUID: '8f7q2dc-fedsss7-4acf-527fceb991865',
+                                Email: 'hgoss6@eds.gov',
+                                Gender: 'Male',
+                                Address: '21 fake Park',
+                                'Phone Number': '31-(678)495-4134',
+                            },
+                            {
+                                id: 122,
+                                parentId: 12,
+                                Name: 'Category 122',
+                                GUID: '8f7q2dc-fed7-4acf-527fceb991865',
+                                Email: 'hgoss6@ed.gov',
+                                Gender: 'Male',
+                                Address: '21 fake Park',
+                                'Phone Number': '31-(678)495-4134',
+                                children: [
+                                    {
+                                        id: 1221,
+                                        parentId: 122,
+                                        Name: 'Category 1211',
+                                        GUID: '8f7q2dc-facf-527fceb991865',
+                                        Email: 'hgossjdjdjdj6@ed.gov',
+                                        Gender: 'Male',
+                                        Address: '21 fdjdjake Park',
+                                        'Phone Number': '31-(678)495-4134'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                parentId: -1,
+                Name: 'Category 2',
+                GUID: '8f7q2dc-facf-527fcebdk=-jdjd991865',
+                Email: 'hehehe@ed.gov',
+                Gender: 'Male',
+                Address: '212 Park',
+                'Phone Number': '31-(678)495-4134',
+                children: [
+                    {
+                        id: 21,
+                        parentId: 2,
+                        Name: 'Category 21',
+                        GUID: '8f7q2dc-facf-527fcsw-jdjd991865',
+                        Email: 'hehehe@ed.gov',
+                        Gender: 'Male',
+                        Address: '21112 Park',
+                        'Phone Number': '31-(678)495-4134',
+                        leaf: false
+                    }
+                ]
+            }
+        ]
+    }
+};

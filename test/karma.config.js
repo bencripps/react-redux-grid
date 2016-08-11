@@ -68,7 +68,7 @@ module.exports = function exports(config) {
                 }
             },
             resolve: {
-                extensions: ['', '.js', '.jsx']
+                extensions: ['', '.js', '.jsx', '.styl']
             },
             module: {
                 preLoaders: PRELOADERS,

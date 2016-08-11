@@ -6,11 +6,16 @@ import { SET_DATA,
     FILTER_DATA,
     REMOVE_ROW,
     SAVE_ROW,
+    SET_TREE_NODE_VISIBILITY,
+    SET_TREE_DATA_PARTIAL,
     SORT_DATA,
     UPDATE_ROW
 } from '../../constants/ActionTypes';
 
 import { generateLastUpdate } from './../../util/lastUpdate';
+import { getTreePathFromId } from './../../util/getTreePathFromId';
+import { setTreeValue } from './../../util/setTreeValue';
+import { treeToFlatList } from './../../util/treeToFlatList';
 
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
@@ -22,7 +27,34 @@ export default function dataSource(state = initialState, action) {
             data: action.data,
             proxy: action.data,
             total: action.total || action.data.length,
+            treeData: action.treeData,
+            gridType: action.gridType || 'grid',
             currentRecords: action.currentRecords || action.data,
+            lastUpdate: generateLastUpdate()
+        }));
+
+    case SET_TREE_DATA_PARTIAL:
+        const treeVals = state.getIn([action.stateKey, 'treeData']).toJS();
+        const flattened = state.getIn([action.stateKey, 'data']).toJS();
+        const pathToNode = [
+            -1, ...getTreePathFromId(flattened, action.parentId)
+        ];
+        const newTreeValues = setTreeValue(
+            treeVals, pathToNode, { children: action.data }
+        );
+
+        const newFlatList = treeToFlatList(newTreeValues);
+
+        if (!action.showTreeRootNode) {
+            newFlatList.shift();
+        }
+
+        return state.mergeIn([action.stateKey], fromJS({
+            data: newFlatList,
+            proxy: newFlatList,
+            currentRecords: newFlatList,
+            treeData: newTreeValues,
+            total: newFlatList.length,
             lastUpdate: generateLastUpdate()
         }));
 
@@ -110,6 +142,30 @@ export default function dataSource(state = initialState, action) {
             isEditing: true,
             lastUpdate: generateLastUpdate(),
             total: newData.size
+        }));
+
+    case SET_TREE_NODE_VISIBILITY:
+
+        const treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
+        const tree = state.getIn([action.stateKey, 'treeData']).toJS();
+        const currentVisibility = !!treeFlatList
+            .find(node => node._id === action.id)._hideChildren;
+        const path = [-1, ...getTreePathFromId(treeFlatList, action.id)];
+        const newTree = setTreeValue(
+            tree, path, { _hideChildren: !currentVisibility
+        });
+        const flattenedTree = treeToFlatList(newTree);
+
+        // remove root-node
+        if (!action.showTreeRootNode) {
+            flattenedTree.shift();
+        }
+
+        return state.mergeIn([action.stateKey], fromJS({
+            data: flattenedTree,
+            currentRecords: flattenedTree,
+            treeData: newTree,
+            lastUpdate: generateLastUpdate()
         }));
 
     case SAVE_ROW:
