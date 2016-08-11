@@ -79,11 +79,14 @@ export default class ColumnManager {
             : DEFAULT_PAGE_SIZE;
 
         if (method === SORT_METHODS.LOCAL) {
+
+            const data = typeof column.sortFn === 'function'
+                ? dataSource.data.sort(column.sortFn)
+                : this.sorter.sortBy(column.dataIndex, direction, dataSource);
+
             this.store.dispatch(
                 doLocalSort({
-                    data: this.sorter.sortBy(
-                        column.dataIndex, direction, dataSource
-                    ),
+                    data,
                     stateKey
                 })
             );
