@@ -16,9 +16,9 @@ function api(config) {
 
         var request = new XMLHttpRequest();
 
-        request.open(config.method, config.route, true);
-
         buildQueryString(config);
+
+        request.open(config.method, config.route, true);
 
         setRequestHeaders(request, config);
 
@@ -95,7 +95,9 @@ function buildQueryString(config) {
         for (var _iterator2 = Object.keys(config.queryStringParams)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
             var key = _step2.value;
 
-            builtUrl += key + '=' + config.queryStringParams[key] + '&';
+            if (config.queryStringParams[key]) {
+                builtUrl += key + '=' + config.queryStringParams[key] + '&';
+            }
         }
     } catch (err) {
         _didIteratorError2 = true;

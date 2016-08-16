@@ -11,9 +11,9 @@ function api(config) {
 
         const request = new XMLHttpRequest();
 
-        request.open(config.method, config.route, true);
-
         buildQueryString(config);
+
+        request.open(config.method, config.route, true);
 
         setRequestHeaders(request, config);
 
@@ -69,7 +69,9 @@ function buildQueryString(config) {
     }
 
     for (const key of Object.keys(config.queryStringParams)) {
-        builtUrl += key + '=' + config.queryStringParams[key] + '&';
+        if (config.queryStringParams[key]) {
+            builtUrl += key + '=' + config.queryStringParams[key] + '&';
+        }
     }
 
     config.route = builtUrl;

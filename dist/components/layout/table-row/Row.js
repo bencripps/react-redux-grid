@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.handleRowSingleClickEvent = exports.getSelectedText = exports.handleRowDoubleClickEvent = exports.addEmptyCells = exports.getCellData = exports.addEmptyInsert = exports.getCellValues = exports.Row = undefined;
+exports.handleRowSingleClickEvent = exports.getSelectedText = exports.handleRowDoubleClickEvent = exports.addEmptyCells = exports.getCellData = exports.addEmptyInsert = exports.getCellValues = exports.getTreeValues = exports.Row = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -35,6 +35,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var arrayOf = _react.PropTypes.arrayOf;
+var bool = _react.PropTypes.bool;
+var func = _react.PropTypes.func;
+var object = _react.PropTypes.object;
+var string = _react.PropTypes.string;
+var oneOf = _react.PropTypes.oneOf;
+var number = _react.PropTypes.number;
+
 var Row = exports.Row = function (_Component) {
     _inherits(Row, _Component);
 
@@ -44,6 +52,7 @@ var Row = exports.Row = function (_Component) {
             var _props = this.props;
             var columns = _props.columns;
             var columnManager = _props.columnManager;
+            var gridType = _props.gridType;
             var editor = _props.editor;
             var editorState = _props.editorState;
             var menuState = _props.menuState;
@@ -51,10 +60,12 @@ var Row = exports.Row = function (_Component) {
             var row = _props.row;
             var events = _props.events;
             var plugins = _props.plugins;
+            var readFunc = _props.readFunc;
             var selectionModel = _props.selectionModel;
             var selectedRows = _props.selectedRows;
             var stateKey = _props.stateKey;
             var store = _props.store;
+            var showTreeRootNode = _props.showTreeRootNode;
             var index = _props.index;
 
 
@@ -70,6 +81,8 @@ var Row = exports.Row = function (_Component) {
 
             var cells = Object.keys(cellValues).map(function (k, i) {
 
+                var treeData = gridType === 'tree' ? getTreeValues(columns[i], row) : {};
+
                 var cellProps = {
                     index: i,
                     rowId: id,
@@ -78,12 +91,16 @@ var Row = exports.Row = function (_Component) {
                     editor: editor,
                     editorState: editorState,
                     events: events,
+                    gridType: gridType,
                     reducerKeys: reducerKeys,
+                    readFunc: readFunc,
                     rowIndex: index,
                     rowData: cellValues,
                     selectionModel: selectionModel,
                     stateKey: stateKey,
-                    store: store
+                    store: store,
+                    showTreeRootNode: showTreeRootNode,
+                    treeData: treeData
                 };
 
                 var key = (0, _getData.getRowKey)(columns, row, i, columns[i].dataIndex);
@@ -146,29 +163,44 @@ var Row = exports.Row = function (_Component) {
 }(_react.Component);
 
 Row.propTypes = {
-    columnManager: _react.PropTypes.object.isRequired,
-    columns: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
-    data: _react.PropTypes.arrayOf(_react.PropTypes.object),
-    dataSource: _react.PropTypes.object,
-    editor: _react.PropTypes.object,
-    editorState: _react.PropTypes.object,
-    emptyDataMessage: _react.PropTypes.string,
-    events: _react.PropTypes.object,
-    index: _react.PropTypes.number,
-    menuState: _react.PropTypes.object,
-    pageSize: _react.PropTypes.number,
-    pager: _react.PropTypes.object,
-    plugins: _react.PropTypes.object,
-    reducerKeys: _react.PropTypes.object,
-    row: _react.PropTypes.object,
-    selectedRows: _react.PropTypes.object,
-    selectionModel: _react.PropTypes.object,
-    stateKey: _react.PropTypes.string,
-    store: _react.PropTypes.object.isRequired
+    columnManager: object.isRequired,
+    columns: arrayOf(object).isRequired,
+    data: arrayOf(object),
+    dataSource: object,
+    editor: object,
+    editorState: object,
+    emptyDataMessage: string,
+    events: object,
+    gridType: oneOf(['tree', 'grid']),
+    index: number,
+    menuState: object,
+    pageSize: number,
+    pager: object,
+    plugins: object,
+    readFunc: func,
+    reducerKeys: object,
+    row: object,
+    selectedRows: object,
+    selectionModel: object,
+    showTreeRootNode: bool,
+    stateKey: string,
+    store: object.isRequired
 };
 Row.defaultProps = {
     emptyDataMessage: 'No Data Available'
 };
+var getTreeValues = exports.getTreeValues = function getTreeValues(column, row) {
+    return {
+        depth: row._depth,
+        parentId: row._parentId,
+        id: row._id,
+        leaf: row._leaf,
+        hasChildren: row._hasChildren,
+        isExpanded: row._isExpanded,
+        expandable: Boolean(column.expandable)
+    };
+};
+
 var getCellValues = exports.getCellValues = function getCellValues(columns, row) {
 
     var result = {};

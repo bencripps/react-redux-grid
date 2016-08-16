@@ -23,7 +23,7 @@ module.exports = {
         loaders: loaders
     },
     resolve: {
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx', '.styl']
     },
     devtool: 'inline-source-map'
 };

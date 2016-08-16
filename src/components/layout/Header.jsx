@@ -5,9 +5,10 @@ import { EmptyHeader } from './header/EmptyHeader';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
-import { stateGetter } from '../../util/stateGetter';
 import { keyFromObject } from '../../util/keyGenerator';
 import { CLASS_NAMES } from '../../constants/GridConstants';
+
+const { arrayOf, bool, object, string } = PropTypes;
 
 const dragAndDropManager = new DragAndDropManager();
 
@@ -45,9 +46,7 @@ class Header extends Component {
                 index: i
             };
 
-            return (
-                <Column { ...colProps } />
-                );
+            return <Column { ...colProps } />;
         });
 
         const classes = visible
@@ -87,17 +86,17 @@ class Header extends Component {
     }
 
     static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columnState: PropTypes.object,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        dataSource: PropTypes.object,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object,
-        visible: PropTypes.bool
+        columnManager: object.isRequired,
+        columnState: object,
+        columns: arrayOf(object).isRequired,
+        dataSource: object,
+        pager: object,
+        plugins: object,
+        reducerKeys: object,
+        selectionModel: object,
+        stateKey: string,
+        store: object,
+        visible: bool
     };
 }
 

@@ -11,6 +11,8 @@ import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
 
+const { arrayOf, object, string } = PropTypes;
+
 const dragAndDropManager = new DragAndDropManager();
 
 class FixedHeader extends Component {
@@ -58,9 +60,7 @@ class FixedHeader extends Component {
                 key: `fixed-header-${i}`
             };
 
-            return (
-                <Column { ...colProps } />
-                );
+            return <Column { ...colProps } />;
         });
 
         const tableProps = {
@@ -210,17 +210,17 @@ class FixedHeader extends Component {
     }
 
     static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columnState: PropTypes.object,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        dataSource: PropTypes.object,
-        menuState: PropTypes.object,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object
+        columnManager: object.isRequired,
+        columnState: object,
+        columns: arrayOf(object).isRequired,
+        dataSource: object,
+        menuState: object,
+        pager: object,
+        plugins: object,
+        reducerKeys: object,
+        selectionModel: object,
+        stateKey: string,
+        store: object
     };
 
     setWidthResetListener(headerDOM) {

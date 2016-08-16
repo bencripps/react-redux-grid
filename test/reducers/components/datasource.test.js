@@ -46,6 +46,8 @@ describe('The grid dataSource reducer setData func', () => {
                 proxy: [
                     { x: 1 }, { x: 2 }
                 ],
+                treeData: undefined,
+                gridType: 'grid',
                 total: 2,
                 currentRecords: [
                     { x: 1 }, { x: 2 }
@@ -73,6 +75,8 @@ describe('The grid dataSource reducer setData func', () => {
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
                 total: 2,
+                treeData: undefined,
+                gridType: 'grid',
                 currentRecords: [{ x: 1 }, { x: 2 }],
                 lastUpdate: 1
             }
@@ -101,6 +105,8 @@ describe('The grid dataSource reducer setData func', () => {
                 data: [{ x: 1 }, { x: 2 }],
                 proxy: [{ x: 1 }, { x: 2 }],
                 total: 2,
+                treeData: undefined,
+                gridType: 'grid',
                 currentRecords: [{ banana: 2 }],
                 lastUpdate: 1
             }

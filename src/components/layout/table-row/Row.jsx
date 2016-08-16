@@ -9,6 +9,8 @@ import { prefix } from '../../../util/prefix';
 import { getData, getRowKey } from '../../../util/getData';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
+const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
+
 export class Row extends Component {
 
     render() {
@@ -16,6 +18,7 @@ export class Row extends Component {
         const {
             columns,
             columnManager,
+            gridType,
             editor,
             editorState,
             menuState,
@@ -23,10 +26,12 @@ export class Row extends Component {
             row,
             events,
             plugins,
+            readFunc,
             selectionModel,
             selectedRows,
             stateKey,
             store,
+            showTreeRootNode,
             index
         } = this.props;
 
@@ -40,6 +45,10 @@ export class Row extends Component {
 
         const cells = Object.keys(cellValues).map((k, i) => {
 
+            const treeData = gridType === 'tree'
+                ? getTreeValues(columns[i], row)
+                : {};
+
             const cellProps = {
                 index: i,
                 rowId: id,
@@ -48,12 +57,16 @@ export class Row extends Component {
                 editor,
                 editorState,
                 events: events,
+                gridType,
                 reducerKeys,
+                readFunc,
                 rowIndex: index,
                 rowData: cellValues,
                 selectionModel,
                 stateKey,
-                store
+                store,
+                showTreeRootNode,
+                treeData
             };
 
             const key = getRowKey(columns, row, i, columns[i].dataIndex);
@@ -122,25 +135,30 @@ export class Row extends Component {
     }
 
     static propTypes = {
-        columnManager: PropTypes.object.isRequired,
-        columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-        data: PropTypes.arrayOf(PropTypes.object),
-        dataSource: PropTypes.object,
-        editor: PropTypes.object,
-        editorState: PropTypes.object,
-        emptyDataMessage: PropTypes.string,
-        events: PropTypes.object,
-        index: PropTypes.number,
-        menuState: PropTypes.object,
-        pageSize: PropTypes.number,
-        pager: PropTypes.object,
-        plugins: PropTypes.object,
-        reducerKeys: PropTypes.object,
-        row: PropTypes.object,
-        selectedRows: PropTypes.object,
-        selectionModel: PropTypes.object,
-        stateKey: PropTypes.string,
-        store: PropTypes.object.isRequired
+        columnManager: object.isRequired,
+        columns: arrayOf(object).isRequired,
+        data: arrayOf(object),
+        dataSource: object,
+        editor: object,
+        editorState: object,
+        emptyDataMessage: string,
+        events: object,
+        gridType: oneOf([
+            'tree', 'grid'
+        ]),
+        index: number,
+        menuState: object,
+        pageSize: number,
+        pager: object,
+        plugins: object,
+        readFunc: func,
+        reducerKeys: object,
+        row: object,
+        selectedRows: object,
+        selectionModel: object,
+        showTreeRootNode: bool,
+        stateKey: string,
+        store: object.isRequired
     };
 
     static defaultProps = {
@@ -148,6 +166,16 @@ export class Row extends Component {
     };
 
 }
+
+export const getTreeValues = (column, row) => ({
+    depth: row._depth,
+    parentId: row._parentId,
+    id: row._id,
+    leaf: row._leaf,
+    hasChildren: row._hasChildren,
+    isExpanded: row._isExpanded,
+    expandable: Boolean(column.expandable)
+});
 
 export const getCellValues = (columns, row) => {
 

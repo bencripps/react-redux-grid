@@ -22,8 +22,10 @@ export const PlaceHolder = (message) => {
     );
 };
 
+const { object } = PropTypes;
+
 PlaceHolder.propTypes = {
-    message: PropTypes.object
+    message: object
 };
 
 PropTypes.defaultProps = {

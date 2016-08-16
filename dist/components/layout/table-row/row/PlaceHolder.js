@@ -38,8 +38,11 @@ var PlaceHolder = exports.PlaceHolder = function PlaceHolder(message) {
     );
 };
 
+var object = _react.PropTypes.object;
+
+
 PlaceHolder.propTypes = {
-    message: _react.PropTypes.object
+    message: object
 };
 
 _react.PropTypes.defaultProps = {

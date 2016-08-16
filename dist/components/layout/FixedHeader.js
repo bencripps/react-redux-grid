@@ -41,6 +41,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var arrayOf = _react.PropTypes.arrayOf;
+var object = _react.PropTypes.object;
+var string = _react.PropTypes.string;
+
+
 var dragAndDropManager = new _DragAndDropManager2.default();
 
 var FixedHeader = function (_Component) {
@@ -343,17 +348,17 @@ var FixedHeader = function (_Component) {
 }(_react.Component);
 
 FixedHeader.propTypes = {
-    columnManager: _react.PropTypes.object.isRequired,
-    columnState: _react.PropTypes.object,
-    columns: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
-    dataSource: _react.PropTypes.object,
-    menuState: _react.PropTypes.object,
-    pager: _react.PropTypes.object,
-    plugins: _react.PropTypes.object,
-    reducerKeys: _react.PropTypes.object,
-    selectionModel: _react.PropTypes.object,
-    stateKey: _react.PropTypes.string,
-    store: _react.PropTypes.object
+    columnManager: object.isRequired,
+    columnState: object,
+    columns: arrayOf(object).isRequired,
+    dataSource: object,
+    menuState: object,
+    pager: object,
+    plugins: object,
+    reducerKeys: object,
+    selectionModel: object,
+    stateKey: string,
+    store: object
 };
 var addEmptyInsert = exports.addEmptyInsert = function addEmptyInsert(headers, visibleColumns, plugins, headerOffset) {
     if (!plugins) {

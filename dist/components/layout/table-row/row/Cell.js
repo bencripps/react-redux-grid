@@ -20,6 +20,10 @@ var _elementContains = require('./../../../../util/elementContains');
 
 var _GridConstants = require('./../../../../constants/GridConstants');
 
+var _TreeArrow = require('./cell/TreeArrow');
+
+var _TreeArrow2 = _interopRequireDefault(_TreeArrow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Cell = exports.Cell = function Cell(_ref) {
@@ -28,16 +32,26 @@ var Cell = exports.Cell = function Cell(_ref) {
     var editor = _ref.editor;
     var editorState = _ref.editorState;
     var events = _ref.events;
+    var gridType = _ref.gridType;
     var index = _ref.index;
+    var readFunc = _ref.readFunc;
     var rowData = _ref.rowData;
     var rowIndex = _ref.rowIndex;
     var rowId = _ref.rowId;
     var stateKey = _ref.stateKey;
     var selectionModel = _ref.selectionModel;
     var store = _ref.store;
+    var showTreeRootNode = _ref.showTreeRootNode;
+    var treeData = _ref.treeData;
 
 
     var isEditable = editorState && editorState.row && editorState.row.key === rowId;
+
+    var isExpandable = treeData.expandable && !treeData.leaf;
+
+    var shouldNest = treeData.expandable;
+
+    var depth = treeData.depth !== undefined && gridType === 'tree' ? treeData.depth : null;
 
     var hidden = columns && columns[index] && columns[index].hidden !== undefined ? columns[index].hidden : null;
 
@@ -56,7 +70,7 @@ var Cell = exports.Cell = function Cell(_ref) {
     };
 
     var cellProps = {
-        className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.CELL, isEditable ? 'edit' : ''),
+        className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.CELL, isEditable ? 'edit' : '', isExpandable ? 'expand' : '', shouldNest ? 'tree-nested' : '', depth !== null ? 'tree-node-depth-' + depth : ''),
         onClick: function onClick(e) {
             return handleClick(cellClickArguments, e);
         },
@@ -70,11 +84,28 @@ var Cell = exports.Cell = function Cell(_ref) {
         cellProps.style.display = 'none';
     }
 
+    var arrowProps = {
+        isEditable: isEditable,
+        isExpandable: isExpandable,
+        isExpanded: treeData.isExpanded,
+        hasChildren: treeData.hasChildren,
+        shouldNest: shouldNest,
+        depth: depth,
+        id: treeData.id,
+        readFunc: readFunc,
+        showTreeRootNode: showTreeRootNode,
+        stateKey: stateKey,
+        store: store
+    };
+
+    var arrow = gridType === 'tree' && shouldNest ? _react2.default.createElement(_TreeArrow2.default, arrowProps) : null;
+
     var cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, stateKey, store);
 
     return _react2.default.createElement(
         'td',
         cellProps,
+        arrow,
         cellHTML
     );
 };
@@ -168,18 +199,36 @@ var handleDoubleClick = exports.handleDoubleClick = function handleDoubleClick(_
     }
 };
 
+var any = _react.PropTypes.any;
+var array = _react.PropTypes.array;
+var bool = _react.PropTypes.bool;
+var func = _react.PropTypes.func;
+var object = _react.PropTypes.object;
+var oneOf = _react.PropTypes.oneOf;
+var number = _react.PropTypes.number;
+var string = _react.PropTypes.string;
+
+
 Cell.propTypes = {
-    cellData: _react.PropTypes.any,
-    columns: _react.PropTypes.array,
-    data: _react.PropTypes.func,
-    editor: _react.PropTypes.object,
-    editorState: _react.PropTypes.object,
-    events: _react.PropTypes.object,
-    index: _react.PropTypes.number,
-    rowData: _react.PropTypes.object,
-    rowId: _react.PropTypes.string,
-    rowIndex: _react.PropTypes.number,
-    selectionModel: _react.PropTypes.object,
-    stateKey: _react.PropTypes.string,
-    store: _react.PropTypes.object
+    cellData: any,
+    columns: array,
+    data: func,
+    editor: object,
+    editorState: object,
+    events: object,
+    gridType: oneOf(['tree', 'grid']),
+    index: number,
+    readFunc: func,
+    rowData: object,
+    rowId: string,
+    rowIndex: number,
+    selectionModel: object,
+    showTreeRootNode: bool,
+    stateKey: string,
+    store: object,
+    treeData: object
+};
+
+Cell.defaultProps = {
+    treeData: {}
 };

@@ -8,7 +8,9 @@ import {
     doRemoteSort,
     setColumnVisibility,
     resizeColumns,
-    setData
+    setData,
+    setTreeData,
+    setTreeNodeVisibility
 } from './../../src/actions/GridActions';
 
 describe('The getAsyncData actions', () => {
@@ -512,4 +514,255 @@ describe('The resizeColumns action', () => {
         });
     });
 
+    describe('The setTreeNodeVisibility action', () => {
+
+        it('Should return default hide action', () => {
+            expect(setTreeNodeVisibility({
+                id: 'someId',
+                type: 'SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false
+            })).toEqual({
+                id: 'someId',
+                type: 'SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: undefined
+            });
+        });
+
+        it('Should pass visiblity state', () => {
+            expect(setTreeNodeVisibility({
+                id: 'someId',
+                type: 'SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: true
+            })).toEqual({
+                id: 'someId',
+                type: 'SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: true
+            });
+        });
+
+    });
+
+    describe('The setTreeData action', () => {
+
+        const data = {
+            root: {
+                id: -1,
+                children: [
+                    {
+                        id: 1,
+                        parentId: -1,
+                        children: [
+                            {
+                                id: 11,
+                                parentId: 1
+                            },
+                            {
+                                id: 12,
+                                parentId: 1,
+                                children: [
+                                    {
+                                        id: 121,
+                                        parentId: 12,
+                                        children: [
+                                            {
+                                                id: 1211,
+                                                parentId: 121
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        parentId: -1,
+                        children: [
+                            {
+                                id: 21,
+                                parentId: 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        it('Should return action with root node', () => {
+
+            expect(setTreeData({
+                data,
+                stateKey: 'tree-grid',
+                showTreeRootNode: true
+            })).toEqual({
+                type: 'SET_DATA',
+                data: [
+                    {
+                        _depth: 0,
+                        _hideChildren: undefined,
+                        _isExpanded: true,
+                        _hasChildren: true,
+                        _id: -1,
+                        _leaf: false,
+                        _parentId: 'root'
+                    },
+                    {
+                        _depth: 1,
+                        _hideChildren: undefined,
+                        _isExpanded: true,
+                        _hasChildren: true,
+                        _id: 1,
+                        _leaf: false, _parentId: -1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 11,
+                        _leaf: true,
+                        _parentId: 1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _isExpanded: true,
+                        _hasChildren: true,
+                        _id: 12,
+                        _leaf: false,
+                        _parentId: 1
+                    },
+                    {
+                        _depth: 3,
+                        _hideChildren: undefined,
+                        _isExpanded: true,
+                        _hasChildren: true,
+                        _id: 121,
+                        _leaf: false,
+                        _parentId: 12
+                    },
+                    {
+                        _depth: 4,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 1211,
+                        _leaf: true,
+                        _parentId: 121
+                    },
+                    {
+                        _depth: 1,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _isExpanded: true,
+                        _id: 2,
+                        _leaf: false,
+                        _parentId: -1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 21,
+                        _leaf: true,
+                        _parentId: 2
+                    }
+                ],
+                stateKey: 'tree-grid',
+                gridType: 'tree',
+                treeData: data
+            });
+
+        });
+
+        it('Should return action without root node', () => {
+
+            expect(setTreeData({
+                data,
+                stateKey: 'tree-grid',
+                showTreeRootNode: false
+            })).toEqual({
+                type: 'SET_DATA',
+                data: [
+                    {
+                        _depth: 1,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _isExpanded: true,
+                        _id: 1,
+                        _leaf: false, _parentId: -1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 11,
+                        _leaf: true,
+                        _parentId: 1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _isExpanded: true,
+                        _id: 12,
+                        _leaf: false,
+                        _parentId: 1
+                    },
+                    {
+                        _depth: 3,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _isExpanded: true,
+                        _id: 121,
+                        _leaf: false,
+                        _parentId: 12
+                    },
+                    {
+                        _depth: 4,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 1211,
+                        _leaf: true,
+                        _parentId: 121
+                    },
+                    {
+                        _depth: 1,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _isExpanded: true,
+                        _id: 2,
+                        _leaf: false,
+                        _parentId: -1
+                    },
+                    {
+                        _depth: 2,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _isExpanded: undefined,
+                        _id: 21,
+                        _leaf: true,
+                        _parentId: 2
+                    }
+                ],
+                stateKey: 'tree-grid',
+                gridType: 'tree',
+                treeData: data
+            });
+
+        });
+
+    });
+
 });
+
