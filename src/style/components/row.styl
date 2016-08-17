@@ -1,36 +1,38 @@
 +prefix-classes(prefix)
+  .row
+    background-color whitecolor
+    cursor pointer
+    text-overflow ellipsis
+    transition(background-color)
 
-    .row
-        background-color whitecolor
-        cursor pointer
-        text-overflow ellipsis
-        transition(background-color)
-        
+    &:hover
+      background-color rowhovercolor
+
+    &.empty-row
+      text-align center
+      height rowheight * 4
+
+    &.{dragclass}
+      background-color dragblue
+      color dragblue
+
+    &.{activeclass}
+      background-color strongcolor
+
+    &.{editclass}
+      color whitecolor
+      background-color editcolor
+      boxshadow()
+
+      .action-menu-container
+        color initial
+
         &:hover
-            background-color rowhovercolor
-            
-            
-        &.empty-row
-            text-align center
-            height rowheight * 4
-        
-        &.{activeclass}
-            background-color strongcolor
-        
-        &.{editclass}
-            color whitecolor
-            background-color editcolor
-            boxshadow()
-            
-            .action-menu-container 
-                color initial
-            
-            &:hover 
-                background-color editcolor
-                
-            td 
-                border-bottom: 2px solid transparent
-                
-                &:focus
-                    border-bottom: 2px solid actioncolor
-                    outline none
+          background-color editcolor
+
+        td
+          border-bottom: 2px solid transparent
+
+          &:focus
+            border-bottom: 2px solid actioncolor
+            outline none

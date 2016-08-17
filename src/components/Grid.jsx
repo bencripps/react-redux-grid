@@ -26,7 +26,7 @@ import { isPluginEnabled } from '../util/isPluginEnabled';
 import { getColumnsFromStorage } from '../util/getColumnsFromStorage';
 import localStorageManager from './core/LocalStorageManager';
 
-import './../style/main.styl';
+import './../style/main';
 
 const {
     any,
@@ -46,6 +46,7 @@ class Grid extends Component {
 
         const {
             classNames,
+            dragAndDrop,
             columnState,
             gridData,
             emptyDataMessage,
@@ -132,6 +133,7 @@ class Grid extends Component {
         const rowProps = {
             columnManager: this.columnManager,
             columns,
+            dragAndDrop,
             editor: this.editor,
             emptyDataMessage,
             columnState,
@@ -255,6 +257,7 @@ class Grid extends Component {
         columns: arrayOf(object).isRequired,
         data: arrayOf(object),
         dataSource: any,
+        dragAndDrop: bool,
         editorState: object,
         emptyDataMessage: any,
         events: object,

@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
 
 import { Cell } from './row/Cell';
 import { EmptyCell } from './row/EmptyCell';
+import RowContainer from './row/RowContainer';
 
 import { keyGenerator } from '../../../util/keyGenerator';
 import { shouldRowUpdate } from '../../../util/shouldComponentUpdate';
@@ -11,28 +14,35 @@ import { CLASS_NAMES } from '../../../constants/GridConstants';
 
 const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
 
+const DRAG_INCREMENT = 15;
+
 export class Row extends Component {
 
     render() {
 
         const {
-            columns,
             columnManager,
-            gridType,
+            columns,
+            connectDragSource,
+            connectDropTarget,
+            dragAndDrop,
             editor,
             editorState,
-            menuState,
-            reducerKeys,
-            row,
             events,
+            gridType,
+            index,
+            isDragging,
+            menuState,
             plugins,
             readFunc,
-            selectionModel,
+            reducerKeys,
+            row,
             selectedRows,
+            selectionModel,
+            showTreeRootNode,
             stateKey,
             store,
-            showTreeRootNode,
-            index
+            treeData
         } = this.props;
 
         const id = keyGenerator('row', index);
@@ -45,31 +55,31 @@ export class Row extends Component {
 
         const cells = Object.keys(cellValues).map((k, i) => {
 
-            const treeData = gridType === 'tree'
-                ? getTreeValues(columns[i], row)
-                : {};
-
             const cellProps = {
-                index: i,
-                rowId: id,
                 cellData: getCellData(columns, row, k, i, store),
                 columns,
+                dragAndDrop,
                 editor,
                 editorState,
                 events: events,
                 gridType,
-                reducerKeys,
+                index: i,
                 readFunc,
-                rowIndex: index,
+                reducerKeys,
                 rowData: cellValues,
+                rowId: id,
+                rowIndex: index,
                 selectionModel,
+                showTreeRootNode,
                 stateKey,
                 store,
-                showTreeRootNode,
-                treeData
+                treeData: {
+                    ...treeData,
+                    expandable: columns[i].expandable
+                }
             };
 
-            const key = getRowKey(columns, row, i, columns[i].dataIndex);
+            const key = getRowKey(columns, row, columns[i].dataIndex);
 
             return (
                 <Cell
@@ -91,8 +101,17 @@ export class Row extends Component {
             ? selectionModel.defaults.activeCls
             : '';
 
+        const dragClass = isDragging
+            ? CLASS_NAMES.ROW_IS_DRAGGING
+            : '';
+
         const rowProps = {
-            className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
+            className: prefix(
+                CLASS_NAMES.ROW,
+                selectedClass,
+                editClass,
+                dragClass
+            ),
             onClick: (e) => {
                 handleRowSingleClickEvent(
                     events, row, id, selectionModel, index, e
@@ -121,11 +140,17 @@ export class Row extends Component {
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
-        return (
+        const rowEl = (
             <tr { ...rowProps }>
                 { cells }
             </tr>
-        );
+            );
+
+        if (dragAndDrop) {
+            return connectDragSource(connectDropTarget(rowEl));
+        }
+
+        return rowEl;
 
     }
 
@@ -137,8 +162,11 @@ export class Row extends Component {
     static propTypes = {
         columnManager: object.isRequired,
         columns: arrayOf(object).isRequired,
+        connectDragSource: func,
+        connectDropTarget: func,
         data: arrayOf(object),
         dataSource: object,
+        dragAndDrop: bool,
         editor: object,
         editorState: object,
         emptyDataMessage: string,
@@ -147,6 +175,7 @@ export class Row extends Component {
             'tree', 'grid'
         ]),
         index: number,
+        isDragging: bool,
         menuState: object,
         pageSize: number,
         pager: object,
@@ -158,24 +187,18 @@ export class Row extends Component {
         selectionModel: object,
         showTreeRootNode: bool,
         stateKey: string,
-        store: object.isRequired
+        store: object.isRequired,
+        treeData: object
     };
 
     static defaultProps = {
-        emptyDataMessage: 'No Data Available'
+        connectDragSource: i => i,
+        connectDropTarget: i => i,
+        emptyDataMessage: 'No Data Available',
+        treeData: {}
     };
 
 }
-
-export const getTreeValues = (column, row) => ({
-    depth: row._depth,
-    parentId: row._parentId,
-    id: row._id,
-    leaf: row._leaf,
-    hasChildren: row._hasChildren,
-    isExpanded: row._isExpanded,
-    expandable: Boolean(column.expandable)
-});
 
 export const getCellValues = (columns, row) => {
 
@@ -319,4 +342,144 @@ export const handleRowSingleClickEvent = (
     }
 };
 
-export default Row;
+const rowSource = {
+    beginDrag({ getTreeData }) {
+        return { getTreeData };
+    }
+};
+
+const rowTarget = {
+    hover(props, monitor, component) {
+
+        const {
+            index: hoverIndex,
+            id: hoverId,
+            isExpanded: hoverIsExpanded,
+            parentId: hoverParentId,
+            path: hoverPath,
+            flatIndex: hoverFlatIndex
+        } = props.treeData;
+
+        const {
+            lastX,
+            getTreeData
+        } = monitor.getItem();
+
+        const {
+            id,
+            index,
+            parentId,
+            isLastChild,
+            isFirstChild,
+            flatIndex,
+            path,
+            parentIndex,
+            previousSiblingTotalChildren,
+            previousSiblingId
+        } = getTreeData();
+
+        // console.log(monitor.getItem().getTreeData())
+
+        let targetIndex = hoverIndex;
+        let targetParentId = hoverParentId;
+
+        // cant drop root
+        if (index === -1) {
+            return;
+        }
+
+        // cant drop child into a path that contains itself
+        if (hoverPath.indexOf(id) !== -1) {
+            return;
+        }
+
+        // Determine rectangle on screen
+        const hoverBoundingRect = findDOMNode(component)
+            .getBoundingClientRect();
+
+        // Get vertical middle
+        const hoverMiddleY = (
+            hoverBoundingRect.bottom - hoverBoundingRect.top
+        ) / 2;
+
+        // Determine mouse position
+        const clientOffset = monitor.getClientOffset();
+        const mouseX = clientOffset.x;
+
+        // Get pixels to the top
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        // if hover occurs over the grabbed row, we need to determine
+        // if X position indicates left or right
+        if (hoverIndex === index && parentId === hoverParentId) {
+
+            // if a previous X position hasn't been set
+            // set, and early return for next hover event
+            if (!lastX) {
+                monitor.getItem().lastX = mouseX;
+                return;
+            }
+
+            // X position indicates a move to left
+            else if (lastX - DRAG_INCREMENT > mouseX
+                && parentId !== -1
+                && isLastChild) {
+
+                targetParentId = path[path.length - 2];
+                targetIndex = (parentIndex || 0) + 1;
+            }
+
+            // X position indicates a move to right
+            else if (lastX + DRAG_INCREMENT < mouseX && !isFirstChild) {
+                targetParentId = previousSiblingId;
+                targetIndex = previousSiblingTotalChildren;
+            }
+
+            // if neither xposition indicates left or right
+            // early return
+            else {
+                return;
+            }
+
+        }
+        else {
+            // Only perform the move when the mouse has crossed half of the items height
+            // When dragging downwards, only move when the cursor is below 50%
+            // When dragging upwards, only move when the cursor is above 50%
+
+            // Dragging downwards
+            if (flatIndex < hoverFlatIndex && hoverClientY < hoverMiddleY) {
+                return;
+            }
+
+            // Dragging upwards
+            if (flatIndex > hoverFlatIndex && hoverClientY > hoverMiddleY) {
+                return;
+            }
+
+            // If hoverIsExpanded, put item as first child instead
+            // instead of placing it as a sibling below hovered item
+            if (flatIndex < hoverFlatIndex && hoverIsExpanded) {
+                targetIndex = 0;
+                targetParentId = hoverId;
+            }
+        }
+
+        props.moveRow(
+            { id, index, parentId },
+            { index: targetIndex, parentId: targetParentId }
+        );
+
+        monitor.getItem().lastX = mouseX;
+    }
+
+};
+
+export default RowContainer(DropTarget('ROW', rowTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+}))(
+    DragSource('ROW', rowSource, (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }))(Row)
+));

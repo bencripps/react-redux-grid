@@ -41,8 +41,8 @@ describe('A ColumnManager', () => {
 
         expect(after).toEqual([{
             data: [
-            { name: 'Charles Barkley', position: 'Power Forward' },
-            { name: 'Michael Jordan', position: 'Shooting Guard' }
+            { name: 'Charles Barkley', position: 'Power Forward', _key: 'row-1' },
+            { name: 'Michael Jordan', position: 'Shooting Guard', _key: 'row-0' }
             ],
             stateKey: '__sorter__',
             type: 'SORT_DATA'

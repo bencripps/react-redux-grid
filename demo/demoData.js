@@ -80,7 +80,7 @@ export const plugins = {
     },
     SELECTION_MODEL: {
         mode: 'multi',
-        enabled: true,
+        enabled: false,
         allowDeselect: true,
         activeCls: 'active',
         selectionEvent: 'singleclick',
@@ -91,7 +91,7 @@ export const plugins = {
         enabled: true
     },
     BULK_ACTIONS: {
-        enabled: true,
+        enabled: false,
         actions: [
             {
                 text: 'Move',
@@ -147,7 +147,8 @@ export const columns = [
         name: 'Name',
         dataIndex: 'Name',
         sortable: true,
-        width: '40%',
+
+        width: '60%',
         className: 'additional-class',
         expandable: true,
         sortFn: (direction, previousRow, currentRow) => {

@@ -605,172 +605,56 @@ describe('The resizeColumns action', () => {
 
         it('Should return action with root node', () => {
 
-            expect(setTreeData({
+            const { data: expectedData, ...expectedRest } = setTreeData({
                 data,
                 stateKey: 'tree-grid',
                 showTreeRootNode: true
-            })).toEqual({
+            });
+
+            expect(expectedRest).toEqual({
                 type: 'SET_DATA',
-                data: [
-                    {
-                        _depth: 0,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _id: -1,
-                        _leaf: false,
-                        _parentId: 'root'
-                    },
-                    {
-                        _depth: 1,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _id: 1,
-                        _leaf: false, _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 11,
-                        _leaf: true,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _id: 12,
-                        _leaf: false,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 3,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _id: 121,
-                        _leaf: false,
-                        _parentId: 12
-                    },
-                    {
-                        _depth: 4,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 1211,
-                        _leaf: true,
-                        _parentId: 121
-                    },
-                    {
-                        _depth: 1,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 2,
-                        _leaf: false,
-                        _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 21,
-                        _leaf: true,
-                        _parentId: 2
-                    }
-                ],
                 stateKey: 'tree-grid',
                 gridType: 'tree',
                 treeData: data
             });
+
+            expect(Array.isArray(expectedData))
+                .toBe(true, 'Expect the data results to be an Array');
+
+            const count = 8;
+            expect(expectedData.length)
+                .toBe(
+                    count,
+                    `Expect there to be ${count} flat records returned`
+                );
 
         });
 
         it('Should return action without root node', () => {
 
-            expect(setTreeData({
+            const { data: expectedData, ...expectedRest } = setTreeData({
                 data,
                 stateKey: 'tree-grid',
                 showTreeRootNode: false
-            })).toEqual({
+            });
+
+            expect(expectedRest).toEqual({
                 type: 'SET_DATA',
-                data: [
-                    {
-                        _depth: 1,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 1,
-                        _leaf: false, _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 11,
-                        _leaf: true,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 12,
-                        _leaf: false,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 3,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 121,
-                        _leaf: false,
-                        _parentId: 12
-                    },
-                    {
-                        _depth: 4,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 1211,
-                        _leaf: true,
-                        _parentId: 121
-                    },
-                    {
-                        _depth: 1,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 2,
-                        _leaf: false,
-                        _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 21,
-                        _leaf: true,
-                        _parentId: 2
-                    }
-                ],
                 stateKey: 'tree-grid',
                 gridType: 'tree',
                 treeData: data
             });
 
+            expect(Array.isArray(expectedData))
+                .toBe(true, 'Expect the data results to be an Array');
+
+            const count = 7;
+            expect(expectedData.length)
+                .toBe(
+                    count,
+                    `Expect there to be ${count} flat records returned`
+                );
         });
-
     });
-
 });
 
