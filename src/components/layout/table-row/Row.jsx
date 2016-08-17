@@ -8,6 +8,7 @@ import { shouldRowUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
 import { getData, getRowKey } from '../../../util/getData';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { DragSource, DropTarget } from 'react-dnd';
 
 const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
 
@@ -16,23 +17,24 @@ export class Row extends Component {
     render() {
 
         const {
-            columns,
             columnManager,
-            gridType,
+            columns,
             editor,
             editorState,
-            menuState,
-            reducerKeys,
-            row,
             events,
+            gridType,
+            index,
+            menuState,
             plugins,
             readFunc,
-            selectionModel,
+            reducerKeys,
+            row,
             selectedRows,
+            selectionModel,
+            showTreeRootNode,
             stateKey,
             store,
-            showTreeRootNode,
-            index
+            treeData
         } = this.props;
 
         const id = keyGenerator('row', index);
@@ -45,27 +47,24 @@ export class Row extends Component {
 
         const cells = Object.keys(cellValues).map((k, i) => {
 
-            const treeData = gridType === 'tree'
-                ? getTreeValues(columns[i], row)
-                : {};
-
             const cellProps = {
-                index: i,
-                rowId: id,
                 cellData: getCellData(columns, row, k, i, store),
                 columns,
                 editor,
                 editorState,
                 events: events,
                 gridType,
-                reducerKeys,
+                index: i,
                 readFunc,
-                rowIndex: index,
+                reducerKeys,
                 rowData: cellValues,
+                rowId: id,
+                rowIndex: index,
+                rowIndex: index,
                 selectionModel,
+                showTreeRootNode,
                 stateKey,
                 store,
-                showTreeRootNode,
                 treeData
             };
 
@@ -158,24 +157,16 @@ export class Row extends Component {
         selectionModel: object,
         showTreeRootNode: bool,
         stateKey: string,
-        store: object.isRequired
+        store: object.isRequired,
+        treeData: object
     };
 
     static defaultProps = {
-        emptyDataMessage: 'No Data Available'
+        emptyDataMessage: 'No Data Available',
+        treeData: {}
     };
 
 }
-
-export const getTreeValues = (column, row) => ({
-    depth: row._depth,
-    parentId: row._parentId,
-    id: row._id,
-    leaf: row._leaf,
-    hasChildren: row._hasChildren,
-    isExpanded: row._isExpanded,
-    expandable: Boolean(column.expandable)
-});
 
 export const getCellValues = (columns, row) => {
 
@@ -319,4 +310,17 @@ export const handleRowSingleClickEvent = (
     }
 };
 
-export default Row;
+export const rowSource = ({ rowId, index }) => ({ rowId, index });
+
+export const rowTarget = ();
+
+export default DropTarget('ROW', rowTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+}))(
+    DragSource('ROW', rowSource, (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }))(Row)
+);
+
+//export default Row;

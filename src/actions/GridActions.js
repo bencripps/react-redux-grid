@@ -1,13 +1,15 @@
 import {
-    SET_DATA,
     ERROR_OCCURRED,
-    SET_COLUMNS,
-    SET_TREE_NODE_VISIBILITY,
-    SORT_DATA,
-    RESIZE_COLUMNS,
-    SET_SORT_DIRECTION,
     HIDE_HEADER,
+    HIDE_HEADER,
+    MOVE_NODE,
+    RESIZE_COLUMNS,
+    SET_COLUMNS,
+    SET_DATA,
+    SET_SORT_DIRECTION,
     SET_TREE_DATA_PARTIAL
+    SET_TREE_NODE_VISIBILITY,
+    SORT_DATA
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -409,6 +411,17 @@ export function setTreeNodeVisibility({
         visible,
         stateKey,
         showTreeRootNode
+    };
+}
+
+export function moveNode({
+    stateKey, current, next
+}) {
+    return {
+        type: MOVE_NODE,
+        stateKey,
+        current,
+        next
     };
 }
 

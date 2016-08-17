@@ -1,11 +1,13 @@
 import { fromJS } from 'immutable';
-import { SET_DATA,
+import {
     ADD_NEW_ROW,
     CLEAR_FILTER_LOCAL,
     DISMISS_EDITOR,
     FILTER_DATA,
+    MOVE_NODE,
     REMOVE_ROW,
     SAVE_ROW,
+    SET_DATA,
     SET_TREE_NODE_VISIBILITY,
     SET_TREE_DATA_PARTIAL,
     SORT_DATA,
@@ -143,6 +145,18 @@ export default function dataSource(state = initialState, action) {
             lastUpdate: generateLastUpdate(),
             total: newData.size
         }));
+
+    case MOVE_NODE:
+        const treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
+        const tree = state.getIn([action.stateKey, 'treeData']).toJS();
+
+        const {
+            current: { index, parentId },
+            next: { index: nextIndex, parentId: nextParentId }
+        } = action;
+
+        const path = [-1, ...getTreePathFromId(treeFlatList, parentId)];
+        const nextPath = [-1, ...getTreePathFromId(treeFlatList, nextParentId)];
 
     case SET_TREE_NODE_VISIBILITY:
 

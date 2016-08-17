@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-import Row from './table-row/Row';
-import { PlaceHolder } from './row/PlaceHolder';
 import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { getRowKey } from '../../util/getData';
+
+import { moveNode } from '../../actions/GridActions';
+
+import Row from './table-row/Row';
+import { PlaceHolder } from './row/PlaceHolder';
 
 const { arrayOf, bool, func, number, object, oneOf, string } = PropTypes;
 
@@ -50,6 +55,7 @@ export class TableRow extends Component {
             readFunc,
             rows,
             events,
+            this.moveRow,
             plugins,
             selectionModel,
             selectedRows,
@@ -103,6 +109,14 @@ export class TableRow extends Component {
         emptyDataMessage: 'No Data Available'
     };
 
+    moveRow = (current, next) => {
+        const { stateKey, store } = this.props;
+
+        store.dispatch(
+            moveNode({ stateKey, store, current, next })
+        );
+    };
+
 }
 
 export const getRowComponents = (
@@ -116,6 +130,7 @@ export const getRowComponents = (
     readFunc,
     row,
     events,
+    moveRow,
     plugins,
     selectionModel,
     selectedRows,
@@ -132,23 +147,25 @@ export const getRowComponents = (
             key={ key }
             {
                 ...{
-                    columns,
                     columnManager,
+                    columns,
                     editor,
                     editorState,
+                    events,
                     gridType,
+                    index,
                     menuState,
+                    moveRow,
+                    plugins,
                     reducerKeys,
                     readFunc,
                     row,
-                    events,
-                    plugins,
-                    selectionModel,
                     selectedRows,
+                    selectionModel,
                     showTreeRootNode,
                     stateKey,
                     store,
-                    index
+                    treeData: getTreeData(columns, row)
                 }
             }
         />);
@@ -180,6 +197,7 @@ export const getRows = (
     readFunc,
     rows,
     events,
+    moveRow,
     plugins,
     selectionModel,
     selectedRows,
@@ -189,8 +207,7 @@ export const getRows = (
 ) => {
 
     return Array.isArray(rows)
-            ? rows.map((row,
-             i) => getRowComponents(
+            ? rows.map((row, i) => getRowComponents(
                 columns,
                 columnManager,
                 editor,
@@ -201,6 +218,7 @@ export const getRows = (
                 readFunc,
                 row,
                 events,
+                moveRow,
                 plugins,
                 selectionModel,
                 selectedRows,
@@ -212,4 +230,14 @@ export const getRows = (
             : null;
 };
 
-export default TableRow;
+export const getTreeData = (column, row) => ({
+    depth: row._depth,
+    parentId: row._parentId,
+    id: row._id,
+    leaf: row._leaf,
+    hasChildren: row._hasChildren,
+    isExpanded: row._isExpanded,
+    expandable: Boolean(column.expandable)
+});
+
+export default DragDropContext(HTML5Backend)(TableRow);
