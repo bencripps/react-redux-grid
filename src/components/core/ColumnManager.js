@@ -114,7 +114,8 @@ export default class ColumnManager {
         rowData,
         rowIndex,
         menuState,
-        stateKey
+        stateKey,
+        stateful
     }) {
 
         const { GRID_ACTIONS } = this.plugins;
@@ -123,13 +124,14 @@ export default class ColumnManager {
             actions: GRID_ACTIONS,
             store: this.store,
             type,
-            columns: this.columns,
+            columns: columns || this.columns,
             rowId: id,
             rowData,
             rowIndex,
             editor: this.editor,
             reducerKeys,
             selModel: this.selModel,
+            stateful,
             stateKey,
             menuState,
             gridState: columns,

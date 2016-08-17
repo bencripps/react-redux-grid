@@ -9,6 +9,8 @@ export const stateKey = 'grid-stateKey';
 
 export const height = '';
 
+export const stateful = true;
+
 export const events = {
     HANDLE_CELL_CLICK: (cell, reactEvent, id, browserEvent) => {
         console.log('On Cell Click Event');
@@ -138,12 +140,6 @@ export const columns = [
         className: 'additional-class',
         expandable: true,
         HANDLE_CLICK: () => { console.log('Header Click'); }
-    },
-    {
-        name: 'GUID',
-        dataIndex: 'GUID',
-        hidden: true,
-        createKeyFrom: true
     },
     {
         name: 'Phone Number',

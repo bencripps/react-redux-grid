@@ -111,16 +111,14 @@ export const getToolbar = (actions, bulkActionState, selectedRows) => {
 
     const spanProps = {
         className: prefix(CLASS_NAMES.BULK_ACTIONS.DESCRIPTION),
-        text: `${totalCount} Selected`
+        children: `${totalCount} Selected`
     };
 
     const buttons = actions.map(getAction);
 
     return (
         <div { ...containerProps } >
-            <span { ...spanProps } >
-                { spanProps.text }
-            </span>
+            <span { ...spanProps } />
             { buttons }
         </div>
     );
@@ -129,15 +127,13 @@ export const getToolbar = (actions, bulkActionState, selectedRows) => {
 export const getAction = (action) => {
 
     const buttonProps = {
-        text: action.text,
+        children: action.text,
         onClick: action.EVENT_HANDLER,
         key: keyFromObject(action)
     };
 
     return (
-        <button { ...buttonProps } >
-            { buttonProps.text }
-        </button>
+        <button { ...buttonProps } />
     );
 };
 

@@ -41,6 +41,7 @@ var Column = exports.Column = function Column(_ref) {
     var store = _ref.store;
     var stateKey = _ref.stateKey;
     var index = _ref.index;
+    var stateful = _ref.stateful;
 
 
     if (col.hidden) {
@@ -63,7 +64,7 @@ var Column = exports.Column = function Column(_ref) {
 
     var nextColumnKey = visibleColumns && visibleColumns[index + 1] ? (0, _keyGenerator.keyGenerator)(visibleColumns[index + 1].name, 'grid-column') : null;
 
-    var handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey, stateKey);
+    var handleDrag = scope.handleDrag.bind(scope, scope, columns, key, columnManager, store, nextColumnKey, stateKey, stateful);
 
     var sortHandle = sortable ? _react2.default.createElement(_SortHandle.SortHandle, {
         col: col,
@@ -101,7 +102,7 @@ var Column = exports.Column = function Column(_ref) {
     var headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        onDrop: handleDrop.bind(scope, index, columns, stateKey, store),
+        onDrop: handleDrop.bind(scope, index, columns, stateful, stateKey, store),
         onDragOver: function onDragOver(reactEvent) {
             reactEvent.preventDefault();
         },
@@ -115,17 +116,20 @@ var Column = exports.Column = function Column(_ref) {
         headerProps.onDragOver = function (reactEvent) {
             // due to a bug in firefox, we need to set a global to
             // preserve the x coords
-            // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event
+            // http://stackoverflow.com/questions/11656061/
+            // event-clientx-showing-as-0-in-firefox-for-dragend-event
             window.reactGridXcoord = reactEvent.clientX;
             reactEvent.preventDefault();
         };
     }
 
-    var innerHTML = _react2.default.createElement(_Text.Text, { col: col,
+    var innerHTML = _react2.default.createElement(_Text.Text, {
+        col: col,
         index: index,
         columnManager: columnManager,
         dragAndDropManager: dragAndDropManager,
-        sortHandle: sortHandle });
+        sortHandle: sortHandle
+    });
 
     return _react2.default.createElement(
         'th',
@@ -145,10 +149,11 @@ Column.propTypes = {
     pager: _react.PropTypes.object,
     scope: _react.PropTypes.object,
     stateKey: _react.PropTypes.string,
+    stateful: _react.PropTypes.bool,
     store: _react.PropTypes.object
 };
 
-var handleDrop = exports.handleDrop = function handleDrop(droppedIndex, columns, stateKey, store, reactEvent) {
+var handleDrop = exports.handleDrop = function handleDrop(droppedIndex, columns, stateful, stateKey, store, reactEvent) {
 
     reactEvent.preventDefault();
     try {
@@ -159,11 +164,14 @@ var handleDrop = exports.handleDrop = function handleDrop(droppedIndex, columns,
                 draggedIndex: colData.index,
                 droppedIndex: droppedIndex,
                 columns: columns,
-                stateKey: stateKey
+                stateKey: stateKey,
+                stateful: stateful
             }));
         }
     } catch (e) {
+        /* eslint-disable no-console */
         console.warn('Invalid drop');
+        /* eslint-enable no-console */
     }
 };
 

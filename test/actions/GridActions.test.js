@@ -193,7 +193,8 @@ describe('The setColumns actions', () => {
                     name: 'col2'
                 }
             ],
-            stateKey
+            stateKey,
+            stateful: undefined
         });
     });
 
@@ -214,11 +215,13 @@ describe('The setColumns actions', () => {
 
         expect(setColumns({
             columns: colsWithIds,
-            stateKey
+            stateKey,
+            stateful: true
         })).toEqual({
             type: 'SET_COLUMNS',
             columns: colsWithIds,
-            stateKey
+            stateKey,
+            stateful: true
         });
 
     });
@@ -352,6 +355,7 @@ describe('The setColumnVisibility actions', () => {
             })
         ).toEqual({
             stateKey: 'test-grid',
+            stateful: undefined,
             columns: [
                 {
                     name: 'col1',
@@ -395,6 +399,7 @@ describe('The setColumnVisibility actions', () => {
             })
         ).toEqual({
             stateKey: 'test-grid',
+            stateful: undefined,
             columns: [
                 {
                     name: 'col1',
@@ -457,6 +462,7 @@ describe('The resizeColumns action', () => {
             })
         ).toEqual({
             stateKey: 'test-grid',
+            stateful: undefined,
             columns: [
                 {
                     name: 'col1',
@@ -493,10 +499,12 @@ describe('The resizeColumns action', () => {
                 width: '20',
                 id: '1',
                 nextColumn: {},
-                stateKey: 'test-grid'
+                stateKey: 'test-grid',
+                stateful: true
             })
         ).toEqual({
             stateKey: 'test-grid',
+            stateful: true,
             columns: [
                 {
                     name: 'col1',

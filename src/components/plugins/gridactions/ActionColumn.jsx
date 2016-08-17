@@ -20,6 +20,7 @@ export const ActionColumn = ({
     rowData,
     store,
     stateKey,
+    stateful,
     type,
     rowIndex,
     reducerKeys
@@ -50,35 +51,27 @@ export const ActionColumn = ({
         className
     };
 
+    const actionArgs = [
+        columns,
+        containerProps,
+        iconProps,
+        menuShown,
+        actions,
+        columns,
+        store,
+        editor,
+        reducerKeys,
+        rowId,
+        rowData,
+        rowIndex,
+        stateKey,
+        stateful,
+        headerActionItemBuilder
+    ];
+
     return type === 'header'
-        ? getHeader(
-            columns,
-            containerProps,
-            iconProps,
-            menuShown,
-            columns,
-            store,
-            editor,
-            reducerKeys,
-            rowId,
-            rowData,
-            rowIndex,
-            stateKey,
-            headerActionItemBuilder
-        ) : getColumn(
-            columns,
-            containerProps,
-            iconProps,
-            menuShown,
-            actions,
-            store,
-            editor,
-            reducerKeys,
-            rowId,
-            rowData,
-            rowIndex,
-            stateKey
-        );
+        ? getHeader(...actionArgs)
+        : getColumn(...actionArgs);
 };
 
 ActionColumn.propTypes = {
@@ -88,6 +81,7 @@ ActionColumn.propTypes = {
     iconCls: PropTypes.string,
     menuState: PropTypes.object,
     rowId: PropTypes.string,
+    stateful: PropTypes.bool,
     store: PropTypes.object,
     type: PropTypes.string
 };
@@ -139,6 +133,7 @@ export const getHeader = (
     containerProps,
     iconProps,
     menuShown,
+    actions,
     columns,
     store,
     editor,
@@ -147,14 +142,15 @@ export const getHeader = (
     rowData,
     rowIndex,
     stateKey,
+    stateful,
     headerActionItemBuilder
 ) => {
 
-    let actions;
+    let colActions;
 
     if (!headerActionItemBuilder) {
 
-        actions = columns.map((col) => {
+        colActions = columns.map((col) => {
 
             const isChecked = col.hidden !== undefined
                 ? !col.hidden : true;
@@ -174,7 +170,8 @@ export const getHeader = (
                                 columns,
                                 column: col,
                                 isHidden: col.hidden,
-                                stateKey
+                                stateKey,
+                                stateful
                             })
                         );
                     }
@@ -185,25 +182,28 @@ export const getHeader = (
     }
 
     else {
-        actions = columns.map(headerActionItemBuilder.bind(null, {
+        colActions = columns.map(headerActionItemBuilder.bind(null, {
             store
         }));
     }
 
     const menuItems = {
-        menu: actions
+        menu: colActions
     };
 
     const menu = menuShown ?
-        <Menu { ...{ columns: cols,
-            actions: menuItems,
-            type: 'header',
-            store,
-            editor,
-            reducerKeys,
-            rowId,
-            stateKey } }
-        />
+        <Menu {
+            ...{
+                columns: cols,
+                actions: menuItems,
+                type: 'header',
+                store,
+                editor,
+                reducerKeys,
+                rowId,
+                stateKey
+            }
+        } />
         : null;
 
     return (
@@ -221,10 +221,8 @@ export const addKeysToActions = (action) => {
         return action;
     }
 
-    else {
-        action.key = keyFromObject(action);
-        return action;
-    }
+    action.key = keyFromObject(action);
+    return action;
 };
 
 export const getColumn = (
@@ -233,6 +231,7 @@ export const getColumn = (
     iconProps,
     menuShown,
     actions,
+    columns,
     store,
     editor,
     reducerKeys,
@@ -244,18 +243,20 @@ export const getColumn = (
 
     const menu = menuShown
         ?
-        <Menu { ...{
-            actions: addKeysToActions(actions),
-            type: null,
-            rowData,
-            store,
-            editor,
-            reducerKeys,
-            rowId,
-            columns: cols,
-            stateKey,
-            rowIndex } }
-        />
+        <Menu {
+            ...{
+                actions: addKeysToActions(actions),
+                type: null,
+                rowData,
+                store,
+                editor,
+                reducerKeys,
+                rowId,
+                columns: cols,
+                stateKey,
+                rowIndex
+            }
+        } />
         : null;
 
     if (actions && actions.menu && actions.menu.length === 0) {

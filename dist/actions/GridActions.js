@@ -169,6 +169,7 @@ function getAsyncData(_ref) {
 function setColumns(_ref2) {
     var columns = _ref2.columns;
     var stateKey = _ref2.stateKey;
+    var stateful = _ref2.stateful;
 
 
     var cols = columns;
@@ -180,7 +181,7 @@ function setColumns(_ref2) {
         });
     }
 
-    return { type: _ActionTypes.SET_COLUMNS, columns: cols, stateKey: stateKey };
+    return { type: _ActionTypes.SET_COLUMNS, columns: cols, stateKey: stateKey, stateful: stateful };
 }
 
 function setSortDirection(_ref3) {
@@ -298,6 +299,7 @@ function setColumnVisibility(_ref6) {
     var column = _ref6.column;
     var isHidden = _ref6.isHidden;
     var stateKey = _ref6.stateKey;
+    var stateful = _ref6.stateful;
 
     var hidden = !isHidden;
 
@@ -309,7 +311,7 @@ function setColumnVisibility(_ref6) {
         return col;
     });
 
-    return { type: _ActionTypes.SET_COLUMNS, columns: columnsArr, stateKey: stateKey };
+    return { type: _ActionTypes.SET_COLUMNS, columns: columnsArr, stateKey: stateKey, stateful: stateful };
 }
 
 function resizeColumns(_ref7) {
@@ -318,6 +320,7 @@ function resizeColumns(_ref7) {
     var nextColumn = _ref7.nextColumn;
     var columns = _ref7.columns;
     var stateKey = _ref7.stateKey;
+    var stateful = _ref7.stateful;
 
 
     var cols = columns.map(function (col) {
@@ -334,7 +337,8 @@ function resizeColumns(_ref7) {
     return {
         type: _ActionTypes.RESIZE_COLUMNS,
         stateKey: stateKey,
-        columns: cols
+        columns: cols,
+        stateful: stateful
     };
 }
 

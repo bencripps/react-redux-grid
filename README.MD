@@ -172,6 +172,18 @@ const dataSource = () => {
 const grid = <Grid dataSource= { dataSource } />
  ```
 
+## Grid Level Parameters
+
+1. `stateful`: `bool`, if `stateful` is `true`, the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)
+2. `height`: `number`, the height of the grid container
+3. `showTreeRootNode`: `bool`, used with tree-grid, to determine if root node should be displaued
+4. `classNames`: `array`, a list of strings to be applied to the grid container as classes
+5. `events`: `object`, more information below
+6. `store`: `object.isRequired`
+7. `reducerKeys`: `object`, more information below
+8. `pageSize`: `number`, the number of records to show on the grid
+
+
 ## Plugins
 
 All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.

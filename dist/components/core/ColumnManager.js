@@ -139,6 +139,7 @@ var ColumnManager = function () {
             var rowIndex = _ref3.rowIndex;
             var menuState = _ref3.menuState;
             var stateKey = _ref3.stateKey;
+            var stateful = _ref3.stateful;
             var GRID_ACTIONS = this.plugins.GRID_ACTIONS;
 
             var cellsCopy = cells;
@@ -153,6 +154,7 @@ var ColumnManager = function () {
                 editor: this.editor,
                 reducerKeys: reducerKeys,
                 selModel: this.selModel,
+                stateful: stateful,
                 stateKey: stateKey,
                 menuState: menuState,
                 gridState: columns,
