@@ -266,7 +266,7 @@ const column = {
 10. `validator`: `func`, a func that should return a boolean, to determine if the newly input value is valid
 11. `change`: `func`, a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.
 12. `disabled`: `bool || func`, whether the field should be disabled while in edit mode.
-13. `createKeyFrom`: `bool`, see [full documentation on createFromKey](docs/CREATE_FROM_KEY.md)
+13. `createKeyFrom`: `bool`, see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)
 14. `sortFn`: `function`, when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 
 ##### Further Information

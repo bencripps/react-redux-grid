@@ -1,25 +1,25 @@
-# `createFromKey` Property on Column Definition
+# `createKeyFrom` Property on Column Definition
 
-There is a lot to talk about when we're talking about performance, especially when it comes to the React API. To fully understand the use and purpose of `createFromKey`, I think it's important to have an understanding of one of React's core tenets:
+There is a lot to talk about when we're talking about performance, especially when it comes to the React API. To fully understand the use and purpose of `createKeyFrom`, I think it's important to have an understanding of one of React's core tenets:
 
 ### Reconciliation
 
 And rather than fumble over the concept myself, I will simply link to React's own documentation https://facebook.github.io/react/docs/reconciliation.html
 
-This snippet, taken from the React documentation explains why the grid column definition allows for a single `createFromKey`:
+This snippet, taken from the React documentation explains why the grid column definition allows for a single `createKeyFrom`:
 
 >
 Keys should be stable, predictable, and unique. Unstable keys (like those produced by Math.random()) will cause many nodes to be unnecessarily re-created, which can cause performance degradation and lost state in child components.
 >
 
-When you set a column as `createFromKey`, you will be setting the `key` of the `Row` component, as the value at this `dataIndex`. Take the following HTML rendered by the grid component, with the following column definition:
+When you set a column as `createKeyFrom`, you will be setting the `key` of the `Row` component, as the value at this `dataIndex`. Take the following HTML rendered by the grid component, with the following column definition:
 
 ````js
 const columns = [
     {
         name: 'Name',
         dataIndex: 'name',
-        createFromKey: true
+        createKeyFrom: true
     },
     {
         name: 'Email',
@@ -55,7 +55,7 @@ Provided **that these keys will be unique**, this will allow for the React recon
 
 ### Take Aways
 
-1. Only set a column as `createFromKey` if you can guarantee that the value for each row will be unique.
-2. You can only set one column as `createFromKey`.
-3. If you do not set a column as `createFromKey`, the row `index` will be used as the `key`.
+1. Only set a column as `createKeyFrom` if you can guarantee that the value for each row will be unique.
+2. You can only set one column as `createKeyFrom`.
+3. If you do not set a column as `createKeyFrom`, the row `index` will be used as the `key`.
 
