@@ -36,6 +36,7 @@ var ActionColumn = exports.ActionColumn = function ActionColumn(_ref) {
     var rowData = _ref.rowData;
     var store = _ref.store;
     var stateKey = _ref.stateKey;
+    var stateful = _ref.stateful;
     var type = _ref.type;
     var rowIndex = _ref.rowIndex;
     var reducerKeys = _ref.reducerKeys;
@@ -56,7 +57,7 @@ var ActionColumn = exports.ActionColumn = function ActionColumn(_ref) {
         className: className
     };
 
-    return type === 'header' ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder) : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey);
+    return type === 'header' ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder) : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey);
 };
 
 ActionColumn.propTypes = {
@@ -66,6 +67,7 @@ ActionColumn.propTypes = {
     iconCls: _react.PropTypes.string,
     menuState: _react.PropTypes.object,
     rowId: _react.PropTypes.string,
+    stateful: _react.PropTypes.bool,
     store: _react.PropTypes.object,
     type: _react.PropTypes.string
 };
@@ -103,7 +105,7 @@ var enableActions = exports.enableActions = function enableActions(menuShown, ac
     return actions;
 };
 
-var getHeader = exports.getHeader = function getHeader(cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, headerActionItemBuilder) {
+var getHeader = exports.getHeader = function getHeader(cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder) {
 
     var actions = void 0;
 
@@ -127,7 +129,8 @@ var getHeader = exports.getHeader = function getHeader(cols, containerProps, ico
                             columns: columns,
                             column: col,
                             isHidden: col.hidden,
-                            stateKey: stateKey
+                            stateKey: stateKey,
+                            stateful: stateful
                         }));
                     }
                 }

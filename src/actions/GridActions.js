@@ -182,7 +182,7 @@ export function getAsyncData({
     };
 }
 
-export function setColumns({ columns, stateKey }) {
+export function setColumns({ columns, stateKey, stateful }) {
 
     let cols = columns;
 
@@ -193,7 +193,7 @@ export function setColumns({ columns, stateKey }) {
         });
     }
 
-    return { type: SET_COLUMNS, columns: cols, stateKey };
+    return { type: SET_COLUMNS, columns: cols, stateKey, stateful };
 }
 
 export function setSortDirection({
@@ -319,7 +319,9 @@ export function doRemoteSort(
     };
 }
 
-export function setColumnVisibility({ columns, column, isHidden, stateKey }) {
+export function setColumnVisibility({
+ columns, column, isHidden, stateKey, stateful
+}) {
     const hidden = !isHidden;
 
     const columnsArr = columns.map((col) => {
@@ -330,10 +332,12 @@ export function setColumnVisibility({ columns, column, isHidden, stateKey }) {
         return col;
     });
 
-    return { type: SET_COLUMNS, columns: columnsArr, stateKey };
+    return { type: SET_COLUMNS, columns: columnsArr, stateKey, stateful };
 }
 
-export function resizeColumns({ width, id, nextColumn, columns, stateKey }) {
+export function resizeColumns({
+    width, id, nextColumn, columns, stateKey, stateful
+}) {
 
     const cols = columns.map((col) => {
 
@@ -352,7 +356,8 @@ export function resizeColumns({ width, id, nextColumn, columns, stateKey }) {
     return {
         type: RESIZE_COLUMNS,
         stateKey,
-        columns: cols
+        columns: cols,
+        stateful
     };
 
 }

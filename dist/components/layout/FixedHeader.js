@@ -42,6 +42,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var arrayOf = _react.PropTypes.arrayOf;
+var bool = _react.PropTypes.bool;
 var object = _react.PropTypes.object;
 var string = _react.PropTypes.string;
 
@@ -64,6 +65,7 @@ var FixedHeader = function (_Component) {
             var reducerKeys = _props.reducerKeys;
             var selectionModel = _props.selectionModel;
             var stateKey = _props.stateKey;
+            var stateful = _props.stateful;
             var store = _props.store;
             var pager = _props.pager;
             var plugins = _props.plugins;
@@ -93,6 +95,7 @@ var FixedHeader = function (_Component) {
                     pager: pager,
                     store: store,
                     stateKey: stateKey,
+                    stateful: stateful,
                     visibleColumns: visibleColumns,
                     key: 'fixed-header-' + i
                 };
@@ -148,6 +151,7 @@ var FixedHeader = function (_Component) {
                 id: 'header-row',
                 reducerKeys: reducerKeys,
                 stateKey: stateKey,
+                stateful: stateful,
                 menuState: menuState
             });
 
@@ -358,6 +362,7 @@ FixedHeader.propTypes = {
     reducerKeys: object,
     selectionModel: object,
     stateKey: string,
+    stateful: bool,
     store: object
 };
 var addEmptyInsert = exports.addEmptyInsert = function addEmptyInsert(headers, visibleColumns, plugins, headerOffset) {
@@ -386,7 +391,7 @@ var addEmptyInsert = exports.addEmptyInsert = function addEmptyInsert(headers, v
     }
 };
 
-var handleDrag = exports.handleDrag = function handleDrag(scope, columns, id, columnManager, store, nextColumnKey, stateKey, reactEvent) {
+var handleDrag = exports.handleDrag = function handleDrag(scope, columns, id, columnManager, store, nextColumnKey, stateKey, stateful, reactEvent) {
 
     var header = reactEvent.target.parentElement.parentElement;
     var columnNode = reactEvent.target.parentElement;
@@ -425,7 +430,8 @@ var handleDrag = exports.handleDrag = function handleDrag(scope, columns, id, co
             width: nextColWidth
         },
         columns: columns,
-        stateKey: stateKey
+        stateKey: stateKey,
+        stateful: stateful
     }));
 };
 

@@ -11,7 +11,7 @@ import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
 
-const { arrayOf, object, string } = PropTypes;
+const { arrayOf, bool, object, string } = PropTypes;
 
 const dragAndDropManager = new DragAndDropManager();
 
@@ -27,6 +27,7 @@ class FixedHeader extends Component {
             reducerKeys,
             selectionModel,
             stateKey,
+            stateful,
             store,
             pager,
             plugins,
@@ -56,6 +57,7 @@ class FixedHeader extends Component {
                 pager,
                 store,
                 stateKey,
+                stateful,
                 visibleColumns,
                 key: `fixed-header-${i}`
             };
@@ -131,6 +133,7 @@ class FixedHeader extends Component {
             id: 'header-row',
             reducerKeys,
             stateKey,
+            stateful,
             menuState
         });
 
@@ -220,6 +223,7 @@ class FixedHeader extends Component {
         reducerKeys: object,
         selectionModel: object,
         stateKey: string,
+        stateful: bool,
         store: object
     };
 
@@ -372,6 +376,7 @@ export const handleDrag = (
     store,
     nextColumnKey,
     stateKey,
+    stateful,
     reactEvent
 ) => {
 
@@ -417,7 +422,8 @@ export const handleDrag = (
             width: nextColWidth
         },
         columns,
-        stateKey
+        stateKey,
+        stateful
     }));
 
 };

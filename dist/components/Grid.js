@@ -67,6 +67,10 @@ var _shouldComponentUpdate = require('../util/shouldComponentUpdate');
 
 var _isPluginEnabled = require('../util/isPluginEnabled');
 
+var _LocalStorageManager = require('./core/LocalStorageManager');
+
+var _LocalStorageManager2 = _interopRequireDefault(_LocalStorageManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
@@ -112,6 +116,7 @@ var Grid = function (_Component) {
             var pager = _props.pager;
             var editorState = _props.editorState;
             var selectedRows = _props.selectedRows;
+            var stateful = _props.stateful;
             var menuState = _props.menuState;
             var showTreeRootNode = _props.showTreeRootNode;
 
@@ -151,6 +156,7 @@ var Grid = function (_Component) {
                 selectionModel: this.selectionModel,
                 stateKey: stateKey,
                 store: store,
+                stateful: stateful,
                 visible: false,
                 menuState: menuState,
                 gridType: this.gridType
@@ -346,12 +352,18 @@ var Grid = function (_Component) {
             var columns = _props4.columns;
             var stateKey = _props4.stateKey;
             var store = _props4.store;
+            var stateful = _props4.stateful;
 
+            var savedColumns = columns;
+
+            if (stateful) {
+                savedColumns = _LocalStorageManager2.default.getStateItem({ stateKey: stateKey, value: columns, property: 'columns' });
+            }
 
             if (!columns) {
                 throw new Error('A columns array is required');
             } else {
-                store.dispatch((0, _GridActions.setColumns)({ columns: columns, stateKey: stateKey }));
+                store.dispatch((0, _GridActions.setColumns)({ columns: savedColumns, stateKey: stateKey, stateful: stateful }));
             }
         }
     }]);
@@ -380,6 +392,7 @@ Grid.propTypes = {
     selectedRows: object,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object
 };
 Grid.defaultProps = {

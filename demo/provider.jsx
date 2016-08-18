@@ -14,6 +14,7 @@ import {
     events,
     dataSource,
     treeDataSource,
+    stateful,
     height,
     stateKey,
     treeData
@@ -23,6 +24,7 @@ const config = {
     columns,
     // data: treeData,
     // dataSource: treeDataSource,
+    stateful,
     dataSource,
     // gridType: 'tree',
     pageSize,

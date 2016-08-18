@@ -20,8 +20,17 @@ const isChrome = /Chrome/.test(navigator.userAgent)
     && /Google Inc/.test(navigator.vendor);
 
 export const Column = ({
-    scope, col, columns, columnManager, dataSource,
-    dragAndDropManager, pager, store, stateKey, index
+    scope,
+    col,
+    columns,
+    columnManager,
+    dataSource,
+    dragAndDropManager,
+    pager,
+    store,
+    stateKey,
+    index,
+    stateful
 }) => {
 
     if (col.hidden) {
@@ -54,7 +63,8 @@ export const Column = ({
         columnManager,
         store,
         nextColumnKey,
-        stateKey
+        stateKey,
+        stateful
     );
 
     const sortHandle = sortable
@@ -99,7 +109,9 @@ export const Column = ({
     const headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        onDrop: handleDrop.bind(scope, index, columns, stateKey, store),
+        onDrop: handleDrop.bind(
+            scope, index, columns, stateful, stateKey, store
+        ),
         onDragOver: (reactEvent) => {
             reactEvent.preventDefault();
         },
@@ -119,19 +131,23 @@ export const Column = ({
         headerProps.onDragOver = (reactEvent) => {
             // due to a bug in firefox, we need to set a global to
             // preserve the x coords
-            // http://stackoverflow.com/questions/11656061/event-clientx-showing-as-0-in-firefox-for-dragend-event
+            // http://stackoverflow.com/questions/11656061/
+            // event-clientx-showing-as-0-in-firefox-for-dragend-event
             window.reactGridXcoord = reactEvent.clientX;
             reactEvent.preventDefault();
         };
     }
 
     const innerHTML = (
-        <Text { ...{ col,
-            index,
-            columnManager,
-            dragAndDropManager,
-            sortHandle } }
-        />
+        <Text {
+            ...{
+                col,
+                index,
+                columnManager,
+                dragAndDropManager,
+                sortHandle
+            }
+        } />
     );
 
     return (
@@ -152,11 +168,12 @@ Column.propTypes = {
     pager: PropTypes.object,
     scope: PropTypes.object,
     stateKey: PropTypes.string,
+    stateful: PropTypes.bool,
     store: PropTypes.object
 };
 
 export const handleDrop = (
-    droppedIndex, columns, stateKey, store, reactEvent
+    droppedIndex, columns, stateful, stateKey, store, reactEvent
 ) => {
 
     reactEvent.preventDefault();
@@ -172,7 +189,8 @@ export const handleDrop = (
                     draggedIndex: colData.index,
                     droppedIndex: droppedIndex,
                     columns,
-                    stateKey
+                    stateKey,
+                    stateful
                 })
             );
         }
@@ -180,7 +198,9 @@ export const handleDrop = (
     }
 
     catch (e) {
+        /* eslint-disable no-console */
         console.warn('Invalid drop');
+        /* eslint-enable no-console */
     }
 
 };

@@ -12,6 +12,7 @@ var reorderColumn = exports.reorderColumn = function reorderColumn(_ref) {
     var droppedIndex = _ref.droppedIndex;
     var columns = _ref.columns;
     var stateKey = _ref.stateKey;
+    var stateful = _ref.stateful;
 
 
     var reorder = function reorder(cols, to, from) {
@@ -24,6 +25,7 @@ var reorderColumn = exports.reorderColumn = function reorderColumn(_ref) {
     return {
         type: _ActionTypes.SET_COLUMNS,
         columns: reorderedColumns,
-        stateKey: stateKey
+        stateKey: stateKey,
+        stateful: stateful
     };
 };

@@ -23,6 +23,7 @@ import {
 import { mapStateToProps } from '../util/mapStateToProps';
 import { shouldGridUpdate } from '../util/shouldComponentUpdate';
 import { isPluginEnabled } from '../util/isPluginEnabled';
+import localStorageManager from './core/LocalStorageManager';
 
 import './../style/main.styl';
 
@@ -57,6 +58,7 @@ class Grid extends Component {
             pager,
             editorState,
             selectedRows,
+            stateful,
             menuState,
             showTreeRootNode
         } = this.props;
@@ -76,8 +78,7 @@ class Grid extends Component {
         );
 
         const containerProps = {
-            className: prefix(CLASS_NAMES.CONTAINER, ...classNames),
-            reducerKeys
+            className: prefix(CLASS_NAMES.CONTAINER, ...classNames)
         };
 
         const messageProps = {
@@ -108,6 +109,7 @@ class Grid extends Component {
             selectionModel: this.selectionModel,
             stateKey,
             store,
+            stateful,
             visible: false,
             menuState,
             gridType: this.gridType
@@ -149,9 +151,7 @@ class Grid extends Component {
 
         const tableProps = {
             className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_HIDDEN),
-            cellSpacing: 0,
-            reducerKeys,
-            store
+            cellSpacing: 0
         };
 
         const pagerProps = {
@@ -272,6 +272,7 @@ class Grid extends Component {
         selectedRows: object,
         showTreeRootNode: bool,
         stateKey: string,
+        stateful: bool,
         store: object
     };
 
@@ -353,14 +354,23 @@ class Grid extends Component {
 
     setColumns() {
 
-        const { columns, stateKey, store } = this.props;
+        const { columns, stateKey, store, stateful } = this.props;
+        let savedColumns = columns;
+
+        if (stateful) {
+            savedColumns = localStorageManager.getStateItem(
+                { stateKey, value: columns, property: 'columns' }
+            );
+        }
 
         if (!columns) {
             throw new Error('A columns array is required');
         }
 
         else {
-            store.dispatch(setColumns({ columns, stateKey }));
+            store.dispatch(setColumns(
+                { columns: savedColumns, stateKey, stateful })
+            );
         }
     }
 }

@@ -48,6 +48,7 @@ describe('The reorderColumn gridAction', () => {
                     }
                 ],
                 stateKey: 'test-grid',
+                stateful: undefined,
                 type: SET_COLUMNS
             });
     });
@@ -90,6 +91,7 @@ describe('The reorderColumn gridAction', () => {
                     }
                 ],
                 stateKey: 'test-grid',
+                stateful: undefined,
                 type: SET_COLUMNS
             });
     });

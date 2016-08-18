@@ -3,7 +3,7 @@ import {
 } from '../../constants/ActionTypes';
 
 export const reorderColumn = ({
-    draggedIndex, droppedIndex, columns, stateKey
+    draggedIndex, droppedIndex, columns, stateKey, stateful
 }) => {
 
     const reorder = (cols, to, from) => {
@@ -16,6 +16,7 @@ export const reorderColumn = ({
     return {
         type: SET_COLUMNS,
         columns: reorderedColumns,
-        stateKey
+        stateKey,
+        stateful
     };
 };
