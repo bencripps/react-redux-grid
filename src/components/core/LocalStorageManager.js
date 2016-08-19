@@ -6,6 +6,10 @@ export class LocalStorageManager {
 
         const json = JSON.stringify(value);
 
+        if (!window.localStorage) {
+            return;
+        }
+
         window.localStorage.setItem(
             this.getKey({ stateKey, property }), json
         );
@@ -16,6 +20,10 @@ export class LocalStorageManager {
     }
 
     getStateItem({ stateKey, property, value, shouldSave = true }) {
+
+        if (!window.localStorage) {
+            return;
+        }
 
         const item = window.localStorage.getItem(
             this.getKey({ stateKey, property })

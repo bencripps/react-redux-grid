@@ -26,6 +26,10 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
 
             var json = JSON.stringify(value);
 
+            if (!window.localStorage) {
+                return;
+            }
+
             window.localStorage.setItem(this.getKey({ stateKey: stateKey, property: property }), json);
         }
     }, {
@@ -42,6 +46,10 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
             var _ref2$shouldSave = _ref2.shouldSave;
             var shouldSave = _ref2$shouldSave === undefined ? true : _ref2$shouldSave;
 
+
+            if (!window.localStorage) {
+                return;
+            }
 
             var item = window.localStorage.getItem(this.getKey({ stateKey: stateKey, property: property }));
 
