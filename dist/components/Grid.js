@@ -355,6 +355,10 @@ var Grid = function (_Component) {
 
             if (stateful) {
                 savedColumns = _LocalStorageManager2.default.getStateItem({ stateKey: stateKey, value: columns, property: 'columns' });
+
+                if (!savedColumns) {
+                    savedColumns = columns;
+                }
             }
 
             if (!columns) {

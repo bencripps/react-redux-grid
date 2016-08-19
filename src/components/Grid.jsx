@@ -361,6 +361,10 @@ class Grid extends Component {
             savedColumns = localStorageManager.getStateItem(
                 { stateKey, value: columns, property: 'columns' }
             );
+
+            if (!savedColumns) {
+                savedColumns = columns;
+            }
         }
 
         if (!columns) {
