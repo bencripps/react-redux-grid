@@ -183,7 +183,8 @@ export const getHeader = (
 
     else {
         colActions = columns.map(headerActionItemBuilder.bind(null, {
-            store
+            store,
+            columns
         }));
     }
 

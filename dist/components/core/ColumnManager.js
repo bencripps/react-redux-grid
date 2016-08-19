@@ -147,7 +147,7 @@ var ColumnManager = function () {
                 actions: GRID_ACTIONS,
                 store: this.store,
                 type: type,
-                columns: this.columns,
+                columns: columns || this.columns,
                 rowId: id,
                 rowData: rowData,
                 rowIndex: rowIndex,

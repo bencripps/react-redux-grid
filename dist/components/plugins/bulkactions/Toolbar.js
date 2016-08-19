@@ -135,7 +135,7 @@ var getToolbar = exports.getToolbar = function getToolbar(actions, bulkActionSta
 
     var spanProps = {
         className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.BULK_ACTIONS.DESCRIPTION),
-        text: totalCount + ' Selected'
+        children: totalCount + ' Selected'
     };
 
     var buttons = actions.map(getAction);
@@ -143,11 +143,7 @@ var getToolbar = exports.getToolbar = function getToolbar(actions, bulkActionSta
     return _react2.default.createElement(
         'div',
         containerProps,
-        _react2.default.createElement(
-            'span',
-            spanProps,
-            spanProps.text
-        ),
+        _react2.default.createElement('span', spanProps),
         buttons
     );
 };
@@ -155,16 +151,12 @@ var getToolbar = exports.getToolbar = function getToolbar(actions, bulkActionSta
 var getAction = exports.getAction = function getAction(action) {
 
     var buttonProps = {
-        text: action.text,
+        children: action.text,
         onClick: action.EVENT_HANDLER,
         key: (0, _keyGenerator.keyFromObject)(action)
     };
 
-    return _react2.default.createElement(
-        'button',
-        buttonProps,
-        buttonProps.text
-    );
+    return _react2.default.createElement('button', buttonProps);
 };
 
 function mapStateToProps(state, props) {

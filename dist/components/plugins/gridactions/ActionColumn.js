@@ -57,7 +57,9 @@ var ActionColumn = exports.ActionColumn = function ActionColumn(_ref) {
         className: className
     };
 
-    return type === 'header' ? getHeader(columns, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder) : getColumn(columns, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey);
+    var actionArgs = [columns, containerProps, iconProps, menuShown, actions, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder];
+
+    return type === 'header' ? getHeader.apply(undefined, actionArgs) : getColumn.apply(undefined, actionArgs);
 };
 
 ActionColumn.propTypes = {
@@ -105,13 +107,13 @@ var enableActions = exports.enableActions = function enableActions(menuShown, ac
     return actions;
 };
 
-var getHeader = exports.getHeader = function getHeader(cols, containerProps, iconProps, menuShown, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder) {
+var getHeader = exports.getHeader = function getHeader(cols, containerProps, iconProps, menuShown, actions, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder) {
 
-    var actions = void 0;
+    var colActions = void 0;
 
     if (!headerActionItemBuilder) {
 
-        actions = columns.map(function (col) {
+        colActions = columns.map(function (col) {
 
             var isChecked = col.hidden !== undefined ? !col.hidden : true;
 
@@ -137,23 +139,26 @@ var getHeader = exports.getHeader = function getHeader(cols, containerProps, ico
             };
         });
     } else {
-        actions = columns.map(headerActionItemBuilder.bind(null, {
-            store: store
+        colActions = columns.map(headerActionItemBuilder.bind(null, {
+            store: store,
+            columns: columns
         }));
     }
 
     var menuItems = {
-        menu: actions
+        menu: colActions
     };
 
-    var menu = menuShown ? _react2.default.createElement(_Menu.Menu, { columns: cols,
+    var menu = menuShown ? _react2.default.createElement(_Menu.Menu, {
+        columns: cols,
         actions: menuItems,
         type: 'header',
         store: store,
         editor: editor,
         reducerKeys: reducerKeys,
         rowId: rowId,
-        stateKey: stateKey }) : null;
+        stateKey: stateKey
+    }) : null;
 
     return _react2.default.createElement(
         'th',
@@ -170,13 +175,13 @@ var addKeysToActions = exports.addKeysToActions = function addKeysToActions(acti
 
     if (action && action.key) {
         return action;
-    } else {
-        action.key = (0, _keyGenerator.keyFromObject)(action);
-        return action;
     }
+
+    action.key = (0, _keyGenerator.keyFromObject)(action);
+    return action;
 };
 
-var getColumn = exports.getColumn = function getColumn(cols, containerProps, iconProps, menuShown, actions, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey) {
+var getColumn = exports.getColumn = function getColumn(cols, containerProps, iconProps, menuShown, actions, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey) {
 
     var menu = menuShown ? _react2.default.createElement(_Menu.Menu, {
         actions: addKeysToActions(actions),
@@ -188,7 +193,8 @@ var getColumn = exports.getColumn = function getColumn(cols, containerProps, ico
         rowId: rowId,
         columns: cols,
         stateKey: stateKey,
-        rowIndex: rowIndex }) : null;
+        rowIndex: rowIndex
+    }) : null;
 
     if (actions && actions.menu && actions.menu.length === 0) {
         iconProps.className += ' ' + (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.GRID_ACTIONS.NO_ACTIONS);

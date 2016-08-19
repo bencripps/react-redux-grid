@@ -126,8 +126,7 @@ var Grid = function (_Component) {
             var editorComponent = this.editor.getComponent(plugins, reducerKeys, store, events, this.selectionModel, this.editor, columns);
 
             var containerProps = {
-                className: _prefix.prefix.apply(undefined, [_GridConstants.CLASS_NAMES.CONTAINER].concat(_toConsumableArray(classNames))),
-                reducerKeys: reducerKeys
+                className: _prefix.prefix.apply(undefined, [_GridConstants.CLASS_NAMES.CONTAINER].concat(_toConsumableArray(classNames)))
             };
 
             var messageProps = {
@@ -198,9 +197,7 @@ var Grid = function (_Component) {
 
             var tableProps = {
                 className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.TABLE, _GridConstants.CLASS_NAMES.HEADER_HIDDEN),
-                cellSpacing: 0,
-                reducerKeys: reducerKeys,
-                store: store
+                cellSpacing: 0
             };
 
             var pagerProps = {
