@@ -7,7 +7,7 @@ import {
 
 describe('the setTreeValue utility', () => {
 
-    it('Should turn a tree into a flat list with no identifier', () => {
+    it('Should navigate a tree and update an individual property', () => {
 
         const data = {
             root: {

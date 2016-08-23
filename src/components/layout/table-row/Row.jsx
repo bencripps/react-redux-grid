@@ -310,17 +310,17 @@ export const handleRowSingleClickEvent = (
     }
 };
 
-export const rowSource = ({ rowId, index }) => ({ rowId, index });
+// export const rowSource = ({ rowId, index }) => ({ rowId, index });
 
-export const rowTarget = ();
+// export const rowTarget = ();
 
-export default DropTarget('ROW', rowTarget, connect => ({
-    connectDropTarget: connect.dropTarget()
-}))(
-    DragSource('ROW', rowSource, (connect, monitor) => ({
-        connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging()
-    }))(Row)
-);
+// export default DropTarget('ROW', rowTarget, connect => ({
+//     connectDropTarget: connect.dropTarget()
+// }))(
+//     DragSource('ROW', rowSource, (connect, monitor) => ({
+//         connectDragSource: connect.dragSource(),
+//         isDragging: monitor.isDragging()
+//     }))(Row)
+// );
 
-//export default Row;
+export default Row;

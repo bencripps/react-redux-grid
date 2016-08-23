@@ -16,6 +16,7 @@ import {
 
 import { generateLastUpdate } from './../../util/lastUpdate';
 import { getTreePathFromId } from './../../util/getTreePathFromId';
+import { moveTreeNode } from './../../util/moveTreeNode';
 import { setTreeValue } from './../../util/setTreeValue';
 import { treeToFlatList } from './../../util/treeToFlatList';
 
@@ -147,21 +148,43 @@ export default function dataSource(state = initialState, action) {
         }));
 
     case MOVE_NODE:
-        const treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
-        const tree = state.getIn([action.stateKey, 'treeData']).toJS();
+        const treeMove = state.getIn([action.stateKey, 'treeData']).toJS();
 
         const {
-            current: { index, parentId },
-            next: { index: nextIndex, parentId: nextParentId }
+            current,
+            next
         } = action;
 
-        const path = [-1, ...getTreePathFromId(treeFlatList, parentId)];
-        const nextPath = [-1, ...getTreePathFromId(treeFlatList, nextParentId)];
+        const currentPath = current.parentId !== -1
+            ? [-1, ...getTreePathFromId(treeFlatList, current.parentId)]
+            : [-1];
+
+        const nextPath = next.parentId !== -1
+            ? [-1, ...getTreePathFromId(treeFlatList, next.parentId)]
+            : [-1];
+
+        const newTreeMove = moveTreeNode(
+            treeMove,
+            current.index,
+            currentPath,
+            next.index,
+            nextPath
+        );
+
+        const flatMove = treeToFlatList(newTreeMove);
+
+        return state.mergeIn([action.stateKey], fromJS({
+            data: flatMove,
+            currentRecords: flatMove,
+            treeData: newTreeMove,
+            lastUpdate: generateLastUpdate()
+        }));
 
     case SET_TREE_NODE_VISIBILITY:
 
         const treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
         const tree = state.getIn([action.stateKey, 'treeData']).toJS();
+
         const currentVisibility = !!treeFlatList
             .find(node => node._id === action.id)._hideChildren;
         const path = [-1, ...getTreePathFromId(treeFlatList, action.id)];
