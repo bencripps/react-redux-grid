@@ -60,12 +60,14 @@ export class Row extends Component {
                 rowData: cellValues,
                 rowId: id,
                 rowIndex: index,
-                rowIndex: index,
                 selectionModel,
                 showTreeRootNode,
                 stateKey,
                 store,
-                treeData
+                treeData: {
+                    ...treeData,
+                    expandable: columns[i].expandable
+                }
             };
 
             const key = getRowKey(columns, row, i, columns[i].dataIndex);

@@ -165,7 +165,7 @@ export const getRowComponents = (
                     showTreeRootNode,
                     stateKey,
                     store,
-                    treeData: getTreeData(columns, row)
+                    treeData: getTreeData(row)
                 }
             }
         />);
@@ -230,14 +230,13 @@ export const getRows = (
             : null;
 };
 
-export const getTreeData = (column, row) => ({
+export const getTreeData = row => ({
     depth: row._depth,
     parentId: row._parentId,
     id: row._id,
     leaf: row._leaf,
     hasChildren: row._hasChildren,
-    isExpanded: row._isExpanded,
-    expandable: Boolean(column.expandable)
+    isExpanded: row._isExpanded
 });
 
 export default DragDropContext(HTML5Backend)(TableRow);
