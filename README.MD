@@ -183,7 +183,7 @@ const grid = <Grid dataSource= { dataSource } />
 6. `store`: `object.isRequired`
 7. `reducerKeys`: `object`, more information below
 8. `pageSize`: `number`, the number of records to show on the grid
-
+9. `emptyDataMessage`: `any`, can be a string or a react component, which will be displayed if no grid data is available
 
 ## Plugins
 

@@ -75,7 +75,7 @@ var TableRow = exports.TableRow = function (_Component) {
 
             var rowComponents = getRows(columns, columnManager, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store);
 
-            var rowInsert = rowComponents ? rowComponents : _react2.default.createElement(_PlaceHolder.PlaceHolder, { emptyDataMessage: emptyDataMessage });
+            var rowInsert = Array.isArray(rowComponents) && rowComponents.length > 0 ? rowComponents : _react2.default.createElement(_PlaceHolder.PlaceHolder, { emptyDataMessage: emptyDataMessage });
 
             return _react2.default.createElement(
                 'tbody',

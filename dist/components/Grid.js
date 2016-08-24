@@ -107,6 +107,7 @@ var Grid = function (_Component) {
             var classNames = _props.classNames;
             var columnState = _props.columnState;
             var gridData = _props.gridData;
+            var emptyDataMessage = _props.emptyDataMessage;
             var height = _props.height;
             var loadingState = _props.loadingState;
             var pageSize = _props.pageSize;
@@ -179,6 +180,7 @@ var Grid = function (_Component) {
                 columnManager: this.columnManager,
                 columns: columns,
                 editor: this.editor,
+                emptyDataMessage: emptyDataMessage,
                 columnState: columnState,
                 dataSource: gridData,
                 readFunc: this.setData.bind(this),
@@ -377,6 +379,7 @@ Grid.propTypes = {
     data: arrayOf(object),
     dataSource: any,
     editorState: object,
+    emptyDataMessage: any,
     events: object,
     expandOnLoad: bool,
     gridData: object,

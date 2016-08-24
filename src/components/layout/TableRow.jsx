@@ -58,7 +58,8 @@ export class TableRow extends Component {
             store
         );
 
-        const rowInsert = rowComponents
+        const rowInsert = Array.isArray(rowComponents)
+            && rowComponents.length > 0
             ? rowComponents
             : <PlaceHolder { ...{ emptyDataMessage } } />;
 
