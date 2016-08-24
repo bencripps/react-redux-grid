@@ -67,6 +67,8 @@ var _shouldComponentUpdate = require('../util/shouldComponentUpdate');
 
 var _isPluginEnabled = require('../util/isPluginEnabled');
 
+var _getColumnsFromStorage = require('../util/getColumnsFromStorage');
+
 var _LocalStorageManager = require('./core/LocalStorageManager');
 
 var _LocalStorageManager2 = _interopRequireDefault(_LocalStorageManager);
@@ -354,11 +356,7 @@ var Grid = function (_Component) {
             var savedColumns = columns;
 
             if (stateful) {
-                savedColumns = _LocalStorageManager2.default.getStateItem({ stateKey: stateKey, value: columns, property: 'columns' });
-
-                if (!savedColumns) {
-                    savedColumns = columns;
-                }
+                savedColumns = (0, _getColumnsFromStorage.getColumnsFromStorage)(_LocalStorageManager2.default.getStateItem({ stateKey: stateKey, value: columns, property: 'columns' }), columns);
             }
 
             if (!columns) {

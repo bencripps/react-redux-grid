@@ -169,7 +169,11 @@ export const columns = [
         dataIndex: 'Email',
         sortable: true,
         className: 'additional-class',
-        defaultSortDirection: 'descend'
+        defaultSortDirection: 'descend',
+        /* eslint-disable react/prop-types */
+        renderer: ({ value }) => {
+            return <span>'Email:' { value } </span>;
+        }
     },
     {
         name: 'Address',

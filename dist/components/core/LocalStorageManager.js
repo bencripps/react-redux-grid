@@ -27,7 +27,7 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
             var json = JSON.stringify(value);
 
             if (!window.localStorage) {
-                return;
+                return value;
             }
 
             window.localStorage.setItem(this.getKey({ stateKey: stateKey, property: property }), json);
@@ -48,7 +48,7 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
 
 
             if (!window.localStorage) {
-                return;
+                return value;
             }
 
             var item = window.localStorage.getItem(this.getKey({ stateKey: stateKey, property: property }));

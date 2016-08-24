@@ -23,6 +23,7 @@ import {
 import { mapStateToProps } from '../util/mapStateToProps';
 import { shouldGridUpdate } from '../util/shouldComponentUpdate';
 import { isPluginEnabled } from '../util/isPluginEnabled';
+import { getColumnsFromStorage } from '../util/getColumnsFromStorage';
 import localStorageManager from './core/LocalStorageManager';
 
 import './../style/main.styl';
@@ -358,13 +359,12 @@ class Grid extends Component {
         let savedColumns = columns;
 
         if (stateful) {
-            savedColumns = localStorageManager.getStateItem(
-                { stateKey, value: columns, property: 'columns' }
+            savedColumns = getColumnsFromStorage(
+                localStorageManager.getStateItem(
+                    { stateKey, value: columns, property: 'columns' }
+                ),
+                columns
             );
-
-            if (!savedColumns) {
-                savedColumns = columns;
-            }
         }
 
         if (!columns) {
