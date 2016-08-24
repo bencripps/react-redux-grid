@@ -234,6 +234,7 @@ export const getTreeData = row => ({
     depth: row._depth,
     parentId: row._parentId,
     id: row._id,
+    index: row._index,
     leaf: row._leaf,
     hasChildren: row._hasChildren,
     isExpanded: row._isExpanded

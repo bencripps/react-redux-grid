@@ -19,6 +19,8 @@ export class Row extends Component {
         const {
             columnManager,
             columns,
+            connectDragSource,
+            connectDropTarget,
             editor,
             editorState,
             events,
@@ -122,11 +124,11 @@ export class Row extends Component {
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
-        return (
+        return connectDragSource(connectDropTarget(
             <tr { ...rowProps }>
                 { cells }
             </tr>
-        );
+        ));
 
     }
 
@@ -138,6 +140,8 @@ export class Row extends Component {
     static propTypes = {
         columnManager: object.isRequired,
         columns: arrayOf(object).isRequired,
+        connectDragSource: func.isRequired,
+        connectDropTarget: func.isRequired,
         data: arrayOf(object),
         dataSource: object,
         editor: object,
@@ -148,6 +152,7 @@ export class Row extends Component {
             'tree', 'grid'
         ]),
         index: number,
+        isDragging: bool,
         menuState: object,
         pageSize: number,
         pager: object,
@@ -312,17 +317,28 @@ export const handleRowSingleClickEvent = (
     }
 };
 
-// export const rowSource = ({ rowId, index }) => ({ rowId, index });
+const rowSource = {
+    beginDrag({ treeData }) {
+        return {
+            index: treeData.index,
+            parentId: treeData.parentId
+        };
+    }
+};
 
-// export const rowTarget = ();
+const rowTarget = {
+    hover(props, monitor, component) {
+        const dragIndex = monitor.getItem().index;
+        const hoverIndex = props.treeData.index;
+        console.log(dragIndex, hoverIndex)
+    }
+};
 
-// export default DropTarget('ROW', rowTarget, connect => ({
-//     connectDropTarget: connect.dropTarget()
-// }))(
-//     DragSource('ROW', rowSource, (connect, monitor) => ({
-//         connectDragSource: connect.dragSource(),
-//         isDragging: monitor.isDragging()
-//     }))(Row)
-// );
-
-export default Row;
+export default DropTarget('ROW', rowTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+}))(
+    DragSource('ROW', rowSource, (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }))(Row)
+);

@@ -28,9 +28,9 @@ export const treeToFlatList = (
             currentDepth = 1;
         }
 
-        data.forEach(node => {
+        data.forEach((node, index) => {
 
-            list.push(getItem(node, childIdentifier, currentDepth));
+            list.push(getItem(node, childIdentifier, currentDepth, index));
 
             if (node[childIdentifier]
                 && !node._hideChildren
@@ -52,7 +52,7 @@ export const treeToFlatList = (
     return list;
 };
 
-const getItem = (node, childIdentifier, depth) => {
+const getItem = (node, childIdentifier, depth, index = 0) => {
 
     const child = {
         ...node,
@@ -62,6 +62,7 @@ const getItem = (node, childIdentifier, depth) => {
         _depth: depth,
         _hideChildren: node._hideChildren,
         _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
+        _index: index,
         _isExpanded: (
             node[childIdentifier]
                 && node[childIdentifier].length > 0

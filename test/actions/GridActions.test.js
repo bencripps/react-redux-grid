@@ -618,6 +618,7 @@ describe('The resizeColumns action', () => {
                         _isExpanded: true,
                         _hasChildren: true,
                         _id: -1,
+                        _index: 0,
                         _leaf: false,
                         _parentId: 'root'
                     },
@@ -626,6 +627,7 @@ describe('The resizeColumns action', () => {
                         _hideChildren: undefined,
                         _isExpanded: true,
                         _hasChildren: true,
+                        _index: 0,
                         _id: 1,
                         _leaf: false, _parentId: -1
                     },
@@ -634,6 +636,7 @@ describe('The resizeColumns action', () => {
                         _hideChildren: undefined,
                         _hasChildren: undefined,
                         _isExpanded: undefined,
+                        _index: 0,
                         _id: 11,
                         _leaf: true,
                         _parentId: 1
@@ -643,8 +646,10 @@ describe('The resizeColumns action', () => {
                         _hideChildren: undefined,
                         _isExpanded: true,
                         _hasChildren: true,
+                        _index: 0,
                         _id: 12,
                         _leaf: false,
+                        _index: 1,
                         _parentId: 1
                     },
                     {
@@ -653,6 +658,7 @@ describe('The resizeColumns action', () => {
                         _isExpanded: true,
                         _hasChildren: true,
                         _id: 121,
+                        _index: 0,
                         _leaf: false,
                         _parentId: 12
                     },
@@ -662,6 +668,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: undefined,
                         _isExpanded: undefined,
                         _id: 1211,
+                        _index: 0,
                         _leaf: true,
                         _parentId: 121
                     },
@@ -671,6 +678,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: true,
                         _isExpanded: true,
                         _id: 2,
+                        _index: 1,
                         _leaf: false,
                         _parentId: -1
                     },
@@ -680,6 +688,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: undefined,
                         _isExpanded: undefined,
                         _id: 21,
+                        _index: 0,
                         _leaf: true,
                         _parentId: 2
                     }
@@ -706,6 +715,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: true,
                         _isExpanded: true,
                         _id: 1,
+                        _index: 0,
                         _leaf: false, _parentId: -1
                     },
                     {
@@ -714,6 +724,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: undefined,
                         _isExpanded: undefined,
                         _id: 11,
+                        _index: 0,
                         _leaf: true,
                         _parentId: 1
                     },
@@ -723,6 +734,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: true,
                         _isExpanded: true,
                         _id: 12,
+                        _index: 1,
                         _leaf: false,
                         _parentId: 1
                     },
@@ -732,6 +744,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: true,
                         _isExpanded: true,
                         _id: 121,
+                        _index: 0,
                         _leaf: false,
                         _parentId: 12
                     },
@@ -741,6 +754,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: undefined,
                         _isExpanded: undefined,
                         _id: 1211,
+                        _index: 0,
                         _leaf: true,
                         _parentId: 121
                     },
@@ -750,6 +764,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: true,
                         _isExpanded: true,
                         _id: 2,
+                        _index: 1,
                         _leaf: false,
                         _parentId: -1
                     },
@@ -759,6 +774,7 @@ describe('The resizeColumns action', () => {
                         _hasChildren: undefined,
                         _isExpanded: undefined,
                         _id: 21,
+                        _index: 0,
                         _leaf: true,
                         _parentId: 2
                     }

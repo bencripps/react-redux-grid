@@ -63,6 +63,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -72,6 +73,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -81,6 +83,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -90,6 +93,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -99,6 +103,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -108,6 +113,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -117,6 +123,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -126,6 +133,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             }
         ]);
@@ -188,6 +196,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -197,6 +206,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -206,6 +216,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -215,6 +226,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -224,6 +236,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -233,6 +246,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -242,6 +256,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -251,6 +266,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             }
         ]);
@@ -315,6 +331,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -325,6 +342,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -334,6 +352,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -343,6 +362,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -352,6 +372,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 0,
                 _isExpanded: true
             },
             {
@@ -361,6 +382,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             },
             {
@@ -371,6 +393,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
+                _index: 1,
                 _isExpanded: true
             },
             {
@@ -380,6 +403,7 @@ describe('the treeFlatList utility', () => {
                 _leaf: true,
                 _hideChildren: undefined,
                 _hasChildren: undefined,
+                _index: 0,
                 _isExpanded: undefined
             }
         ]);
