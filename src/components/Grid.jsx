@@ -26,7 +26,7 @@ import { isPluginEnabled } from '../util/isPluginEnabled';
 import { getColumnsFromStorage } from '../util/getColumnsFromStorage';
 import localStorageManager from './core/LocalStorageManager';
 
-import './../style/main.styl';
+import './../style/main';
 
 const {
     any,

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { Menu } from './actioncolumn/Menu';
 import {
     showMenu, hideMenu
@@ -9,86 +10,168 @@ import { elementContains } from '../../../util/elementContains';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
-export const ActionColumn = ({
-    actions,
-    columns,
-    editor,
-    headerActionItemBuilder,
-    iconCls,
-    menuState,
-    rowId,
-    rowData,
-    store,
-    stateKey,
-    stateful,
-    type,
-    rowIndex,
-    reducerKeys
-}) => {
+export class ActionColumn extends Component {
 
-    const menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
+    render() {
 
-    const containerProps = {
-        className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER, menuShown
-            ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : ''),
-        onClick: handleActionClick.bind(
-            this, type, actions, rowId, stateKey, store, menuShown, reducerKeys
-        )
+        const {
+            columns,
+            editor,
+            headerActionItemBuilder,
+            iconCls,
+            menuState,
+            reducerKeys,
+            rowData,
+            rowId,
+            rowIndex,
+            stateKey,
+            stateful,
+            store,
+            type
+        } = this.props;
+
+        let {
+            actions
+        } = this.props;
+
+        const {
+            maxHeight,
+            menuPosition
+        } = this.state;
+
+        const menuShown = menuState
+            && menuState[rowId]
+            ? menuState[rowId]
+            : false;
+
+        const containerProps = {
+            className: prefix(CLASS_NAMES.GRID_ACTIONS.CONTAINER,
+                menuShown ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : '',
+                menuPosition !== undefined ? menuPosition : ''
+            ),
+            onClick: handleActionClick.bind(
+                this,
+                type,
+                actions,
+                rowId,
+                stateKey,
+                store,
+                menuShown,
+                reducerKeys
+            )
+        };
+
+        actions = enableActions(
+            menuShown,
+            actions,
+            columns,
+            rowData
+        );
+
+        const className = menuShown
+            ? prefix(actions.iconCls || iconCls, 'active')
+            : prefix(actions.iconCls || iconCls);
+
+        const iconProps = {
+            className
+        };
+
+        const actionArgs = [
+            columns,
+            containerProps,
+            iconProps,
+            menuShown,
+            actions,
+            columns,
+            store,
+            editor,
+            reducerKeys,
+            rowId,
+            rowData,
+            rowIndex,
+            stateKey,
+            stateful,
+            headerActionItemBuilder
+        ];
+
+        return type === 'header'
+            ? getHeader(...actionArgs)
+            : getColumn(...actionArgs);
+    }
+
+    componentDidUpdate() {
+
+        const { menuState, rowId } = this.props;
+        const { menuPosition } = this.state;
+
+        const menuShown = menuState
+            && menuState[rowId]
+            ? menuState[rowId]
+            : false;
+
+        if (menuShown && !menuPosition) {
+
+            const node = ReactDOM.findDOMNode(this);
+            const row = node.parentElement;
+            const container = node && node.offsetParent
+                ? node.offsetParent.offsetParent
+                : null;
+
+            if (!container || !row) {
+                return;
+            }
+
+            const rowBCR = row.getBoundingClientRect();
+            const containerBCR = container.getBoundingClientRect();
+
+            const spaceBottom = containerBCR.bottom - rowBCR.bottom;
+            const spaceTop = rowBCR.top - containerBCR.top;
+
+            const maxHeight = Math.max(spaceBottom, spaceTop);
+            const updatedMenuPos = spaceTop > spaceBottom
+                ? 'top'
+                : 'bottom';
+
+            this.setState({
+                maxHeight,
+                menuPosition: updatedMenuPos
+            });
+        }
+
+        else if (!menuShown && menuPosition) {
+            this.setState({
+                menuPosition: null,
+                maxHeight: null
+            });
+        }
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    static propTypes = {
+        actions: PropTypes.object,
+        columns: PropTypes.array,
+        editor: PropTypes.object,
+        headerActionItemBuilder: PropTypes.func,
+        iconCls: PropTypes.string,
+        menuState: PropTypes.object,
+        reducerKeys: PropTypes.object,
+        rowData: PropTypes.object,
+        rowId: PropTypes.string,
+        rowIndex: PropTypes.number,
+        stateKey: PropTypes.string,
+        stateful: PropTypes.bool,
+        store: PropTypes.object,
+        type: PropTypes.string
     };
 
-    actions = enableActions(
-        menuShown,
-        actions,
-        columns,
-        rowData
-    );
-
-    const className = menuShown
-        ? prefix(actions.iconCls || iconCls, 'active')
-        : prefix(actions.iconCls || iconCls);
-
-    const iconProps = {
-        className
+    static defaultProps = {
+        iconCls: 'action-icon'
     };
-
-    const actionArgs = [
-        columns,
-        containerProps,
-        iconProps,
-        menuShown,
-        actions,
-        columns,
-        store,
-        editor,
-        reducerKeys,
-        rowId,
-        rowData,
-        rowIndex,
-        stateKey,
-        stateful,
-        headerActionItemBuilder
-    ];
-
-    return type === 'header'
-        ? getHeader(...actionArgs)
-        : getColumn(...actionArgs);
-};
-
-ActionColumn.propTypes = {
-    actions: PropTypes.object,
-    columns: PropTypes.array,
-    editor: PropTypes.object,
-    iconCls: PropTypes.string,
-    menuState: PropTypes.object,
-    rowId: PropTypes.string,
-    stateful: PropTypes.bool,
-    store: PropTypes.object,
-    type: PropTypes.string
-};
-
-ActionColumn.defaultProps = {
-    iconCls: 'action-icon'
-};
+}
 
 let removeableEvent;
 

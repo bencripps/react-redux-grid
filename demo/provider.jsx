@@ -22,15 +22,13 @@ import {
 
 const config = {
     columns,
-    data: [],
     // dataSource: treeDataSource,
     stateful,
-    //dataSource,
+    dataSource,
     // gridType: 'tree',
     pageSize,
     plugins,
     events,
-    height,
     stateKey,
     store: Store
 };
