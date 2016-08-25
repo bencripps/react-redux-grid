@@ -194,7 +194,8 @@ export class PagerToolbar extends Component {
             const { stuck } = scope.state;
             const shouldStick = this.shouldStick(footerDOM);
             const shouldStop = (
-                footerDOM.parentNode.getBoundingClientRect().top + BUFFER > window.innerHeight
+                footerDOM.parentNode.getBoundingClientRect().top
+                + BUFFER > window.innerHeight
             );
 
             if (shouldStop) {

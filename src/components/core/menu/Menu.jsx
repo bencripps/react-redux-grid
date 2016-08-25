@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { MenuItem } from './MenuItem';
@@ -6,15 +6,25 @@ import { keyFromObject } from '../../../util/keyGenerator';
 import { prefix } from '../../../util/prefix';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 
+const { array, number, object, string } = PropTypes;
+
 class Menu extends Component {
 
     render() {
 
-        const { menu } = this.props;
+        const { menu, maxHeight } = this.props;
 
         const menuProps = {
-            className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
+            className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER),
+            style: {}
         };
+
+        if (maxHeight !== undefined) {
+            // to compensate for 10px padding on top and bottom
+            // of menu
+            // we adjust max height
+            menuProps.style.maxHeight = (maxHeight - 20);
+        }
 
         const items = getUniqueItems(menu);
 
@@ -30,10 +40,11 @@ class Menu extends Component {
     }
 
     static propTypes = {
-        menu: React.PropTypes.array,
-        metaData: React.PropTypes.object,
-        stateKey: React.PropTypes.string,
-        store: React.PropTypes.object
+        maxHeight: number,
+        menu: array,
+        metaData: object,
+        stateKey: string,
+        store: object
     };
 
     static defaultProps = {

@@ -8,14 +8,36 @@ import {
 } from './../../../../actions/plugins/pager/PagerActions';
 
 export const Button = ({
-        BUTTON_TYPES, type, pageIndex, pageSize, plugins,
-        currentRecords, total, dataSource, backButtonText, nextButtonText, stateKey, store
+        BUTTON_TYPES,
+        type,
+        pageIndex,
+        pageSize,
+        plugins,
+        currentRecords,
+        total,
+        dataSource,
+        backButtonText,
+        nextButtonText,
+        stateKey,
+        store
     }) => {
 
     const buttonProps = {
-        onClick: handleButtonClick.bind(this, type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, store),
+        onClick: handleButtonClick.bind(
+            this,
+            type,
+            pageIndex,
+            pageSize,
+            dataSource,
+            BUTTON_TYPES,
+            plugins,
+            stateKey,
+            store
+        ),
         children: type === BUTTON_TYPES.NEXT ? nextButtonText : backButtonText,
-        disabled: isButtonDisabled(type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES),
+        disabled: isButtonDisabled(
+            type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES
+        ),
         className: prefix(CLASS_NAMES.BUTTONS.PAGER, type.toLowerCase())
     };
 
@@ -24,7 +46,16 @@ export const Button = ({
     );
 };
 
-export const handleButtonClick = (type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, store) => {
+export const handleButtonClick = (
+    type,
+    pageIndex,
+    pageSize,
+    dataSource,
+    BUTTON_TYPES,
+    plugins,
+    stateKey,
+    store
+) => {
 
     const PAGER = plugins.PAGER;
 
@@ -36,22 +67,36 @@ export const handleButtonClick = (type, pageIndex, pageSize, dataSource, BUTTON_
 
     else if (PAGER.pagingType === 'remote' && dataSource) {
         store.dispatch(
-            setPageAsync({index: pageIndex, pageSize, type, BUTTON_TYPES, dataSource, stateKey})
+            setPageAsync({
+                index: pageIndex,
+                pageSize,
+                type,
+                BUTTON_TYPES,
+                dataSource,
+                stateKey
+            })
         );
     }
 
     else {
-        console.warn('Please configure paging plugin pagingType to local if no pagingSource is provided');
+        /* eslint-disable no-console */
+        console.warn(
+            ['Please configure paging plugin pagingType',
+            'to local if no pagingSource is provided'].join(' ')
+        );
     }
 };
 
-export const isButtonDisabled = (type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES) => {
+export const isButtonDisabled = (
+    type, pageIndex, pageSize, currentRecords, total, BUTTON_TYPES
+) => {
 
     if (type === BUTTON_TYPES.BACK) {
         return pageIndex === 0;
     }
     else if (type === BUTTON_TYPES.NEXT) {
-        return currentRecords < pageSize || (pageIndex * pageSize) + currentRecords === total;
+        return (currentRecords < pageSize && total < currentRecords)
+            || (pageIndex * pageSize) + currentRecords === total;
     }
 };
 
@@ -64,6 +109,7 @@ Button.propTypes = {
     pageIndex: PropTypes.number,
     pageSize: PropTypes.number,
     plugins: PropTypes.object,
+    stateKey: PropTypes.string,
     store: PropTypes.object,
     total: PropTypes.number,
     type: PropTypes.string

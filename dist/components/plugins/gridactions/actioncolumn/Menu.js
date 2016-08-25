@@ -20,14 +20,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Menu = exports.Menu = function Menu(_ref) {
     var actions = _ref.actions;
     var columns = _ref.columns;
-    var type = _ref.type;
-    var store = _ref.store;
     var editor = _ref.editor;
+    var maxHeight = _ref.maxHeight;
     var reducerKeys = _ref.reducerKeys;
-    var rowId = _ref.rowId;
     var rowData = _ref.rowData;
+    var rowId = _ref.rowId;
     var rowIndex = _ref.rowIndex;
     var stateKey = _ref.stateKey;
+    var store = _ref.store;
+    var type = _ref.type;
 
 
     if (editor.config.enabled && type !== 'header') {
@@ -40,6 +41,7 @@ var Menu = exports.Menu = function Menu(_ref) {
             rowData: rowData,
             rowIndex: rowIndex
         },
+        maxHeight: maxHeight,
         reducerKeys: reducerKeys,
         stateKey: stateKey,
         store: store
@@ -60,6 +62,7 @@ Menu.propTypes = {
     actions: _react.PropTypes.object,
     columns: _react.PropTypes.arrayOf(_react.PropTypes.object),
     editor: _react.PropTypes.object,
+    maxHeight: _react.PropTypes.number,
     reducerKeys: _react.PropTypes.object,
     rowData: _react.PropTypes.object,
     rowId: _react.PropTypes.string,

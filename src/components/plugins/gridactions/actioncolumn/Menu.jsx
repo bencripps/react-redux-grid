@@ -5,14 +5,15 @@ import { handleEditClick } from './../../../../util/handleEditClick';
 export const Menu = ({
     actions,
     columns,
-    type,
-    store,
     editor,
+    maxHeight,
     reducerKeys,
-    rowId,
     rowData,
+    rowId,
     rowIndex,
-    stateKey
+    stateKey,
+    store,
+    type
 }) => {
 
     if (editor.config.enabled && type !== 'header') {
@@ -30,6 +31,7 @@ export const Menu = ({
             rowData,
             rowIndex
         },
+        maxHeight,
         reducerKeys,
         stateKey,
         store
@@ -56,6 +58,7 @@ Menu.propTypes = {
     actions: PropTypes.object,
     columns: PropTypes.arrayOf(PropTypes.object),
     editor: PropTypes.object,
+    maxHeight: PropTypes.number,
     reducerKeys: PropTypes.object,
     rowData: PropTypes.object,
     rowId: PropTypes.string,

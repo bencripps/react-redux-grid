@@ -109,8 +109,16 @@ export const plugins = {
         menu: [
             {
                 text: 'Delete',
-                EVENT_HANDLER: () => {
-                    alert('hi');
+                key: 'delete',
+                EVENT_HANDLER: ({ metaData }) => {
+                    const rowIndex = metaData.rowIndex;
+
+                    store.dispatch(
+                        Actions.EditorActions.removeRow({
+                            stateKey,
+                            rowIndex
+                        })
+                    );
                 }
             }
         ]

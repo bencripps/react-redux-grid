@@ -29,6 +29,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var array = _react.PropTypes.array;
+var number = _react.PropTypes.number;
+var object = _react.PropTypes.object;
+var string = _react.PropTypes.string;
+
 var Menu = function (_Component) {
     _inherits(Menu, _Component);
 
@@ -41,12 +46,22 @@ var Menu = function (_Component) {
     _createClass(Menu, [{
         key: 'render',
         value: function render() {
-            var menu = this.props.menu;
+            var _props = this.props;
+            var menu = _props.menu;
+            var maxHeight = _props.maxHeight;
 
 
             var menuProps = {
-                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
+                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER),
+                style: {}
             };
+
+            if (maxHeight !== undefined) {
+                // to compensate for 10px padding on top and bottom
+                // of menu
+                // we adjust max height
+                menuProps.style.maxHeight = maxHeight - 20;
+            }
 
             var items = getUniqueItems(menu);
 
@@ -61,10 +76,10 @@ var Menu = function (_Component) {
     }, {
         key: 'getMenuItem',
         value: function getMenuItem(item) {
-            var _props = this.props;
-            var metaData = _props.metaData;
-            var stateKey = _props.stateKey;
-            var store = _props.store;
+            var _props2 = this.props;
+            var metaData = _props2.metaData;
+            var stateKey = _props2.stateKey;
+            var store = _props2.store;
 
 
             if (!item.$$typeof) {
@@ -88,10 +103,11 @@ var Menu = function (_Component) {
 }(_react.Component);
 
 Menu.propTypes = {
-    menu: _react2.default.PropTypes.array,
-    metaData: _react2.default.PropTypes.object,
-    stateKey: _react2.default.PropTypes.string,
-    store: _react2.default.PropTypes.object
+    maxHeight: number,
+    menu: array,
+    metaData: object,
+    stateKey: string,
+    store: object
 };
 Menu.defaultProps = {
     metaData: {}

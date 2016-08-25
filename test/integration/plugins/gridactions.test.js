@@ -85,4 +85,115 @@ describe('Integration Test for Grid Actions', () => {
         }, 1000);
 
     });
+
+    it('When clicked, the menu should reposition to above row', (done) => {
+        const dataProps = {
+            ...props,
+            store: GridStore,
+            height: 400,
+            plugins: {
+                GRID_ACTIONS: {
+                    menu: [
+                        {
+                            text: 'Action 1',
+                            key: 'action1',
+                            EVENT_HANDLER: sinon.spy()
+                        },
+                        {
+                            text: 'Action 2',
+                            key: 'action2',
+                            EVENT_HANDLER: sinon.spy()
+                        }
+                    ]
+                }
+            },
+            data: [
+                {
+                    name: 'Michael Jordan',
+                    position: 'Shooting Guard'
+                },
+                {
+                    name: 'Charles Barkley',
+                    position: 'Power Forward'
+                },
+                {
+                    name: 'Michael Jordan 1',
+                    position: 'Shooting Guard 1'
+                },
+                {
+                    name: 'Charles Barkley 1',
+                    position: 'Power Forward 1'
+                },
+                {
+                    name: 'Michael Jordan',
+                    position: 'Shooting Guard'
+                },
+                {
+                    name: 'Charles Barkley',
+                    position: 'Power Forward'
+                },
+                {
+                    name: 'Michael Jordan 1',
+                    position: 'Shooting Guard 1'
+                },
+                {
+                    name: 'Charles Barkley 1',
+                    position: 'Power Forward 1'
+                },
+                {
+                    name: 'Michael Jordan',
+                    position: 'Shooting Guard'
+                },
+                {
+                    name: 'Charles Barkley',
+                    position: 'Power Forward'
+                },
+                {
+                    name: 'Michael Jordan 1',
+                    position: 'Shooting Guard 1'
+                },
+                {
+                    name: 'Charles Barkley 1',
+                    position: 'Power Forward 1'
+                },
+                {
+                    name: 'Michael Jordan',
+                    position: 'Shooting Guard'
+                },
+                {
+                    name: 'Charles Barkley',
+                    position: 'Power Forward'
+                },
+                {
+                    name: 'Michael Jordan 1',
+                    position: 'Shooting Guard 1'
+                },
+                {
+                    name: 'Charles Barkley 1',
+                    position: 'Power Forward 1'
+                }
+            ],
+            stateKey: 'big-data-set'
+        };
+
+        const cmpWithData = mount(<ConnectedGrid { ...dataProps } />, {
+            attachTo: document.body
+        });
+
+        const lastIcon = cmpWithData.find('.react-grid-row')
+            .at(13)
+            .find('.react-grid-action-icon');
+
+        lastIcon.simulate('click');
+
+        setTimeout(() => {
+            // const parent = lastIcon.parent();
+            // to-do
+            // expect(
+            //     parent.html()
+            // ).toContain('react-grid-top');
+
+            done();
+        }, 200);
+    });
 });

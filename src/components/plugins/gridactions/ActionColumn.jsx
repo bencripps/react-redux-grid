@@ -1,3 +1,5 @@
+/* eslint-disable react/no-did-update-set-state */
+/* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from './actioncolumn/Menu';
@@ -6,6 +8,7 @@ import {
 } from '../../../actions/plugins/actioncolumn/MenuActions';
 import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';
+import { getRowBoundingRect } from '../../../util/getRowBoundingRect';
 import { elementContains } from '../../../util/elementContains';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
@@ -91,7 +94,8 @@ export class ActionColumn extends Component {
             rowIndex,
             stateKey,
             stateful,
-            headerActionItemBuilder
+            headerActionItemBuilder,
+            maxHeight
         ];
 
         return type === 'header'
@@ -113,29 +117,14 @@ export class ActionColumn extends Component {
 
             const node = ReactDOM.findDOMNode(this);
             const row = node.parentElement;
-            const container = node && node.offsetParent
-                ? node.offsetParent.offsetParent
-                : null;
+            const { position, maxHeight } = getRowBoundingRect(row);
 
-            if (!container || !row) {
-                return;
+            if (position) {
+                this.setState({
+                    maxHeight,
+                    menuPosition: position
+                });
             }
-
-            const rowBCR = row.getBoundingClientRect();
-            const containerBCR = container.getBoundingClientRect();
-
-            const spaceBottom = containerBCR.bottom - rowBCR.bottom;
-            const spaceTop = rowBCR.top - containerBCR.top;
-
-            const maxHeight = Math.max(spaceBottom, spaceTop);
-            const updatedMenuPos = spaceTop > spaceBottom
-                ? 'top'
-                : 'bottom';
-
-            this.setState({
-                maxHeight,
-                menuPosition: updatedMenuPos
-            });
         }
 
         else if (!menuShown && menuPosition) {
@@ -322,7 +311,10 @@ export const getColumn = (
     rowId,
     rowData,
     rowIndex,
-    stateKey
+    stateKey,
+    stateful,
+    headerActionItemBuilder,
+    maxHeight
 ) => {
 
     const menu = menuShown
@@ -338,7 +330,8 @@ export const getColumn = (
                 rowId,
                 columns: cols,
                 stateKey,
-                rowIndex
+                rowIndex,
+                maxHeight
             }
         } />
         : null;
