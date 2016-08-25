@@ -147,6 +147,9 @@ export const columns = [
         width: '40%',
         className: 'additional-class',
         expandable: true,
+        sortFn: (direction, previousRow, currentRow) => {
+            // do custom sort
+        },
         HANDLE_CLICK: () => { console.log('Header Click'); }
     },
     {

@@ -111,7 +111,7 @@ var ColumnManager = function () {
 
             if (method === _GridConstants.SORT_METHODS.LOCAL) {
 
-                var data = typeof column.sortFn === 'function' ? dataSource.data.sort(column.sortFn) : this.sorter.sortBy(column.dataIndex, direction, dataSource);
+                var data = typeof column.sortFn === 'function' ? dataSource.data.sort(column.sortFn.bind(null, direction)) : this.sorter.sortBy(column.dataIndex, direction, dataSource);
 
                 this.store.dispatch((0, _GridActions.doLocalSort)({
                     data: data,

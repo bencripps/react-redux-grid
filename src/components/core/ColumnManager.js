@@ -81,7 +81,7 @@ export default class ColumnManager {
         if (method === SORT_METHODS.LOCAL) {
 
             const data = typeof column.sortFn === 'function'
-                ? dataSource.data.sort(column.sortFn)
+                ? dataSource.data.sort(column.sortFn.bind(null, direction))
                 : this.sorter.sortBy(column.dataIndex, direction, dataSource);
 
             this.store.dispatch(
