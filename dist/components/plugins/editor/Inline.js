@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.isEditorShown = exports.focusFirstEditor = exports.resetEditorPosition = exports.getRowFromInput = exports.Inline = undefined;
+exports.isEditorShown = exports.focusFirstEditor = exports.getRowFromInput = exports.Inline = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.resetEditorPosition = resetEditorPosition;
 
 var _react = require('react');
 
@@ -25,6 +27,8 @@ var _stateGetter = require('../../../util/stateGetter');
 
 var _getEditorTop = require('../../../util/getEditorTop');
 
+var _getRowBoundingRect2 = require('../../../util/getRowBoundingRect');
+
 var _GridConstants = require('../../../constants/GridConstants');
 
 var _EditorActions = require('../../../actions/plugins/editor/EditorActions');
@@ -42,12 +46,6 @@ var INPUT_SELECTOR = ['.react-grid-edit .react-grid-editor-wrapper input:enabled
 var Inline = exports.Inline = function (_Component) {
     _inherits(Inline, _Component);
 
-    function Inline() {
-        _classCallCheck(this, Inline);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Inline).apply(this, arguments));
-    }
-
     _createClass(Inline, [{
         key: 'render',
         value: function render() {
@@ -57,6 +55,7 @@ var Inline = exports.Inline = function (_Component) {
             var events = _props.events;
             var stateKey = _props.stateKey;
             var store = _props.store;
+            var position = this.state.position;
 
 
             var top = -100;
@@ -66,7 +65,7 @@ var Inline = exports.Inline = function (_Component) {
             }
 
             var inlineEditorProps = {
-                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row ? _GridConstants.CLASS_NAMES.EDITOR.INLINE.SHOWN : _GridConstants.CLASS_NAMES.EDITOR.INLINE.HIDDEN),
+                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row ? _GridConstants.CLASS_NAMES.EDITOR.INLINE.SHOWN : _GridConstants.CLASS_NAMES.EDITOR.INLINE.HIDDEN, position),
                 style: {
                     top: top + 'px'
                 }
@@ -103,6 +102,7 @@ var Inline = exports.Inline = function (_Component) {
         value: function componentDidUpdate() {
             /*
             * lifecycle event used to focus on first available input
+            * and to reposition editor
             */
             var dom = _reactDom2.default.findDOMNode(this);
             var _props2 = this.props;
@@ -110,15 +110,17 @@ var Inline = exports.Inline = function (_Component) {
             var editorState = _props2.editorState;
             var store = _props2.store;
             var stateKey = _props2.stateKey;
+            var position = this.state.position;
 
 
-            resetEditorPosition(editorState, store, stateKey, dom);
+            resetEditorPosition.call(this, editorState, store, stateKey, dom, position);
 
             if (!config.focusOnEdit) {
                 return false;
             }
 
             if (isEditorShown(editorState) && this.editedRow !== editorState.row.rowIndex) {
+
                 this.editedRow = editorState.row.rowIndex;
                 focusFirstEditor(dom);
             } else if (!isEditorShown(editorState)) {
@@ -126,6 +128,15 @@ var Inline = exports.Inline = function (_Component) {
             }
         }
     }]);
+
+    function Inline(props) {
+        _classCallCheck(this, Inline);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Inline).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
 
     return Inline;
 }(_react.Component);
@@ -143,15 +154,22 @@ var getRowFromInput = exports.getRowFromInput = function getRowFromInput(inputEl
     return null;
 };
 
-var resetEditorPosition = exports.resetEditorPosition = function resetEditorPosition(editorState, store, stateKey, dom) {
+function resetEditorPosition(editorState, store, stateKey, dom, position) {
     var input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
     if (input) {
         var row = getRowFromInput(input);
 
+        var _getRowBoundingRect = (0, _getRowBoundingRect2.getRowBoundingRect)(row);
+
+        var spaceBottom = _getRowBoundingRect.spaceBottom;
+
+
+        var moveToTop = spaceBottom < row.clientHeight * 2;
+
         if (row && editorState && editorState.row && editorState.row.top) {
 
-            var top = (0, _getEditorTop.getEditorTop)(row);
+            var top = (0, _getEditorTop.getEditorTop)(row, moveToTop, dom);
 
             if (top !== editorState.row.top) {
                 store.dispatch((0, _EditorActions.repositionEditor)({
@@ -159,9 +177,19 @@ var resetEditorPosition = exports.resetEditorPosition = function resetEditorPosi
                     top: top
                 }));
             }
+
+            if (position === 'top' && !moveToTop || moveToTop && !position) {
+                this.setState({
+                    position: 'bottom'
+                });
+            } else if (position === 'bottom' && moveToTop || !moveToTop && !position) {
+                this.setState({
+                    position: 'top'
+                });
+            }
         }
     }
-};
+}
 
 var focusFirstEditor = exports.focusFirstEditor = function focusFirstEditor(dom) {
     var input = dom.parentNode.querySelector(INPUT_SELECTOR);

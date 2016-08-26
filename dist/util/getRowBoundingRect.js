@@ -26,6 +26,8 @@ var getRowBoundingRect = exports.getRowBoundingRect = function getRowBoundingRec
 
     return {
         maxHeight: maxHeight,
-        position: position
+        position: position,
+        spaceTop: spaceTop,
+        spaceBottom: spaceBottom
     };
 };

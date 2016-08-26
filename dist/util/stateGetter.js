@@ -43,8 +43,10 @@ function stateGetter(state, props, key, entry) {
     if (keyIndex !== -1) {
         var secondTry = state && state[keys[keyIndex]] && state[keys[keyIndex]].get && state[keys[keyIndex]].get(entry) ? state[keys[keyIndex]].get(entry) : null;
 
-        /* eslint-disable no-console */
-        console.warn(['Case insensitivity for reducer keys will no longer', 'be supported in the next major release.', 'Please update your reducer keys', 'to match the main exports.']);
+        if (!state[keys[keyIndex]]) {
+            /* eslint-disable no-console */
+            console.warn(['Case insensitivity for reducer keys will no longer', 'be supported in the next major release.', 'Please update your reducer keys', 'to match the main exports.']);
+        }
 
         return secondTry && secondTry.toJS ? secondTry.toJS() : secondTry;
     }

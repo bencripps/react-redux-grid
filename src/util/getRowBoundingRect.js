@@ -23,6 +23,8 @@ export const getRowBoundingRect = (row, container = null) => {
 
     return {
         maxHeight,
-        position
+        position,
+        spaceTop,
+        spaceBottom
     };
 };

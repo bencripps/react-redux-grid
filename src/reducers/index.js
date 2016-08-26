@@ -10,10 +10,10 @@ import selection from './components/plugins/selection';
 import errorhandler from './components/plugins/errorhandler';
 
 export const rootReducer = combineReducers({
-    bulkaction,
+    bulkAction: bulkaction,
     dataSource,
     editor,
-    errorhandler,
+    errorHandler: errorhandler,
     grid,
     menu,
     pager,

@@ -46,10 +46,10 @@ var _errorhandler2 = _interopRequireDefault(_errorhandler);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = exports.rootReducer = (0, _redux.combineReducers)({
-    bulkaction: _bulkaction2.default,
+    bulkAction: _bulkaction2.default,
     dataSource: _datasource2.default,
     editor: _editor2.default,
-    errorhandler: _errorhandler2.default,
+    errorHandler: _errorhandler2.default,
     grid: _grid2.default,
     menu: _menu2.default,
     pager: _pager2.default,
