@@ -58,15 +58,15 @@ var rootReducer = exports.rootReducer = (0, _redux.combineReducers)({
 });
 
 var Reducers = exports.Reducers = {
-    BulkActions: _bulkaction2.default,
-    DataSource: _datasource2.default,
-    Editor: _editor2.default,
-    ErrorHandler: _errorhandler2.default,
-    Grid: _grid2.default,
-    Loader: _loader2.default,
-    Menu: _menu2.default,
-    Pager: _pager2.default,
-    Selection: _selection2.default
+    bulkAction: _bulkaction2.default,
+    dataSource: _datasource2.default,
+    editor: _editor2.default,
+    errorHandler: _errorhandler2.default,
+    grid: _grid2.default,
+    loader: _loader2.default,
+    menu: _menu2.default,
+    pager: _pager2.default,
+    selection: _selection2.default
 };
 
 exports.default = rootReducer;

@@ -22,15 +22,15 @@ export const rootReducer = combineReducers({
 });
 
 export const Reducers = {
-    BulkActions: bulkaction,
-    DataSource: dataSource,
-    Editor: editor,
-    ErrorHandler: errorhandler,
-    Grid: grid,
-    Loader: loader,
-    Menu: menu,
-    Pager: pager,
-    Selection: selection
+    bulkAction: bulkaction,
+    dataSource,
+    editor,
+    errorHandler: errorhandler,
+    grid,
+    loader,
+    menu,
+    pager,
+    selection
 };
 
 export default rootReducer;

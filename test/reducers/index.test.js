@@ -32,39 +32,39 @@ describe('Grid reducer exports', () => {
 
     it('Should export all reducers', () => {
         expect(
-            reducerList.indexOf('BulkActions')
+            reducerList.indexOf('bulkAction')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('DataSource')
+            reducerList.indexOf('dataSource')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Editor')
+            reducerList.indexOf('editor')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('ErrorHandler')
+            reducerList.indexOf('errorHandler')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Grid')
+            reducerList.indexOf('grid')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Loader')
+            reducerList.indexOf('loader')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Menu')
+            reducerList.indexOf('menu')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Pager')
+            reducerList.indexOf('pager')
         ).toNotEqual(-1);
 
         expect(
-            reducerList.indexOf('Selection')
+            reducerList.indexOf('selection')
         ).toNotEqual(-1);
     });
 
