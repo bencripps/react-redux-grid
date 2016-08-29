@@ -226,7 +226,7 @@ var FixedHeader = function (_Component) {
     function FixedHeader() {
         _classCallCheck(this, FixedHeader);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FixedHeader).call(this));
+        var _this = _possibleConstructorReturn(this, (FixedHeader.__proto__ || Object.getPrototypeOf(FixedHeader)).call(this));
 
         _this.state = {
             stuck: false,

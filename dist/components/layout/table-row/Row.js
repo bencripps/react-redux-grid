@@ -153,7 +153,7 @@ var Row = exports.Row = function (_Component) {
     function Row(props) {
         _classCallCheck(this, Row);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Row).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
 
         _this.shouldComponentUpdate = _shouldComponentUpdate.shouldRowUpdate.bind(_this);
         return _this;

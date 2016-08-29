@@ -108,7 +108,7 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
     function PagerToolbar(props) {
         _classCallCheck(this, PagerToolbar);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PagerToolbar).call(this, props));
+        var _this = _possibleConstructorReturn(this, (PagerToolbar.__proto__ || Object.getPrototypeOf(PagerToolbar)).call(this, props));
 
         _this.state = {
             stuck: false,

@@ -88,7 +88,7 @@ var TableRow = exports.TableRow = function (_Component) {
     function TableRow(props) {
         _classCallCheck(this, TableRow);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(TableRow).call(this, props));
+        return _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
     }
 
     return TableRow;

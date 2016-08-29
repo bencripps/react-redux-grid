@@ -40,7 +40,7 @@ var Menu = function (_Component) {
     function Menu() {
         _classCallCheck(this, Menu);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Menu).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).apply(this, arguments));
     }
 
     _createClass(Menu, [{

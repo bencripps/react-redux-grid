@@ -79,7 +79,7 @@ var BulkActionToolbar = function (_Component) {
     function BulkActionToolbar() {
         _classCallCheck(this, BulkActionToolbar);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BulkActionToolbar).call(this));
+        var _this = _possibleConstructorReturn(this, (BulkActionToolbar.__proto__ || Object.getPrototypeOf(BulkActionToolbar)).call(this));
 
         _this.removeTimeout = null;
         return _this;

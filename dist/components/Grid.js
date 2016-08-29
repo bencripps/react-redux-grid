@@ -290,7 +290,7 @@ var Grid = function (_Component) {
     function Grid(props) {
         _classCallCheck(this, Grid);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Grid).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Grid.__proto__ || Object.getPrototypeOf(Grid)).call(this, props));
 
         _this.shouldComponentUpdate = _shouldComponentUpdate.shouldGridUpdate.bind(_this);
 

@@ -132,7 +132,7 @@ var Inline = exports.Inline = function (_Component) {
     function Inline(props) {
         _classCallCheck(this, Inline);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Inline).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Inline.__proto__ || Object.getPrototypeOf(Inline)).call(this, props));
 
         _this.state = {};
         return _this;

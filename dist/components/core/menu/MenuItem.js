@@ -33,7 +33,7 @@ var MenuItem = function (_Component) {
     function MenuItem() {
         _classCallCheck(this, MenuItem);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(MenuItem).apply(this, arguments));
+        return _possibleConstructorReturn(this, (MenuItem.__proto__ || Object.getPrototypeOf(MenuItem)).apply(this, arguments));
     }
 
     _createClass(MenuItem, [{

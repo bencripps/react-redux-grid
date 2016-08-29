@@ -120,7 +120,7 @@ var Header = function (_Component) {
     function Header() {
         _classCallCheck(this, Header);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this));
+        var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this));
 
         _this.handleDrag = handleDrag;
         return _this;

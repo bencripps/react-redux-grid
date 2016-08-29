@@ -109,6 +109,15 @@ var ColumnManager = function () {
 
             var pageSize = pagerState && pagerState.pageSize ? pagerState.pageSize : _GridConstants.DEFAULT_PAGE_SIZE;
 
+            if (typeof this.events.HANDLE_BEFORE_SORT === 'function') {
+                this.events.HANDLE_BEFORE_SORT({
+                    property: propName,
+                    direction: direction,
+                    store: this.store,
+                    column: column
+                });
+            }
+
             if (method === _GridConstants.SORT_METHODS.LOCAL) {
 
                 var data = typeof column.sortFn === 'function' ? dataSource.data.sort(column.sortFn.bind(null, direction)) : this.sorter.sortBy(column.dataIndex, direction, dataSource);

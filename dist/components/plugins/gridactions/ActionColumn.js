@@ -126,7 +126,7 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
     function ActionColumn(props) {
         _classCallCheck(this, ActionColumn);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ActionColumn).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ActionColumn.__proto__ || Object.getPrototypeOf(ActionColumn)).call(this, props));
 
         _this.state = {};
         return _this;
