@@ -56,7 +56,6 @@ describe('Integration Test for Column custom sort fn', () => {
 
     const component = mount(<ConnectedGrid { ...editorProps } />);
 
-
     it('Should dismiss editor on click of cancel button', (done) => {
 
         const column = component

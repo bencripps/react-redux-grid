@@ -78,6 +78,15 @@ export default class ColumnManager {
             ? pagerState.pageSize
             : DEFAULT_PAGE_SIZE;
 
+        if (typeof this.events.HANDLE_BEFORE_SORT === 'function') {
+            this.events.HANDLE_BEFORE_SORT({
+                property: propName,
+                direction,
+                store: this.store,
+                column
+            });
+        }
+
         if (method === SORT_METHODS.LOCAL) {
 
             const data = typeof column.sortFn === 'function'

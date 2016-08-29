@@ -38,6 +38,9 @@ export const events = {
     },
     HANDLE_AFTER_BULKACTION_SHOW: () => {
         console.log('On After Bulk Action Show');
+    },
+    HANDLE_BEFORE_SORT: () => {
+        console.log('before sort event');
     }
 };
 
