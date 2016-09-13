@@ -414,13 +414,14 @@ export function setTreeNodeVisibility({
 }
 
 export function moveNode({
-    stateKey, current, next
+    stateKey, current, next, showTreeRootNode
 }) {
     return {
         type: MOVE_NODE,
         stateKey,
         current,
-        next
+        next,
+        showTreeRootNode
     };
 }
 

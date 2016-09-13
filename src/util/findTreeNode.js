@@ -4,6 +4,7 @@ export const findTreeNode = (
     childIdentifier = 'children',
     rootIdentifier = 'root'
 ) => {
+    path = [...path];
     const lookingFor = path[path.length - 1];
     let node = treeData[rootIdentifier];
 

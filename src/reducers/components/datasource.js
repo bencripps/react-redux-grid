@@ -148,19 +148,21 @@ export default function dataSource(state = initialState, action) {
         }));
 
     case MOVE_NODE:
-        const treeMove = state.getIn([action.stateKey, 'treeData']).toJS();
+        const treeMoveFlat = state.getIn([action.stateKey, 'data']).toJS();
 
         const {
             current,
             next
         } = action;
 
-        const currentPath = current.parentId !== -1
-            ? [-1, ...getTreePathFromId(treeFlatList, current.parentId)]
+        const nextPath = next.parentId !== -1
+            ? [-1, ...getTreePathFromId(treeMoveFlat, next.parentId)]
             : [-1];
 
-        const nextPath = next.parentId !== -1
-            ? [-1, ...getTreePathFromId(treeFlatList, next.parentId)]
+        const treeMove = state.getIn([action.stateKey, 'treeData']).toJS();
+
+        const currentPath = current.parentId !== -1
+            ? [-1, ...getTreePathFromId(treeMoveFlat, current.parentId)]
             : [-1];
 
         const newTreeMove = moveTreeNode(
@@ -173,10 +175,16 @@ export default function dataSource(state = initialState, action) {
 
         const flatMove = treeToFlatList(newTreeMove);
 
+        // remove root-node
+        if (!action.showTreeRootNode) {
+            flatMove.shift();
+        }
+
         return state.mergeIn([action.stateKey], fromJS({
             data: flatMove,
             currentRecords: flatMove,
             treeData: newTreeMove,
+            proxy: flatMove,
             lastUpdate: generateLastUpdate()
         }));
 

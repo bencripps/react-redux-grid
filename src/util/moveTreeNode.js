@@ -38,5 +38,7 @@ export const moveTreeNode = (
 
     nextParent[childIdentifier].splice(nextIndex, 0, node);
 
+    node.parentId = nextPath[nextPath.length - 1];
+
     return treeData;
 };

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 
 import { Cell } from './row/Cell';
 import { EmptyCell } from './row/EmptyCell';
@@ -26,6 +27,7 @@ export class Row extends Component {
             events,
             gridType,
             index,
+            isDragging,
             menuState,
             plugins,
             readFunc,
@@ -105,6 +107,9 @@ export class Row extends Component {
                 handleRowDoubleClickEvent(
                     events, row, id, selectionModel, index, e
                 );
+            },
+            style: {
+                opacity: isDragging ? 0.25 : 1
             }
         };
 
@@ -320,6 +325,7 @@ export const handleRowSingleClickEvent = (
 const rowSource = {
     beginDrag({ treeData }) {
         return {
+            id: treeData.id,
             index: treeData.index,
             parentId: treeData.parentId
         };
@@ -328,9 +334,64 @@ const rowSource = {
 
 const rowTarget = {
     hover(props, monitor, component) {
-        const dragIndex = monitor.getItem().index;
         const hoverIndex = props.treeData.index;
-        console.log(dragIndex, hoverIndex)
+        const hoverParentId = props.treeData.parentId;
+
+        const { id, index, parentId } = monitor.getItem();
+
+        if (index === -1) {
+            return;
+        }
+
+        if (hoverIndex === index) {
+            return;
+        }
+
+        // Determine rectangle on screen
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+
+        // Get vertical middle
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+
+        // Determine mouse position
+        const clientOffset = monitor.getClientOffset();
+
+        // Get pixels to the top
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        //
+        //const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+        // console.log('hoverClientX', hoverClientX);
+
+        // Only perform the move when the mouse has crossed half of the items height
+        // When dragging downwards, only move when the cursor is below 50%
+        // When dragging upwards, only move when the cursor is above 50%
+
+        // Dragging downwards
+        if (index < hoverIndex && hoverClientY < hoverMiddleY) {
+            return;
+        }
+
+        // Dragging upwards
+        if (index > hoverIndex && hoverClientY > hoverMiddleY) {
+            return;
+        }
+
+        if (props.isValidDrop(id, hoverParentId)) {
+            // Time to actually perform the action
+            props.moveRow(
+                { id, index, parentId },
+                { index: hoverIndex, parentId: hoverParentId }
+            );
+
+            // Note: we're mutating the monitor item here!
+            // Generally it's better to avoid mutations,
+            // but it's good here for the sake of performance
+            // to avoid expensive index searches.
+            monitor.getItem().index = hoverIndex;
+            monitor.getItem().parentId = hoverParentId;
+        }
+
     }
 };
 

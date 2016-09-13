@@ -4,6 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
+import { getTreePathFromId } from './../../util/getTreePathFromId';
 import { getRowKey } from '../../util/getData';
 
 import { moveNode } from '../../actions/GridActions';
@@ -56,6 +57,7 @@ export class TableRow extends Component {
             rows,
             events,
             this.moveRow,
+            this.isValidDrop,
             plugins,
             selectionModel,
             selectedRows,
@@ -110,12 +112,33 @@ export class TableRow extends Component {
     };
 
     moveRow = (current, next) => {
-        const { stateKey, store } = this.props;
+        const { stateKey, store, showTreeRootNode } = this.props;
 
         store.dispatch(
-            moveNode({ stateKey, store, current, next })
+            moveNode({ stateKey, store, current, next, showTreeRootNode })
         );
     };
+
+    isValidDrop = (id, hoverParentId) => {
+        const {
+            dataSource,
+            pageSize,
+            pager,
+            plugins,
+            stateKey,
+            store
+        } = this.props;
+
+        const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
+
+        const rows = getRowSelection(
+            dataSource, pageIndex, pageSize, pager, plugins, stateKey, store
+        );
+
+        const path = [-1, ...getTreePathFromId(rows, hoverParentId)];
+
+        return path.indexOf(id) === -1;
+    }
 
 }
 
@@ -131,6 +154,7 @@ export const getRowComponents = (
     row,
     events,
     moveRow,
+    isValidDrop,
     plugins,
     selectionModel,
     selectedRows,
@@ -156,6 +180,7 @@ export const getRowComponents = (
                     index,
                     menuState,
                     moveRow,
+                    isValidDrop,
                     plugins,
                     reducerKeys,
                     readFunc,
@@ -198,6 +223,7 @@ export const getRows = (
     rows,
     events,
     moveRow,
+    isValidDrop,
     plugins,
     selectionModel,
     selectedRows,
@@ -219,6 +245,7 @@ export const getRows = (
                 row,
                 events,
                 moveRow,
+                isValidDrop,
                 plugins,
                 selectionModel,
                 selectedRows,
