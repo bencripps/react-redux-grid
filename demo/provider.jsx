@@ -26,6 +26,7 @@ const config = {
     // dataSource: treeDataSource,
     stateful,
     // dataSource,
+    dragAndDrop: true,
     gridType: 'tree',
     pageSize,
     plugins,

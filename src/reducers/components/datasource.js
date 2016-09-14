@@ -19,6 +19,7 @@ import { getTreePathFromId } from './../../util/getTreePathFromId';
 import { moveTreeNode } from './../../util/moveTreeNode';
 import { setTreeValue } from './../../util/setTreeValue';
 import { treeToFlatList } from './../../util/treeToFlatList';
+import { setKeysInData } from './../../util/getData';
 
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
@@ -26,13 +27,16 @@ export default function dataSource(state = initialState, action) {
     switch (action.type) {
 
     case SET_DATA:
+
+        const dataWithKeys = setKeysInData(action.data);
+
         return state.setIn([action.stateKey], fromJS({
-            data: action.data,
-            proxy: action.data,
-            total: action.total || action.data.length,
+            data: dataWithKeys,
+            proxy: dataWithKeys,
+            total: action.total || dataWithKeys.length,
             treeData: action.treeData,
             gridType: action.gridType || 'grid',
-            currentRecords: action.currentRecords || action.data,
+            currentRecords: action.currentRecords || dataWithKeys,
             lastUpdate: generateLastUpdate()
         }));
 

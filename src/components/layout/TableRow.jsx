@@ -21,6 +21,7 @@ export class TableRow extends Component {
         const { columnManager,
             columns,
             dataSource,
+            dragAndDrop,
             editor,
             editorState,
             emptyDataMessage,
@@ -48,6 +49,7 @@ export class TableRow extends Component {
         const rowComponents = getRows(
             columns,
             columnManager,
+            dragAndDrop,
             editor,
             editorState,
             gridType,
@@ -145,6 +147,7 @@ export class TableRow extends Component {
 export const getRowComponents = (
     columns,
     columnManager,
+    dragAndDrop,
     editor,
     editorState,
     gridType,
@@ -164,7 +167,7 @@ export const getRowComponents = (
     index
 ) => {
 
-    const key = getRowKey(columns, row, index);
+    const key = getRowKey(columns, row);
 
     return (
         <Row
@@ -173,6 +176,7 @@ export const getRowComponents = (
                 ...{
                     columnManager,
                     columns,
+                    dragAndDrop,
                     editor,
                     editorState,
                     events,
@@ -214,6 +218,7 @@ export const getRowSelection = (
 export const getRows = (
     columns,
     columnManager,
+    dragAndDrop,
     editor,
     editorState,
     gridType,
@@ -236,6 +241,7 @@ export const getRows = (
             ? rows.map((row, i) => getRowComponents(
                 columns,
                 columnManager,
+                dragAndDrop,
                 editor,
                 editorState,
                 gridType,

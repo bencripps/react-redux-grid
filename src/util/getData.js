@@ -29,10 +29,24 @@ export const getData = (
 
 };
 
-export const getRowKey = (columns, rowValues, index, suffix) => {
+export const setKeysInData = (data) => {
+    if (!data || !Array.isArray(data)) {
+        return [];
+    }
+
+    if (data[0]._key === undefined) {
+        data.forEach((row, i) => {
+            row._key = 'row-' + i;
+        });
+    }
+
+    return data;
+};
+
+export const getRowKey = (columns, rowValues, suffix) => {
 
     const uniqueCol = columns.filter(col => col.createKeyFrom);
-    let val = index;
+    let val = rowValues._key;
 
     if (uniqueCol.length > 1) {
         throw new Error('Only one column can declare createKeyFrom');
@@ -42,7 +56,7 @@ export const getRowKey = (columns, rowValues, index, suffix) => {
         const dataIndex = nameFromDataIndex(uniqueCol[0]);
         val = rowValues && rowValues[dataIndex]
             ? rowValues[dataIndex]
-            : index;
+            : rowValues._key;
     }
 
     if (suffix) {

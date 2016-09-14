@@ -386,11 +386,11 @@ export function setTreeData({
 
     const flat = treeToFlatList(data);
 
+    // remove root node
     if (!showTreeRootNode) {
         flat.shift();
     }
 
-    // remove root node
 
     return {
         type: SET_DATA,

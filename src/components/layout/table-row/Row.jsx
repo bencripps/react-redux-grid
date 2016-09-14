@@ -22,6 +22,7 @@ export class Row extends Component {
             columns,
             connectDragSource,
             connectDropTarget,
+            dragAndDrop,
             editor,
             editorState,
             events,
@@ -54,6 +55,7 @@ export class Row extends Component {
             const cellProps = {
                 cellData: getCellData(columns, row, k, i, store),
                 columns,
+                dragAndDrop,
                 editor,
                 editorState,
                 events: events,
@@ -74,7 +76,7 @@ export class Row extends Component {
                 }
             };
 
-            const key = getRowKey(columns, row, i, columns[i].dataIndex);
+            const key = getRowKey(columns, row, columns[i].dataIndex);
 
             return (
                 <Cell
@@ -149,6 +151,7 @@ export class Row extends Component {
         connectDropTarget: func.isRequired,
         data: arrayOf(object),
         dataSource: object,
+        dragAndDrop: bool,
         editor: object,
         editorState: object,
         emptyDataMessage: string,
