@@ -391,7 +391,6 @@ export function setTreeData({
         flat.shift();
     }
 
-
     return {
         type: SET_DATA,
         data: flat,

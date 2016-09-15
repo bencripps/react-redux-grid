@@ -1,66 +1,6 @@
 export const treeToFlatList = (
     data,
     rootIdentifier = 'root',
-    childIdentifier = 'children',
-    list = [],
-    currentDepth = 1,
-    path = [-1]
-) => {
-
-    if (!data) {
-        throw new Error('Expected data to be defined');
-    }
-
-    if (data[rootIdentifier]) {
-
-        list.push(getItem(data[rootIdentifier], childIdentifier, 0));
-
-        if (data[rootIdentifier][childIdentifier]) {
-            treeToFlatList(
-                data[rootIdentifier][childIdentifier],
-                rootIdentifier,
-                childIdentifier,
-                list
-            );
-        }
-    }
-
-    else {
-
-        path = [...path];
-        data.forEach((node, index) => {
-
-            list.push(
-                getItem(node, childIdentifier, currentDepth, index, [...path])
-            );
-
-            path.push(node.id);
-
-            if (node[childIdentifier]
-                && !node._hideChildren
-                && node[childIdentifier].length > 0) {
-                currentDepth++;
-                treeToFlatList(
-                    node[childIdentifier],
-                    rootIdentifier,
-                    childIdentifier,
-                    list,
-                    currentDepth,
-                    path
-
-                );
-                currentDepth--;
-            }
-
-        });
-    }
-
-    return list;
-};
-
-export const treeToFlatList2 = (
-    data,
-    rootIdentifier = 'root',
     childIdentifier = 'children'
 ) => {
 
@@ -68,39 +8,60 @@ export const treeToFlatList2 = (
         throw new Error('Expected data to be defined');
     }
 
+    const result = [];
+
+    let stack = [];
+
     if (data[rootIdentifier]) {
         data = data[rootIdentifier];
+
+        stack.push(
+            toItem([], childIdentifier)(data)
+        );
     }
-}
+    else {
+        stack = data[childIdentifier].map(toItem([-1], childIdentifier));
+    }
 
-const getItem = (node, childIdentifier, depth, index = 0, path = [-1]) => {
+    while (stack.length) {
 
-    const child = {
-        ...node,
-        [childIdentifier]: null,
-        _id: node.id,
-        _parentId: node.parentId === undefined ? 'root' : node.parentId,
-        _depth: depth,
-        _hideChildren: node._hideChildren,
-        _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
-        _index: index,
-        _isExpanded: (
-            node[childIdentifier]
-                && node[childIdentifier].length > 0
-                && !node._hideChildren
-        ),
-        _leaf: !(
-            (node[childIdentifier] && node[childIdentifier].length > 0)
-            || (node.leaf !== undefined && node.leaf === false)
-        ),
-        _path: path
-    };
+        const item = stack.shift();
+        const { [childIdentifier]: children } = item;
 
-    // removing erroneous data since grid uses internal values
+        if (Array.isArray(children)) {
+            stack = children.map(
+                toItem([...item._path, item._id], childIdentifier)
+            ).concat(stack);
+        }
 
-    delete child[childIdentifier];
-    delete child.parentId;
-    delete child.id;
+        result.push(item);
 
-    return child;
+        // removing erroneous data since grid uses internal values
+        delete item[childIdentifier];
+        delete item.parentId;
+        delete item.id;
+    }
+
+    return result;
 };
+
+const toItem = (path, childIdentifier) => (node, index = 0) => ({
+    ...node,
+    _id: node.id,
+    _parentId: node.parentId === undefined ? 'root' : node.parentId,
+    _depth: path.length,
+    _hideChildren: node._hideChildren,
+    _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
+    _index: index,
+    _key: node._key || `tree-item-${path.join('-')}-${node.id}`,
+    _isExpanded: (
+        node[childIdentifier]
+            && node[childIdentifier].length > 0
+            && !node._hideChildren
+    ),
+    _leaf: !(
+        (node[childIdentifier] && node[childIdentifier].length > 0)
+        || (node.leaf !== undefined && node.leaf === false)
+    ),
+    _path: path
+});
