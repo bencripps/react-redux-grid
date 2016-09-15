@@ -59,7 +59,6 @@ export class TableRow extends Component {
             rows,
             events,
             this.moveRow,
-            this.isValidDrop,
             plugins,
             selectionModel,
             selectedRows,
@@ -121,27 +120,6 @@ export class TableRow extends Component {
         );
     };
 
-    isValidDrop = (id, hoverParentId) => {
-        const {
-            dataSource,
-            pageSize,
-            pager,
-            plugins,
-            stateKey,
-            store
-        } = this.props;
-
-        const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
-
-        const rows = getRowSelection(
-            dataSource, pageIndex, pageSize, pager, plugins, stateKey, store
-        );
-
-        const path = [-1, ...getTreePathFromId(rows, hoverParentId)];
-
-        return path.indexOf(id) === -1;
-    }
-
 }
 
 export const getRowComponents = (
@@ -157,7 +135,6 @@ export const getRowComponents = (
     row,
     events,
     moveRow,
-    isValidDrop,
     plugins,
     selectionModel,
     selectedRows,
@@ -184,7 +161,6 @@ export const getRowComponents = (
                     index,
                     menuState,
                     moveRow,
-                    isValidDrop,
                     plugins,
                     reducerKeys,
                     readFunc,
@@ -228,7 +204,6 @@ export const getRows = (
     rows,
     events,
     moveRow,
-    isValidDrop,
     plugins,
     selectionModel,
     selectedRows,
@@ -251,7 +226,6 @@ export const getRows = (
                 row,
                 events,
                 moveRow,
-                isValidDrop,
                 plugins,
                 selectionModel,
                 selectedRows,
@@ -270,7 +244,8 @@ export const getTreeData = row => ({
     index: row._index,
     leaf: row._leaf,
     hasChildren: row._hasChildren,
-    isExpanded: row._isExpanded
+    isExpanded: row._isExpanded,
+    path: row._path
 });
 
 export default DragDropContext(HTML5Backend)(TableRow);

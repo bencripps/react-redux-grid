@@ -3,7 +3,8 @@ export const treeToFlatList = (
     rootIdentifier = 'root',
     childIdentifier = 'children',
     list = [],
-    currentDepth = 0
+    currentDepth = 1,
+    path = [-1]
 ) => {
 
     if (!data) {
@@ -11,7 +12,9 @@ export const treeToFlatList = (
     }
 
     if (data[rootIdentifier]) {
-        list.push(getItem(data[rootIdentifier], childIdentifier, currentDepth));
+
+        list.push(getItem(data[rootIdentifier], childIdentifier, 0));
+
         if (data[rootIdentifier][childIdentifier]) {
             treeToFlatList(
                 data[rootIdentifier][childIdentifier],
@@ -24,13 +27,14 @@ export const treeToFlatList = (
 
     else {
 
-        if (currentDepth === 0) {
-            currentDepth = 1;
-        }
-
+        path = [...path];
         data.forEach((node, index) => {
 
-            list.push(getItem(node, childIdentifier, currentDepth, index));
+            list.push(
+                getItem(node, childIdentifier, currentDepth, index, [...path])
+            );
+
+            path.push(node.id);
 
             if (node[childIdentifier]
                 && !node._hideChildren
@@ -41,7 +45,9 @@ export const treeToFlatList = (
                     rootIdentifier,
                     childIdentifier,
                     list,
-                    currentDepth
+                    currentDepth,
+                    path
+
                 );
                 currentDepth--;
             }
@@ -52,7 +58,22 @@ export const treeToFlatList = (
     return list;
 };
 
-const getItem = (node, childIdentifier, depth, index = 0) => {
+export const treeToFlatList2 = (
+    data,
+    rootIdentifier = 'root',
+    childIdentifier = 'children'
+) => {
+
+    if (!data) {
+        throw new Error('Expected data to be defined');
+    }
+
+    if (data[rootIdentifier]) {
+        data = data[rootIdentifier];
+    }
+}
+
+const getItem = (node, childIdentifier, depth, index = 0, path = [-1]) => {
 
     const child = {
         ...node,
@@ -71,7 +92,8 @@ const getItem = (node, childIdentifier, depth, index = 0) => {
         _leaf: !(
             (node[childIdentifier] && node[childIdentifier].length > 0)
             || (node.leaf !== undefined && node.leaf === false)
-        )
+        ),
+        _path: path
     };
 
     // removing erroneous data since grid uses internal values

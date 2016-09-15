@@ -330,7 +330,8 @@ const rowSource = {
         return {
             id: treeData.id,
             index: treeData.index,
-            parentId: treeData.parentId
+            parentId: treeData.parentId,
+            path: treeData.path
         };
     }
 };
@@ -346,6 +347,8 @@ const rowTarget = {
             return;
         }
 
+        const initalOffset = monitor.getDifferenceFromInitialOffset();
+
         if (hoverIndex === index) {
             return;
         }
@@ -358,6 +361,8 @@ const rowTarget = {
 
         // Determine mouse position
         const clientOffset = monitor.getClientOffset();
+
+        console.log(initalOffset)
 
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
@@ -380,20 +385,13 @@ const rowTarget = {
             return;
         }
 
-        if (props.isValidDrop(id, hoverParentId)) {
-            // Time to actually perform the action
-            props.moveRow(
-                { id, index, parentId },
-                { index: hoverIndex, parentId: hoverParentId }
-            );
+        props.moveRow(
+            { id, index, parentId },
+            { index: hoverIndex, parentId: hoverParentId }
+        );
 
-            // Note: we're mutating the monitor item here!
-            // Generally it's better to avoid mutations,
-            // but it's good here for the sake of performance
-            // to avoid expensive index searches.
-            monitor.getItem().index = hoverIndex;
-            monitor.getItem().parentId = hoverParentId;
-        }
+        monitor.getItem().index = hoverIndex;
+        monitor.getItem().parentId = hoverParentId;
 
     }
 };
