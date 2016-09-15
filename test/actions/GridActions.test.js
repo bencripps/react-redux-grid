@@ -613,84 +613,100 @@ describe('The resizeColumns action', () => {
                 type: 'SET_DATA',
                 data: [
                     {
-                        _depth: 0,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
                         _id: -1,
-                        _index: 0,
+                        _parentId: 'root',
+                        _depth: 0,
                         _leaf: false,
-                        _parentId: 'root'
-                    },
-                    {
-                        _depth: 1,
                         _hideChildren: undefined,
-                        _isExpanded: true,
                         _hasChildren: true,
                         _index: 0,
+                        _isExpanded: true,
+                        _path: [],
+                        _key: 'tree-item--1'
+                    },
+                    {
                         _id: 1,
-                        _leaf: false, _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _index: 0,
-                        _id: 11,
-                        _leaf: true,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _index: 0,
-                        _id: 12,
-                        _leaf: false,
-                        _index: 1,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 3,
-                        _hideChildren: undefined,
-                        _isExpanded: true,
-                        _hasChildren: true,
-                        _id: 121,
-                        _index: 0,
-                        _leaf: false,
-                        _parentId: 12
-                    },
-                    {
-                        _depth: 4,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 1211,
-                        _index: 0,
-                        _leaf: true,
-                        _parentId: 121
-                    },
-                    {
+                        _parentId: -1,
                         _depth: 1,
+                        _leaf: false,
                         _hideChildren: undefined,
                         _hasChildren: true,
+                        _index: 0,
                         _isExpanded: true,
-                        _id: 2,
-                        _index: 1,
-                        _leaf: false,
-                        _parentId: -1
+                        _path: [-1],
+                        _key: 'tree-item-1'
                     },
                     {
+                        _id: 11,
+                        _parentId: 1,
                         _depth: 2,
+                        _leaf: true,
                         _hideChildren: undefined,
                         _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 21,
                         _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 1],
+                        _key: 'tree-item-11'
+                    },
+                    {
+                        _id: 12,
+                        _parentId: 1,
+                        _depth: 2,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 1,
+                        _isExpanded: true,
+                        _path: [-1, 1],
+                        _key: 'tree-item-12'
+                    },
+                    {
+                        _id: 121,
+                        _parentId: 12,
+                        _depth: 3,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 0,
+                        _isExpanded: true,
+                        _path: [-1, 1, 12],
+                        _key: 'tree-item-121'
+                    },
+                    {
+                        _id: 1211,
+                        _parentId: 121,
+                        _depth: 4,
                         _leaf: true,
-                        _parentId: 2
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 1, 12, 121],
+                        _key: 'tree-item-1211'
+                    },
+                    {
+                        _id: 2,
+                        _parentId: -1,
+                        _depth: 1,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 1,
+                        _isExpanded: true,
+                        _path: [-1],
+                        _key: 'tree-item-2'
+                    },
+                    {
+                        _id: 21,
+                        _parentId: 2,
+                        _depth: 2,
+                        _leaf: true,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 2],
+                        _key: 'tree-item-21'
                     }
                 ],
                 stateKey: 'tree-grid',
@@ -710,73 +726,88 @@ describe('The resizeColumns action', () => {
                 type: 'SET_DATA',
                 data: [
                     {
-                        _depth: 1,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
                         _id: 1,
-                        _index: 0,
-                        _leaf: false, _parentId: -1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 11,
-                        _index: 0,
-                        _leaf: true,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 2,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 12,
-                        _index: 1,
-                        _leaf: false,
-                        _parentId: 1
-                    },
-                    {
-                        _depth: 3,
-                        _hideChildren: undefined,
-                        _hasChildren: true,
-                        _isExpanded: true,
-                        _id: 121,
-                        _index: 0,
-                        _leaf: false,
-                        _parentId: 12
-                    },
-                    {
-                        _depth: 4,
-                        _hideChildren: undefined,
-                        _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 1211,
-                        _index: 0,
-                        _leaf: true,
-                        _parentId: 121
-                    },
-                    {
+                        _parentId: -1,
                         _depth: 1,
+                        _leaf: false,
                         _hideChildren: undefined,
                         _hasChildren: true,
+                        _index: 0,
                         _isExpanded: true,
-                        _id: 2,
-                        _index: 1,
-                        _leaf: false,
-                        _parentId: -1
+                        _path: [-1],
+                        _key: 'tree-item-1'
                     },
                     {
+                        _id: 11,
+                        _parentId: 1,
                         _depth: 2,
+                        _leaf: true,
                         _hideChildren: undefined,
                         _hasChildren: undefined,
-                        _isExpanded: undefined,
-                        _id: 21,
                         _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 1],
+                        _key: 'tree-item-11'
+                    },
+                    {
+                        _id: 12,
+                        _parentId: 1,
+                        _depth: 2,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 1,
+                        _isExpanded: true,
+                        _path: [-1, 1],
+                        _key: 'tree-item-12'
+                    },
+                    {
+                        _id: 121,
+                        _parentId: 12,
+                        _depth: 3,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 0,
+                        _isExpanded: true,
+                        _path: [-1, 1, 12],
+                        _key: 'tree-item-121'
+                    },
+                    {
+                        _id: 1211,
+                        _parentId: 121,
+                        _depth: 4,
                         _leaf: true,
-                        _parentId: 2
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 1, 12, 121],
+                        _key: 'tree-item-1211'
+                    },
+                    {
+                        _id: 2,
+                        _parentId: -1,
+                        _depth: 1,
+                        _leaf: false,
+                        _hideChildren: undefined,
+                        _hasChildren: true,
+                        _index: 1,
+                        _isExpanded: true,
+                        _path: [-1],
+                        _key: 'tree-item-2'
+                    },
+                    {
+                        _id: 21,
+                        _parentId: 2,
+                        _depth: 2,
+                        _leaf: true,
+                        _hideChildren: undefined,
+                        _hasChildren: undefined,
+                        _index: 0,
+                        _isExpanded: undefined,
+                        _path: [-1, 2],
+                        _key: 'tree-item-21'
                     }
                 ],
                 stateKey: 'tree-grid',
