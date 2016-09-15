@@ -147,8 +147,8 @@ export class Row extends Component {
     static propTypes = {
         columnManager: object.isRequired,
         columns: arrayOf(object).isRequired,
-        connectDragSource: func.isRequired,
-        connectDropTarget: func.isRequired,
+        connectDragSource: func,
+        connectDropTarget: func,
         data: arrayOf(object),
         dataSource: object,
         dragAndDrop: bool,
@@ -177,6 +177,8 @@ export class Row extends Component {
     };
 
     static defaultProps = {
+        connectDragSource: i => i,
+        connectDropTarget: i => i,
         emptyDataMessage: 'No Data Available',
         treeData: {}
     };
