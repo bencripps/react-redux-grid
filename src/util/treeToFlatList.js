@@ -28,7 +28,7 @@ export const treeToFlatList = (
         const item = stack.shift();
         const { [childIdentifier]: children } = item;
 
-        if (Array.isArray(children)) {
+        if (Array.isArray(children) && !item._hideChildren) {
             stack = children.map(
                 toItem([...item._path, item._id], childIdentifier)
             ).concat(stack);
