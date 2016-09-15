@@ -15,9 +15,9 @@ describe('the moveTreeNode utility', () => {
                     root: {
                         id: -1,
                         children: [
-                            { id: 1 },
-                            { id: 2 },
-                            { id: 3 }
+                            { id: 1, parentId: -1 },
+                            { id: 2, parentId: -1 },
+                            { id: 3, parentId: -1 }
                         ]
                     }
                 },
@@ -30,9 +30,9 @@ describe('the moveTreeNode utility', () => {
             root: {
                 id: -1,
                 children: [
-                    { id: 3 },
-                    { id: 1 },
-                    { id: 2 }
+                    { id: 3, parentId: -1 },
+                    { id: 1, parentId: -1 },
+                    { id: 2, parentId: -1 }
                 ]
             }
         });
@@ -48,14 +48,15 @@ describe('the moveTreeNode utility', () => {
                         children: [
                             {
                                 id: 1,
+                                parentId: -1,
                                 children: [
-                                    { id: 11 },
-                                    { id: 12 },
-                                    { id: 13 }
+                                    { id: 11, parentId: 1 },
+                                    { id: 12, parentId: 1 },
+                                    { id: 13, parentId: 1 }
                                 ]
                             },
-                            { id: 2 },
-                            { id: 3 }
+                            { id: 2, parentId: -1 },
+                            { id: 3, parentId: -1 }
                         ]
                     }
                 },
@@ -70,18 +71,20 @@ describe('the moveTreeNode utility', () => {
                 children: [
                     {
                         id: 2,
+                        parentId: -1,
                         children: [
                             {
                                 id: 1,
+                                parentId: 2,
                                 children: [
-                                    { id: 11 },
-                                    { id: 12 },
-                                    { id: 13 }
+                                    { id: 11, parentId: 1 },
+                                    { id: 12, parentId: 1 },
+                                    { id: 13, parentId: 1 }
                                 ]
                             }
                         ]
                     },
-                    { id: 3 }
+                    { id: 3, parentId: -1 }
                 ]
             }
         });

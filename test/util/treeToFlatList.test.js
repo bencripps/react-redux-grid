@@ -64,7 +64,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [],
+                _key: 'tree-item--1'
             },
             {
                 _id: 1,
@@ -74,7 +76,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1],
+                _key: 'tree-item-1'
             },
             {
                 _id: 11,
@@ -84,7 +88,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1],
+                _key: 'tree-item-11'
             },
             {
                 _id: 12,
@@ -94,7 +100,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1],
+                _key: 'tree-item-12'
             },
             {
                 _id: 121,
@@ -104,7 +112,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1, 12],
+                _key: 'tree-item-121'
             },
             {
                 _id: 1211,
@@ -114,7 +124,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1, 12, 121],
+                _key: 'tree-item-1211'
             },
             {
                 _id: 2,
@@ -124,7 +136,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1],
+                _key: 'tree-item-2'
             },
             {
                 _id: 21,
@@ -134,7 +148,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 2],
+                _key: 'tree-item-21'
             }
         ]);
 
@@ -197,7 +213,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [],
+                _key: 'tree-item--1'
             },
             {
                 _id: 1,
@@ -208,6 +226,8 @@ describe('the treeFlatList utility', () => {
                 _hasChildren: true,
                 _index: 0,
                 _isExpanded: true
+                _path: [-1],
+                _key: 'tree-item-1'
             },
             {
                 _id: 11,
@@ -217,7 +237,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1],
+                _key: 'tree-item-11'
             },
             {
                 _id: 12,
@@ -227,7 +249,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1],
+                _key: 'tree-item-12'
             },
             {
                 _id: 121,
@@ -237,7 +261,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1, 12],
+                _key: 'tree-item-121'
             },
             {
                 _id: 1211,
@@ -247,7 +273,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1, 12, 121],
+                _key: 'tree-item-1211'
             },
             {
                 _id: 2,
@@ -257,7 +285,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1],
+                _key: 'tree-item-2'
             },
             {
                 _id: 21,
@@ -267,7 +297,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 2],
+                _key: 'tree-item-21'
             }
         ]);
 
@@ -332,18 +364,21 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [],
+                _key: 'tree-item--1'
             },
             {
                 _id: 1,
-                specialData: 'someProp',
                 _parentId: -1,
                 _depth: 1,
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1],
+                _key: 'tree-item-1'
             },
             {
                 _id: 11,
@@ -353,7 +388,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1],
+                _key: 'tree-item-11'
             },
             {
                 _id: 12,
@@ -363,7 +400,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1],
+                _key: 'tree-item-12'
             },
             {
                 _id: 121,
@@ -373,7 +412,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 0,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1, 1, 12],
+                _key: 'tree-item-121'
             },
             {
                 _id: 1211,
@@ -383,18 +424,21 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 1, 12, 121],
+                _key: 'tree-item-1211'
             },
             {
                 _id: 2,
                 _parentId: -1,
-                code: 'banana',
                 _depth: 1,
                 _leaf: false,
                 _hideChildren: undefined,
                 _hasChildren: true,
                 _index: 1,
-                _isExpanded: true
+                _isExpanded: true,
+                _path: [-1],
+                _key: 'tree-item-2'
             },
             {
                 _id: 21,
@@ -404,7 +448,9 @@ describe('the treeFlatList utility', () => {
                 _hideChildren: undefined,
                 _hasChildren: undefined,
                 _index: 0,
-                _isExpanded: undefined
+                _isExpanded: undefined,
+                _path: [-1, 2],
+                _key: 'tree-item-21'
             }
         ]);
 

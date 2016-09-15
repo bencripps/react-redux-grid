@@ -41,16 +41,16 @@ describe('The grid dataSource reducer setData func', () => {
         ).toEqualImmutable(fromJS({
             'test-grid': {
                 data: [
-                    { x: 1 }, { x: 2 }
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
                 ],
                 proxy: [
-                    { x: 1 }, { x: 2 }
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
                 ],
                 treeData: undefined,
                 gridType: 'grid',
                 total: 2,
                 currentRecords: [
-                    { x: 1 }, { x: 2 }
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
                 ],
                 lastUpdate: 1
             }
@@ -72,12 +72,12 @@ describe('The grid dataSource reducer setData func', () => {
             dataSource(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                data: [{ x: 1 }, { x: 2 }],
-                proxy: [{ x: 1 }, { x: 2 }],
+                data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
+                proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',
-                currentRecords: [{ x: 1 }, { x: 2 }],
+                currentRecords: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 lastUpdate: 1
             }
         }));
@@ -102,8 +102,8 @@ describe('The grid dataSource reducer setData func', () => {
             dataSource(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                data: [{ x: 1 }, { x: 2 }],
-                proxy: [{ x: 1 }, { x: 2 }],
+                data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
+                proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',

@@ -53,7 +53,7 @@ const toItem = (path, childIdentifier) => (node, index = 0) => ({
     _hideChildren: node._hideChildren,
     _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
     _index: index,
-    _key: node._key || `tree-item-${path.join('-')}-${node.id}`,
+    _key: `tree-item-${node.id}`,
     _isExpanded: (
         node[childIdentifier]
             && node[childIdentifier].length > 0

@@ -34,7 +34,7 @@ export const setKeysInData = (data) => {
         return [];
     }
 
-    if (data[0]._key === undefined) {
+    if (data[0] && data[0]._key === undefined) {
         data.forEach((row, i) => {
             row._key = 'row-' + i;
         });

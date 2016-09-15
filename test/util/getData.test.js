@@ -9,7 +9,7 @@ import {
 
 describe('The getRowKey utility function', () => {
 
-    it('Should return an index when no unique prop is declared', () => {
+    it('Should default to _key when present', () => {
 
         const columns = [
             {
@@ -22,14 +22,13 @@ describe('The getRowKey utility function', () => {
 
         const rowValues = {
             hat: 'hattt',
-            phone: '123'
+            phone: '123',
+            _key: 'row-0'
         };
 
-        const index = 0;
-
         expect(
-            getRowKey(columns, rowValues, index)
-        ).toEqual(0);
+            getRowKey(columns, rowValues)
+        ).toEqual('row-0');
 
     });
 
@@ -50,10 +49,8 @@ describe('The getRowKey utility function', () => {
             phone: '123'
         };
 
-        const index = 0;
-
         expect(
-            getRowKey(columns, rowValues, index)
+            getRowKey(columns, rowValues)
         ).toEqual('hattt');
 
     });
@@ -75,10 +72,8 @@ describe('The getRowKey utility function', () => {
             phone: '123'
         };
 
-        const index = 0;
-
         expect(
-            getRowKey(columns, rowValues, index, 'suffix')
+            getRowKey(columns, rowValues, 'suffix')
         ).toEqual('hattt-suffix');
 
     });
@@ -101,10 +96,8 @@ describe('The getRowKey utility function', () => {
             phone: '123'
         };
 
-        const index = 0;
-
         expect(() => {
-            getRowKey(columns, rowValues, index);
+            getRowKey(columns, rowValues);
         }).toThrow('Only one column can declare createKeyFrom');
 
     });
