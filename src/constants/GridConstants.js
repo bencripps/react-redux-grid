@@ -49,6 +49,7 @@ export const CLASS_NAMES = {
     ROW: 'row',
     CELL: 'cell',
     CELL_TREE_ARROW: 'cell-tree-arrow',
+    ROW_DRAG_HANDLE: 'row-drag-handle',
     PAGERTOOLBAR: 'pager-toolbar',
     EMPTY_ROW: 'empty-row',
     EDITED_CELL: 'edit',
