@@ -121,10 +121,13 @@ export const Cell = ({
         store
     );
 
+    const handleContainer = dragHandle || arrow
+        ? <div { ...{ className: prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER) } }>{ dragHandle }{ arrow }</div>
+        : null;
+
     return (
         <td { ...cellProps }>
-            { dragHandle }
-            { arrow }
+            { handleContainer }
             { cellHTML }
         </td>
         );

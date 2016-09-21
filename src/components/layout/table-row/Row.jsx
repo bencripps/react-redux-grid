@@ -98,8 +98,17 @@ export class Row extends Component {
             ? selectionModel.defaults.activeCls
             : '';
 
+        const dragClass = isDragging
+            ? CLASS_NAMES.ROW_IS_DRAGGING
+            : '';
+
         const rowProps = {
-            className: prefix(CLASS_NAMES.ROW, selectedClass, editClass),
+            className: prefix(
+                CLASS_NAMES.ROW,
+                selectedClass,
+                editClass,
+                dragClass
+            ),
             onClick: (e) => {
                 handleRowSingleClickEvent(
                     events, row, id, selectionModel, index, e
@@ -109,9 +118,6 @@ export class Row extends Component {
                 handleRowDoubleClickEvent(
                     events, row, id, selectionModel, index, e
                 );
-            },
-            style: {
-                opacity: isDragging ? 0.25 : 1
             }
         };
 
@@ -131,11 +137,17 @@ export class Row extends Component {
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
-        return connectDragSource(connectDropTarget(
+        const rowEl = (
             <tr { ...rowProps }>
                 { cells }
             </tr>
-        ));
+            );
+
+        if (dragAndDrop) {
+            return connectDragSource(connectDropTarget(rowEl));
+        }
+
+        return rowEl;
 
     }
 
@@ -342,10 +354,17 @@ const rowTarget = {
     hover(props, monitor, component) {
         const hoverIndex = props.treeData.index;
         const hoverParentId = props.treeData.parentId;
+        const path = props.treeData.path;
 
         const { id, index, parentId } = monitor.getItem();
 
+        // cant drop root
         if (index === -1) {
+            return;
+        }
+
+        // cant drop child into a path that contains itself
+        if (path.indexOf(id) !== -1) {
             return;
         }
 
@@ -356,34 +375,54 @@ const rowTarget = {
         }
 
         // Determine rectangle on screen
-        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+        const hoverBoundingRect = findDOMNode(component)
+            .getBoundingClientRect();
 
         // Get vertical middle
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const hoverMiddleY = (
+            hoverBoundingRect.bottom - hoverBoundingRect.top
+        ) / 2;
 
         // Determine mouse position
         const clientOffset = monitor.getClientOffset();
 
-        console.log(initalOffset)
+        // console.log(initalOffset)
 
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
         //
-        //const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+        const hoverClientX = clientOffset.x - hoverBoundingRect.left;
 
-        // console.log('hoverClientX', hoverClientX);
+        const createChild = hoverClientX > 35;
 
         // Only perform the move when the mouse has crossed half of the items height
         // When dragging downwards, only move when the cursor is below 50%
         // When dragging upwards, only move when the cursor is above 50%
 
         // Dragging downwards
-        if (index < hoverIndex && hoverClientY < hoverMiddleY) {
+        if (index < hoverIndex && hoverClientY < hoverMiddleY && !createChild) {
             return;
         }
 
         // Dragging upwards
-        if (index > hoverIndex && hoverClientY > hoverMiddleY) {
+        if (index > hoverIndex && hoverClientY > hoverMiddleY && !createChild) {
+            return;
+        }
+
+        // Dont create child multiple times
+        if (createChild && props.row._id === parentId) {
+            return;
+        }
+
+        if (createChild) {
+            props.moveRow(
+                { id, index, parentId },
+                { index: 0, parentId: props.row._id }
+            );
+
+            monitor.getItem().index = 0;
+            monitor.getItem().parentId = props.row._id;
+
             return;
         }
 
