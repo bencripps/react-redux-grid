@@ -222,6 +222,10 @@ export const handleSort = (
         })
     );
 
+    if (columnManager.events.HANDLE_SORT_CHANGED) {
+        columnManager.events.HANDLE_SORT_CHANGED(col, newDirection);
+    }
+
     if (columnManager.config.sortable.method.toUpperCase()
         === SORT_METHODS.LOCAL) {
         columnManager.doSort({
