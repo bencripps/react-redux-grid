@@ -245,6 +245,14 @@ export const getTreeData = row => ({
     leaf: row._leaf,
     hasChildren: row._hasChildren,
     isExpanded: row._isExpanded,
+    isLastChild: row._isLastChild,
+    isFirstChild: row._isFirstChild,
+    previousSiblingId: row._previousSiblingId,
+    previousSiblingTotalChildren: row._previousSiblingTotalChilden,
+    previousSiblingChildIds: row._previousSiblingChildIds,
+    parentTotalChildren: row._parentTotalChildren,
+    parentIndex: row._parentIndex,
+    indexPath: row._indexPath,
     path: row._path
 });
 

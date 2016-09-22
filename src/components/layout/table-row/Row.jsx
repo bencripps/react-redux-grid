@@ -345,7 +345,15 @@ const rowSource = {
             id: treeData.id,
             index: treeData.index,
             parentId: treeData.parentId,
-            path: treeData.path
+            path: treeData.path,
+            isLastChild: treeData.isLastChild,
+            isFirstChild: treeData.isFirstChild,
+            indexPath: treeData.indexPath,
+            previousSiblingId: treeData.previousSiblingId,
+            previousSiblingTotalChildren: treeData.previousSiblingTotalChildren,
+            parentIndex: treeData.parentIndex,
+            parentTotalChildren: treeData.parentTotalChildren,
+            previousSiblingChildIds: treeData.previousSiblingChildIds
         };
     }
 };
@@ -354,9 +362,37 @@ const rowTarget = {
     hover(props, monitor, component) {
         const hoverIndex = props.treeData.index;
         const hoverParentId = props.treeData.parentId;
-        const path = props.treeData.path;
+        const hoverPath = props.treeData.path;
 
-        const { id, index, parentId } = monitor.getItem();
+        const {
+            id,
+            index,
+            lastX,
+            parentId,
+            isLastChild,
+            isFirstChild,
+            path,
+            parentIndex,
+            indexPath,
+            previousSiblingTotalChildren,
+            previousSiblingId,
+            parentTotalChildren,
+            previousSiblingChildIds
+        } = monitor.getItem();
+
+        let targetIndex = hoverIndex;
+        let targetParentId = hoverParentId;
+        let targetPath = hoverPath;
+        let targetPreviousSiblingTotalChildren = previousSiblingTotalChildren === undefined
+            ? 0
+            : previousSiblingTotalChildren;
+        let targetPreviousSiblingId = previousSiblingId;
+        let targetParentIndex = parentIndex;
+        let targetIndexPath = indexPath;
+        let targetIsFirstChild = isFirstChild;
+        let targetIsLastChild = isLastChild;
+        let targetParentTotalChildren = parentTotalChildren;
+        let targetPreviousSiblingChildIds = previousSiblingChildIds;
 
         // cant drop root
         if (index === -1) {
@@ -364,13 +400,7 @@ const rowTarget = {
         }
 
         // cant drop child into a path that contains itself
-        if (path.indexOf(id) !== -1) {
-            return;
-        }
-
-        const initalOffset = monitor.getDifferenceFromInitialOffset();
-
-        if (hoverIndex === index) {
+        if (hoverPath.indexOf(id) !== -1) {
             return;
         }
 
@@ -385,57 +415,106 @@ const rowTarget = {
 
         // Determine mouse position
         const clientOffset = monitor.getClientOffset();
-
-        // console.log(initalOffset)
+        const mouseX = clientOffset.x;
 
         // Get pixels to the top
         const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-        //
-        const hoverClientX = clientOffset.x - hoverBoundingRect.left;
 
-        const createChild = hoverClientX > 35;
+        // if hover occurs over the grabbed row, we need to determine
+        // if X position indicates left or right
+        if (hoverIndex === index && parentId === hoverParentId) {
 
-        // Only perform the move when the mouse has crossed half of the items height
-        // When dragging downwards, only move when the cursor is below 50%
-        // When dragging upwards, only move when the cursor is above 50%
+            // if a previous X position hasn't been set
+            // set, and early return for next hover event
+            if (!lastX) {
+                monitor.getItem().lastX = mouseX;
+                return;
+            }
 
-        // Dragging downwards
-        if (index < hoverIndex && hoverClientY < hoverMiddleY && !createChild) {
-            return;
+            // X position indicates a move to left
+            else if (lastX - 50 > mouseX
+                && parentId !== -1
+                && targetIsLastChild) {
+
+                targetPath = path.slice(0, -1);
+                targetParentId = targetPath[targetPath.length - 1];
+                targetIndex = (parentIndex || 0) + 1;
+                targetPreviousSiblingTotalChildren = index;
+                targetPreviousSiblingId = path[path.length - 1];
+                targetIndexPath = indexPath.slice(0, -1);
+                targetIndexPath[targetIndexPath.length - 1]++;
+                targetParentIndex = targetIndexPath[targetIndexPath.length - 2];
+                targetIsFirstChild = targetIndex === 0;
+                targetParentTotalChildren++;
+                targetIsLastChild = targetParentTotalChildren === targetIndex;
+            }
+
+            // X position indicates a move to right
+            else if (lastX + 50 < mouseX && parentId !== -1 && !targetIsFirstChild) {
+                targetPath = [...path, targetPreviousSiblingId];
+                targetParentId = targetPreviousSiblingId;
+                targetIndex = targetPreviousSiblingTotalChildren;
+                targetPreviousSiblingId = previousSiblingChildIds[previousSiblingChildIds.length - 1];
+                targetIndexPath = indexPath.slice(0, -1);
+                targetIndexPath.push(...[parentIndex, targetPreviousSiblingTotalChildren]);
+                targetParentTotalChildren = targetPreviousSiblingTotalChildren++;
+                targetPreviousSiblingTotalChildren--;
+                targetIsFirstChild = targetIndex === 0;
+                targetIsLastChild = targetParentTotalChildren === targetIndex;
+
+                // we need to reset previousSiblingChildIds
+                // but i dont think we have enough info
+            }
+
+            // if neither xposition indicates left or right
+            // early return
+            else {
+                return;
+            }
+
+        }
+        else {
+
+            console.log('no possible?', id, hoverIndex, index);
+            // Only perform the move when the mouse has crossed half of the items height
+            // When dragging downwards, only move when the cursor is below 50%
+            // When dragging upwards, only move when the cursor is above 50%
+
+            // Dragging downwards
+            if (index < hoverIndex && hoverClientY < hoverMiddleY) {
+                return;
+            }
+
+            // Dragging upwards
+            if (index > hoverIndex && hoverClientY > hoverMiddleY) {
+                return;
+            }
         }
 
-        // Dragging upwards
-        if (index > hoverIndex && hoverClientY > hoverMiddleY && !createChild) {
-            return;
-        }
 
-        // Dont create child multiple times
-        if (createChild && props.row._id === parentId) {
-            return;
-        }
-
-        if (createChild) {
-            props.moveRow(
-                { id, index, parentId },
-                { index: 0, parentId: props.row._id }
-            );
-
-            monitor.getItem().index = 0;
-            monitor.getItem().parentId = props.row._id;
-
-            return;
-        }
 
         props.moveRow(
             { id, index, parentId },
-            { index: hoverIndex, parentId: hoverParentId }
+            { index: targetIndex, parentId: targetParentId }
         );
 
-        monitor.getItem().index = hoverIndex;
-        monitor.getItem().parentId = hoverParentId;
+        monitor.getItem().index = targetIndex;
+        monitor.getItem().parentId = targetParentId;
+        monitor.getItem().lastX = mouseX;
+        monitor.getItem().previousSiblingTotalChildren = targetPreviousSiblingTotalChildren;
+        monitor.getItem().previousSiblingId = targetPreviousSiblingId;
+        monitor.getItem().parentIndex = targetParentIndex;
+        monitor.getItem().path = targetPath;
+        monitor.getItem().indexPath = targetIndexPath;
+        monitor.getItem().isFirstChild = targetIsFirstChild;
+        monitor.getItem().isLastChild = targetIsLastChild;
+        monitor.getItem().targetParentTotalChildren = targetParentTotalChildren;
+        monitor.getItem().targetPreviousSiblingChildIds = targetPreviousSiblingChildIds;
 
     }
+
 };
+
 
 export default DropTarget('ROW', rowTarget, connect => ({
     connectDropTarget: connect.dropTarget()
