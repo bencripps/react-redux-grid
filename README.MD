@@ -544,6 +544,9 @@ export const events = {
     },
     HANDLE_AFTER_BULKACTION_SHOW: () => {
         console.log('On After Bulk Action Show');
+    },
+    HANDLE_SORT_CHANGED: ( column, direction ) => {
+        console.log('On grid sorting changed')
     }
 };
 ```
