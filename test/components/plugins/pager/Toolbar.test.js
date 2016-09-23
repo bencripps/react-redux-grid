@@ -1,7 +1,9 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import { PagerToolbar } from './../../../../src/components/plugins/pager/Toolbar.jsx';
+import {
+    PagerToolbar
+} from './../../../../src/components/plugins/pager/Pager.jsx';
 import { mockStore } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
 

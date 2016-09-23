@@ -5,7 +5,7 @@ import FixedHeader from './layout/FixedHeader';
 import Row from './layout/TableRow';
 import {
     ConnectedPagerToolbar as PagerToolbar
-} from './plugins/pager/Toolbar';
+} from './plugins/pager/Pager';
 import { Message } from './plugins/errorhandler/Message';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar';
 import LoadingBar from './plugins/loader/LoadingBar';

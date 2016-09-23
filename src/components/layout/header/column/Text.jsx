@@ -4,19 +4,25 @@ import { prefix } from './../../../../util/prefix';
 import { keyFromObject } from './../../../../util/keyGenerator';
 import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
-export const Text = ({ col, index, columnManager, dragAndDropManager, sortHandle }) => {
+export const Text = ({
+    actualIndex, col, columnManager, dragAndDropManager, sortHandle
+}) => {
 
     const innerHTML = col.name;
-    const draggable = col.moveable !== undefined ? col.moveable : columnManager.config.moveable;
+    const draggable = col.moveable !== undefined
+        ? col.moveable
+        : columnManager.config.moveable;
 
     const spanProps = dragAndDropManager.initDragable({
         draggable: draggable,
-        className: draggable ? prefix(CLASS_NAMES.DRAGGABLE_COLUMN, CLASS_NAMES.COLUMN) : prefix(CLASS_NAMES.COLUMN),
-        onDrag: (reactEvent) => {},
+        className: draggable
+            ? prefix(CLASS_NAMES.DRAGGABLE_COLUMN, CLASS_NAMES.COLUMN)
+            : prefix(CLASS_NAMES.COLUMN),
+        onDrag: () => {},
         onDragStart: (reactEvent) => {
             const data = {
                 key: keyFromObject(col),
-                index: index
+                index: actualIndex
             };
             reactEvent.dataTransfer.setData('Text', JSON.stringify(data));
         }
@@ -31,6 +37,7 @@ export const Text = ({ col, index, columnManager, dragAndDropManager, sortHandle
 };
 
 Text.propTypes = {
+    actualIndex: PropTypes.number,
     col: PropTypes.object,
     columnManager: PropTypes.object,
     dragAndDropManager: PropTypes.object,

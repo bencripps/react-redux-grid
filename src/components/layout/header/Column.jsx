@@ -20,6 +20,7 @@ const isChrome = /Chrome/.test(navigator.userAgent)
     && /Google Inc/.test(navigator.vendor);
 
 export const Column = ({
+    actualIndex,
     scope,
     col,
     columns,
@@ -110,7 +111,7 @@ export const Column = ({
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
         onDrop: handleDrop.bind(
-            scope, index, columns, stateful, stateKey, store
+            scope, actualIndex, columns, stateful, stateKey, store
         ),
         onDragOver: (reactEvent) => {
             reactEvent.preventDefault();
@@ -141,6 +142,7 @@ export const Column = ({
     const innerHTML = (
         <Text {
             ...{
+                actualIndex,
                 col,
                 index,
                 columnManager,
@@ -159,6 +161,7 @@ export const Column = ({
 };
 
 Column.propTypes = {
+    actualIndex: PropTypes.number,
     col: PropTypes.object,
     columnManager: PropTypes.object,
     columns: PropTypes.arrayOf(PropTypes.object),
