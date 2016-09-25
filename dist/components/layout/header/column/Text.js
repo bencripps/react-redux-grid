@@ -18,8 +18,8 @@ var _GridConstants = require('./../../../../constants/GridConstants');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Text = exports.Text = function Text(_ref) {
+    var actualIndex = _ref.actualIndex;
     var col = _ref.col;
-    var index = _ref.index;
     var columnManager = _ref.columnManager;
     var dragAndDropManager = _ref.dragAndDropManager;
     var sortHandle = _ref.sortHandle;
@@ -31,11 +31,11 @@ var Text = exports.Text = function Text(_ref) {
     var spanProps = dragAndDropManager.initDragable({
         draggable: draggable,
         className: draggable ? (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.DRAGGABLE_COLUMN, _GridConstants.CLASS_NAMES.COLUMN) : (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.COLUMN),
-        onDrag: function onDrag(reactEvent) {},
+        onDrag: function onDrag() {},
         onDragStart: function onDragStart(reactEvent) {
             var data = {
                 key: (0, _keyGenerator.keyFromObject)(col),
-                index: index
+                index: actualIndex
             };
             reactEvent.dataTransfer.setData('Text', JSON.stringify(data));
         }
@@ -50,6 +50,7 @@ var Text = exports.Text = function Text(_ref) {
 };
 
 Text.propTypes = {
+    actualIndex: _react.PropTypes.number,
     col: _react.PropTypes.object,
     columnManager: _react.PropTypes.object,
     dragAndDropManager: _react.PropTypes.object,

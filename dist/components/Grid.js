@@ -31,13 +31,13 @@ var _TableRow = require('./layout/TableRow');
 
 var _TableRow2 = _interopRequireDefault(_TableRow);
 
-var _Toolbar = require('./plugins/pager/Toolbar');
+var _Pager = require('./plugins/pager/Pager');
 
 var _Message = require('./plugins/errorhandler/Message');
 
-var _Toolbar2 = require('./plugins/bulkactions/Toolbar');
+var _Toolbar = require('./plugins/bulkactions/Toolbar');
 
-var _Toolbar3 = _interopRequireDefault(_Toolbar2);
+var _Toolbar2 = _interopRequireDefault(_Toolbar);
 
 var _LoadingBar = require('./plugins/loader/LoadingBar');
 
@@ -145,7 +145,7 @@ var Grid = function (_Component) {
                 store: store
             };
 
-            var bulkActionCmp = (0, _isPluginEnabled.isPluginEnabled)(plugins, 'BULK_ACTIONS') ? _react2.default.createElement(_Toolbar3.default, bulkActionProps) : null;
+            var bulkActionCmp = (0, _isPluginEnabled.isPluginEnabled)(plugins, 'BULK_ACTIONS') ? _react2.default.createElement(_Toolbar2.default, bulkActionProps) : null;
 
             var headerProps = {
                 columnManager: this.columnManager,
@@ -238,7 +238,7 @@ var Grid = function (_Component) {
                     ),
                     editorComponent
                 ),
-                _react2.default.createElement(_Toolbar.ConnectedPagerToolbar, pagerProps),
+                _react2.default.createElement(_Pager.ConnectedPagerToolbar, pagerProps),
                 _react2.default.createElement(_LoadingBar2.default, loadingBarProps)
             );
         }

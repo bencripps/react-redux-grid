@@ -97,7 +97,13 @@ var FixedHeader = function (_Component) {
                     stateKey: stateKey,
                     stateful: stateful,
                     visibleColumns: visibleColumns,
-                    key: 'fixed-header-' + i
+                    key: 'fixed-header-' + i,
+                    // used for column drop event,
+                    // since hidden columns arent visible
+                    // but still exist in the column array
+                    actualIndex: columns.findIndex(function (c) {
+                        return col.dataIndex === c.dataIndex;
+                    })
                 };
 
                 return _react2.default.createElement(_Column.Column, colProps);

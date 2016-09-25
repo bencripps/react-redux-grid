@@ -31,6 +31,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
 var Column = exports.Column = function Column(_ref) {
+    var actualIndex = _ref.actualIndex;
     var scope = _ref.scope;
     var col = _ref.col;
     var columns = _ref.columns;
@@ -102,7 +103,7 @@ var Column = exports.Column = function Column(_ref) {
     var headerProps = {
         className: headerClass,
         onClick: handleColumnClick.bind(scope, clickArgs),
-        onDrop: handleDrop.bind(scope, index, columns, stateful, stateKey, store),
+        onDrop: handleDrop.bind(scope, actualIndex, columns, stateful, stateKey, store),
         onDragOver: function onDragOver(reactEvent) {
             reactEvent.preventDefault();
         },
@@ -124,6 +125,7 @@ var Column = exports.Column = function Column(_ref) {
     }
 
     var innerHTML = _react2.default.createElement(_Text.Text, {
+        actualIndex: actualIndex,
         col: col,
         index: index,
         columnManager: columnManager,
@@ -140,6 +142,7 @@ var Column = exports.Column = function Column(_ref) {
 };
 
 Column.propTypes = {
+    actualIndex: _react.PropTypes.number,
     col: _react.PropTypes.object,
     columnManager: _react.PropTypes.object,
     columns: _react.PropTypes.arrayOf(_react.PropTypes.object),
