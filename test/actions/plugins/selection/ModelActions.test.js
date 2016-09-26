@@ -202,7 +202,7 @@ describe('The grid setSelection Action', () => {
                 allowDeselect: true,
                 id: 'col1',
                 stateKey: 'test-grid',
-                type: 'SET_SELECTION',
+                type: SET_SELECTION,
                 index: 4
             });
     });

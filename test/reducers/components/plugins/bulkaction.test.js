@@ -10,10 +10,7 @@ import
     bulkaction
 from './../../../../src/reducers/components/plugins/bulkaction';
 
-import {
-    generateLastUpdate,
-    resetLastUpdate
-} from './../../../../src/util/lastUpdate';
+import { resetLastUpdate } from './../../../../src/util/lastUpdate';
 
 describe('The bulkaction reducer', () => {
     beforeEach(() => resetLastUpdate());

@@ -45,7 +45,7 @@ describe('A ColumnManager', () => {
             { name: 'Michael Jordan', position: 'Shooting Guard', _key: 'row-0' }
             ],
             stateKey: '__sorter__',
-            type: 'SORT_DATA'
+            type: '@@react-redux-grid/SORT_DATA'
         }]);
     });
 
