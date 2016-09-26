@@ -1,13 +1,14 @@
 import {
-    SET_DATA,
     ERROR_OCCURRED,
-    SET_COLUMNS,
-    SET_TREE_NODE_VISIBILITY,
-    SORT_DATA,
-    RESIZE_COLUMNS,
-    SET_SORT_DIRECTION,
     HIDE_HEADER,
-    SET_TREE_DATA_PARTIAL
+    MOVE_NODE,
+    RESIZE_COLUMNS,
+    SET_COLUMNS,
+    SET_DATA,
+    SET_SORT_DIRECTION,
+    SET_TREE_DATA_PARTIAL,
+    SET_TREE_NODE_VISIBILITY,
+    SORT_DATA
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -385,11 +386,10 @@ export function setTreeData({
 
     const flat = treeToFlatList(data);
 
+    // remove root node
     if (!showTreeRootNode) {
         flat.shift();
     }
-
-    // remove root node
 
     return {
         type: SET_DATA,
@@ -408,6 +408,18 @@ export function setTreeNodeVisibility({
         id,
         visible,
         stateKey,
+        showTreeRootNode
+    };
+}
+
+export function moveNode({
+    stateKey, current, next, showTreeRootNode
+}) {
+    return {
+        type: MOVE_NODE,
+        stateKey,
+        current,
+        next,
         showTreeRootNode
     };
 }

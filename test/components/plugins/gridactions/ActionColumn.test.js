@@ -103,7 +103,7 @@ describe('The GridAction component', () => {
             headerActionItemBuilder: sinon.spy()
         };
 
-        const component = mount(<ActionColumn { ...builderProps } />);
+        mount(<ActionColumn { ...builderProps } />);
 
         expect(
             builderProps.headerActionItemBuilder.callCount

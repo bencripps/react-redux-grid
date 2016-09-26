@@ -29,7 +29,8 @@ export function shouldRowUpdate(nextProps) {
         menuState,
         row,
         index,
-        selectedRows
+        selectedRows,
+        isDragging
     } = nextProps;
 
     // create id for row a single time
@@ -58,6 +59,7 @@ export function shouldRowUpdate(nextProps) {
         index,
         row,
         isEdited,
+        isDragging,
         rowValuesUpdated: this._previousEditorState
     });
 

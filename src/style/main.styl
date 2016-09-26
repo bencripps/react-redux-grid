@@ -8,6 +8,7 @@ activeclass = 'active'
 draghandleclass = 'drag-handle'
 draggablecolumnclass = 'draggable-column'
 editclass = 'edit'
+dragclass = 'row-is-dragging'
 headerhidden = 'header-hidden'
 sorthandleclass = 'sort-handle'
 sorthandlevisibleclass = 'sort-handle-visible'
@@ -30,9 +31,10 @@ fontcolor = #3f3f3f
 rowhovercolor = #f5f5f5
 actioncolor = #2E7D32
 editcolor = #B2B2B2
+dragblue = #2288EE
 
 // treelayout
-buffer = 8
+buffer = 16
 
 // zindex manager
 zarray = {
@@ -53,6 +55,8 @@ zarray = {
 @require 'components/menu'
 @require 'components/menuitem'
 @require 'components/row'
+@require 'components/rowdraghandle'
+@require 'components/cellhandlecontainer'
 
 @require 'components/plugins/editor/inline'
 

@@ -7,10 +7,12 @@ import { elementContains } from './../../../../util/elementContains';
 import { CLASS_NAMES } from './../../../../constants/GridConstants';
 
 import TreeArrow from './cell/TreeArrow';
+import DragHandle from './cell/DragHandle';
 
 export const Cell = ({
     cellData,
     columns,
+    dragAndDrop,
     editor,
     editorState,
     events,
@@ -94,6 +96,15 @@ export const Cell = ({
         store
     };
 
+    const dragHandleProps = {
+        store
+    };
+
+    // only have drag handle in first cell
+    const dragHandle = dragAndDrop && index === 0
+        ? <DragHandle { ...dragHandleProps } />
+        : null;
+
     const arrow = gridType === 'tree'
         && shouldNest
         ? <TreeArrow { ...arrowProps } />
@@ -110,9 +121,13 @@ export const Cell = ({
         store
     );
 
+    const handleContainer = dragHandle || arrow
+        ? <div { ...{ className: prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER) } }>{ dragHandle }{ arrow }</div>
+        : null;
+
     return (
         <td { ...cellProps }>
-            { arrow }
+            { handleContainer }
             { cellHTML }
         </td>
         );
@@ -267,6 +282,7 @@ Cell.propTypes = {
     cellData: any,
     columns: array,
     data: func,
+    dragAndDrop: bool,
     editor: object,
     editorState: object,
     events: object,

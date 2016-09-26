@@ -1,67 +1,86 @@
 export const treeToFlatList = (
     data,
     rootIdentifier = 'root',
-    childIdentifier = 'children',
-    list = [],
-    currentDepth = 0
+    childIdentifier = 'children'
 ) => {
 
     if (!data) {
         throw new Error('Expected data to be defined');
     }
 
+    const result = [];
+
+    let stack = [];
+
+    const cfg = { flatIndex: 0 };
+
     if (data[rootIdentifier]) {
-        list.push(getItem(data[rootIdentifier], childIdentifier, currentDepth));
-        if (data[rootIdentifier][childIdentifier]) {
-            treeToFlatList(
-                data[rootIdentifier][childIdentifier],
-                rootIdentifier,
-                childIdentifier,
-                list
-            );
-        }
-    }
+        data = data[rootIdentifier];
 
+        stack.push(
+            toItem([], childIdentifier, cfg)(data)
+        );
+    }
     else {
-
-        if (currentDepth === 0) {
-            currentDepth = 1;
-        }
-
-        data.forEach(node => {
-
-            list.push(getItem(node, childIdentifier, currentDepth));
-
-            if (node[childIdentifier]
-                && !node._hideChildren
-                && node[childIdentifier].length > 0) {
-                currentDepth++;
-                treeToFlatList(
-                    node[childIdentifier],
-                    rootIdentifier,
-                    childIdentifier,
-                    list,
-                    currentDepth
-                );
-                currentDepth--;
-            }
-
-        });
+        stack = data[childIdentifier].map(toItem([-1], [0], childIdentifier));
     }
 
-    return list;
+    while (stack.length) {
+
+        const item = stack.shift();
+        const { [childIdentifier]: children } = item;
+
+        if (Array.isArray(children) && !item._hideChildren) {
+            stack = children.map(
+                toItem(
+                    [...item._path, item._id],
+                    childIdentifier,
+                    cfg,
+                    item,
+                    children
+                )
+            ).concat(stack);
+        }
+
+        result.push(item);
+
+        // removing erroneous data since grid uses internal values
+        delete item[childIdentifier];
+        delete item.parentId;
+        delete item.id;
+    }
+
+    return result;
 };
 
-const getItem = (node, childIdentifier, depth) => {
+const toItem = (
+    path, childIdentifier, cfg, parent, siblings = []
+) => (node, index = 0) => {
 
-    const child = {
+    const previousSibling = siblings[index - 1] !== undefined
+        ? siblings[index - 1]
+        : undefined;
+
+    const previousSiblingTotalChilden = previousSibling
+        && previousSibling.children
+        ? previousSibling.children.length
+        : 0;
+
+    return {
         ...node,
-        [childIdentifier]: null,
         _id: node.id,
         _parentId: node.parentId === undefined ? 'root' : node.parentId,
-        _depth: depth,
+        _parentIndex: parent ? parent._index : 0,
+        _depth: path.length,
         _hideChildren: node._hideChildren,
         _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
+        _index: index,
+        _flatIndex: cfg.flatIndex++,
+        _isFirstChild: index === 0,
+        _isLastChild: index === siblings.length - 1,
+        _previousSiblingId: previousSibling ? previousSibling.id : undefined,
+        _previousSiblingTotalChilden: previousSiblingTotalChilden,
+        _key: `tree-item-${node.id}`,
         _isExpanded: (
             node[childIdentifier]
                 && node[childIdentifier].length > 0
@@ -70,14 +89,8 @@ const getItem = (node, childIdentifier, depth) => {
         _leaf: !(
             (node[childIdentifier] && node[childIdentifier].length > 0)
             || (node.leaf !== undefined && node.leaf === false)
-        )
+        ),
+        _path: path
     };
 
-    // removing erroneous data since grid uses internal values
-
-    delete child[childIdentifier];
-    delete child.parentId;
-    delete child.id;
-
-    return child;
 };
