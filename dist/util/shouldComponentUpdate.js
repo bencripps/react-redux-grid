@@ -47,6 +47,7 @@ function shouldRowUpdate(nextProps) {
     var row = _nextProps.row;
     var index = _nextProps.index;
     var selectedRows = _nextProps.selectedRows;
+    var isDragging = _nextProps.isDragging;
 
     // create id for row a single time
 
@@ -73,6 +74,7 @@ function shouldRowUpdate(nextProps) {
         index: index,
         row: row,
         isEdited: isEdited,
+        isDragging: isDragging,
         rowValuesUpdated: this._previousEditorState
     });
 

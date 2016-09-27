@@ -22,7 +22,6 @@ function throttle(callback, scope, limit) {
 }
 
 function debounce(func, wait, immediate) {
-    debugger;
     var timeout = void 0;
 
     return function doDebounce() {

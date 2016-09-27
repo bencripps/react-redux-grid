@@ -397,4 +397,4 @@ function mapStateToProps(state, props) {
 
 const ConnectedPagerToolbar = connect(mapStateToProps)(PagerToolbar);
 
-export { PagerToolbar, ConnectedPagerToolbar };
+export { ConnectedPagerToolbar };

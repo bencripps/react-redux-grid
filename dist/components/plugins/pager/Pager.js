@@ -361,5 +361,4 @@ function mapStateToProps(state, props) {
 
 var ConnectedPagerToolbar = (0, _reactRedux.connect)(mapStateToProps)(PagerToolbar);
 
-exports.PagerToolbar = PagerToolbar;
 exports.ConnectedPagerToolbar = ConnectedPagerToolbar;

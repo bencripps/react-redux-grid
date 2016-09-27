@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.nameFromDataIndex = exports.getValueFromDataIndexArr = exports.setDataAtDataIndex = exports.getRowKey = exports.getData = undefined;
+exports.nameFromDataIndex = exports.getValueFromDataIndexArr = exports.setDataAtDataIndex = exports.getRowKey = exports.setKeysInData = exports.getData = undefined;
 
 var _camelize = require('./camelize');
 
@@ -32,12 +32,26 @@ var getData = exports.getData = function getData() {
     }
 };
 
-var getRowKey = exports.getRowKey = function getRowKey(columns, rowValues, index, suffix) {
+var setKeysInData = exports.setKeysInData = function setKeysInData(data) {
+    if (!data || !Array.isArray(data)) {
+        return [];
+    }
+
+    if (data[0] && data[0]._key === undefined) {
+        data.forEach(function (row, i) {
+            row._key = 'row-' + i;
+        });
+    }
+
+    return data;
+};
+
+var getRowKey = exports.getRowKey = function getRowKey(columns, rowValues, suffix) {
 
     var uniqueCol = columns.filter(function (col) {
         return col.createKeyFrom;
     });
-    var val = index;
+    var val = rowValues._key;
 
     if (uniqueCol.length > 1) {
         throw new Error('Only one column can declare createKeyFrom');
@@ -45,7 +59,7 @@ var getRowKey = exports.getRowKey = function getRowKey(columns, rowValues, index
 
     if (uniqueCol.length > 0) {
         var dataIndex = nameFromDataIndex(uniqueCol[0]);
-        val = rowValues && rowValues[dataIndex] ? rowValues[dataIndex] : index;
+        val = rowValues && rowValues[dataIndex] ? rowValues[dataIndex] : rowValues._key;
     }
 
     if (suffix) {

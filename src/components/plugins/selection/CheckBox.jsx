@@ -76,4 +76,4 @@ function mapStateToProps(state, props) {
 
 const ConnectedCheckBox = connect(mapStateToProps)(CheckBox);
 
-export { CheckBox, ConnectedCheckBox };
+export { ConnectedCheckBox };

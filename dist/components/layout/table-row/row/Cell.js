@@ -24,11 +24,16 @@ var _TreeArrow = require('./cell/TreeArrow');
 
 var _TreeArrow2 = _interopRequireDefault(_TreeArrow);
 
+var _DragHandle = require('./cell/DragHandle');
+
+var _DragHandle2 = _interopRequireDefault(_DragHandle);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Cell = exports.Cell = function Cell(_ref) {
     var cellData = _ref.cellData;
     var columns = _ref.columns;
+    var dragAndDrop = _ref.dragAndDrop;
     var editor = _ref.editor;
     var editorState = _ref.editorState;
     var events = _ref.events;
@@ -98,14 +103,28 @@ var Cell = exports.Cell = function Cell(_ref) {
         store: store
     };
 
+    var dragHandleProps = {
+        store: store
+    };
+
+    // only have drag handle in first cell
+    var dragHandle = dragAndDrop && index === 0 ? _react2.default.createElement(_DragHandle2.default, dragHandleProps) : null;
+
     var arrow = gridType === 'tree' && shouldNest ? _react2.default.createElement(_TreeArrow2.default, arrowProps) : null;
 
     var cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, stateKey, store);
 
+    var handleContainer = dragHandle || arrow ? _react2.default.createElement(
+        'div',
+        { className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.CELL_HANDNLE_CONTAINER) },
+        dragHandle,
+        arrow
+    ) : null;
+
     return _react2.default.createElement(
         'td',
         cellProps,
-        arrow,
+        handleContainer,
         cellHTML
     );
 };
@@ -213,6 +232,7 @@ Cell.propTypes = {
     cellData: any,
     columns: array,
     data: func,
+    dragAndDrop: bool,
     editor: object,
     editorState: object,
     events: object,

@@ -48,7 +48,9 @@ export const getMessage = (message, isShown, store) => {
 
     return (
         <div { ...messageContainerProps }>
-            <span { ...messageProps }> { message } </span>
+            <span { ...messageProps }>
+                { message }
+            </span>
             <button { ...buttonProps }>
                 { 'Close' }
             </button>

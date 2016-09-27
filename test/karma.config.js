@@ -5,7 +5,7 @@ const BROWSERS = process.argv && process.argv.indexOf('--browser') !== -1
     ? ['jsdom', 'Chrome']
     : ['jsdom'];
 
-const COVERAGE = false //process.argv && process.argv.indexOf('--coverage') !== -1;
+const COVERAGE = process.argv && process.argv.indexOf('--coverage') !== -1;
 
 const SINGLE_RUN = process.argv
     && process.argv.indexOf('--no-single-run') === -1;

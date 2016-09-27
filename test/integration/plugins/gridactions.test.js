@@ -23,6 +23,7 @@ describe('Integration Test for Grid Actions', () => {
     const simpleProps = {
         ...props,
         store: GridStore,
+        stateKey: 'grid-action-statekey',
         plugins: {
             GRID_ACTIONS: {
                 menu: [

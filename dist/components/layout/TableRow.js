@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getRows = exports.getRowSelection = exports.getRowComponents = exports.TableRow = undefined;
+exports.getTreeData = exports.getRows = exports.getRowSelection = exports.getRowComponents = exports.TableRow = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -13,17 +13,27 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Row = require('./table-row/Row');
+var _reactDnd = require('react-dnd');
 
-var _Row2 = _interopRequireDefault(_Row);
+var _reactDndHtml5Backend = require('react-dnd-html5-backend');
 
-var _PlaceHolder = require('./row/PlaceHolder');
+var _reactDndHtml5Backend2 = _interopRequireDefault(_reactDndHtml5Backend);
 
 var _isPluginEnabled = require('../../util/isPluginEnabled');
 
 var _getCurrentRecords = require('../../util/getCurrentRecords');
 
+var _getTreePathFromId = require('./../../util/getTreePathFromId');
+
 var _getData = require('../../util/getData');
+
+var _GridActions = require('../../actions/GridActions');
+
+var _Row = require('./table-row/Row');
+
+var _Row2 = _interopRequireDefault(_Row);
+
+var _PlaceHolder = require('./row/PlaceHolder');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,6 +61,7 @@ var TableRow = exports.TableRow = function (_Component) {
             var columnManager = _props.columnManager;
             var columns = _props.columns;
             var dataSource = _props.dataSource;
+            var dragAndDrop = _props.dragAndDrop;
             var editor = _props.editor;
             var editorState = _props.editorState;
             var emptyDataMessage = _props.emptyDataMessage;
@@ -73,7 +84,7 @@ var TableRow = exports.TableRow = function (_Component) {
 
             var rows = getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, stateKey, store);
 
-            var rowComponents = getRows(columns, columnManager, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store);
+            var rowComponents = getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, this.moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store);
 
             var rowInsert = Array.isArray(rowComponents) && rowComponents.length > 0 ? rowComponents : _react2.default.createElement(_PlaceHolder.PlaceHolder, { emptyDataMessage: emptyDataMessage });
 
@@ -88,7 +99,19 @@ var TableRow = exports.TableRow = function (_Component) {
     function TableRow(props) {
         _classCallCheck(this, TableRow);
 
-        return _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
+
+        _this.moveRow = function (current, next) {
+            var _this$props = _this.props;
+            var stateKey = _this$props.stateKey;
+            var store = _this$props.store;
+            var showTreeRootNode = _this$props.showTreeRootNode;
+
+
+            store.dispatch((0, _GridActions.moveNode)({ stateKey: stateKey, store: store, current: current, next: next, showTreeRootNode: showTreeRootNode }));
+        };
+
+        return _this;
     }
 
     return TableRow;
@@ -119,30 +142,33 @@ TableRow.propTypes = {
 TableRow.defaultProps = {
     emptyDataMessage: 'No Data Available'
 };
-var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, index) {
+var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, index) {
 
-    var key = (0, _getData.getRowKey)(columns, row, index);
+    var key = (0, _getData.getRowKey)(columns, row);
 
     return _react2.default.createElement(_Row2.default, _extends({
         key: key
     }, {
-        columns: columns,
         columnManager: columnManager,
+        columns: columns,
+        dragAndDrop: dragAndDrop,
         editor: editor,
         editorState: editorState,
+        events: events,
         gridType: gridType,
+        index: index,
         menuState: menuState,
+        moveRow: moveRow,
+        plugins: plugins,
         reducerKeys: reducerKeys,
         readFunc: readFunc,
         row: row,
-        events: events,
-        plugins: plugins,
-        selectionModel: selectionModel,
         selectedRows: selectedRows,
+        selectionModel: selectionModel,
         showTreeRootNode: showTreeRootNode,
         stateKey: stateKey,
         store: store,
-        index: index
+        treeData: getTreeData(row)
     }));
 };
 
@@ -158,11 +184,33 @@ var getRowSelection = exports.getRowSelection = function getRowSelection(dataSou
     return (0, _getCurrentRecords.getCurrentRecords)(dataSource, pageIndex, pageSize);
 };
 
-var getRows = exports.getRows = function getRows(columns, columnManager, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store) {
+var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store) {
 
     return Array.isArray(rows) ? rows.map(function (row, i) {
-        return getRowComponents(columns, columnManager, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, i);
+        return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, i);
     }) : null;
 };
 
-exports.default = TableRow;
+var getTreeData = exports.getTreeData = function getTreeData(row) {
+    return {
+        depth: row._depth,
+        parentId: row._parentId,
+        id: row._id,
+        index: row._index,
+        flatIndex: row._flatIndex,
+        leaf: row._leaf,
+        hasChildren: row._hasChildren,
+        isExpanded: row._isExpanded,
+        isLastChild: row._isLastChild,
+        isFirstChild: row._isFirstChild,
+        previousSiblingId: row._previousSiblingId,
+        previousSiblingTotalChildren: row._previousSiblingTotalChilden,
+        previousSiblingChildIds: row._previousSiblingChildIds,
+        parentTotalChildren: row._parentTotalChildren,
+        parentIndex: row._parentIndex,
+        indexPath: row._indexPath,
+        path: row._path
+    };
+};
+
+exports.default = (0, _reactDnd.DragDropContext)(_reactDndHtml5Backend2.default)(TableRow);

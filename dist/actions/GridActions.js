@@ -13,6 +13,7 @@ exports.resizeColumns = resizeColumns;
 exports.setData = setData;
 exports.setTreeData = setTreeData;
 exports.setTreeNodeVisibility = setTreeNodeVisibility;
+exports.moveNode = moveNode;
 exports.setHeaderVisibility = setHeaderVisibility;
 
 var _ActionTypes = require('../constants/ActionTypes');
@@ -372,11 +373,10 @@ function setTreeData(_ref9) {
 
     var flat = (0, _treeToFlatList.treeToFlatList)(data);
 
+    // remove root node
     if (!showTreeRootNode) {
         flat.shift();
     }
-
-    // remove root node
 
     return {
         type: _ActionTypes.SET_DATA,
@@ -402,9 +402,24 @@ function setTreeNodeVisibility(_ref10) {
     };
 }
 
-function setHeaderVisibility(_ref11) {
-    var hidden = _ref11.hidden;
+function moveNode(_ref11) {
     var stateKey = _ref11.stateKey;
+    var current = _ref11.current;
+    var next = _ref11.next;
+    var showTreeRootNode = _ref11.showTreeRootNode;
+
+    return {
+        type: _ActionTypes.MOVE_NODE,
+        stateKey: stateKey,
+        current: current,
+        next: next,
+        showTreeRootNode: showTreeRootNode
+    };
+}
+
+function setHeaderVisibility(_ref12) {
+    var hidden = _ref12.hidden;
+    var stateKey = _ref12.stateKey;
 
     return { type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey };
 }

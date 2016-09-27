@@ -96,5 +96,4 @@ function mapStateToProps(state, props) {
 
 var ConnectedCheckBox = (0, _reactRedux.connect)(mapStateToProps)(CheckBox);
 
-exports.CheckBox = CheckBox;
 exports.ConnectedCheckBox = ConnectedCheckBox;

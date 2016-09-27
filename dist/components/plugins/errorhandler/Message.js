@@ -62,9 +62,7 @@ var getMessage = exports.getMessage = function getMessage(message, isShown, stor
         _react2.default.createElement(
             'span',
             messageProps,
-            ' ',
-            message,
-            ' '
+            message
         ),
         _react2.default.createElement(
             'button',

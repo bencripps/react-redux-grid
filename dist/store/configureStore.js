@@ -22,7 +22,7 @@ var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function configureStore(initialState) {
-    var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxDiffLogger2.default)(_redux.createStore);
+    var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
     var store = createStoreWithMiddleware(_reducers2.default, initialState);
 
     if (module.hot) {
