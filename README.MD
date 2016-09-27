@@ -186,6 +186,8 @@ const grid = <Grid dataSource= { dataSource } />
 7. `reducerKeys`: `object`, more information below
 8. `pageSize`: `number`, the number of records to show on the grid
 9. `emptyDataMessage`: `any`, can be a string or a react component, which will be displayed if no grid data is available
+10. `dragAndDrop`: `bool`, whether drag and drop of rows should be enabled
+11. `gridType`: `string`, either `grid` or `tree`
 
 ## Plugins
 
