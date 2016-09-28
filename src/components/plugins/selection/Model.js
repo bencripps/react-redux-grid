@@ -72,7 +72,7 @@ export default class Model {
         const cellsUpdate = cells;
 
         const checkBoxProps = {
-            key: keyFromObject(rowId, ['checkbox-']),
+            key: rowId,
             rowId,
             type,
             reducerKeys,

@@ -85,7 +85,7 @@ var Row = exports.Row = function (_Component) {
             var treeData = _props.treeData;
 
 
-            var id = (0, _keyGenerator.keyGenerator)('row', index);
+            var id = row._key;
             var visibleColumns = columns.filter(function (col) {
                 return !col.hidden;
             });
@@ -178,10 +178,8 @@ var Row = exports.Row = function (_Component) {
     function Row(props) {
         _classCallCheck(this, Row);
 
-        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
-
-        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldRowUpdate.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
+        // this.shouldComponentUpdate = shouldRowUpdate.bind(this);
     }
 
     return Row;

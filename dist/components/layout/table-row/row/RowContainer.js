@@ -12,6 +12,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _shouldComponentUpdate = require('../../../../util/shouldComponentUpdate');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23,26 +25,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var object = _react2.default.PropTypes.object;
 
 exports.default = function (DecoratedComponent) {
-    var _class, _temp2;
+    var _class, _temp;
 
-    return _temp2 = _class = function (_Component) {
+    return _temp = _class = function (_Component) {
         _inherits(RowContainer, _Component);
-
-        function RowContainer() {
-            var _ref;
-
-            var _temp, _this, _ret;
-
-            _classCallCheck(this, RowContainer);
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-            }
-
-            return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = RowContainer.__proto__ || Object.getPrototypeOf(RowContainer)).call.apply(_ref, [this].concat(args))), _this), _this.getTreeData = function () {
-                return _this.props.treeData;
-            }, _temp), _possibleConstructorReturn(_this, _ret);
-        }
 
         _createClass(RowContainer, [{
             key: 'render',
@@ -51,8 +37,21 @@ exports.default = function (DecoratedComponent) {
             }
         }]);
 
+        function RowContainer(props) {
+            _classCallCheck(this, RowContainer);
+
+            var _this = _possibleConstructorReturn(this, (RowContainer.__proto__ || Object.getPrototypeOf(RowContainer)).call(this, props));
+
+            _this.getTreeData = function () {
+                return _this.props.treeData;
+            };
+
+            _this.shouldComponentUpdate = _shouldComponentUpdate.shouldRowUpdate.bind(_this);
+            return _this;
+        }
+
         return RowContainer;
     }(_react.Component), _class.propTypes = {
         treeData: object
-    }, _temp2;
+    }, _temp;
 };

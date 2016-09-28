@@ -23,6 +23,8 @@ var _Button = require('./toolbar/Button');
 
 var _Description = require('./toolbar/Description');
 
+var _shouldComponentUpdate = require('../../../util/shouldComponentUpdate');
+
 var _prefix = require('../../../util/prefix');
 
 var _isPluginEnabled = require('../../../util/isPluginEnabled');
@@ -109,6 +111,8 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
         _classCallCheck(this, PagerToolbar);
 
         var _this = _possibleConstructorReturn(this, (PagerToolbar.__proto__ || Object.getPrototypeOf(PagerToolbar)).call(this, props));
+
+        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldPagerUpdate.bind(_this);
 
         _this.state = {
             stuck: false,

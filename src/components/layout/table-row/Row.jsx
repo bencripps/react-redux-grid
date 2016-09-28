@@ -45,7 +45,7 @@ export class Row extends Component {
             treeData
         } = this.props;
 
-        const id = keyGenerator('row', index);
+        const id = row._key;
         const visibleColumns = columns.filter((col) => !col.hidden);
         const cellValues = getCellValues(columns, row);
 
@@ -156,7 +156,7 @@ export class Row extends Component {
 
     constructor(props) {
         super(props);
-        this.shouldComponentUpdate = shouldRowUpdate.bind(this);
+        // this.shouldComponentUpdate = shouldRowUpdate.bind(this);
     }
 
     static propTypes = {

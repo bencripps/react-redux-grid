@@ -22,6 +22,8 @@ var _DragAndDropManager2 = _interopRequireDefault(_DragAndDropManager);
 
 var _prefix = require('../../util/prefix');
 
+var _shouldComponentUpdate = require('../../util/shouldComponentUpdate');
+
 var _keyGenerator = require('../../util/keyGenerator');
 
 var _GridConstants = require('../../constants/GridConstants');
@@ -123,6 +125,7 @@ var Header = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this));
 
         _this.handleDrag = handleDrag;
+        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldHeaderUpdate.bind(_this);
         return _this;
     }
 

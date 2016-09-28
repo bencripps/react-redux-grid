@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Button } from './toolbar/Button';
 import { Description } from './toolbar/Description';
-
+import { shouldPagerUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
 import { stateGetter } from '../../../util/stateGetter';
@@ -89,6 +89,8 @@ export class PagerToolbar extends Component {
 
     constructor(props) {
         super(props);
+
+        this.shouldComponentUpdate = shouldPagerUpdate.bind(this);
 
         this.state = {
             stuck: false,

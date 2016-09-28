@@ -5,6 +5,7 @@ import { Column } from './header/Column';
 import { EmptyHeader } from './header/EmptyHeader';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
+import { shouldHeaderUpdate } from '../../util/shouldComponentUpdate';
 import { prefix } from '../../util/prefix';
 import { debounce, throttle } from '../../util/throttle';
 import { isPluginEnabled } from '../../util/isPluginEnabled';
@@ -215,6 +216,7 @@ class FixedHeader extends Component {
             classes: []
         };
         this.handleDrag = throttle(handleDrag, this, 5);
+        this.shouldComponentUpdate = shouldHeaderUpdate.bind(this);
     }
 
     static propTypes = {
