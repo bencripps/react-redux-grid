@@ -1,6 +1,6 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 
 import {
     SET_DATA,
@@ -37,8 +37,8 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action)
-        ).toEqualImmutable(fromJS({
+            dataSource(state, action).toJS()
+        ).toEqual({
             'test-grid': {
                 data: [
                     { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
@@ -54,7 +54,7 @@ describe('The grid dataSource reducer setData func', () => {
                 ],
                 lastUpdate: 1
             }
-        }));
+        });
 
     });
 
@@ -69,18 +69,20 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action)
-        ).toEqualImmutable(fromJS({
+            dataSource(state, action).toJS()
+        ).toEqual({
             'test-grid': {
                 data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',
-                currentRecords: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
+                currentRecords: [
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
+                ],
                 lastUpdate: 1
             }
-        }));
+        });
 
     });
 
@@ -99,8 +101,8 @@ describe('The grid dataSource reducer setData func', () => {
         };
 
         expect(
-            dataSource(state, action)
-        ).toEqualImmutable(fromJS({
+            dataSource(state, action).toJS()
+        ).toEqual({
             'test-grid': {
                 data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
                 proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
@@ -110,7 +112,7 @@ describe('The grid dataSource reducer setData func', () => {
                 currentRecords: [{ banana: 2 }],
                 lastUpdate: 1
             }
-        }));
+        });
 
     });
 
@@ -321,7 +323,7 @@ describe('The grid dataSource reducer addRow func', () => {
                     { cell: 2 }
                 ],
                 data: [
-                    { cell: '' },
+                    { cell: '', _key: 'row-0' },
                     { cell: 1 },
                     { cell: 2 }
                 ],
@@ -337,6 +339,7 @@ describe('The grid dataSource reducer addRow func', () => {
 
         const action = {
             stateKey: 'test-grid',
+            rowId: 'row-0',
             type: ADD_NEW_ROW
         };
 
@@ -359,7 +362,7 @@ describe('The grid dataSource reducer addRow func', () => {
         const outState = fromJS({
             'test-grid': {
                 proxy: [],
-                data: [{}],
+                data: [{_key: 'row-id'}],
                 currentRecords: [],
                 total: 1,
                 isEditing: true,
@@ -368,6 +371,7 @@ describe('The grid dataSource reducer addRow func', () => {
         });
 
         const action = {
+            rowId: 'row-id',
             stateKey: 'test-grid',
             type: ADD_NEW_ROW
         };

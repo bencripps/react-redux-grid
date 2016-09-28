@@ -93,7 +93,7 @@ var Model = function () {
             var cellsUpdate = cells;
 
             var checkBoxProps = {
-                key: (0, _keyGenerator.keyFromObject)(rowId, ['checkbox-']),
+                key: rowId,
                 rowId: rowId,
                 type: type,
                 reducerKeys: reducerKeys,

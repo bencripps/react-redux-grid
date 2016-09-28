@@ -72,8 +72,7 @@ export const plugins = {
     },
     PAGER: {
         enabled: true,
-        pagingType: 'remote',
-        pagingSource: 'http://react-redux-grid.herokuapp.com/getFakedPagedData'
+        pagingType: 'remote'
     },
     LOADER: {
         enabled: true

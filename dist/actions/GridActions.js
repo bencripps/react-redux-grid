@@ -375,7 +375,7 @@ function setTreeData(_ref9) {
 
     // remove root node
     if (!showTreeRootNode) {
-        flat.shift();
+        flat = flat.shift();
     }
 
     return {

@@ -127,7 +127,7 @@ function addNewRow(_ref10) {
         var rowIndex = 0;
         var isCreate = true;
 
-        dispatch({ type: _ActionTypes.ADD_NEW_ROW, stateKey: stateKey });
+        dispatch({ type: _ActionTypes.ADD_NEW_ROW, stateKey: stateKey, rowId: rowId });
 
         dispatch(editRow({
             rowId: rowId,

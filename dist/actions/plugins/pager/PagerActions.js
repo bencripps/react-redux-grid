@@ -102,8 +102,8 @@ function setPageAsync(_ref3) {
 
         return _Request2.default.api({
             route: dataSource,
-            method: 'POST',
-            data: {
+            method: 'GET',
+            queryStringParams: {
                 pageIndex: pageIndex,
                 pageSize: pageSize
             }

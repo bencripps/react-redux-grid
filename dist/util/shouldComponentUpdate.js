@@ -3,17 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.equalProps = undefined;
+exports.equalProps = exports.slimColumn = undefined;
 exports.shouldGridUpdate = shouldGridUpdate;
+exports.shouldPagerUpdate = shouldPagerUpdate;
+exports.shouldHeaderUpdate = shouldHeaderUpdate;
 exports.shouldRowUpdate = shouldRowUpdate;
-
-var _immutable = require('immutable');
 
 var _deepEqual = require('deep-equal');
 
 var _deepEqual2 = _interopRequireDefault(_deepEqual);
-
-var _keyGenerator = require('./keyGenerator');
 
 var _lastUpdate = require('./lastUpdate');
 
@@ -38,59 +36,103 @@ function shouldGridUpdate(nextProps) {
     return result;
 }
 
-function shouldRowUpdate(nextProps) {
+function shouldPagerUpdate(nextProps, nextState) {
+
     var result = true;
-    var _nextProps = nextProps;
-    var columns = _nextProps.columns;
-    var editorState = _nextProps.editorState;
-    var menuState = _nextProps.menuState;
-    var row = _nextProps.row;
-    var index = _nextProps.index;
-    var selectedRows = _nextProps.selectedRows;
-    var isDragging = _nextProps.isDragging;
 
-    // create id for row a single time
+    var limitedNextProps = {
+        gridData: nextProps.gridData,
+        state: this.state
+    };
 
-    this.id = this.id || (0, _keyGenerator.keyGenerator)('row', index);
+    var limitedProps = {
+        gridData: this.props.gridData,
+        state: nextState
+    };
 
-    // update if selection change
-    var isSelected = Boolean(selectedRows && selectedRows[this.id]);
-
-    // update if menu is shown or hidden
-    var isMenuShown = Boolean(menuState && menuState[this.id]);
-
-    // update if editor state changes for only this row
-    var isEdited = Boolean(editorState && editorState.row && editorState.row.rowIndex === index);
-
-    // if row is currently being edited, cache the last value
-    if (isEdited) {
-        this._previousEditorState = editorState;
-    }
-
-    nextProps = (0, _immutable.fromJS)({
-        columns: columns,
-        isSelected: isSelected,
-        isMenuShown: isMenuShown,
-        index: index,
-        row: row,
-        isEdited: isEdited,
-        isDragging: isDragging,
-        rowValuesUpdated: this._previousEditorState
-    });
-
-    // if this is the first pass, no previous values have been
-    // cached, thusly just return true and create _lastProps
-    if (!this._lastProps) {
-        this._lastProps = nextProps;
-        return true;
-    }
-
-    result = !(0, _immutable.is)(nextProps, this._lastProps);
-
-    this._lastProps = nextProps;
+    result = !(0, _deepEqual2.default)(limitedNextProps, limitedProps);
 
     return result;
 }
+
+function shouldHeaderUpdate(nextProps, nextState) {
+    var result = true;
+
+    var menuState = function menuState(state) {
+        return state && state['header-row'];
+    };
+
+    var limitedNextProps = {
+        columns: nextProps.columns,
+        menuState: menuState(nextProps.menuState),
+        state: nextState
+    };
+
+    var limitedProps = {
+        columns: this.previousColumns,
+        menuState: menuState(this.props.menuState),
+        state: this.state
+    };
+
+    result = !(0, _deepEqual2.default)(limitedNextProps, limitedProps);
+
+    this.previousColumns = this.props.columns.slice();
+
+    return result;
+}
+
+function shouldRowUpdate(nextProps) {
+    var result = true;
+
+    // unique key created by setData action/reducer
+    var key = nextProps.row._key;
+
+    var isSelected = function isSelected(rows) {
+        return Boolean(rows && rows[key]);
+    };
+
+    var isMenuShown = function isMenuShown(rows) {
+        return Boolean(rows && rows[key]);
+    };
+
+    var isEdited = function isEdited(editorState) {
+        return Boolean(editorState && editorState.row && editorState.row.rowIndex === nextProps.index && editorState.row.values);
+    };
+
+    var limitedNextProps = {
+        columns: slimColumn(nextProps.columns),
+        isEdited: isEdited(nextProps.editorState),
+        currentValues: isEdited(nextProps.editorState) ? nextProps.editorState : null,
+        isMenuShown: isMenuShown(nextProps.menuState),
+        row: nextProps.row,
+        index: nextProps.index,
+        isSelected: isSelected(nextProps.selectedRows),
+        isDragging: nextProps.isDragging
+    };
+
+    var limitedProps = {
+        columns: this.previousColumns,
+        isEdited: isEdited(this.props.editorState),
+        currentValues: isEdited(nextProps.editorState) ? this.props.editorState : null,
+        isMenuShown: isMenuShown(this.props.menuState),
+        row: this.props.row,
+        index: this.props.index,
+        isSelected: isSelected(this.props.selectedRows),
+        isDragging: this.props.isDragging
+    };
+
+    this.previousColumns = slimColumn(this.props.columns.slice());
+
+    result = !(0, _deepEqual2.default)(limitedNextProps, limitedProps);
+
+    return result;
+}
+
+var slimColumn = exports.slimColumn = function slimColumn(cols) {
+    return cols.map(function (col) {
+        return { hidden: col.hidden, dataIndex: col.dataIndex };
+    });
+};
 
 var equalProps = exports.equalProps = function equalProps() {
     var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];

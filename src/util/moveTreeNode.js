@@ -1,3 +1,5 @@
+import { List } from 'immutable';
+
 import { findTreeNode } from './findTreeNode';
 
 export const moveTreeNode = (
@@ -9,36 +11,48 @@ export const moveTreeNode = (
     childIdentifier = 'children',
     rootIdentifier = 'root'
 ) => {
-    const currentParent = findTreeNode(
+
+    const originalTreeData = treeData;
+
+    const { node: currentParent, indexPath: currentIndexPath } = findTreeNode(
         treeData,
         currentPath,
         childIdentifier,
         rootIdentifier
     );
 
-    const nextParent = findTreeNode(
+    if (!currentParent) {
+        return originalTreeData;
+    }
+
+    currentIndexPath.push(...[childIdentifier, currentIndex]);
+
+    let node = treeData.getIn(currentIndexPath);
+    treeData = treeData.deleteIn(currentIndexPath);
+
+    const { node: nextParent, indexPath: nextIndexPath } = findTreeNode(
         treeData,
         nextPath,
         childIdentifier,
         rootIdentifier
     );
 
-    if (!currentParent || !nextParent) {
-        return treeData;
+    if (!nextParent) {
+        return originalTreeData;
     }
 
-    const node = currentParent[childIdentifier].splice(
-        currentIndex,
-        1
-    )[0];
+    nextIndexPath.push(childIdentifier);
 
-    if (!Array.isArray(nextParent[childIdentifier])) {
-        nextParent[childIdentifier] = [];
+    if (!List.isList(treeData.getIn(nextIndexPath))) {
+        treeData = treeData.setIn(nextIndexPath, List());
     }
 
-    nextParent[childIdentifier].splice(nextIndex, 0, node);
+    node = node.set('parentId', nextPath.last());
 
-    node.parentId = nextPath[nextPath.length - 1];
+    treeData = treeData.setIn(
+        nextIndexPath,
+        treeData.getIn(nextIndexPath).insert(nextIndex, node)
+    );
 
     return treeData;
 };

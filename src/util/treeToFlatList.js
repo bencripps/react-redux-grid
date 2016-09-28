@@ -1,3 +1,5 @@
+import { List, Map, fromJS } from 'immutable';
+
 export const treeToFlatList = (
     data,
     rootIdentifier = 'root',
@@ -10,30 +12,39 @@ export const treeToFlatList = (
 
     const result = [];
 
-    let stack = [];
+    let stack = List();
 
     const cfg = { flatIndex: 0 };
 
-    if (data[rootIdentifier]) {
-        data = data[rootIdentifier];
+    if (!Map.isMap(data)) {
+        data = fromJS(data);
+    }
 
-        stack.push(
-            toItem([], childIdentifier, cfg)(data)
+    if (data.get(rootIdentifier)) {
+        data = data.get(rootIdentifier);
+
+        stack = stack.push(
+            toItem(List(), childIdentifier, cfg)(data)
         );
     }
     else {
-        stack = data[childIdentifier].map(toItem([-1], [0], childIdentifier));
+        stack = data.get(childIdentifier).map(
+            toItem(List([-1]), List([0]), childIdentifier)
+        );
     }
 
-    while (stack.length) {
+    while (stack.count()) {
 
-        const item = stack.shift();
-        const { [childIdentifier]: children } = item;
+        const item = stack.first();
 
-        if (Array.isArray(children) && !item._hideChildren) {
+        stack = stack.shift();
+        const children = item.get(childIdentifier);
+        // console.log(item.get('id'), (children || List()).map(i => i.get('id')).toJS(), stack.map(i => i.get('id')).toJS());
+
+        if (List.isList(children) && !item.get('_hideChildren')) {
             stack = children.map(
                 toItem(
-                    [...item._path, item._id],
+                    item.get('_path').push(item.get('_id')),
                     childIdentifier,
                     cfg,
                     item,
@@ -42,55 +53,59 @@ export const treeToFlatList = (
             ).concat(stack);
         }
 
-        result.push(item);
-
         // removing erroneous data since grid uses internal values
-        delete item[childIdentifier];
-        delete item.parentId;
-        delete item.id;
+        result.push(
+            item.delete(childIdentifier)
+                .delete('parentId')
+                .delete('id')
+        );
     }
 
-    return result;
+    return List(result);
 };
 
 const toItem = (
-    path, childIdentifier, cfg, parent, siblings = []
+    path, childIdentifier, cfg, parent, siblings = List()
 ) => (node, index = 0) => {
 
-    const previousSibling = siblings[index - 1] !== undefined
-        ? siblings[index - 1]
+    const previousSibling = index - 1 > -1
+        ? siblings.get(index - 1)
         : undefined;
 
-    const previousSiblingTotalChilden = previousSibling
-        && previousSibling.children
-        ? previousSibling.children.length
-        : 0;
+    const previousSiblingTotalChilden = (
+        previousSibling && previousSibling.get(childIdentifier)
+            ? previousSibling.get(childIdentifier).count()
+            : 0
+    );
 
-    return {
-        ...node,
-        _id: node.id,
-        _parentId: node.parentId === undefined ? 'root' : node.parentId,
-        _parentIndex: parent ? parent._index : 0,
-        _depth: path.length,
-        _hideChildren: node._hideChildren,
-        _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
+    return node.merge({
+        _id: node.get('id'),
+        _parentId: node.get('parentId', 'root'),
+        _parentIndex: parent ? parent.get('_index') : 0,
+        _depth: path.count(),
+        _hideChildren: node.get('_hideChildren'),
+        _hasChildren: (
+            node.get(childIdentifier) && node.get(childIdentifier).count() > 0
+        ),
         _index: index,
         _flatIndex: cfg.flatIndex++,
         _isFirstChild: index === 0,
-        _isLastChild: index === siblings.length - 1,
-        _previousSiblingId: previousSibling ? previousSibling.id : undefined,
+        _isLastChild: index === siblings.count() - 1,
+        _previousSiblingId: previousSibling
+                                ? previousSibling.get('id')
+                                : undefined,
         _previousSiblingTotalChilden: previousSiblingTotalChilden,
-        _key: `tree-item-${node.id}`,
+        _key: `tree-item-${node.get('id')}`,
         _isExpanded: (
-            node[childIdentifier]
-                && node[childIdentifier].length > 0
-                && !node._hideChildren
+            node.get(childIdentifier)
+                && node.get(childIdentifier).count() > 0
+                && !node.get('_hideChildren')
         ),
         _leaf: !(
-            (node[childIdentifier] && node[childIdentifier].length > 0)
-            || (node.leaf !== undefined && node.leaf === false)
+            (node.get(childIdentifier) && node.get(childIdentifier).count() > 0)
+            || (node.get('leaf') !== undefined && node.get('leaf') === false)
         ),
         _path: path
-    };
+    });
 
 };

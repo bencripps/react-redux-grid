@@ -23,6 +23,8 @@ var _DragAndDropManager = require('../core/draganddrop/DragAndDropManager');
 
 var _DragAndDropManager2 = _interopRequireDefault(_DragAndDropManager);
 
+var _shouldComponentUpdate = require('../../util/shouldComponentUpdate');
+
 var _prefix = require('../../util/prefix');
 
 var _throttle = require('../../util/throttle');
@@ -240,6 +242,7 @@ var FixedHeader = function (_Component) {
             classes: []
         };
         _this.handleDrag = (0, _throttle.throttle)(handleDrag, _this, 5);
+        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldHeaderUpdate.bind(_this);
         return _this;
     }
 

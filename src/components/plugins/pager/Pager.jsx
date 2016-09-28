@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
 
 import { Button } from './toolbar/Button';
 import { Description } from './toolbar/Description';
-
+import { shouldPagerUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
-import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
 
@@ -16,10 +14,10 @@ export class PagerToolbar extends Component {
     render() {
 
         const {
-            BUTTON_TYPES,
             dataSource,
+            BUTTON_TYPES,
+            gridData,
             pageSize,
-            pager,
             pagerState,
             plugins,
             recordType,
@@ -28,15 +26,14 @@ export class PagerToolbar extends Component {
             toolbarRenderer
         } = this.props;
 
-        const pagerDataSource = getPagingSource(plugins, dataSource);
+        const pagerDataSource = getPagingSource(plugins, gridData);
 
         const { stuck, stuckBottom, width, top } = this.state;
 
         const customComponent = getCustomComponent(plugins, {
-            dataSource,
+            gridData,
             pageSize,
-            pager,
-            ...{ gridData: pagerState },
+            pagerState,
             plugins,
             recordType,
             store
@@ -48,13 +45,13 @@ export class PagerToolbar extends Component {
 
         const component = isPluginEnabled(plugins, 'PAGER')
                         ? getPager(
-                            pagerDataSource,
+                            dataSource,
                             pageSize,
                             recordType,
                             BUTTON_TYPES,
-                            pager,
-                            plugins,
                             pagerState,
+                            plugins,
+                            gridData,
                             pagerDataSource,
                             toolbarRenderer,
                             stateKey,
@@ -87,8 +84,19 @@ export class PagerToolbar extends Component {
         }
     }
 
+    componentWillUnmount() {
+        if (this._scrollTarget) {
+            this._scrollTarget
+                .removeEventListener('scroll', this._scrollListener);
+        }
+
+        delete this._scrollListener;
+    }
+
     constructor(props) {
         super(props);
+
+        this.shouldComponentUpdate = shouldPagerUpdate.bind(this);
 
         this.state = {
             stuck: false,
@@ -101,10 +109,10 @@ export class PagerToolbar extends Component {
     static propTypes = {
         BUTTON_TYPES: PropTypes.object,
         dataSource: PropTypes.any,
+        gridData: PropTypes.array,
         gridState: PropTypes.object,
         nextButtonText: PropTypes.string,
         pageSize: PropTypes.number.isRequired,
-        pager: PropTypes.object,
         pagerState: PropTypes.object,
         plugins: PropTypes.object,
         recordType: PropTypes.string,
@@ -139,8 +147,10 @@ export class PagerToolbar extends Component {
         return (
             rect.top >= 0 &&
             rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            rect.bottom <=
+                (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <=
+                (window.innerWidth || document.documentElement.clientWidth)
         );
     }
 
@@ -226,12 +236,14 @@ export class PagerToolbar extends Component {
             }
         };
 
-        target.addEventListener('scroll',
-            config.listener
+        this._scrollListener = config.listener
                 ? config.listener.bind(this, {
                     footerDOM
-                }) : defaultListener
-        );
+                }) : defaultListener;
+
+        this._scrollTarget = target;
+
+        this._scrollTarget.addEventListener('scroll', this._scrollListener);
     }
 }
 
@@ -244,17 +256,17 @@ export const getCustomComponent = (plugins) => {
 };
 
 export const getCurrentRecordTotal = (
-    pagerState, pageSize, pageIndex, plugins
+    gridData, pageSize, pageIndex, plugins
 ) => {
 
     if (plugins.PAGER.pagingType === 'remote'
-        && pagerState
-        && pagerState.currentRecords) {
-        return pagerState.currentRecords.length;
+        && gridData
+        && gridData.currentRecords) {
+        return gridData.currentRecords.length;
     }
 
     else if (plugins.PAGER.pagingType === 'local') {
-        const records = getCurrentRecords(pagerState, pageIndex, pageSize);
+        const records = getCurrentRecords(gridData, pageIndex, pageSize);
         return records ? records.length : 0;
     }
 
@@ -283,7 +295,7 @@ export const getPager = (
     BUTTON_TYPES,
     pager,
     plugins,
-    pagerState,
+    gridData,
     pagerDataSource,
     toolbarRenderer,
     stateKey,
@@ -315,10 +327,10 @@ export const getPager = (
     }
 
     const currentRecords = getCurrentRecordTotal(
-        pagerState, pageSize, pageIndex, plugins, dataSource
+        gridData, pageSize, pageIndex, plugins, gridData
     );
 
-    const total = getTotal(pagerState, plugins.PAGER);
+    const total = getTotal(gridData, plugins.PAGER);
 
     const descriptionProps = {
         pageIndex,
@@ -344,6 +356,7 @@ export const getPager = (
             <div { ...toolbarProps }>
                 <span>
                     <Button { ...{
+                        dataSource,
                         BUTTON_TYPES,
                         type: BUTTON_TYPES.BACK,
                         pageIndex,
@@ -351,12 +364,13 @@ export const getPager = (
                         plugins,
                         currentRecords,
                         total,
-                        dataSource,
+                        gridData,
                         stateKey,
                         store }
                         }
                     />
                     <Button { ...{
+                        dataSource,
                         BUTTON_TYPES,
                         type: BUTTON_TYPES.NEXT,
                         pageIndex,
@@ -364,7 +378,7 @@ export const getPager = (
                         plugins,
                         currentRecords,
                         total,
-                        dataSource,
+                        gridData,
                         stateKey,
                         store }
                         }
@@ -376,25 +390,14 @@ export const getPager = (
     );
 };
 
-export const getPagingSource = (plugins, dataSource) => {
+export const getPagingSource = (plugins, gridData) => {
     if (plugins
         && plugins.PAGER
         && plugins.PAGER.pagingSource) {
         return plugins.PAGER.pagingSource;
     }
 
-    return dataSource;
+    return gridData;
 };
 
-function mapStateToProps(state, props) {
-
-    return {
-        pager: stateGetter(state, props, 'pager', props.stateKey),
-        pagerState: stateGetter(state, props, 'dataSource', props.stateKey),
-        gridState: stateGetter(state, props, 'grid', props.stateKey)
-    };
-}
-
-const ConnectedPagerToolbar = connect(mapStateToProps)(PagerToolbar);
-
-export { ConnectedPagerToolbar };
+export default PagerToolbar;

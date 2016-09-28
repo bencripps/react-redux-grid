@@ -85,7 +85,7 @@ export function addNewRow({ columns, data, stateKey }) {
         const rowIndex = 0;
         const isCreate = true;
 
-        dispatch({ type: ADD_NEW_ROW, stateKey });
+        dispatch({ type: ADD_NEW_ROW, stateKey, rowId });
 
         dispatch(
             editRow({

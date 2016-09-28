@@ -9,17 +9,17 @@ import {
 
 export const Button = ({
         BUTTON_TYPES,
-        type,
+        backButtonText,
+        currentRecords,
+        dataSource,
+        nextButtonText,
         pageIndex,
         pageSize,
         plugins,
-        currentRecords,
-        total,
-        dataSource,
-        backButtonText,
-        nextButtonText,
         stateKey,
-        store
+        store,
+        total,
+        type
     }) => {
 
     const buttonProps = {

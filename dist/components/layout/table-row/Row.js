@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handleRowSingleClickEvent = exports.getSelectedText = exports.handleRowDoubleClickEvent = exports.addEmptyCells = exports.getCellData = exports.addEmptyInsert = exports.getCellValues = exports.Row = undefined;
 
+var _arrayFrom = require('array-from');
+
+var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -25,10 +29,6 @@ var _RowContainer = require('./row/RowContainer');
 
 var _RowContainer2 = _interopRequireDefault(_RowContainer);
 
-var _keyGenerator = require('../../../util/keyGenerator');
-
-var _shouldComponentUpdate = require('../../../util/shouldComponentUpdate');
-
 var _prefix = require('../../../util/prefix');
 
 var _getData = require('../../../util/getData');
@@ -36,6 +36,8 @@ var _getData = require('../../../util/getData');
 var _GridConstants = require('../../../constants/GridConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -85,7 +87,8 @@ var Row = exports.Row = function (_Component) {
             var treeData = _props.treeData;
 
 
-            var id = (0, _keyGenerator.keyGenerator)('row', index);
+            var id = row._key;
+
             var visibleColumns = columns.filter(function (col) {
                 return !col.hidden;
             });
@@ -178,10 +181,7 @@ var Row = exports.Row = function (_Component) {
     function Row(props) {
         _classCallCheck(this, Row);
 
-        var _this = _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
-
-        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldRowUpdate.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
     }
 
     return Row;
@@ -374,15 +374,18 @@ var rowTarget = {
         var isLastChild = _getTreeData.isLastChild;
         var isFirstChild = _getTreeData.isFirstChild;
         var flatIndex = _getTreeData.flatIndex;
-        var path = _getTreeData.path;
         var parentIndex = _getTreeData.parentIndex;
         var previousSiblingTotalChildren = _getTreeData.previousSiblingTotalChildren;
         var previousSiblingId = _getTreeData.previousSiblingId;
+
+
+        var path = [].concat(_toConsumableArray(getTreeData().path));
 
         // console.log(monitor.getItem().getTreeData())
 
         var targetIndex = hoverIndex;
         var targetParentId = hoverParentId;
+        var targetPath = hoverPath;
 
         // cant drop root
         if (index === -1) {
@@ -423,12 +426,14 @@ var rowTarget = {
 
                     targetParentId = path[path.length - 2];
                     targetIndex = (parentIndex || 0) + 1;
+                    targetPath.pop();
                 }
 
                 // X position indicates a move to right
                 else if (lastX + DRAG_INCREMENT < mouseX && !isFirstChild) {
                         targetParentId = previousSiblingId;
                         targetIndex = previousSiblingTotalChildren;
+                        targetPath.push(targetParentId);
                     }
 
                     // if neither xposition indicates left or right
@@ -437,7 +442,8 @@ var rowTarget = {
                             return;
                         }
         } else {
-            // Only perform the move when the mouse has crossed half of the items height
+            // Only perform the move when the mouse
+            // has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
 
@@ -456,10 +462,13 @@ var rowTarget = {
             if (flatIndex < hoverFlatIndex && hoverIsExpanded) {
                 targetIndex = 0;
                 targetParentId = hoverId;
+                targetPath.push(targetParentId);
             }
         }
 
-        props.moveRow({ id: id, index: index, parentId: parentId }, { index: targetIndex, parentId: targetParentId });
+        // console.log('currentPath', path, 'targetPath', targetPath)
+
+        props.moveRow({ id: id, index: index, parentId: parentId, path: path }, { index: targetIndex, parentId: targetParentId, path: targetPath });
 
         monitor.getItem().lastX = mouseX;
     }

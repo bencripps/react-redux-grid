@@ -1,5 +1,6 @@
 /* eslint-enable describe it sinon */
 import expect from 'expect';
+import { fromJS, List } from 'immutable';
 
 import {
     moveTreeNode
@@ -11,7 +12,7 @@ describe('the moveTreeNode utility', () => {
 
         expect(
             moveTreeNode(
-                {
+                fromJS({
                     root: {
                         id: -1,
                         children: [
@@ -20,12 +21,12 @@ describe('the moveTreeNode utility', () => {
                             { id: 3, parentId: -1 }
                         ]
                     }
-                },
+                }),
                 2,
-                [-1],
+                List([-1]),
                 0,
-                [-1]
-            )
+                List([-1])
+            ).toJS()
         ).toEqual({
             root: {
                 id: -1,
@@ -38,11 +39,54 @@ describe('the moveTreeNode utility', () => {
         });
     });
 
+    it('should change the order of sibilings when not root', () => {
+
+        expect(
+            moveTreeNode(
+                fromJS({
+                    root: {
+                        id: -1,
+                        children: [
+                            {
+                                id: 1,
+                                parentId: -1,
+                                children: [
+                                    { id: 2, parentId: 1 },
+                                    { id: 3, parentId: 1 }
+                                ]
+                            }
+
+                        ]
+                    }
+                }),
+                1,
+                List([-1, 1]),
+                0,
+                List([-1, 1])
+            ).toJS()
+        ).toEqual({
+            root: {
+                id: -1,
+                children: [
+                    {
+                        id: 1,
+                        parentId: -1,
+                        children: [
+                            { id: 3, parentId: 1 },
+                            { id: 2, parentId: 1 }
+                        ]
+                    }
+
+                ]
+            }
+        });
+    });
+
     it('should move nodes to new parents', () => {
 
         expect(
             moveTreeNode(
-                {
+                fromJS({
                     root: {
                         id: -1,
                         children: [
@@ -59,12 +103,12 @@ describe('the moveTreeNode utility', () => {
                             { id: 3, parentId: -1 }
                         ]
                     }
-                },
+                }),
                 0,
-                [-1],
+                List([-1]),
                 0,
-                [-1, 2]
-            )
+                List([-1, 2])
+            ).toJS()
         ).toEqual({
             root: {
                 id: -1,
@@ -85,6 +129,44 @@ describe('the moveTreeNode utility', () => {
                         ]
                     },
                     { id: 3, parentId: -1 }
+                ]
+            }
+        });
+
+    });
+
+    it('should make become child of previous sibling', () => {
+
+        expect(
+            moveTreeNode(
+                fromJS({
+                    root: {
+                        id: -1,
+                        children: [
+                            { id: 1, parentId: -1 },
+                            { id: 2, parentId: -1 }
+                        ]
+                    }
+                }),
+                1,
+                List([-1]),
+                0,
+                List([-1, 1])
+            ).toJS()
+        ).toEqual({
+            root: {
+                id: -1,
+                children: [
+                    {
+                        id: 1,
+                        parentId: -1,
+                        children: [
+                            {
+                                id: 2,
+                                parentId: 1
+                            }
+                        ]
+                    }
                 ]
             }
         });

@@ -333,7 +333,6 @@ export const plugins = {
     PAGER: {
         enabled: true,
         pagingType: 'remote',
-        pagingSource: 'url/to/grid/data', // not required, will default to dataSource
         toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
             return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
         },
@@ -346,9 +345,8 @@ Pagination Defaults:
 
 1. `enabled`: `boolean`, default value: `true`
 2. `pagingType`: `string`, default value; `local`, possible values: `['local', 'remote']`
-3. `pagingSource`: `string`, url for remote grid data (if `pagingSource` is null, the toolbar will default to the original dataSource passed to grid)
-4. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
-5. `pagerComponent`: `jsx element`, if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely
+3. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
+4. `pagerComponent`: `jsx element`, if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely
 
 ### Note about using a Custom Pager
 

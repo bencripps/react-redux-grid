@@ -1,4 +1,5 @@
 import expect from 'expect';
+import { List } from 'immutable';
 
 import {
     getAsyncData,
@@ -522,139 +523,141 @@ describe('The resizeColumns action', () => {
         });
     });
 
-    describe('The setTreeNodeVisibility action', () => {
+});
+describe('The setTreeNodeVisibility action', () => {
 
-        it('Should return default hide action', () => {
-            expect(setTreeNodeVisibility({
-                id: 'someId',
-                type: 'SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false
-            })).toEqual({
-                id: 'someId',
-                type: 'SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: undefined
-            });
+    it('Should return default hide action', () => {
+        expect(setTreeNodeVisibility({
+            id: 'someId',
+            type: 'SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false
+        })).toEqual({
+            id: 'someId',
+            type: 'SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: undefined
+        });
+    });
+
+    it('Should pass visiblity state', () => {
+        expect(setTreeNodeVisibility({
+            id: 'someId',
+            type: 'SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: true
+        })).toEqual({
+            id: 'someId',
+            type: 'SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: true
+        });
+    });
+
+});
+
+describe('The setTreeData action', () => {
+
+    const data = {
+        root: {
+            id: -1,
+            children: [
+                {
+                    id: 1,
+                    parentId: -1,
+                    children: [
+                        {
+                            id: 11,
+                            parentId: 1
+                        },
+                        {
+                            id: 12,
+                            parentId: 1,
+                            children: [
+                                {
+                                    id: 121,
+                                    parentId: 12,
+                                    children: [
+                                        {
+                                            id: 1211,
+                                            parentId: 121
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    parentId: -1,
+                    children: [
+                        {
+                            id: 21,
+                            parentId: 2
+                        }
+                    ]
+                }
+            ]
+        }
+    };
+
+    it('Should return action with root node', () => {
+
+        const { data: expectedData, ...expectedRest } = setTreeData({
+            data,
+            stateKey: 'tree-grid',
+            showTreeRootNode: true
         });
 
-        it('Should pass visiblity state', () => {
-            expect(setTreeNodeVisibility({
-                id: 'someId',
-                type: 'SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: true
-            })).toEqual({
-                id: 'someId',
-                type: 'SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: true
-            });
+        expect(expectedRest).toEqual({
+            type: 'SET_DATA',
+            stateKey: 'tree-grid',
+            gridType: 'tree',
+            treeData: data
         });
+
+        expect(List.isList(expectedData))
+            .toBe(true, 'Expect the data results to be a List');
+
+        const count = 8;
+
+        expect(expectedData.count())
+            .toBe(
+                count,
+                `Expect there to be ${count} flat records returned`
+            );
 
     });
 
-    describe('The setTreeData action', () => {
+    it('Should return action without root node', () => {
 
-        const data = {
-            root: {
-                id: -1,
-                children: [
-                    {
-                        id: 1,
-                        parentId: -1,
-                        children: [
-                            {
-                                id: 11,
-                                parentId: 1
-                            },
-                            {
-                                id: 12,
-                                parentId: 1,
-                                children: [
-                                    {
-                                        id: 121,
-                                        parentId: 12,
-                                        children: [
-                                            {
-                                                id: 1211,
-                                                parentId: 121
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        parentId: -1,
-                        children: [
-                            {
-                                id: 21,
-                                parentId: 2
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-
-        it('Should return action with root node', () => {
-
-            const { data: expectedData, ...expectedRest } = setTreeData({
-                data,
-                stateKey: 'tree-grid',
-                showTreeRootNode: true
-            });
-
-            expect(expectedRest).toEqual({
-                type: 'SET_DATA',
-                stateKey: 'tree-grid',
-                gridType: 'tree',
-                treeData: data
-            });
-
-            expect(Array.isArray(expectedData))
-                .toBe(true, 'Expect the data results to be an Array');
-
-            const count = 8;
-            expect(expectedData.length)
-                .toBe(
-                    count,
-                    `Expect there to be ${count} flat records returned`
-                );
-
+        const { data: expectedData, ...expectedRest } = setTreeData({
+            data,
+            stateKey: 'tree-grid',
+            showTreeRootNode: false
         });
 
-        it('Should return action without root node', () => {
-
-            const { data: expectedData, ...expectedRest } = setTreeData({
-                data,
-                stateKey: 'tree-grid',
-                showTreeRootNode: false
-            });
-
-            expect(expectedRest).toEqual({
-                type: 'SET_DATA',
-                stateKey: 'tree-grid',
-                gridType: 'tree',
-                treeData: data
-            });
-
-            expect(Array.isArray(expectedData))
-                .toBe(true, 'Expect the data results to be an Array');
-
-            const count = 7;
-            expect(expectedData.length)
-                .toBe(
-                    count,
-                    `Expect there to be ${count} flat records returned`
-                );
+        expect(expectedRest).toEqual({
+            type: 'SET_DATA',
+            stateKey: 'tree-grid',
+            gridType: 'tree',
+            treeData: data
         });
+
+        expect(List.isList(expectedData))
+            .toBe(true, 'Expect the data results to be a List');
+
+        const count = 7;
+
+        expect(expectedData.count())
+            .toBe(
+                count,
+                `Expect there to be ${count} flat records returned`
+            );
     });
 });
 

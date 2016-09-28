@@ -1,10 +1,13 @@
 import expect from 'expect';
+import { fromJS } from 'immutable';
+
 import {
     getData,
     nameFromDataIndex,
     getValueFromDataIndexArr,
     setDataAtDataIndex,
-    getRowKey
+    getRowKey,
+    setKeysInData
 } from './../../src/util/getData';
 
 describe('The getRowKey utility function', () => {
@@ -392,6 +395,71 @@ describe('setDataAtDataIndex function', () => {
         ).toEqual({
             val: 'newValue'
         });
+    });
+
+});
+
+describe('getData utilities - setKeysInData function', () => {
+
+    it('Should return the same data if a list with keys is present', () => {
+
+        expect(setKeysInData(
+            fromJS(
+                [{ dataIndex: 'key', _key: 'row-0' }]
+            )
+        )).toEqual(fromJS(
+            [{ dataIndex: 'key', _key: 'row-0' }]
+        ));
+
+    });
+
+    it('Should set keys in a list', () => {
+
+        expect(setKeysInData(
+            fromJS(
+                [
+                    { dataIndex: 'key' },
+                    { dataIndex: 'key' }
+                ]
+            )
+        )).toEqual(fromJS(
+            [
+                { dataIndex: 'key', _key: 'row-0' },
+                { dataIndex: 'key', _key: 'row-1' }
+            ]
+        ));
+
+    });
+
+    it('Should set keys in an array', () => {
+
+        expect(setKeysInData([
+            { dataIndex: 'key' },
+            { dataIndex: 'key' }
+        ])).toEqual(fromJS(
+            [
+                { dataIndex: 'key', _key: 'row-0' },
+                { dataIndex: 'key', _key: 'row-1' }
+            ]
+        ));
+
+    });
+
+    it('Should return an array with keys as immutable', () => {
+        expect(setKeysInData([
+                { dataIndex: 'key', _key: 'row-0' },
+                { dataIndex: 'key', _key: 'row-1' }
+        ])).toEqual(fromJS(
+            [
+                { dataIndex: 'key', _key: 'row-0' },
+                { dataIndex: 'key', _key: 'row-1' }
+            ]
+        ));
+    });
+
+    it('Should return an empty list if not arg is passed', () => {
+        expect(setKeysInData())
+            .toEqual(fromJS([]));
     });
 
 });

@@ -1,6 +1,4 @@
-import { fromJS, is } from 'immutable';
 import deepEqual from 'deep-equal';
-import { keyGenerator } from './keyGenerator';
 import { getLastUpdate } from './lastUpdate';
 
 export function shouldGridUpdate(nextProps) {
@@ -21,63 +19,108 @@ export function shouldGridUpdate(nextProps) {
     return result;
 }
 
-export function shouldRowUpdate(nextProps) {
+export function shouldPagerUpdate(nextProps, nextState) {
+
     let result = true;
-    const {
-        columns,
-        editorState,
-        menuState,
-        row,
-        index,
-        selectedRows,
-        isDragging
-    } = nextProps;
 
-    // create id for row a single time
-    this.id = this.id || keyGenerator('row', index);
+    const limitedNextProps = {
+        gridData: nextProps.gridData,
+        state: this.state
+    };
 
-    // update if selection change
-    const isSelected = Boolean(selectedRows && selectedRows[this.id]);
-
-    // update if menu is shown or hidden
-    const isMenuShown = Boolean(menuState && menuState[this.id]);
-
-    // update if editor state changes for only this row
-    const isEdited = Boolean(editorState
-        && editorState.row
-        && editorState.row.rowIndex === index);
-
-    // if row is currently being edited, cache the last value
-    if (isEdited) {
-        this._previousEditorState = editorState;
-    }
-
-    nextProps = fromJS({
-        columns,
-        isSelected,
-        isMenuShown,
-        index,
-        row,
-        isEdited,
-        isDragging,
-        rowValuesUpdated: this._previousEditorState
-    });
-
-    // if this is the first pass, no previous values have been
-    // cached, thusly just return true and create _lastProps
-    if (!this._lastProps) {
-        this._lastProps = nextProps;
-        return true;
-    }
+    const limitedProps = {
+        gridData: this.props.gridData,
+        state: nextState
+    };
 
     result = (
-        !is(nextProps, this._lastProps)
+        !deepEqual(limitedNextProps, limitedProps)
     );
-
-    this._lastProps = nextProps;
 
     return result;
 }
+
+export function shouldHeaderUpdate(nextProps, nextState) {
+    let result = true;
+
+    const menuState = state =>
+        state && state['header-row'];
+
+    const limitedNextProps = {
+        columns: nextProps.columns,
+        menuState: menuState(nextProps.menuState),
+        state: nextState
+    };
+
+    const limitedProps = {
+        columns: this.previousColumns,
+        menuState: menuState(this.props.menuState),
+        state: this.state
+    };
+
+    result = (
+        !deepEqual(limitedNextProps, limitedProps)
+    );
+
+    this.previousColumns = this.props.columns.slice();
+
+    return result;
+}
+
+export function shouldRowUpdate(nextProps) {
+    let result = true;
+
+    // unique key created by setData action/reducer
+    const key = nextProps.row._key;
+
+    const isSelected = rows => Boolean(rows && rows[key]);
+
+    const isMenuShown = rows => Boolean(rows && rows[key]);
+
+    const isEdited = editorState => Boolean(
+        editorState
+        && editorState.row
+        && editorState.row.rowIndex === nextProps.index
+        && editorState.row.values
+    );
+
+    const limitedNextProps = {
+        columns: slimColumn(nextProps.columns),
+        isEdited: isEdited(nextProps.editorState),
+        currentValues: isEdited(nextProps.editorState)
+            ? nextProps.editorState
+            : null,
+        isMenuShown: isMenuShown(nextProps.menuState),
+        row: nextProps.row,
+        index: nextProps.index,
+        isSelected: isSelected(nextProps.selectedRows),
+        isDragging: nextProps.isDragging
+    };
+
+    const limitedProps = {
+        columns: this.previousColumns,
+        isEdited: isEdited(this.props.editorState),
+        currentValues: isEdited(nextProps.editorState)
+            ? this.props.editorState
+            : null,
+        isMenuShown: isMenuShown(this.props.menuState),
+        row: this.props.row,
+        index: this.props.index,
+        isSelected: isSelected(this.props.selectedRows),
+        isDragging: this.props.isDragging
+    };
+
+    this.previousColumns = slimColumn(this.props.columns.slice());
+
+    result = (
+        !deepEqual(limitedNextProps, limitedProps)
+    );
+
+    return result;
+}
+
+export const slimColumn = cols =>
+    cols.map(col => ({ hidden: col.hidden, dataIndex: col.dataIndex }));
 
 export const equalProps = (props = {}, newProps = {}) => {
     return props.height === newProps.height
