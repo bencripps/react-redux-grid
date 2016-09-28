@@ -94,6 +94,7 @@ export function setPageAsync({
 }) {
 
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
+    let apiPromise
 
     return (dispatch) => {
 
@@ -101,14 +102,21 @@ export function setPageAsync({
             setLoaderState({ state: true, stateKey })
         );
 
-        return Request.api({
-            route: dataSource,
-            method: 'POST',
-            data: {
-                pageIndex: pageIndex,
-                pageSize: pageSize
-            }
-        }).then((response) => {
+        if ( typeof dataSource == 'function' ) {
+            apiPromise = dataSource( { pageIndex: pageIndex, pageSize: pageSize }, {}, null );
+        }
+        else {
+            apiPromise = Request.api({
+                route: dataSource,
+                method: 'POST',
+                data: {
+                    pageIndex: pageIndex,
+                    pageSize: pageSize
+                }
+            })
+        }
+
+        return apiPromise.then((response) => {
 
             if (response && response.data) {
 
