@@ -512,6 +512,19 @@ Bulk Action Defaults
 1. `enabled`: `string`, whether the bulk action toolbar should be used
 2. `actions`: `array of objects`, the actions (including button text, and event handler) that will be displayed in the bar
 
+
+## Row Manager
+
+```javascript
+export const plugins = {
+    ROW_MANAGER: {
+        styleRenderer: ( ( row ) => {
+            return { backgroundColor: 'red' }
+        } )
+    }
+}
+```
+
 ## Events
 
 All grid events are passed in as a single object.

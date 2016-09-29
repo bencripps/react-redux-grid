@@ -105,6 +105,12 @@ export class Row extends Component {
             ? CLASS_NAMES.ROW_IS_DRAGGING
             : '';
 
+        let extraStyles = {}
+
+        if ( plugins.ROW_MANAGER && plugins.ROW_MANAGER.styleRenderer ) {
+            extraStyles = plugins.ROW_MANAGER.styleRenderer( row )
+        }
+
         const rowProps = {
             className: prefix(
                 CLASS_NAMES.ROW,
@@ -121,7 +127,8 @@ export class Row extends Component {
                 handleRowDoubleClickEvent(
                     events, row, id, selectionModel, index, e
                 );
-            }
+            },
+            style: extraStyles
         };
 
         columnManager.addActionColumn({
