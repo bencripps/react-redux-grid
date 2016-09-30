@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 
-export const Description = ({ toolbarRenderer, pageIndex, pageSize, total, currentRecords, recordType }) => {
+export const Description = ({
+    toolbarRenderer, pageIndex, pageSize, total, currentRecords, recordType
+}) => {
 
     return (
         <span>

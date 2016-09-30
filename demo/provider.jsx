@@ -22,12 +22,13 @@ import {
 
 const config = {
     columns,
-    // data: treeData,
-    // dataSource: treeDataSource,
+    // data,
+    //data: treeData,
+    //dataSource: treeDataSource,
     stateful,
     dataSource,
-    // dragAndDrop: true,
-    // gridType: 'tree',
+    //dragAndDrop: true,
+    //gridType: 'tree',
     pageSize,
     plugins,
     events,

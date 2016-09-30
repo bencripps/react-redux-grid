@@ -1,5 +1,6 @@
 /* eslint-enable describe it sinon */
 import expect from 'expect';
+import { fromJS, List } from 'immutable';
 
 import {
     setTreeValue
@@ -54,7 +55,11 @@ describe('the setTreeValue utility', () => {
         };
 
         expect(
-            setTreeValue(data, [-1, 1, 12, 121], { _hideChildren: true })
+            setTreeValue(
+                fromJS(data),
+                List([-1, 1, 12, 121]),
+                { _hideChildren: true }
+            ).toJS()
         ).toEqual({
             root: {
                 id: -1,

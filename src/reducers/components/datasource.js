@@ -1,6 +1,7 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import {
     ADD_NEW_ROW,
+    EDIT_ROW,
     CLEAR_FILTER_LOCAL,
     DISMISS_EDITOR,
     FILTER_DATA,
@@ -33,16 +34,18 @@ export default function dataSource(state = initialState, action) {
         return state.setIn([action.stateKey], fromJS({
             data: dataWithKeys,
             proxy: dataWithKeys,
-            total: action.total || dataWithKeys.length,
+            total: action.total || dataWithKeys.count(),
             treeData: action.treeData,
             gridType: action.gridType || 'grid',
-            currentRecords: action.currentRecords || dataWithKeys,
+            currentRecords: action.currentRecords
+                ? List(action.currentRecords)
+                : dataWithKeys,
             lastUpdate: generateLastUpdate()
         }));
 
     case SET_TREE_DATA_PARTIAL:
-        const treeVals = state.getIn([action.stateKey, 'treeData']).toJS();
-        const flattened = state.getIn([action.stateKey, 'data']).toJS();
+        const treeVals = state.getIn([action.stateKey, 'treeData']);
+        const flattened = state.getIn([action.stateKey, 'data']);
         const pathToNode = [
             -1, ...getTreePathFromId(flattened, action.parentId)
         ];
@@ -50,20 +53,20 @@ export default function dataSource(state = initialState, action) {
             treeVals, pathToNode, { children: action.data }
         );
 
-        const newFlatList = treeToFlatList(newTreeValues);
+        let newFlatList = treeToFlatList(newTreeValues);
 
         if (!action.showTreeRootNode) {
-            newFlatList.shift();
+            newFlatList = newFlatList.shift();
         }
 
-        return state.mergeIn([action.stateKey], fromJS({
+        return state.mergeIn([action.stateKey], {
             data: newFlatList,
-            proxy: newFlatList,
             currentRecords: newFlatList,
             treeData: newTreeValues,
-            total: newFlatList.length,
+            proxy: newFlatList,
+            total: newFlatList.count(),
             lastUpdate: generateLastUpdate()
-        }));
+        });
 
     case DISMISS_EDITOR:
         const previousData = state.getIn([action.stateKey, 'data']);
@@ -135,11 +138,13 @@ export default function dataSource(state = initialState, action) {
             return state;
         }
 
-        const newRow = data
+        let newRow = data
             && data.size > 0
             && data.get(0)
             ? data.get(0).map((k, v) => v = '')
             : fromJS({});
+
+        newRow = newRow.set('_key', action.rowId);
 
         const newData = data.unshift(newRow);
 
@@ -152,22 +157,17 @@ export default function dataSource(state = initialState, action) {
         }));
 
     case MOVE_NODE:
-        const treeMoveFlat = state.getIn([action.stateKey, 'data']).toJS();
 
         const {
             current,
             next
         } = action;
 
-        const nextPath = next.parentId !== -1
-            ? [-1, ...getTreePathFromId(treeMoveFlat, next.parentId)]
-            : [-1];
+        const nextPath = List(next.path);
 
-        const treeMove = state.getIn([action.stateKey, 'treeData']).toJS();
+        const treeMove = state.getIn([action.stateKey, 'treeData']);
 
-        const currentPath = current.parentId !== -1
-            ? [-1, ...getTreePathFromId(treeMoveFlat, current.parentId)]
-            : [-1];
+        const currentPath = List(current.path);
 
         const newTreeMove = moveTreeNode(
             treeMove,
@@ -177,45 +177,49 @@ export default function dataSource(state = initialState, action) {
             nextPath
         );
 
-        const flatMove = treeToFlatList(newTreeMove);
+        let flatMove = treeToFlatList(newTreeMove);
 
         // remove root-node
         if (!action.showTreeRootNode) {
-            flatMove.shift();
+            flatMove = flatMove.shift();
         }
 
-        return state.mergeIn([action.stateKey], fromJS({
+        return state.mergeIn([action.stateKey], {
             data: flatMove,
             currentRecords: flatMove,
             treeData: newTreeMove,
             proxy: flatMove,
             lastUpdate: generateLastUpdate()
-        }));
+        });
 
     case SET_TREE_NODE_VISIBILITY:
 
-        const treeFlatList = state.getIn([action.stateKey, 'data']).toJS();
-        const tree = state.getIn([action.stateKey, 'treeData']).toJS();
+        const treeFlatList = state.getIn([action.stateKey, 'data']);
+        const tree = state.getIn([action.stateKey, 'treeData']);
 
         const currentVisibility = !!treeFlatList
-            .find(node => node._id === action.id)._hideChildren;
+            .find(node => node.get('_id') === action.id).get('_hideChildren');
+
         const path = [-1, ...getTreePathFromId(treeFlatList, action.id)];
+
         const newTree = setTreeValue(
             tree, path, { _hideChildren: !currentVisibility
         });
-        const flattenedTree = treeToFlatList(newTree);
+
+        let flattenedTree = treeToFlatList(newTree);
 
         // remove root-node
         if (!action.showTreeRootNode) {
-            flattenedTree.shift();
+            flattenedTree = flattenedTree.shift();
         }
 
-        return state.mergeIn([action.stateKey], fromJS({
-            data: flattenedTree,
-            currentRecords: flattenedTree,
-            treeData: newTree,
-            lastUpdate: generateLastUpdate()
-        }));
+        state = state.setIn([action.stateKey, 'data'], flattenedTree);
+        state = state.setIn([action.stateKey, 'currentRecords'], flattenedTree);
+        state = state.setIn([action.stateKey, 'treeData'], newTree);
+        state = state.setIn([action.stateKey, 'proxy'], flattenedTree);
+        state = state.setIn([action.stateKey, 'lastUpdate'], generateLastUpdate());
+
+        return state;
 
     case SAVE_ROW:
         const gridData = state

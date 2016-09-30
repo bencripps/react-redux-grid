@@ -33,6 +33,8 @@ var _TableRow2 = _interopRequireDefault(_TableRow);
 
 var _Pager = require('./plugins/pager/Pager');
 
+var _Pager2 = _interopRequireDefault(_Pager);
+
 var _Message = require('./plugins/errorhandler/Message');
 
 var _Toolbar = require('./plugins/bulkactions/Toolbar');
@@ -106,6 +108,7 @@ var Grid = function (_Component) {
             var _props = this.props;
             var classNames = _props.classNames;
             var dragAndDrop = _props.dragAndDrop;
+            var dataSource = _props.dataSource;
             var columnState = _props.columnState;
             var gridData = _props.gridData;
             var emptyDataMessage = _props.emptyDataMessage;
@@ -207,8 +210,10 @@ var Grid = function (_Component) {
             };
 
             var pagerProps = {
-                dataSource: gridData,
+                gridData: gridData,
+                dataSource: dataSource,
                 pageSize: pageSize,
+                pagerState: pager,
                 plugins: plugins,
                 reducerKeys: reducerKeys,
                 stateKey: stateKey,
@@ -240,7 +245,7 @@ var Grid = function (_Component) {
                     ),
                     editorComponent
                 ),
-                _react2.default.createElement(_Pager.ConnectedPagerToolbar, pagerProps),
+                _react2.default.createElement(_Pager2.default, pagerProps),
                 _react2.default.createElement(_LoadingBar2.default, loadingBarProps)
             );
         }

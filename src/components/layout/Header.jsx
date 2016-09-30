@@ -5,6 +5,7 @@ import { EmptyHeader } from './header/EmptyHeader';
 
 import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
+import { shouldHeaderUpdate } from '../../util/shouldComponentUpdate';
 import { keyFromObject } from '../../util/keyGenerator';
 import { CLASS_NAMES } from '../../constants/GridConstants';
 
@@ -83,6 +84,7 @@ class Header extends Component {
     constructor() {
         super();
         this.handleDrag = handleDrag;
+        this.shouldComponentUpdate = shouldHeaderUpdate.bind(this);
     }
 
     static propTypes = {

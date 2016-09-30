@@ -5,35 +5,45 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.findTreeNode = undefined;
 
-var _arrayFrom = require('array-from');
-
-var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
+var _immutable = require('immutable');
 
 var findTreeNode = exports.findTreeNode = function findTreeNode(treeData, path) {
     var childIdentifier = arguments.length <= 2 || arguments[2] === undefined ? 'children' : arguments[2];
     var rootIdentifier = arguments.length <= 3 || arguments[3] === undefined ? 'root' : arguments[3];
 
-    path = [].concat(_toConsumableArray(path));
-    var lookingFor = path[path.length - 1];
-    var node = treeData[rootIdentifier];
 
-    var firstId = path.shift();
+    if (!_immutable.Map.isMap(treeData)) {
+        treeData = (0, _immutable.fromJS)(treeData);
+    }
 
-    if (node.id === firstId) {
+    if (!_immutable.List.isList(path)) {
+        path = (0, _immutable.fromJS)(path);
+    }
 
-        while (path.length > 0 && node) {
+    var lookingFor = path.last();
 
-            if (node && node.id !== lookingFor && node[childIdentifier]) {
+    var node = treeData.get(rootIdentifier);
+    var indexPath = [rootIdentifier];
+
+    var firstId = path.first();
+    path = path.shift();
+
+    if (node.get('id') === firstId) {
+
+        while (path.count() > 0 && node) {
+
+            if (node && node.get('id') !== lookingFor && node.get(childIdentifier)) {
                 (function () {
 
-                    var nextId = path.shift();
-                    node = node[childIdentifier].find(function (n) {
-                        return n.id === nextId;
+                    var nextId = path.first();
+                    path = path.shift();
+
+                    var nodeIndex = node.get(childIdentifier).findIndex(function (n) {
+                        return n.get('id') === nextId;
                     });
+                    node = node.getIn([childIdentifier, nodeIndex]);
+                    indexPath.push(childIdentifier);
+                    indexPath.push(nodeIndex);
                 })();
             } else {
                 node = null;
@@ -41,5 +51,5 @@ var findTreeNode = exports.findTreeNode = function findTreeNode(treeData, path) 
         }
     }
 
-    return node;
+    return { node: node, indexPath: indexPath };
 };

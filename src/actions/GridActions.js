@@ -384,11 +384,11 @@ export function setTreeData({
         };
     }
 
-    const flat = treeToFlatList(data);
+    let flat = treeToFlatList(data);
 
     // remove root node
     if (!showTreeRootNode) {
-        flat.shift();
+        flat = flat.shift();
     }
 
     return {

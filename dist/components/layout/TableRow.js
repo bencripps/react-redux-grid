@@ -23,8 +23,6 @@ var _isPluginEnabled = require('../../util/isPluginEnabled');
 
 var _getCurrentRecords = require('../../util/getCurrentRecords');
 
-var _getTreePathFromId = require('./../../util/getTreePathFromId');
-
 var _getData = require('../../util/getData');
 
 var _GridActions = require('../../actions/GridActions');
@@ -107,8 +105,18 @@ var TableRow = exports.TableRow = function (_Component) {
             var store = _this$props.store;
             var showTreeRootNode = _this$props.showTreeRootNode;
 
-
-            store.dispatch((0, _GridActions.moveNode)({ stateKey: stateKey, store: store, current: current, next: next, showTreeRootNode: showTreeRootNode }));
+            if (!_this.requestedFrame) {
+                _this.requestedFrame = requestAnimationFrame(function () {
+                    store.dispatch((0, _GridActions.moveNode)({
+                        stateKey: stateKey,
+                        store: store,
+                        current: current,
+                        next: next,
+                        showTreeRootNode: showTreeRootNode
+                    }));
+                    _this.requestedFrame = null;
+                });
+            }
         };
 
         return _this;
@@ -122,6 +130,7 @@ TableRow.propTypes = {
     columns: arrayOf(object).isRequired,
     data: arrayOf(object),
     dataSource: object,
+    dragAndDrop: bool,
     editor: object,
     editorState: object,
     emptyDataMessage: string,

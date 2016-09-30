@@ -1,3 +1,4 @@
+import { List, fromJS } from 'immutable';
 import { camelize } from './camelize';
 
 export const getData = (
@@ -30,17 +31,27 @@ export const getData = (
 };
 
 export const setKeysInData = (data) => {
+
+    if (List.isList(data)) {
+
+        if (data.getIn([0, '_key'])) {
+            return data;
+        }
+
+        return data.map((item, i) => item.set('_key', `row-${i}`));
+    }
+
     if (!data || !Array.isArray(data)) {
-        return [];
+        return List([]);
     }
 
     if (data[0] && data[0]._key === undefined) {
         data.forEach((row, i) => {
-            row._key = 'row-' + i;
+            row._key = `row-${i}`;
         });
     }
 
-    return data;
+    return fromJS(data);
 };
 
 export const getRowKey = (columns, rowValues, suffix) => {

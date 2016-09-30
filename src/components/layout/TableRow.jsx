@@ -4,7 +4,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
-import { getTreePathFromId } from './../../util/getTreePathFromId';
 import { getRowKey } from '../../util/getData';
 
 import { moveNode } from '../../actions/GridActions';
@@ -18,7 +17,8 @@ export class TableRow extends Component {
 
     render() {
 
-        const { columnManager,
+        const {
+            columnManager,
             columns,
             dataSource,
             dragAndDrop,
@@ -88,6 +88,7 @@ export class TableRow extends Component {
         columns: arrayOf(object).isRequired,
         data: arrayOf(object),
         dataSource: object,
+        dragAndDrop: bool,
         editor: object,
         editorState: object,
         emptyDataMessage: string,
@@ -114,10 +115,21 @@ export class TableRow extends Component {
 
     moveRow = (current, next) => {
         const { stateKey, store, showTreeRootNode } = this.props;
+        if (!this.requestedFrame) {
+            this.requestedFrame = requestAnimationFrame(() => {
+                store.dispatch(
+                    moveNode({
+                        stateKey,
+                        store,
+                        current,
+                        next,
+                        showTreeRootNode
+                    })
+                );
+                this.requestedFrame = null;
+            });
+        }
 
-        store.dispatch(
-            moveNode({ stateKey, store, current, next, showTreeRootNode })
-        );
     };
 
 }

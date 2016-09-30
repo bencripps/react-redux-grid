@@ -3,7 +3,8 @@ import expect from 'expect';
 import store from './../../src/store/store';
 import {
     shouldGridUpdate,
-    shouldRowUpdate
+    shouldRowUpdate,
+    shouldPagerUpdate
 } from './../../src/util/shouldComponentUpdate';
 
 describe('shouldGridUpdate utility function', () => {
@@ -63,6 +64,15 @@ describe('shouldRowUpdate utility function', () => {
 
     const component = function component() { };
 
+    const defaultProps = {
+        editorState: {},
+        menuState: {},
+        selectedRows: {},
+        columns: []
+    };
+
+    component.props = defaultProps;
+
     const nextProps = {
         columns: [
             {
@@ -98,137 +108,242 @@ describe('shouldRowUpdate utility function', () => {
         );
     });
 
-    it('return true props haven\'t been updated', () => {
-        expect(
-           shouldRowUpdate.call(component, nextProps)
-        ).toEqual(
-            false
-        );
-    });
+    it('return true if row gets selected', () => {
 
-    it('return true if menuState for this row changes', () => {
+        const cmp = function() {};
 
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false
+        cmp.props = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
+            },
+            selectedRows: {
+                'key-1': false
+            }
+        };
+
+        const selectedProps = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
+            },
+            selectedRows: {
+                'key-2': true
             }
         };
 
         expect(
-           shouldRowUpdate.call(component, alteredNextProps)
+           shouldRowUpdate.call(component, selectedProps)
         ).toEqual(
             true
         );
     });
 
-    it('return false if menuState for another row changes', () => {
+    it('return true if menu gets selected', () => {
 
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false,
-                anotherRow: true
-            }
-        };
+        const cmp = function() {};
 
-        expect(
-           shouldRowUpdate.call(component, alteredNextProps)
-        ).toEqual(
-            false
-        );
-    });
-
-    it('return true if this row becomes selected', () => {
-
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false,
-                anotherRow: true
+        cmp.props = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
             },
-            selectedRows: {
-                'cm93MA==': true
+            menuState: {
+                'key-1': false
+            }
+        };
+
+        const selectedProps = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
+            },
+            menuState: {
+                'key-2': true
             }
         };
 
         expect(
-           shouldRowUpdate.call(component, alteredNextProps)
+           shouldRowUpdate.call(cmp, selectedProps)
         ).toEqual(
             true
         );
     });
 
-    it('return false if another row becomes selected', () => {
+    it('return false if menu stays selected', () => {
 
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false,
-                anotherRow: true
+        const cmp = function() {};
+
+        cmp.previousColumns = [];
+
+        cmp.props = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
             },
-            selectedRows: {
-                'cm93MA==': true,
-                anotherRow: true
+            menuState: {
+                'key-1': true
+            }
+        };
+
+        const menuStaySelected = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
+            },
+            menuState: {
+                'key-1': true
             }
         };
 
         expect(
-           shouldRowUpdate.call(component, alteredNextProps)
+           shouldRowUpdate.call(cmp, menuStaySelected)
         ).toEqual(
             false
         );
     });
 
-    it('return false if another row starts being edited', () => {
+    it('return true if editor values change', () => {
 
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false,
-                anotherRow: true
-            },
-            selectedRows: {
-                'cm93MA==': true,
-                anotherRow: true
+        const cmp = function() {};
+
+        cmp.previousColumns = [];
+
+        cmp.props = {
+            ...defaultProps,
+            index: 1,
+            row: {
+                _key: 'key-1'
             },
             editorState: {
                 row: {
-                    rowIndex: 1
+                    rowIndex: 1,
+                    values: {
+                        field: 'value2'
+                    }
+                }
+            }
+        };
+
+        const editedValues = {
+            ...defaultProps,
+            index: 1,
+            row: {
+                _key: 'key-1'
+            },
+            editorState: {
+                row: {
+                    rowIndex: 1,
+                    values: {
+                        field: 'changed-value'
+                    }
                 }
             }
         };
 
         expect(
-           shouldRowUpdate.call(component, alteredNextProps)
+           shouldRowUpdate.call(cmp, editedValues)
         ).toEqual(
-            false
+            true
         );
     });
 
-    it('return true if another row starts being edited', () => {
+    it('return true if columns change', () => {
 
-        const alteredNextProps = {
-            ...nextProps,
-            menuState: {
-                'cm93MA==': false,
-                anotherRow: true
+        const cmp = function() {};
+
+        cmp.previousColumns = [
+            {
+                width: '50%'
             },
-            selectedRows: {
-                'cm93MA==': true,
-                anotherRow: true
-            },
-            editorState: {
-                row: {
-                    rowIndex: 0
-                }
+            {
+                width: '50%'
+            }
+        ];
+
+        cmp.props = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
             }
         };
 
+        const colProps = {
+            ...defaultProps,
+            row: {
+                _key: 'key-1'
+            },
+            columns: [
+                {
+                    width: '30%'
+                },
+                {
+                    width: '70%'
+                }
+            ]
+        };
+
         expect(
-           shouldRowUpdate.call(component, alteredNextProps)
+           shouldRowUpdate.call(cmp, colProps)
         ).toEqual(
             true
+        );
+    });
+
+});
+
+describe('shouldPagerUpdate utility function', () => {
+
+    it('Should update pager when records changed', () => {
+
+        const cmp = function() {};
+
+        cmp.props = {
+            gridData: [
+                {},
+                {}
+            ]
+        };
+
+        const pagerProps = {
+            gridData: [
+                {},
+                {},
+                {}
+            ]
+        };
+
+        expect(
+           shouldPagerUpdate.call(cmp, pagerProps)
+        ).toEqual(
+            true
+        );
+    });
+
+    it('Should not update pager when record dont change', () => {
+
+        const cmp = function() {};
+
+        cmp.props = {
+            gridData: [
+                {},
+                {},
+                {}
+            ]
+        };
+
+        const pagerProps = {
+            gridData: [
+                {},
+                {},
+                {}
+            ]
+        };
+
+        expect(
+           shouldPagerUpdate.call(cmp, pagerProps)
+        ).toEqual(
+            false
         );
     });
 

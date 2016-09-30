@@ -40,7 +40,8 @@ describe('The Grid Row Component', () => {
         selectedRows: {},
         row: {
             name: 'Michael Jordan',
-            position: 'Shooting Guard'
+            position: 'Shooting Guard',
+            _key: keyGenerator('row', 0)
         },
         plugins: {},
         index: 0,

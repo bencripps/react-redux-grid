@@ -103,8 +103,8 @@ export function setPageAsync({
 
         return Request.api({
             route: dataSource,
-            method: 'POST',
-            data: {
+            method: 'GET',
+            queryStringParams: {
                 pageIndex: pageIndex,
                 pageSize: pageSize
             }

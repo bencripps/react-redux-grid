@@ -11,8 +11,7 @@ import {
 
 import {
     getData,
-    setDataAtDataIndex,
-    nameFromDataIndex
+    setDataAtDataIndex
 } from './../../../util/getData';
 
 import { generateLastUpdate } from './../../../util/lastUpdate';

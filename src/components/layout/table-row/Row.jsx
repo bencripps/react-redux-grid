@@ -6,8 +6,6 @@ import { Cell } from './row/Cell';
 import { EmptyCell } from './row/EmptyCell';
 import RowContainer from './row/RowContainer';
 
-import { keyGenerator } from '../../../util/keyGenerator';
-import { shouldRowUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
 import { getData, getRowKey } from '../../../util/getData';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
@@ -45,7 +43,8 @@ export class Row extends Component {
             treeData
         } = this.props;
 
-        const id = keyGenerator('row', index);
+        const id = row._key;
+
         const visibleColumns = columns.filter((col) => !col.hidden);
         const cellValues = getCellValues(columns, row);
 
@@ -156,7 +155,6 @@ export class Row extends Component {
 
     constructor(props) {
         super(props);
-        this.shouldComponentUpdate = shouldRowUpdate.bind(this);
     }
 
     static propTypes = {
@@ -372,16 +370,18 @@ const rowTarget = {
             isLastChild,
             isFirstChild,
             flatIndex,
-            path,
             parentIndex,
             previousSiblingTotalChildren,
             previousSiblingId
         } = getTreeData();
 
+        const path = [...getTreeData().path];
+
         // console.log(monitor.getItem().getTreeData())
 
         let targetIndex = hoverIndex;
         let targetParentId = hoverParentId;
+        let targetPath = hoverPath;
 
         // cant drop root
         if (index === -1) {
@@ -427,12 +427,14 @@ const rowTarget = {
 
                 targetParentId = path[path.length - 2];
                 targetIndex = (parentIndex || 0) + 1;
+                targetPath.pop();
             }
 
             // X position indicates a move to right
             else if (lastX + DRAG_INCREMENT < mouseX && !isFirstChild) {
                 targetParentId = previousSiblingId;
                 targetIndex = previousSiblingTotalChildren;
+                targetPath.push(targetParentId);
             }
 
             // if neither xposition indicates left or right
@@ -443,7 +445,8 @@ const rowTarget = {
 
         }
         else {
-            // Only perform the move when the mouse has crossed half of the items height
+            // Only perform the move when the mouse
+            // has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
 
@@ -462,12 +465,15 @@ const rowTarget = {
             if (flatIndex < hoverFlatIndex && hoverIsExpanded) {
                 targetIndex = 0;
                 targetParentId = hoverId;
+                targetPath.push(targetParentId);
             }
         }
 
+        // console.log('currentPath', path, 'targetPath', targetPath)
+
         props.moveRow(
-            { id, index, parentId },
-            { index: targetIndex, parentId: targetParentId }
+            { id, index, parentId, path },
+            { index: targetIndex, parentId: targetParentId, path: targetPath }
         );
 
         monitor.getItem().lastX = mouseX;

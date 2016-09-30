@@ -5,15 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.treeToFlatList = undefined;
 
-var _arrayFrom = require('array-from');
-
-var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
+var _immutable = require('immutable');
 
 var treeToFlatList = exports.treeToFlatList = function treeToFlatList(data) {
     var rootIdentifier = arguments.length <= 1 || arguments[1] === undefined ? 'root' : arguments[1];
@@ -26,65 +18,67 @@ var treeToFlatList = exports.treeToFlatList = function treeToFlatList(data) {
 
     var result = [];
 
-    var stack = [];
+    var stack = (0, _immutable.List)();
 
     var cfg = { flatIndex: 0 };
 
-    if (data[rootIdentifier]) {
-        data = data[rootIdentifier];
-
-        stack.push(toItem([], childIdentifier, cfg)(data));
-    } else {
-        stack = data[childIdentifier].map(toItem([-1], [0], childIdentifier));
+    if (!_immutable.Map.isMap(data)) {
+        data = (0, _immutable.fromJS)(data);
     }
 
-    while (stack.length) {
+    if (data.get(rootIdentifier)) {
+        data = data.get(rootIdentifier);
 
-        var item = stack.shift();
-        var children = item[childIdentifier];
+        stack = stack.push(toItem((0, _immutable.List)(), childIdentifier, cfg)(data));
+    } else {
+        stack = data.get(childIdentifier).map(toItem((0, _immutable.List)([-1]), (0, _immutable.List)([0]), childIdentifier));
+    }
 
+    while (stack.count()) {
 
-        if (Array.isArray(children) && !item._hideChildren) {
-            stack = children.map(toItem([].concat(_toConsumableArray(item._path), [item._id]), childIdentifier, cfg, item, children)).concat(stack);
+        var item = stack.first();
+
+        stack = stack.shift();
+        var children = item.get(childIdentifier);
+        // console.log(item.get('id'), (children || List()).map(i => i.get('id')).toJS(), stack.map(i => i.get('id')).toJS());
+
+        if (_immutable.List.isList(children) && !item.get('_hideChildren')) {
+            stack = children.map(toItem(item.get('_path').push(item.get('_id')), childIdentifier, cfg, item, children)).concat(stack);
         }
 
-        result.push(item);
-
         // removing erroneous data since grid uses internal values
-        delete item[childIdentifier];
-        delete item.parentId;
-        delete item.id;
+        result.push(item.delete(childIdentifier).delete('parentId').delete('id'));
     }
 
-    return result;
+    return (0, _immutable.List)(result);
 };
 
 var toItem = function toItem(path, childIdentifier, cfg, parent) {
-    var siblings = arguments.length <= 4 || arguments[4] === undefined ? [] : arguments[4];
+    var siblings = arguments.length <= 4 || arguments[4] === undefined ? (0, _immutable.List)() : arguments[4];
     return function (node) {
         var index = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 
 
-        var previousSibling = siblings[index - 1] !== undefined ? siblings[index - 1] : undefined;
+        var previousSibling = index - 1 > -1 ? siblings.get(index - 1) : undefined;
 
-        var previousSiblingTotalChilden = previousSibling && previousSibling.children ? previousSibling.children.length : 0;
+        var previousSiblingTotalChilden = previousSibling && previousSibling.get(childIdentifier) ? previousSibling.get(childIdentifier).count() : 0;
 
-        return _extends({}, node, {
-            _id: node.id,
-            _parentId: node.parentId === undefined ? 'root' : node.parentId,
-            _parentIndex: parent ? parent._index : 0,
-            _depth: path.length,
-            _hideChildren: node._hideChildren,
-            _hasChildren: node[childIdentifier] && node[childIdentifier].length > 0,
+        return node.merge({
+            _id: node.get('id'),
+            _parentId: node.get('parentId', 'root'),
+            _parentIndex: parent ? parent.get('_index') : 0,
+            _depth: path.count(),
+            _hideChildren: node.get('_hideChildren'),
+            _hasChildren: node.get(childIdentifier) && node.get(childIdentifier).count() > 0,
             _index: index,
             _flatIndex: cfg.flatIndex++,
             _isFirstChild: index === 0,
-            _isLastChild: index === siblings.length - 1,
-            _previousSiblingId: previousSibling ? previousSibling.id : undefined,
+            _isLastChild: index === siblings.count() - 1,
+            _previousSiblingId: previousSibling ? previousSibling.get('id') : undefined,
             _previousSiblingTotalChilden: previousSiblingTotalChilden,
-            _key: 'tree-item-' + node.id,
-            _isExpanded: node[childIdentifier] && node[childIdentifier].length > 0 && !node._hideChildren,
-            _leaf: !(node[childIdentifier] && node[childIdentifier].length > 0 || node.leaf !== undefined && node.leaf === false),
+            _key: 'tree-item-' + node.get('id'),
+            _isExpanded: node.get(childIdentifier) && node.get(childIdentifier).count() > 0 && !node.get('_hideChildren'),
+            _leaf: !(node.get(childIdentifier) && node.get(childIdentifier).count() > 0 || node.get('leaf') !== undefined && node.get('leaf') === false),
             _path: path
         });
     };

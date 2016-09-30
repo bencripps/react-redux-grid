@@ -1,25 +1,44 @@
+import { List, Map, fromJS } from 'immutable';
+
 export const findTreeNode = (
     treeData,
     path,
     childIdentifier = 'children',
     rootIdentifier = 'root'
 ) => {
-    path = [...path];
-    const lookingFor = path[path.length - 1];
-    let node = treeData[rootIdentifier];
 
-    const firstId = path.shift();
+    if (!Map.isMap(treeData)) {
+        treeData = fromJS(treeData);
+    }
 
-    if (node.id === firstId) {
+    if (!List.isList(path)) {
+        path = fromJS(path);
+    }
 
-        while (path.length > 0 && node) {
+    const lookingFor = path.last();
+
+    let node = treeData.get(rootIdentifier);
+    const indexPath = [rootIdentifier];
+
+    const firstId = path.first();
+    path = path.shift();
+
+    if (node.get('id') === firstId) {
+
+        while (path.count() > 0 && node) {
 
             if (node
-                && node.id !== lookingFor
-                && node[childIdentifier]) {
+                && node.get('id') !== lookingFor
+                && node.get(childIdentifier)) {
 
-                const nextId = path.shift();
-                node = node[childIdentifier].find(n => n.id === nextId);
+                const nextId = path.first();
+                path = path.shift();
+
+                const nodeIndex = node.get(childIdentifier)
+                    .findIndex(n => n.get('id') === nextId);
+                node = node.getIn([childIdentifier, nodeIndex]);
+                indexPath.push(childIdentifier);
+                indexPath.push(nodeIndex);
             }
 
             else {
@@ -28,5 +47,5 @@ export const findTreeNode = (
         }
     }
 
-    return node;
+    return { node, indexPath };
 };

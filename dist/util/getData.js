@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.nameFromDataIndex = exports.getValueFromDataIndexArr = exports.setDataAtDataIndex = exports.getRowKey = exports.setKeysInData = exports.getData = undefined;
 
+var _immutable = require('immutable');
+
 var _camelize = require('./camelize');
 
 var getData = exports.getData = function getData() {
@@ -33,8 +35,20 @@ var getData = exports.getData = function getData() {
 };
 
 var setKeysInData = exports.setKeysInData = function setKeysInData(data) {
+
+    if (_immutable.List.isList(data)) {
+
+        if (data.getIn([0, '_key'])) {
+            return data;
+        }
+
+        return data.map(function (item, i) {
+            return item.set('_key', 'row-' + i);
+        });
+    }
+
     if (!data || !Array.isArray(data)) {
-        return [];
+        return (0, _immutable.List)([]);
     }
 
     if (data[0] && data[0]._key === undefined) {
@@ -43,7 +57,7 @@ var setKeysInData = exports.setKeysInData = function setKeysInData(data) {
         });
     }
 
-    return data;
+    return (0, _immutable.fromJS)(data);
 };
 
 var getRowKey = exports.getRowKey = function getRowKey(columns, rowValues, suffix) {

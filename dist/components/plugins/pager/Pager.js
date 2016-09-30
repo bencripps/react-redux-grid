@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ConnectedPagerToolbar = exports.getPagingSource = exports.getPager = exports.getTotal = exports.getCurrentRecordTotal = exports.getCustomComponent = exports.PagerToolbar = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+exports.getPagingSource = exports.getPager = exports.getTotal = exports.getCurrentRecordTotal = exports.getCustomComponent = exports.PagerToolbar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -17,17 +15,15 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRedux = require('react-redux');
-
 var _Button = require('./toolbar/Button');
 
 var _Description = require('./toolbar/Description');
 
+var _shouldComponentUpdate = require('../../../util/shouldComponentUpdate');
+
 var _prefix = require('../../../util/prefix');
 
 var _isPluginEnabled = require('../../../util/isPluginEnabled');
-
-var _stateGetter = require('../../../util/stateGetter');
 
 var _GridConstants = require('../../../constants/GridConstants');
 
@@ -48,10 +44,10 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
         key: 'render',
         value: function render() {
             var _props = this.props;
-            var BUTTON_TYPES = _props.BUTTON_TYPES;
             var dataSource = _props.dataSource;
+            var BUTTON_TYPES = _props.BUTTON_TYPES;
+            var gridData = _props.gridData;
             var pageSize = _props.pageSize;
-            var pager = _props.pager;
             var pagerState = _props.pagerState;
             var plugins = _props.plugins;
             var recordType = _props.recordType;
@@ -60,7 +56,7 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
             var toolbarRenderer = _props.toolbarRenderer;
 
 
-            var pagerDataSource = getPagingSource(plugins, dataSource);
+            var pagerDataSource = getPagingSource(plugins, gridData);
 
             var _state = this.state;
             var stuck = _state.stuck;
@@ -69,21 +65,20 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
             var top = _state.top;
 
 
-            var customComponent = getCustomComponent(plugins, _extends({
-                dataSource: dataSource,
+            var customComponent = getCustomComponent(plugins, {
+                gridData: gridData,
                 pageSize: pageSize,
-                pager: pager
-            }, { gridData: pagerState }, {
+                pagerState: pagerState,
                 plugins: plugins,
                 recordType: recordType,
                 store: store
-            }));
+            });
 
             if (customComponent) {
                 return customComponent;
             }
 
-            var component = (0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') ? getPager(pagerDataSource, pageSize, recordType, BUTTON_TYPES, pager, plugins, pagerState, pagerDataSource, toolbarRenderer, stateKey, stuck, stuckBottom, store, top, width) : _react2.default.createElement('div', null);
+            var component = (0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') ? getPager(dataSource, pageSize, recordType, BUTTON_TYPES, pagerState, plugins, gridData, pagerDataSource, toolbarRenderer, stateKey, stuck, stuckBottom, store, top, width) : _react2.default.createElement('div', null);
 
             return component;
         }
@@ -103,12 +98,23 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
                 this.createScrollListener(plugins.STICKY_FOOTER, footerDOM);
             }
         }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            if (this._scrollTarget) {
+                this._scrollTarget.removeEventListener('scroll', this._scrollListener);
+            }
+
+            delete this._scrollListener;
+        }
     }]);
 
     function PagerToolbar(props) {
         _classCallCheck(this, PagerToolbar);
 
         var _this = _possibleConstructorReturn(this, (PagerToolbar.__proto__ || Object.getPrototypeOf(PagerToolbar)).call(this, props));
+
+        _this.shouldComponentUpdate = _shouldComponentUpdate.shouldPagerUpdate.bind(_this);
 
         _this.state = {
             stuck: false,
@@ -202,9 +208,13 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
                 }
             };
 
-            target.addEventListener('scroll', config.listener ? config.listener.bind(this, {
+            this._scrollListener = config.listener ? config.listener.bind(this, {
                 footerDOM: footerDOM
-            }) : defaultListener);
+            }) : defaultListener;
+
+            this._scrollTarget = target;
+
+            this._scrollTarget.addEventListener('scroll', this._scrollListener);
         }
     }]);
 
@@ -214,10 +224,10 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
 PagerToolbar.propTypes = {
     BUTTON_TYPES: _react.PropTypes.object,
     dataSource: _react.PropTypes.any,
+    gridData: _react.PropTypes.array,
     gridState: _react.PropTypes.object,
     nextButtonText: _react.PropTypes.string,
     pageSize: _react.PropTypes.number.isRequired,
-    pager: _react.PropTypes.object,
     pagerState: _react.PropTypes.object,
     plugins: _react.PropTypes.object,
     recordType: _react.PropTypes.string,
@@ -243,12 +253,12 @@ var getCustomComponent = exports.getCustomComponent = function getCustomComponen
     return plugins && plugins.PAGER && plugins.PAGER.pagerComponent ? plugins.PAGER.pagerComponent : false;
 };
 
-var getCurrentRecordTotal = exports.getCurrentRecordTotal = function getCurrentRecordTotal(pagerState, pageSize, pageIndex, plugins) {
+var getCurrentRecordTotal = exports.getCurrentRecordTotal = function getCurrentRecordTotal(gridData, pageSize, pageIndex, plugins) {
 
-    if (plugins.PAGER.pagingType === 'remote' && pagerState && pagerState.currentRecords) {
-        return pagerState.currentRecords.length;
+    if (plugins.PAGER.pagingType === 'remote' && gridData && gridData.currentRecords) {
+        return gridData.currentRecords.length;
     } else if (plugins.PAGER.pagingType === 'local') {
-        var records = (0, _getCurrentRecords.getCurrentRecords)(pagerState, pageIndex, pageSize);
+        var records = (0, _getCurrentRecords.getCurrentRecords)(gridData, pageIndex, pageSize);
         return records ? records.length : 0;
     }
 };
@@ -266,7 +276,7 @@ var getTotal = exports.getTotal = function getTotal(dataSource, pagerDefaults) {
     }
 };
 
-var getPager = exports.getPager = function getPager(dataSource, pageSize, recordType, BUTTON_TYPES, pager, plugins, pagerState, pagerDataSource, toolbarRenderer, stateKey, stuck, stuckBottom, store, top, width) {
+var getPager = exports.getPager = function getPager(dataSource, pageSize, recordType, BUTTON_TYPES, pager, plugins, gridData, pagerDataSource, toolbarRenderer, stateKey, stuck, stuckBottom, store, top, width) {
 
     var pageIndex = pager && pager.pageIndex || 0;
 
@@ -284,9 +294,9 @@ var getPager = exports.getPager = function getPager(dataSource, pageSize, record
         toolbarProps.style.top = top + 'px';
     }
 
-    var currentRecords = getCurrentRecordTotal(pagerState, pageSize, pageIndex, plugins, dataSource);
+    var currentRecords = getCurrentRecordTotal(gridData, pageSize, pageIndex, plugins, gridData);
 
-    var total = getTotal(pagerState, plugins.PAGER);
+    var total = getTotal(gridData, plugins.PAGER);
 
     var descriptionProps = {
         pageIndex: pageIndex,
@@ -315,6 +325,7 @@ var getPager = exports.getPager = function getPager(dataSource, pageSize, record
                 'span',
                 null,
                 _react2.default.createElement(_Button.Button, {
+                    dataSource: dataSource,
                     BUTTON_TYPES: BUTTON_TYPES,
                     type: BUTTON_TYPES.BACK,
                     pageIndex: pageIndex,
@@ -322,10 +333,11 @@ var getPager = exports.getPager = function getPager(dataSource, pageSize, record
                     plugins: plugins,
                     currentRecords: currentRecords,
                     total: total,
-                    dataSource: dataSource,
+                    gridData: gridData,
                     stateKey: stateKey,
                     store: store }),
                 _react2.default.createElement(_Button.Button, {
+                    dataSource: dataSource,
                     BUTTON_TYPES: BUTTON_TYPES,
                     type: BUTTON_TYPES.NEXT,
                     pageIndex: pageIndex,
@@ -333,7 +345,7 @@ var getPager = exports.getPager = function getPager(dataSource, pageSize, record
                     plugins: plugins,
                     currentRecords: currentRecords,
                     total: total,
-                    dataSource: dataSource,
+                    gridData: gridData,
                     stateKey: stateKey,
                     store: store })
             ),
@@ -342,23 +354,12 @@ var getPager = exports.getPager = function getPager(dataSource, pageSize, record
     );
 };
 
-var getPagingSource = exports.getPagingSource = function getPagingSource(plugins, dataSource) {
+var getPagingSource = exports.getPagingSource = function getPagingSource(plugins, gridData) {
     if (plugins && plugins.PAGER && plugins.PAGER.pagingSource) {
         return plugins.PAGER.pagingSource;
     }
 
-    return dataSource;
+    return gridData;
 };
 
-function mapStateToProps(state, props) {
-
-    return {
-        pager: (0, _stateGetter.stateGetter)(state, props, 'pager', props.stateKey),
-        pagerState: (0, _stateGetter.stateGetter)(state, props, 'dataSource', props.stateKey),
-        gridState: (0, _stateGetter.stateGetter)(state, props, 'grid', props.stateKey)
-    };
-}
-
-var ConnectedPagerToolbar = (0, _reactRedux.connect)(mapStateToProps)(PagerToolbar);
-
-exports.ConnectedPagerToolbar = ConnectedPagerToolbar;
+exports.default = PagerToolbar;

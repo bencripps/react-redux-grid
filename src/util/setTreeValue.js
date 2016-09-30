@@ -8,11 +8,10 @@ export const setTreeValue = (
     rootIdentifier = 'root'
 ) => {
 
-    const node = findTreeNode(treeData, path, childIdentifier, rootIdentifier);
+    const {
+        node,
+        indexPath
+    } = findTreeNode(treeData, path, childIdentifier, rootIdentifier);
 
-    if (node) {
-        Object.assign(node, values);
-    }
-
-    return treeData;
+    return !node ? treeData : treeData.mergeIn(indexPath, values);
 };

@@ -54,7 +54,7 @@ describe('the treeFlatList utility', () => {
         };
 
         expect(
-            treeToFlatList(data)
+            treeToFlatList(data).toJS()
         ).toEqual([
             {
                 _id: -1,
@@ -227,7 +227,7 @@ describe('the treeFlatList utility', () => {
         const actual = treeToFlatList(data, 'topLevel', 'childz');
 
         expect(
-            actual.map(i => ({ _id: i._id, _parentId: i._parentId }))
+            actual.toJS().map(i => ({ _id: i._id, _parentId: i._parentId }))
         ).toEqual([
             {
                 _id: -1,
@@ -271,7 +271,7 @@ describe('the treeFlatList utility', () => {
             }
         };
 
-        const actual = treeToFlatList(data, 'topLevel', 'childz');
+        const actual = treeToFlatList(data, 'topLevel', 'childz').toJS();
 
         expect(actual[1]).toInclude({ specialData: 'someProp' });
         expect(actual[2]).toInclude({ code: 'banana' });

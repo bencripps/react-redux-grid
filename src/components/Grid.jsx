@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import Header from './layout/Header';
 import FixedHeader from './layout/FixedHeader';
 import Row from './layout/TableRow';
-import {
-    ConnectedPagerToolbar as PagerToolbar
-} from './plugins/pager/Pager';
+import PagerToolbar from './plugins/pager/Pager';
 import { Message } from './plugins/errorhandler/Message';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar';
 import LoadingBar from './plugins/loader/LoadingBar';
@@ -47,6 +45,7 @@ class Grid extends Component {
         const {
             classNames,
             dragAndDrop,
+            dataSource,
             columnState,
             gridData,
             emptyDataMessage,
@@ -160,8 +159,10 @@ class Grid extends Component {
         };
 
         const pagerProps = {
-            dataSource: gridData,
+            gridData,
+            dataSource,
             pageSize,
+            pagerState: pager,
             plugins,
             reducerKeys,
             stateKey,

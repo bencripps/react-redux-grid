@@ -10,7 +10,7 @@ import {
     treeToFlatList
 } from './../../src/util/treeToFlatList';
 
-describe('the treeFlatList utility', () => {
+describe('the getTreePathFromId utility', () => {
 
     it('Should turn a tree into a flat list with no identifier', () => {
 
