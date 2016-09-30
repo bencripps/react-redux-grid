@@ -145,6 +145,10 @@ var Row = exports.Row = function (_Component) {
                 },
                 onDoubleClick: function onDoubleClick(e) {
                     handleRowDoubleClickEvent(events, row, id, selectionModel, index, e);
+                },
+                onDragStart: this.handleDragStart.bind(this),
+                style: {
+                    backgroundColor: id === 'row-99' ? 'red' : ''
                 }
             };
 
@@ -183,6 +187,24 @@ var Row = exports.Row = function (_Component) {
 
         return _possibleConstructorReturn(this, (Row.__proto__ || Object.getPrototypeOf(Row)).call(this, props));
     }
+
+    _createClass(Row, [{
+        key: 'handleDragStart',
+        value: function handleDragStart(e) {
+            var row = this.props.row;
+
+            // this has nothing to do with grid drag and drop
+            // only use is setting meta data for custom drop events
+            // per issue #59
+
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+                id: row._key,
+                data: row
+            }));
+
+            return e;
+        }
+    }]);
 
     return Row;
 }(_react.Component);
@@ -380,12 +402,10 @@ var rowTarget = {
 
 
         var path = [].concat(_toConsumableArray(getTreeData().path));
-
-        // console.log(monitor.getItem().getTreeData())
+        var targetPath = hoverPath;
 
         var targetIndex = hoverIndex;
         var targetParentId = hoverParentId;
-        var targetPath = hoverPath;
 
         // cant drop root
         if (index === -1) {

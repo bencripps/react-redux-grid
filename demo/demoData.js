@@ -197,4 +197,4 @@ export const columns = [
     }
 ];
 
-export { halfData as data, treeData } from './data';
+export { allData as data, treeData } from './data';

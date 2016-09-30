@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getTreeData = exports.getRows = exports.getRowSelection = exports.getRowComponents = exports.TableRow = undefined;
 
+var _arrayFrom = require('array-from');
+
+var _arrayFrom2 = _interopRequireDefault(_arrayFrom);
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -12,6 +16,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactDnd = require('react-dnd');
 
@@ -21,11 +29,17 @@ var _reactDndHtml5Backend2 = _interopRequireDefault(_reactDndHtml5Backend);
 
 var _isPluginEnabled = require('../../util/isPluginEnabled');
 
+var _buffer = require('../../util/buffer');
+
+var _prefix = require('../../util/prefix');
+
 var _getCurrentRecords = require('../../util/getCurrentRecords');
 
 var _getData = require('../../util/getData');
 
 var _GridActions = require('../../actions/GridActions');
+
+var _GridConstants = require('../../constants/GridConstants');
 
 var _Row = require('./table-row/Row');
 
@@ -39,7 +53,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint-disable react/no-set-state */
+
+
+var BUFFER_MULTIPLIER = 1.5;
 
 var arrayOf = _react.PropTypes.arrayOf;
 var bool = _react.PropTypes.bool;
@@ -58,6 +75,7 @@ var TableRow = exports.TableRow = function (_Component) {
             var _props = this.props;
             var columnManager = _props.columnManager;
             var columns = _props.columns;
+            var containerScrollTop = _props.containerScrollTop;
             var dataSource = _props.dataSource;
             var dragAndDrop = _props.dragAndDrop;
             var editor = _props.editor;
@@ -65,12 +83,13 @@ var TableRow = exports.TableRow = function (_Component) {
             var emptyDataMessage = _props.emptyDataMessage;
             var events = _props.events;
             var gridType = _props.gridType;
+            var infinite = _props.infinite;
             var menuState = _props.menuState;
             var pageSize = _props.pageSize;
             var pager = _props.pager;
             var plugins = _props.plugins;
-            var reducerKeys = _props.reducerKeys;
             var readFunc = _props.readFunc;
+            var reducerKeys = _props.reducerKeys;
             var selectedRows = _props.selectedRows;
             var selectionModel = _props.selectionModel;
             var showTreeRootNode = _props.showTreeRootNode;
@@ -80,9 +99,17 @@ var TableRow = exports.TableRow = function (_Component) {
 
             var pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
 
-            var rows = getRowSelection(dataSource, pageIndex, pageSize, pager, plugins, stateKey, store);
+            var totalCount = dataSource && Array.isArray(dataSource.currentRecords) ? dataSource.currentRecords.length : 0;
 
-            var rowComponents = getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, this.moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store);
+            var _state = this.state;
+            var viewableCount = _state.viewableCount;
+            var viewableIndex = _state.viewableIndex;
+            var rowHeight = _state.rowHeight;
+
+
+            var rows = getRowSelection(dataSource, infinite, pageIndex, pageSize, pager, plugins, viewableIndex, viewableCount, BUFFER_MULTIPLIER, stateKey, store);
+
+            var rowComponents = getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, this.moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, BUFFER_MULTIPLIER);
 
             var rowInsert = Array.isArray(rowComponents) && rowComponents.length > 0 ? rowComponents : _react2.default.createElement(_PlaceHolder.PlaceHolder, { emptyDataMessage: emptyDataMessage });
 
@@ -92,12 +119,70 @@ var TableRow = exports.TableRow = function (_Component) {
                 rowInsert
             );
         }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.calculateHeights();
+        }
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            var rowHeight = this.state.rowHeight;
+
+
+            if (this.props.containerScrollTop !== nextProps.containerScrollTop) {
+                this.setState({
+                    viewableIndex: Math.floor(nextProps.containerScrollTop / rowHeight)
+                });
+            }
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            this.calculateHeights();
+        }
     }]);
 
     function TableRow(props) {
         _classCallCheck(this, TableRow);
 
         var _this = _possibleConstructorReturn(this, (TableRow.__proto__ || Object.getPrototypeOf(TableRow)).call(this, props));
+
+        _this.calculateHeights = function () {
+            var containerHeight = _this.props.containerHeight;
+            var _this$state = _this.state;
+            var rowHeight = _this$state.rowHeight;
+            var viewableCount = _this$state.viewableCount;
+
+
+            var tbody = _reactDom2.default.findDOMNode(_this);
+
+            var rows = tbody ? (0, _arrayFrom2.default)(tbody.querySelectorAll('.' + (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.ROW))) : null;
+
+            if (!rows.length) {
+                return;
+            }
+
+            var nextRowHeight = Math.round(rows.reduce(function (prev, el) {
+                return prev + el.clientHeight;
+            }, 0) / rows.length);
+
+            var nextState = {};
+
+            if (rowHeight !== nextRowHeight && nextRowHeight !== undefined) {
+                nextState.rowHeight = nextRowHeight;
+            }
+
+            var nextViewableCount = Math.ceil(containerHeight / rowHeight);
+
+            if (nextViewableCount !== viewableCount && !Number.isNaN(nextViewableCount)) {
+                nextState.viewableCount = nextViewableCount;
+            }
+
+            if (Object.keys(nextState).length) {
+                _this.setState(nextState);
+            }
+        };
 
         _this.moveRow = function (current, next) {
             var _this$props = _this.props;
@@ -119,6 +204,11 @@ var TableRow = exports.TableRow = function (_Component) {
             }
         };
 
+        _this.state = {
+            viewableIndex: 0,
+            rowHeight: _GridConstants.ROW_HEIGHT,
+            viewableCount: 25
+        };
         return _this;
     }
 
@@ -128,6 +218,8 @@ var TableRow = exports.TableRow = function (_Component) {
 TableRow.propTypes = {
     columnManager: object.isRequired,
     columns: arrayOf(object).isRequired,
+    containerHeight: number,
+    containerScrollTop: number,
     data: arrayOf(object),
     dataSource: object,
     dragAndDrop: bool,
@@ -136,6 +228,7 @@ TableRow.propTypes = {
     emptyDataMessage: string,
     events: object,
     gridType: oneOf(['tree', 'grid']),
+    infinite: bool,
     menuState: object,
     pageSize: number,
     pager: object,
@@ -181,23 +274,50 @@ var getRowComponents = exports.getRowComponents = function getRowComponents(colu
     }));
 };
 
-var getRowSelection = exports.getRowSelection = function getRowSelection(dataSource, pageIndex, pageSize, pager, plugins) {
+var getRowSelection = exports.getRowSelection = function getRowSelection(dataSource, infinite, pageIndex, pageSize, pager, plugins, viewableIndex, viewableCount, bufferMultiplier, stateKey, store) {
+
     if (!dataSource) {
         return false;
     }
 
-    if (!(0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') || plugins.PAGER.pagingType === 'remote') {
+    if (!(0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') || plugins.PAGER.pagingType === 'remote' && !infinite) {
         return dataSource.data;
     }
 
-    return (0, _getCurrentRecords.getCurrentRecords)(dataSource, pageIndex, pageSize);
+    return (0, _getCurrentRecords.getCurrentRecords)(dataSource, pageIndex, pageSize, infinite, viewableIndex, viewableCount, bufferMultiplier).data;
 };
 
-var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store) {
+var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, bufferMultiplier) {
 
-    return Array.isArray(rows) ? rows.map(function (row, i) {
+    var rowArray = Array.isArray(rows) ? rows.map(function (row, i) {
         return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, i);
-    }) : null;
+    }) : [];
+
+    if (!infinite) {
+        return rowArray;
+    }
+
+    var topProps = {
+        style: {
+            height: (0, _buffer.bufferTop)(rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount)
+        }
+    };
+
+    var bottomProps = {
+        style: {
+            height: (0, _buffer.bufferBottom)(rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount)
+        }
+    };
+
+    // adding buffer rows for infinite scroll
+    rowArray.unshift(_react2.default.createElement('tr', _extends({
+        key: 'row-inifinite-buffer-top'
+    }, topProps)));
+    rowArray.push(_react2.default.createElement('tr', _extends({
+        key: 'row-inifinite-buffer-bottom'
+    }, bottomProps)));
+
+    return rowArray;
 };
 
 var getTreeData = exports.getTreeData = function getTreeData(row) {

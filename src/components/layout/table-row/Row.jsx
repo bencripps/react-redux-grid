@@ -390,12 +390,10 @@ const rowTarget = {
         } = getTreeData();
 
         const path = [...getTreeData().path];
-
-        // console.log(monitor.getItem().getTreeData())
+        const targetPath = hoverPath;
 
         let targetIndex = hoverIndex;
         let targetParentId = hoverParentId;
-        let targetPath = hoverPath;
 
         // cant drop root
         if (index === -1) {

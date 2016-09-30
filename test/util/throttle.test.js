@@ -36,16 +36,31 @@ describe('debounce utility function', () => {
         const spy = sinon.spy();
         const func = debounce(spy, 100);
 
-        func();
+        function run() {
+            for (let i = 0; i < 10; i++) {
+                func();
+            }
+        }
+
+        run();
 
         expect(spy.called)
             .toEqual(false);
 
         setTimeout(() => {
-            expect(spy.called)
-                .toEqual(true);
+            expect(spy.callCount)
+                .toEqual(1);
+
+
+            run();
+        }, 111);
+
+        setTimeout(() => {
+            expect(spy.callCount)
+                .toEqual(2);
+
             done();
-        }, 101);
+        }, 250);
     });
 
 });

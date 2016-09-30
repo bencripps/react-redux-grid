@@ -5,9 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 var CSS_PREFIX = exports.CSS_PREFIX = 'react-grid';
 
-var ROW_HEIGHT = exports.ROW_HEIGHT = 26;
+var ROW_HEIGHT = exports.ROW_HEIGHT = 5000;
 
 var DEFAULT_PAGE_SIZE = exports.DEFAULT_PAGE_SIZE = 20;
+
+var DEFAULT_RENDERED_RECORDS_VISIBLE = exports.DEFAULT_RENDERED_RECORDS_VISIBLE = 200;
 
 var SELECTION_MODES = exports.SELECTION_MODES = {
     single: 'single',
