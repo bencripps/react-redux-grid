@@ -142,6 +142,10 @@ function dataSource() {
 
             newRow = newRow.set('_key', action.rowId);
 
+            if (!data) {
+                data = new _immutable.List();
+            }
+
             var newData = data.unshift(newRow);
 
             return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({

@@ -132,7 +132,7 @@ export default function dataSource(state = initialState, action) {
 
         const existingState = state.get(action.stateKey);
         const isEditing = existingState && existingState.get('isEditing');
-        const data = existingState && existingState.get('data');
+        let data = existingState && existingState.get('data');
 
         if (existingState && isEditing) {
             return state;
@@ -145,6 +145,10 @@ export default function dataSource(state = initialState, action) {
             : fromJS({});
 
         newRow = newRow.set('_key', action.rowId);
+
+        if (!data) {
+            data = new List();
+        }
 
         const newData = data.unshift(newRow);
 
