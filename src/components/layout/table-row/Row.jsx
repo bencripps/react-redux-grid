@@ -120,7 +120,8 @@ export class Row extends Component {
                 handleRowDoubleClickEvent(
                     events, row, id, selectionModel, index, e
                 );
-            }
+            },
+            onDragStart: this.handleDragStart.bind(this)
         };
 
         columnManager.addActionColumn({
@@ -196,6 +197,19 @@ export class Row extends Component {
         treeData: {}
     };
 
+    handleDragStart(e) {
+        const { row } = this.props;
+
+        // this has nothing to do with grid drag and drop
+        // only use is setting meta data for custom drop events
+        // per issue #59
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+            id: row._key,
+            data: row
+        }));
+
+        return e;
+    }
 }
 
 export const getCellValues = (columns, row) => {
