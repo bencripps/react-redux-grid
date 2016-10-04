@@ -295,7 +295,7 @@ var Grid = function (_Component) {
     _createClass(Grid, [{
         key: 'setData',
         value: function setData() {
-            var extraParams = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            var extraParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
             var _props3 = this.props;
             var dataSource = _props3.dataSource;
             var data = _props3.data;

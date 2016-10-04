@@ -57,6 +57,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var BUFFER_MULTIPLIER = 1.5;
+var DEFAULT_VIEWABLE_RECORDS = 25;
 
 var arrayOf = _react.PropTypes.arrayOf;
 var bool = _react.PropTypes.bool;
@@ -169,7 +170,7 @@ var TableRow = exports.TableRow = function (_Component) {
 
             var nextState = {};
 
-            if (rowHeight !== nextRowHeight && nextRowHeight !== undefined) {
+            if (rowHeight !== nextRowHeight && nextRowHeight !== undefined && !Number.isNaN(nextRowHeight)) {
                 nextState.rowHeight = nextRowHeight;
             }
 
@@ -207,7 +208,7 @@ var TableRow = exports.TableRow = function (_Component) {
         _this.state = {
             viewableIndex: 0,
             rowHeight: _GridConstants.ROW_HEIGHT,
-            viewableCount: 25
+            viewableCount: DEFAULT_VIEWABLE_RECORDS
         };
         return _this;
     }

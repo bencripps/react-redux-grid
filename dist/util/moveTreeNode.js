@@ -10,8 +10,8 @@ var _immutable = require('immutable');
 var _findTreeNode3 = require('./findTreeNode');
 
 var moveTreeNode = exports.moveTreeNode = function moveTreeNode(treeData, currentIndex, currentPath, nextIndex, nextPath) {
-    var childIdentifier = arguments.length <= 5 || arguments[5] === undefined ? 'children' : arguments[5];
-    var rootIdentifier = arguments.length <= 6 || arguments[6] === undefined ? 'root' : arguments[6];
+    var childIdentifier = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 'children';
+    var rootIdentifier = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 'root';
 
 
     var originalTreeData = treeData;

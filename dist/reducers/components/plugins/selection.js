@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setIndexes = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -24,7 +24,7 @@ var initialState = (0, _immutable.fromJS)({ lastUpdate: (0, _lastUpdate.generate
 function selection() {
     var _fromJS2;
 
-    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
 
 
@@ -66,7 +66,7 @@ function selection() {
 }
 
 var setIndexes = exports.setIndexes = function setIndexes(ids) {
-    var previous = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+    var previous = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
     var isRemove = arguments[2];
 
 

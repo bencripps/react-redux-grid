@@ -26,7 +26,7 @@ var resetLastUpdate = exports.resetLastUpdate = function resetLastUpdate() {
 };
 
 var getLastUpdate = exports.getLastUpdate = function getLastUpdate(store, key) {
-    var reducerKeys = arguments.length <= 2 || arguments[2] === undefined ? REDUCER_KEYS : arguments[2];
+    var reducerKeys = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : REDUCER_KEYS;
 
     var state = store.getState();
 

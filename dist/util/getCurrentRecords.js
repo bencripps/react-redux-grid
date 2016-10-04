@@ -1,12 +1,8 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getCurrentRecords = undefined;
-
-var _GridConstants = require('./../constants/GridConstants');
-
 var getCurrentRecords = exports.getCurrentRecords = function getCurrentRecords(dataSource, pageIndex, pageSize, infinite, viewableIndex, viewableCount, bufferMultiplier) {
 
     if (!dataSource) {

@@ -135,8 +135,8 @@ var slimColumn = exports.slimColumn = function slimColumn(cols) {
 };
 
 var equalProps = exports.equalProps = function equalProps() {
-    var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    var newProps = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var newProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     return props.height === newProps.height && (0, _deepEqual2.default)(props.classNames, newProps.classNames) && (0, _deepEqual2.default)(props.events, newProps.events);
 };

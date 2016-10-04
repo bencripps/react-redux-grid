@@ -20,7 +20,7 @@ var DragAndDropManager = function () {
     _createClass(DragAndDropManager, [{
         key: 'initDragable',
         value: function initDragable() {
-            var initialProps = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+            var initialProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 
             var defaults = {

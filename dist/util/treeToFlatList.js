@@ -8,8 +8,8 @@ exports.treeToFlatList = undefined;
 var _immutable = require('immutable');
 
 var treeToFlatList = exports.treeToFlatList = function treeToFlatList(data) {
-    var rootIdentifier = arguments.length <= 1 || arguments[1] === undefined ? 'root' : arguments[1];
-    var childIdentifier = arguments.length <= 2 || arguments[2] === undefined ? 'children' : arguments[2];
+    var rootIdentifier = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'root';
+    var childIdentifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'children';
 
 
     if (!data) {
@@ -54,9 +54,9 @@ var treeToFlatList = exports.treeToFlatList = function treeToFlatList(data) {
 };
 
 var toItem = function toItem(path, childIdentifier, cfg, parent) {
-    var siblings = arguments.length <= 4 || arguments[4] === undefined ? (0, _immutable.List)() : arguments[4];
+    var siblings = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : (0, _immutable.List)();
     return function (node) {
-        var index = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
+        var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
 
         var previousSibling = index - 1 > -1 ? siblings.get(index - 1) : undefined;

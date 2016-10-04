@@ -8,8 +8,8 @@ exports.findTreeNode = undefined;
 var _immutable = require('immutable');
 
 var findTreeNode = exports.findTreeNode = function findTreeNode(treeData, path) {
-    var childIdentifier = arguments.length <= 2 || arguments[2] === undefined ? 'children' : arguments[2];
-    var rootIdentifier = arguments.length <= 3 || arguments[3] === undefined ? 'root' : arguments[3];
+    var childIdentifier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'children';
+    var rootIdentifier = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'root';
 
 
     if (!_immutable.Map.isMap(treeData)) {

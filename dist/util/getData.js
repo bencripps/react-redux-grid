@@ -10,9 +10,9 @@ var _immutable = require('immutable');
 var _camelize = require('./camelize');
 
 var getData = exports.getData = function getData() {
-    var rowData = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    var columns = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-    var colIndex = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+    var rowData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var columns = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var colIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 
     var column = columns[colIndex];
@@ -84,7 +84,7 @@ var getRowKey = exports.getRowKey = function getRowKey(columns, rowValues, suffi
 };
 
 var setDataAtDataIndex = exports.setDataAtDataIndex = function setDataAtDataIndex() {
-    var rowData = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var rowData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var dataIndex = arguments[1];
     var val = arguments[2];
 

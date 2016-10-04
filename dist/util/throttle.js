@@ -9,8 +9,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports.throttle = throttle;
 exports.debounce = debounce;
 function throttle(callback, scope) {
-    var limit = arguments.length <= 2 || arguments[2] === undefined ? 100 : arguments[2];
-    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+    var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
 
     options = _extends({

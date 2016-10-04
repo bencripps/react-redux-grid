@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handleChangeFunc = exports.setDisabled = exports.isRowValid = exports.isCellValid = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.default = editor;
 
@@ -46,7 +46,7 @@ var isRowValid = exports.isRowValid = function isRowValid(columns, rowValues) {
 };
 
 var setDisabled = exports.setDisabled = function setDisabled() {
-    var col = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var col = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var value = arguments[1];
     var values = arguments[2];
 
@@ -78,7 +78,7 @@ var handleChangeFunc = exports.handleChangeFunc = function handleChangeFunc(col,
 };
 
 function editor() {
-    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
 
     var _ret = function () {

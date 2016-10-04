@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var getRowBoundingRect = exports.getRowBoundingRect = function getRowBoundingRect(row) {
-    var container = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+    var container = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
     if (!container) {

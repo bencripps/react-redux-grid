@@ -146,10 +146,7 @@ var Row = exports.Row = function (_Component) {
                 onDoubleClick: function onDoubleClick(e) {
                     handleRowDoubleClickEvent(events, row, id, selectionModel, index, e);
                 },
-                onDragStart: this.handleDragStart.bind(this),
-                style: {
-                    backgroundColor: id === 'row-99' ? 'red' : ''
-                }
+                onDragStart: this.handleDragStart.bind(this)
             };
 
             columnManager.addActionColumn({
