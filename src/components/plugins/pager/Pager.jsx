@@ -109,8 +109,7 @@ export class PagerToolbar extends Component {
     static propTypes = {
         BUTTON_TYPES: PropTypes.object,
         dataSource: PropTypes.any,
-        gridData: PropTypes.array,
-        gridState: PropTypes.object,
+        gridData: PropTypes.object,
         nextButtonText: PropTypes.string,
         pageSize: PropTypes.number.isRequired,
         pagerState: PropTypes.object,
@@ -267,7 +266,7 @@ export const getCurrentRecordTotal = (
 
     else if (plugins.PAGER.pagingType === 'local') {
         const records = getCurrentRecords(gridData, pageIndex, pageSize);
-        return records ? records.length : 0;
+        return records && records.data ? records.data.length : 0;
     }
 
 };

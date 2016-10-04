@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Header from './layout/Header';
+import TableContainer from './layout/TableContainer';
 import FixedHeader from './layout/FixedHeader';
-import Row from './layout/TableRow';
 import PagerToolbar from './plugins/pager/Pager';
 import { Message } from './plugins/errorhandler/Message';
 import BulkActionToolbar from './plugins/bulkactions/Toolbar';
@@ -50,6 +49,7 @@ class Grid extends Component {
             gridData,
             emptyDataMessage,
             height,
+            infinite,
             loadingState,
             pageSize,
             plugins,
@@ -122,13 +122,6 @@ class Grid extends Component {
             gridData
         }, headerProps);
 
-        const tableContainerProps = {
-            className: prefix(CLASS_NAMES.TABLE_CONTAINER),
-            style: {
-                height: height
-            }
-        };
-
         const rowProps = {
             columnManager: this.columnManager,
             columns,
@@ -153,9 +146,12 @@ class Grid extends Component {
             gridType: this.gridType
         };
 
-        const tableProps = {
-            className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_HIDDEN),
-            cellSpacing: 0
+        const tableContainerProps = {
+            editorComponent,
+            height,
+            headerProps,
+            infinite,
+            rowProps
         };
 
         const pagerProps = {
@@ -182,13 +178,7 @@ class Grid extends Component {
                 <Message { ...messageProps } />
                 { bulkActionCmp }
                 <FixedHeader { ...fixedHeaderProps } />
-                <div { ...tableContainerProps } >
-                    <table { ...tableProps }>
-                        <Header { ...headerProps } />
-                        <Row { ...rowProps } />
-                    </table>
-                    { editorComponent }
-                </div>
+                <TableContainer { ...tableContainerProps } />
                 <PagerToolbar { ...pagerProps } />
                 <LoadingBar { ...loadingBarProps } />
             </div>
@@ -271,6 +261,7 @@ class Grid extends Component {
             string,
             number
         ]),
+        infinite: bool,
         loadingState: object,
         menuState: object,
         pageSize: number,

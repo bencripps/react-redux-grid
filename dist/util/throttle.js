@@ -3,19 +3,58 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.throttle = throttle;
 exports.debounce = debounce;
-function throttle(callback, scope, limit) {
-    var wait = false;
+function throttle(callback, scope) {
+    var limit = arguments.length <= 2 || arguments[2] === undefined ? 100 : arguments[2];
+    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
-    limit = limit || 100;
+
+    options = _extends({
+        leading: true,
+        trailing: false
+    }, options);
+
+    var wait = false;
+    var skip = false;
+
+    if (options.leading === false) {
+        skip = true;
+    }
+
+    var later = debounce(function dodebounce() {
+        if (options.trailing) {
+            callback.apply(scope, arguments);
+        }
+        if (options.leading === false) {
+            skip = true;
+        }
+    }, limit + limit * 0.15);
 
     return function dothrottle() {
-        if (!wait) {
+        var _arguments = arguments;
+
+
+        if (!wait && !skip) {
             callback.apply(scope, arguments);
             wait = true;
             setTimeout(function () {
                 wait = false;
+                if (later) {
+                    later.apply(scope, _arguments);
+                }
+            }, limit);
+        } else if (!wait && skip) {
+            wait = true;
+            setTimeout(function () {
+                skip = false;
+                wait = false;
+                if (later) {
+                    later.apply(scope, _arguments);
+                }
             }, limit);
         }
     };

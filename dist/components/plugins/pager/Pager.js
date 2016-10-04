@@ -224,8 +224,7 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
 PagerToolbar.propTypes = {
     BUTTON_TYPES: _react.PropTypes.object,
     dataSource: _react.PropTypes.any,
-    gridData: _react.PropTypes.array,
-    gridState: _react.PropTypes.object,
+    gridData: _react.PropTypes.object,
     nextButtonText: _react.PropTypes.string,
     pageSize: _react.PropTypes.number.isRequired,
     pagerState: _react.PropTypes.object,
@@ -259,7 +258,7 @@ var getCurrentRecordTotal = exports.getCurrentRecordTotal = function getCurrentR
         return gridData.currentRecords.length;
     } else if (plugins.PAGER.pagingType === 'local') {
         var records = (0, _getCurrentRecords.getCurrentRecords)(gridData, pageIndex, pageSize);
-        return records ? records.length : 0;
+        return records && records.data ? records.data.length : 0;
     }
 };
 
