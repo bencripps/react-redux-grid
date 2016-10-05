@@ -1,17 +1,12 @@
 export const bufferTop = (
-    rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount
+    rowHeight, viewableIndex, viewableCount, bufferMultiplier
 ) => {
     const spacerCount = Math.max(
         viewableIndex - viewableCount * bufferMultiplier,
         0
     );
 
-    // spacerCount can never be greater than (
-    // totalCount - viewableCount * rowHeight)
-    return Math.max(
-        spacerCount * rowHeight,
-        totalCount - viewableCount * rowHeight
-    );
+    return spacerCount * rowHeight;
 };
 
 export const bufferBottom = (

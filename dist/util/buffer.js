@@ -3,12 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var bufferTop = exports.bufferTop = function bufferTop(rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount) {
+var bufferTop = exports.bufferTop = function bufferTop(rowHeight, viewableIndex, viewableCount, bufferMultiplier) {
     var spacerCount = Math.max(viewableIndex - viewableCount * bufferMultiplier, 0);
 
-    // spacerCount can never be greater than (
-    // totalCount - viewableCount * rowHeight)
-    return Math.max(spacerCount * rowHeight, totalCount - viewableCount * rowHeight);
+    return spacerCount * rowHeight;
 };
 
 var bufferBottom = exports.bufferBottom = function bufferBottom(rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount) {
