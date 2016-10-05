@@ -8,7 +8,7 @@ var bufferTop = exports.bufferTop = function bufferTop(rowHeight, viewableIndex,
 
     // spacerCount can never be greater than (
     // totalCount - viewableCount * rowHeight)
-    return Math.min(spacerCount * rowHeight, totalCount - viewableCount * rowHeight);
+    return Math.max(spacerCount * rowHeight, totalCount - viewableCount * rowHeight);
 };
 
 var bufferBottom = exports.bufferBottom = function bufferBottom(rowHeight, viewableIndex, viewableCount, bufferMultiplier, totalCount) {

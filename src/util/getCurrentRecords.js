@@ -24,7 +24,7 @@ export const getCurrentRecords = (
         );
 
         return {
-            data: dataSource.data.slice(start, end),
+            data: dataSource.currentRecords.slice(start, end),
             startIndex: start,
             endIndex: end
         };

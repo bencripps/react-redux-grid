@@ -281,7 +281,7 @@ var getRowSelection = exports.getRowSelection = function getRowSelection(dataSou
         return false;
     }
 
-    if (!(0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') || plugins.PAGER.pagingType === 'remote' && !infinite) {
+    if (!(0, _isPluginEnabled.isPluginEnabled)(plugins, 'PAGER') && !infinite || plugins.PAGER.pagingType === 'remote' && !infinite) {
         return dataSource.data;
     }
 

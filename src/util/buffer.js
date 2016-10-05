@@ -8,7 +8,7 @@ export const bufferTop = (
 
     // spacerCount can never be greater than (
     // totalCount - viewableCount * rowHeight)
-    return Math.min(
+    return Math.max(
         spacerCount * rowHeight,
         totalCount - viewableCount * rowHeight
     );

@@ -306,7 +306,7 @@ export const getRowSelection = (
         return false;
     }
 
-    if (!isPluginEnabled(plugins, 'PAGER')
+    if (!isPluginEnabled(plugins, 'PAGER') && !infinite
         || plugins.PAGER.pagingType === 'remote'
         && !infinite) {
         return dataSource.data;

@@ -15,7 +15,7 @@ var getCurrentRecords = exports.getCurrentRecords = function getCurrentRecords(d
         var end = Math.min(viewableIndex + viewableCount * (bufferMultiplier + 1), dataSource.currentRecords.length);
 
         return {
-            data: dataSource.data.slice(start, end),
+            data: dataSource.currentRecords.slice(start, end),
             startIndex: start,
             endIndex: end
         };
