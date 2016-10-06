@@ -128,7 +128,7 @@ class FixedHeader extends Component {
 
         if (selectionModel) {
             selectionModel.updateCells(
-                headers, columns, 'header', null, stateKey
+                headers, columns, 'header', reducerKeys, stateKey,
             );
         }
 

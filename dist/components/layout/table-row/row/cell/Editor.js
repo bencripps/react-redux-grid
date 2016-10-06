@@ -40,7 +40,7 @@ var Editor = exports.Editor = function Editor(_ref) {
 
     var value = editorState && editorState.row && editorState.row.values ? editorState.row.values[colName] : null;
 
-    if (isEditable && columns[index] && columns[index].editor && (columns[index].editable === undefined || columns[index].editable) && typeof columns[index].editor === 'function') {
+    if (isEditable && columns[index] && columns[index].editor && (columns[index].editable === undefined || columns[index].editable) && (typeof columns[index].editable === 'function' ? columns[index].editable({ row: editorState.row, store: store }) : true) && typeof columns[index].editor === 'function') {
 
         var input = columns[index].editor({
             column: columns[index],
@@ -60,7 +60,7 @@ var Editor = exports.Editor = function Editor(_ref) {
             input,
             ' '
         );
-    } else if (isEditable && columns[index] && (columns[index].editable === undefined || columns[index].editable)) {
+    } else if (isEditable && columns[index] && (columns[index].editable === undefined || columns[index].editable) && (typeof columns[index].editable === 'function' ? columns[index].editable({ row: editorState.row, store: store }) : true)) {
         return _react2.default.createElement(
             'span',
             { className: wrapperCls },

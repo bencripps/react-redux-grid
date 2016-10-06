@@ -78,8 +78,8 @@ export const plugins = {
         enabled: true
     },
     SELECTION_MODEL: {
-        mode: 'multi',
-        enabled: false,
+        mode: 'checkbox-multi',
+        enabled: true,
         allowDeselect: true,
         activeCls: 'active',
         selectionEvent: 'singleclick',

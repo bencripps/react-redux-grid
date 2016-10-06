@@ -33,6 +33,9 @@ export const Editor = ({
         && columns[index]
         && columns[index].editor
         && (columns[index].editable === undefined || columns[index].editable)
+        && (typeof columns[index].editable === 'function'
+                ? columns[index].editable({ row: editorState.row, store })
+                : true)
         && typeof columns[index].editor === 'function') {
 
         const input = columns[index].editor(
@@ -55,7 +58,10 @@ export const Editor = ({
 
     else if (isEditable
         && columns[index]
-        && (columns[index].editable === undefined || columns[index].editable)) {
+        && (columns[index].editable === undefined || columns[index].editable)
+        && (typeof columns[index].editable === 'function'
+                ? columns[index].editable({ row: editorState.row, store })
+                : true)) {
         return (
             <span { ...{ className: wrapperCls } }>
                 <Input {

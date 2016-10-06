@@ -24,6 +24,7 @@ var _ModelActions = require('../../../actions/plugins/selection/ModelActions');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CheckBox = exports.CheckBox = function CheckBox(_ref) {
+    var reducerKeys = _ref.reducerKeys;
     var dataSource = _ref.dataSource;
     var rowId = _ref.rowId;
     var selectedRows = _ref.selectedRows;
@@ -77,6 +78,7 @@ var getColumn = exports.getColumn = function getColumn(checkBoxContainerProps, c
 
 CheckBox.propTypes = {
     dataSource: _react.PropTypes.object,
+    reducerKeys: _react.PropTypes.object,
     rowId: _react.PropTypes.any,
     selectedRows: _react.PropTypes.object,
     store: _react.PropTypes.object,
@@ -86,7 +88,6 @@ CheckBox.propTypes = {
 CheckBox.defaultProps = {};
 
 function mapStateToProps(state, props) {
-
     return {
         pager: (0, _stateGetter.stateGetter)(state, props, 'pager', props.stateKey),
         dataSource: (0, _stateGetter.stateGetter)(state, props, 'dataSource', props.stateKey),

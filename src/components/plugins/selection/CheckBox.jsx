@@ -5,7 +5,9 @@ import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
 import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
 
-export const CheckBox = ({dataSource, rowId, selectedRows, store, stateKey, type}) => {
+export const CheckBox = ({
+    reducerKeys, dataSource, rowId, selectedRows, store, stateKey, type
+}) => {
 
     const checkBoxContainerProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
@@ -57,6 +59,7 @@ export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
 
 CheckBox.propTypes = {
     dataSource: PropTypes.object,
+    reducerKeys: PropTypes.object,
     rowId: PropTypes.any,
     selectedRows: PropTypes.object,
     store: PropTypes.object,
@@ -66,7 +69,6 @@ CheckBox.propTypes = {
 CheckBox.defaultProps = {};
 
 function mapStateToProps(state, props) {
-
     return {
         pager: stateGetter(state, props, 'pager', props.stateKey),
         dataSource: stateGetter(state, props, 'dataSource', props.stateKey),

@@ -23,8 +23,8 @@ describe('The grid selectAll Action', () => {
             type: SELECT_ALL,
             data: {
                 currentRecords: [
-                    { name: 'ben' },
-                    { name: 'ben2'}
+                    { name: 'ben', _key: 'row-0' },
+                    { name: 'ben2', _key: 'row-1' }
                 ]
             },
             stateKey: 'test-grid'
@@ -33,7 +33,7 @@ describe('The grid selectAll Action', () => {
         expect(selectAll(action))
             .toEqual({
                 type: SELECT_ALL,
-                selection: { 'cm93MA==': true, 'cm93MQ==': true },
+                selection: { 'row-0': true, 'row-1': true },
                 stateKey: 'test-grid'
             });
 

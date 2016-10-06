@@ -5,15 +5,19 @@ import {
     NO_EVENT
 } from '../../../constants/ActionTypes';
 
-import { keyGenerator } from '../../../util/keyGenerator';
-
 export function selectAll({ data, stateKey }) {
-    const keys = data.currentRecords.map((row, i) => keyGenerator('row', i));
+
+    if (!data) {
+        return {};
+    }
+
+    const keys = data.currentRecords.map((row, i) => row._key);
 
     const selection = keys.reduce((obj, k) => {
         obj[k] = true;
         return obj;
     }, {});
+
     return { type: SELECT_ALL, selection, stateKey };
 }
 

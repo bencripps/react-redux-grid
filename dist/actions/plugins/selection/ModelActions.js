@@ -9,20 +9,24 @@ exports.setSelection = setSelection;
 
 var _ActionTypes = require('../../../constants/ActionTypes');
 
-var _keyGenerator = require('../../../util/keyGenerator');
-
 function selectAll(_ref) {
     var data = _ref.data;
     var stateKey = _ref.stateKey;
 
+
+    if (!data) {
+        return {};
+    }
+
     var keys = data.currentRecords.map(function (row, i) {
-        return (0, _keyGenerator.keyGenerator)('row', i);
+        return row._key;
     });
 
     var selection = keys.reduce(function (obj, k) {
         obj[k] = true;
         return obj;
     }, {});
+
     return { type: _ActionTypes.SELECT_ALL, selection: selection, stateKey: stateKey };
 }
 
