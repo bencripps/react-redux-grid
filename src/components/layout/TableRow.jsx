@@ -47,6 +47,7 @@ export class TableRow extends Component {
             selectionModel,
             showTreeRootNode,
             stateKey,
+            stateful,
             store
         } = this.props;
 
@@ -90,6 +91,7 @@ export class TableRow extends Component {
             selectionModel,
             selectedRows,
             showTreeRootNode,
+            stateful,
             stateKey,
             store,
             containerScrollTop,
@@ -167,6 +169,7 @@ export class TableRow extends Component {
         selectionModel: object,
         showTreeRootNode: bool,
         stateKey: string,
+        stateful: bool,
         store: object.isRequired
     };
 
@@ -251,6 +254,7 @@ export const getRowComponents = (
     selectionModel,
     selectedRows,
     showTreeRootNode,
+    stateful,
     stateKey,
     store,
     index
@@ -280,6 +284,7 @@ export const getRowComponents = (
                     selectedRows,
                     selectionModel,
                     showTreeRootNode,
+                    stateful,
                     stateKey,
                     store,
                     treeData: getTreeData(row)
@@ -340,6 +345,7 @@ export const getRows = (
     selectionModel,
     selectedRows,
     showTreeRootNode,
+    stateful,
     stateKey,
     store,
     containerScrollTop,
@@ -369,6 +375,7 @@ export const getRows = (
                 selectionModel,
                 selectedRows,
                 showTreeRootNode,
+                stateful,
                 stateKey,
                 store,
                 i

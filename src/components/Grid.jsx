@@ -141,6 +141,7 @@ class Grid extends Component {
             selectionModel: this.selectionModel,
             stateKey,
             store,
+            stateful,
             showTreeRootNode,
             menuState,
             gridType: this.gridType

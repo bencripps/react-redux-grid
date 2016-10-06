@@ -15,7 +15,13 @@ var _GridConstants = require('./../../../../../constants/GridConstants');
 
 var _GridActions = require('./../../../../../actions/GridActions');
 
+var _LocalStorageManager = require('./../../../../core/LocalStorageManager');
+
+var _LocalStorageManager2 = _interopRequireDefault(_LocalStorageManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var debouncedSetStateItem = _LocalStorageManager2.default.debouncedSetStateItem();
 
 var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
     var depth = _ref.depth;
@@ -27,6 +33,7 @@ var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
     var readFunc = _ref.readFunc;
     var showTreeRootNode = _ref.showTreeRootNode;
     var shouldNest = _ref.shouldNest;
+    var stateful = _ref.stateful;
     var stateKey = _ref.stateKey;
     var store = _ref.store;
 
@@ -34,7 +41,14 @@ var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
     var arrowProps = {
         className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.CELL_TREE_ARROW, isEditable ? 'edit' : '', isExpandable ? 'expand' : '', shouldNest ? 'tree-nested' : '', depth !== undefined ? 'tree-node-depth-' + depth : '', isExpanded ? 'node-expanded' : 'node-unexpanded'),
         onClick: handleArrowClick.bind(null, {
-            store: store, stateKey: stateKey, showTreeRootNode: showTreeRootNode, hasChildren: hasChildren, id: id, readFunc: readFunc
+            hasChildren: hasChildren,
+            id: id,
+            isExpanded: isExpanded,
+            readFunc: readFunc,
+            showTreeRootNode: showTreeRootNode,
+            stateKey: stateKey,
+            stateful: stateful,
+            store: store
         })
     };
 
@@ -42,12 +56,14 @@ var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
 };
 
 var handleArrowClick = exports.handleArrowClick = function handleArrowClick(_ref2, e) {
-    var showTreeRootNode = _ref2.showTreeRootNode;
-    var store = _ref2.store;
-    var stateKey = _ref2.stateKey;
     var hasChildren = _ref2.hasChildren;
     var id = _ref2.id;
+    var isExpanded = _ref2.isExpanded;
     var readFunc = _ref2.readFunc;
+    var showTreeRootNode = _ref2.showTreeRootNode;
+    var stateKey = _ref2.stateKey;
+    var stateful = _ref2.stateful;
+    var store = _ref2.store;
 
     e.stopPropagation();
 
@@ -61,6 +77,24 @@ var handleArrowClick = exports.handleArrowClick = function handleArrowClick(_ref
             id: id,
             showTreeRootNode: showTreeRootNode
         }));
+    }
+
+    if (stateful) {
+        // if stateful
+        // save which node ids have been expanded
+        var expandedColumns = _LocalStorageManager2.default.getStateItem({
+            stateKey: stateKey,
+            property: 'expandedNodes',
+            shouldSave: false
+        }) || {};
+
+        expandedColumns[id] = !isExpanded;
+
+        debouncedSetStateItem({
+            stateKey: stateKey,
+            property: 'expandedNodes',
+            value: expandedColumns
+        });
     }
 };
 
@@ -85,6 +119,7 @@ TreeArrow.propTypes = {
     shouldNest: bool,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object
 };
 

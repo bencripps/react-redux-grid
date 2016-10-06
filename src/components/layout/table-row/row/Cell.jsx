@@ -24,6 +24,7 @@ export const Cell = ({
     rowId,
     stateKey,
     selectionModel,
+    stateful,
     store,
     showTreeRootNode,
     treeData
@@ -92,6 +93,7 @@ export const Cell = ({
         id: treeData.id,
         readFunc,
         showTreeRootNode,
+        stateful,
         stateKey,
         store
     };
@@ -297,6 +299,7 @@ Cell.propTypes = {
     selectionModel: object,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object,
     treeData: object
 };

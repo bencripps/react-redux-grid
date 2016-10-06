@@ -3,6 +3,11 @@ import React, { PropTypes } from 'react';
 import { prefix } from './../../../../../util/prefix';
 import { CLASS_NAMES } from './../../../../../constants/GridConstants';
 import { setTreeNodeVisibility } from './../../../../../actions/GridActions';
+import
+    localStorageManager
+from './../../../../core/LocalStorageManager';
+
+const debouncedSetStateItem = localStorageManager.debouncedSetStateItem();
 
 export const TreeArrow = ({
     depth,
@@ -14,6 +19,7 @@ export const TreeArrow = ({
     readFunc,
     showTreeRootNode,
     shouldNest,
+    stateful,
     stateKey,
     store
 }) => {
@@ -27,16 +33,30 @@ export const TreeArrow = ({
             isExpanded ? 'node-expanded' : 'node-unexpanded'
         ),
         onClick: handleArrowClick.bind(null, {
-            store, stateKey, showTreeRootNode, hasChildren, id, readFunc
+            hasChildren,
+            id,
+            isExpanded,
+            readFunc,
+            showTreeRootNode,
+            stateKey,
+            stateful,
+            store
         })
     };
 
     return <span { ...arrowProps } />;
 };
 
-export const handleArrowClick = (
-    { showTreeRootNode, store, stateKey, hasChildren, id, readFunc }, e
-) => {
+export const handleArrowClick = ({
+    hasChildren,
+    id,
+    isExpanded,
+    readFunc,
+    showTreeRootNode,
+    stateKey,
+    stateful,
+    store
+}, e) => {
     e.stopPropagation();
 
     if (!hasChildren) {
@@ -53,6 +73,24 @@ export const handleArrowClick = (
                 showTreeRootNode
             })
         );
+    }
+
+    if (stateful) {
+        // if stateful
+        // save which node ids have been expanded
+        const expandedColumns = localStorageManager.getStateItem({
+            stateKey,
+            property: 'expandedNodes',
+            shouldSave: false
+        }) || {};
+
+        expandedColumns[id] = !isExpanded;
+
+        debouncedSetStateItem({
+            stateKey,
+            property: 'expandedNodes',
+            value: expandedColumns
+        });
     }
 
 };
@@ -73,6 +111,7 @@ TreeArrow.propTypes = {
     shouldNest: bool,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object
 };
 

@@ -95,6 +95,7 @@ var TableRow = exports.TableRow = function (_Component) {
             var selectionModel = _props.selectionModel;
             var showTreeRootNode = _props.showTreeRootNode;
             var stateKey = _props.stateKey;
+            var stateful = _props.stateful;
             var store = _props.store;
 
 
@@ -110,7 +111,7 @@ var TableRow = exports.TableRow = function (_Component) {
 
             var rows = getRowSelection(dataSource, infinite, pageIndex, pageSize, pager, plugins, viewableIndex, viewableCount, BUFFER_MULTIPLIER, stateKey, store);
 
-            var rowComponents = getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, this.moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, BUFFER_MULTIPLIER);
+            var rowComponents = getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, this.moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, BUFFER_MULTIPLIER);
 
             var rowInsert = Array.isArray(rowComponents) && rowComponents.length > 0 ? rowComponents : _react2.default.createElement(_PlaceHolder.PlaceHolder, { emptyDataMessage: emptyDataMessage });
 
@@ -240,12 +241,13 @@ TableRow.propTypes = {
     selectionModel: object,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object.isRequired
 };
 TableRow.defaultProps = {
     emptyDataMessage: 'No Data Available'
 };
-var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, index) {
+var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, index) {
 
     var key = (0, _getData.getRowKey)(columns, row);
 
@@ -269,6 +271,7 @@ var getRowComponents = exports.getRowComponents = function getRowComponents(colu
         selectedRows: selectedRows,
         selectionModel: selectionModel,
         showTreeRootNode: showTreeRootNode,
+        stateful: stateful,
         stateKey: stateKey,
         store: store,
         treeData: getTreeData(row)
@@ -288,10 +291,10 @@ var getRowSelection = exports.getRowSelection = function getRowSelection(dataSou
     return (0, _getCurrentRecords.getCurrentRecords)(dataSource, pageIndex, pageSize, infinite, viewableIndex, viewableCount, bufferMultiplier).data;
 };
 
-var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, bufferMultiplier) {
+var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, bufferMultiplier) {
 
     var rowArray = Array.isArray(rows) ? rows.map(function (row, i) {
-        return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateKey, store, i);
+        return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, i);
     }) : [];
 
     if (!infinite) {

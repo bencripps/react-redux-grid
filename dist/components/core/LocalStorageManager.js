@@ -23,7 +23,7 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
             var property = _ref.property;
             var value = _ref.value;
 
-
+            console.log('stateKey', stateKey, property);
             var json = JSON.stringify(value);
 
             if (!window.localStorage) {

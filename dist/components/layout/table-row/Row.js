@@ -82,6 +82,7 @@ var Row = exports.Row = function (_Component) {
             var selectedRows = _props.selectedRows;
             var selectionModel = _props.selectionModel;
             var showTreeRootNode = _props.showTreeRootNode;
+            var stateful = _props.stateful;
             var stateKey = _props.stateKey;
             var store = _props.store;
             var treeData = _props.treeData;
@@ -116,6 +117,7 @@ var Row = exports.Row = function (_Component) {
                     rowIndex: index,
                     selectionModel: selectionModel,
                     showTreeRootNode: showTreeRootNode,
+                    stateful: stateful,
                     stateKey: stateKey,
                     store: store,
                     treeData: _extends({}, treeData, {
@@ -232,6 +234,7 @@ Row.propTypes = {
     selectionModel: object,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object.isRequired,
     treeData: object
 };

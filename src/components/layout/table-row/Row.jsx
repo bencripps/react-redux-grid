@@ -38,6 +38,7 @@ export class Row extends Component {
             selectedRows,
             selectionModel,
             showTreeRootNode,
+            stateful,
             stateKey,
             store,
             treeData
@@ -70,6 +71,7 @@ export class Row extends Component {
                 rowIndex: index,
                 selectionModel,
                 showTreeRootNode,
+                stateful,
                 stateKey,
                 store,
                 treeData: {
@@ -186,6 +188,7 @@ export class Row extends Component {
         selectionModel: object,
         showTreeRootNode: bool,
         stateKey: string,
+        stateful: bool,
         store: object.isRequired,
         treeData: object
     };

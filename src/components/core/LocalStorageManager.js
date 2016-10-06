@@ -3,7 +3,7 @@ import { debounce } from './../../util/throttle';
 export class LocalStorageManager {
 
     setStateItem({ stateKey, property, value }) {
-
+        console.log('stateKey', stateKey, property);
         const json = JSON.stringify(value);
 
         if (!window.localStorage) {

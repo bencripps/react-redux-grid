@@ -45,6 +45,7 @@ var Cell = exports.Cell = function Cell(_ref) {
     var rowId = _ref.rowId;
     var stateKey = _ref.stateKey;
     var selectionModel = _ref.selectionModel;
+    var stateful = _ref.stateful;
     var store = _ref.store;
     var showTreeRootNode = _ref.showTreeRootNode;
     var treeData = _ref.treeData;
@@ -99,6 +100,7 @@ var Cell = exports.Cell = function Cell(_ref) {
         id: treeData.id,
         readFunc: readFunc,
         showTreeRootNode: showTreeRootNode,
+        stateful: stateful,
         stateKey: stateKey,
         store: store
     };
@@ -245,6 +247,7 @@ Cell.propTypes = {
     selectionModel: object,
     showTreeRootNode: bool,
     stateKey: string,
+    stateful: bool,
     store: object,
     treeData: object
 };

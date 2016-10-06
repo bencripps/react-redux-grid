@@ -189,6 +189,7 @@ var Grid = function (_Component) {
                 selectionModel: this.selectionModel,
                 stateKey: stateKey,
                 store: store,
+                stateful: stateful,
                 showTreeRootNode: showTreeRootNode,
                 menuState: menuState,
                 gridType: this.gridType
