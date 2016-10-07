@@ -214,6 +214,7 @@ function dataSource() {
             return state;
 
         case _ActionTypes.SAVE_ROW:
+
             var gridData = state.getIn([action.stateKey, 'data']).set(action.rowIndex, (0, _immutable.fromJS)(action.values));
 
             return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({

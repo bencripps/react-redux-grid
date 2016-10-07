@@ -127,9 +127,16 @@ class FixedHeader extends Component {
         };
 
         if (selectionModel) {
-            selectionModel.updateCells(
-                headers, columns, 0, 'header', reducerKeys, stateKey,
-            );
+            selectionModel.updateCells({
+                cells: headers,
+                rowId: 'fixedHeader',
+                type: 'header',
+                index: 0,
+                reducerKeys,
+                stateKey,
+                rowData: {},
+                isSelected: null
+            });
         }
 
         columnManager.addActionColumn({

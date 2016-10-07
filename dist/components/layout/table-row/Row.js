@@ -143,10 +143,10 @@ var Row = exports.Row = function (_Component) {
             var rowProps = {
                 className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.ROW, selectedClass, editClass, dragClass),
                 onClick: function onClick(e) {
-                    handleRowSingleClickEvent(events, row, id, selectionModel, index, e);
+                    handleRowSingleClickEvent(events, row, id, selectionModel, index, isSelected, e);
                 },
                 onDoubleClick: function onDoubleClick(e) {
-                    handleRowDoubleClickEvent(events, row, id, selectionModel, index, e);
+                    handleRowDoubleClickEvent(events, row, id, selectionModel, index, isSelected, e);
                 },
                 onDragStart: this.handleDragStart.bind(this)
             };
@@ -163,7 +163,16 @@ var Row = exports.Row = function (_Component) {
                 menuState: menuState
             });
 
-            selectionModel.updateCells(cells, id, index, 'row', reducerKeys, stateKey);
+            selectionModel.updateCells({
+                cells: cells,
+                rowId: id,
+                index: index,
+                type: 'row',
+                reducerKeys: reducerKeys,
+                stateKey: stateKey,
+                rowData: cellValues,
+                isSelected: !isSelected
+            });
 
             addEmptyInsert(cells, visibleColumns, plugins);
 
@@ -318,14 +327,16 @@ var addEmptyCells = exports.addEmptyCells = function addEmptyCells(rowData, colu
     return rowData;
 };
 
-var handleRowDoubleClickEvent = exports.handleRowDoubleClickEvent = function handleRowDoubleClickEvent(events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent) {
+var handleRowDoubleClickEvent = exports.handleRowDoubleClickEvent = function handleRowDoubleClickEvent(events, rowData, rowId, selectionModel, index, isSelected, reactEvent, id, browserEvent) {
     if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick && selectionModel.defaults.editEvent !== selectionModel.eventTypes.doubleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
             eventData: reactEvent,
             id: rowId,
-            index: index
+            index: index,
+            data: rowData,
+            selected: !isSelected
         });
     }
 
@@ -344,7 +355,7 @@ var getSelectedText = exports.getSelectedText = function getSelectedText() {
     return text;
 };
 
-var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function handleRowSingleClickEvent(events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent) {
+var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function handleRowSingleClickEvent(events, rowData, rowId, selectionModel, index, isSelected, reactEvent, id, browserEvent) {
 
     if (getSelectedText()) {
         return false;
@@ -360,7 +371,9 @@ var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function han
             eventType: reactEvent.type,
             eventData: reactEvent,
             id: rowId,
-            index: index
+            index: index,
+            data: rowData,
+            selected: !isSelected
         });
     }
 

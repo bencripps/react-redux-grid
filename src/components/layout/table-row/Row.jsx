@@ -115,12 +115,12 @@ export class Row extends Component {
             ),
             onClick: (e) => {
                 handleRowSingleClickEvent(
-                    events, row, id, selectionModel, index, e
+                    events, row, id, selectionModel, index, isSelected, e
                 );
             },
             onDoubleClick: (e) => {
                 handleRowDoubleClickEvent(
-                    events, row, id, selectionModel, index, e
+                    events, row, id, selectionModel, index, isSelected, e
                 );
             },
             onDragStart: this.handleDragStart.bind(this)
@@ -138,9 +138,16 @@ export class Row extends Component {
             menuState
         });
 
-        selectionModel.updateCells(
-            cells, id, index, 'row', reducerKeys, stateKey
-        );
+        selectionModel.updateCells({
+            cells,
+            rowId: id,
+            index,
+            type: 'row',
+            reducerKeys,
+            stateKey,
+            rowData: cellValues,
+            isSelected: !isSelected
+        });
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
@@ -295,7 +302,15 @@ export const addEmptyCells = (rowData, columns) => {
 };
 
 export const handleRowDoubleClickEvent = (
-    events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent
+    events,
+    rowData,
+    rowId,
+    selectionModel,
+    index,
+    isSelected,
+    reactEvent,
+    id,
+    browserEvent
 ) => {
     if (selectionModel
             && selectionModel.defaults.selectionEvent
@@ -307,7 +322,9 @@ export const handleRowDoubleClickEvent = (
             eventType: reactEvent.type,
             eventData: reactEvent,
             id: rowId,
-            index
+            index,
+            data: rowData,
+            selected: !isSelected
         });
     }
 
@@ -331,7 +348,15 @@ export const getSelectedText = () => {
 };
 
 export const handleRowSingleClickEvent = (
-    events, rowData, rowId, selectionModel, index, reactEvent, id, browserEvent
+    events,
+    rowData,
+    rowId,
+    selectionModel,
+    index,
+    isSelected,
+    reactEvent,
+    id,
+    browserEvent
 ) => {
 
     if (getSelectedText()) {
@@ -354,7 +379,9 @@ export const handleRowSingleClickEvent = (
             eventType: reactEvent.type,
             eventData: reactEvent,
             id: rowId,
-            index
+            index,
+            data: rowData,
+            selected: !isSelected
         });
     }
 

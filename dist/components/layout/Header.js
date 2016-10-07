@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.handleColumnClick = exports.handleDrag = exports.addEmptyInsert = undefined;
 var _arguments = arguments;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -80,11 +82,12 @@ var Header = function (_Component) {
                     dragAndDropManager: dragAndDropManager,
                     pager: pager,
                     store: store,
-                    key: 'header-' + i,
                     index: i
                 };
 
-                return _react2.default.createElement(_Column.Column, colProps);
+                return _react2.default.createElement(_Column.Column, _extends({
+                    key: 'header-' + i
+                }, colProps));
             });
 
             var classes = visible ? (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.HEADER) : (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.HEADER, _GridConstants.CLASS_NAMES.HEADER_HIDDEN);
@@ -94,7 +97,16 @@ var Header = function (_Component) {
             };
 
             if (selectionModel) {
-                selectionModel.updateCells(headers, 'header', 0, 'header', reducerKeys, stateKey);
+                selectionModel.updateCells({
+                    cells: headers,
+                    rowId: 'header',
+                    type: 'header',
+                    index: 0,
+                    reducerKeys: reducerKeys,
+                    stateKey: stateKey,
+                    rowData: {},
+                    isSelected: null
+                });
             }
 
             columnManager.addActionColumn({

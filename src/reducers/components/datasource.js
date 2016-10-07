@@ -226,6 +226,7 @@ export default function dataSource(state = initialState, action) {
         return state;
 
     case SAVE_ROW:
+
         const gridData = state
             .getIn([action.stateKey, 'data'])
             .set(action.rowIndex, fromJS(action.values));

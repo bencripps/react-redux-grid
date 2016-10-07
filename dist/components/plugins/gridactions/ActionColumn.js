@@ -50,6 +50,7 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
             var _props = this.props;
             var columns = _props.columns;
             var editor = _props.editor;
+            var events = _props.events;
             var headerActionItemBuilder = _props.headerActionItemBuilder;
             var iconCls = _props.iconCls;
             var menuState = _props.menuState;
@@ -82,7 +83,7 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
                 className: className
             };
 
-            var actionArgs = [columns, containerProps, iconProps, menuShown, actions, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder, maxHeight];
+            var actionArgs = [columns, containerProps, iconProps, menuShown, actions, columns, store, editor, reducerKeys, rowId, rowData, rowIndex, stateKey, stateful, headerActionItemBuilder, maxHeight, events];
 
             return type === 'header' ? getHeader.apply(undefined, actionArgs) : getColumn.apply(undefined, actionArgs);
         }

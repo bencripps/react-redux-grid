@@ -27,7 +27,11 @@ describe('The inline editor cancel button', () => {
         BUTTON_TYPES,
         saveText: 'Save',
         cancelText: 'Cancel',
-        editorState: {},
+        editorState: {
+            row: {
+                values: {}
+            }
+        },
         events: {},
         stateKey: 'test-grid',
         store,
@@ -76,6 +80,7 @@ describe('The inline editor cancel button', () => {
                 name: 'Scottie Pippen',
                 position: 'Power Forward'
             },
+            key: 'row-0',
             rowIndex: 0,
             columns: [
                 {
@@ -187,6 +192,7 @@ describe('The inline editor save button', () => {
                         name: 'Scottie Pippen',
                         position: 'Power Forward'
                     },
+                    key: 'row-0',
                     valid: true,
                     rowIndex: 0
                 }
@@ -206,7 +212,8 @@ describe('The inline editor save button', () => {
         expect(updatedRow)
             .toEqual({
                 name: 'Scottie Pippen',
-                position: 'Power Forward'
+                position: 'Power Forward',
+                _key: 'row-0'
             });
     });
 

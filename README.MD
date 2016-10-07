@@ -553,6 +553,12 @@ export const events = {
     },
     HANLE_BEFORE_EDIT: () => {
         console.log('Return false here to stop an edit event');
+    },
+    HANDLE_AFTER_SELECT_ALL: () => {
+        console.log('Handle after select all');
+    },
+    HANDLE_AFTER_DESELECT_ALL: () => {
+        console.log('Handle after deselect all');
     }
 };
 ```

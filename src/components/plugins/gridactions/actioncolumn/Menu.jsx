@@ -48,7 +48,7 @@ export const getEditAction = (
     return {
         text: 'Edit',
         EVENT_HANDLER: handleEditClick.bind(
-            this, editor, store, rowId, rowData, rowIndex, columns, stateKey
+            this, editor, store, rowId, rowData, rowIndex, columns, stateKey, {}
         ),
         key: 'grid-edit-action'
     };

@@ -88,7 +88,16 @@ var Model = function () {
         }
     }, {
         key: 'updateCells',
-        value: function updateCells(cells, rowId, index, type, reducerKeys, stateKey) {
+        value: function updateCells(_ref) {
+            var cells = _ref.cells;
+            var rowId = _ref.rowId;
+            var index = _ref.index;
+            var type = _ref.type;
+            var reducerKeys = _ref.reducerKeys;
+            var stateKey = _ref.stateKey;
+            var rowData = _ref.rowData;
+            var isSelected = _ref.isSelected;
+
 
             var cellsUpdate = cells;
 
@@ -100,7 +109,11 @@ var Model = function () {
                 stateKey: stateKey,
                 store: this.store,
                 index: index,
-                onSelect: this.handleSelectionEvent.bind(this)
+                rowData: rowData,
+                onSelect: this.handleSelectionEvent.bind(this),
+                selectionModelConfig: this.defaults,
+                events: this.events,
+                isSelected: isSelected
             };
 
             if (this.defaults.mode === this.modes.checkboxSingle || this.defaults.mode === this.modes.checkboxMulti) {

@@ -74,9 +74,10 @@ export const onButtonClick = (
     BUTTON_TYPES, editorState, events, type, stateKey, store
 ) => {
 
+    const values = { ...editorState.row.values, _key: editorState.row.key };
+
     if (type === BUTTON_TYPES.SAVE
         && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
-        const values = editorState.row.values;
 
         const result = events.HANDLE_BEFORE_INLINE_EDITOR_SAVE({
             values, editorState
@@ -97,15 +98,13 @@ export const onButtonClick = (
 
         store.dispatch(
             saveRow({
-                values: editorState.row.values,
+                values,
                 rowIndex: editorState.row.rowIndex,
                 stateKey
             })
         );
 
         if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
-            const values = editorState.row.values;
-
             events.HANDLE_AFTER_INLINE_EDITOR_SAVE({
                 values, editorState
             });

@@ -20,6 +20,7 @@ export class ActionColumn extends Component {
         const {
             columns,
             editor,
+            events,
             headerActionItemBuilder,
             iconCls,
             menuState,
@@ -95,7 +96,8 @@ export class ActionColumn extends Component {
             stateKey,
             stateful,
             headerActionItemBuilder,
-            maxHeight
+            maxHeight,
+            events
         ];
 
         return type === 'header'

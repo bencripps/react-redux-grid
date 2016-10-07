@@ -41,6 +41,12 @@ export const events = {
     },
     HANDLE_BEFORE_SORT: () => {
         console.log('before sort event');
+    },
+    HANDLE_AFTER_SELECT_ALL: () => {
+        console.log('Handle after select all');
+    },
+    HANDLE_AFTER_DESELECT_ALL: () => {
+        console.log('Handle after deselect all');
     }
 };
 

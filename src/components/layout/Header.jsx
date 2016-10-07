@@ -43,11 +43,15 @@ class Header extends Component {
                 dragAndDropManager,
                 pager,
                 store,
-                key: `header-${i}`,
                 index: i
             };
 
-            return <Column { ...colProps } />;
+            return (
+                <Column
+                    key={ `header-${i}` }
+                    { ...colProps }
+                />
+                );
         });
 
         const classes = visible
@@ -59,9 +63,16 @@ class Header extends Component {
         };
 
         if (selectionModel) {
-            selectionModel.updateCells(
-                headers, 'header', 0, 'header', reducerKeys, stateKey
-            );
+            selectionModel.updateCells({
+                cells: headers,
+                rowId: 'header',
+                type: 'header',
+                index: 0,
+                reducerKeys,
+                stateKey,
+                rowData: {},
+                isSelected: null
+            });
         }
 
         columnManager.addActionColumn({

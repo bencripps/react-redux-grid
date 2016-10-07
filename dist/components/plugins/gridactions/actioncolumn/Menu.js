@@ -53,7 +53,7 @@ var Menu = exports.Menu = function Menu(_ref) {
 var getEditAction = exports.getEditAction = function getEditAction(editor, store, rowId, rowData, rowIndex, columns, stateKey) {
     return {
         text: 'Edit',
-        EVENT_HANDLER: _handleEditClick.handleEditClick.bind(undefined, editor, store, rowId, rowData, rowIndex, columns, stateKey),
+        EVENT_HANDLER: _handleEditClick.handleEditClick.bind(undefined, editor, store, rowId, rowData, rowIndex, columns, stateKey, {}),
         key: 'grid-edit-action'
     };
 };

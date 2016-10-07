@@ -9,13 +9,17 @@ import {
 
 export const CheckBox = ({
     dataSource,
+    events,
+    index,
+    isSelected,
+    onSelect,
+    rowData,
     rowId,
     selectedRows,
-    store,
-    onSelect,
+    selectionModelConfig,
     stateKey,
-    type,
-    index
+    store,
+    type
 }) => {
 
     const checkBoxContainerProps = {
@@ -34,7 +38,11 @@ export const CheckBox = ({
             stateKey,
             onSelect,
             rowId,
-            index
+            index,
+            rowData,
+            selectionModelConfig,
+            isSelected,
+            events
         )
     };
 
@@ -44,22 +52,41 @@ export const CheckBox = ({
 };
 
 export const handleChange = (
-    dataSource, store, type, stateKey, onSelect, id, index, reactEvent
+    dataSource,
+    store,
+    type,
+    stateKey,
+    onSelect,
+    id,
+    index,
+    rowData,
+    selectionModelConfig,
+    isSelected,
+    events,
+    reactEvent
 ) => {
+
     const target = reactEvent.target;
 
     if (type === 'header') {
+
         if (target.checked) {
             store.dispatch(selectAll({ stateKey, data: dataSource }));
+            if (events.HANDLE_AFTER_SELECT_ALL) {
+                events.HANDLE_AFTER_SELECT_ALL({ data: dataSource, store });
+            }
         }
         else {
             store.dispatch(deselectAll({ stateKey }));
+            if (events.HANDLE_AFTER_DESELECT_ALL) {
+                events.HANDLE_AFTER_DESELECT_ALL({ data: dataSource, store });
+            }
         }
     }
 
-    else {
+    else if (selectionModelConfig.selectionEvent !== 'singleclick') {
         reactEvent.stopPropagation();
-        onSelect({ id, index });
+        onSelect({ id, index, data: rowData, selected: isSelected });
     }
 };
 
@@ -95,6 +122,7 @@ CheckBox.propTypes = {
     reducerKeys: PropTypes.object,
     rowId: PropTypes.any,
     selectedRows: PropTypes.object,
+    selectionModelConfig: PropTypes.object,
     store: PropTypes.object,
     type: PropTypes.string
 };

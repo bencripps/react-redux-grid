@@ -14,7 +14,7 @@ import {
 import { keyGenerator } from '../../../util/keyGenerator';
 
 export function editRow({
-    rowId, top, rowData, rowIndex, columns, isCreate, stateKey
+    rowId, top, rowData = {}, rowIndex, columns, isCreate, stateKey
 }) {
     return {
         type: EDIT_ROW,
