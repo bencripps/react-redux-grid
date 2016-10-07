@@ -147,7 +147,6 @@ describe('A fully mounted simple grid', () => {
             component.find('td').nodes.length
         ).toEqual(4);
     });
-
 });
 
 describe('A fully mounted grid with a custom pager', () => {

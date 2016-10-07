@@ -57,9 +57,15 @@ var Column = exports.Column = function Column(_ref) {
         return !_col.hidden;
     });
 
+    var sortedColumn = columns.filter(function (_col) {
+        return _col.sortDirection;
+    });
+
+    var shouldShowCaret = sortedColumn.length > 0 ? sortedColumn[0].dataIndex === col.dataIndex : col.defaultSortDirection;
+
     var direction = col.sortDirection || col.defaultSortDirection || _GridConstants.SORT_DIRECTIONS.ASCEND;
 
-    var sortHandleCls = col.sortDirection ? (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.SORT_HANDLE_VISIBLE) : '';
+    var sortHandleCls = shouldShowCaret ? (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.SORT_HANDLE_VISIBLE) : '';
 
     var key = (0, _keyGenerator.keyGenerator)(col.name, 'grid-column');
 
