@@ -67,7 +67,7 @@ export default class Model {
 
     }
 
-    updateCells(cells, rowId, type, reducerKeys, stateKey) {
+    updateCells(cells, rowId, index, type, reducerKeys, stateKey) {
 
         const cellsUpdate = cells;
 
@@ -77,7 +77,9 @@ export default class Model {
             type,
             reducerKeys,
             stateKey,
-            store: this.store
+            store: this.store,
+            index,
+            onSelect: this.handleSelectionEvent.bind(this)
         };
 
         if (this.defaults.mode === this.modes.checkboxSingle

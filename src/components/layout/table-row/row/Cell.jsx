@@ -199,6 +199,7 @@ export const handleClick = ({
                 rowIndex,
                 columns,
                 stateKey,
+                events,
                 { reactEvent }
             );
         }
@@ -213,6 +214,7 @@ export const handleClick = ({
                 rowIndex,
                 columns,
                 stateKey,
+                events,
                 { reactEvent }
             );
         }
@@ -255,6 +257,7 @@ export const handleDoubleClick = ({
             rowIndex,
             columns,
             stateKey,
+            events,
             { reactEvent }
         );
     }
@@ -269,6 +272,7 @@ export const handleDoubleClick = ({
             rowIndex,
             columns,
             stateKey,
+            events,
             { reactEvent }
         );
     }

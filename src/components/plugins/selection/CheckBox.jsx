@@ -3,10 +3,19 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { CLASS_NAMES } from '../../../constants/GridConstants';
-import { selectAll, deselectAll } from '../../../actions/plugins/selection/ModelActions';
+import {
+    selectAll, deselectAll
+} from '../../../actions/plugins/selection/ModelActions';
 
 export const CheckBox = ({
-    reducerKeys, dataSource, rowId, selectedRows, store, stateKey, type
+    dataSource,
+    rowId,
+    selectedRows,
+    store,
+    onSelect,
+    stateKey,
+    type,
+    index
 }) => {
 
     const checkBoxContainerProps = {
@@ -17,7 +26,16 @@ export const CheckBox = ({
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
         checked: selectedRows ? selectedRows[rowId] : false,
         type: 'checkbox',
-        onChange: handleChange.bind(this, dataSource, store, type, stateKey)
+        onChange: handleChange.bind(
+            this,
+            dataSource,
+            store,
+            type,
+            stateKey,
+            onSelect,
+            rowId,
+            index
+        )
     };
 
     return type === 'header'
@@ -25,7 +43,9 @@ export const CheckBox = ({
         : getColumn(checkBoxContainerProps, checkBoxProps);
 };
 
-export const handleChange = (dataSource, store, type, stateKey, reactEvent) => {
+export const handleChange = (
+    dataSource, store, type, stateKey, onSelect, id, index, reactEvent
+) => {
     const target = reactEvent.target;
 
     if (type === 'header') {
@@ -36,13 +56,21 @@ export const handleChange = (dataSource, store, type, stateKey, reactEvent) => {
             store.dispatch(deselectAll({ stateKey }));
         }
     }
+
+    else {
+        reactEvent.stopPropagation();
+        onSelect({ id, index });
+    }
 };
 
 export const getHeader = (checkBoxContainerProps, checkBoxProps) => {
 
     return (
         <th { ...checkBoxContainerProps } >
-            <input type="checkbox" { ...checkBoxProps } />
+            <input
+                type="checkbox"
+                { ...checkBoxProps }
+            />
         </th>
     );
 
@@ -51,7 +79,10 @@ export const getHeader = (checkBoxContainerProps, checkBoxProps) => {
 export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
     return (
         <td { ...checkBoxContainerProps } >
-            <input type="checkbox" { ...checkBoxProps } />
+            <input
+                type="checkbox"
+                { ...checkBoxProps }
+            />
         </td>
     );
 
@@ -59,6 +90,8 @@ export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
 
 CheckBox.propTypes = {
     dataSource: PropTypes.object,
+    index: PropTypes.number,
+    onSelect: PropTypes.func,
     reducerKeys: PropTypes.object,
     rowId: PropTypes.any,
     selectedRows: PropTypes.object,

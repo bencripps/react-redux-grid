@@ -178,9 +178,9 @@ var handleClick = exports.handleClick = function handleClick(_ref2, reactEvent) 
         // if a row is clicked and the editorState is empty except
         // for last update integer, trigger edit event
         if (!editorState || Object.keys(editorState).length === 1) {
-            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent: reactEvent });
+            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
         } else if (editorState && editorState.row && editorState.row.rowIndex !== rowIndex) {
-            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent: reactEvent });
+            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
         }
     }
 
@@ -210,9 +210,9 @@ var handleDoubleClick = exports.handleDoubleClick = function handleDoubleClick(_
     // if a row is clicked and the editorState is empty except
     // for last update integer, trigger edit event
     if (!editorState || Object.keys(editorState).length === 1) {
-        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent: reactEvent });
+        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
     } else if (selectionModel.defaults.editEvent === selectionModel.eventTypes.doubleclick) {
-        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, { reactEvent: reactEvent });
+        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
     }
 
     if (events.HANDLE_CELL_DOUBLE_CLICK) {

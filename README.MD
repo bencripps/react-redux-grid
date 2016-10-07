@@ -521,6 +521,9 @@ export const events = {
     HANDLE_CELL_DOUBLE_CLICK: (cell, reactEvent, id, browserEvent) => {
         console.log('On Cell Double Click Event');
     },
+    HANDLE_BEFORE_ROW_CLICK: (row, reactEvent, id, browserEvent) => {
+        console.log('Stop a row click event');
+    },
     HANDLE_ROW_CLICK: (row, reactEvent, id, browserEvent) => {
         console.log('On Row Click Event');
     },
@@ -547,6 +550,9 @@ export const events = {
     },
     HANDLE_BEFORE_SORT: () => {
         console.log('On Before Column Sort');
+    },
+    HANLE_BEFORE_EDIT: () => {
+        console.log('Return false here to stop an edit event');
     }
 };
 ```

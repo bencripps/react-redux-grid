@@ -163,7 +163,7 @@ var Row = exports.Row = function (_Component) {
                 menuState: menuState
             });
 
-            selectionModel.updateCells(cells, id, 'row', reducerKeys, stateKey);
+            selectionModel.updateCells(cells, id, index, 'row', reducerKeys, stateKey);
 
             addEmptyInsert(cells, visibleColumns, plugins);
 
@@ -348,6 +348,10 @@ var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function han
 
     if (getSelectedText()) {
         return false;
+    }
+
+    if (events.HANDLE_BEFORE_ROW_CLICK) {
+        events.HANDLE_BEFORE_ROW_CLICK.call(undefined, rowData, rowId, reactEvent, id, browserEvent);
     }
 
     if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick && selectionModel.defaults.editEvent !== selectionModel.eventTypes.singleclick) {

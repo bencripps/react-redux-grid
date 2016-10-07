@@ -24,13 +24,14 @@ var _ModelActions = require('../../../actions/plugins/selection/ModelActions');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CheckBox = exports.CheckBox = function CheckBox(_ref) {
-    var reducerKeys = _ref.reducerKeys;
     var dataSource = _ref.dataSource;
     var rowId = _ref.rowId;
     var selectedRows = _ref.selectedRows;
     var store = _ref.store;
+    var onSelect = _ref.onSelect;
     var stateKey = _ref.stateKey;
     var type = _ref.type;
+    var index = _ref.index;
 
 
     var checkBoxContainerProps = {
@@ -41,13 +42,13 @@ var CheckBox = exports.CheckBox = function CheckBox(_ref) {
         className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
         checked: selectedRows ? selectedRows[rowId] : false,
         type: 'checkbox',
-        onChange: handleChange.bind(undefined, dataSource, store, type, stateKey)
+        onChange: handleChange.bind(undefined, dataSource, store, type, stateKey, onSelect, rowId, index)
     };
 
     return type === 'header' ? getHeader(checkBoxContainerProps, checkBoxProps) : getColumn(checkBoxContainerProps, checkBoxProps);
 };
 
-var handleChange = exports.handleChange = function handleChange(dataSource, store, type, stateKey, reactEvent) {
+var handleChange = exports.handleChange = function handleChange(dataSource, store, type, stateKey, onSelect, id, index, reactEvent) {
     var target = reactEvent.target;
 
     if (type === 'header') {
@@ -56,6 +57,9 @@ var handleChange = exports.handleChange = function handleChange(dataSource, stor
         } else {
             store.dispatch((0, _ModelActions.deselectAll)({ stateKey: stateKey }));
         }
+    } else {
+        reactEvent.stopPropagation();
+        onSelect({ id: id, index: index });
     }
 };
 
@@ -64,7 +68,9 @@ var getHeader = exports.getHeader = function getHeader(checkBoxContainerProps, c
     return _react2.default.createElement(
         'th',
         checkBoxContainerProps,
-        _react2.default.createElement('input', _extends({ type: 'checkbox' }, checkBoxProps))
+        _react2.default.createElement('input', _extends({
+            type: 'checkbox'
+        }, checkBoxProps))
     );
 };
 
@@ -72,12 +78,16 @@ var getColumn = exports.getColumn = function getColumn(checkBoxContainerProps, c
     return _react2.default.createElement(
         'td',
         checkBoxContainerProps,
-        _react2.default.createElement('input', _extends({ type: 'checkbox' }, checkBoxProps))
+        _react2.default.createElement('input', _extends({
+            type: 'checkbox'
+        }, checkBoxProps))
     );
 };
 
 CheckBox.propTypes = {
     dataSource: _react.PropTypes.object,
+    index: _react.PropTypes.number,
+    onSelect: _react.PropTypes.func,
     reducerKeys: _react.PropTypes.object,
     rowId: _react.PropTypes.any,
     selectedRows: _react.PropTypes.object,

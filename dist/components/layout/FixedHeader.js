@@ -149,7 +149,7 @@ var FixedHeader = function (_Component) {
             };
 
             if (selectionModel) {
-                selectionModel.updateCells(headers, columns, 'header', reducerKeys, stateKey);
+                selectionModel.updateCells(headers, columns, 0, 'header', reducerKeys, stateKey);
             }
 
             columnManager.addActionColumn({

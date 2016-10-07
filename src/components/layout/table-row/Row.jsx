@@ -138,7 +138,9 @@ export class Row extends Component {
             menuState
         });
 
-        selectionModel.updateCells(cells, id, 'row', reducerKeys, stateKey);
+        selectionModel.updateCells(
+            cells, id, index, 'row', reducerKeys, stateKey
+        );
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
@@ -334,6 +336,12 @@ export const handleRowSingleClickEvent = (
 
     if (getSelectedText()) {
         return false;
+    }
+
+    if (events.HANDLE_BEFORE_ROW_CLICK) {
+        events.HANDLE_BEFORE_ROW_CLICK.call(
+            this, rowData, rowId, reactEvent, id, browserEvent
+        );
     }
 
     if (selectionModel

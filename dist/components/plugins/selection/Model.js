@@ -88,7 +88,7 @@ var Model = function () {
         }
     }, {
         key: 'updateCells',
-        value: function updateCells(cells, rowId, type, reducerKeys, stateKey) {
+        value: function updateCells(cells, rowId, index, type, reducerKeys, stateKey) {
 
             var cellsUpdate = cells;
 
@@ -98,7 +98,9 @@ var Model = function () {
                 type: type,
                 reducerKeys: reducerKeys,
                 stateKey: stateKey,
-                store: this.store
+                store: this.store,
+                index: index,
+                onSelect: this.handleSelectionEvent.bind(this)
             };
 
             if (this.defaults.mode === this.modes.checkboxSingle || this.defaults.mode === this.modes.checkboxMulti) {

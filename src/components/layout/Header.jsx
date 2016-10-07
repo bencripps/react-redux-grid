@@ -59,7 +59,9 @@ class Header extends Component {
         };
 
         if (selectionModel) {
-            selectionModel.updateCells(headers, columns, 'header', stateKey);
+            selectionModel.updateCells(
+                headers, 'header', 0, 'header', reducerKeys, stateKey
+            );
         }
 
         columnManager.addActionColumn({
