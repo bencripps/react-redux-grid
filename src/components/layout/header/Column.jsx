@@ -44,10 +44,10 @@ export const Column = ({
 
     const visibleColumns = columns.filter((_col) => !_col.hidden);
 
-    const sortedColumn = columns.filter((_col) => _col.sortDirection);
+    const sortedColumn = columns.find((_col) => _col.sortDirection);
 
-    const shouldShowCaret = sortedColumn.length > 0
-        ? sortedColumn[0].dataIndex === col.dataIndex
+    const shouldShowCaret = sortedColumn
+        ? sortedColumn.dataIndex === col.dataIndex
         : col.defaultSortDirection;
 
     const direction = col.sortDirection
