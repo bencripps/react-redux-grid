@@ -60,7 +60,6 @@ class FixedHeader extends Component {
                 stateKey,
                 stateful,
                 visibleColumns,
-                key: `fixed-header-${i}`,
                 // used for column drop event,
                 // since hidden columns arent visible
                 // but still exist in the column array
@@ -68,7 +67,11 @@ class FixedHeader extends Component {
                     .findIndex(c => col.dataIndex === c.dataIndex)
             };
 
-            return <Column { ...colProps } />;
+            return (
+                <Column
+                    key={`fixed-header-${i}`}
+                    { ...colProps }
+                />);
         });
 
         const tableProps = {

@@ -52,6 +52,55 @@ describe('The Grid Fixed header component', () => {
 
     });
 
+    it('Should render a header with a default sort direction', () => {
+
+        const defaultSortDirection = {
+            ...props,
+            columns: [
+                {
+                    name: 'Player',
+                    dataIndex: 'name',
+                    defaultSortDirection: 'DESC'
+                },
+                {
+                    name: 'Position',
+                    dataIndex: 'position'
+                }
+            ]
+        };
+
+        const component = mount(<FixedHeader { ...defaultSortDirection } />);
+
+        expect(
+            component.find('th').first().props().className
+        ).toContain('react-grid-sort-handle-visible');
+
+    });
+
+    it('Should render a header with a sort handle after sort is set', () => {
+
+        const sortDirection = {
+            ...props,
+            columns: [
+                {
+                    name: 'Player',
+                    dataIndex: 'name',
+                    sortDirection: 'ASC'
+                },
+                {
+                    name: 'Position',
+                    dataIndex: 'position'
+                }
+            ]
+        };
+
+        const component = mount(<FixedHeader { ...sortDirection } />);
+
+        expect(
+            component.find('th').first().props().className
+        ).toContain('react-grid-sort-handle-visible');
+    });
+
     it('Shouldnt render a hidden header', () => {
 
         const hiddenProps = {

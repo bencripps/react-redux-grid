@@ -42,9 +42,9 @@ export const Column = ({
 
     const sortable = isSortable(col, columnManager);
 
-    const visibleColumns = columns.filter((_col) => !_col.hidden);
+    const visibleColumns = columns.filter(c => !c.hidden);
 
-    const sortedColumn = columns.find((_col) => _col.sortDirection);
+    const sortedColumn = columns.find(c => c.sortDirection);
 
     const shouldShowCaret = sortedColumn
         ? sortedColumn.dataIndex === col.dataIndex
