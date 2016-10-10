@@ -304,7 +304,7 @@ describe('The grid addNewRow Action', () => {
                 {
                     rowId: 'cm93MA==',
                     stateKey: 'test-grid',
-                    type: 'ADD_NEW_ROW'
+                    type: ADD_NEW_ROW
                 },
                 {
                     columns: [

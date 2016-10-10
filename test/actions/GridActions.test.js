@@ -38,16 +38,16 @@ describe('The getAsyncData actions', () => {
 
         setTimeout(() => {
             expect(res).toEqual([
-                { stateKey: 'test-grid', type: 'DISMISS_EDITOR' },
+                { stateKey: 'test-grid', type: '@@react-redux-grid/DISMISS_EDITOR' },
                 {
                     state: true,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 },
                 {
                     state: false,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 },
                 {
                     currentRecords: [],
@@ -55,7 +55,7 @@ describe('The getAsyncData actions', () => {
                     stateKey: 'test-grid',
                     success: true,
                     total: 0,
-                    type: 'SET_DATA'
+                    type: '@@react-redux-grid/SET_DATA'
                 }
             ]);
             done();
@@ -82,21 +82,21 @@ describe('The getAsyncData actions', () => {
 
         setTimeout(() => {
             expect(res).toEqual([
-                { stateKey: 'test-grid', type: 'DISMISS_EDITOR' },
+                { stateKey: 'test-grid', type: '@@react-redux-grid/DISMISS_EDITOR' },
                 {
                     state: true,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 },
                 {
                     state: false,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 },
                 {
                     error: 'Unable to Retrieve Grid Data',
                     errorOccurred: true,
-                    type: 'ERROR_OCCURRED',
+                    type: '@@react-redux-grid/ERROR_OCCURRED',
                     stateKey: 'test-grid'
                 }
             ]);
@@ -138,7 +138,7 @@ describe('The getAsyncData actions', () => {
                 {
                     state: true,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 },
                 {
                     currentRecords: [],
@@ -146,12 +146,12 @@ describe('The getAsyncData actions', () => {
                     stateKey: 'test-grid',
                     success: true,
                     total: 0,
-                    type: 'SET_DATA'
+                    type: '@@react-redux-grid/SET_DATA'
                 },
                 {
                     state: false,
                     stateKey: 'test-grid',
-                    type: 'SET_LOADING_STATE'
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
                 }
             ]);
             done();
@@ -181,7 +181,7 @@ describe('The setColumns actions', () => {
             columns,
             stateKey
         })).toEqual({
-            type: 'SET_COLUMNS',
+            type: '@@react-redux-grid/SET_COLUMNS',
             columns: [
                 {
                     dataIndex: 'col1',
@@ -219,7 +219,7 @@ describe('The setColumns actions', () => {
             stateKey,
             stateful: true
         })).toEqual({
-            type: 'SET_COLUMNS',
+            type: '@@react-redux-grid/SET_COLUMNS',
             columns: colsWithIds,
             stateKey,
             stateful: true
@@ -253,7 +253,7 @@ describe('The setSortDirection actions', () => {
             sortDirection: 'DESC',
             id: 'uniqueID'
         })).toEqual({
-            type: 'SET_SORT_DIRECTION',
+            type: '@@react-redux-grid/SET_SORT_DIRECTION',
             columns: [
                 {
                     dataIndex: 'col1',
@@ -291,7 +291,7 @@ describe('The setSortDirection actions', () => {
             sortDirection: 'DESC',
             id: 'uniqueID'
         })).toEqual({
-            type: 'SET_SORT_DIRECTION',
+            type: '@@react-redux-grid/SET_SORT_DIRECTION',
             columns: [
                 {
                     dataIndex: 'col1',
@@ -323,7 +323,7 @@ describe('The doLocalSort actions', () => {
         ).toEqual({
             stateKey: 'test-grid',
             data: [],
-            type: 'SORT_DATA'
+            type: '@@react-redux-grid/SORT_DATA'
         });
     });
 
@@ -370,7 +370,7 @@ describe('The setColumnVisibility actions', () => {
                     dataIndex: 'col2'
                 }
             ],
-            type: 'SET_COLUMNS'
+            type: '@@react-redux-grid/SET_COLUMNS'
         });
     });
 
@@ -415,7 +415,7 @@ describe('The setColumnVisibility actions', () => {
                     hidden: true
                 }
             ],
-            type: 'SET_COLUMNS'
+            type: '@@react-redux-grid/SET_COLUMNS'
         });
     });
 
@@ -431,7 +431,7 @@ describe('The setData action', () => {
     ).toEqual({
         stateKey: 'test-grid',
         data: [1],
-        type: 'SET_DATA'
+        type: '@@react-redux-grid/SET_DATA'
     });
 
 });
@@ -478,7 +478,7 @@ describe('The resizeColumns action', () => {
                     width: '22%'
                 }
             ],
-            type: 'RESIZE_COLUMNS'
+            type: '@@react-redux-grid/RESIZE_COLUMNS'
         });
     });
 
@@ -519,41 +519,42 @@ describe('The resizeColumns action', () => {
                     dataIndex: 'col2'
                 }
             ],
-            type: 'RESIZE_COLUMNS'
+            type: '@@react-redux-grid/RESIZE_COLUMNS'
         });
     });
-
 });
+
 describe('The setTreeNodeVisibility action', () => {
 
-    it('Should return default hide action', () => {
-        expect(setTreeNodeVisibility({
-            id: 'someId',
-            type: 'SET_TREE_NODE_VISIBILITY',
-            stateKey: 'tree-grid',
-            showTreeRootNode: false
-        })).toEqual({
-            id: 'someId',
-            type: 'SET_TREE_NODE_VISIBILITY',
-            stateKey: 'tree-grid',
-            showTreeRootNode: false,
-            visible: undefined
+        it('Should return default hide action', () => {
+            expect(setTreeNodeVisibility({
+                id: 'someId',
+                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false
+            })).toEqual({
+                id: 'someId',
+                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: undefined
+            });
         });
-    });
 
-    it('Should pass visiblity state', () => {
-        expect(setTreeNodeVisibility({
-            id: 'someId',
-            type: 'SET_TREE_NODE_VISIBILITY',
-            stateKey: 'tree-grid',
-            showTreeRootNode: false,
-            visible: true
-        })).toEqual({
-            id: 'someId',
-            type: 'SET_TREE_NODE_VISIBILITY',
-            stateKey: 'tree-grid',
-            showTreeRootNode: false,
-            visible: true
+        it('Should pass visiblity state', () => {
+            expect(setTreeNodeVisibility({
+                id: 'someId',
+                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: true
+            })).toEqual({
+                id: 'someId',
+                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+                stateKey: 'tree-grid',
+                showTreeRootNode: false,
+                visible: true
+            });
         });
     });
 
@@ -606,7 +607,6 @@ describe('The setTreeData action', () => {
     };
 
     it('Should return action with root node', () => {
-
         const { data: expectedData, ...expectedRest } = setTreeData({
             data,
             stateKey: 'tree-grid',
@@ -614,7 +614,7 @@ describe('The setTreeData action', () => {
         });
 
         expect(expectedRest).toEqual({
-            type: 'SET_DATA',
+            type: '@@react-redux-grid/SET_DATA',
             stateKey: 'tree-grid',
             gridType: 'tree',
             treeData: data
@@ -642,7 +642,7 @@ describe('The setTreeData action', () => {
         });
 
         expect(expectedRest).toEqual({
-            type: 'SET_DATA',
+            type: '@@react-redux-grid/SET_DATA',
             stateKey: 'tree-grid',
             gridType: 'tree',
             treeData: data
@@ -660,4 +660,3 @@ describe('The setTreeData action', () => {
             );
     });
 });
-
