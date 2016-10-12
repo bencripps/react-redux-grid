@@ -179,7 +179,7 @@ const grid = <Grid dataSource= { dataSource } />
 
 1. `stateful`: `bool`, if `stateful` is `true`, the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)
 2. `height`: `number`, the height of the grid container
-3. `showTreeRootNode`: `bool`, used with tree-grid, to determine if root node should be displaued
+3. `showTreeRootNode`: `bool`, used with tree-grid, to determine if root node should be displayed
 4. `classNames`: `array`, a list of strings to be applied to the grid container as classes
 5. `events`: `object`, more information below
 6. `store`: `object.isRequired`
