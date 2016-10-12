@@ -17,6 +17,8 @@ import * as PagerActions from './plugins/pager/PagerActions';
 
 import * as SelectionActions from './plugins/selection/ModelActions';
 
+console.log(SelectionActions)
+
 export const Actions = {
     BulkActions,
     ColumnManagerActions,

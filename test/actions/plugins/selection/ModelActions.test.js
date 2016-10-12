@@ -4,6 +4,8 @@ import {
     SET_SELECTION,
     SELECT_ALL,
     DESELECT_ALL,
+    SELECT_ROW,
+    DESELECT_ROW,
     NO_EVENT
 } from './../../../../src/constants/ActionTypes';
 
@@ -12,10 +14,50 @@ import { SELECTION_MODES } from './../../../../src/constants/GridConstants';
 import {
     selectAll,
     deselectAll,
-    setSelection
+    setSelection,
+    deselectRow,
+    selectRow
 } from './../../../../src/actions/plugins/selection/ModelActions';
 
-describe('The grid selectAll Action', () => {
+describe('The grid selectRow Action', () => {
+
+    it('Should select a row', () => {
+
+        const action = {
+            rowId: 'key-9',
+            stateKey: 'test-grid'
+        };
+
+        expect(selectRow(action))
+            .toEqual({
+                type: SELECT_ROW,
+                rowId: 'key-9',
+                stateKey: 'test-grid'
+            });
+    });
+
+});
+
+describe('The grid deselectRow Action', () => {
+
+    it('Should deselect a row', () => {
+
+        const action = {
+            rowId: 'key-9',
+            stateKey: 'test-grid'
+        };
+
+        expect(deselectRow(action))
+            .toEqual({
+                type: DESELECT_ROW,
+                rowId: 'key-9',
+                stateKey: 'test-grid'
+            });
+    });
+
+});
+
+describe('The grid selectRow Action', () => {
 
     it('Should select two rows', () => {
 

@@ -53,15 +53,15 @@ var Column = exports.Column = function Column(_ref) {
 
     var sortable = isSortable(col, columnManager);
 
-    var visibleColumns = columns.filter(function (_col) {
-        return !_col.hidden;
+    var visibleColumns = columns.filter(function (c) {
+        return !c.hidden;
     });
 
-    var sortedColumn = columns.filter(function (_col) {
-        return _col.sortDirection;
+    var sortedColumn = columns.find(function (c) {
+        return c.sortDirection;
     });
 
-    var shouldShowCaret = sortedColumn.length > 0 ? sortedColumn[0].dataIndex === col.dataIndex : col.defaultSortDirection;
+    var shouldShowCaret = sortedColumn ? sortedColumn.dataIndex === col.dataIndex : col.defaultSortDirection;
 
     var direction = col.sortDirection || col.defaultSortDirection || _GridConstants.SORT_DIRECTIONS.ASCEND;
 

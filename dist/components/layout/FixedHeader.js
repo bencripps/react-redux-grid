@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handleDrag = exports.addEmptyInsert = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -99,7 +101,6 @@ var FixedHeader = function (_Component) {
                     stateKey: stateKey,
                     stateful: stateful,
                     visibleColumns: visibleColumns,
-                    key: 'fixed-header-' + i,
                     // used for column drop event,
                     // since hidden columns arent visible
                     // but still exist in the column array
@@ -108,7 +109,9 @@ var FixedHeader = function (_Component) {
                     })
                 };
 
-                return _react2.default.createElement(_Column.Column, colProps);
+                return _react2.default.createElement(_Column.Column, _extends({
+                    key: 'fixed-header-' + i
+                }, colProps));
             });
 
             var tableProps = {

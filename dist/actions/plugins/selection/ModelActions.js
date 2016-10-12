@@ -3,22 +3,40 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.selectAll = selectAll;
-exports.deselectAll = deselectAll;
-exports.setSelection = setSelection;
+exports.setSelection = exports.deselectAll = exports.selectAll = exports.deselectRow = exports.selectRow = undefined;
 
 var _ActionTypes = require('../../../constants/ActionTypes');
 
-function selectAll(_ref) {
-    var data = _ref.data;
+var selectRow = exports.selectRow = function selectRow(_ref) {
     var stateKey = _ref.stateKey;
+    var rowId = _ref.rowId;
+    return {
+        type: _ActionTypes.SELECT_ROW,
+        stateKey: stateKey,
+        rowId: rowId
+    };
+};
+
+var deselectRow = exports.deselectRow = function deselectRow(_ref2) {
+    var stateKey = _ref2.stateKey;
+    var rowId = _ref2.rowId;
+    return {
+        type: _ActionTypes.DESELECT_ROW,
+        stateKey: stateKey,
+        rowId: rowId
+    };
+};
+
+var selectAll = exports.selectAll = function selectAll(_ref3) {
+    var data = _ref3.data;
+    var stateKey = _ref3.stateKey;
 
 
     if (!data) {
         return {};
     }
 
-    var keys = data.currentRecords.map(function (row, i) {
+    var keys = data.currentRecords.map(function (row) {
         return row._key;
     });
 
@@ -28,29 +46,32 @@ function selectAll(_ref) {
     }, {});
 
     return { type: _ActionTypes.SELECT_ALL, selection: selection, stateKey: stateKey };
-}
+};
 
-function deselectAll(_ref2) {
-    var stateKey = _ref2.stateKey;
+var deselectAll = exports.deselectAll = function deselectAll(_ref4) {
+    var stateKey = _ref4.stateKey;
+    return {
+        type: _ActionTypes.DESELECT_ALL, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.DESELECT_ALL, stateKey: stateKey };
-}
-
-function setSelection(_ref3) {
-    var id = _ref3.id;
-    var _ref3$defaults = _ref3.defaults;
-    var defaults = _ref3$defaults === undefined ? {} : _ref3$defaults;
-    var _ref3$modes = _ref3.modes;
-    var modes = _ref3$modes === undefined ? {} : _ref3$modes;
-    var stateKey = _ref3.stateKey;
-    var index = _ref3.index;
+var setSelection = exports.setSelection = function setSelection(_ref5) {
+    var id = _ref5.id;
+    var _ref5$defaults = _ref5.defaults;
+    var defaults = _ref5$defaults === undefined ? {} : _ref5$defaults;
+    var _ref5$modes = _ref5.modes;
+    var modes = _ref5$modes === undefined ? {} : _ref5$modes;
+    var stateKey = _ref5.stateKey;
+    var index = _ref5.index;
 
 
     var allowDeselect = defaults.allowDeselect;
     var clearSelections = defaults.mode === modes.checkboxSingle || defaults.mode === modes.single;
 
     if (!defaults.enabled) {
+        /* eslint-disable no-console */
         console.warn('Selection model has been disabled');
+        /* eslint-enable no-console */
         return { type: _ActionTypes.NO_EVENT };
     }
 
@@ -75,4 +96,4 @@ function setSelection(_ref3) {
             stateKey: stateKey
         };
     }
-}
+};

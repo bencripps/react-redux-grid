@@ -11,6 +11,8 @@ export const SORT_DATA = '@@react-redux-grid/SORT_DATA';
 export const SET_SELECTION = '@@react-redux-grid/SET_SELECTION';
 export const SELECT_ALL = '@@react-redux-grid/SELECT_ALL';
 export const DESELECT_ALL = '@@react-redux-grid/DESELECT_ALL';
+export const SELECT_ROW = '@@react-redux-grid/SELECT_ROW';
+export const DESELECT_ROW = '@@react-redux-grid/DESELECT_ROW';
 
 export const SET_COLUMNS = '@@react-redux-grid/SET_COLUMNS';
 export const SET_SORT_DIRECTION = '@@react-redux-grid/SET_SORT_DIRECTION';

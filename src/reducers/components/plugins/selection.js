@@ -4,7 +4,9 @@ import {
     SET_SELECTION,
     SELECT_ALL,
     DESELECT_ALL,
-    SET_DATA
+    SET_DATA,
+    SELECT_ROW,
+    DESELECT_ROW
 } from '../../../constants/ActionTypes';
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
@@ -28,6 +30,18 @@ export default function selection(state = initialState, action) {
 
     case SET_DATA:
         return state.setIn([action.stateKey], fromJS({
+            lastUpdate: generateLastUpdate()
+        }));
+
+    case SELECT_ROW:
+        return state.mergeIn([action.stateKey], fromJS({
+            [action.rowId]: true,
+            lastUpdate: generateLastUpdate()
+        }));
+
+    case DESELECT_ROW:
+        return state.mergeIn([action.stateKey], fromJS({
+            [action.rowId]: false,
             lastUpdate: generateLastUpdate()
         }));
 

@@ -6,7 +6,9 @@ import {
     SELECT_ALL,
     SET_SELECTION,
     DESELECT_ALL,
-    SET_DATA
+    SET_DATA,
+    SELECT_ROW,
+    DESELECT_ROW
 } from './../../../../src/constants/ActionTypes';
 
 import
@@ -15,9 +17,72 @@ import
 from './../../../../src/reducers/components/plugins/selection';
 
 import {
-    generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
+
+describe('The SELECT_ROW func in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
+
+    const state = fromJS({
+        'test-grid': {
+            'row-1': false,
+            'row-2': false
+        }
+    });
+
+    const action = {
+        type: SELECT_ROW,
+        stateKey: 'test-grid',
+        rowId: 'row-2'
+    };
+
+    it('Should select an unselected row', () => {
+        expect(
+            selection(state, action)
+        ).toEqualImmutable(
+            fromJS({
+                'test-grid': {
+                    'row-1': false,
+                    'row-2': true,
+                    lastUpdate: 1
+                }
+            })
+        );
+    });
+
+});
+
+describe('The DESELECT_ROW func in the selection reducer', () => {
+    beforeEach(() => resetLastUpdate());
+
+    const state = fromJS({
+        'test-grid': {
+            'row-1': true,
+            'row-2': false
+        }
+    });
+
+    const action = {
+        type: DESELECT_ROW,
+        stateKey: 'test-grid',
+        rowId: 'row-1'
+    };
+
+    it('Should select an unselected row', () => {
+        expect(
+            selection(state, action)
+        ).toEqualImmutable(
+            fromJS({
+                'test-grid': {
+                    'row-1': false,
+                    'row-2': false,
+                    lastUpdate: 1
+                }
+            })
+        );
+    });
+
+});
 
 describe('The selectAll func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());

@@ -21,7 +21,8 @@ var _keyGenerator = require('../../../util/keyGenerator');
 function editRow(_ref) {
     var rowId = _ref.rowId;
     var top = _ref.top;
-    var rowData = _ref.rowData;
+    var _ref$rowData = _ref.rowData;
+    var rowData = _ref$rowData === undefined ? {} : _ref$rowData;
     var rowIndex = _ref.rowIndex;
     var columns = _ref.columns;
     var isCreate = _ref.isCreate;

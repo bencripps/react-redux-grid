@@ -22,7 +22,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = (0, _immutable.fromJS)({ lastUpdate: (0, _lastUpdate.generateLastUpdate)() });
 
 function selection() {
-    var _fromJS2;
+    var _fromJS, _fromJS2, _fromJS4;
 
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
@@ -45,6 +45,12 @@ function selection() {
                 lastUpdate: (0, _lastUpdate.generateLastUpdate)()
             }));
 
+        case _ActionTypes.SELECT_ROW:
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)((_fromJS = {}, _defineProperty(_fromJS, action.rowId, true), _defineProperty(_fromJS, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS)));
+
+        case _ActionTypes.DESELECT_ROW:
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)((_fromJS2 = {}, _defineProperty(_fromJS2, action.rowId, false), _defineProperty(_fromJS2, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS2)));
+
         case _ActionTypes.SET_SELECTION:
             var currentValue = state.getIn([action.stateKey, action.id]);
             var currentIndexes = state.getIn([action.stateKey, 'indexes']);
@@ -52,13 +58,13 @@ function selection() {
             var indexes = setIndexes(action.index, currentIndexes && currentIndexes.toJS ? currentIndexes.toJS() : currentIndexes, !isSelectAction);
 
             if (action.clearSelections || !state.get(action.stateKey)) {
-                var _fromJS;
+                var _fromJS3;
 
-                return state.setIn([action.stateKey], (0, _immutable.fromJS)((_fromJS = {}, _defineProperty(_fromJS, action.id, isSelectAction), _defineProperty(_fromJS, 'indexes', isSelectAction ? [action.index] : []), _defineProperty(_fromJS, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS)));
+                return state.setIn([action.stateKey], (0, _immutable.fromJS)((_fromJS3 = {}, _defineProperty(_fromJS3, action.id, isSelectAction), _defineProperty(_fromJS3, 'indexes', isSelectAction ? [action.index] : []), _defineProperty(_fromJS3, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS3)));
             }
 
             // multiselect
-            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)((_fromJS2 = {}, _defineProperty(_fromJS2, action.id, isSelectAction), _defineProperty(_fromJS2, 'indexes', indexes), _defineProperty(_fromJS2, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS2)));
+            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)((_fromJS4 = {}, _defineProperty(_fromJS4, action.id, isSelectAction), _defineProperty(_fromJS4, 'indexes', indexes), _defineProperty(_fromJS4, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS4)));
 
         default:
             return state;
