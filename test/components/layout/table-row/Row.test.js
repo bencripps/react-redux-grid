@@ -41,7 +41,7 @@ describe('The Grid Row Component', () => {
         row: {
             name: 'Michael Jordan',
             position: 'Shooting Guard',
-            _key: keyGenerator('row', 0)
+            _key: 'row-0'
         },
         plugins: {},
         index: 0,
@@ -148,7 +148,7 @@ describe('The Grid Row Component', () => {
         const selectedProps = {
             ...props,
             selectedRows: {
-                [keyGenerator('row', 0)]: true
+                ['row-0']: true
             }
         };
 
@@ -170,7 +170,7 @@ describe('The Grid Row Component', () => {
             ...props,
             selectionModel: modifiedSelModel,
             selectedRows: {
-                [keyGenerator('row', 0)]: true
+                ['row-0']: true
             }
         };
 
@@ -192,11 +192,11 @@ describe('The Grid Row Component', () => {
             ...props,
             selectionModel: modifiedSelModel,
             selectedRows: {
-                [keyGenerator('row', 0)]: true
+                ['row-0']: true
             },
             editorState: {
-                row: {
-                    key: keyGenerator('row', 0)
+                ['row-0']: {
+                    key: 'row-0'
                 }
             }
         };
@@ -214,11 +214,11 @@ describe('The Grid Row Component', () => {
         const dynamicEditProps = {
             ...props,
             selectedRows: {
-                [keyGenerator('row', 0)]: true
+                ['row-0']: true
             },
             editorState: {
-                row: {
-                    key: keyGenerator('row', 0)
+                'row-0': {
+                    key: 'row-0'
                 }
             }
         };

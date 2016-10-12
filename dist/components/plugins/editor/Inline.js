@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.isEditorShown = exports.focusFirstEditor = exports.getRowFromInput = exports.Inline = undefined;
+exports.isEditorShown = exports.focusFirstEditor = exports.getEditedRowKey = exports.getRowFromInput = exports.Inline = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -57,15 +57,20 @@ var Inline = exports.Inline = function (_Component) {
             var store = _props.store;
             var position = this.state.position;
 
+            var editedRowKey = getEditedRowKey(editorState);
+
+            if (!editedRowKey) {
+                return null;
+            }
 
             var top = -100;
 
             if (isEditorShown(editorState)) {
-                top = editorState.row.top;
+                top = editorState[editedRowKey].top;
             }
 
             var inlineEditorProps = {
-                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState.row ? _GridConstants.CLASS_NAMES.EDITOR.INLINE.SHOWN : _GridConstants.CLASS_NAMES.EDITOR.INLINE.HIDDEN, position),
+                className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.CONTAINER, editorState && editorState[editedRowKey] ? _GridConstants.CLASS_NAMES.EDITOR.INLINE.SHOWN : _GridConstants.CLASS_NAMES.EDITOR.INLINE.HIDDEN, position),
                 style: {
                     top: top + 'px'
                 }
@@ -84,6 +89,7 @@ var Inline = exports.Inline = function (_Component) {
                     _react2.default.createElement(_Button.Button, {
                         type: BUTTON_TYPES.CANCEL,
                         editorState: editorState,
+                        editedRowKey: editedRowKey,
                         events: events,
                         stateKey: stateKey,
                         store: store
@@ -91,6 +97,7 @@ var Inline = exports.Inline = function (_Component) {
                     _react2.default.createElement(_Button.Button, {
                         type: BUTTON_TYPES.SAVE,
                         editorState: editorState,
+                        editedRowKey: editedRowKey,
                         events: events,
                         stateKey: stateKey,
                         store: store })
@@ -110,18 +117,20 @@ var Inline = exports.Inline = function (_Component) {
             var editorState = _props2.editorState;
             var store = _props2.store;
             var stateKey = _props2.stateKey;
+
+            var editedRowKey = getEditedRowKey(editorState);
             var position = this.state.position;
 
 
-            resetEditorPosition.call(this, editorState, store, stateKey, dom, position);
+            resetEditorPosition.call(this, editorState, store, stateKey, dom, position, editedRowKey);
 
             if (!config.focusOnEdit) {
                 return false;
             }
 
-            if (isEditorShown(editorState) && this.editedRow !== editorState.row.rowIndex) {
+            if (isEditorShown(editorState) && this.editedRow !== editorState[editedRowKey].rowIndex) {
 
-                this.editedRow = editorState.row.rowIndex;
+                this.editedRow = editorState[editedRowKey].rowIndex;
                 focusFirstEditor(dom);
             } else if (!isEditorShown(editorState)) {
                 this.editedRow = null;
@@ -154,7 +163,12 @@ var getRowFromInput = exports.getRowFromInput = function getRowFromInput(inputEl
     return null;
 };
 
-function resetEditorPosition(editorState, store, stateKey, dom, position) {
+function resetEditorPosition(editorState, store, stateKey, dom, position, rowId) {
+
+    if (!dom) {
+        return;
+    }
+
     var input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
     if (input) {
@@ -164,17 +178,19 @@ function resetEditorPosition(editorState, store, stateKey, dom, position) {
 
         var spaceBottom = _getRowBoundingRect.spaceBottom;
 
+        var editedRowKey = getEditedRowKey(editorState);
 
         var moveToTop = spaceBottom < row.clientHeight * 2;
 
-        if (row && editorState && editorState.row && editorState.row.top) {
+        if (row && editorState && editorState[editedRowKey] && editorState[editedRowKey].top) {
 
             var top = (0, _getEditorTop.getEditorTop)(row, moveToTop, dom);
 
-            if (top !== editorState.row.top) {
+            if (top !== editorState[editedRowKey].top) {
                 store.dispatch((0, _EditorActions.repositionEditor)({
                     stateKey: stateKey,
-                    top: top
+                    top: top,
+                    rowId: rowId
                 }));
             }
 
@@ -191,6 +207,12 @@ function resetEditorPosition(editorState, store, stateKey, dom, position) {
     }
 }
 
+var getEditedRowKey = exports.getEditedRowKey = function getEditedRowKey(editorState) {
+    return editorState ? Object.keys(editorState).find(function (k) {
+        return k !== 'lastUpdate';
+    }) : null;
+};
+
 var focusFirstEditor = exports.focusFirstEditor = function focusFirstEditor(dom) {
     var input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
@@ -200,7 +222,8 @@ var focusFirstEditor = exports.focusFirstEditor = function focusFirstEditor(dom)
 };
 
 var isEditorShown = exports.isEditorShown = function isEditorShown(editorState) {
-    return editorState && editorState.row;
+    var editedRowKey = getEditedRowKey(editorState);
+    return editorState && editorState[editedRowKey];
 };
 
 Inline.propTypes = {

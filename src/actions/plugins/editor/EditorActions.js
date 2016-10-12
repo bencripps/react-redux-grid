@@ -14,8 +14,20 @@ import {
 import { keyGenerator } from '../../../util/keyGenerator';
 
 export function editRow({
-    rowId, top, rowData = {}, rowIndex, columns, isCreate, stateKey
+    rowId,
+    top,
+    rowData = {},
+    rowIndex,
+    columns,
+    isCreate,
+    stateKey,
+    editMode = 'inline'
 }) {
+
+    if (!rowId) {
+        throw new Error('rowId is a required parameter for editRow Action');
+    }
+
     return {
         type: EDIT_ROW,
         rowId,
@@ -24,13 +36,15 @@ export function editRow({
         rowIndex,
         columns,
         isCreate,
-        stateKey
+        stateKey,
+        editMode
     };
 }
 
-export function repositionEditor({ top, stateKey }) {
+export function repositionEditor({ top, stateKey, rowId }) {
     return {
         type: REPOSITION_EDITOR,
+        rowId,
         stateKey,
         top
     };
@@ -40,14 +54,17 @@ export function dismissEditor({ stateKey }) {
     return { type: DISMISS_EDITOR, stateKey };
 }
 
-export function updateCellValue({ value, name, column, columns, stateKey }) {
+export function updateCellValue({
+    value, name, column, columns, stateKey, rowId
+}) {
     return {
         type: ROW_VALUE_CHANGE,
         value,
         columnName: name,
         column,
         columns,
-        stateKey
+        stateKey,
+        rowId
     };
 }
 
@@ -76,7 +93,7 @@ export function updateRow({ stateKey, rowIndex, values }) {
     };
 }
 
-export function addNewRow({ columns, data, stateKey }) {
+export function addNewRow({ columns, data, stateKey, editMode = 'inline' }) {
 
     return (dispatch) => {
         const rowId = keyGenerator('row', 0);
@@ -95,7 +112,8 @@ export function addNewRow({ columns, data, stateKey }) {
                 rowIndex,
                 columns,
                 isCreate,
-                stateKey
+                stateKey,
+                editMode
             })
         );
     };

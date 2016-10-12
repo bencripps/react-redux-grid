@@ -34,7 +34,8 @@ var Manager = function () {
             };
 
             var editModes = {
-                inline: 'inline'
+                inline: 'inline',
+                grid: 'grid'
             };
 
             var config = plugins && plugins.EDITOR ? Object.assign(defaults, plugins.EDITOR) : defaults;

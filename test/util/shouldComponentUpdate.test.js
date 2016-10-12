@@ -216,7 +216,8 @@ describe('shouldRowUpdate utility function', () => {
                 _key: 'key-1'
             },
             editorState: {
-                row: {
+                'key-1': {
+                    key: 'key-1',
                     rowIndex: 1,
                     values: {
                         field: 'value2'

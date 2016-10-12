@@ -31,17 +31,22 @@ export class Inline extends Component {
         } = this.props;
 
         const { position } = this.state;
+        const editedRowKey = getEditedRowKey(editorState);
+
+        if (!editedRowKey) {
+            return null;
+        }
 
         let top = -100;
 
         if (isEditorShown(editorState)) {
-            top = editorState.row.top;
+            top = editorState[editedRowKey].top;
         }
 
         const inlineEditorProps = {
             className: prefix(
                 CLASS_NAMES.EDITOR.INLINE.CONTAINER,
-                editorState && editorState.row
+                editorState && editorState[editedRowKey]
                     ? CLASS_NAMES.EDITOR.INLINE.SHOWN
                     : CLASS_NAMES.EDITOR.INLINE.HIDDEN,
                 position
@@ -61,6 +66,7 @@ export class Inline extends Component {
                     <Button { ...{
                         type: BUTTON_TYPES.CANCEL,
                         editorState,
+                        editedRowKey,
                         events,
                         stateKey,
                         store
@@ -68,6 +74,7 @@ export class Inline extends Component {
                     <Button { ...{
                         type: BUTTON_TYPES.SAVE,
                         editorState,
+                        editedRowKey,
                         events,
                         stateKey,
                         store }
@@ -84,10 +91,11 @@ export class Inline extends Component {
         */
         const dom = ReactDOM.findDOMNode(this);
         const { config, editorState, store, stateKey } = this.props;
+        const editedRowKey = getEditedRowKey(editorState);
         const { position } = this.state;
 
         resetEditorPosition.call(
-            this, editorState, store, stateKey, dom, position
+            this, editorState, store, stateKey, dom, position, editedRowKey
         );
 
         if (!config.focusOnEdit) {
@@ -95,9 +103,9 @@ export class Inline extends Component {
         }
 
         if (isEditorShown(editorState)
-            && this.editedRow !== editorState.row.rowIndex) {
+            && this.editedRow !== editorState[editedRowKey].rowIndex) {
 
-            this.editedRow = editorState.row.rowIndex;
+            this.editedRow = editorState[editedRowKey].rowIndex;
             focusFirstEditor(dom);
         }
 
@@ -129,27 +137,34 @@ export const getRowFromInput = (inputEl) => {
 };
 
 export function resetEditorPosition(
-    editorState, store, stateKey, dom, position
+    editorState, store, stateKey, dom, position, rowId
 ) {
+
+    if (!dom) {
+        return;
+    }
+
     const input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
     if (input) {
         const row = getRowFromInput(input);
         const { spaceBottom } = getRowBoundingRect(row);
+        const editedRowKey = getEditedRowKey(editorState);
 
         const moveToTop = spaceBottom < row.clientHeight * 2;
 
         if (row
             && editorState
-            && editorState.row
-            && editorState.row.top) {
+            && editorState[editedRowKey]
+            && editorState[editedRowKey].top) {
 
             const top = getEditorTop(row, moveToTop, dom);
 
-            if (top !== editorState.row.top) {
+            if (top !== editorState[editedRowKey].top) {
                 store.dispatch(repositionEditor({
                     stateKey,
-                    top
+                    top,
+                    rowId
                 }));
             }
 
@@ -172,6 +187,11 @@ export function resetEditorPosition(
 
 }
 
+export const getEditedRowKey = editorState => editorState
+    ? Object.keys(editorState)
+        .find(k => k !== 'lastUpdate')
+    : null;
+
 export const focusFirstEditor = (dom) => {
     const input = dom.parentNode.querySelector(INPUT_SELECTOR);
 
@@ -181,7 +201,8 @@ export const focusFirstEditor = (dom) => {
 };
 
 export const isEditorShown = (editorState) => {
-    return editorState && editorState.row;
+    const editedRowKey = getEditedRowKey(editorState);
+    return editorState && editorState[editedRowKey];
 };
 
 Inline.propTypes = {

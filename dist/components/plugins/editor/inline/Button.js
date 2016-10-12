@@ -24,6 +24,7 @@ var Button = exports.Button = function Button(_ref) {
     var saveText = _ref.saveText;
     var cancelText = _ref.cancelText;
     var editorState = _ref.editorState;
+    var editedRowKey = _ref.editedRowKey;
     var events = _ref.events;
     var stateKey = _ref.stateKey;
     var store = _ref.store;
@@ -33,11 +34,11 @@ var Button = exports.Button = function Button(_ref) {
     var text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
 
     var buttonProps = {
-        onClick: onButtonClick.bind(null, BUTTON_TYPES, editorState, events, type, stateKey, store),
+        onClick: onButtonClick.bind(null, BUTTON_TYPES, editorState, events, type, stateKey, editedRowKey, store),
         className: type === BUTTON_TYPES.SAVE ? (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON) : (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
     };
 
-    if (type === BUTTON_TYPES.SAVE && editorState && editorState.row && !editorState.row.valid) {
+    if (type === BUTTON_TYPES.SAVE && editorState && editorState[editedRowKey] && !editorState[editedRowKey].valid) {
         buttonProps.disabled = true;
     }
 
@@ -51,6 +52,7 @@ var Button = exports.Button = function Button(_ref) {
 Button.propTypes = {
     BUTTON_TYPES: _react.PropTypes.object,
     cancelText: _react.PropTypes.string,
+    editedRowKey: _react.PropTypes.string,
     editorState: _react.PropTypes.object,
     events: _react.PropTypes.object,
     saveText: _react.PropTypes.string,
@@ -69,9 +71,9 @@ Button.defaultProps = {
     saveText: 'Save'
 };
 
-var onButtonClick = exports.onButtonClick = function onButtonClick(BUTTON_TYPES, editorState, events, type, stateKey, store) {
+var onButtonClick = exports.onButtonClick = function onButtonClick(BUTTON_TYPES, editorState, events, type, stateKey, editedRowKey, store) {
 
-    var values = _extends({}, editorState.row.values, { _key: editorState.row.key });
+    var values = _extends({}, editorState[editedRowKey].values, { _key: editedRowKey });
 
     if (type === BUTTON_TYPES.SAVE && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
 
@@ -92,7 +94,7 @@ var onButtonClick = exports.onButtonClick = function onButtonClick(BUTTON_TYPES,
 
         store.dispatch((0, _EditorActions.saveRow)({
             values: values,
-            rowIndex: editorState.row.rowIndex,
+            rowIndex: editorState[editedRowKey].rowIndex,
             stateKey: stateKey
         }));
 

@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
     EDIT_ROW,
@@ -6,12 +6,14 @@ import {
     ROW_VALUE_CHANGE,
     CANCEL_ROW,
     REMOVE_ROW,
-    REPOSITION_EDITOR
+    REPOSITION_EDITOR,
+    SET_DATA
 } from '../../../constants/ActionTypes';
 
 import {
     getData,
-    setDataAtDataIndex
+    setDataAtDataIndex,
+    setKeysInData
 } from './../../../util/getData';
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
@@ -79,8 +81,8 @@ export default function editor(state = initialState, action) {
 
         const { values } = action;
         const isValid = isRowValid(action.columns, values);
-        const iOverrides = state.getIn([stateKey, 'row', 'overrides'])
-            ? state.getIn([stateKey, 'row', 'overrides']).toJS()
+        const iOverrides = state.getIn([stateKey, action.rowId, 'overrides'])
+            ? state.getIn([stateKey, action.rowId, 'overrides']).toJS()
             : {};
 
         action.columns.forEach((col, i) => {
@@ -92,8 +94,12 @@ export default function editor(state = initialState, action) {
             iOverrides[dataIndex].disabled = setDisabled(col, val, values);
         });
 
-        return state.setIn([action.stateKey], fromJS({
-            row: {
+        const operation = action.editMode === 'inline'
+            ? 'setIn'
+            : 'mergeIn';
+
+        return state[operation]([action.stateKey], fromJS({
+            [action.rowId]: {
                 key: action.rowId,
                 values: action.values,
                 rowIndex: action.rowIndex,
@@ -105,13 +111,38 @@ export default function editor(state = initialState, action) {
             lastUpdate: generateLastUpdate()
         }));
 
+    case SET_DATA:
+
+        // if grid editor is type 'grid', we need to map the datasource
+        // to editor state
+        if (action.editMode === 'grid') {
+
+            const dataWithKeys = setKeysInData(action.data);
+            const editorData = dataWithKeys.reduce((prev, curr, i) => {
+                return prev.set(curr.get('_key'), fromJS({
+                    key: curr.get('_key'),
+                    values: curr,
+                    rowIndex: i,
+                    top: null,
+                    valid: null,
+                    isCreate: false,
+                    overrides: {}
+                }));
+            }, Map({ lastUpdate: generateLastUpdate() }));
+
+            return state.mergeIn([action.stateKey], editorData);
+        }
+
+        return state;
+
     case ROW_VALUE_CHANGE:
+
         const { column, columns, value, stateKey } = action;
-        const previousValues = state.getIn([stateKey, 'row', 'values'])
-            ? state.getIn([stateKey, 'row', 'values']).toJS()
+        const previousValues = state.getIn([stateKey, action.rowId, 'values'])
+            ? state.getIn([stateKey, action.rowId, 'values']).toJS()
             : {};
-        const overrides = state.getIn([stateKey, 'row', 'overrides'])
-            ? state.getIn([stateKey, 'row', 'overrides']).toJS()
+        const overrides = state.getIn([stateKey, action.rowId, 'overrides'])
+            ? state.getIn([stateKey, action.rowId, 'overrides']).toJS()
             : {};
 
         let rowValues = setDataAtDataIndex(
@@ -140,9 +171,9 @@ export default function editor(state = initialState, action) {
 
         const valid = isRowValid(columns, rowValues);
 
-        state = state.mergeIn([action.stateKey, 'row'], {
+        state = state.mergeIn([action.stateKey, action.rowId], {
             values: rowValues,
-            previousValues: state.getIn([stateKey, 'row', 'values']),
+            previousValues: state.getIn([stateKey, action.rowId, 'values']),
             valid,
             overrides
         });
@@ -153,17 +184,13 @@ export default function editor(state = initialState, action) {
         );
 
     case REPOSITION_EDITOR:
-
-        const row = state.mergeIn([action.stateKey, 'row'], {
+        const newState = state.mergeIn([action.stateKey, action.rowId], {
             top: action.top
-        }).getIn([action.stateKey, 'row']);
+        });
 
-        return state.mergeIn(
+        return newState.mergeIn(
             [action.stateKey],
-            fromJS({
-                row: row,
-                lastUpdate: generateLastUpdate()
-            })
+            { lastUpdate: generateLastUpdate() }
         );
 
     case REMOVE_ROW:

@@ -14,6 +14,8 @@ var _Editor = require('./cell/Editor');
 
 var _prefix = require('../../../../util/prefix');
 
+var _getData = require('./../../../../util/getData');
+
 var _handleEditClick = require('./../../../../util/handleEditClick');
 
 var _elementContains = require('./../../../../util/elementContains');
@@ -39,19 +41,20 @@ var Cell = exports.Cell = function Cell(_ref) {
     var events = _ref.events;
     var gridType = _ref.gridType;
     var index = _ref.index;
+    var isRowSelected = _ref.isRowSelected;
     var readFunc = _ref.readFunc;
     var rowData = _ref.rowData;
-    var rowIndex = _ref.rowIndex;
     var rowId = _ref.rowId;
-    var stateKey = _ref.stateKey;
+    var rowIndex = _ref.rowIndex;
     var selectionModel = _ref.selectionModel;
-    var stateful = _ref.stateful;
-    var store = _ref.store;
     var showTreeRootNode = _ref.showTreeRootNode;
+    var stateful = _ref.stateful;
+    var stateKey = _ref.stateKey;
+    var store = _ref.store;
     var treeData = _ref.treeData;
 
 
-    var isEditable = editorState && editorState.row && editorState.row.key === rowId;
+    var isEditable = editorState && editorState[rowId] && editorState[rowId].key === rowId || editor.config.type === editor.editModes.grid;
 
     var isExpandable = treeData.expandable && !treeData.leaf;
 
@@ -114,7 +117,7 @@ var Cell = exports.Cell = function Cell(_ref) {
 
     var arrow = gridType === 'tree' && shouldNest ? _react2.default.createElement(_TreeArrow2.default, arrowProps) : null;
 
-    var cellHTML = getCellHTML(cellData, editorState, isEditable, columns, index, rowId, stateKey, store);
+    var cellHTML = getCellHTML(cellData, editorState, isEditable, isRowSelected, columns, index, rowId, rowData, stateKey, store);
 
     var handleContainer = dragHandle || arrow ? _react2.default.createElement(
         'div',
@@ -131,7 +134,8 @@ var Cell = exports.Cell = function Cell(_ref) {
     );
 };
 
-var getCellHTML = exports.getCellHTML = function getCellHTML(cellData, editorState, isEditable, columns, index, rowId, stateKey, store) {
+var getCellHTML = exports.getCellHTML = function getCellHTML(cellData, editorState, isEditable, isRowSelected, columns, index, rowId, rowData, stateKey, store) {
+    var rawValue = (0, _getData.getData)(rowData, columns, index);
 
     var editorProps = {
         cellData: cellData,
@@ -139,6 +143,9 @@ var getCellHTML = exports.getCellHTML = function getCellHTML(cellData, editorSta
         editorState: editorState,
         index: index,
         isEditable: isEditable,
+        isRowSelected: isRowSelected,
+        rowData: rowData,
+        rawValue: rawValue,
         rowId: rowId,
         store: store,
         stateKey: stateKey
@@ -177,9 +184,10 @@ var handleClick = exports.handleClick = function handleClick(_ref2, reactEvent) 
 
         // if a row is clicked and the editorState is empty except
         // for last update integer, trigger edit event
+
         if (!editorState || Object.keys(editorState).length === 1) {
             (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
-        } else if (editorState && editorState.row && editorState.row.rowIndex !== rowIndex) {
+        } else if (editorState && !editorState[rowId]) {
             (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
         }
     }
@@ -207,12 +215,15 @@ var handleDoubleClick = exports.handleDoubleClick = function handleDoubleClick(_
         reactEvent.stopPropagation();
     }
 
-    // if a row is clicked and the editorState is empty except
-    // for last update integer, trigger edit event
-    if (!editorState || Object.keys(editorState).length === 1) {
-        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
-    } else if (selectionModel.defaults.editEvent === selectionModel.eventTypes.doubleclick) {
-        (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
+    if (selectionModel.defaults.editEvent === selectionModel.eventTypes.doubleclick) {
+
+        // if a row is clicked and the editorState is empty except
+        // for last update integer, trigger edit event
+        if (!editorState || Object.keys(editorState).length === 1) {
+            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
+        } else if (editorState && !editorState[rowId]) {
+            (0, _handleEditClick.handleEditClick)(editor, store, rowId, rowData, rowIndex, columns, stateKey, events, { reactEvent: reactEvent });
+        }
     }
 
     if (events.HANDLE_CELL_DOUBLE_CLICK) {
@@ -240,6 +251,7 @@ Cell.propTypes = {
     events: object,
     gridType: oneOf(['tree', 'grid']),
     index: number,
+    isRowSelected: bool,
     readFunc: func,
     rowData: object,
     rowId: string,

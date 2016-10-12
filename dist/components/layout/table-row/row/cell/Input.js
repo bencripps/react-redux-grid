@@ -27,13 +27,13 @@ var Input = exports.Input = function Input(_ref) {
 
     var colName = (0, _getData.nameFromDataIndex)(column);
 
-    var overrides = editorState && editorState.row && editorState.row.values && editorState.row.overrides[colName] !== undefined ? editorState.row.overrides[colName] : {};
+    var overrides = editorState && editorState[rowId] && editorState[rowId].values && editorState[rowId].overrides[colName] !== undefined ? editorState[rowId].overrides[colName] : {};
 
     var placeholder = column && column.placeholder ? column.placeholder : false;
 
-    var value = editorState && editorState.row && editorState.row.values && editorState.row.values[colName] !== undefined ? editorState.row.values[colName] : cellData;
+    var value = editorState && editorState[rowId] && editorState[rowId].values && editorState[rowId].values[colName] !== undefined ? editorState[rowId].values[colName] : cellData;
 
-    var disabled = overrides.disabled || editorState && editorState.row && !editorState.row.isCreate && column.editable === 'create';
+    var disabled = overrides.disabled || editorState && editorState[rowId] && !editorState[rowId].isCreate && column.editable === 'create';
 
     var inputProps = {
         disabled: disabled,
@@ -54,6 +54,7 @@ var handleChange = exports.handleChange = function handleChange(columnDefinition
         value: reactEvent.target.value,
         name: (0, _getData.nameFromDataIndex)(columnDefinition),
         column: columnDefinition,
+        rowId: rowId,
         columns: columns,
         stateKey: stateKey
     }));

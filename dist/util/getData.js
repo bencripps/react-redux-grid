@@ -13,6 +13,7 @@ var getData = exports.getData = function getData() {
     var rowData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var columns = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var colIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+    var editorValues = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
 
     var column = columns[colIndex];
@@ -25,6 +26,10 @@ var getData = exports.getData = function getData() {
 
     if (!dataIndex) {
         throw new Error('No dataIndex found on column', column);
+    }
+
+    if (editorValues && editorValues[dataIndex] !== undefined) {
+        return editorValues[dataIndex];
     }
 
     if (typeof dataIndex === 'string') {

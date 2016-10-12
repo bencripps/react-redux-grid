@@ -16,6 +16,7 @@ var SORT_DATA = exports.SORT_DATA = '@@react-redux-grid/SORT_DATA';
 var SET_SELECTION = exports.SET_SELECTION = '@@react-redux-grid/SET_SELECTION';
 var SELECT_ALL = exports.SELECT_ALL = '@@react-redux-grid/SELECT_ALL';
 var DESELECT_ALL = exports.DESELECT_ALL = '@@react-redux-grid/DESELECT_ALL';
+
 var SELECT_ROW = exports.SELECT_ROW = '@@react-redux-grid/SELECT_ROW';
 var DESELECT_ROW = exports.DESELECT_ROW = '@@react-redux-grid/DESELECT_ROW';
 

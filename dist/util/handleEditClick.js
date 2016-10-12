@@ -30,11 +30,17 @@ var handleEditClick = exports.handleEditClick = function handleEditClick(editor,
     var offset = 7;
     var top = row ? row.offsetTop + row.clientHeight + offset : 0;
 
-    if (editor.config.type === editor.editModes.inline) {
-        store.dispatch((0, _EditorActions.editRow)({
-            rowId: rowId, top: top, rowData: rowData, rowIndex: rowIndex, columns: columns, stateKey: stateKey
-        }));
-    }
+    // if (editor.config.type === editor.editModes.inline) {
+    store.dispatch((0, _EditorActions.editRow)({
+        rowId: rowId,
+        top: top,
+        rowData: rowData,
+        rowIndex: rowIndex,
+        columns: columns,
+        stateKey: stateKey,
+        editMode: editor.config.type
+    }));
+    // }
 };
 
 var closestRow = exports.closestRow = function closestRow(target) {

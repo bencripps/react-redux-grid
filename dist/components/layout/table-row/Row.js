@@ -99,10 +99,12 @@ var Row = exports.Row = function (_Component) {
                 addEmptyCells(row, columns);
             }
 
+            var isSelected = selectedRows ? selectedRows[id] : false;
+
             var cells = Object.keys(cellValues).map(function (k, i) {
 
                 var cellProps = {
-                    cellData: getCellData(columns, row, k, i, store),
+                    cellData: getCellData(columns, editor, editorState, row, k, i, store),
                     columns: columns,
                     dragAndDrop: dragAndDrop,
                     editor: editor,
@@ -119,6 +121,7 @@ var Row = exports.Row = function (_Component) {
                     showTreeRootNode: showTreeRootNode,
                     stateful: stateful,
                     stateKey: stateKey,
+                    isRowSelected: isSelected,
                     store: store,
                     treeData: _extends({}, treeData, {
                         expandable: columns[i].expandable
@@ -132,9 +135,7 @@ var Row = exports.Row = function (_Component) {
                 }, cellProps));
             });
 
-            var isSelected = selectedRows ? selectedRows[id] : false;
-
-            var editClass = editorState && editorState.row && editorState.row.key === id ? selectionModel.defaults.editCls : '';
+            var editClass = editorState && editorState[id] && editor.config.type !== 'grid' ? selectionModel.defaults.editCls : '';
 
             var selectedClass = isSelected ? selectionModel.defaults.activeCls : '';
 
@@ -285,11 +286,19 @@ var addEmptyInsert = exports.addEmptyInsert = function addEmptyInsert(cells, vis
     return cells;
 };
 
-var getCellData = exports.getCellData = function getCellData(columns, row, key, index, store) {
+var getCellData = exports.getCellData = function getCellData(columns, editor, editorState, row, key, index, store) {
 
-    var valueAtDataIndex = (0, _getData.getData)(row, columns, index);
+    var rowId = row._key;
+
+    // if a renderer is present, but
+    // were in edited mode, we should use the edited values
+    // since those could be modified using a 'change' function
+    var editedValues = editorState && editorState[rowId] && editorState[rowId].values ? editorState[rowId].values : {};
+
+    var valueAtDataIndex = (0, _getData.getData)(row, columns, index, editedValues);
 
     // if a render has been provided, default to this
+    // as long as editor type isnt 'grid'
     if (row && columns[index] && columns[index].renderer && typeof columns[index].renderer === 'function') {
         return columns[index].renderer({
             column: columns[index],
@@ -328,7 +337,7 @@ var addEmptyCells = exports.addEmptyCells = function addEmptyCells(rowData, colu
 };
 
 var handleRowDoubleClickEvent = exports.handleRowDoubleClickEvent = function handleRowDoubleClickEvent(events, rowData, rowId, selectionModel, index, isSelected, reactEvent, id, browserEvent) {
-    if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick && selectionModel.defaults.editEvent !== selectionModel.eventTypes.doubleclick) {
+    if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.doubleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
@@ -365,7 +374,7 @@ var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function han
         events.HANDLE_BEFORE_ROW_CLICK.call(undefined, rowData, rowId, reactEvent, id, browserEvent);
     }
 
-    if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick && selectionModel.defaults.editEvent !== selectionModel.eventTypes.singleclick) {
+    if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,

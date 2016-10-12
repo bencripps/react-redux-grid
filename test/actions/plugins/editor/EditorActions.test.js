@@ -28,6 +28,34 @@ import {
 
 describe('The grid editRow Action', () => {
 
+    it('Should throw an error if no rowId is passed', () => {
+
+        const action = {
+            top: 40,
+            rowData: {
+                col1: true,
+                col2: 'abc'
+            },
+            rowIndex: 11,
+            columns: [
+                {
+                    name: 'Col1',
+                    dataIndex: 'col1'
+                },
+                {
+                    name: 'Col2',
+                    dataIndex: 'col2'
+                }
+            ],
+            isCreate: false,
+            stateKey: 'test-grid'
+        };
+
+        expect(() => { editRow(action); })
+            .toThrow('rowId is a required parameter for editRow Action');
+
+    });
+
     it('Should return the correct edit action', () => {
 
         const action = {
@@ -65,6 +93,7 @@ describe('The grid editRow Action', () => {
                         dataIndex: 'col2'
                     }
                 ],
+                editMode: 'inline',
                 isCreate: false,
                 rowId: 'uniqueId',
                 rowIndex: 11,
@@ -86,6 +115,7 @@ describe('The grid repositionEditor Action', () => {
     const action = {
         type: REPOSITION_EDITOR,
         stateKey: 'test-grid',
+        rowId: 'row-9',
         top: 40
     };
 
@@ -94,6 +124,7 @@ describe('The grid repositionEditor Action', () => {
             .toEqual({
                 type: REPOSITION_EDITOR,
                 stateKey: 'test-grid',
+                rowId: 'row-9',
                 top: 40
             });
     });
@@ -124,6 +155,7 @@ describe('The grid updateCellValue Action', () => {
         stateKey: 'test-grid',
         value: 'newVal',
         name: 'Col1',
+        rowId: 'row-1',
         column: {
             name: 'Col1',
             dataIndex: 'col1'
@@ -147,6 +179,7 @@ describe('The grid updateCellValue Action', () => {
                 stateKey: 'test-grid',
                 value: 'newVal',
                 columnName: 'Col1',
+                rowId: 'row-1',
                 column: {
                     name: 'Col1',
                     dataIndex: 'col1'
@@ -319,6 +352,7 @@ describe('The grid addNewRow Action', () => {
                     ],
                     isCreate: true,
                     rowId: 'cm93MA==',
+                    editMode: 'inline',
                     rowIndex: 0,
                     stateKey: 'test-grid',
                     top: 43,

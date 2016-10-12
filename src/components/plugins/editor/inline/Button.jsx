@@ -12,6 +12,7 @@ export const Button = ({
     saveText,
     cancelText,
     editorState,
+    editedRowKey,
     events,
     stateKey,
     store,
@@ -28,6 +29,7 @@ export const Button = ({
             events,
             type,
             stateKey,
+            editedRowKey,
             store
         ),
         className: type === BUTTON_TYPES.SAVE
@@ -37,8 +39,8 @@ export const Button = ({
 
     if (type === BUTTON_TYPES.SAVE
             && editorState
-            && editorState.row
-            && !editorState.row.valid) {
+            && editorState[editedRowKey]
+            && !editorState[editedRowKey].valid) {
         buttonProps.disabled = true;
     }
 
@@ -52,6 +54,7 @@ export const Button = ({
 Button.propTypes = {
     BUTTON_TYPES: PropTypes.object,
     cancelText: PropTypes.string,
+    editedRowKey: PropTypes.string,
     editorState: PropTypes.object,
     events: PropTypes.object,
     saveText: PropTypes.string,
@@ -71,10 +74,10 @@ Button.defaultProps = {
 };
 
 export const onButtonClick = (
-    BUTTON_TYPES, editorState, events, type, stateKey, store
+    BUTTON_TYPES, editorState, events, type, stateKey, editedRowKey, store
 ) => {
 
-    const values = { ...editorState.row.values, _key: editorState.row.key };
+    const values = { ...editorState[editedRowKey].values, _key: editedRowKey };
 
     if (type === BUTTON_TYPES.SAVE
         && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
@@ -99,7 +102,7 @@ export const onButtonClick = (
         store.dispatch(
             saveRow({
                 values,
-                rowIndex: editorState.row.rowIndex,
+                rowIndex: editorState[editedRowKey].rowIndex,
                 stateKey
             })
         );

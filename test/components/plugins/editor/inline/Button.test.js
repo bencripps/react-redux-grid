@@ -28,7 +28,8 @@ describe('The inline editor cancel button', () => {
         saveText: 'Save',
         cancelText: 'Cancel',
         editorState: {
-            row: {
+            'some-id': {
+                key: 'some-id',
                 values: {}
             }
         },
@@ -79,8 +80,8 @@ describe('The inline editor cancel button', () => {
             values: {
                 name: 'Scottie Pippen',
                 position: 'Power Forward'
+                key: 'some-id',
             },
-            key: 'row-0',
             rowIndex: 0,
             columns: [
                 {
@@ -108,7 +109,7 @@ describe('The inline editor cancel button', () => {
             const newEditorState = store
                 .getState()
                 .editor
-                .getIn(['test-cancel-button', 'row']);
+                .getIn(['test-cancel-button', 'row-0']);
 
             expect(newEditorState)
                 .toEqual(undefined);
@@ -187,7 +188,7 @@ describe('The inline editor save button', () => {
             },
             stateKey: 'test-stateKey',
             editorState: {
-                row: {
+                'row-0': {
                     values: {
                         name: 'Scottie Pippen',
                         position: 'Power Forward'

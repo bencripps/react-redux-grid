@@ -21,10 +21,10 @@ export const Input = ({
     const colName = nameFromDataIndex(column);
 
     const overrides = editorState
-        && editorState.row
-        && editorState.row.values
-        && editorState.row.overrides[colName] !== undefined
-        ? editorState.row.overrides[colName]
+        && editorState[rowId]
+        && editorState[rowId].values
+        && editorState[rowId].overrides[colName] !== undefined
+        ? editorState[rowId].overrides[colName]
         : {};
 
     const placeholder = column
@@ -33,15 +33,15 @@ export const Input = ({
         : false;
 
     const value = editorState
-        && editorState.row
-        && editorState.row.values
-        && editorState.row.values[colName] !== undefined
-        ? editorState.row.values[colName]
+        && editorState[rowId]
+        && editorState[rowId].values
+        && editorState[rowId].values[colName] !== undefined
+        ? editorState[rowId].values[colName]
         : cellData;
 
     const disabled = overrides.disabled || (editorState
-        && editorState.row
-        && !editorState.row.isCreate
+        && editorState[rowId]
+        && !editorState[rowId].isCreate
         && column.editable === 'create');
 
     const inputProps = {
@@ -50,7 +50,7 @@ export const Input = ({
             handleChange(column, columns, rowId, stateKey, store, e);
         },
         type: 'text',
-        value: value,
+        value,
         placeholder
     };
 
@@ -68,6 +68,7 @@ export const handleChange = (
             value: reactEvent.target.value,
             name: nameFromDataIndex(columnDefinition),
             column: columnDefinition,
+            rowId,
             columns,
             stateKey
         })

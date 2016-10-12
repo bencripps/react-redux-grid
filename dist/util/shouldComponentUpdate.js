@@ -96,13 +96,13 @@ function shouldRowUpdate(nextProps) {
     };
 
     var isEdited = function isEdited(editorState) {
-        return Boolean(editorState && editorState.row && editorState.row.rowIndex === nextProps.index && editorState.row.values);
+        return Boolean(editorState && editorState[key] && editorState[key].values);
     };
 
     var limitedNextProps = {
         columns: slimColumn(nextProps.columns),
         isEdited: isEdited(nextProps.editorState),
-        currentValues: isEdited(nextProps.editorState) ? nextProps.editorState : null,
+        currentValues: isEdited(nextProps.editorState) ? nextProps.editorState[key] : null,
         isMenuShown: isMenuShown(nextProps.menuState),
         row: nextProps.row,
         index: nextProps.index,
@@ -113,7 +113,7 @@ function shouldRowUpdate(nextProps) {
     var limitedProps = {
         columns: this.previousColumns,
         isEdited: isEdited(this.props.editorState),
-        currentValues: isEdited(nextProps.editorState) ? this.props.editorState : null,
+        currentValues: isEdited(this.props.editorState) ? this.props.editorState[key] : null,
         isMenuShown: isMenuShown(this.props.menuState),
         row: this.props.row,
         index: this.props.index,

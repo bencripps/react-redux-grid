@@ -202,6 +202,75 @@ describe('getData utility function', () => {
 
     });
 
+    it('Should return data from editorState if avail', () => {
+
+        const rowData = {
+            col1: 'banana',
+            col2: 'orange',
+            col3: 'apple'
+        };
+
+        const columns = [
+            {
+                name: 'fruit',
+                dataIndex: 'col1'
+            },
+            {
+                name: 'another fruit',
+                dataIndex: 'col2'
+            },
+            {
+                name: 'yet another fruit',
+                dataIndex: 'col3'
+            }
+        ];
+
+        const colIndex = 2;
+
+        const editorValues = {
+            col3: 'value from editor state'
+        };
+
+        expect(getData(rowData, columns, colIndex, editorValues))
+            .toEqual('value from editor state');
+
+    });
+
+    it('Should return data from state even if editor state is avail', () => {
+
+        const rowData = {
+            col1: 'banana',
+            col2: 'orange',
+            col3: 'apple'
+        };
+
+        const columns = [
+            {
+                name: 'fruit',
+                dataIndex: 'col1'
+            },
+            {
+                name: 'another fruit',
+                dataIndex: 'col2'
+            },
+            {
+                name: 'yet another fruit',
+                dataIndex: 'col3'
+            }
+        ];
+
+        const colIndex = 2;
+
+        const editorValues = {
+            col2: 'someVal',
+            col3: undefined
+        };
+
+        expect(getData(rowData, columns, colIndex, editorValues))
+            .toEqual('apple');
+
+    });
+
     it('Should throw an error if no dataIndex is defined', () => {
 
         const rowData = {

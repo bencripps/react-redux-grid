@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { Editor } from './cell/Editor';
 import { prefix } from '../../../../util/prefix';
+import { getData } from './../../../../util/getData';
 import { handleEditClick } from './../../../../util/handleEditClick';
 import { elementContains } from './../../../../util/elementContains';
 import { CLASS_NAMES } from './../../../../constants/GridConstants';
@@ -18,21 +19,23 @@ export const Cell = ({
     events,
     gridType,
     index,
+    isRowSelected,
     readFunc,
     rowData,
-    rowIndex,
     rowId,
-    stateKey,
+    rowIndex,
     selectionModel,
-    stateful,
-    store,
     showTreeRootNode,
+    stateful,
+    stateKey,
+    store,
     treeData
 }) => {
 
-    const isEditable = editorState
-            && editorState.row
-            && editorState.row.key === rowId;
+    const isEditable = (editorState
+            && editorState[rowId]
+            && editorState[rowId].key === rowId)
+        || editor.config.type === editor.editModes.grid;
 
     const isExpandable = treeData.expandable && !treeData.leaf;
 
@@ -116,15 +119,22 @@ export const Cell = ({
         cellData,
         editorState,
         isEditable,
+        isRowSelected,
         columns,
         index,
         rowId,
+        rowData,
         stateKey,
         store
     );
 
     const handleContainer = dragHandle || arrow
-        ? <div { ...{ className: prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER) } }>{ dragHandle }{ arrow }</div>
+        ? (
+        <div
+            { ...{ className: prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER) } }
+        >
+            { dragHandle }{ arrow }
+        </div>)
         : null;
 
     return (
@@ -136,8 +146,18 @@ export const Cell = ({
 };
 
 export const getCellHTML = (
-    cellData, editorState, isEditable, columns, index, rowId, stateKey, store
+    cellData,
+    editorState,
+    isEditable,
+    isRowSelected,
+    columns,
+    index,
+    rowId,
+    rowData,
+    stateKey,
+    store
 ) => {
+    const rawValue = getData(rowData, columns, index);
 
     const editorProps = {
         cellData,
@@ -145,6 +165,9 @@ export const getCellHTML = (
         editorState,
         index,
         isEditable,
+        isRowSelected,
+        rowData,
+        rawValue,
         rowId,
         store,
         stateKey
@@ -190,6 +213,7 @@ export const handleClick = ({
 
         // if a row is clicked and the editorState is empty except
         // for last update integer, trigger edit event
+
         if (!editorState || Object.keys(editorState).length === 1) {
             handleEditClick(
                 editor,
@@ -204,8 +228,7 @@ export const handleClick = ({
             );
         }
 
-        else if (editorState && editorState.row
-            && editorState.row.rowIndex !== rowIndex) {
+        else if (editorState && !editorState[rowId]) {
             handleEditClick(
                 editor,
                 store,
@@ -246,35 +269,39 @@ export const handleDoubleClick = ({
         reactEvent.stopPropagation();
     }
 
-    // if a row is clicked and the editorState is empty except
-    // for last update integer, trigger edit event
-    if (!editorState || Object.keys(editorState).length === 1) {
-        handleEditClick(
-            editor,
-            store,
-            rowId,
-            rowData,
-            rowIndex,
-            columns,
-            stateKey,
-            events,
-            { reactEvent }
-        );
-    }
+    if (selectionModel.defaults.editEvent
+    === selectionModel.eventTypes.doubleclick) {
 
-    else if (selectionModel.defaults.editEvent
-        === selectionModel.eventTypes.doubleclick) {
-        handleEditClick(
-            editor,
-            store,
-            rowId,
-            rowData,
-            rowIndex,
-            columns,
-            stateKey,
-            events,
-            { reactEvent }
-        );
+        // if a row is clicked and the editorState is empty except
+        // for last update integer, trigger edit event
+        if (!editorState || Object.keys(editorState).length === 1) {
+            handleEditClick(
+                editor,
+                store,
+                rowId,
+                rowData,
+                rowIndex,
+                columns,
+                stateKey,
+                events,
+                { reactEvent }
+            );
+        }
+
+        else if (editorState && !editorState[rowId]) {
+            handleEditClick(
+                editor,
+                store,
+                rowId,
+                rowData,
+                rowIndex,
+                columns,
+                stateKey,
+                events,
+                { reactEvent }
+            );
+        }
+
     }
 
     if (events.HANDLE_CELL_DOUBLE_CLICK) {
@@ -296,6 +323,7 @@ Cell.propTypes = {
         'tree', 'grid'
     ]),
     index: number,
+    isRowSelected: bool,
     readFunc: func,
     rowData: object,
     rowId: string,

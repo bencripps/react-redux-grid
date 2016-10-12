@@ -292,7 +292,7 @@ export const plugins = {
 
 Editor Defaults
 
-1. `type`: `string`, (`inline`), currently there is only 1 editor defined, in the future, other editors will be available
+1. `type`: `string`, (`inline` || `grid`)
 2. `enabled`: `boolean`, if true, an editor will be rendered
 3. `focusOnEdit`: `boolean`, focus the first editable input when an edit event occurs (defaults to true)
 

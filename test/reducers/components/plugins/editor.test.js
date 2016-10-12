@@ -328,7 +328,7 @@ describe('The editor reducer EDIT_ROW action', () => {
             editor(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: 1,
@@ -384,7 +384,7 @@ describe('The editor reducer EDIT_ROW action', () => {
             editor(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: 1,
@@ -442,7 +442,7 @@ describe('The editor reducer EDIT_ROW action', () => {
                 editor(state, disableAction)
             ).toEqualImmutable(fromJS({
                 'test-grid': {
-                    row: {
+                    'rowid-2': {
                         key: 'rowid-2',
                         values: {
                             col1: 1,
@@ -477,7 +477,7 @@ describe('The editor reducer REPOSITION_EDITOR action', () => {
 
         const state = fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -494,14 +494,15 @@ describe('The editor reducer REPOSITION_EDITOR action', () => {
         const action = {
             type: REPOSITION_EDITOR,
             top: 301,
-            stateKey: 'test-grid'
+            stateKey: 'test-grid',
+            rowId: 'rowid-2'
         };
 
         expect(
             editor(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -526,7 +527,7 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
 
         const state = fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -563,6 +564,7 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
                     return value === 1;
                 }
             },
+            rowId: 'rowid-2',
             value: 1,
             stateKey: 'test-grid'
         };
@@ -571,7 +573,7 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
             editor(state, action)
         ).toEqualImmutable(fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -612,7 +614,7 @@ describe([
 
         const state = fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -642,7 +644,7 @@ describe([
 
         const state = fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,
@@ -672,7 +674,7 @@ describe([
 
         const state = fromJS({
             'test-grid': {
-                row: {
+                'rowid-2': {
                     key: 'rowid-2',
                     values: {
                         col1: NaN,

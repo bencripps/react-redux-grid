@@ -136,13 +136,15 @@ export const plugins = {
 export const editorFunc = (
     value, row, column, columns, columnIndex, stateKey, reactEvent
 ) => {
+
     store.dispatch(
         Actions.EditorActions.updateCellValue({
             value: reactEvent.target.value,
             name: column.dataIndex,
             column,
             columns,
-            stateKey
+            stateKey,
+            rowId: row.key
         })
     );
 };
@@ -164,6 +166,9 @@ export const columns = [
     {
         name: 'Phone Number',
         dataIndex: 'Phone Number',
+        editable: ({ isRowSelected }) => {
+            return isRowSelected;
+        },
         sortable: true,
         className: 'additional-class',
         editor: (
@@ -171,6 +176,7 @@ export const columns = [
             { column, columnIndex, row, stateKey, store, value }
             /* eslint-enable  react/prop-types */
         ) => {
+
             return (
                 <input
                     onChange= {

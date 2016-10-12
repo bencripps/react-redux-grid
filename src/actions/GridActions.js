@@ -54,7 +54,8 @@ export function getAsyncData({
                             total: response.total,
                             currentRecords: response.data,
                             success: true,
-                            stateKey
+                            stateKey,
+                            editMode: extraParams.editMode
                         });
                     }
 
@@ -67,7 +68,8 @@ export function getAsyncData({
                             stateKey,
                             showTreeRootNode,
                             parentId: extraParams.parentId,
-                            partial: response.partial
+                            partial: response.partial,
+                            editMode: extraParams.editMode
                         }));
                     }
 
@@ -119,7 +121,8 @@ export function getAsyncData({
                             total: response.total,
                             currentRecords: response.data,
                             success: true,
-                            stateKey
+                            stateKey,
+                            editMode: extraParams.editMode
                         });
 
                     }
@@ -363,12 +366,12 @@ export function resizeColumns({
 
 }
 
-export function setData({ data, stateKey }) {
-    return { type: SET_DATA, data, stateKey };
+export function setData({ data, stateKey, editMode }) {
+    return { type: SET_DATA, data, stateKey, editMode };
 }
 
 export function setTreeData({
-    data, stateKey, showTreeRootNode, partial, parentId
+    data, stateKey, showTreeRootNode, partial, parentId, editMode
 }) {
 
     // if this is a partial update to
@@ -396,7 +399,8 @@ export function setTreeData({
         data: flat,
         stateKey,
         gridType: 'tree',
-        treeData: data
+        treeData: data,
+        editMode
     };
 }
 

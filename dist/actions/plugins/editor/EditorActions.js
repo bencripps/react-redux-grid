@@ -27,6 +27,13 @@ function editRow(_ref) {
     var columns = _ref.columns;
     var isCreate = _ref.isCreate;
     var stateKey = _ref.stateKey;
+    var _ref$editMode = _ref.editMode;
+    var editMode = _ref$editMode === undefined ? 'inline' : _ref$editMode;
+
+
+    if (!rowId) {
+        throw new Error('rowId is a required parameter for editRow Action');
+    }
 
     return {
         type: _ActionTypes.EDIT_ROW,
@@ -36,16 +43,19 @@ function editRow(_ref) {
         rowIndex: rowIndex,
         columns: columns,
         isCreate: isCreate,
-        stateKey: stateKey
+        stateKey: stateKey,
+        editMode: editMode
     };
 }
 
 function repositionEditor(_ref2) {
     var top = _ref2.top;
     var stateKey = _ref2.stateKey;
+    var rowId = _ref2.rowId;
 
     return {
         type: _ActionTypes.REPOSITION_EDITOR,
+        rowId: rowId,
         stateKey: stateKey,
         top: top
     };
@@ -63,6 +73,7 @@ function updateCellValue(_ref4) {
     var column = _ref4.column;
     var columns = _ref4.columns;
     var stateKey = _ref4.stateKey;
+    var rowId = _ref4.rowId;
 
     return {
         type: _ActionTypes.ROW_VALUE_CHANGE,
@@ -70,7 +81,8 @@ function updateCellValue(_ref4) {
         columnName: name,
         column: column,
         columns: columns,
-        stateKey: stateKey
+        stateKey: stateKey,
+        rowId: rowId
     };
 }
 
@@ -119,6 +131,8 @@ function addNewRow(_ref10) {
     var columns = _ref10.columns;
     var data = _ref10.data;
     var stateKey = _ref10.stateKey;
+    var _ref10$editMode = _ref10.editMode;
+    var editMode = _ref10$editMode === undefined ? 'inline' : _ref10$editMode;
 
 
     return function (dispatch) {
@@ -137,7 +151,8 @@ function addNewRow(_ref10) {
             rowIndex: rowIndex,
             columns: columns,
             isCreate: isCreate,
-            stateKey: stateKey
+            stateKey: stateKey,
+            editMode: editMode
         }));
     };
 }

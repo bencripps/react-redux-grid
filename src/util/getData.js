@@ -2,7 +2,7 @@ import { List, fromJS } from 'immutable';
 import { camelize } from './camelize';
 
 export const getData = (
-    rowData = {}, columns = {}, colIndex = 0
+    rowData = {}, columns = {}, colIndex = 0, editorValues = {}
 ) => {
 
     const column = columns[colIndex];
@@ -15,6 +15,10 @@ export const getData = (
 
     if (!dataIndex) {
         throw new Error('No dataIndex found on column', column);
+    }
+
+    if (editorValues && editorValues[dataIndex] !== undefined) {
+        return editorValues[dataIndex];
     }
 
     if (typeof dataIndex === 'string') {

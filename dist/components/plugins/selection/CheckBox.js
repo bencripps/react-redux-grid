@@ -39,7 +39,7 @@ var CheckBox = exports.CheckBox = function CheckBox(_ref) {
 
 
     var checkBoxContainerProps = {
-        className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER)
+        className: (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER, type === 'header' && selectionModelConfig.mode === _GridConstants.SELECTION_MODES.checkboxSingle ? 'hidden' : '')
     };
 
     var checkBoxProps = {

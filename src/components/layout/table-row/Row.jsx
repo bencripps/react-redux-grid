@@ -53,10 +53,12 @@ export class Row extends Component {
             addEmptyCells(row, columns);
         }
 
+        const isSelected = selectedRows ? selectedRows[id] : false;
+
         const cells = Object.keys(cellValues).map((k, i) => {
 
             const cellProps = {
-                cellData: getCellData(columns, row, k, i, store),
+                cellData: getCellData(columns, editor, editorState, row, k, i, store),
                 columns,
                 dragAndDrop,
                 editor,
@@ -73,6 +75,7 @@ export class Row extends Component {
                 showTreeRootNode,
                 stateful,
                 stateKey,
+                isRowSelected: isSelected,
                 store,
                 treeData: {
                     ...treeData,
@@ -90,11 +93,9 @@ export class Row extends Component {
 
         });
 
-        const isSelected = selectedRows ? selectedRows[id] : false;
-
         const editClass = editorState
-            && editorState.row
-            && editorState.row.key === id
+            && editorState[id]
+            && editor.config.type !== 'grid'
             ? selectionModel.defaults.editCls
             : '';
 
@@ -255,11 +256,25 @@ export const addEmptyInsert = (cells, visibleColumns, plugins) => {
     return cells;
 };
 
-export const getCellData = (columns, row, key, index, store) => {
+export const getCellData = (
+    columns, editor, editorState, row, key, index, store
+) => {
 
-    const valueAtDataIndex = getData(row, columns, index);
+    const rowId = row._key;
+
+    // if a renderer is present, but
+    // were in edited mode, we should use the edited values
+    // since those could be modified using a 'change' function
+    const editedValues = editorState
+        && editorState[rowId]
+        && editorState[rowId].values
+        ? editorState[rowId].values
+        : {};
+
+    const valueAtDataIndex = getData(row, columns, index, editedValues);
 
     // if a render has been provided, default to this
+    // as long as editor type isnt 'grid'
     if (row
         && columns[index]
         && columns[index].renderer
@@ -314,9 +329,7 @@ export const handleRowDoubleClickEvent = (
 ) => {
     if (selectionModel
             && selectionModel.defaults.selectionEvent
-                === selectionModel.eventTypes.doubleclick
-            && selectionModel.defaults.editEvent
-                !== selectionModel.eventTypes.doubleclick) {
+                === selectionModel.eventTypes.doubleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,
@@ -371,9 +384,7 @@ export const handleRowSingleClickEvent = (
 
     if (selectionModel
             && selectionModel.defaults.selectionEvent
-                === selectionModel.eventTypes.singleclick
-            && selectionModel.defaults.editEvent
-                !== selectionModel.eventTypes.singleclick) {
+                === selectionModel.eventTypes.singleclick) {
 
         selectionModel.handleSelectionEvent({
             eventType: reactEvent.type,

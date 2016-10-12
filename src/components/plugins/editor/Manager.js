@@ -12,7 +12,8 @@ export default class Manager {
         };
 
         const editModes = {
-            inline: 'inline'
+            inline: 'inline',
+            grid: 'grid'
         };
 
         const config = plugins && plugins.EDITOR

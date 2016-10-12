@@ -17,6 +17,8 @@ var _getData = require('./../../../util/getData');
 
 var _lastUpdate = require('./../../../util/lastUpdate');
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var initialState = (0, _immutable.fromJS)({
     lastUpdate: (0, _lastUpdate.generateLastUpdate)()
 });
@@ -82,6 +84,7 @@ function editor() {
     var action = arguments[1];
 
     var _ret = function () {
+        var _fromJS;
 
         switch (action.type) {
 
@@ -89,7 +92,7 @@ function editor() {
                 var values = action.values;
 
                 var isValid = isRowValid(action.columns, values);
-                var iOverrides = state.getIn([stateKey, 'row', 'overrides']) ? state.getIn([stateKey, 'row', 'overrides']).toJS() : {};
+                var iOverrides = state.getIn([stateKey, action.rowId, 'overrides']) ? state.getIn([stateKey, action.rowId, 'overrides']).toJS() : {};
 
                 action.columns.forEach(function (col, i) {
                     var val = (0, _getData.getData)(values, action.columns, i);
@@ -100,19 +103,46 @@ function editor() {
                     iOverrides[dataIndex].disabled = setDisabled(col, val, values);
                 });
 
+                var operation = action.editMode === 'inline' ? 'setIn' : 'mergeIn';
+
                 return {
-                    v: state.setIn([action.stateKey], (0, _immutable.fromJS)({
-                        row: {
-                            key: action.rowId,
-                            values: action.values,
-                            rowIndex: action.rowIndex,
-                            top: action.top,
-                            valid: isValid,
-                            isCreate: action.isCreate || false,
-                            overrides: iOverrides
-                        },
-                        lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-                    }))
+                    v: state[operation]([action.stateKey], (0, _immutable.fromJS)((_fromJS = {}, _defineProperty(_fromJS, action.rowId, {
+                        key: action.rowId,
+                        values: action.values,
+                        rowIndex: action.rowIndex,
+                        top: action.top,
+                        valid: isValid,
+                        isCreate: action.isCreate || false,
+                        overrides: iOverrides
+                    }), _defineProperty(_fromJS, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS)))
+                };
+
+            case _ActionTypes.SET_DATA:
+
+                // if grid editor is type 'grid', we need to map the datasource
+                // to editor state
+                if (action.editMode === 'grid') {
+
+                    var dataWithKeys = (0, _getData.setKeysInData)(action.data);
+                    var editorData = dataWithKeys.reduce(function (prev, curr, i) {
+                        return prev.set(curr.get('_key'), (0, _immutable.fromJS)({
+                            key: curr.get('_key'),
+                            values: curr,
+                            rowIndex: i,
+                            top: null,
+                            valid: null,
+                            isCreate: false,
+                            overrides: {}
+                        }));
+                    }, (0, _immutable.Map)({ lastUpdate: (0, _lastUpdate.generateLastUpdate)() }));
+
+                    return {
+                        v: state.mergeIn([action.stateKey], editorData)
+                    };
+                }
+
+                return {
+                    v: state
                 };
 
             case _ActionTypes.ROW_VALUE_CHANGE:
@@ -121,8 +151,8 @@ function editor() {
                 var value = action.value;
                 var stateKey = action.stateKey;
 
-                var previousValues = state.getIn([stateKey, 'row', 'values']) ? state.getIn([stateKey, 'row', 'values']).toJS() : {};
-                var overrides = state.getIn([stateKey, 'row', 'overrides']) ? state.getIn([stateKey, 'row', 'overrides']).toJS() : {};
+                var previousValues = state.getIn([stateKey, action.rowId, 'values']) ? state.getIn([stateKey, action.rowId, 'values']).toJS() : {};
+                var overrides = state.getIn([stateKey, action.rowId, 'overrides']) ? state.getIn([stateKey, action.rowId, 'overrides']).toJS() : {};
 
                 var rowValues = (0, _getData.setDataAtDataIndex)(previousValues, column.dataIndex, value);
 
@@ -146,9 +176,9 @@ function editor() {
 
                 var valid = isRowValid(columns, rowValues);
 
-                state = state.mergeIn([action.stateKey, 'row'], {
+                state = state.mergeIn([action.stateKey, action.rowId], {
                     values: rowValues,
-                    previousValues: state.getIn([stateKey, 'row', 'values']),
+                    previousValues: state.getIn([stateKey, action.rowId, 'values']),
                     valid: valid,
                     overrides: overrides
                 });
@@ -158,16 +188,12 @@ function editor() {
                 };
 
             case _ActionTypes.REPOSITION_EDITOR:
-
-                var row = state.mergeIn([action.stateKey, 'row'], {
+                var newState = state.mergeIn([action.stateKey, action.rowId], {
                     top: action.top
-                }).getIn([action.stateKey, 'row']);
+                });
 
                 return {
-                    v: state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
-                        row: row,
-                        lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-                    }))
+                    v: newState.mergeIn([action.stateKey], { lastUpdate: (0, _lastUpdate.generateLastUpdate)() })
                 };
 
             case _ActionTypes.REMOVE_ROW:

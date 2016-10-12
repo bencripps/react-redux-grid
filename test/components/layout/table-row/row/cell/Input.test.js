@@ -28,7 +28,7 @@ describe('The shallow cell default Input', () => {
             }
         ],
         editorState: {},
-        rowId: 'cmu==1',
+        rowId: 'row-1',
         stateKey: 'test-grid',
         store
     };
@@ -69,11 +69,12 @@ describe('The shallow cell default Input', () => {
                 }
             ],
             editorState: {
-                row: {
-                    isCreate: false
+                'row-1': {
+                    isCreate: false,
+                    key: 'row-1'
                 }
             },
-            rowId: 'cmu==1',
+            rowId: 'row-1',
             stateKey: 'test-grid',
             store
         };
@@ -107,11 +108,12 @@ describe('The shallow cell default Input', () => {
                 }
             ],
             editorState: {
-                row: {
+                'row-1': {
+                    key: 'row-1',
                     isCreate: false
                 }
             },
-            rowId: 'cmu==1',
+            rowId: 'row-1',
             stateKey: 'test-grid',
             store
         };
@@ -145,7 +147,8 @@ describe('The shallow cell default Input', () => {
                 }
             ],
             editorState: {
-                row: {
+                'row-1': {
+                    key: 'row-1',
                     isCreate: false,
                     values: {
                         name: 'Another Name'
@@ -157,7 +160,7 @@ describe('The shallow cell default Input', () => {
                     }
                 }
             },
-            rowId: 'cmu==1',
+            rowId: 'row-1',
             stateKey: 'test-grid',
             store
         };
@@ -192,7 +195,7 @@ describe('The mounted cell Input ', () => {
             }
         ],
         editorState: {},
-        rowId: 'cmu==1',
+        rowId: 'row-1',
         stateKey: 'test-grid',
         store
     };
@@ -204,9 +207,9 @@ describe('The mounted cell Input ', () => {
         cmp.simulate('change', { target: { value: 'Alonzo Morning' } });
 
         setTimeout(() => {
-            const editorState = cmp.props().store.getState().editor.toJS();
+            const editorState = cmp.props().store.getState().editor;
 
-            expect(editorState['test-grid'].row.values.name)
+            expect(editorState.getIn(['test-grid', 'row-1', 'values', 'name']))
                 .toEqual('Alonzo Morning');
 
             done();

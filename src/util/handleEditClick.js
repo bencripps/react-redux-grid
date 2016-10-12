@@ -32,13 +32,19 @@ export const handleEditClick = (
         (row.offsetTop + row.clientHeight + offset)
         : 0;
 
-    if (editor.config.type === editor.editModes.inline) {
-        store.dispatch(
-            editRow({
-                rowId, top, rowData, rowIndex, columns, stateKey
-            })
-        );
-    }
+    // if (editor.config.type === editor.editModes.inline) {
+    store.dispatch(
+        editRow({
+            rowId,
+            top,
+            rowData,
+            rowIndex,
+            columns,
+            stateKey,
+            editMode: editor.config.type
+        })
+    );
+    // }
 };
 
 export const closestRow = (target) => {

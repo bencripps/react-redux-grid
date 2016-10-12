@@ -37,7 +37,7 @@ describe('The Grid Cell Component', () => {
         index: 0,
         rowData: {
             name: 'Tommy Lee Jones',
-            position: 'actor'
+            position: 'actor',
         },
         rowIndex: 3,
         rowId: 'some-id',
@@ -65,7 +65,7 @@ describe('The Grid Cell Component', () => {
         const editableProps = {
             ...props,
             editorState: {
-                row: {
+                ['some-id']: {
                     key: 'some-id'
                 }
             }
@@ -125,7 +125,7 @@ describe('The Grid Cell Component', () => {
 
         modifiedSelModel.defaults.editEvent = 'singleclick';
 
-        const editEvenProps = {
+        const editEventProps = {
             ...props,
             events: {},
             editorState: {
@@ -134,9 +134,9 @@ describe('The Grid Cell Component', () => {
             selectionModel: modifiedSelModel
         };
 
-        const component = mount(<Cell { ...editEvenProps } />);
+        const component = mount(<Cell { ...editEventProps } />);
 
-        const beforEditState = editEvenProps
+        const beforEditState = editEventProps
             .store
             .getState()
             .editor.getIn('test-grid');
@@ -151,10 +151,10 @@ describe('The Grid Cell Component', () => {
             }
         });
 
-        const afterEditState = editEvenProps
+        const afterEditState = editEventProps
             .store
             .getState()
-            .editor.getIn(['test-grid', 'row', 'values']);
+            .editor.getIn(['test-grid', 'some-id', 'values']);
 
         expect(afterEditState)
             .toEqual(fromJS({
@@ -263,7 +263,7 @@ describe('The Grid Cell Component', () => {
         const afterEditState = editEvenProps
             .store
             .getState()
-            .editor.getIn(['dbl-click-grid', 'row', 'values']);
+            .editor.getIn(['dbl-click-grid', 'some-id', 'values']);
 
         expect(afterEditState)
             .toEqual(fromJS({

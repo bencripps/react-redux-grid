@@ -294,8 +294,13 @@ class Grid extends Component {
             expandOnLoad,
             showTreeRootNode,
             stateKey,
+            plugins,
             store
         } = this.props;
+
+        const editMode = isPluginEnabled(plugins, 'EDITOR')
+            ? plugins.EDITOR.type
+            : null;
 
         if (this.gridType === 'tree') {
             if (typeof dataSource === 'string'
@@ -308,7 +313,8 @@ class Grid extends Component {
                         showTreeRootNode,
                         extraParams: {
                             ...extraParams,
-                            expandOnLoad
+                            expandOnLoad,
+                            editMode
                         }
                     })
                 );
@@ -322,7 +328,8 @@ class Grid extends Component {
                         showTreeRootNode,
                         extraParams: {
                             ...extraParams,
-                            expandOnLoad
+                            expandOnLoad,
+                            editMode
                         }
                     })
                 );
@@ -333,13 +340,17 @@ class Grid extends Component {
             if (typeof dataSource === 'string'
                     || typeof dataSource === 'function') {
                 store.dispatch(
-                    getAsyncData({ stateKey, dataSource, extraParams })
+                    getAsyncData({
+                        stateKey,
+                        dataSource,
+                        extraParams: { ...extraParams, editMode }
+                    })
                 );
             }
 
             else if (data) {
                 store.dispatch(
-                    setData({ stateKey, data })
+                    setData({ stateKey, data, editMode })
                 );
             }
 

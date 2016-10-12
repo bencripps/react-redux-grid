@@ -7,8 +7,28 @@ import { nameFromDataIndex } from './../../../../../util/getData';
 const wrapperCls = prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
 
 export const Editor = ({
-    cellData, columns, editorState, index, isEditable, rowId, stateKey, store
+    cellData,
+    columns,
+    editorState,
+    rawValue,
+    index,
+    isEditable,
+    rowData,
+    isRowSelected,
+    rowId,
+    stateKey,
+    store
 }) => {
+
+    if (!editorState) {
+        editorState = {};
+    }
+
+    if (!editorState[rowId]) {
+        editorState[rowId] = {};
+    }
+
+    editorState[rowId].key = rowId;
 
     let colName = columns
         && columns[index]
@@ -23,18 +43,22 @@ export const Editor = ({
         : '';
     }
 
-    const value = editorState
-        && editorState.row
-        && editorState.row.values
-        ? editorState.row.values[colName]
-        : null;
+    const value = editorState[rowId].values
+        ? editorState[rowId].values[colName]
+        : rawValue;
+
+    const editableFuncArgs = {
+        row: editorState[rowId],
+        isRowSelected,
+        store
+    };
 
     if (isEditable
         && columns[index]
         && columns[index].editor
         && (columns[index].editable === undefined || columns[index].editable)
         && (typeof columns[index].editable === 'function'
-                ? columns[index].editable({ row: editorState.row, store })
+                ? columns[index].editable(editableFuncArgs)
                 : true)
         && typeof columns[index].editor === 'function') {
 
@@ -44,9 +68,12 @@ export const Editor = ({
                 columns,
                 store,
                 rowId,
-                row: editorState.row,
+                row: editorState[rowId] && editorState[rowId].values
+                    ? { ...rowData, ...cleanProps(editorState[rowId].values) }
+                    : { key: rowId, ...rowData },
                 columnIndex: index,
-                value: value,
+                value,
+                isRowSelected,
                 stateKey
             }
         );
@@ -60,7 +87,7 @@ export const Editor = ({
         && columns[index]
         && (columns[index].editable === undefined || columns[index].editable)
         && (typeof columns[index].editable === 'function'
-                ? columns[index].editable({ row: editorState.row, store })
+                ? columns[index].editable(editableFuncArgs)
                 : true)) {
         return (
             <span { ...{ className: wrapperCls } }>
@@ -69,8 +96,8 @@ export const Editor = ({
                             column: columns[index],
                             columns,
                             editorState,
-                            cellData,
                             rowId,
+                            cellData: value,
                             stateKey,
                             store
                         }
@@ -87,15 +114,24 @@ export const Editor = ({
         );
 };
 
+export const cleanProps = (obj = {}) => {
+    Object.keys(obj).forEach(k => obj[k] === undefined && delete obj[k]);
+    return obj;
+};
+
 Editor.propTypes = {
     cellData: PropTypes.any,
     columns: PropTypes.array,
     editorState: PropTypes.object,
     index: PropTypes.number,
     isEditable: PropTypes.bool,
+    isRowSelected: PropTypes.bool,
+    rawValue: PropTypes.any,
     rowId: PropTypes.string,
     stateKey: PropTypes.string,
     store: PropTypes.object
 };
 
-Editor.defaultProps = {};
+Editor.defaultProps = {
+    isRowSelected: false
+};

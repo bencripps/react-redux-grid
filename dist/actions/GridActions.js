@@ -66,7 +66,8 @@ function getAsyncData(_ref) {
                             total: response.total,
                             currentRecords: response.data,
                             success: true,
-                            stateKey: stateKey
+                            stateKey: stateKey,
+                            editMode: extraParams.editMode
                         });
                     } else {
                         // upon the return of read
@@ -77,7 +78,8 @@ function getAsyncData(_ref) {
                             stateKey: stateKey,
                             showTreeRootNode: showTreeRootNode,
                             parentId: extraParams.parentId,
-                            partial: response.partial
+                            partial: response.partial,
+                            editMode: extraParams.editMode
                         }));
                     }
 
@@ -117,7 +119,8 @@ function getAsyncData(_ref) {
                             total: response.total,
                             currentRecords: response.data,
                             success: true,
-                            stateKey: stateKey
+                            stateKey: stateKey,
+                            editMode: extraParams.editMode
                         });
                     } else {
                         dispatch({
@@ -346,8 +349,9 @@ function resizeColumns(_ref7) {
 function setData(_ref8) {
     var data = _ref8.data;
     var stateKey = _ref8.stateKey;
+    var editMode = _ref8.editMode;
 
-    return { type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey };
+    return { type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey, editMode: editMode };
 }
 
 function setTreeData(_ref9) {
@@ -356,6 +360,7 @@ function setTreeData(_ref9) {
     var showTreeRootNode = _ref9.showTreeRootNode;
     var partial = _ref9.partial;
     var parentId = _ref9.parentId;
+    var editMode = _ref9.editMode;
 
 
     // if this is a partial update to
@@ -383,7 +388,8 @@ function setTreeData(_ref9) {
         data: flat,
         stateKey: stateKey,
         gridType: 'tree',
-        treeData: data
+        treeData: data,
+        editMode: editMode
     };
 }
 
