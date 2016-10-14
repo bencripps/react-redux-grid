@@ -13,7 +13,7 @@ import {
 
 import { keyGenerator } from '../../../util/keyGenerator';
 
-export function editRow({
+export const editRow = ({
     rowId,
     top,
     rowData = {},
@@ -22,7 +22,7 @@ export function editRow({
     isCreate,
     stateKey,
     editMode = 'inline'
-}) {
+}) => {
 
     if (!rowId) {
         throw new Error('rowId is a required parameter for editRow Action');
@@ -39,82 +39,75 @@ export function editRow({
         stateKey,
         editMode
     };
-}
+};
 
-export function repositionEditor({ top, stateKey, rowId }) {
-    return {
-        type: REPOSITION_EDITOR,
-        rowId,
-        stateKey,
-        top
-    };
-}
+export const repositionEditor = ({ top, stateKey, rowId }) => ({
+    type: REPOSITION_EDITOR,
+    rowId,
+    stateKey,
+    top
+});
 
-export function dismissEditor({ stateKey }) {
-    return { type: DISMISS_EDITOR, stateKey };
-}
+export const dismissEditor = ({ stateKey }) => ({
+    type: DISMISS_EDITOR, stateKey
+});
 
-export function updateCellValue({
+export const updateCellValue = ({
     value, name, column, columns, stateKey, rowId
-}) {
-    return {
-        type: ROW_VALUE_CHANGE,
-        value,
-        columnName: name,
-        column,
-        columns,
-        stateKey,
-        rowId
-    };
-}
+}) => ({
+    type: ROW_VALUE_CHANGE,
+    value,
+    columnName: name,
+    column,
+    columns,
+    stateKey,
+    rowId
+});
 
-export function saveRow({ values, rowIndex, stateKey }) {
-    return { type: SAVE_ROW, values, rowIndex, stateKey };
-}
+export const saveRow = ({ values, rowIndex, stateKey }) => ({
+    type: SAVE_ROW, values, rowIndex, stateKey
+});
 
-export function cancelRow({ stateKey }) {
-    return { type: CANCEL_ROW, stateKey };
-}
+export const cancelRow = ({ stateKey }) => ({
+    type: CANCEL_ROW, stateKey
+});
 
-export function removeRow({ rowIndex, stateKey }) {
-    return { type: REMOVE_ROW, rowIndex, stateKey };
-}
+export const removeRow = ({ rowIndex, stateKey }) => ({
+    type: REMOVE_ROW, rowIndex, stateKey
+});
 
-export function setEditorValidation({ validationState, stateKey }) {
-    return { type: EDITOR_VALIDATION, validationState, stateKey };
-}
+export const setEditorValidation = ({ validationState, stateKey }) => ({
+    type: EDITOR_VALIDATION, validationState, stateKey
+});
 
-export function updateRow({ stateKey, rowIndex, values }) {
-    return {
-        type: UPDATE_ROW,
-        stateKey,
-        rowIndex,
-        values
-    };
-}
+export const updateRow = ({ stateKey, rowIndex, values }) => ({
+    type: UPDATE_ROW,
+    stateKey,
+    rowIndex,
+    values
+});
 
-export function addNewRow({ columns, data, stateKey, editMode = 'inline' }) {
+export const addNewRow = ({
+    columns, data, stateKey, editMode = 'inline'
+}) => (dispatch) => {
+    const rowId = keyGenerator('row', 0);
+    const top = 43;
+    const rowData = data || {};
+    const rowIndex = 0;
+    const isCreate = true;
 
-    return (dispatch) => {
-        const rowId = keyGenerator('row', 0);
-        const top = 43;
-        const rowData = data || {};
-        const rowIndex = 0;
-        const isCreate = true;
+    dispatch({ type: ADD_NEW_ROW, stateKey, rowId });
 
-        dispatch({ type: ADD_NEW_ROW, stateKey, rowId });
-
-        dispatch(
-            editRow({
-                rowId,
-                top,
-                rowData,
-                rowIndex,
-                columns,
-                isCreate,
-                stateKey,
-                editMode
-            })
-        );
-    };
-}
+    dispatch(
+        editRow({
+            rowId,
+            top,
+            rowData,
+            rowIndex,
+            columns,
+            isCreate,
+            stateKey,
+            editMode
+        })
+    );
+};

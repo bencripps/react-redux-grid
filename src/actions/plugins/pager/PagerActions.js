@@ -11,14 +11,13 @@ import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
 import Request from '../../../components/plugins/ajax/Request';
 
-export function setPage({ index, type, BUTTON_TYPES }) {
-
+export const setPage = ({ index, type, BUTTON_TYPES }) => {
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
     return { type: PAGE_LOCAL, pageIndex };
-}
+};
 
-export function setPageIndexAsync({
+export const setPageIndexAsync = ({
     pageIndex,
     pageSize,
     dataSource,
@@ -26,7 +25,7 @@ export function setPageIndexAsync({
     sort,
     stateKey,
     afterAsyncFunc
-}) {
+}) => {
 
     if (typeof dataSource === 'function') {
 
@@ -62,6 +61,7 @@ export function setPageIndexAsync({
                 else {
 
                     if (response && !response.data) {
+                        /* eslint-disable no-console */
                         console.warn([
                             'A response was recieved but',
                             'no data entry was found'
@@ -71,6 +71,7 @@ export function setPageIndexAsync({
                             'https://github.com/bencripps/react-redux-grid',
                             'for documentation'
                         ].join(' '));
+                        /* eslint-enable no-console */
                     }
 
                     dispatch({
@@ -87,11 +88,11 @@ export function setPageIndexAsync({
             });
         };
     }
-}
+};
 
-export function setPageAsync({
+export const setPageAsync = ({
     index, pageSize, type, BUTTON_TYPES, dataSource, stateKey
-}) {
+}) => {
 
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
@@ -143,4 +144,4 @@ export function setPageAsync({
 
         });
     };
-}
+};

@@ -3,10 +3,10 @@ import {
     HIDE_MENU
 } from '../../../constants/ActionTypes';
 
-export function showMenu({ id, stateKey }) {
-    return { type: SHOW_MENU, id, stateKey };
-}
+export const showMenu = ({ id, stateKey }) => ({
+    type: SHOW_MENU, id, stateKey
+});
 
-export function hideMenu({ id, stateKey }) {
-    return { type: HIDE_MENU, id, stateKey };
-}
+export const hideMenu = ({ id, stateKey }) => ({
+    type: HIDE_MENU, id, stateKey
+});

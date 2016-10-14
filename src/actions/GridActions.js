@@ -21,9 +21,9 @@ import { treeToFlatList } from '../util/treeToFlatList';
 
 import Request from '../components/plugins/ajax/Request';
 
-export function getAsyncData({
+export const getAsyncData = ({
     stateKey, dataSource, type, showTreeRootNode, extraParams = {}
-}) {
+}) => {
 
     return (dispatch) => {
 
@@ -143,50 +143,48 @@ export function getAsyncData({
 
             }
 
-            else {
+            return Request.api({
+                route: dataSource,
+                method: 'GET',
+                queryStringParams: {
+                    parentId: extraParams.parentId
+                }
+            }).then((response) => {
 
-                return Request.api({
-                    route: dataSource,
-                    method: 'GET',
-                    queryStringParams: {
+                if (response && response.data) {
+
+                    // response needs to specify
+                    // whether this is full or partial update
+                    dispatch(setTreeData({
+                        data: response.data,
+                        stateKey,
+                        showTreeRootNode,
+                        partial: response.partial,
                         parentId: extraParams.parentId
-                    }
-                }).then((response) => {
+                    }));
 
-                    if (response && response.data) {
+                }
 
-                        // response needs to specify
-                        // whether this is full or partial update
-                        dispatch(setTreeData({
-                            data: response.data,
-                            stateKey,
-                            showTreeRootNode,
-                            partial: response.partial,
-                            parentId: extraParams.parentId
-                        }));
+                else {
+                    dispatch({
+                        type: ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true,
+                        stateKey
+                    });
+                }
 
-                    }
+                dispatch(
+                    setLoaderState({state: false, stateKey })
+                );
+            });
 
-                    else {
-                        dispatch({
-                            type: ERROR_OCCURRED,
-                            error: 'Unable to Retrieve Grid Data',
-                            errorOccurred: true,
-                            stateKey
-                        });
-                    }
-
-                    dispatch(
-                        setLoaderState({state: false, stateKey })
-                    );
-                });
-            }
         }
 
     };
-}
+};
 
-export function setColumns({ columns, stateKey, stateful }) {
+export const setColumns = ({ columns, stateKey, stateful }) => {
 
     let cols = columns;
 
@@ -198,11 +196,11 @@ export function setColumns({ columns, stateKey, stateful }) {
     }
 
     return { type: SET_COLUMNS, columns: cols, stateKey, stateful };
-}
+};
 
-export function setSortDirection({
+export const setSortDirection = ({
     columns, id, sortDirection, stateKey
-}) {
+}) => {
 
     let cols = columns;
 
@@ -222,15 +220,15 @@ export function setSortDirection({
     });
 
     return { type: SET_SORT_DIRECTION, columns: cols, stateKey };
-}
+};
 
-export function doLocalSort({ data, stateKey }) {
-    return { type: SORT_DATA, data, stateKey };
-}
+export const doLocalSort = ({ data, stateKey }) => ({
+    type: SORT_DATA, data, stateKey
+});
 
-export function doRemoteSort(
-    { dataSource, pageIndex, pageSize, sortParams, stateKey }
-) {
+export const doRemoteSort = ({
+    dataSource, pageIndex, pageSize, sortParams, stateKey
+}) => {
 
     return (dispatch) => {
 
@@ -321,11 +319,11 @@ export function doRemoteSort(
         });
 
     };
-}
+};
 
-export function setColumnVisibility({
+export const setColumnVisibility = ({
  columns, column, isHidden, stateKey, stateful
-}) {
+}) => {
     const hidden = !isHidden;
 
     const columnsArr = columns.map((col) => {
@@ -337,11 +335,11 @@ export function setColumnVisibility({
     });
 
     return { type: SET_COLUMNS, columns: columnsArr, stateKey, stateful };
-}
+};
 
-export function resizeColumns({
+export const resizeColumns = ({
     width, id, nextColumn, columns, stateKey, stateful
-}) {
+}) => {
 
     const cols = columns.map((col) => {
 
@@ -364,15 +362,15 @@ export function resizeColumns({
         stateful
     };
 
-}
+};
 
-export function setData({ data, stateKey, editMode }) {
-    return { type: SET_DATA, data, stateKey, editMode };
-}
+export const setData = ({ data, stateKey, editMode }) => ({
+    type: SET_DATA, data, stateKey, editMode
+});
 
-export function setTreeData({
+export const setTreeData = ({
     data, stateKey, showTreeRootNode, partial, parentId, editMode
-}) {
+}) => {
 
     // if this is a partial update to
     // a tree grid, dispatch separate action;
@@ -402,32 +400,28 @@ export function setTreeData({
         treeData: data,
         editMode
     };
-}
+};
 
-export function setTreeNodeVisibility({
+export const setTreeNodeVisibility = ({
     id, visible, stateKey, showTreeRootNode
-}) {
-    return {
-        type: SET_TREE_NODE_VISIBILITY,
-        id,
-        visible,
-        stateKey,
-        showTreeRootNode
-    };
-}
+}) => ({
+    type: SET_TREE_NODE_VISIBILITY,
+    id,
+    visible,
+    stateKey,
+    showTreeRootNode
+});
 
-export function moveNode({
+export const moveNode = ({
     stateKey, current, next, showTreeRootNode
-}) {
-    return {
-        type: MOVE_NODE,
-        stateKey,
-        current,
-        next,
-        showTreeRootNode
-    };
-}
+}) => ({
+    type: MOVE_NODE,
+    stateKey,
+    current,
+    next,
+    showTreeRootNode
+});
 
-export function setHeaderVisibility({ hidden, stateKey }) {
-    return { type: HIDE_HEADER, headerHidden: hidden, stateKey };
-}
+export const setHeaderVisibility = ({ hidden, stateKey }) => ({
+    type: HIDE_HEADER, headerHidden: hidden, stateKey
+});
