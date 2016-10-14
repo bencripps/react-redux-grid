@@ -3,13 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeToolbar = removeToolbar;
+exports.removeToolbar = undefined;
 
 var _ActionTypes = require('../../../constants/ActionTypes');
 
-function removeToolbar(_ref) {
+var removeToolbar = exports.removeToolbar = function removeToolbar(_ref) {
     var state = _ref.state;
     var stateKey = _ref.stateKey;
-
-    return { type: _ActionTypes.REMOVE_TOOLBAR, value: state, stateKey: stateKey };
-}
+    return {
+        type: _ActionTypes.REMOVE_TOOLBAR, value: state, stateKey: stateKey
+    };
+};

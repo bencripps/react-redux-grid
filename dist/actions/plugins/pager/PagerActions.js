@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setPage = setPage;
-exports.setPageIndexAsync = setPageIndexAsync;
-exports.setPageAsync = setPageAsync;
+exports.setPageAsync = exports.setPageIndexAsync = exports.setPage = undefined;
 
 var _ActionTypes = require('../../../constants/ActionTypes');
 
@@ -19,18 +17,17 @@ var _Request2 = _interopRequireDefault(_Request);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function setPage(_ref) {
+var setPage = exports.setPage = function setPage(_ref) {
     var index = _ref.index;
     var type = _ref.type;
     var BUTTON_TYPES = _ref.BUTTON_TYPES;
 
-
     var pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
     return { type: _ActionTypes.PAGE_LOCAL, pageIndex: pageIndex };
-}
+};
 
-function setPageIndexAsync(_ref2) {
+var setPageIndexAsync = exports.setPageIndexAsync = function setPageIndexAsync(_ref2) {
     var pageIndex = _ref2.pageIndex;
     var pageSize = _ref2.pageSize;
     var dataSource = _ref2.dataSource;
@@ -67,8 +64,10 @@ function setPageIndexAsync(_ref2) {
                 } else {
 
                     if (response && !response.data) {
+                        /* eslint-disable no-console */
                         console.warn(['A response was recieved but', 'no data entry was found'].join(' '));
                         console.warn(['Please see', 'https://github.com/bencripps/react-redux-grid', 'for documentation'].join(' '));
+                        /* eslint-enable no-console */
                     }
 
                     dispatch({
@@ -83,9 +82,9 @@ function setPageIndexAsync(_ref2) {
             });
         };
     }
-}
+};
 
-function setPageAsync(_ref3) {
+var setPageAsync = exports.setPageAsync = function setPageAsync(_ref3) {
     var index = _ref3.index;
     var pageSize = _ref3.pageSize;
     var type = _ref3.type;
@@ -137,4 +136,4 @@ function setPageAsync(_ref3) {
             }
         });
     };
-}
+};

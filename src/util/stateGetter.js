@@ -10,7 +10,7 @@
 
 */
 
-export function stateGetter(state, props, key, entry) {
+export const stateGetter = (state, props, key, entry) => {
 
     if (props
         && props.reducerKeys
@@ -18,59 +18,25 @@ export function stateGetter(state, props, key, entry) {
         && props.reducerKeys[key]) {
 
         const dynamicKey = props.reducerKeys[key];
+        const dynamicState = get(state, dynamicKey, entry);
 
-        const dynamicState = state
-            && state[dynamicKey]
-            && state[dynamicKey].get
-            && state[dynamicKey].get(entry)
-            ? state[dynamicKey].get(entry)
-            : null;
-
-        return dynamicState &&
-            dynamicState.toJS
+        return dynamicState && dynamicState.toJS
             ? dynamicState.toJS()
             : dynamicState;
     }
 
-    const firstTry = state
-        && state[key]
-        && state[key].get
-        && state[key].get(entry)
-        ? state[key].get(entry)
-        : null;
+    const val = get(state, key, entry);
 
-    if (firstTry) {
-        return firstTry.toJS ? firstTry.toJS() : firstTry;
-    }
-
-    const keys = Object.keys(state);
-    const normalizedKeys = keys
-        .map((s) => s.toLowerCase());
-
-    const keyIndex = normalizedKeys.indexOf(key.toLowerCase());
-
-    if (keyIndex !== -1) {
-        const secondTry = state
-            && state[keys[keyIndex]]
-            && state[keys[keyIndex]].get
-            && state[keys[keyIndex]].get(entry)
-            ? state[keys[keyIndex]].get(entry)
-            : null;
-
-        if (!state[keys[keyIndex]]) {
-            /* eslint-disable no-console */
-            console.warn([
-                'Case insensitivity for reducer keys will no longer',
-                'be supported in the next major release.',
-                'Please update your reducer keys',
-                'to match the main exports.'
-            ]);
-        }
-
-        return secondTry && secondTry.toJS
-            ? secondTry.toJS()
-            : secondTry;
+    if (val) {
+        return val.toJS ? val.toJS() : val;
     }
 
     return null;
-}
+};
+
+export const get = (state, key, entry) => state
+    && state[key]
+    && state[key].get
+    && state[key].get(entry)
+        ? state[key].get(entry)
+        : null;

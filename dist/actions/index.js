@@ -43,8 +43,6 @@ var SelectionActions = _interopRequireWildcard(_ModelActions);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-console.log(SelectionActions);
-
 var Actions = exports.Actions = {
     BulkActions: BulkActions,
     ColumnManagerActions: ColumnManagerActions,

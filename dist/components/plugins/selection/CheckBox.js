@@ -108,7 +108,9 @@ CheckBox.propTypes = {
     type: _react.PropTypes.string
 };
 
-CheckBox.defaultProps = {};
+CheckBox.defaultProps = {
+    selectionModelConfig: {}
+};
 
 function mapStateToProps(state, props) {
     return {

@@ -3,18 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getAsyncData = getAsyncData;
-exports.setColumns = setColumns;
-exports.setSortDirection = setSortDirection;
-exports.doLocalSort = doLocalSort;
-exports.doRemoteSort = doRemoteSort;
-exports.setColumnVisibility = setColumnVisibility;
-exports.resizeColumns = resizeColumns;
-exports.setData = setData;
-exports.setTreeData = setTreeData;
-exports.setTreeNodeVisibility = setTreeNodeVisibility;
-exports.moveNode = moveNode;
-exports.setHeaderVisibility = setHeaderVisibility;
+exports.setHeaderVisibility = exports.moveNode = exports.setTreeNodeVisibility = exports.setTreeData = exports.setData = exports.resizeColumns = exports.setColumnVisibility = exports.doRemoteSort = exports.doLocalSort = exports.setSortDirection = exports.setColumns = exports.getAsyncData = undefined;
 
 var _ActionTypes = require('../constants/ActionTypes');
 
@@ -32,7 +21,7 @@ var _Request2 = _interopRequireDefault(_Request);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getAsyncData(_ref) {
+var getAsyncData = exports.getAsyncData = function getAsyncData(_ref) {
     var stateKey = _ref.stateKey;
     var dataSource = _ref.dataSource;
     var type = _ref.type;
@@ -133,44 +122,43 @@ function getAsyncData(_ref) {
 
                     dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
                 });
-            } else {
-
-                return _Request2.default.api({
-                    route: dataSource,
-                    method: 'GET',
-                    queryStringParams: {
-                        parentId: extraParams.parentId
-                    }
-                }).then(function (response) {
-
-                    if (response && response.data) {
-
-                        // response needs to specify
-                        // whether this is full or partial update
-                        dispatch(setTreeData({
-                            data: response.data,
-                            stateKey: stateKey,
-                            showTreeRootNode: showTreeRootNode,
-                            partial: response.partial,
-                            parentId: extraParams.parentId
-                        }));
-                    } else {
-                        dispatch({
-                            type: _ActionTypes.ERROR_OCCURRED,
-                            error: 'Unable to Retrieve Grid Data',
-                            errorOccurred: true,
-                            stateKey: stateKey
-                        });
-                    }
-
-                    dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
-                });
             }
+
+            return _Request2.default.api({
+                route: dataSource,
+                method: 'GET',
+                queryStringParams: {
+                    parentId: extraParams.parentId
+                }
+            }).then(function (response) {
+
+                if (response && response.data) {
+
+                    // response needs to specify
+                    // whether this is full or partial update
+                    dispatch(setTreeData({
+                        data: response.data,
+                        stateKey: stateKey,
+                        showTreeRootNode: showTreeRootNode,
+                        partial: response.partial,
+                        parentId: extraParams.parentId
+                    }));
+                } else {
+                    dispatch({
+                        type: _ActionTypes.ERROR_OCCURRED,
+                        error: 'Unable to Retrieve Grid Data',
+                        errorOccurred: true,
+                        stateKey: stateKey
+                    });
+                }
+
+                dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
+            });
         }
     };
-}
+};
 
-function setColumns(_ref2) {
+var setColumns = exports.setColumns = function setColumns(_ref2) {
     var columns = _ref2.columns;
     var stateKey = _ref2.stateKey;
     var stateful = _ref2.stateful;
@@ -186,9 +174,9 @@ function setColumns(_ref2) {
     }
 
     return { type: _ActionTypes.SET_COLUMNS, columns: cols, stateKey: stateKey, stateful: stateful };
-}
+};
 
-function setSortDirection(_ref3) {
+var setSortDirection = exports.setSortDirection = function setSortDirection(_ref3) {
     var columns = _ref3.columns;
     var id = _ref3.id;
     var sortDirection = _ref3.sortDirection;
@@ -211,16 +199,17 @@ function setSortDirection(_ref3) {
     });
 
     return { type: _ActionTypes.SET_SORT_DIRECTION, columns: cols, stateKey: stateKey };
-}
+};
 
-function doLocalSort(_ref4) {
+var doLocalSort = exports.doLocalSort = function doLocalSort(_ref4) {
     var data = _ref4.data;
     var stateKey = _ref4.stateKey;
+    return {
+        type: _ActionTypes.SORT_DATA, data: data, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.SORT_DATA, data: data, stateKey: stateKey };
-}
-
-function doRemoteSort(_ref5) {
+var doRemoteSort = exports.doRemoteSort = function doRemoteSort(_ref5) {
     var dataSource = _ref5.dataSource;
     var pageIndex = _ref5.pageIndex;
     var pageSize = _ref5.pageSize;
@@ -296,9 +285,9 @@ function doRemoteSort(_ref5) {
             dispatch((0, _LoaderActions.setLoaderState)({ state: false, stateKey: stateKey }));
         });
     };
-}
+};
 
-function setColumnVisibility(_ref6) {
+var setColumnVisibility = exports.setColumnVisibility = function setColumnVisibility(_ref6) {
     var columns = _ref6.columns;
     var column = _ref6.column;
     var isHidden = _ref6.isHidden;
@@ -316,9 +305,9 @@ function setColumnVisibility(_ref6) {
     });
 
     return { type: _ActionTypes.SET_COLUMNS, columns: columnsArr, stateKey: stateKey, stateful: stateful };
-}
+};
 
-function resizeColumns(_ref7) {
+var resizeColumns = exports.resizeColumns = function resizeColumns(_ref7) {
     var width = _ref7.width;
     var id = _ref7.id;
     var nextColumn = _ref7.nextColumn;
@@ -344,17 +333,18 @@ function resizeColumns(_ref7) {
         columns: cols,
         stateful: stateful
     };
-}
+};
 
-function setData(_ref8) {
+var setData = exports.setData = function setData(_ref8) {
     var data = _ref8.data;
     var stateKey = _ref8.stateKey;
     var editMode = _ref8.editMode;
+    return {
+        type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey, editMode: editMode
+    };
+};
 
-    return { type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey, editMode: editMode };
-}
-
-function setTreeData(_ref9) {
+var setTreeData = exports.setTreeData = function setTreeData(_ref9) {
     var data = _ref9.data;
     var stateKey = _ref9.stateKey;
     var showTreeRootNode = _ref9.showTreeRootNode;
@@ -391,14 +381,13 @@ function setTreeData(_ref9) {
         treeData: data,
         editMode: editMode
     };
-}
+};
 
-function setTreeNodeVisibility(_ref10) {
+var setTreeNodeVisibility = exports.setTreeNodeVisibility = function setTreeNodeVisibility(_ref10) {
     var id = _ref10.id;
     var visible = _ref10.visible;
     var stateKey = _ref10.stateKey;
     var showTreeRootNode = _ref10.showTreeRootNode;
-
     return {
         type: _ActionTypes.SET_TREE_NODE_VISIBILITY,
         id: id,
@@ -406,14 +395,13 @@ function setTreeNodeVisibility(_ref10) {
         stateKey: stateKey,
         showTreeRootNode: showTreeRootNode
     };
-}
+};
 
-function moveNode(_ref11) {
+var moveNode = exports.moveNode = function moveNode(_ref11) {
     var stateKey = _ref11.stateKey;
     var current = _ref11.current;
     var next = _ref11.next;
     var showTreeRootNode = _ref11.showTreeRootNode;
-
     return {
         type: _ActionTypes.MOVE_NODE,
         stateKey: stateKey,
@@ -421,11 +409,12 @@ function moveNode(_ref11) {
         next: next,
         showTreeRootNode: showTreeRootNode
     };
-}
+};
 
-function setHeaderVisibility(_ref12) {
+var setHeaderVisibility = exports.setHeaderVisibility = function setHeaderVisibility(_ref12) {
     var hidden = _ref12.hidden;
     var stateKey = _ref12.stateKey;
-
-    return { type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey };
-}
+    return {
+        type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey
+    };
+};

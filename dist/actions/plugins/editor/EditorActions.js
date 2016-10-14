@@ -3,22 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.editRow = editRow;
-exports.repositionEditor = repositionEditor;
-exports.dismissEditor = dismissEditor;
-exports.updateCellValue = updateCellValue;
-exports.saveRow = saveRow;
-exports.cancelRow = cancelRow;
-exports.removeRow = removeRow;
-exports.setEditorValidation = setEditorValidation;
-exports.updateRow = updateRow;
-exports.addNewRow = addNewRow;
+exports.addNewRow = exports.updateRow = exports.setEditorValidation = exports.removeRow = exports.cancelRow = exports.saveRow = exports.updateCellValue = exports.dismissEditor = exports.repositionEditor = exports.editRow = undefined;
 
 var _ActionTypes = require('../../../constants/ActionTypes');
 
 var _keyGenerator = require('../../../util/keyGenerator');
 
-function editRow(_ref) {
+var editRow = exports.editRow = function editRow(_ref) {
     var rowId = _ref.rowId;
     var top = _ref.top;
     var _ref$rowData = _ref.rowData;
@@ -46,35 +37,34 @@ function editRow(_ref) {
         stateKey: stateKey,
         editMode: editMode
     };
-}
+};
 
-function repositionEditor(_ref2) {
+var repositionEditor = exports.repositionEditor = function repositionEditor(_ref2) {
     var top = _ref2.top;
     var stateKey = _ref2.stateKey;
     var rowId = _ref2.rowId;
-
     return {
         type: _ActionTypes.REPOSITION_EDITOR,
         rowId: rowId,
         stateKey: stateKey,
         top: top
     };
-}
+};
 
-function dismissEditor(_ref3) {
+var dismissEditor = exports.dismissEditor = function dismissEditor(_ref3) {
     var stateKey = _ref3.stateKey;
+    return {
+        type: _ActionTypes.DISMISS_EDITOR, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.DISMISS_EDITOR, stateKey: stateKey };
-}
-
-function updateCellValue(_ref4) {
+var updateCellValue = exports.updateCellValue = function updateCellValue(_ref4) {
     var value = _ref4.value;
     var name = _ref4.name;
     var column = _ref4.column;
     var columns = _ref4.columns;
     var stateKey = _ref4.stateKey;
     var rowId = _ref4.rowId;
-
     return {
         type: _ActionTypes.ROW_VALUE_CHANGE,
         value: value,
@@ -84,57 +74,58 @@ function updateCellValue(_ref4) {
         stateKey: stateKey,
         rowId: rowId
     };
-}
+};
 
-function saveRow(_ref5) {
+var saveRow = exports.saveRow = function saveRow(_ref5) {
     var values = _ref5.values;
     var rowIndex = _ref5.rowIndex;
     var stateKey = _ref5.stateKey;
+    return {
+        type: _ActionTypes.SAVE_ROW, values: values, rowIndex: rowIndex, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.SAVE_ROW, values: values, rowIndex: rowIndex, stateKey: stateKey };
-}
-
-function cancelRow(_ref6) {
+var cancelRow = exports.cancelRow = function cancelRow(_ref6) {
     var stateKey = _ref6.stateKey;
+    return {
+        type: _ActionTypes.CANCEL_ROW, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.CANCEL_ROW, stateKey: stateKey };
-}
-
-function removeRow(_ref7) {
+var removeRow = exports.removeRow = function removeRow(_ref7) {
     var rowIndex = _ref7.rowIndex;
     var stateKey = _ref7.stateKey;
+    return {
+        type: _ActionTypes.REMOVE_ROW, rowIndex: rowIndex, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.REMOVE_ROW, rowIndex: rowIndex, stateKey: stateKey };
-}
-
-function setEditorValidation(_ref8) {
+var setEditorValidation = exports.setEditorValidation = function setEditorValidation(_ref8) {
     var validationState = _ref8.validationState;
     var stateKey = _ref8.stateKey;
+    return {
+        type: _ActionTypes.EDITOR_VALIDATION, validationState: validationState, stateKey: stateKey
+    };
+};
 
-    return { type: _ActionTypes.EDITOR_VALIDATION, validationState: validationState, stateKey: stateKey };
-}
-
-function updateRow(_ref9) {
+var updateRow = exports.updateRow = function updateRow(_ref9) {
     var stateKey = _ref9.stateKey;
     var rowIndex = _ref9.rowIndex;
     var values = _ref9.values;
-
     return {
         type: _ActionTypes.UPDATE_ROW,
         stateKey: stateKey,
         rowIndex: rowIndex,
         values: values
     };
-}
+};
 
-function addNewRow(_ref10) {
+var addNewRow = exports.addNewRow = function addNewRow(_ref10) {
     var columns = _ref10.columns;
     var data = _ref10.data;
     var stateKey = _ref10.stateKey;
     var _ref10$editMode = _ref10.editMode;
     var editMode = _ref10$editMode === undefined ? 'inline' : _ref10$editMode;
-
-
     return function (dispatch) {
         var rowId = (0, _keyGenerator.keyGenerator)('row', 0);
         var top = 43;
@@ -155,4 +146,4 @@ function addNewRow(_ref10) {
             editMode: editMode
         }));
     };
-}
+};
