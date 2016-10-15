@@ -8,6 +8,36 @@ import {
 
 describe('the moveTreeNode utility', () => {
 
+    it('should return original data if no current parent', () => {
+        expect(
+            moveTreeNode(
+                fromJS({
+                    root: {
+                        id: -1,
+                        children: [
+                            { id: 1, parentId: -1 },
+                            { id: 2, parentId: -1 },
+                            { id: 3, parentId: -1 }
+                        ]
+                    }
+                }),
+                0,
+                List([]),
+                0,
+                List([-1])
+            ).toJS()
+        ).toEqual({
+            root: {
+                id: -1,
+                children: [
+                    { id: 1, parentId: -1 },
+                    { id: 2, parentId: -1 },
+                    { id: 3, parentId: -1 }
+                ]
+            }
+        });
+    });
+
     it('should change the order of sibilings', () => {
 
         expect(

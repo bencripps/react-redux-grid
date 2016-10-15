@@ -245,6 +245,11 @@ describe('the treeFlatList utility', () => {
 
     });
 
+    it('Should throw an error if no data is passed', () => {
+        expect(() => { treeToFlatList(); })
+            .toThrow('Expected data to be defined');
+    });
+
     it('Should pass data along with constructed nodes', () => {
 
         const data = {
