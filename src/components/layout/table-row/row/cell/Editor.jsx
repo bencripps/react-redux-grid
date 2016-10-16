@@ -79,7 +79,9 @@ export const Editor = ({
         );
 
         return (
-            <span { ...{ className: wrapperCls } }> { input } </span>
+            <span className={ wrapperCls }>
+                { input }
+            </span>
             );
     }
 
@@ -90,25 +92,22 @@ export const Editor = ({
                 ? columns[index].editable(editableFuncArgs)
                 : true)) {
         return (
-            <span { ...{ className: wrapperCls } }>
-                <Input {
-                        ...{
-                            column: columns[index],
-                            columns,
-                            editorState,
-                            rowId,
-                            cellData: value,
-                            stateKey,
-                            store
-                        }
-                    }
+            <span className={ wrapperCls }>
+                <Input
+                    cellData={ value }
+                    column={ columns[index] }
+                    columns={ columns }
+                    editorState={ editorState }
+                    rowId={ rowId }
+                    stateKey={ stateKey }
+                    store={ store }
                 />
             </span>
             );
     }
 
     return (
-        <span { ...{ className: prefix(CLASS_NAMES.INACTIVE_CLASS) } } >
+        <span className={ prefix(CLASS_NAMES.INACTIVE_CLASS) }>
             { cellData }
         </span>
         );
@@ -119,17 +118,20 @@ export const cleanProps = (obj = {}) => {
     return obj;
 };
 
+const { any, array, bool, number, object, string } = PropTypes;
+
 Editor.propTypes = {
-    cellData: PropTypes.any,
-    columns: PropTypes.array,
-    editorState: PropTypes.object,
-    index: PropTypes.number,
-    isEditable: PropTypes.bool,
-    isRowSelected: PropTypes.bool,
-    rawValue: PropTypes.any,
-    rowId: PropTypes.string,
-    stateKey: PropTypes.string,
-    store: PropTypes.object
+    cellData: any,
+    columns: array,
+    editorState: object,
+    index: number,
+    isEditable: bool,
+    isRowSelected: bool,
+    rawValue: any,
+    rowData: object,
+    rowId: string,
+    stateKey: string,
+    store: object
 };
 
 Editor.defaultProps = {
