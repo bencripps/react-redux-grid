@@ -12,12 +12,13 @@ import {
 } from './../../../../src/constants/ActionTypes';
 
 import
-    editor,
-    { isCellValid, isRowValid, setDisabled, handleChangeFunc }
+    editor
 from './../../../../src/reducers/components/plugins/editor';
+import {
+    isCellValid, isRowValid, setDisabled, handleChangeFunc
+} from './../../../../src/reducers/actionHelpers/plugins/editor';
 
 import {
-    generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
 

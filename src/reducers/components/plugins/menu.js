@@ -7,32 +7,18 @@ import {
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
+import
+    handleActions
+from './../../../util/handleActions';
+
+import {
+    showMenu,
+    hideMenu
+} from './../../actionHelpers/plugins/menu';
+
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-export default function menu(state = initialState, action) {
-
-    switch (action.type) {
-
-    case SHOW_MENU:
-        return state.setIn([action.stateKey], fromJS({
-            [action.id]: true,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case HIDE_MENU:
-        if (action.id) {
-            return state.setIn([action.stateKey], fromJS({
-                [action.id]: false,
-                lastUpdate: generateLastUpdate()
-            }));
-        }
-
-        return state.setIn(
-            [action.stateKey],
-            fromJS({ lastUpdate: generateLastUpdate() })
-        );
-
-    default:
-        return state;
-    }
-}
+export default handleActions({
+    [SHOW_MENU]: showMenu,
+    [HIDE_MENU]: hideMenu
+}, initialState);

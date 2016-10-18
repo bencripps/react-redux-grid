@@ -4,21 +4,18 @@ import {
     REMOVE_TOOLBAR
 } from './../../../constants/ActionTypes';
 
+import
+    handleActions
+from './../../../util/handleActions';
+
 import { generateLastUpdate } from './../../../util/lastUpdate';
+
+import {
+    removeToolbar
+} from './../../actionHelpers/plugins/bulkaction';
 
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-export default function bulkaction(state = initialState, action) {
-
-    switch (action.type) {
-
-    case REMOVE_TOOLBAR:
-        return state.setIn([action.stateKey], fromJS({
-            isRemoved: action.value,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    default:
-        return state;
-    }
-}
+export default handleActions({
+    [REMOVE_TOOLBAR]: removeToolbar
+}, initialState);

@@ -9,131 +9,28 @@ import {
     DESELECT_ROW
 } from '../../../constants/ActionTypes';
 
+import {
+    selectAll,
+    deselectAll,
+    removeSelections,
+    selectRow,
+    deselectRow,
+    setSelection
+} from './../../actionHelpers/plugins/selection';
+
+import
+    handleActions
+from './../../../util/handleActions';
+
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-export default function selection(state = initialState, action) {
-
-    switch (action.type) {
-
-    case SELECT_ALL:
-        return state.setIn([action.stateKey], fromJS({
-            ...action.selection,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case DESELECT_ALL:
-        return state.setIn([action.stateKey], fromJS({
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case SET_DATA:
-        return state.setIn([action.stateKey], fromJS({
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case SELECT_ROW:
-        return state.mergeIn([action.stateKey], fromJS({
-            [action.rowId]: true,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case DESELECT_ROW:
-        return state.mergeIn([action.stateKey], fromJS({
-            [action.rowId]: false,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case SET_SELECTION:
-        const currentValue = state.getIn([action.stateKey, action.id]);
-        const currentIndexes = state.getIn(
-            [action.stateKey, 'indexes']
-        );
-        const isSelectAction = action.allowDeselect ? !currentValue : true;
-        const indexes = setIndexes(
-            action.index,
-            currentIndexes && currentIndexes.toJS
-                ? currentIndexes.toJS()
-                : currentIndexes,
-            !isSelectAction
-        );
-
-        if (action.clearSelections || !state.get(action.stateKey)) {
-            return state.setIn([action.stateKey], fromJS({
-                [action.id]: isSelectAction,
-                indexes: isSelectAction ? [action.index] : [],
-                lastUpdate: generateLastUpdate()
-            }));
-        }
-
-        // multiselect
-        return state.mergeIn([action.stateKey], fromJS({
-            [action.id]: isSelectAction,
-            indexes,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    default:
-        return state;
-    }
-}
-
-export const setIndexes = (ids, previous = [], isRemove) => {
-
-    if (!isRemove) {
-
-        if (Array.isArray(ids)) {
-
-            ids.forEach(id => {
-                if (previous.indexOf(id) === -1) {
-                    previous.push(id);
-                }
-            });
-
-        }
-
-        else {
-
-            if (previous.indexOf(ids) !== -1) {
-                return previous;
-            }
-
-            previous.push(ids);
-            return previous;
-
-        }
-    }
-
-    else if (isRemove) {
-
-        let idx;
-
-        if (Array.isArray(ids)) {
-
-            ids.forEach(id => {
-                idx = previous.indexOf(id);
-                if (idx !== -1) {
-                    previous.splice(idx, 1);
-                }
-            });
-
-        }
-
-        else {
-
-            idx = previous.indexOf(ids);
-
-            if (idx !== -1) {
-                previous.splice(idx, 1);
-                return previous;
-            }
-
-            return previous;
-
-        }
-
-    }
-
-    return previous;
-};
+export default handleActions({
+    [SET_SELECTION]: setSelection,
+    [SELECT_ALL]: selectAll,
+    [DESELECT_ALL]: deselectAll,
+    [SET_DATA]: removeSelections,
+    [SELECT_ROW]: selectRow,
+    [DESELECT_ROW]: deselectRow
+}, initialState);

@@ -6,21 +6,16 @@ import {
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
-const initialState = fromJS({
-    lastUpdate: generateLastUpdate()
-});
+import {
+    setLoading
+} from './../../actionHelpers/plugins/loader';
 
-export default function loader(state = initialState, action) {
+import
+    handleActions
+from './../../../util/handleActions';
 
-    switch (action.type) {
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-    case SET_LOADING_STATE:
-        return state.mergeIn([action.stateKey], {
-            isLoading: action.state,
-            lastUpdate: generateLastUpdate()
-        });
-
-    default:
-        return state;
-    }
-}
+export default handleActions({
+    [SET_LOADING_STATE]: setLoading
+}, initialState);

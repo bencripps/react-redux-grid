@@ -12,9 +12,12 @@ import {
 } from './../../../../src/constants/ActionTypes';
 
 import
-    selection,
-    { setIndexes }
+    selection
 from './../../../../src/reducers/components/plugins/selection';
+
+import {
+    setIndexes
+} from './../../../../src/reducers/actionHelpers/plugins/selection';
 
 import {
     resetLastUpdate

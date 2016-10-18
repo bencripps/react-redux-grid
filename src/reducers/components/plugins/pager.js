@@ -7,27 +7,18 @@ import {
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
-const initialState = fromJS({
-    lastUpdate: generateLastUpdate()
-});
+import
+    handleActions
+from './../../../util/handleActions';
 
-export default function pager(state = initialState, action) {
+import {
+    pageLocal,
+    pageRemote
+} from './../../actionHelpers/plugins/pager';
 
-    switch (action.type) {
+const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-    case PAGE_LOCAL:
-        return state.mergeIn([action.stateKey], {
-            pageIndex: action.pageIndex,
-            lastUpdate: generateLastUpdate()
-        });
-
-    case PAGE_REMOTE:
-        return state.mergeIn([action.stateKey], {
-            pageIndex: action.pageIndex,
-            lastUpdate: generateLastUpdate()
-        });
-
-    default:
-        return state;
-    }
-}
+export default handleActions({
+    [PAGE_LOCAL]: pageLocal,
+    [PAGE_REMOTE]: pageRemote
+}, initialState);

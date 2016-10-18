@@ -7,27 +7,18 @@ import {
 
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
+import {
+    dismissError,
+    errorOccurred
+} from './../../actionHelpers/plugins/errorhandler';
+
+import
+    handleActions
+from './../../../util/handleActions';
+
 const initialState = fromJS({ lastUpdate: generateLastUpdate() });
 
-export default function errorhandler(state = initialState, action) {
-
-    switch (action.type) {
-
-    case ERROR_OCCURRED:
-        return state.set(action.stateKey, fromJS({
-            error: action.error,
-            errorOccurred: true,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    case DISMISS_ERROR:
-        return state.set(action.stateKey, fromJS({
-            error: '',
-            errorOccurred: false,
-            lastUpdate: generateLastUpdate()
-        }));
-
-    default:
-        return state;
-    }
-}
+export default handleActions({
+    [ERROR_OCCURRED]: errorOccurred,
+    [DISMISS_ERROR]: dismissError
+}, initialState);
