@@ -530,14 +530,23 @@ const rowTarget = {
             }
         }
 
-        // console.log('currentPath', path, 'targetPath', targetPath)
-
         props.moveRow(
             { id, index, parentId, path },
             { index: targetIndex, parentId: targetParentId, path: targetPath }
         );
 
         monitor.getItem().lastX = mouseX;
+    },
+
+    drop(props) {
+        const { events, getTreeData, row } = props;
+
+        if (typeof events.HANDLE_AFTER_ROW_DROP === 'function') {
+            events.HANDLE_AFTER_ROW_DROP({
+                treeData: getTreeData(),
+                row
+            });
+        }
     }
 
 };

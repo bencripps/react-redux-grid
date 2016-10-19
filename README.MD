@@ -559,6 +559,9 @@ export const events = {
     },
     HANDLE_AFTER_DESELECT_ALL: () => {
         console.log('Handle after deselect all');
+    },
+    HANDLE_AFTER_ROW_DROP: ({ treeData, row }) => {
+        console.log('After drag and drop of row event');
     }
 };
 ```
