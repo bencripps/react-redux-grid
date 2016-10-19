@@ -102,6 +102,10 @@ export const Column = ({
         headerClass = `${headerClass} ${prefix('is-sortable')}`;
     }
 
+    if (index === 0) {
+        headerClass = `${headerClass} ${prefix('is-first-column')}`;
+    }
+
     const clickArgs = {
         columns,
         col,
