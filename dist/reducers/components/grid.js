@@ -3,85 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setColumnsInStorage = undefined;
-exports.default = gridState;
+
+var _handleActions;
 
 var _immutable = require('immutable');
 
 var _ActionTypes = require('./../../constants/ActionTypes');
 
-var _LocalStorageManager = require('./../../components/core/LocalStorageManager');
+var _handleActions2 = require('./../../util/handleActions');
 
-var _LocalStorageManager2 = _interopRequireDefault(_LocalStorageManager);
+var _handleActions3 = _interopRequireDefault(_handleActions2);
 
 var _lastUpdate = require('./../../util/lastUpdate');
 
+var _grid = require('./../actionHelpers/grid');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var initialState = (0, _immutable.fromJS)({ lastUpdate: (0, _lastUpdate.generateLastUpdate)() });
 
-var debouncedColumnSetter = _LocalStorageManager2.default.debouncedSetStateItem();
-
-function gridState() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var action = arguments[1];
-
-
-    switch (action.type) {
-
-        case _ActionTypes.HIDE_HEADER:
-            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
-                headerHidden: action.headerHidden,
-                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-            }));
-
-        case _ActionTypes.SET_COLUMNS:
-
-            if (action.stateful) {
-                setColumnsInStorage({
-                    stateKey: action.stateKey,
-                    columns: action.columns
-                });
-            }
-
-            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
-                columns: action.columns,
-                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-            }));
-
-        case _ActionTypes.SET_SORT_DIRECTION:
-            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
-                columns: action.columns,
-                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-            }));
-
-        case _ActionTypes.RESIZE_COLUMNS:
-
-            if (action.stateful) {
-                setColumnsInStorage({
-                    stateKey: action.stateKey,
-                    columns: action.columns
-                });
-            }
-
-            return state.mergeIn([action.stateKey], (0, _immutable.fromJS)({
-                columns: action.columns,
-                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-            }));
-
-        default:
-
-            return state;
-    }
-}
-
-var setColumnsInStorage = exports.setColumnsInStorage = function setColumnsInStorage(_ref) {
-    var columns = _ref.columns;
-    var stateKey = _ref.stateKey;
-
-    debouncedColumnSetter({
-        stateKey: stateKey,
-        property: 'columns',
-        value: columns
-    });
-};
+exports.default = (0, _handleActions3.default)((_handleActions = {}, _defineProperty(_handleActions, _ActionTypes.SET_COLUMNS, _grid.setColumns), _defineProperty(_handleActions, _ActionTypes.RESIZE_COLUMNS, _grid.resizeColumns), _defineProperty(_handleActions, _ActionTypes.SET_SORT_DIRECTION, _grid.setSortDirection), _defineProperty(_handleActions, _ActionTypes.HIDE_HEADER, _grid.hideHeader), _handleActions), initialState);

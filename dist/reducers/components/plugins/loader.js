@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = loader;
 
 var _immutable = require('immutable');
 
@@ -11,24 +10,16 @@ var _ActionTypes = require('../../../constants/ActionTypes');
 
 var _lastUpdate = require('./../../../util/lastUpdate');
 
-var initialState = (0, _immutable.fromJS)({
-    lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-});
+var _loader = require('./../../actionHelpers/plugins/loader');
 
-function loader() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var action = arguments[1];
+var _handleActions2 = require('./../../../util/handleActions');
 
+var _handleActions3 = _interopRequireDefault(_handleActions2);
 
-    switch (action.type) {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-        case _ActionTypes.SET_LOADING_STATE:
-            return state.mergeIn([action.stateKey], {
-                isLoading: action.state,
-                lastUpdate: (0, _lastUpdate.generateLastUpdate)()
-            });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-        default:
-            return state;
-    }
-}
+var initialState = (0, _immutable.fromJS)({ lastUpdate: (0, _lastUpdate.generateLastUpdate)() });
+
+exports.default = (0, _handleActions3.default)(_defineProperty({}, _ActionTypes.SET_LOADING_STATE, _loader.setLoading), initialState);

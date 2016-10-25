@@ -38,7 +38,10 @@ describe('The getAsyncData actions', () => {
 
         setTimeout(() => {
             expect(res).toEqual([
-                { stateKey: 'test-grid', type: '@@react-redux-grid/DISMISS_EDITOR' },
+                {
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/DISMISS_EDITOR'
+                },
                 {
                     state: true,
                     stateKey: 'test-grid',
@@ -54,6 +57,7 @@ describe('The getAsyncData actions', () => {
                     data: [],
                     stateKey: 'test-grid',
                     success: true,
+                    editMode: undefined,
                     total: 0,
                     type: '@@react-redux-grid/SET_DATA'
                 }
@@ -82,7 +86,10 @@ describe('The getAsyncData actions', () => {
 
         setTimeout(() => {
             expect(res).toEqual([
-                { stateKey: 'test-grid', type: '@@react-redux-grid/DISMISS_EDITOR' },
+                {
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/DISMISS_EDITOR'
+                },
                 {
                     state: true,
                     stateKey: 'test-grid',
@@ -423,15 +430,33 @@ describe('The setColumnVisibility actions', () => {
 
 describe('The setData action', () => {
 
-    expect(
-        setData({
+    it('Should work without editmode', () => {
+        expect(
+            setData({
+                stateKey: 'test-grid',
+                data: [1]
+            })
+        ).toEqual({
             stateKey: 'test-grid',
-            data: [1]
-        })
-    ).toEqual({
-        stateKey: 'test-grid',
-        data: [1],
-        type: '@@react-redux-grid/SET_DATA'
+            data: [1],
+            type: '@@react-redux-grid/SET_DATA',
+            editMode: undefined
+        });
+    });
+
+    it('Should work with editmode defined', () => {
+        expect(
+            setData({
+                stateKey: 'test-grid',
+                data: [1],
+                editMode: 'grid'
+            })
+        ).toEqual({
+            stateKey: 'test-grid',
+            data: [1],
+            type: '@@react-redux-grid/SET_DATA',
+            editMode: 'grid'
+        });
     });
 
 });
@@ -526,38 +551,36 @@ describe('The resizeColumns action', () => {
 
 describe('The setTreeNodeVisibility action', () => {
 
-        it('Should return default hide action', () => {
-            expect(setTreeNodeVisibility({
-                id: 'someId',
-                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false
-            })).toEqual({
-                id: 'someId',
-                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: undefined
-            });
-        });
-
-        it('Should pass visiblity state', () => {
-            expect(setTreeNodeVisibility({
-                id: 'someId',
-                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: true
-            })).toEqual({
-                id: 'someId',
-                type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
-                stateKey: 'tree-grid',
-                showTreeRootNode: false,
-                visible: true
-            });
+    it('Should return default hide action', () => {
+        expect(setTreeNodeVisibility({
+            id: 'someId',
+            type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false
+        })).toEqual({
+            id: 'someId',
+            type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: undefined
         });
     });
 
+    it('Should pass visiblity state', () => {
+        expect(setTreeNodeVisibility({
+            id: 'someId',
+            type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: true
+        })).toEqual({
+            id: 'someId',
+            type: '@@react-redux-grid/SET_TREE_NODE_VISIBILITY',
+            stateKey: 'tree-grid',
+            showTreeRootNode: false,
+            visible: true
+        });
+    });
 });
 
 describe('The setTreeData action', () => {
@@ -614,6 +637,7 @@ describe('The setTreeData action', () => {
         });
 
         expect(expectedRest).toEqual({
+            editMode: undefined,
             type: '@@react-redux-grid/SET_DATA',
             stateKey: 'tree-grid',
             gridType: 'tree',
@@ -638,12 +662,14 @@ describe('The setTreeData action', () => {
         const { data: expectedData, ...expectedRest } = setTreeData({
             data,
             stateKey: 'tree-grid',
-            showTreeRootNode: false
+            showTreeRootNode: false,
+            editMode: 'inline'
         });
 
         expect(expectedRest).toEqual({
             type: '@@react-redux-grid/SET_DATA',
             stateKey: 'tree-grid',
+            editMode: 'inline',
             gridType: 'tree',
             treeData: data
         });

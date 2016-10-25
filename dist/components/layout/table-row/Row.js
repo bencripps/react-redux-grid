@@ -512,11 +512,22 @@ var rowTarget = {
             }
         }
 
-        // console.log('currentPath', path, 'targetPath', targetPath)
-
         props.moveRow({ id: id, index: index, parentId: parentId, path: path }, { index: targetIndex, parentId: targetParentId, path: targetPath });
 
         monitor.getItem().lastX = mouseX;
+    },
+    drop: function drop(props) {
+        var events = props.events;
+        var getTreeData = props.getTreeData;
+        var row = props.row;
+
+
+        if (typeof events.HANDLE_AFTER_ROW_DROP === 'function') {
+            events.HANDLE_AFTER_ROW_DROP({
+                treeData: getTreeData(),
+                row: row
+            });
+        }
     }
 };
 

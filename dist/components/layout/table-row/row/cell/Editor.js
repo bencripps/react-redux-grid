@@ -78,20 +78,18 @@ var Editor = exports.Editor = function Editor(_ref) {
         return _react2.default.createElement(
             'span',
             { className: wrapperCls },
-            ' ',
-            input,
-            ' '
+            input
         );
     } else if (isEditable && columns[index] && (columns[index].editable === undefined || columns[index].editable) && (typeof columns[index].editable === 'function' ? columns[index].editable(editableFuncArgs) : true)) {
         return _react2.default.createElement(
             'span',
             { className: wrapperCls },
             _react2.default.createElement(_Input.Input, {
+                cellData: value,
                 column: columns[index],
                 columns: columns,
                 editorState: editorState,
                 rowId: rowId,
-                cellData: value,
                 stateKey: stateKey,
                 store: store
             })
@@ -114,17 +112,26 @@ var cleanProps = exports.cleanProps = function cleanProps() {
     return obj;
 };
 
+var any = _react.PropTypes.any;
+var array = _react.PropTypes.array;
+var bool = _react.PropTypes.bool;
+var number = _react.PropTypes.number;
+var object = _react.PropTypes.object;
+var string = _react.PropTypes.string;
+
+
 Editor.propTypes = {
-    cellData: _react.PropTypes.any,
-    columns: _react.PropTypes.array,
-    editorState: _react.PropTypes.object,
-    index: _react.PropTypes.number,
-    isEditable: _react.PropTypes.bool,
-    isRowSelected: _react.PropTypes.bool,
-    rawValue: _react.PropTypes.any,
-    rowId: _react.PropTypes.string,
-    stateKey: _react.PropTypes.string,
-    store: _react.PropTypes.object
+    cellData: any,
+    columns: array,
+    editorState: object,
+    index: number,
+    isEditable: bool,
+    isRowSelected: bool,
+    rawValue: any,
+    rowData: object,
+    rowId: string,
+    stateKey: string,
+    store: object
 };
 
 Editor.defaultProps = {

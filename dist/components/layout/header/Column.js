@@ -95,6 +95,10 @@ var Column = exports.Column = function Column(_ref) {
         headerClass = headerClass + ' ' + (0, _prefix.prefix)('is-sortable');
     }
 
+    if (index === 0) {
+        headerClass = headerClass + ' ' + (0, _prefix.prefix)('is-first-column');
+    }
+
     var clickArgs = {
         columns: columns,
         col: col,
