@@ -1,4 +1,5 @@
 /* eslint-enable describe it sinon */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
@@ -12,6 +13,10 @@ import {
     stateKey
 } from '../../testUtils/data';
 
+import {
+    resetLastUpdate
+} from './../../../src/util/lastUpdate';
+
 const props = {
     data: localGridData,
     columns: gridColumns,
@@ -20,7 +25,7 @@ const props = {
 };
 
 describe('Integration Test for Inline Editor', () => {
-
+    beforeEach(() => resetLastUpdate());
     const editorProps = {
         ...props,
         store: GridStore,
@@ -71,17 +76,21 @@ describe('Integration Test for Inline Editor', () => {
         const cmp = mount(<ConnectedGrid { ...editorStateProps } />);
 
         setTimeout(() => {
-
-            expect(editorStateProps.store.getState().editor.get('grid-type-inline'))
-                .toEqual(undefined);
+            expect(
+                editorStateProps
+                    .store
+                    .getState()
+                    .editor
+                    .get('grid-type-inline')
+                ).toEqual(undefined);
 
             done();
         }, 100);
 
-
     });
 
-    it('Should should set editor state on init if editor type is grid', (done) => {
+    it(['Should should set editor state on',
+        'init if editor type is grid'].join(' '), (done) => {
 
         const editorTypeGrid = {
             ...editorProps,
@@ -103,7 +112,7 @@ describe('Integration Test for Inline Editor', () => {
 
             expect(editorTypeGrid.store.getState().editor.get('grid-type-grid'))
                 .toEqual(fromJS({
-                    lastUpdate: 55,
+                    lastUpdate: 3,
                     'row-1': {
                         key: 'row-1',
                         values: {
