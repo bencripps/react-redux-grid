@@ -18,11 +18,11 @@ var _GridConstants = require('./../../../../constants/GridConstants');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Text = exports.Text = function Text(_ref) {
-    var actualIndex = _ref.actualIndex;
-    var col = _ref.col;
-    var columnManager = _ref.columnManager;
-    var dragAndDropManager = _ref.dragAndDropManager;
-    var sortHandle = _ref.sortHandle;
+    var actualIndex = _ref.actualIndex,
+        col = _ref.col,
+        columnManager = _ref.columnManager,
+        dragAndDropManager = _ref.dragAndDropManager,
+        sortHandle = _ref.sortHandle;
 
 
     var innerHTML = col.name;

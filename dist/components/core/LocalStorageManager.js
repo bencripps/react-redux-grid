@@ -19,9 +19,9 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
     _createClass(LocalStorageManager, [{
         key: 'setStateItem',
         value: function setStateItem(_ref) {
-            var stateKey = _ref.stateKey;
-            var property = _ref.property;
-            var value = _ref.value;
+            var stateKey = _ref.stateKey,
+                property = _ref.property,
+                value = _ref.value;
 
             console.log('stateKey', stateKey, property);
             var json = JSON.stringify(value);
@@ -40,11 +40,11 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
     }, {
         key: 'getStateItem',
         value: function getStateItem(_ref2) {
-            var stateKey = _ref2.stateKey;
-            var property = _ref2.property;
-            var value = _ref2.value;
-            var _ref2$shouldSave = _ref2.shouldSave;
-            var shouldSave = _ref2$shouldSave === undefined ? true : _ref2$shouldSave;
+            var stateKey = _ref2.stateKey,
+                property = _ref2.property,
+                value = _ref2.value,
+                _ref2$shouldSave = _ref2.shouldSave,
+                shouldSave = _ref2$shouldSave === undefined ? true : _ref2$shouldSave;
 
 
             if (!window.localStorage) {
@@ -66,8 +66,8 @@ var LocalStorageManager = exports.LocalStorageManager = function () {
     }, {
         key: 'getKey',
         value: function getKey(_ref3) {
-            var stateKey = _ref3.stateKey;
-            var property = _ref3.property;
+            var stateKey = _ref3.stateKey,
+                property = _ref3.property;
 
 
             if (!stateKey || !property) {

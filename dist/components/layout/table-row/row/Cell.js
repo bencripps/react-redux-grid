@@ -33,25 +33,25 @@ var _DragHandle2 = _interopRequireDefault(_DragHandle);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Cell = exports.Cell = function Cell(_ref) {
-    var cellData = _ref.cellData;
-    var columns = _ref.columns;
-    var dragAndDrop = _ref.dragAndDrop;
-    var editor = _ref.editor;
-    var editorState = _ref.editorState;
-    var events = _ref.events;
-    var gridType = _ref.gridType;
-    var index = _ref.index;
-    var isRowSelected = _ref.isRowSelected;
-    var readFunc = _ref.readFunc;
-    var rowData = _ref.rowData;
-    var rowId = _ref.rowId;
-    var rowIndex = _ref.rowIndex;
-    var selectionModel = _ref.selectionModel;
-    var showTreeRootNode = _ref.showTreeRootNode;
-    var stateful = _ref.stateful;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
-    var treeData = _ref.treeData;
+    var cellData = _ref.cellData,
+        columns = _ref.columns,
+        dragAndDrop = _ref.dragAndDrop,
+        editor = _ref.editor,
+        editorState = _ref.editorState,
+        events = _ref.events,
+        gridType = _ref.gridType,
+        index = _ref.index,
+        isRowSelected = _ref.isRowSelected,
+        readFunc = _ref.readFunc,
+        rowData = _ref.rowData,
+        rowId = _ref.rowId,
+        rowIndex = _ref.rowIndex,
+        selectionModel = _ref.selectionModel,
+        showTreeRootNode = _ref.showTreeRootNode,
+        stateful = _ref.stateful,
+        stateKey = _ref.stateKey,
+        store = _ref.store,
+        treeData = _ref.treeData;
 
 
     var isEditable = editorState && editorState[rowId] && editorState[rowId].key === rowId || editor.config.type === editor.editModes.grid;
@@ -163,17 +163,17 @@ var getCellHTML = exports.getCellHTML = function getCellHTML(cellData, editorSta
 };
 
 var handleClick = exports.handleClick = function handleClick(_ref2, reactEvent) {
-    var events = _ref2.events;
-    var columns = _ref2.columns;
-    var cellData = _ref2.cellData;
-    var editor = _ref2.editor;
-    var editorState = _ref2.editorState;
-    var rowIndex = _ref2.rowIndex;
-    var rowData = _ref2.rowData;
-    var rowId = _ref2.rowId;
-    var selectionModel = _ref2.selectionModel;
-    var stateKey = _ref2.stateKey;
-    var store = _ref2.store;
+    var events = _ref2.events,
+        columns = _ref2.columns,
+        cellData = _ref2.cellData,
+        editor = _ref2.editor,
+        editorState = _ref2.editorState,
+        rowIndex = _ref2.rowIndex,
+        rowData = _ref2.rowData,
+        rowId = _ref2.rowId,
+        selectionModel = _ref2.selectionModel,
+        stateKey = _ref2.stateKey,
+        store = _ref2.store;
 
 
     if (reactEvent.target && (0, _elementContains.elementContains)(reactEvent.target, (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITED_CELL))) {
@@ -198,17 +198,17 @@ var handleClick = exports.handleClick = function handleClick(_ref2, reactEvent) 
 };
 
 var handleDoubleClick = exports.handleDoubleClick = function handleDoubleClick(_ref3, reactEvent) {
-    var events = _ref3.events;
-    var columns = _ref3.columns;
-    var cellData = _ref3.cellData;
-    var editor = _ref3.editor;
-    var editorState = _ref3.editorState;
-    var rowIndex = _ref3.rowIndex;
-    var rowData = _ref3.rowData;
-    var rowId = _ref3.rowId;
-    var selectionModel = _ref3.selectionModel;
-    var stateKey = _ref3.stateKey;
-    var store = _ref3.store;
+    var events = _ref3.events,
+        columns = _ref3.columns,
+        cellData = _ref3.cellData,
+        editor = _ref3.editor,
+        editorState = _ref3.editorState,
+        rowIndex = _ref3.rowIndex,
+        rowData = _ref3.rowData,
+        rowId = _ref3.rowId,
+        selectionModel = _ref3.selectionModel,
+        stateKey = _ref3.stateKey,
+        store = _ref3.store;
 
 
     if (reactEvent.target && (0, _elementContains.elementContains)(reactEvent.target, (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITED_CELL))) {
@@ -231,14 +231,14 @@ var handleDoubleClick = exports.handleDoubleClick = function handleDoubleClick(_
     }
 };
 
-var any = _react.PropTypes.any;
-var array = _react.PropTypes.array;
-var bool = _react.PropTypes.bool;
-var func = _react.PropTypes.func;
-var object = _react.PropTypes.object;
-var oneOf = _react.PropTypes.oneOf;
-var number = _react.PropTypes.number;
-var string = _react.PropTypes.string;
+var any = _react.PropTypes.any,
+    array = _react.PropTypes.array,
+    bool = _react.PropTypes.bool,
+    func = _react.PropTypes.func,
+    object = _react.PropTypes.object,
+    oneOf = _react.PropTypes.oneOf,
+    number = _react.PropTypes.number,
+    string = _react.PropTypes.string;
 
 
 Cell.propTypes = {

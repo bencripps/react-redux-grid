@@ -49,12 +49,12 @@ var Inline = exports.Inline = function (_Component) {
     _createClass(Inline, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var BUTTON_TYPES = _props.BUTTON_TYPES;
-            var editorState = _props.editorState;
-            var events = _props.events;
-            var stateKey = _props.stateKey;
-            var store = _props.store;
+            var _props = this.props,
+                BUTTON_TYPES = _props.BUTTON_TYPES,
+                editorState = _props.editorState,
+                events = _props.events,
+                stateKey = _props.stateKey,
+                store = _props.store;
             var position = this.state.position;
 
             var editedRowKey = getEditedRowKey(editorState);
@@ -112,11 +112,11 @@ var Inline = exports.Inline = function (_Component) {
             * and to reposition editor
             */
             var dom = _reactDom2.default.findDOMNode(this);
-            var _props2 = this.props;
-            var config = _props2.config;
-            var editorState = _props2.editorState;
-            var store = _props2.store;
-            var stateKey = _props2.stateKey;
+            var _props2 = this.props,
+                config = _props2.config,
+                editorState = _props2.editorState,
+                store = _props2.store,
+                stateKey = _props2.stateKey;
 
             var editedRowKey = getEditedRowKey(editorState);
             var position = this.state.position;
@@ -174,9 +174,8 @@ function resetEditorPosition(editorState, store, stateKey, dom, position, rowId)
     if (input) {
         var row = getRowFromInput(input);
 
-        var _getRowBoundingRect = (0, _getRowBoundingRect2.getRowBoundingRect)(row);
-
-        var spaceBottom = _getRowBoundingRect.spaceBottom;
+        var _getRowBoundingRect = (0, _getRowBoundingRect2.getRowBoundingRect)(row),
+            spaceBottom = _getRowBoundingRect.spaceBottom;
 
         var editedRowKey = getEditedRowKey(editorState);
 

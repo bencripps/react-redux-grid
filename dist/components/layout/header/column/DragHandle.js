@@ -12,9 +12,9 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DragHandle = exports.DragHandle = function DragHandle(_ref) {
-    var col = _ref.col;
-    var dragAndDropManager = _ref.dragAndDropManager;
-    var handleDrag = _ref.handleDrag;
+    var col = _ref.col,
+        dragAndDropManager = _ref.dragAndDropManager,
+        handleDrag = _ref.handleDrag;
 
 
     var handleProps = dragAndDropManager.initDragable({

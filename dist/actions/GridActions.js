@@ -22,12 +22,12 @@ var _Request2 = _interopRequireDefault(_Request);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getAsyncData = exports.getAsyncData = function getAsyncData(_ref) {
-    var stateKey = _ref.stateKey;
-    var dataSource = _ref.dataSource;
-    var type = _ref.type;
-    var showTreeRootNode = _ref.showTreeRootNode;
-    var _ref$extraParams = _ref.extraParams;
-    var extraParams = _ref$extraParams === undefined ? {} : _ref$extraParams;
+    var stateKey = _ref.stateKey,
+        dataSource = _ref.dataSource,
+        type = _ref.type,
+        showTreeRootNode = _ref.showTreeRootNode,
+        _ref$extraParams = _ref.extraParams,
+        extraParams = _ref$extraParams === undefined ? {} : _ref$extraParams;
 
 
     return function (dispatch) {
@@ -159,9 +159,9 @@ var getAsyncData = exports.getAsyncData = function getAsyncData(_ref) {
 };
 
 var setColumns = exports.setColumns = function setColumns(_ref2) {
-    var columns = _ref2.columns;
-    var stateKey = _ref2.stateKey;
-    var stateful = _ref2.stateful;
+    var columns = _ref2.columns,
+        stateKey = _ref2.stateKey,
+        stateful = _ref2.stateful;
 
 
     var cols = columns;
@@ -177,10 +177,10 @@ var setColumns = exports.setColumns = function setColumns(_ref2) {
 };
 
 var setSortDirection = exports.setSortDirection = function setSortDirection(_ref3) {
-    var columns = _ref3.columns;
-    var id = _ref3.id;
-    var sortDirection = _ref3.sortDirection;
-    var stateKey = _ref3.stateKey;
+    var columns = _ref3.columns,
+        id = _ref3.id,
+        sortDirection = _ref3.sortDirection,
+        stateKey = _ref3.stateKey;
 
 
     var cols = columns;
@@ -202,19 +202,19 @@ var setSortDirection = exports.setSortDirection = function setSortDirection(_ref
 };
 
 var doLocalSort = exports.doLocalSort = function doLocalSort(_ref4) {
-    var data = _ref4.data;
-    var stateKey = _ref4.stateKey;
+    var data = _ref4.data,
+        stateKey = _ref4.stateKey;
     return {
         type: _ActionTypes.SORT_DATA, data: data, stateKey: stateKey
     };
 };
 
 var doRemoteSort = exports.doRemoteSort = function doRemoteSort(_ref5) {
-    var dataSource = _ref5.dataSource;
-    var pageIndex = _ref5.pageIndex;
-    var pageSize = _ref5.pageSize;
-    var sortParams = _ref5.sortParams;
-    var stateKey = _ref5.stateKey;
+    var dataSource = _ref5.dataSource,
+        pageIndex = _ref5.pageIndex,
+        pageSize = _ref5.pageSize,
+        sortParams = _ref5.sortParams,
+        stateKey = _ref5.stateKey;
 
 
     return function (dispatch) {
@@ -288,11 +288,11 @@ var doRemoteSort = exports.doRemoteSort = function doRemoteSort(_ref5) {
 };
 
 var setColumnVisibility = exports.setColumnVisibility = function setColumnVisibility(_ref6) {
-    var columns = _ref6.columns;
-    var column = _ref6.column;
-    var isHidden = _ref6.isHidden;
-    var stateKey = _ref6.stateKey;
-    var stateful = _ref6.stateful;
+    var columns = _ref6.columns,
+        column = _ref6.column,
+        isHidden = _ref6.isHidden,
+        stateKey = _ref6.stateKey,
+        stateful = _ref6.stateful;
 
     var hidden = !isHidden;
 
@@ -308,12 +308,12 @@ var setColumnVisibility = exports.setColumnVisibility = function setColumnVisibi
 };
 
 var resizeColumns = exports.resizeColumns = function resizeColumns(_ref7) {
-    var width = _ref7.width;
-    var id = _ref7.id;
-    var nextColumn = _ref7.nextColumn;
-    var columns = _ref7.columns;
-    var stateKey = _ref7.stateKey;
-    var stateful = _ref7.stateful;
+    var width = _ref7.width,
+        id = _ref7.id,
+        nextColumn = _ref7.nextColumn,
+        columns = _ref7.columns,
+        stateKey = _ref7.stateKey,
+        stateful = _ref7.stateful;
 
 
     var cols = columns.map(function (col) {
@@ -336,21 +336,21 @@ var resizeColumns = exports.resizeColumns = function resizeColumns(_ref7) {
 };
 
 var setData = exports.setData = function setData(_ref8) {
-    var data = _ref8.data;
-    var stateKey = _ref8.stateKey;
-    var editMode = _ref8.editMode;
+    var data = _ref8.data,
+        stateKey = _ref8.stateKey,
+        editMode = _ref8.editMode;
     return {
         type: _ActionTypes.SET_DATA, data: data, stateKey: stateKey, editMode: editMode
     };
 };
 
 var setTreeData = exports.setTreeData = function setTreeData(_ref9) {
-    var data = _ref9.data;
-    var stateKey = _ref9.stateKey;
-    var showTreeRootNode = _ref9.showTreeRootNode;
-    var partial = _ref9.partial;
-    var parentId = _ref9.parentId;
-    var editMode = _ref9.editMode;
+    var data = _ref9.data,
+        stateKey = _ref9.stateKey,
+        showTreeRootNode = _ref9.showTreeRootNode,
+        partial = _ref9.partial,
+        parentId = _ref9.parentId,
+        editMode = _ref9.editMode;
 
 
     // if this is a partial update to
@@ -384,10 +384,10 @@ var setTreeData = exports.setTreeData = function setTreeData(_ref9) {
 };
 
 var setTreeNodeVisibility = exports.setTreeNodeVisibility = function setTreeNodeVisibility(_ref10) {
-    var id = _ref10.id;
-    var visible = _ref10.visible;
-    var stateKey = _ref10.stateKey;
-    var showTreeRootNode = _ref10.showTreeRootNode;
+    var id = _ref10.id,
+        visible = _ref10.visible,
+        stateKey = _ref10.stateKey,
+        showTreeRootNode = _ref10.showTreeRootNode;
     return {
         type: _ActionTypes.SET_TREE_NODE_VISIBILITY,
         id: id,
@@ -398,10 +398,10 @@ var setTreeNodeVisibility = exports.setTreeNodeVisibility = function setTreeNode
 };
 
 var moveNode = exports.moveNode = function moveNode(_ref11) {
-    var stateKey = _ref11.stateKey;
-    var current = _ref11.current;
-    var next = _ref11.next;
-    var showTreeRootNode = _ref11.showTreeRootNode;
+    var stateKey = _ref11.stateKey,
+        current = _ref11.current,
+        next = _ref11.next,
+        showTreeRootNode = _ref11.showTreeRootNode;
     return {
         type: _ActionTypes.MOVE_NODE,
         stateKey: stateKey,
@@ -412,8 +412,8 @@ var moveNode = exports.moveNode = function moveNode(_ref11) {
 };
 
 var setHeaderVisibility = exports.setHeaderVisibility = function setHeaderVisibility(_ref12) {
-    var hidden = _ref12.hidden;
-    var stateKey = _ref12.stateKey;
+    var hidden = _ref12.hidden,
+        stateKey = _ref12.stateKey;
     return {
         type: _ActionTypes.HIDE_HEADER, headerHidden: hidden, stateKey: stateKey
     };

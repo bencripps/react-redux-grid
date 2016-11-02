@@ -29,10 +29,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var array = _react.PropTypes.array;
-var number = _react.PropTypes.number;
-var object = _react.PropTypes.object;
-var string = _react.PropTypes.string;
+var array = _react.PropTypes.array,
+    number = _react.PropTypes.number,
+    object = _react.PropTypes.object,
+    string = _react.PropTypes.string;
 
 var Menu = function (_Component) {
     _inherits(Menu, _Component);
@@ -46,9 +46,9 @@ var Menu = function (_Component) {
     _createClass(Menu, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var menu = _props.menu;
-            var maxHeight = _props.maxHeight;
+            var _props = this.props,
+                menu = _props.menu,
+                maxHeight = _props.maxHeight;
 
 
             var menuProps = {
@@ -76,10 +76,10 @@ var Menu = function (_Component) {
     }, {
         key: 'getMenuItem',
         value: function getMenuItem(item) {
-            var _props2 = this.props;
-            var metaData = _props2.metaData;
-            var stateKey = _props2.stateKey;
-            var store = _props2.store;
+            var _props2 = this.props,
+                metaData = _props2.metaData,
+                stateKey = _props2.stateKey,
+                store = _props2.store;
 
 
             if (!item.$$typeof) {

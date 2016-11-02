@@ -24,17 +24,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var wrapperCls = (0, _prefix.prefix)(_GridConstants.CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
 
 var Editor = exports.Editor = function Editor(_ref) {
-    var cellData = _ref.cellData;
-    var columns = _ref.columns;
-    var editorState = _ref.editorState;
-    var rawValue = _ref.rawValue;
-    var index = _ref.index;
-    var isEditable = _ref.isEditable;
-    var rowData = _ref.rowData;
-    var isRowSelected = _ref.isRowSelected;
-    var rowId = _ref.rowId;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
+    var cellData = _ref.cellData,
+        columns = _ref.columns,
+        editorState = _ref.editorState,
+        rawValue = _ref.rawValue,
+        index = _ref.index,
+        isEditable = _ref.isEditable,
+        rowData = _ref.rowData,
+        isRowSelected = _ref.isRowSelected,
+        rowId = _ref.rowId,
+        stateKey = _ref.stateKey,
+        store = _ref.store;
 
 
     if (!editorState) {
@@ -112,12 +112,12 @@ var cleanProps = exports.cleanProps = function cleanProps() {
     return obj;
 };
 
-var any = _react.PropTypes.any;
-var array = _react.PropTypes.array;
-var bool = _react.PropTypes.bool;
-var number = _react.PropTypes.number;
-var object = _react.PropTypes.object;
-var string = _react.PropTypes.string;
+var any = _react.PropTypes.any,
+    array = _react.PropTypes.array,
+    bool = _react.PropTypes.bool,
+    number = _react.PropTypes.number,
+    object = _react.PropTypes.object,
+    string = _react.PropTypes.string;
 
 
 Editor.propTypes = {

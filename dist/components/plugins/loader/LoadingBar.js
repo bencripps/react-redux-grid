@@ -18,8 +18,8 @@ var _GridConstants = require('../../../constants/GridConstants');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LoadingBar = exports.LoadingBar = function LoadingBar(_ref) {
-    var loadingState = _ref.loadingState;
-    var plugins = _ref.plugins;
+    var loadingState = _ref.loadingState,
+        plugins = _ref.plugins;
 
 
     var isLoading = false;

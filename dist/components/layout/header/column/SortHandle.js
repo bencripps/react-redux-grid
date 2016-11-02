@@ -16,8 +16,8 @@ var _GridConstants = require('./../../../../constants/GridConstants');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SortHandle = exports.SortHandle = function SortHandle(_ref) {
-    var direction = _ref.direction;
-    var sortHandleCls = _ref.sortHandleCls;
+    var direction = _ref.direction,
+        sortHandleCls = _ref.sortHandleCls;
 
 
     var handleProps = {

@@ -59,13 +59,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var BUFFER_MULTIPLIER = 1.5;
 var DEFAULT_VIEWABLE_RECORDS = 25;
 
-var arrayOf = _react.PropTypes.arrayOf;
-var bool = _react.PropTypes.bool;
-var func = _react.PropTypes.func;
-var number = _react.PropTypes.number;
-var object = _react.PropTypes.object;
-var oneOf = _react.PropTypes.oneOf;
-var string = _react.PropTypes.string;
+var arrayOf = _react.PropTypes.arrayOf,
+    bool = _react.PropTypes.bool,
+    func = _react.PropTypes.func,
+    number = _react.PropTypes.number,
+    object = _react.PropTypes.object,
+    oneOf = _react.PropTypes.oneOf,
+    string = _react.PropTypes.string;
 
 var TableRow = exports.TableRow = function (_Component) {
     _inherits(TableRow, _Component);
@@ -73,40 +73,40 @@ var TableRow = exports.TableRow = function (_Component) {
     _createClass(TableRow, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var columnManager = _props.columnManager;
-            var columns = _props.columns;
-            var containerScrollTop = _props.containerScrollTop;
-            var dataSource = _props.dataSource;
-            var dragAndDrop = _props.dragAndDrop;
-            var editor = _props.editor;
-            var editorState = _props.editorState;
-            var emptyDataMessage = _props.emptyDataMessage;
-            var events = _props.events;
-            var gridType = _props.gridType;
-            var infinite = _props.infinite;
-            var menuState = _props.menuState;
-            var pageSize = _props.pageSize;
-            var pager = _props.pager;
-            var plugins = _props.plugins;
-            var readFunc = _props.readFunc;
-            var reducerKeys = _props.reducerKeys;
-            var selectedRows = _props.selectedRows;
-            var selectionModel = _props.selectionModel;
-            var showTreeRootNode = _props.showTreeRootNode;
-            var stateKey = _props.stateKey;
-            var stateful = _props.stateful;
-            var store = _props.store;
+            var _props = this.props,
+                columnManager = _props.columnManager,
+                columns = _props.columns,
+                containerScrollTop = _props.containerScrollTop,
+                dataSource = _props.dataSource,
+                dragAndDrop = _props.dragAndDrop,
+                editor = _props.editor,
+                editorState = _props.editorState,
+                emptyDataMessage = _props.emptyDataMessage,
+                events = _props.events,
+                gridType = _props.gridType,
+                infinite = _props.infinite,
+                menuState = _props.menuState,
+                pageSize = _props.pageSize,
+                pager = _props.pager,
+                plugins = _props.plugins,
+                readFunc = _props.readFunc,
+                reducerKeys = _props.reducerKeys,
+                selectedRows = _props.selectedRows,
+                selectionModel = _props.selectionModel,
+                showTreeRootNode = _props.showTreeRootNode,
+                stateKey = _props.stateKey,
+                stateful = _props.stateful,
+                store = _props.store;
 
 
             var pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
 
             var totalCount = dataSource && Array.isArray(dataSource.currentRecords) ? dataSource.currentRecords.length : 0;
 
-            var _state = this.state;
-            var viewableCount = _state.viewableCount;
-            var viewableIndex = _state.viewableIndex;
-            var rowHeight = _state.rowHeight;
+            var _state = this.state,
+                viewableCount = _state.viewableCount,
+                viewableIndex = _state.viewableIndex,
+                rowHeight = _state.rowHeight;
 
 
             var rows = getRowSelection(dataSource, infinite, pageIndex, pageSize, pager, plugins, viewableIndex, viewableCount, BUFFER_MULTIPLIER, stateKey, store);
@@ -152,9 +152,9 @@ var TableRow = exports.TableRow = function (_Component) {
 
         _this.calculateHeights = function () {
             var containerHeight = _this.props.containerHeight;
-            var _this$state = _this.state;
-            var rowHeight = _this$state.rowHeight;
-            var viewableCount = _this$state.viewableCount;
+            var _this$state = _this.state,
+                rowHeight = _this$state.rowHeight,
+                viewableCount = _this$state.viewableCount;
 
 
             var tbody = _reactDom2.default.findDOMNode(_this);
@@ -187,10 +187,10 @@ var TableRow = exports.TableRow = function (_Component) {
         };
 
         _this.moveRow = function (current, next) {
-            var _this$props = _this.props;
-            var stateKey = _this$props.stateKey;
-            var store = _this$props.store;
-            var showTreeRootNode = _this$props.showTreeRootNode;
+            var _this$props = _this.props,
+                stateKey = _this$props.stateKey,
+                store = _this$props.store,
+                showTreeRootNode = _this$props.showTreeRootNode;
 
             if (!_this.requestedFrame) {
                 _this.requestedFrame = requestAnimationFrame(function () {
@@ -247,7 +247,7 @@ TableRow.propTypes = {
 TableRow.defaultProps = {
     emptyDataMessage: 'No Data Available'
 };
-var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, index) {
+var getRowComponents = exports.getRowComponents = function getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, previousRow, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, index) {
 
     var key = (0, _getData.getRowKey)(columns, row);
 
@@ -268,6 +268,7 @@ var getRowComponents = exports.getRowComponents = function getRowComponents(colu
         reducerKeys: reducerKeys,
         readFunc: readFunc,
         row: row,
+        previousRow: previousRow,
         selectedRows: selectedRows,
         selectionModel: selectionModel,
         showTreeRootNode: showTreeRootNode,
@@ -294,7 +295,7 @@ var getRowSelection = exports.getRowSelection = function getRowSelection(dataSou
 var getRows = exports.getRows = function getRows(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, rows, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, containerScrollTop, infinite, totalCount, rowHeight, viewableIndex, viewableCount, bufferMultiplier) {
 
     var rowArray = Array.isArray(rows) ? rows.map(function (row, i) {
-        return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, i);
+        return getRowComponents(columns, columnManager, dragAndDrop, editor, editorState, gridType, menuState, reducerKeys, readFunc, row, rows[i - 1], events, moveRow, plugins, selectionModel, selectedRows, showTreeRootNode, stateful, stateKey, store, i);
     }) : [];
 
     if (!infinite) {

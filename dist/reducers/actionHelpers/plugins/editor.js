@@ -18,14 +18,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var editRow = exports.editRow = function editRow(state, _ref) {
     var _fromJS;
 
-    var columns = _ref.columns;
-    var editMode = _ref.editMode;
-    var rowIndex = _ref.rowIndex;
-    var rowId = _ref.rowId;
-    var stateKey = _ref.stateKey;
-    var top = _ref.top;
-    var isCreate = _ref.isCreate;
-    var values = _ref.values;
+    var columns = _ref.columns,
+        editMode = _ref.editMode,
+        rowIndex = _ref.rowIndex,
+        rowId = _ref.rowId,
+        stateKey = _ref.stateKey,
+        top = _ref.top,
+        isCreate = _ref.isCreate,
+        values = _ref.values;
 
 
     var isValid = isRowValid(columns, values);
@@ -54,9 +54,9 @@ var editRow = exports.editRow = function editRow(state, _ref) {
 };
 
 var setData = exports.setData = function setData(state, _ref2) {
-    var data = _ref2.data;
-    var editMode = _ref2.editMode;
-    var stateKey = _ref2.stateKey;
+    var data = _ref2.data,
+        editMode = _ref2.editMode,
+        stateKey = _ref2.stateKey;
 
     if (editMode === 'grid') {
 
@@ -80,11 +80,11 @@ var setData = exports.setData = function setData(state, _ref2) {
 };
 
 var rowValueChange = exports.rowValueChange = function rowValueChange(state, _ref3) {
-    var column = _ref3.column;
-    var columns = _ref3.columns;
-    var value = _ref3.value;
-    var rowId = _ref3.rowId;
-    var stateKey = _ref3.stateKey;
+    var column = _ref3.column,
+        columns = _ref3.columns,
+        value = _ref3.value,
+        rowId = _ref3.rowId,
+        stateKey = _ref3.stateKey;
 
 
     var previousValues = state.getIn([stateKey, rowId, 'values']) ? state.getIn([stateKey, rowId, 'values']).toJS() : {};
@@ -123,9 +123,9 @@ var rowValueChange = exports.rowValueChange = function rowValueChange(state, _re
 };
 
 var repositionEditor = exports.repositionEditor = function repositionEditor(state, _ref4) {
-    var rowId = _ref4.rowId;
-    var stateKey = _ref4.stateKey;
-    var top = _ref4.top;
+    var rowId = _ref4.rowId,
+        stateKey = _ref4.stateKey,
+        top = _ref4.top;
 
     var newState = state.mergeIn([stateKey, rowId], {
         top: top

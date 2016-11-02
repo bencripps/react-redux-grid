@@ -8,11 +8,11 @@ exports.reorderColumn = undefined;
 var _ActionTypes = require('../../constants/ActionTypes');
 
 var reorderColumn = exports.reorderColumn = function reorderColumn(_ref) {
-    var draggedIndex = _ref.draggedIndex;
-    var droppedIndex = _ref.droppedIndex;
-    var columns = _ref.columns;
-    var stateKey = _ref.stateKey;
-    var stateful = _ref.stateful;
+    var draggedIndex = _ref.draggedIndex,
+        droppedIndex = _ref.droppedIndex,
+        columns = _ref.columns,
+        stateKey = _ref.stateKey,
+        stateful = _ref.stateful;
 
 
     var reorder = function reorder(cols, to, from) {

@@ -39,12 +39,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var any = _react.PropTypes.any;
-var bool = _react.PropTypes.bool;
-var number = _react.PropTypes.number;
-var object = _react.PropTypes.object;
-var oneOfType = _react.PropTypes.oneOfType;
-var string = _react.PropTypes.string;
+var any = _react.PropTypes.any,
+    bool = _react.PropTypes.bool,
+    number = _react.PropTypes.number,
+    object = _react.PropTypes.object,
+    oneOfType = _react.PropTypes.oneOfType,
+    string = _react.PropTypes.string;
 
 var TableContainer = exports.TableContainer = function (_Component) {
     _inherits(TableContainer, _Component);
@@ -52,15 +52,15 @@ var TableContainer = exports.TableContainer = function (_Component) {
     _createClass(TableContainer, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var editorComponent = _props.editorComponent;
-            var headerProps = _props.headerProps;
-            var height = _props.height;
-            var rowProps = _props.rowProps;
-            var infinite = _props.infinite;
-            var _state = this.state;
-            var containerScrollTop = _state.containerScrollTop;
-            var containerHeight = _state.containerHeight;
+            var _props = this.props,
+                editorComponent = _props.editorComponent,
+                headerProps = _props.headerProps,
+                height = _props.height,
+                rowProps = _props.rowProps,
+                infinite = _props.infinite;
+            var _state = this.state,
+                containerScrollTop = _state.containerScrollTop,
+                containerHeight = _state.containerHeight;
 
 
             var tableContainerProps = {

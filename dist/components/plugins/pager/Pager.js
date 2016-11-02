@@ -43,26 +43,26 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
     _createClass(PagerToolbar, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var dataSource = _props.dataSource;
-            var BUTTON_TYPES = _props.BUTTON_TYPES;
-            var gridData = _props.gridData;
-            var pageSize = _props.pageSize;
-            var pagerState = _props.pagerState;
-            var plugins = _props.plugins;
-            var recordType = _props.recordType;
-            var stateKey = _props.stateKey;
-            var store = _props.store;
-            var toolbarRenderer = _props.toolbarRenderer;
+            var _props = this.props,
+                dataSource = _props.dataSource,
+                BUTTON_TYPES = _props.BUTTON_TYPES,
+                gridData = _props.gridData,
+                pageSize = _props.pageSize,
+                pagerState = _props.pagerState,
+                plugins = _props.plugins,
+                recordType = _props.recordType,
+                stateKey = _props.stateKey,
+                store = _props.store,
+                toolbarRenderer = _props.toolbarRenderer;
 
 
             var pagerDataSource = getPagingSource(plugins, gridData);
 
-            var _state = this.state;
-            var stuck = _state.stuck;
-            var stuckBottom = _state.stuckBottom;
-            var width = _state.width;
-            var top = _state.top;
+            var _state = this.state,
+                stuck = _state.stuck,
+                stuckBottom = _state.stuckBottom,
+                width = _state.width,
+                top = _state.top;
 
 
             var customComponent = getCustomComponent(plugins, {
@@ -151,9 +151,9 @@ var PagerToolbar = exports.PagerToolbar = function (_Component) {
             var scope = this;
 
             window.addEventListener('resize', function () {
-                var _state2 = _this2.state;
-                var stuck = _state2.stuck;
-                var stuckBottom = _state2.stuckBottom;
+                var _state2 = _this2.state,
+                    stuck = _state2.stuck,
+                    stuckBottom = _state2.stuckBottom;
 
 
                 if (stuck || stuckBottom) {

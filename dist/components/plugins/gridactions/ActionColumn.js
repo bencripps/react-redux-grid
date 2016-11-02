@@ -47,25 +47,25 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
     _createClass(ActionColumn, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var columns = _props.columns;
-            var editor = _props.editor;
-            var events = _props.events;
-            var headerActionItemBuilder = _props.headerActionItemBuilder;
-            var iconCls = _props.iconCls;
-            var menuState = _props.menuState;
-            var reducerKeys = _props.reducerKeys;
-            var rowData = _props.rowData;
-            var rowId = _props.rowId;
-            var rowIndex = _props.rowIndex;
-            var stateKey = _props.stateKey;
-            var stateful = _props.stateful;
-            var store = _props.store;
-            var type = _props.type;
+            var _props = this.props,
+                columns = _props.columns,
+                editor = _props.editor,
+                events = _props.events,
+                headerActionItemBuilder = _props.headerActionItemBuilder,
+                iconCls = _props.iconCls,
+                menuState = _props.menuState,
+                reducerKeys = _props.reducerKeys,
+                rowData = _props.rowData,
+                rowId = _props.rowId,
+                rowIndex = _props.rowIndex,
+                stateKey = _props.stateKey,
+                stateful = _props.stateful,
+                store = _props.store,
+                type = _props.type;
             var actions = this.props.actions;
-            var _state = this.state;
-            var maxHeight = _state.maxHeight;
-            var menuPosition = _state.menuPosition;
+            var _state = this.state,
+                maxHeight = _state.maxHeight,
+                menuPosition = _state.menuPosition;
 
 
             var menuShown = menuState && menuState[rowId] ? menuState[rowId] : false;
@@ -90,9 +90,9 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var _props2 = this.props;
-            var menuState = _props2.menuState;
-            var rowId = _props2.rowId;
+            var _props2 = this.props,
+                menuState = _props2.menuState,
+                rowId = _props2.rowId;
             var menuPosition = this.state.menuPosition;
 
 
@@ -103,11 +103,9 @@ var ActionColumn = exports.ActionColumn = function (_Component) {
                 var node = _reactDom2.default.findDOMNode(this);
                 var row = node.parentElement;
 
-                var _getRowBoundingRect = (0, _getRowBoundingRect2.getRowBoundingRect)(row);
-
-                var position = _getRowBoundingRect.position;
-                var maxHeight = _getRowBoundingRect.maxHeight;
-
+                var _getRowBoundingRect = (0, _getRowBoundingRect2.getRowBoundingRect)(row),
+                    position = _getRowBoundingRect.position,
+                    maxHeight = _getRowBoundingRect.maxHeight;
 
                 if (position) {
                     this.setState({

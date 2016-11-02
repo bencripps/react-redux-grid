@@ -38,10 +38,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var arrayOf = _react.PropTypes.arrayOf;
-var bool = _react.PropTypes.bool;
-var object = _react.PropTypes.object;
-var string = _react.PropTypes.string;
+var arrayOf = _react.PropTypes.arrayOf,
+    bool = _react.PropTypes.bool,
+    object = _react.PropTypes.object,
+    string = _react.PropTypes.string;
 
 
 var dragAndDropManager = new _DragAndDropManager2.default();
@@ -54,17 +54,17 @@ var Header = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            var _props = this.props;
-            var columns = _props.columns;
-            var columnManager = _props.columnManager;
-            var dataSource = _props.dataSource;
-            var selectionModel = _props.selectionModel;
-            var reducerKeys = _props.reducerKeys;
-            var store = _props.store;
-            var stateKey = _props.stateKey;
-            var pager = _props.pager;
-            var plugins = _props.plugins;
-            var visible = _props.visible;
+            var _props = this.props,
+                columns = _props.columns,
+                columnManager = _props.columnManager,
+                dataSource = _props.dataSource,
+                selectionModel = _props.selectionModel,
+                reducerKeys = _props.reducerKeys,
+                store = _props.store,
+                stateKey = _props.stateKey,
+                pager = _props.pager,
+                plugins = _props.plugins,
+                visible = _props.visible;
 
 
             var visibleColumns = columns.filter(function (col) {

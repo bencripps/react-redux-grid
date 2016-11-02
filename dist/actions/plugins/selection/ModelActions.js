@@ -8,8 +8,8 @@ exports.setSelection = exports.deselectAll = exports.selectAll = exports.deselec
 var _ActionTypes = require('../../../constants/ActionTypes');
 
 var selectRow = exports.selectRow = function selectRow(_ref) {
-    var stateKey = _ref.stateKey;
-    var rowId = _ref.rowId;
+    var stateKey = _ref.stateKey,
+        rowId = _ref.rowId;
     return {
         type: _ActionTypes.SELECT_ROW,
         stateKey: stateKey,
@@ -18,8 +18,8 @@ var selectRow = exports.selectRow = function selectRow(_ref) {
 };
 
 var deselectRow = exports.deselectRow = function deselectRow(_ref2) {
-    var stateKey = _ref2.stateKey;
-    var rowId = _ref2.rowId;
+    var stateKey = _ref2.stateKey,
+        rowId = _ref2.rowId;
     return {
         type: _ActionTypes.DESELECT_ROW,
         stateKey: stateKey,
@@ -28,8 +28,8 @@ var deselectRow = exports.deselectRow = function deselectRow(_ref2) {
 };
 
 var selectAll = exports.selectAll = function selectAll(_ref3) {
-    var data = _ref3.data;
-    var stateKey = _ref3.stateKey;
+    var data = _ref3.data,
+        stateKey = _ref3.stateKey;
 
 
     if (!data) {
@@ -56,13 +56,13 @@ var deselectAll = exports.deselectAll = function deselectAll(_ref4) {
 };
 
 var setSelection = exports.setSelection = function setSelection(_ref5) {
-    var id = _ref5.id;
-    var _ref5$defaults = _ref5.defaults;
-    var defaults = _ref5$defaults === undefined ? {} : _ref5$defaults;
-    var _ref5$modes = _ref5.modes;
-    var modes = _ref5$modes === undefined ? {} : _ref5$modes;
-    var stateKey = _ref5.stateKey;
-    var index = _ref5.index;
+    var id = _ref5.id,
+        _ref5$defaults = _ref5.defaults,
+        defaults = _ref5$defaults === undefined ? {} : _ref5$defaults,
+        _ref5$modes = _ref5.modes,
+        modes = _ref5$modes === undefined ? {} : _ref5$modes,
+        stateKey = _ref5.stateKey,
+        index = _ref5.index;
 
 
     var allowDeselect = defaults.allowDeselect;
