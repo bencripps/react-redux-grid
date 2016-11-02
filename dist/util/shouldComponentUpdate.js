@@ -20,10 +20,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function shouldGridUpdate(nextProps) {
     var result = true;
 
-    var _props = this.props;
-    var reducerKeys = _props.reducerKeys;
-    var stateKey = _props.stateKey;
-    var store = _props.store;
+    var _props = this.props,
+        reducerKeys = _props.reducerKeys,
+        stateKey = _props.stateKey,
+        store = _props.store;
 
 
     var nextUpdate = (0, _lastUpdate.getLastUpdate)(store, stateKey, reducerKeys);

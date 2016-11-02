@@ -45,10 +45,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var arrayOf = _react.PropTypes.arrayOf;
-var bool = _react.PropTypes.bool;
-var object = _react.PropTypes.object;
-var string = _react.PropTypes.string;
+var arrayOf = _react.PropTypes.arrayOf,
+    bool = _react.PropTypes.bool,
+    object = _react.PropTypes.object,
+    string = _react.PropTypes.string;
 
 
 var dragAndDropManager = new _DragAndDropManager2.default();
@@ -61,26 +61,26 @@ var FixedHeader = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            var _props = this.props;
-            var columns = _props.columns;
-            var columnManager = _props.columnManager;
-            var columnState = _props.columnState;
-            var dataSource = _props.dataSource;
-            var reducerKeys = _props.reducerKeys;
-            var selectionModel = _props.selectionModel;
-            var stateKey = _props.stateKey;
-            var stateful = _props.stateful;
-            var store = _props.store;
-            var pager = _props.pager;
-            var plugins = _props.plugins;
-            var menuState = _props.menuState;
-            var _state = this.state;
-            var bottom = _state.bottom;
-            var classes = _state.classes;
-            var headerOffset = _state.headerOffset;
-            var stuck = _state.stuck;
-            var stuckToBottom = _state.stuckToBottom;
-            var width = _state.width;
+            var _props = this.props,
+                columns = _props.columns,
+                columnManager = _props.columnManager,
+                columnState = _props.columnState,
+                dataSource = _props.dataSource,
+                reducerKeys = _props.reducerKeys,
+                selectionModel = _props.selectionModel,
+                stateKey = _props.stateKey,
+                stateful = _props.stateful,
+                store = _props.store,
+                pager = _props.pager,
+                plugins = _props.plugins,
+                menuState = _props.menuState;
+            var _state = this.state,
+                bottom = _state.bottom,
+                classes = _state.classes,
+                headerOffset = _state.headerOffset,
+                stuck = _state.stuck,
+                stuckToBottom = _state.stuckToBottom,
+                width = _state.width;
 
 
             var visibleColumns = columns.filter(function (col) {
@@ -266,9 +266,9 @@ var FixedHeader = function (_Component) {
             var scope = this;
 
             window.addEventListener('resize', function () {
-                var _state2 = _this3.state;
-                var stuck = _state2.stuck;
-                var stuckToBottom = _state2.stuckToBottom;
+                var _state2 = _this3.state,
+                    stuck = _state2.stuck,
+                    stuckToBottom = _state2.stuckToBottom;
 
 
                 if (stuck || stuckToBottom) {
@@ -290,13 +290,12 @@ var FixedHeader = function (_Component) {
             this.setWidthResetListener(headerDOM);
 
             var defaultListener = function defaultListener() {
-                var _scope$state = scope.state;
-                var stuck = _scope$state.stuck;
-                var stuckToBottom = _scope$state.stuckToBottom;
+                var _scope$state = scope.state,
+                    stuck = _scope$state.stuck,
+                    stuckToBottom = _scope$state.stuckToBottom;
 
-                var _headerDOM$getBoundin = headerDOM.getBoundingClientRect();
-
-                var top = _headerDOM$getBoundin.top;
+                var _headerDOM$getBoundin = headerDOM.getBoundingClientRect(),
+                    top = _headerDOM$getBoundin.top;
 
                 var tableHeight = headerDOM.parentNode.clientHeight;
                 var shouldStop = top + tableHeight - headerDOM.clientHeight * 2;

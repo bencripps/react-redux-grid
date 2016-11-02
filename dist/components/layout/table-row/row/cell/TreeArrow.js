@@ -24,18 +24,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var debouncedSetStateItem = _LocalStorageManager2.default.debouncedSetStateItem();
 
 var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
-    var depth = _ref.depth;
-    var hasChildren = _ref.hasChildren;
-    var id = _ref.id;
-    var isEditable = _ref.isEditable;
-    var isExpandable = _ref.isExpandable;
-    var isExpanded = _ref.isExpanded;
-    var readFunc = _ref.readFunc;
-    var showTreeRootNode = _ref.showTreeRootNode;
-    var shouldNest = _ref.shouldNest;
-    var stateful = _ref.stateful;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
+    var depth = _ref.depth,
+        hasChildren = _ref.hasChildren,
+        id = _ref.id,
+        isEditable = _ref.isEditable,
+        isExpandable = _ref.isExpandable,
+        isExpanded = _ref.isExpanded,
+        readFunc = _ref.readFunc,
+        showTreeRootNode = _ref.showTreeRootNode,
+        shouldNest = _ref.shouldNest,
+        stateful = _ref.stateful,
+        stateKey = _ref.stateKey,
+        store = _ref.store;
 
 
     var arrowProps = {
@@ -56,14 +56,14 @@ var TreeArrow = exports.TreeArrow = function TreeArrow(_ref) {
 };
 
 var handleArrowClick = exports.handleArrowClick = function handleArrowClick(_ref2, e) {
-    var hasChildren = _ref2.hasChildren;
-    var id = _ref2.id;
-    var isExpanded = _ref2.isExpanded;
-    var readFunc = _ref2.readFunc;
-    var showTreeRootNode = _ref2.showTreeRootNode;
-    var stateKey = _ref2.stateKey;
-    var stateful = _ref2.stateful;
-    var store = _ref2.store;
+    var hasChildren = _ref2.hasChildren,
+        id = _ref2.id,
+        isExpanded = _ref2.isExpanded,
+        readFunc = _ref2.readFunc,
+        showTreeRootNode = _ref2.showTreeRootNode,
+        stateKey = _ref2.stateKey,
+        stateful = _ref2.stateful,
+        store = _ref2.store;
 
     e.stopPropagation();
 
@@ -98,13 +98,13 @@ var handleArrowClick = exports.handleArrowClick = function handleArrowClick(_ref
     }
 };
 
-var any = _react.PropTypes.any;
-var bool = _react.PropTypes.bool;
-var func = _react.PropTypes.func;
-var object = _react.PropTypes.object;
-var oneOfType = _react.PropTypes.oneOfType;
-var number = _react.PropTypes.number;
-var string = _react.PropTypes.string;
+var any = _react.PropTypes.any,
+    bool = _react.PropTypes.bool,
+    func = _react.PropTypes.func,
+    object = _react.PropTypes.object,
+    oneOfType = _react.PropTypes.oneOfType,
+    number = _react.PropTypes.number,
+    string = _react.PropTypes.string;
 
 
 TreeArrow.propTypes = {

@@ -11,11 +11,9 @@ var setTreeValue = exports.setTreeValue = function setTreeValue(treeData, path, 
     var childIdentifier = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'children';
     var rootIdentifier = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'root';
 
-    var _findTreeNode = (0, _findTreeNode2.findTreeNode)(treeData, path, childIdentifier, rootIdentifier);
-
-    var node = _findTreeNode.node;
-    var indexPath = _findTreeNode.indexPath;
-
+    var _findTreeNode = (0, _findTreeNode2.findTreeNode)(treeData, path, childIdentifier, rootIdentifier),
+        node = _findTreeNode.node,
+        indexPath = _findTreeNode.indexPath;
 
     return !node ? treeData : treeData.mergeIn(indexPath, values);
 };

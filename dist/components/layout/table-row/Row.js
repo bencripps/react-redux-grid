@@ -31,6 +31,8 @@ var _RowContainer2 = _interopRequireDefault(_RowContainer);
 
 var _prefix = require('../../../util/prefix');
 
+var _fire = require('../../../util/fire');
+
 var _getData = require('../../../util/getData');
 
 var _GridConstants = require('../../../constants/GridConstants');
@@ -45,13 +47,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var arrayOf = _react.PropTypes.arrayOf;
-var bool = _react.PropTypes.bool;
-var func = _react.PropTypes.func;
-var object = _react.PropTypes.object;
-var string = _react.PropTypes.string;
-var oneOf = _react.PropTypes.oneOf;
-var number = _react.PropTypes.number;
+var arrayOf = _react.PropTypes.arrayOf,
+    bool = _react.PropTypes.bool,
+    func = _react.PropTypes.func,
+    object = _react.PropTypes.object,
+    string = _react.PropTypes.string,
+    oneOf = _react.PropTypes.oneOf,
+    number = _react.PropTypes.number;
 
 
 var DRAG_INCREMENT = 15;
@@ -62,30 +64,30 @@ var Row = exports.Row = function (_Component) {
     _createClass(Row, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var columnManager = _props.columnManager;
-            var columns = _props.columns;
-            var connectDragSource = _props.connectDragSource;
-            var connectDropTarget = _props.connectDropTarget;
-            var dragAndDrop = _props.dragAndDrop;
-            var editor = _props.editor;
-            var editorState = _props.editorState;
-            var events = _props.events;
-            var gridType = _props.gridType;
-            var index = _props.index;
-            var isDragging = _props.isDragging;
-            var menuState = _props.menuState;
-            var plugins = _props.plugins;
-            var readFunc = _props.readFunc;
-            var reducerKeys = _props.reducerKeys;
-            var row = _props.row;
-            var selectedRows = _props.selectedRows;
-            var selectionModel = _props.selectionModel;
-            var showTreeRootNode = _props.showTreeRootNode;
-            var stateful = _props.stateful;
-            var stateKey = _props.stateKey;
-            var store = _props.store;
-            var treeData = _props.treeData;
+            var _props = this.props,
+                columnManager = _props.columnManager,
+                columns = _props.columns,
+                connectDragSource = _props.connectDragSource,
+                connectDropTarget = _props.connectDropTarget,
+                dragAndDrop = _props.dragAndDrop,
+                editor = _props.editor,
+                editorState = _props.editorState,
+                events = _props.events,
+                gridType = _props.gridType,
+                index = _props.index,
+                isDragging = _props.isDragging,
+                menuState = _props.menuState,
+                plugins = _props.plugins,
+                readFunc = _props.readFunc,
+                reducerKeys = _props.reducerKeys,
+                row = _props.row,
+                selectedRows = _props.selectedRows,
+                selectionModel = _props.selectionModel,
+                showTreeRootNode = _props.showTreeRootNode,
+                stateful = _props.stateful,
+                stateKey = _props.stateKey,
+                store = _props.store,
+                treeData = _props.treeData;
 
 
             var id = row._key;
@@ -237,6 +239,7 @@ Row.propTypes = {
     pageSize: number,
     pager: object,
     plugins: object,
+    previousRow: object,
     readFunc: func,
     reducerKeys: object,
     row: object,
@@ -348,10 +351,7 @@ var handleRowDoubleClickEvent = exports.handleRowDoubleClickEvent = function han
             selected: !isSelected
         });
     }
-
-    if (events.HANDLE_ROW_DOUBLE_CLICK) {
-        events.HANDLE_ROW_DOUBLE_CLICK.call(undefined, rowData, rowId, reactEvent, id, browserEvent);
-    }
+    (0, _fire.fire)('HANDLE_ROW_DOUBLE_CLICK', events, undefined, rowData, rowId, reactEvent, id, browserEvent);
 };
 
 var getSelectedText = exports.getSelectedText = function getSelectedText() {
@@ -370,9 +370,7 @@ var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function han
         return false;
     }
 
-    if (events.HANDLE_BEFORE_ROW_CLICK) {
-        events.HANDLE_BEFORE_ROW_CLICK.call(undefined, rowData, rowId, reactEvent, id, browserEvent);
-    }
+    (0, _fire.fire)('HANDLE_BEFORE_ROW_CLICK', events, undefined, rowData, rowId, reactEvent, id, browserEvent);
 
     if (selectionModel && selectionModel.defaults.selectionEvent === selectionModel.eventTypes.singleclick) {
 
@@ -386,46 +384,46 @@ var handleRowSingleClickEvent = exports.handleRowSingleClickEvent = function han
         });
     }
 
-    if (events.HANDLE_ROW_CLICK) {
-        events.HANDLE_ROW_CLICK.call(undefined, rowData, rowId, reactEvent, id, browserEvent);
-    }
+    (0, _fire.fire)('HANDLE_ROW_CLICK', events, undefined, rowData, rowId, reactEvent, id, browserEvent);
 };
 
 var rowSource = {
     beginDrag: function beginDrag(_ref) {
-        var getTreeData = _ref.getTreeData;
+        var getTreeData = _ref.getTreeData,
+            row = _ref.row;
 
-        return { getTreeData: getTreeData };
+        return { getTreeData: getTreeData, row: row };
     }
 };
 
 var rowTarget = {
     hover: function hover(props, monitor, component) {
-        var _props$treeData = props.treeData;
-        var hoverIndex = _props$treeData.index;
-        var hoverId = _props$treeData.id;
-        var hoverIsExpanded = _props$treeData.isExpanded;
-        var hoverParentId = _props$treeData.parentId;
-        var hoverPath = _props$treeData.path;
-        var hoverFlatIndex = _props$treeData.flatIndex;
+        var hoverEvents = props.events,
+            hoverRow = props.row,
+            hoverPreviousRow = props.previousRow;
+        var _props$treeData = props.treeData,
+            hoverIndex = _props$treeData.index,
+            hoverId = _props$treeData.id,
+            hoverIsExpanded = _props$treeData.isExpanded,
+            hoverParentId = _props$treeData.parentId,
+            hoverPath = _props$treeData.path,
+            hoverFlatIndex = _props$treeData.flatIndex;
 
-        var _monitor$getItem = monitor.getItem();
+        var _monitor$getItem = monitor.getItem(),
+            lastX = _monitor$getItem.lastX,
+            getTreeData = _monitor$getItem.getTreeData,
+            row = _monitor$getItem.row;
 
-        var lastX = _monitor$getItem.lastX;
-        var getTreeData = _monitor$getItem.getTreeData;
-
-        var _getTreeData = getTreeData();
-
-        var id = _getTreeData.id;
-        var index = _getTreeData.index;
-        var parentId = _getTreeData.parentId;
-        var isLastChild = _getTreeData.isLastChild;
-        var isFirstChild = _getTreeData.isFirstChild;
-        var flatIndex = _getTreeData.flatIndex;
-        var parentIndex = _getTreeData.parentIndex;
-        var previousSiblingTotalChildren = _getTreeData.previousSiblingTotalChildren;
-        var previousSiblingId = _getTreeData.previousSiblingId;
-
+        var _getTreeData = getTreeData(),
+            id = _getTreeData.id,
+            index = _getTreeData.index,
+            parentId = _getTreeData.parentId,
+            isLastChild = _getTreeData.isLastChild,
+            isFirstChild = _getTreeData.isFirstChild,
+            flatIndex = _getTreeData.flatIndex,
+            parentIndex = _getTreeData.parentIndex,
+            previousSiblingTotalChildren = _getTreeData.previousSiblingTotalChildren,
+            previousSiblingId = _getTreeData.previousSiblingId;
 
         var path = [].concat(_toConsumableArray(getTreeData().path));
         var targetPath = hoverPath;
@@ -477,6 +475,10 @@ var rowTarget = {
 
                 // X position indicates a move to right
                 else if (lastX + DRAG_INCREMENT < mouseX && !isFirstChild) {
+                        var validDrop = (0, _fire.fire)('HANDLE_BEFORE_TREE_CHILD_CREATE', hoverEvents, null, row, hoverPreviousRow);
+                        if (validDrop === false) {
+                            return;
+                        }
                         targetParentId = previousSiblingId;
                         targetIndex = previousSiblingTotalChildren;
                         targetPath.push(targetParentId);
@@ -506,6 +508,10 @@ var rowTarget = {
             // If hoverIsExpanded, put item as first child instead
             // instead of placing it as a sibling below hovered item
             if (flatIndex < hoverFlatIndex && hoverIsExpanded) {
+                var _validDrop = (0, _fire.fire)('HANDLE_BEFORE_TREE_CHILD_CREATE', hoverEvents, null, row, hoverRow);
+                if (_validDrop === false) {
+                    return;
+                }
                 targetIndex = 0;
                 targetParentId = hoverId;
                 targetPath.push(targetParentId);
@@ -517,17 +523,12 @@ var rowTarget = {
         monitor.getItem().lastX = mouseX;
     },
     drop: function drop(props) {
-        var events = props.events;
-        var getTreeData = props.getTreeData;
-        var row = props.row;
+        var events = props.events,
+            getTreeData = props.getTreeData,
+            row = props.row;
 
 
-        if (typeof events.HANDLE_AFTER_ROW_DROP === 'function') {
-            events.HANDLE_AFTER_ROW_DROP({
-                treeData: getTreeData(),
-                row: row
-            });
-        }
+        (0, _fire.fire)('HANDLE_AFTER_ROW_DROP', events, null, row, getTreeData());
     }
 };
 

@@ -28,12 +28,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return (0, _arrayFrom2.default)(arr); } }
 
 var setData = exports.setData = function setData(state, _ref) {
-    var currentRecords = _ref.currentRecords;
-    var data = _ref.data;
-    var gridType = _ref.gridType;
-    var stateKey = _ref.stateKey;
-    var treeData = _ref.treeData;
-    var total = _ref.total;
+    var currentRecords = _ref.currentRecords,
+        data = _ref.data,
+        gridType = _ref.gridType,
+        stateKey = _ref.stateKey,
+        treeData = _ref.treeData,
+        total = _ref.total;
 
 
     var keyedData = (0, _getData.setKeysInData)(data);
@@ -50,10 +50,10 @@ var setData = exports.setData = function setData(state, _ref) {
 };
 
 var setPartialTreeData = exports.setPartialTreeData = function setPartialTreeData(state, _ref2) {
-    var data = _ref2.data;
-    var parentId = _ref2.parentId;
-    var showTreeRootNode = _ref2.showTreeRootNode;
-    var stateKey = _ref2.stateKey;
+    var data = _ref2.data,
+        parentId = _ref2.parentId,
+        showTreeRootNode = _ref2.showTreeRootNode,
+        stateKey = _ref2.stateKey;
 
 
     var tree = state.getIn([stateKey, 'treeData']);
@@ -105,8 +105,8 @@ var dismissEditor = exports.dismissEditor = function dismissEditor(state, _ref3)
 };
 
 var removeRow = exports.removeRow = function removeRow(state, _ref4) {
-    var stateKey = _ref4.stateKey;
-    var rowIndex = _ref4.rowIndex;
+    var stateKey = _ref4.stateKey,
+        rowIndex = _ref4.rowIndex;
 
     var remainingRows = state.getIn([stateKey, 'data']).remove(rowIndex || 0, 1);
 
@@ -119,9 +119,9 @@ var removeRow = exports.removeRow = function removeRow(state, _ref4) {
 };
 
 var updateRow = exports.updateRow = function updateRow(state, _ref5) {
-    var rowIndex = _ref5.rowIndex;
-    var stateKey = _ref5.stateKey;
-    var values = _ref5.values;
+    var rowIndex = _ref5.rowIndex,
+        stateKey = _ref5.stateKey,
+        values = _ref5.values;
 
 
     var data = state.getIn([stateKey, 'data']);
@@ -143,8 +143,8 @@ var updateRow = exports.updateRow = function updateRow(state, _ref5) {
 };
 
 var addNewRow = exports.addNewRow = function addNewRow(state, _ref6) {
-    var rowId = _ref6.rowId;
-    var stateKey = _ref6.stateKey;
+    var rowId = _ref6.rowId,
+        stateKey = _ref6.stateKey;
 
     var existingState = state.get(stateKey);
     var isEditing = existingState && existingState.get('isEditing');
@@ -176,10 +176,10 @@ var addNewRow = exports.addNewRow = function addNewRow(state, _ref6) {
 };
 
 var moveNode = exports.moveNode = function moveNode(state, _ref7) {
-    var current = _ref7.current;
-    var next = _ref7.next;
-    var showTreeRootNode = _ref7.showTreeRootNode;
-    var stateKey = _ref7.stateKey;
+    var current = _ref7.current,
+        next = _ref7.next,
+        showTreeRootNode = _ref7.showTreeRootNode,
+        stateKey = _ref7.stateKey;
 
     var nextPath = (0, _immutable.List)(next.path);
     var tree = state.getIn([stateKey, 'treeData']);
@@ -204,9 +204,9 @@ var moveNode = exports.moveNode = function moveNode(state, _ref7) {
 };
 
 var setTreeNodeVisibility = exports.setTreeNodeVisibility = function setTreeNodeVisibility(state, _ref8) {
-    var id = _ref8.id;
-    var showTreeRootNode = _ref8.showTreeRootNode;
-    var stateKey = _ref8.stateKey;
+    var id = _ref8.id,
+        showTreeRootNode = _ref8.showTreeRootNode,
+        stateKey = _ref8.stateKey;
 
 
     var flat = state.getIn([stateKey, 'data']);
@@ -238,9 +238,9 @@ var setTreeNodeVisibility = exports.setTreeNodeVisibility = function setTreeNode
 };
 
 var saveRow = exports.saveRow = function saveRow(state, _ref9) {
-    var rowIndex = _ref9.rowIndex;
-    var stateKey = _ref9.stateKey;
-    var values = _ref9.values;
+    var rowIndex = _ref9.rowIndex,
+        stateKey = _ref9.stateKey,
+        values = _ref9.values;
 
     var data = state.getIn([stateKey, 'data']).set(rowIndex, (0, _immutable.fromJS)(values));
 
@@ -253,8 +253,8 @@ var saveRow = exports.saveRow = function saveRow(state, _ref9) {
 };
 
 var sortData = exports.sortData = function sortData(state, _ref10) {
-    var data = _ref10.data;
-    var stateKey = _ref10.stateKey;
+    var data = _ref10.data,
+        stateKey = _ref10.stateKey;
     return state.mergeIn([stateKey], {
         data: data,
         lastUpdate: (0, _lastUpdate.generateLastUpdate)()
@@ -277,8 +277,8 @@ var clearFilter = exports.clearFilter = function clearFilter(state, _ref11) {
 };
 
 var filterData = exports.filterData = function filterData(state, _ref12) {
-    var data = _ref12.data;
-    var stateKey = _ref12.stateKey;
+    var data = _ref12.data,
+        stateKey = _ref12.stateKey;
     return state.mergeIn([stateKey], {
         data: data,
         lastUpdate: (0, _lastUpdate.generateLastUpdate)()

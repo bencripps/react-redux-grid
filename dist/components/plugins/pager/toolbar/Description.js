@@ -12,12 +12,12 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Description = exports.Description = function Description(_ref) {
-    var toolbarRenderer = _ref.toolbarRenderer;
-    var pageIndex = _ref.pageIndex;
-    var pageSize = _ref.pageSize;
-    var total = _ref.total;
-    var currentRecords = _ref.currentRecords;
-    var recordType = _ref.recordType;
+    var toolbarRenderer = _ref.toolbarRenderer,
+        pageIndex = _ref.pageIndex,
+        pageSize = _ref.pageSize,
+        total = _ref.total,
+        currentRecords = _ref.currentRecords,
+        recordType = _ref.recordType;
 
 
     return _react2.default.createElement(

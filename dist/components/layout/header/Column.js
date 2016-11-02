@@ -31,18 +31,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
 var Column = exports.Column = function Column(_ref) {
-    var actualIndex = _ref.actualIndex;
-    var scope = _ref.scope;
-    var col = _ref.col;
-    var columns = _ref.columns;
-    var columnManager = _ref.columnManager;
-    var dataSource = _ref.dataSource;
-    var dragAndDropManager = _ref.dragAndDropManager;
-    var pager = _ref.pager;
-    var store = _ref.store;
-    var stateKey = _ref.stateKey;
-    var index = _ref.index;
-    var stateful = _ref.stateful;
+    var actualIndex = _ref.actualIndex,
+        scope = _ref.scope,
+        col = _ref.col,
+        columns = _ref.columns,
+        columnManager = _ref.columnManager,
+        dataSource = _ref.dataSource,
+        dragAndDropManager = _ref.dragAndDropManager,
+        pager = _ref.pager,
+        store = _ref.store,
+        stateKey = _ref.stateKey,
+        index = _ref.index,
+        stateful = _ref.stateful;
 
 
     if (col.hidden) {
@@ -223,14 +223,14 @@ var handleSort = exports.handleSort = function handleSort(columns, col, columnMa
 };
 
 var handleColumnClick = exports.handleColumnClick = function handleColumnClick(_ref2) {
-    var columns = _ref2.columns;
-    var col = _ref2.col;
-    var columnManager = _ref2.columnManager;
-    var dataSource = _ref2.dataSource;
-    var direction = _ref2.direction;
-    var pager = _ref2.pager;
-    var stateKey = _ref2.stateKey;
-    var store = _ref2.store;
+    var columns = _ref2.columns,
+        col = _ref2.col,
+        columnManager = _ref2.columnManager,
+        dataSource = _ref2.dataSource,
+        direction = _ref2.direction,
+        pager = _ref2.pager,
+        stateKey = _ref2.stateKey,
+        store = _ref2.store;
 
 
     if (col.sortable) {

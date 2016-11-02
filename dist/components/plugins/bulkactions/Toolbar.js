@@ -41,10 +41,10 @@ var BulkActionToolbar = function (_Component) {
     _createClass(BulkActionToolbar, [{
         key: 'render',
         value: function render() {
-            var _props = this.props;
-            var bulkActionState = _props.bulkActionState;
-            var selectedRows = _props.selectedRows;
-            var plugins = _props.plugins;
+            var _props = this.props,
+                bulkActionState = _props.bulkActionState,
+                selectedRows = _props.selectedRows,
+                plugins = _props.plugins;
 
 
             var toolbar = (0, _isPluginEnabled.isPluginEnabled)(plugins, 'BULK_ACTIONS') && plugins.BULK_ACTIONS.actions && plugins.BULK_ACTIONS.actions.length > 0 ? getToolbar(plugins.BULK_ACTIONS.actions, bulkActionState, selectedRows) : _react2.default.createElement('div', null);
@@ -54,11 +54,11 @@ var BulkActionToolbar = function (_Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            var _props2 = this.props;
-            var store = _props2.store;
-            var stateKey = _props2.stateKey;
-            var bulkActionState = _props2.bulkActionState;
-            var selectedRows = _props2.selectedRows;
+            var _props2 = this.props,
+                store = _props2.store,
+                stateKey = _props2.stateKey,
+                bulkActionState = _props2.bulkActionState,
+                selectedRows = _props2.selectedRows;
 
             var isRemoved = bulkActionState && bulkActionState.isRemoved;
             var totalCount = getTotalSelection(selectedRows);
@@ -88,10 +88,10 @@ var BulkActionToolbar = function (_Component) {
     _createClass(BulkActionToolbar, [{
         key: 'handleChange',
         value: function handleChange(reactEvent) {
-            var _props3 = this.props;
-            var stateKey = _props3.stateKey;
-            var store = _props3.store;
-            var dataSource = _props3.dataSource;
+            var _props3 = this.props,
+                stateKey = _props3.stateKey,
+                store = _props3.store,
+                dataSource = _props3.dataSource;
 
 
             if (reactEvent.target && reactEvent.target.checked) {

@@ -18,18 +18,18 @@ var _PagerActions = require('./../../../../actions/plugins/pager/PagerActions');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Button = exports.Button = function Button(_ref) {
-    var BUTTON_TYPES = _ref.BUTTON_TYPES;
-    var backButtonText = _ref.backButtonText;
-    var currentRecords = _ref.currentRecords;
-    var dataSource = _ref.dataSource;
-    var nextButtonText = _ref.nextButtonText;
-    var pageIndex = _ref.pageIndex;
-    var pageSize = _ref.pageSize;
-    var plugins = _ref.plugins;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
-    var total = _ref.total;
-    var type = _ref.type;
+    var BUTTON_TYPES = _ref.BUTTON_TYPES,
+        backButtonText = _ref.backButtonText,
+        currentRecords = _ref.currentRecords,
+        dataSource = _ref.dataSource,
+        nextButtonText = _ref.nextButtonText,
+        pageIndex = _ref.pageIndex,
+        pageSize = _ref.pageSize,
+        plugins = _ref.plugins,
+        stateKey = _ref.stateKey,
+        store = _ref.store,
+        total = _ref.total,
+        type = _ref.type;
 
 
     var buttonProps = {

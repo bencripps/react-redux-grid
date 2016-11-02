@@ -38,13 +38,13 @@ var ColumnManager = function () {
     _createClass(ColumnManager, [{
         key: 'init',
         value: function init(_ref) {
-            var plugins = _ref.plugins;
-            var store = _ref.store;
-            var events = _ref.events;
-            var selModel = _ref.selModel;
-            var editor = _ref.editor;
-            var columns = _ref.columns;
-            var dataSource = _ref.dataSource;
+            var plugins = _ref.plugins,
+                store = _ref.store,
+                events = _ref.events,
+                selModel = _ref.selModel,
+                editor = _ref.editor,
+                columns = _ref.columns,
+                dataSource = _ref.dataSource;
 
 
             var visibleColumns = columns.filter(function (col) {
@@ -88,12 +88,12 @@ var ColumnManager = function () {
     }, {
         key: 'doSort',
         value: function doSort(_ref2) {
-            var method = _ref2.method;
-            var column = _ref2.column;
-            var direction = _ref2.direction;
-            var dataSource = _ref2.dataSource;
-            var pagerState = _ref2.pagerState;
-            var stateKey = _ref2.stateKey;
+            var method = _ref2.method,
+                column = _ref2.column,
+                direction = _ref2.direction,
+                dataSource = _ref2.dataSource,
+                pagerState = _ref2.pagerState,
+                stateKey = _ref2.stateKey;
 
 
             var propName = (0, _getData.nameFromDataIndex)(column);
@@ -139,16 +139,16 @@ var ColumnManager = function () {
     }, {
         key: 'addActionColumn',
         value: function addActionColumn(_ref3) {
-            var cells = _ref3.cells;
-            var columns = _ref3.columns;
-            var type = _ref3.type;
-            var id = _ref3.id;
-            var reducerKeys = _ref3.reducerKeys;
-            var rowData = _ref3.rowData;
-            var rowIndex = _ref3.rowIndex;
-            var menuState = _ref3.menuState;
-            var stateKey = _ref3.stateKey;
-            var stateful = _ref3.stateful;
+            var cells = _ref3.cells,
+                columns = _ref3.columns,
+                type = _ref3.type,
+                id = _ref3.id,
+                reducerKeys = _ref3.reducerKeys,
+                rowData = _ref3.rowData,
+                rowIndex = _ref3.rowIndex,
+                menuState = _ref3.menuState,
+                stateKey = _ref3.stateKey,
+                stateful = _ref3.stateful;
             var GRID_ACTIONS = this.plugins.GRID_ACTIONS;
 
             var cellsCopy = cells;

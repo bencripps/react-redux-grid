@@ -18,17 +18,17 @@ var _handleEditClick = require('./../../../../util/handleEditClick');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Menu = exports.Menu = function Menu(_ref) {
-    var actions = _ref.actions;
-    var columns = _ref.columns;
-    var editor = _ref.editor;
-    var maxHeight = _ref.maxHeight;
-    var reducerKeys = _ref.reducerKeys;
-    var rowData = _ref.rowData;
-    var rowId = _ref.rowId;
-    var rowIndex = _ref.rowIndex;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
-    var type = _ref.type;
+    var actions = _ref.actions,
+        columns = _ref.columns,
+        editor = _ref.editor,
+        maxHeight = _ref.maxHeight,
+        reducerKeys = _ref.reducerKeys,
+        rowData = _ref.rowData,
+        rowId = _ref.rowId,
+        rowIndex = _ref.rowIndex,
+        stateKey = _ref.stateKey,
+        store = _ref.store,
+        type = _ref.type;
 
 
     if (editor.config.enabled && type !== 'header') {

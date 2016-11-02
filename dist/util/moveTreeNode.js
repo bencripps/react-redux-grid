@@ -16,11 +16,9 @@ var moveTreeNode = exports.moveTreeNode = function moveTreeNode(treeData, curren
 
     var originalTreeData = treeData;
 
-    var _findTreeNode = (0, _findTreeNode3.findTreeNode)(treeData, currentPath, childIdentifier, rootIdentifier);
-
-    var currentParent = _findTreeNode.node;
-    var currentIndexPath = _findTreeNode.indexPath;
-
+    var _findTreeNode = (0, _findTreeNode3.findTreeNode)(treeData, currentPath, childIdentifier, rootIdentifier),
+        currentParent = _findTreeNode.node,
+        currentIndexPath = _findTreeNode.indexPath;
 
     if (!currentParent) {
         return originalTreeData;
@@ -31,11 +29,9 @@ var moveTreeNode = exports.moveTreeNode = function moveTreeNode(treeData, curren
     var node = treeData.getIn(currentIndexPath);
     treeData = treeData.deleteIn(currentIndexPath);
 
-    var _findTreeNode2 = (0, _findTreeNode3.findTreeNode)(treeData, nextPath, childIdentifier, rootIdentifier);
-
-    var nextParent = _findTreeNode2.node;
-    var nextIndexPath = _findTreeNode2.indexPath;
-
+    var _findTreeNode2 = (0, _findTreeNode3.findTreeNode)(treeData, nextPath, childIdentifier, rootIdentifier),
+        nextParent = _findTreeNode2.node,
+        nextIndexPath = _findTreeNode2.indexPath;
 
     if (!nextParent) {
         return originalTreeData;

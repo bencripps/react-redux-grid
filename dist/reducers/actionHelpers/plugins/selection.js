@@ -16,8 +16,8 @@ var _lastUpdate = require('./../../../util/lastUpdate');
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var selectAll = exports.selectAll = function selectAll(state, _ref) {
-    var selection = _ref.selection;
-    var stateKey = _ref.stateKey;
+    var selection = _ref.selection,
+        stateKey = _ref.stateKey;
     return state.setIn([stateKey], (0, _immutable.fromJS)(_extends({}, selection, {
         lastUpdate: (0, _lastUpdate.generateLastUpdate)()
     })));
@@ -40,27 +40,27 @@ var removeSelections = exports.removeSelections = function removeSelections(stat
 var selectRow = exports.selectRow = function selectRow(state, _ref4) {
     var _fromJS;
 
-    var rowId = _ref4.rowId;
-    var stateKey = _ref4.stateKey;
+    var rowId = _ref4.rowId,
+        stateKey = _ref4.stateKey;
     return state.mergeIn([stateKey], (0, _immutable.fromJS)((_fromJS = {}, _defineProperty(_fromJS, rowId, true), _defineProperty(_fromJS, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS)));
 };
 
 var deselectRow = exports.deselectRow = function deselectRow(state, _ref5) {
     var _fromJS2;
 
-    var rowId = _ref5.rowId;
-    var stateKey = _ref5.stateKey;
+    var rowId = _ref5.rowId,
+        stateKey = _ref5.stateKey;
     return state.mergeIn([stateKey], (0, _immutable.fromJS)((_fromJS2 = {}, _defineProperty(_fromJS2, rowId, false), _defineProperty(_fromJS2, 'lastUpdate', (0, _lastUpdate.generateLastUpdate)()), _fromJS2)));
 };
 
 var setSelection = exports.setSelection = function setSelection(state, _ref6) {
     var _fromJS4;
 
-    var allowDeselect = _ref6.allowDeselect;
-    var clearSelections = _ref6.clearSelections;
-    var id = _ref6.id;
-    var index = _ref6.index;
-    var stateKey = _ref6.stateKey;
+    var allowDeselect = _ref6.allowDeselect,
+        clearSelections = _ref6.clearSelections,
+        id = _ref6.id,
+        index = _ref6.index,
+        stateKey = _ref6.stateKey;
 
     var currentValue = state.getIn([stateKey, id]);
     var currentIndexes = state.getIn([stateKey, 'indexes']);

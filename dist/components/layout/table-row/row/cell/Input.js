@@ -16,13 +16,13 @@ var _getData = require('./../../../../../util/getData');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Input = exports.Input = function Input(_ref) {
-    var cellData = _ref.cellData;
-    var column = _ref.column;
-    var columns = _ref.columns;
-    var editorState = _ref.editorState;
-    var rowId = _ref.rowId;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
+    var cellData = _ref.cellData,
+        column = _ref.column,
+        columns = _ref.columns,
+        editorState = _ref.editorState,
+        rowId = _ref.rowId,
+        stateKey = _ref.stateKey,
+        store = _ref.store;
 
 
     var colName = (0, _getData.nameFromDataIndex)(column);

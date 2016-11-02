@@ -22,9 +22,9 @@ var _ErrorHandlerActions = require('../../../actions/plugins/errorhandler/ErrorH
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Message = exports.Message = function Message(_ref) {
-    var errorHandler = _ref.errorHandler;
-    var plugins = _ref.plugins;
-    var store = _ref.store;
+    var errorHandler = _ref.errorHandler,
+        plugins = _ref.plugins,
+        store = _ref.store;
 
 
     var defaultMessage = plugins && plugins.ERROR_HANDLER && plugins.ERROR_HANDLER.defaultErrorMessage ? plugins.ERROR_HANDLER.defaultErrorMessage : 'An Error Occurred';

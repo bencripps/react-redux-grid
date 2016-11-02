@@ -89,14 +89,14 @@ var Model = function () {
     }, {
         key: 'updateCells',
         value: function updateCells(_ref) {
-            var cells = _ref.cells;
-            var rowId = _ref.rowId;
-            var index = _ref.index;
-            var type = _ref.type;
-            var reducerKeys = _ref.reducerKeys;
-            var stateKey = _ref.stateKey;
-            var rowData = _ref.rowData;
-            var isSelected = _ref.isSelected;
+            var cells = _ref.cells,
+                rowId = _ref.rowId,
+                index = _ref.index,
+                type = _ref.type,
+                reducerKeys = _ref.reducerKeys,
+                stateKey = _ref.stateKey,
+                rowData = _ref.rowData,
+                isSelected = _ref.isSelected;
 
 
             var cellsUpdate = cells;

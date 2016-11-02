@@ -24,18 +24,18 @@ var _ModelActions = require('../../../actions/plugins/selection/ModelActions');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CheckBox = exports.CheckBox = function CheckBox(_ref) {
-    var dataSource = _ref.dataSource;
-    var events = _ref.events;
-    var index = _ref.index;
-    var isSelected = _ref.isSelected;
-    var onSelect = _ref.onSelect;
-    var rowData = _ref.rowData;
-    var rowId = _ref.rowId;
-    var selectedRows = _ref.selectedRows;
-    var selectionModelConfig = _ref.selectionModelConfig;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
-    var type = _ref.type;
+    var dataSource = _ref.dataSource,
+        events = _ref.events,
+        index = _ref.index,
+        isSelected = _ref.isSelected,
+        onSelect = _ref.onSelect,
+        rowData = _ref.rowData,
+        rowId = _ref.rowId,
+        selectedRows = _ref.selectedRows,
+        selectionModelConfig = _ref.selectionModelConfig,
+        stateKey = _ref.stateKey,
+        store = _ref.store,
+        type = _ref.type;
 
 
     var checkBoxContainerProps = {

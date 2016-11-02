@@ -18,9 +18,9 @@ var _Request2 = _interopRequireDefault(_Request);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var setPage = exports.setPage = function setPage(_ref) {
-    var index = _ref.index;
-    var type = _ref.type;
-    var BUTTON_TYPES = _ref.BUTTON_TYPES;
+    var index = _ref.index,
+        type = _ref.type,
+        BUTTON_TYPES = _ref.BUTTON_TYPES;
 
     var pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
 
@@ -28,13 +28,13 @@ var setPage = exports.setPage = function setPage(_ref) {
 };
 
 var setPageIndexAsync = exports.setPageIndexAsync = function setPageIndexAsync(_ref2) {
-    var pageIndex = _ref2.pageIndex;
-    var pageSize = _ref2.pageSize;
-    var dataSource = _ref2.dataSource;
-    var filterFields = _ref2.filterFields;
-    var sort = _ref2.sort;
-    var stateKey = _ref2.stateKey;
-    var afterAsyncFunc = _ref2.afterAsyncFunc;
+    var pageIndex = _ref2.pageIndex,
+        pageSize = _ref2.pageSize,
+        dataSource = _ref2.dataSource,
+        filterFields = _ref2.filterFields,
+        sort = _ref2.sort,
+        stateKey = _ref2.stateKey,
+        afterAsyncFunc = _ref2.afterAsyncFunc;
 
 
     if (typeof dataSource === 'function') {
@@ -85,12 +85,12 @@ var setPageIndexAsync = exports.setPageIndexAsync = function setPageIndexAsync(_
 };
 
 var setPageAsync = exports.setPageAsync = function setPageAsync(_ref3) {
-    var index = _ref3.index;
-    var pageSize = _ref3.pageSize;
-    var type = _ref3.type;
-    var BUTTON_TYPES = _ref3.BUTTON_TYPES;
-    var dataSource = _ref3.dataSource;
-    var stateKey = _ref3.stateKey;
+    var index = _ref3.index,
+        pageSize = _ref3.pageSize,
+        type = _ref3.type,
+        BUTTON_TYPES = _ref3.BUTTON_TYPES,
+        dataSource = _ref3.dataSource,
+        stateKey = _ref3.stateKey;
 
 
     var pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;

@@ -41,12 +41,12 @@ var MenuItem = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            var _props = this.props;
-            var data = _props.data;
-            var disabled = _props.disabled;
-            var metaData = _props.metaData;
-            var menuItemsTypes = _props.menuItemsTypes;
-            var stateKey = _props.stateKey;
+            var _props = this.props,
+                data = _props.data,
+                disabled = _props.disabled,
+                metaData = _props.metaData,
+                menuItemsTypes = _props.menuItemsTypes,
+                stateKey = _props.stateKey;
 
 
             var menuItemProps = {

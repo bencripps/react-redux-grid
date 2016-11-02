@@ -20,15 +20,15 @@ var _EditorActions = require('./../../../../actions/plugins/editor/EditorActions
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Button = exports.Button = function Button(_ref) {
-    var BUTTON_TYPES = _ref.BUTTON_TYPES;
-    var saveText = _ref.saveText;
-    var cancelText = _ref.cancelText;
-    var editorState = _ref.editorState;
-    var editedRowKey = _ref.editedRowKey;
-    var events = _ref.events;
-    var stateKey = _ref.stateKey;
-    var store = _ref.store;
-    var type = _ref.type;
+    var BUTTON_TYPES = _ref.BUTTON_TYPES,
+        saveText = _ref.saveText,
+        cancelText = _ref.cancelText,
+        editorState = _ref.editorState,
+        editedRowKey = _ref.editedRowKey,
+        events = _ref.events,
+        stateKey = _ref.stateKey,
+        store = _ref.store,
+        type = _ref.type;
 
 
     var text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
