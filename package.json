@@ -23,7 +23,8 @@
     "lint": "eslint ./",
     "prod": "webpack -p --config webpack/webpack.config.prod.js",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js",
-    "report-coverage": "codecov"
+    "report-coverage": "codecov",
+    "prepublish": "npm run dist"
   },
   "dependencies": {
     "array-from": "^2.1.1",
