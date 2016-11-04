@@ -562,6 +562,9 @@ export const events = {
     },
     HANDLE_AFTER_ROW_DROP: ({ treeData, row }) => {
         console.log('After drag and drop of row event');
+    },
+    HANDLE_BEFORE_TREE_CHILD_CREATE: () => {
+        console.log('Return false to stop a child being created');
     }
 };
 ```
