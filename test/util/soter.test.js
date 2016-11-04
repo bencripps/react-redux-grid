@@ -1,4 +1,5 @@
 import expect from 'expect';
+import { fromJS } from 'immutable';
 
 import { SORT_DIRECTIONS } from './../../src/constants/GridConstants';
 
@@ -19,26 +20,26 @@ describe('sorter grid utility', () => {
         const name = 'name';
         const direction = SORT_DIRECTIONS.DESCEND;
         const dataSource = {
-            data: [
+            data: fromJS([
                 {
                     name: 'ben'
                 },
                 {
                     name: 'alfred'
                 }
-            ]
+            ])
         };
 
         expect(
             sorter.sortBy(name, direction, dataSource)
-        ).toEqual([
+        ).toEqual(fromJS([
             {
                 name: 'alfred'
             },
             {
                 name: 'ben'
             }
-        ]);
+        ]));
     });
 
     it('Should sort by ascending', () => {
@@ -46,26 +47,26 @@ describe('sorter grid utility', () => {
         const name = 'name';
         const direction = SORT_DIRECTIONS.ASCEND;
         const dataSource = {
-            data: [
+            data: fromJS([
                 {
                     name: 'ben'
                 },
                 {
                     name: 'alfred'
                 }
-            ]
+            ])
         };
 
         expect(
             sorter.sortBy(name, direction, dataSource)
-        ).toEqual([
+        ).toEqual(fromJS([
             {
                 name: 'ben'
             },
             {
                 name: 'alfred'
             }
-        ]);
+        ]));
     });
 
     it('Should sort by ascending by default', () => {
@@ -73,26 +74,26 @@ describe('sorter grid utility', () => {
         const name = 'name';
         const direction = null;
         const dataSource = {
-            data: [
+            data: fromJS([
                 {
                     name: 'alfred'
                 },
                 {
                     name: 'ben'
                 }
-            ]
+            ])
         };
 
         expect(
             sorter.sortBy(name, direction, dataSource)
-        ).toEqual([
+        ).toEqual(fromJS([
             {
                 name: 'alfred'
             },
             {
                 name: 'ben'
             }
-        ]);
+        ]));
     });
 
 });

@@ -1,4 +1,6 @@
 import { fromJS, Map } from 'immutable';
+
+import { Editor } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
 import {
@@ -11,18 +13,29 @@ export const editRow = (state, {
     columns, editMode, rowIndex, rowId, stateKey, top, isCreate, values
 }) => {
 
+    if (!values.toJS) {
+        values = fromJS(values);
+    }
+
     const isValid = isRowValid(columns, values);
-    const iOverrides = state.getIn([stateKey, rowId, 'overrides'])
-       ? state.getIn([stateKey, rowId, 'overrides']).toJS()
-       : {};
+
+    let overrides = state.getIn([stateKey, rowId, 'overrides'])
+       ? state.getIn([stateKey, rowId, 'overrides'])
+       : new Map();
 
     columns.forEach((col, i) => {
         const val = getData(values, columns, i);
         const dataIndex = col.dataIndex;
 
         // setting disabled
-        iOverrides[dataIndex] = iOverrides[dataIndex] || {};
-        iOverrides[dataIndex].disabled = setDisabled(col, val, values);
+        if (!overrides.get(dataIndex)) {
+            overrides = overrides.set(dataIndex, new Map());
+        }
+
+        overrides = overrides.setIn(
+            [dataIndex, 'disabled'],
+            setDisabled(col, val, values)
+        );
     });
 
     const operation = editMode === 'inline'
@@ -30,15 +43,15 @@ export const editRow = (state, {
        : 'mergeIn';
 
     return state[operation]([stateKey], fromJS({
-        [rowId]: {
+        [rowId]: new Editor({
             key: rowId,
-            values,
+            values: fromJS(values),
             rowIndex,
             top,
             valid: isValid,
             isCreate: isCreate || false,
-            overrides: iOverrides
-        },
+            overrides: overrides
+        }),
         lastUpdate: generateLastUpdate()
     }));
 
@@ -49,14 +62,14 @@ export const setData = (state, { data, editMode, stateKey }) => {
 
         const keyedData = setKeysInData(data);
         const editorData = keyedData.reduce((prev, curr, i) => {
-            return prev.set(curr.get('_key'), fromJS({
+            return prev.set(curr.get('_key'), new Editor({
                 key: curr.get('_key'),
                 values: curr,
                 rowIndex: i,
                 top: null,
                 valid: null,
                 isCreate: false,
-                overrides: {}
+                overrides: Map()
             }));
         }, Map({ lastUpdate: generateLastUpdate() }));
 
@@ -70,12 +83,14 @@ export const rowValueChange = (state, {
     column, columns, value, rowId, stateKey
 }) => {
 
-    const previousValues = state.getIn([stateKey, rowId, 'values'])
-        ? state.getIn([stateKey, rowId, 'values']).toJS()
-        : {};
-    const overrides = state.getIn([stateKey, rowId, 'overrides'])
-        ? state.getIn([stateKey, rowId, 'overrides']).toJS()
-        : {};
+    const previousEditorState = state.getIn([stateKey, rowId]);
+    const previousValues = previousEditorState
+        ? previousEditorState.values
+        : new Map();
+
+    let overrides = previousEditorState
+        ? previousEditorState.overrides
+        : new Map();
 
     let rowValues = setDataAtDataIndex(
         previousValues, column.dataIndex, value
@@ -87,7 +102,9 @@ export const rowValueChange = (state, {
 
         // interpreting `change func` to set final values
         // happens first, due to other validation
-        rowValues = handleChangeFunc(col, rowValues);
+        // need to turn back to immutable, since data is
+        // being retrieved externally
+        rowValues = fromJS(handleChangeFunc(col, rowValues));
 
         // setting default value
         if (col.defaultValue !== undefined
@@ -96,19 +113,30 @@ export const rowValueChange = (state, {
         }
 
         // setting disabled
-        overrides[dataIndex] = overrides[dataIndex] || {};
-        overrides[dataIndex].disabled = setDisabled(col, val, rowValues);
+        if (!overrides || !overrides.get) {
+            overrides = new Map();
+        }
 
+        if (!overrides.get(dataIndex)) {
+            overrides = overrides.set(dataIndex, Map());
+        }
+
+        overrides = overrides.setIn(
+            [dataIndex, 'disabled'], setDisabled(col, val, rowValues)
+        );
     });
 
     const valid = isRowValid(columns, rowValues);
 
-    state = state.mergeIn([stateKey, rowId], {
+    const record = state.getIn([stateKey, rowId]) || new Editor();
+    const updated = record.merge({
         values: rowValues,
-        previousValues: state.getIn([stateKey, rowId, 'values']),
+        previousValues: record.values,
         valid,
         overrides
     });
+
+    state = state.setIn([stateKey, rowId], updated);
 
     return state.setIn(
         [stateKey, 'lastUpdate'],
@@ -117,9 +145,9 @@ export const rowValueChange = (state, {
 };
 
 export const repositionEditor = (state, { rowId, stateKey, top }) => {
-    const newState = state.mergeIn([stateKey, rowId], {
-        top: top
-    });
+    const record = state.getIn([stateKey, rowId]);
+    const updated = record.merge({ top });
+    const newState = state.mergeIn([stateKey, rowId], updated);
 
     return newState.mergeIn(
         [stateKey],
@@ -132,12 +160,16 @@ export const removeEditorState = (state, { stateKey }) => state.setIn(
         fromJS({ lastUpdate: generateLastUpdate() }));
 
 // helpers
-export const isCellValid = ({validator }, value, values) => {
+export const isCellValid = ({ validator }, value, values) => {
     if (!validator || !typeof validator === 'function') {
         return true;
     }
 
-    return validator({ value, values });
+    const vals = values && values.toJS
+        ? values.toJS()
+        : values;
+
+    return validator({ value, values: vals });
 };
 
 export const isRowValid = (columns, rowValues) => {
@@ -161,7 +193,16 @@ export const setDisabled = (col = {}, value, values) => {
     }
 
     if (typeof col.disabled === 'function') {
-        return col.disabled({ column: col, value, values });
+
+        const vals = values && values.toJS
+            ? values.toJS()
+            : values;
+
+        return col.disabled({
+            column: col,
+            value,
+            values: vals
+        });
     }
 
     return false;
@@ -170,15 +211,20 @@ export const setDisabled = (col = {}, value, values) => {
 
 export const handleChangeFunc = (col, rowValues) => {
 
+    const vals = rowValues
+        && rowValues.toJS
+        ? rowValues.toJS()
+        : rowValues;
+
     if (!col.change || !typeof col.change === 'function') {
-        return rowValues;
+        return vals;
     }
 
-    const overrideValue = col.change({ values: rowValues }) || {};
+    const overrideValue = col.change({ values: vals }) || {};
 
     Object.keys(overrideValue).forEach(k => {
-        rowValues[k] = overrideValue[k];
+        vals[k] = overrideValue[k];
     });
 
-    return rowValues;
+    return vals;
 };

@@ -23,14 +23,14 @@ describe('The getRowKey utility function', () => {
             }
         ];
 
-        const rowValues = {
+        const row = fromJS({
             hat: 'hattt',
             phone: '123',
             _key: 'row-0'
-        };
+        });
 
         expect(
-            getRowKey(columns, rowValues)
+            getRowKey(columns, row)
         ).toEqual('row-0');
 
     });
@@ -47,13 +47,13 @@ describe('The getRowKey utility function', () => {
             }
         ];
 
-        const rowValues = {
+        const row = fromJS({
             hat: 'hattt',
             phone: '123'
-        };
+        });
 
         expect(
-            getRowKey(columns, rowValues)
+            getRowKey(columns, row)
         ).toEqual('hattt');
 
     });
@@ -70,13 +70,13 @@ describe('The getRowKey utility function', () => {
             }
         ];
 
-        const rowValues = {
+        const row = fromJS({
             hat: 'hattt',
             phone: '123'
-        };
+        });
 
         expect(
-            getRowKey(columns, rowValues, 'suffix')
+            getRowKey(columns, row, 'suffix')
         ).toEqual('hattt-suffix');
 
     });
@@ -94,13 +94,13 @@ describe('The getRowKey utility function', () => {
             }
         ];
 
-        const rowValues = {
+        const row = fromJS({
             hat: 'hattt',
             phone: '123'
-        };
+        });
 
         expect(() => {
-            getRowKey(columns, rowValues);
+            getRowKey(columns, row);
         }).toThrow('Only one column can declare createKeyFrom');
 
     });
@@ -171,11 +171,11 @@ describe('getData utility function', () => {
 
     it('Should return undefined if no column is present', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: 'banana',
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -195,7 +195,7 @@ describe('getData utility function', () => {
         const colIndex = 3;
 
         expect(
-            getData(rowData, columns, colIndex)
+            getData(row, columns, colIndex)
         ).toEqual(
             undefined
         );
@@ -204,11 +204,11 @@ describe('getData utility function', () => {
 
     it('Should return data from editorState if avail', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: 'banana',
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -227,22 +227,22 @@ describe('getData utility function', () => {
 
         const colIndex = 2;
 
-        const editorValues = {
+        const editorValues = fromJS({
             col3: 'value from editor state'
-        };
+        });
 
-        expect(getData(rowData, columns, colIndex, editorValues))
+        expect(getData(row, columns, colIndex, editorValues))
             .toEqual('value from editor state');
 
     });
 
     it('Should return data from state even if editor state is avail', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: 'banana',
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -266,7 +266,7 @@ describe('getData utility function', () => {
             col3: undefined
         };
 
-        expect(getData(rowData, columns, colIndex, editorValues))
+        expect(getData(row, columns, colIndex, editorValues))
             .toEqual('apple');
 
     });
@@ -303,11 +303,11 @@ describe('getData utility function', () => {
 
     it('Should fetch data with a string key', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: 'banana',
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -327,7 +327,7 @@ describe('getData utility function', () => {
         const colIndex = 1;
 
         expect(getData(
-            rowData,
+            row,
             columns,
             colIndex
         )).toEqual(
@@ -338,13 +338,13 @@ describe('getData utility function', () => {
 
     it('Should fetch data with a string-array key', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: {
                 innerKey: 'inner orange'
             },
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -364,7 +364,7 @@ describe('getData utility function', () => {
         const colIndex = 0;
 
         expect(getData(
-            rowData,
+            row,
             columns,
             colIndex
         )).toEqual(
@@ -375,13 +375,13 @@ describe('getData utility function', () => {
 
     it('Should return empty string if string-array isnt valid', () => {
 
-        const rowData = {
+        const row = fromJS({
             col1: {
                 innerKey: 'inner orange'
             },
             col2: 'orange',
             col3: 'apple'
-        };
+        });
 
         const columns = [
             {
@@ -401,7 +401,7 @@ describe('getData utility function', () => {
         const colIndex = 0;
 
         expect(getData(
-            rowData,
+            row,
             columns,
             colIndex
         )).toEqual('');
@@ -413,36 +413,36 @@ describe('setDataAtDataIndex function', () => {
 
     it('Should work with nested object', () => {
 
-        const rowValues = {
+        const row = fromJS({
             outer: {
                 inner: 'oldValue'
             }
-        };
+        });
 
         expect(
             setDataAtDataIndex(
-                rowValues,
+                row,
                 ['outer', 'inner'],
                 'newValue'
             )
-        ).toEqual({
+        ).toEqual(fromJS({
             outer: {
                 inner: 'newValue'
             }
-        });
+        }));
     });
 
     it('Should throw an error if an invalid key path is passed', () => {
 
-        const rowValues = {
+        const row = fromJS({
             'new': {
                 thing: 'oldValue'
             }
-        };
+        });
 
         expect(() => {
             setDataAtDataIndex(
-                rowValues,
+                row,
                 ['new', 'invalidKey'],
                 'newValue'
             );
@@ -451,9 +451,9 @@ describe('setDataAtDataIndex function', () => {
 
     it('Should work with a string', () => {
 
-        const flatValues = {
+        const flatValues = fromJS({
             val: 1
-        };
+        });
 
         expect(
             setDataAtDataIndex(
@@ -461,9 +461,9 @@ describe('setDataAtDataIndex function', () => {
                 'val',
                 'newValue'
             )
-        ).toEqual({
+        ).toEqual(fromJS({
             val: 'newValue'
-        });
+        }));
     });
 
 });
@@ -537,7 +537,7 @@ describe('getValueFromDataIndexArr function', () => {
 
     it('Should work with a nested object', () => {
 
-        const rowData = {
+        const row = fromJS({
             outer: {
                 inner: {
                     superInner: {
@@ -545,11 +545,11 @@ describe('getValueFromDataIndexArr function', () => {
                     }
                 }
             }
-        };
+        });
 
         expect(
             getValueFromDataIndexArr(
-                rowData,
+                row,
                 ['outer', 'inner', 'superInner', 'value']
             )
         ).toEqual('x');
@@ -557,7 +557,7 @@ describe('getValueFromDataIndexArr function', () => {
 
     it('Should return empty string if the keys are invalid', () => {
 
-        const rowData = {
+        const row = fromJS({
             outer: {
                 inner: {
                     superInner: {
@@ -565,10 +565,10 @@ describe('getValueFromDataIndexArr function', () => {
                     }
                 }
             }
-        };
+        });
 
         expect(getValueFromDataIndexArr(
-            rowData,
+            row,
             ['outer', 'inner', 'fake', 'value']
         )).toEqual('');
     });

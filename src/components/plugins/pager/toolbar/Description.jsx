@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { list } from 'react-immutable-proptypes';
 
 export const Description = ({
     toolbarRenderer, pageIndex, pageSize, total, currentRecords, recordType
@@ -6,17 +7,30 @@ export const Description = ({
 
     return (
         <span>
-            { toolbarRenderer(pageIndex, pageSize, total, currentRecords, recordType) }
+            {
+                toolbarRenderer(
+                    pageIndex, pageSize, total, currentRecords, recordType
+                )
+            }
         </span>
         );
 };
 
+const { func, number, string } = PropTypes;
+
 Description.propTypes = {
-    toolbarRenderer: PropTypes.func
+    currentRecords: list,
+    pageIndex: number,
+    pageSize: number,
+    recordType: string,
+    toolbarRenderer: func,
+    total: number
 };
 
 Description.defaultProps = {
-    toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+    toolbarRenderer: (
+        pageIndex, pageSize, total, currentRecords, recordType
+    ) => {
         if (!currentRecords) {
             return `No ${recordType} Available`;
         }

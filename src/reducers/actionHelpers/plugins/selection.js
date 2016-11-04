@@ -1,30 +1,30 @@
-import { fromJS } from 'immutable';
+import { Selection } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
 export const selectAll = (state, { selection, stateKey }) =>
-    state.setIn([stateKey], fromJS({
+    state.setIn([stateKey], new Selection({
         ...selection,
         lastUpdate: generateLastUpdate()
     }));
 
 export const deselectAll = (state, { stateKey }) =>
-    state.setIn([stateKey], fromJS({
+    state.setIn([stateKey], new Selection({
         lastUpdate: generateLastUpdate()
     }));
 
 export const removeSelections = (state, { stateKey }) =>
-    state.setIn([stateKey], fromJS({
+    state.setIn([stateKey], new Selection({
         lastUpdate: generateLastUpdate()
     }));
 
 export const selectRow = (state, { rowId, stateKey }) =>
-    state.mergeIn([stateKey], fromJS({
+    state.mergeIn([stateKey], new Selection({
         [rowId]: true,
         lastUpdate: generateLastUpdate()
     }));
 
 export const deselectRow = (state, { rowId, stateKey }) =>
-    state.mergeIn([stateKey], fromJS({
+    state.mergeIn([stateKey], new Selection({
         [rowId]: false,
         lastUpdate: generateLastUpdate()
     }));
@@ -46,7 +46,7 @@ export const setSelection = (state, {
     );
 
     if (clearSelections || !state.get(stateKey)) {
-        return state.setIn([stateKey], fromJS({
+        return state.setIn([stateKey], new Selection({
             [id]: isSelectAction,
             indexes: isSelectAction ? [index] : [],
             lastUpdate: generateLastUpdate()
@@ -54,7 +54,7 @@ export const setSelection = (state, {
     }
 
     // multiselect
-    return state.mergeIn([stateKey], fromJS({
+    return state.mergeIn([stateKey], new Selection({
         [id]: isSelectAction,
         indexes,
         lastUpdate: generateLastUpdate()

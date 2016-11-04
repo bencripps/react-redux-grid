@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     SET_COLUMNS,
@@ -11,8 +11,6 @@ import
     handleActions
 from './../../util/handleActions';
 
-import { generateLastUpdate } from './../../util/lastUpdate';
-
 import {
     hideHeader,
     setColumns,
@@ -20,7 +18,7 @@ import {
     resizeColumns
 } from './../actionHelpers/grid';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [SET_COLUMNS]: setColumns,

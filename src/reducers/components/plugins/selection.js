@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     SET_SELECTION,
@@ -22,9 +22,7 @@ import
     handleActions
 from './../../../util/handleActions';
 
-import { generateLastUpdate } from './../../../util/lastUpdate';
-
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [SET_SELECTION]: setSelection,

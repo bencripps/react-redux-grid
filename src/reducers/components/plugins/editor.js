@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     EDIT_ROW,
@@ -22,11 +22,7 @@ import {
     rowValueChange
 } from './../../actionHelpers/plugins/editor';
 
-import { generateLastUpdate } from './../../../util/lastUpdate';
-
-const initialState = fromJS({
-    lastUpdate: generateLastUpdate()
-});
+const initialState = new OrderedMap();
 
 export default handleActions({
     [EDIT_ROW]: editRow,

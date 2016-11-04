@@ -181,9 +181,7 @@ describe('The Grid Fixed header component', () => {
             store
                 .getState()
                 .grid
-                .getIn(['test-grid', 'columns'])
-                .first()
-                .get('width')
+                .getIn(['test-grid', 'columns'])[0].width
         ).toContain('%');
 
     });

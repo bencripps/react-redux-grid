@@ -1,5 +1,6 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
+import { List } from 'immutable';
 import ReactDOM from 'react-dom';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -26,11 +27,11 @@ const { arrayOf, bool, func, number, object, oneOf, string } = PropTypes;
 export class TableRow extends Component {
 
     render() {
-
         const { dataSource } = this.props;
+
         const totalCount = (
-            dataSource && Array.isArray(dataSource.currentRecords)
-                ? dataSource.currentRecords.length
+            dataSource && List.isList(dataSource.currentRecords)
+                ? dataSource.currentRecords.count()
                 : 0
         );
 
@@ -174,7 +175,7 @@ export class TableRow extends Component {
         const { viewableIndex, viewableCount } = this.state;
 
         if (!dataSource) {
-            return [];
+            return List();
         }
 
         if (!isPluginEnabled(plugins, 'PAGER') && !infinite
@@ -209,9 +210,9 @@ export class TableRow extends Component {
             key={getRowKey(this.props.columns, row)}
             menuState={this.props.menuState}
             moveRow={this.moveRow}
-            nextRow={rows[index + 1]}
+            nextRow={rows.get(index + 1)}
             plugins={this.props.plugins}
-            previousRow={rows[index - 1]}
+            previousRow={rows.get(index - 1)}
             readFunc={this.props.readFunc}
             reducerKeys={this.props.reducerKeys}
             row={row}
@@ -259,23 +260,23 @@ export class TableRow extends Component {
 }
 
 export const getTreeData = row => ({
-    depth: row._depth,
-    parentId: row._parentId,
-    id: row._id,
-    index: row._index,
-    flatIndex: row._flatIndex,
-    leaf: row._leaf,
-    hasChildren: row._hasChildren,
-    isExpanded: row._isExpanded,
-    isLastChild: row._isLastChild,
-    isFirstChild: row._isFirstChild,
-    previousSiblingId: row._previousSiblingId,
-    previousSiblingTotalChildren: row._previousSiblingTotalChilden,
-    previousSiblingChildIds: row._previousSiblingChildIds,
-    parentTotalChildren: row._parentTotalChildren,
-    parentIndex: row._parentIndex,
-    indexPath: row._indexPath,
-    path: row._path
+    depth: row.get('_depth'),
+    parentId: row.get('_parentId'),
+    id: row.get('_id'),
+    index: row.get('_index'),
+    flatIndex: row.get('_flatIndex'),
+    leaf: row.get('_leaf'),
+    hasChildren: row.get('_hasChildren'),
+    isExpanded: row.get('_isExpanded'),
+    isLastChild: row.get('_isLastChild'),
+    isFirstChild: row.get('_isFirstChild'),
+    previousSiblingId: row.get('_previousSiblingId'),
+    previousSiblingTotalChildren: row.get('_previousSiblingTotalChilden'),
+    previousSiblingChildIds: row.get('_previousSiblingChildIds'),
+    parentTotalChildren: row.get('_parentTotalChildren'),
+    parentIndex: row.get('_parentIndex'),
+    indexPath: row.get('_indexPath'),
+    path: row.get('_path')
 });
 
 export default DragDropContext(HTML5Backend)(TableRow);

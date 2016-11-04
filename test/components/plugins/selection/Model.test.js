@@ -115,7 +115,7 @@ describe('The selection model class', () => {
         ).toEqual(true);
 
         expect(
-            selectionState.get('indexes').toJS()
+            selectionState.get('indexes')
         ).toEqual([4]);
 
     });

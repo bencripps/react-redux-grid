@@ -16,6 +16,12 @@ import {
     resetLastUpdate
 } from './../../../src/util/lastUpdate';
 
+import {
+    Grid as GridRecord
+} from './../../../src/records';
+
+import { testState } from './../../testUtils';
+
 const columns = [
     {
         name: 'col1',
@@ -31,7 +37,7 @@ const columns = [
 describe('The grid reducer setCol func', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({});
+    const state = testState();
 
     const action = {
         stateKey: 'test-grid',
@@ -39,17 +45,15 @@ describe('The grid reducer setCol func', () => {
         columns
     };
 
-    const outState = fromJS({
-        'test-grid': {
-            columns,
-            lastUpdate: 1
-        }
-    });
-
     it('Should set passing cols', () => {
         expect(
-            grid(state, action)
-        ).toEqualImmutable(outState);
+            grid(state, action).get('test-grid')
+        ).toEqualImmutable(
+            new GridRecord({
+                columns,
+                lastUpdate: 1
+            })
+        );
     });
 
 });
@@ -57,7 +61,7 @@ describe('The grid reducer setCol func', () => {
 describe('The grid reducer SET_SORT_DIRECTION func', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({});
+    const state = testState();
 
     const action = {
         stateKey: 'test-grid',
@@ -65,24 +69,22 @@ describe('The grid reducer SET_SORT_DIRECTION func', () => {
         columns
     };
 
-    const outState = fromJS({
-        'test-grid': {
-            columns,
-            lastUpdate: 1
-        }
-    });
-
     it('Should set cols after sort action', () => {
         expect(
-            grid(state, action)
-        ).toEqualImmutable(outState);
+            grid(state, action).get('test-grid')
+        ).toEqualImmutable(
+            new GridRecord({
+                columns,
+                lastUpdate: 1
+            })
+        );
     });
 });
 
 describe('The grid reducer resizeCols func', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({});
+    const state = testState();
 
     const action = {
         stateKey: 'test-grid',
@@ -90,17 +92,15 @@ describe('The grid reducer resizeCols func', () => {
         columns
     };
 
-    const outState = fromJS({
-        'test-grid': {
-            columns,
-            lastUpdate: 1
-        }
-    });
-
     it('Should set cols after resize action', () => {
         expect(
-            grid(state, action)
-        ).toEqualImmutable(outState);
+            grid(state, action).get('test-grid')
+        ).toEqualImmutable(
+            new GridRecord({
+                columns,
+                lastUpdate: 1
+            })
+        );
     });
 
 });

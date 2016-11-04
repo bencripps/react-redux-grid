@@ -45,7 +45,7 @@ export class Row extends Component {
             treeData
         } = this.props;
 
-        const id = row._key;
+        const id = row.get('_key');
 
         const visibleColumns = columns.filter((col) => !col.hidden);
         const cellValues = getCellValues(columns, row);
@@ -54,56 +54,50 @@ export class Row extends Component {
             addEmptyCells(row, columns);
         }
 
-        const isSelected = selectedRows ? selectedRows[id] : false;
+        const isSelected = selectedRows
+            ? selectedRows.get(id)
+            : false;
 
         const cells = Object.keys(cellValues).map((k, i) => {
 
-            const cellProps = {
-                cellData: getCellData(
-                    columns,
-                    editor,
-                    editorState,
-                    row,
-                    k,
-                    i,
-                    store
-                ),
-                columns,
-                dragAndDrop,
-                editor,
-                editorState,
-                events: events,
-                gridType,
-                index: i,
-                readFunc,
-                reducerKeys,
-                rowData: cellValues,
-                rowId: id,
-                rowIndex: index,
-                selectionModel,
-                showTreeRootNode,
-                stateful,
-                stateKey,
-                isRowSelected: isSelected,
-                store,
-                treeData: {
-                    ...treeData,
-                    expandable: columns[i].expandable
-                }
-            };
-
             const key = getRowKey(columns, row, columns[i].dataIndex);
+            const cellData = getCellData(
+                columns, editor, editorState, row, k, i, store
+            );
+            const cellTreeData = {
+                ...treeData,
+                expandable: columns[i].expandable
+            };
 
             return (
                 <Cell
+                    cellData={cellData}
+                    columns={columns}
+                    dragAndDrop={dragAndDrop}
+                    editor={editor}
+                    editorState={editorState}
+                    events={events}
+                    gridType={gridType}
+                    index={i}
+                    isRowSelected={isSelected}
                     key={ key }
-                    { ...cellProps }
+                    readFunc={readFunc}
+                    reducerKeys={reducerKeys}
+                    row={cellValues}
+                    rowId={id}
+                    rowIndex={index}
+                    selectionModel={selectionModel}
+                    showTreeRootNode={showTreeRootNode}
+                    stateKey={stateKey}
+                    stateful={stateful}
+                    store={store}
+                    treeData={cellTreeData}
                 />);
 
         });
 
         const editClass = editorState
-            && editorState[id]
+            && editorState.get(id)
             && editor.config.type !== 'grid'
             ? selectionModel.defaults.editCls
             : '';
@@ -229,8 +223,8 @@ export class Row extends Component {
         // only use is setting meta data for custom drop events
         // per issue #59
         e.dataTransfer.setData('text/plain', JSON.stringify({
-            id: row._key,
-            data: row
+            id: row.get('_key'),
+            data: row.toJS()
         }));
 
         return e;
@@ -238,12 +232,11 @@ export class Row extends Component {
 }
 
 export const getCellValues = (columns, row) => {
-
     const result = {};
     const dataIndexes = columns.map(col => col.dataIndex);
 
     dataIndexes.forEach(idx => {
-        result[idx] = row[idx];
+        result[idx] = row.get(idx);
     });
 
     return result;
@@ -272,16 +265,16 @@ export const getCellData = (
     columns, editor, editorState, row, key, index, store
 ) => {
 
-    const rowId = row._key;
+    const rowId = row.get('_key');
 
     // if a renderer is present, but
     // were in edited mode, we should use the edited values
     // since those could be modified using a 'change' function
     const editedValues = editorState
-        && editorState[rowId]
-        && editorState[rowId].values
-        ? editorState[rowId].values
-        : {};
+        && editorState.get(rowId)
+        && editorState.get(rowId).values
+        ? editorState.get(rowId).values
+        : new Map();
 
     const valueAtDataIndex = getData(row, columns, index, editedValues);
 
@@ -294,7 +287,7 @@ export const getCellData = (
         return columns[index].renderer({
             column: columns[index],
             value: valueAtDataIndex,
-            row,
+            row: row.toJS(),
             key,
             index,
             store
@@ -310,7 +303,7 @@ export const getCellData = (
     // else no data index found
 };
 
-export const addEmptyCells = (rowData, columns) => {
+export const addEmptyCells = (row, columns) => {
 
     columns.forEach((col) => {
 
@@ -319,18 +312,18 @@ export const addEmptyCells = (rowData, columns) => {
         // how we retrieve and store data, especially editable
         // may need to be updated based on array dataIndex
 
-        if (rowData && !rowData.hasOwnProperty(col.dataIndex)) {
-            rowData[col.dataIndex] = '';
+        if (row && !row.get(col.dataIndex)) {
+            row.set(col.dataIndex, '');
         }
 
     });
 
-    return rowData;
+    return row;
 };
 
 export const handleRowDoubleClickEvent = (
     events,
-    rowData,
+    row,
     rowId,
     selectionModel,
     index,
@@ -348,14 +341,16 @@ export const handleRowDoubleClickEvent = (
             eventData: reactEvent,
             id: rowId,
             index,
-            data: rowData,
+            data: row,
             selected: !isSelected
         });
     }
+
     fire(
         'HANDLE_ROW_DOUBLE_CLICK', events,
-        this, rowData, rowId, reactEvent, id, browserEvent
+        this, row, rowId, reactEvent, id, browserEvent
     );
+
 };
 
 export const getSelectedText = () => {
@@ -372,7 +367,7 @@ export const getSelectedText = () => {
 
 export const handleRowSingleClickEvent = (
     events,
-    rowData,
+    row,
     rowId,
     selectionModel,
     index,
@@ -388,7 +383,7 @@ export const handleRowSingleClickEvent = (
 
     fire(
         'HANDLE_BEFORE_ROW_CLICK', events,
-        this, rowData, rowId, reactEvent, id, browserEvent
+        this, row, rowId, reactEvent, id, browserEvent
     );
 
     if (selectionModel
@@ -400,14 +395,14 @@ export const handleRowSingleClickEvent = (
             eventData: reactEvent,
             id: rowId,
             index,
-            data: rowData,
+            data: row,
             selected: !isSelected
         });
     }
 
     fire(
         'HANDLE_ROW_CLICK', events,
-        this, rowData, rowId, reactEvent, id, browserEvent
+        this, row, rowId, reactEvent, id, browserEvent
     );
 };
 
@@ -470,8 +465,8 @@ const rowTarget = {
             previousSiblingId
         } = getTreeData();
 
-        const path = [...getTreeData().path];
-        const targetPath = hoverPath;
+        const path = [...getTreeData().path.toJS()];
+        const targetPath = hoverPath.toJS();
 
         let targetIndex = hoverIndex;
         let targetParentId = hoverParentId;

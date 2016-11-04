@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     REMOVE_TOOLBAR
@@ -8,13 +8,11 @@ import
     handleActions
 from './../../../util/handleActions';
 
-import { generateLastUpdate } from './../../../util/lastUpdate';
-
 import {
     removeToolbar
 } from './../../actionHelpers/plugins/bulkaction';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [REMOVE_TOOLBAR]: removeToolbar

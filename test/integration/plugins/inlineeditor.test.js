@@ -3,9 +3,10 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { ConnectedGrid } from './../../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../../src/store/store';
+import { Editor } from './../../../src/records';
 
 import {
     gridColumns,
@@ -113,32 +114,32 @@ describe('Integration Test for Inline Editor', () => {
             expect(editorTypeGrid.store.getState().editor.get('grid-type-grid'))
                 .toEqual(fromJS({
                     lastUpdate: 3,
-                    'row-1': {
-                        key: 'row-1',
-                        values: {
-                            name: 'Charles Barkley',
-                            position: 'Power Forward',
-                            _key: 'row-1'
-                        },
+                    'row-0': new Editor({
+                        key: 'row-0',
+                        values: Map({
+                            name: 'Michael Jordan',
+                            position: 'Shooting Guard',
+                            _key: 'row-0'
+                        }),
                         rowIndex: 0,
                         top: null,
                         valid: null,
                         isCreate: false,
-                        overrides: {}
-                    },
-                    'row-0': {
-                        key: 'row-0',
-                        values: {
-                            name: 'Michael Jordan',
-                            position: 'Shooting Guard',
-                            _key: 'row-0'
-                        },
+                        overrides: Map()
+                    }),
+                    'row-1': new Editor({
+                        key: 'row-1',
+                        values: new Map({
+                            name: 'Charles Barkley',
+                            position: 'Power Forward',
+                            _key: 'row-1'
+                        }),
                         rowIndex: 1,
                         top: null,
                         valid: null,
                         isCreate: false,
-                        overrides: {}
-                    }
+                        overrides: Map()
+                    })
                 }));
 
             done();

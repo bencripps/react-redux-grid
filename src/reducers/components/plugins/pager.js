@@ -1,11 +1,9 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     PAGE_LOCAL,
     PAGE_REMOTE
 } from '../../../constants/ActionTypes';
-
-import { generateLastUpdate } from './../../../util/lastUpdate';
 
 import
     handleActions
@@ -16,7 +14,7 @@ import {
     pageRemote
 } from './../../actionHelpers/plugins/pager';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [PAGE_LOCAL]: pageLocal,

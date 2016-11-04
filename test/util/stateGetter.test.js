@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { stateGetter } from './../../src/util/stateGetter';
 
 describe('State Getter Function', () => {
@@ -10,7 +10,7 @@ describe('State Getter Function', () => {
     }
 
     function getStateWithImmutable(...props) {
-        return fromJS({
+        return Map({
             x: 1
         });
     }
@@ -23,30 +23,14 @@ describe('State Getter Function', () => {
         ).toBeTruthy();
     });
 
-    it(['Should return plain object if state is stored as a immutable',
-        ' and using a dynamic reducerKey'].join(''), () => {
-        const state = { someFilterState: { get: getStateWithImmutable } };
-        const props = {
-            reducerKeys: {
-                filterState: 'someFilterState'
-            }
-        };
-
-        expect(
-            stateGetter(state, props, 'someFilterState', 'someProp')
-        ).toEqual({
-            x: 1
-        });
-    });
-
-    it('Should return plain object if state is stored as a immutable', () => {
+    it('Should return an immutable object if state is stored as a immutable', () => {
         const state = { filterState: { get: getStateWithImmutable } };
         const props = {};
         expect(
             stateGetter(state, props, 'filterState', 'someProp')
-        ).toEqual({
+        ).toEqual(Map({
             x: 1
-        });
+        }));
     });
 
     it('Should return null if it\'s not registered', () => {
@@ -79,9 +63,9 @@ describe('State Getter Function', () => {
         };
         expect(
             stateGetter(state, props, 'filterState', 'someProp')
-        ).toEqual({
+        ).toEqual(Map({
             x: 1
-        });
+        }));
     });
 
     it('Should return null if a dynamic key is used if not registered', () => {

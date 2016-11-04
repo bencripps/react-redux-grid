@@ -1,8 +1,8 @@
-import { fromJS } from 'immutable';
+import { Loader } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
 
 export const setLoading = (state, { stateKey, state: loadingState }) =>
-    state.setIn([stateKey], fromJS({
+    state.setIn([stateKey], new Loader({
         isLoading: loadingState,
         lastUpdate: generateLastUpdate()
     }));

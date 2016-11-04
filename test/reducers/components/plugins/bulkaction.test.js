@@ -1,6 +1,5 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS } from 'immutable';
 
 import {
     REMOVE_TOOLBAR
@@ -11,13 +10,15 @@ import
 from './../../../../src/reducers/components/plugins/bulkaction';
 
 import { resetLastUpdate } from './../../../../src/util/lastUpdate';
+import { BulkAction as BulkActionRecord } from './../../../../src/records';
+import { testState } from './../../../testUtils';
 
 describe('The bulkaction reducer', () => {
     beforeEach(() => resetLastUpdate());
 
     it('Should set toolbar as visible', () => {
 
-        const state = fromJS({
+        const state = testState({
             'test-grid': {
                 isRemoved: true
             }
@@ -30,13 +31,11 @@ describe('The bulkaction reducer', () => {
         };
 
         expect(
-            bulkaction(state, action)
+            bulkaction(state, action).get('test-grid')
         ).toEqual(
-            fromJS({
-                'test-grid': {
-                    isRemoved: false,
-                    lastUpdate: 1
-                }
+            new BulkActionRecord({
+                isRemoved: false,
+                lastUpdate: 1
             })
         );
 
@@ -44,7 +43,7 @@ describe('The bulkaction reducer', () => {
 
     it('Should set toolbar as removed', () => {
 
-        const state = fromJS({
+        const state = testState({
             'test-grid': {
                 isRemoved: false
             }
@@ -57,13 +56,11 @@ describe('The bulkaction reducer', () => {
         };
 
         expect(
-            bulkaction(state, action)
+            bulkaction(state, action).get('test-grid')
         ).toEqual(
-            fromJS({
-                'test-grid': {
-                    isRemoved: true,
-                    lastUpdate: 1
-                }
+            new BulkActionRecord({
+                isRemoved: true,
+                lastUpdate: 1
             })
         );
 

@@ -22,97 +22,111 @@ import {
     resetLastUpdate
 } from './../../../src/util/lastUpdate';
 
+import {
+    DataSource as DataSourceRecord
+} from './../../../src/records';
+
+import { testState } from './../../testUtils';
+
 describe('The grid dataSource reducer setData func', () => {
     beforeEach(() => resetLastUpdate());
 
     it('Should set data with a total', () => {
 
-        const state = fromJS({});
+        const state = testState();
 
         const action = {
             stateKey: 'test-grid',
             type: SET_DATA,
             total: 2,
-            data: [{ x: 1 }, { x: 2 }]
+            data: fromJS([{ x: 1 }, { x: 2 }])
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
-            'test-grid': {
-                data: [
+            dataSource(state, action).get('test-grid')
+        ).toEqual(
+            new DataSourceRecord({
+                data: fromJS([
                     { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
-                ],
-                proxy: [
+                ]),
+                proxy: fromJS([
                     { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
-                ],
+                ]),
                 treeData: undefined,
                 gridType: 'grid',
                 total: 2,
-                currentRecords: [
+                currentRecords: fromJS([
                     { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
-                ],
+                ]),
                 lastUpdate: 1
-            }
-        });
+            })
+        );
 
     });
 
     it('Should set data without a total', () => {
 
-        const state = fromJS({});
+        const state = testState();
 
         const action = {
             stateKey: 'test-grid',
             type: SET_DATA,
-            data: [{x: 1}, {x: 2}]
+            data: fromJS([{x: 1}, {x: 2}])
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
-            'test-grid': {
-                data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
-                proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
+            dataSource(state, action).get('test-grid')
+        ).toEqual(
+            new DataSourceRecord({
+                data: fromJS([
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
+                ]),
+                proxy: fromJS([
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
+                ]),
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',
-                currentRecords: [
+                currentRecords: fromJS([
                     { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
-                ],
+                ]),
                 lastUpdate: 1
-            }
-        });
+            })
+        );
 
     });
 
     it('Should set currentRecords when they are passed', () => {
 
-        const state = fromJS({});
+        const state = testState();
 
         const action = {
             stateKey: 'test-grid',
             type: SET_DATA,
-            data: [{x: 1}, {x: 2}],
-            currentRecords: [
+            data: fromJS([{x: 1}, {x: 2}]),
+            currentRecords: fromJS([
                 { banana: 2 }
-            ],
+            ]),
             lastUpdate: 1
         };
 
         expect(
-            dataSource(state, action).toJS()
-        ).toEqual({
-            'test-grid': {
-                data: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
-                proxy: [{ x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }],
+            dataSource(state, action).get('test-grid')
+        ).toEqual(
+            new DataSourceRecord({
+                data: fromJS([
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
+                ]),
+                proxy: fromJS([
+                    { x: 1, _key: 'row-0' }, { x: 2, _key: 'row-1' }
+                ]),
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',
-                currentRecords: [{ banana: 2 }],
+                currentRecords: fromJS([{ banana: 2 }]),
                 lastUpdate: 1
-            }
-        });
+            })
+        );
 
     });
 
@@ -123,34 +137,14 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
 
     it('Should wipe previous values upon dissmiss', () => {
 
-        const inState = fromJS({
-            'test-grid': {
-                proxy: [
+        const inState = testState({
+            'test-grid': new DataSourceRecord({
+                proxy: fromJS([
                     { cell: 1 },
                     { cell: 2 }
-                ],
+                ]),
                 total: 2
-            }
-        });
-
-        const outState = fromJS({
-            'test-grid': {
-                proxy: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                total: 2,
-                data: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                currentRecords: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                isEditing: false,
-                lastUpdate: 1
-            }
+            })
         });
 
         const action = {
@@ -159,8 +153,26 @@ describe('The grid dataSource reducer dissmissEditor func', () => {
         };
 
         expect(
-            dataSource(inState, action)
-        ).toEqualImmutable(outState);
+            dataSource(inState, action).get('test-grid')
+        ).toEqualImmutable(
+            new DataSourceRecord({
+                proxy: fromJS([
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                total: 2,
+                data: fromJS([
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                currentRecords: fromJS([
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                isEditing: false,
+                lastUpdate: 1
+            })
+        );
     });
 
     it('Should decrement total if proxy less values than data', () => {

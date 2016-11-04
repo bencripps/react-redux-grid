@@ -13,22 +13,12 @@ export const Editor = ({
     rawValue,
     index,
     isEditable,
-    rowData,
+    row,
     isRowSelected,
     rowId,
     stateKey,
     store
 }) => {
-
-    if (!editorState) {
-        editorState = {};
-    }
-
-    if (!editorState[rowId]) {
-        editorState[rowId] = {};
-    }
-
-    editorState[rowId].key = rowId;
 
     let colName = columns
         && columns[index]
@@ -43,12 +33,17 @@ export const Editor = ({
         : '';
     }
 
-    const value = editorState[rowId].values
-        ? editorState[rowId].values[colName]
+    const editorData = editorState.get(rowId) || new Map();
+
+    const value = editorData.values
+        && editorData.values.get
+        ? editorData.values.get(colName)
         : rawValue;
 
     const editableFuncArgs = {
-        row: editorState[rowId],
+        row: editorState.get(rowId)
+            ? editorState.get(rowId).toJS()
+            : {},
         isRowSelected,
         store
     };
@@ -68,11 +63,11 @@ export const Editor = ({
                 columns,
                 store,
                 rowId,
-                row: editorState[rowId] && editorState[rowId].values
-                    ? { ...rowData, ...cleanProps(editorState[rowId].values) }
-                    : { key: rowId, ...rowData },
+                row: editorData && editorData.values
+                    ? { ...row, ...cleanProps(editorData.values) }
+                    : { key: rowId, ...row },
                 columnIndex: index,
-                value,
+                value: value && value.toJS ? value.toJS() : value,
                 isRowSelected,
                 stateKey
             }
@@ -91,6 +86,7 @@ export const Editor = ({
         && (typeof columns[index].editable === 'function'
                 ? columns[index].editable(editableFuncArgs)
                 : true)) {
+
         return (
             <span className={ wrapperCls }>
                 <Input
@@ -128,7 +124,7 @@ Editor.propTypes = {
     isEditable: bool,
     isRowSelected: bool,
     rawValue: any,
-    rowData: object,
+    row: object,
     rowId: string,
     stateKey: string,
     store: object

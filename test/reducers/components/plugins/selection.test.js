@@ -16,6 +16,10 @@ import
 from './../../../../src/reducers/components/plugins/selection';
 
 import {
+    Selection
+} from './../../../../src/records';
+
+import {
     setIndexes
 } from './../../../../src/reducers/actionHelpers/plugins/selection';
 
@@ -23,14 +27,16 @@ import {
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
 
+import { testState } from './../../../testUtils';
+
 describe('The SELECT_ROW func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({
-        'test-grid': {
+    const state = testState({
+        'test-grid': new Selection({
             'row-1': false,
             'row-2': false
-        }
+        })
     });
 
     const action = {
@@ -41,14 +47,12 @@ describe('The SELECT_ROW func in the selection reducer', () => {
 
     it('Should select an unselected row', () => {
         expect(
-            selection(state, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    'row-1': false,
-                    'row-2': true,
-                    lastUpdate: 1
-                }
+            selection(state, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                'row-1': false,
+                'row-2': true,
+                lastUpdate: 1
             })
         );
     });
@@ -74,7 +78,7 @@ describe('The DESELECT_ROW func in the selection reducer', () => {
     it('Should select an unselected row', () => {
         expect(
             selection(state, action)
-        ).toEqualImmutable(
+        ).toEqual(
             fromJS({
                 'test-grid': {
                     'row-1': false,
@@ -90,11 +94,11 @@ describe('The DESELECT_ROW func in the selection reducer', () => {
 describe('The selectAll func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({
-        'test-grid': {
+    const state = testState({
+        'test-grid': new Selection({
             fakeRow: false,
             anotherRow: false
-        }
+        })
     });
 
     const action = {
@@ -108,14 +112,12 @@ describe('The selectAll func in the selection reducer', () => {
 
     it('Should return all rows as selected', () => {
         expect(
-            selection(state, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    fakeRow: true,
-                    anotherRow: true,
-                    lastUpdate: 1
-                }
+            selection(state, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                fakeRow: true,
+                anotherRow: true,
+                lastUpdate: 1
             })
         );
     });
@@ -125,11 +127,11 @@ describe('The selectAll func in the selection reducer', () => {
 describe('The deselectAll func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({
-        'test-grid': {
+    const state = testState({
+        'test-grid': new Selection({
             fakeRow: false,
             anotherRow: false
-        }
+        })
     });
 
     const action = {
@@ -139,11 +141,9 @@ describe('The deselectAll func in the selection reducer', () => {
 
     it('Should return an empty map upon deselect', () => {
         expect(
-            selection(state, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': { lastUpdate: 1 }
-            })
+            selection(state, action).get('test-grid')
+        ).toEqual(
+            new Selection({ lastUpdate: 1 })
         );
     });
 
@@ -220,12 +220,12 @@ describe('The setSelection setIndexes tests', () => {
 describe('The SET_DATA action in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({
-        'test-grid': {
+    const state = testState({
+        'test-grid': new Selection({
             fakeRow: true,
             anotherRow: false,
             indexes: [0]
-        }
+        })
     });
 
     const action = {
@@ -234,12 +234,12 @@ describe('The SET_DATA action in the selection reducer', () => {
     };
 
     it('Should wipe out all previous selections', () => {
-        expect(selection(state, action))
-            .toEqualImmutable(fromJS({
-                'test-grid': {
+        expect(selection(state, action).get('test-grid'))
+            .toEqual(
+                new Selection({
                     lastUpdate: 1
-                }
-            }));
+                })
+            );
     });
 
 });
@@ -247,12 +247,12 @@ describe('The SET_DATA action in the selection reducer', () => {
 describe('The setSelection func in the selection reducer', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({
-        'test-grid': {
+    const state = testState({
+        'test-grid': new Selection({
             fakeRow: true,
             anotherRow: false,
             indexes: [0]
-        }
+        })
     });
 
     it(['Should should select a value and clear other values, ',
@@ -267,14 +267,12 @@ describe('The setSelection func in the selection reducer', () => {
         };
 
         expect(
-            selection(state, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    anotherRow: true,
-                    lastUpdate: 1,
-                    indexes: [1]
-                }
+            selection(state, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                anotherRow: true,
+                indexes: [1],
+                lastUpdate: 1
             })
         );
     });
@@ -292,21 +290,19 @@ describe('The setSelection func in the selection reducer', () => {
         };
 
         expect(
-            selection(state, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    fakeRow: false,
-                    lastUpdate: 1,
-                    indexes: []
-                }
+            selection(state, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                fakeRow: false,
+                indexes: [],
+                lastUpdate: 1
             })
         );
     });
 
     it('Should select initial value if none are selected', () => {
 
-        const innerState = fromJS({});
+        const innerState = testState();
 
         const action = {
             type: SET_SELECTION,
@@ -316,25 +312,23 @@ describe('The setSelection func in the selection reducer', () => {
         };
 
         expect(
-            selection(innerState, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    fakeRow: true,
-                    lastUpdate: 1,
-                    indexes: [11]
-                }
+            selection(innerState, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                fakeRow: true,
+                indexes: [11],
+                lastUpdate: 1
             })
         );
     });
 
     it('Should allow multiselect if clearSelections is false', () => {
 
-        const selectedState = fromJS({
-            'test-grid': {
+        const selectedState = testState({
+            'test-grid': new Selection({
                 fakeRow: true,
                 indexes: [0]
-            }
+            })
         });
 
         const action = {
@@ -346,15 +340,13 @@ describe('The setSelection func in the selection reducer', () => {
         };
 
         expect(
-            selection(selectedState, action)
-        ).toEqualImmutable(
-            fromJS({
-                'test-grid': {
-                    fakeRow: true,
-                    anotherRow: true,
-                    indexes: [0, 1],
-                    lastUpdate: 1
-                }
+            selection(selectedState, action).get('test-grid')
+        ).toEqual(
+            new Selection({
+                fakeRow: true,
+                indexes: [0, 1],
+                anotherRow: true,
+                lastUpdate: 1
             })
         );
 

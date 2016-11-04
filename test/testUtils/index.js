@@ -1,4 +1,4 @@
-import React from 'react';
+import { OrderedMap } from 'immutable';
 import thunk from 'redux-thunk';
 import TestUtils from 'react-addons-test-utils';
 import configureMockStore from 'redux-mock-store';
@@ -55,6 +55,8 @@ export function getColumnManager() {
 
     return columnManager;
 }
+
+export const testState = cfg => new OrderedMap(cfg);
 
 function getMockStore(state: {}, ...actions) {
     const getState = state;

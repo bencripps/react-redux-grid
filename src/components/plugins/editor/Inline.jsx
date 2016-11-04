@@ -40,13 +40,13 @@ export class Inline extends Component {
         let top = -100;
 
         if (isEditorShown(editorState)) {
-            top = editorState[editedRowKey].top;
+            top = editorState.get(editedRowKey).top;
         }
 
         const inlineEditorProps = {
             className: prefix(
                 CLASS_NAMES.EDITOR.INLINE.CONTAINER,
-                editorState && editorState[editedRowKey]
+                editorState && editorState.get(editedRowKey)
                     ? CLASS_NAMES.EDITOR.INLINE.SHOWN
                     : CLASS_NAMES.EDITOR.INLINE.HIDDEN,
                 position
@@ -103,9 +103,9 @@ export class Inline extends Component {
         }
 
         if (isEditorShown(editorState)
-            && this.editedRow !== editorState[editedRowKey].rowIndex) {
+            && this.editedRow !== editorState.get(editedRowKey).rowIndex) {
 
-            this.editedRow = editorState[editedRowKey].rowIndex;
+            this.editedRow = editorState.get(editedRowKey).rowIndex;
             focusFirstEditor(dom);
         }
 
@@ -155,12 +155,12 @@ export function resetEditorPosition(
 
         if (row
             && editorState
-            && editorState[editedRowKey]
-            && editorState[editedRowKey].top) {
+            && editorState.get(editedRowKey)
+            && editorState.get(editedRowKey).top) {
 
             const top = getEditorTop(row, moveToTop, dom);
 
-            if (top !== editorState[editedRowKey].top) {
+            if (top !== editorState.get(editedRowKey).top) {
                 store.dispatch(repositionEditor({
                     stateKey,
                     top,
@@ -187,10 +187,21 @@ export function resetEditorPosition(
 
 }
 
-export const getEditedRowKey = editorState => editorState
-    ? Object.keys(editorState)
-        .find(k => k !== 'lastUpdate')
-    : null;
+export const getEditedRowKey = editorState => {
+
+    if (!editorState) {
+        return null;
+    }
+
+    const p = editorState.find(k => k !== 'lastUpdate');
+
+    if (!p || !p.get) {
+        return null;
+    }
+
+    return p.get('key');
+
+};
 
 export const focusFirstEditor = (dom) => {
     const input = dom.parentNode.querySelector(INPUT_SELECTOR);
@@ -202,7 +213,7 @@ export const focusFirstEditor = (dom) => {
 
 export const isEditorShown = (editorState) => {
     const editedRowKey = getEditedRowKey(editorState);
-    return editorState && editorState[editedRowKey];
+    return editorState && editorState.get(editedRowKey);
 };
 
 Inline.propTypes = {

@@ -1,11 +1,9 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     ERROR_OCCURRED,
     DISMISS_ERROR
 } from '../../../constants/ActionTypes';
-
-import { generateLastUpdate } from './../../../util/lastUpdate';
 
 import {
     dismissError,
@@ -16,7 +14,7 @@ import
     handleActions
 from './../../../util/handleActions';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [ERROR_OCCURRED]: errorOccurred,

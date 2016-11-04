@@ -44,8 +44,8 @@ export class ActionColumn extends Component {
         } = this.state;
 
         const menuShown = menuState
-            && menuState[rowId]
-            ? menuState[rowId]
+            && menuState.get(rowId)
+            ? menuState.get(rowId)
             : false;
 
         const containerProps = {
@@ -53,6 +53,7 @@ export class ActionColumn extends Component {
                 menuShown ? CLASS_NAMES.GRID_ACTIONS.SELECTED_CLASS : '',
                 menuPosition !== undefined ? menuPosition : ''
             ),
+            /* eslint-disable react/jsx-no-bind */
             onClick: handleActionClick.bind(
                 this,
                 type,
@@ -63,6 +64,7 @@ export class ActionColumn extends Component {
                 menuShown,
                 reducerKeys
             )
+            /* eslint-enable react/jsx-no-bind */
         };
 
         actions = enableActions(
@@ -111,8 +113,8 @@ export class ActionColumn extends Component {
         const { menuPosition } = this.state;
 
         const menuShown = menuState
-            && menuState[rowId]
-            ? menuState[rowId]
+            && menuState.get(rowId)
+            ? menuState.get(rowId)
             : false;
 
         if (menuShown && !menuPosition) {
@@ -146,6 +148,7 @@ export class ActionColumn extends Component {
         actions: PropTypes.object,
         columns: PropTypes.array,
         editor: PropTypes.object,
+        events: PropTypes.object,
         headerActionItemBuilder: PropTypes.func,
         iconCls: PropTypes.string,
         menuState: PropTypes.object,
@@ -177,9 +180,13 @@ export const enableActions = (
         && actions
         && typeof actions.onMenuShow === 'function') {
 
+        const val = rowData && rowData.toJS
+            ? rowData.toJS()
+            : rowData
+
         const disabled = actions.onMenuShow({
             columns,
-            rowData
+            rowData: val
         });
 
         if (Array.isArray(disabled)) {

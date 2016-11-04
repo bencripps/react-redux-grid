@@ -1,6 +1,10 @@
 import expect from 'expect';
+import { OrderedMap, Map, fromJS } from 'immutable';
 
 import store from './../../src/store/store';
+
+import { Editor } from './../../src/records';
+
 import {
     shouldGridUpdate,
     shouldRowUpdate,
@@ -30,9 +34,9 @@ describe('shouldGridUpdate utility function', () => {
             }
         ],
         data: [],
-        menuState: {
+        menuState: Map({
             'rowid!1': true
-        }
+        })
     };
 
     it('return true if no previous state has been created', () => {
@@ -65,9 +69,9 @@ describe('shouldRowUpdate utility function', () => {
     const component = function component() { };
 
     const defaultProps = {
-        editorState: {},
-        menuState: {},
-        selectedRows: {},
+        editorState: Map(),
+        menuState: Map(),
+        selectedRows: Map(),
         columns: []
     };
 
@@ -86,18 +90,18 @@ describe('shouldRowUpdate utility function', () => {
                 width: '50%'
             }
         ],
-        editorState: {},
-        menuState: {
+        editorState: new OrderedMap(),
+        menuState: fromJS({
             'cm93MA==': true
-        },
-        row: {
+        }),
+        row: fromJS({
             col1: 'hey',
             col2: 'jude'
-        },
+        }),
         index: 0,
-        selectedRows: {
+        selectedRows: fromJS({
             'cm93MA==': false
-        }
+        })
     };
 
     it('return true if no previous state has been created', () => {
@@ -114,22 +118,22 @@ describe('shouldRowUpdate utility function', () => {
 
         cmp.props = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            selectedRows: {
+            }),
+            selectedRows: fromJS({
                 'key-1': false
-            }
+            })
         };
 
         const selectedProps = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            selectedRows: {
+            }),
+            selectedRows: fromJS({
                 'key-2': true
-            }
+            })
         };
 
         expect(
@@ -145,22 +149,22 @@ describe('shouldRowUpdate utility function', () => {
 
         cmp.props = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            menuState: {
+            }),
+            menuState: fromJS({
                 'key-1': false
-            }
+            })
         };
 
         const selectedProps = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            menuState: {
+            }),
+            menuState: fromJS({
                 'key-2': true
-            }
+            })
         };
 
         expect(
@@ -178,22 +182,22 @@ describe('shouldRowUpdate utility function', () => {
 
         cmp.props = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            menuState: {
+            }),
+            menuState: fromJS({
                 'key-1': true
-            }
+            })
         };
 
         const menuStaySelected = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            menuState: {
+            }),
+            menuState: fromJS({
                 'key-1': true
-            }
+            })
         };
 
         expect(
@@ -212,34 +216,34 @@ describe('shouldRowUpdate utility function', () => {
         cmp.props = {
             ...defaultProps,
             index: 1,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            editorState: {
-                'key-1': {
+            }),
+            editorState: new OrderedMap({
+                'key-1': new Editor({
                     key: 'key-1',
                     rowIndex: 1,
                     values: {
                         field: 'value2'
                     }
-                }
-            }
+                })
+            })
         };
 
         const editedValues = {
             ...defaultProps,
             index: 1,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
-            editorState: {
-                row: {
+            }),
+            editorState: new OrderedMap({
+                row: new Editor({
                     rowIndex: 1,
-                    values: {
+                    values: Map({
                         field: 'changed-value'
-                    }
-                }
-            }
+                    })
+                })
+            })
         };
 
         expect(
@@ -264,16 +268,16 @@ describe('shouldRowUpdate utility function', () => {
 
         cmp.props = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            }
+            })
         };
 
         const colProps = {
             ...defaultProps,
-            row: {
+            row: fromJS({
                 _key: 'key-1'
-            },
+            }),
             columns: [
                 {
                     width: '30%'

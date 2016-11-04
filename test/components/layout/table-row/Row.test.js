@@ -1,13 +1,13 @@
 import React from 'react';
-import { fromJS } from 'immutable';
+import { fromJS, OrderedMap, Map } from 'immutable';
 import expect from 'expect';
 import { mount } from 'enzyme';
 
-import { keyGenerator } from '../../../../src/util/keyGenerator';
+import { Editor } from './../../../../src/records';
 import { getSelModel, getColumnManager } from './../../../testUtils/';
 import store from './../../../../src/store/store';
 import {
-    Row, getSelectedText
+    Row
 } from './../../../../src/components/layout/table-row/Row.jsx';
 
 describe('The Grid Row Component', () => {
@@ -33,16 +33,16 @@ describe('The Grid Row Component', () => {
                 inline: 'inline'
             }
         },
-        editorState: {},
+        editorState: new OrderedMap(),
         events: {},
-        menuState: {},
+        menuState: Map(),
         reducerKeys: {},
-        selectedRows: {},
-        row: {
+        selectedRows: Map(),
+        row: fromJS({
             name: 'Michael Jordan',
             position: 'Shooting Guard',
             _key: 'row-0'
-        },
+        }),
         plugins: {},
         index: 0,
         stateKey: 'test-grid',
@@ -78,11 +78,11 @@ describe('The Grid Row Component', () => {
 
         const moreValProps = {
             ...props,
-            row: {
+            row: fromJS({
                 name: 'Michael Jordan',
                 position: 'Shooting Gaurd',
                 sponsor: 'Nike'
-            }
+            })
         };
 
         const component = mount(<Row { ...moreValProps } />);
@@ -97,9 +97,9 @@ describe('The Grid Row Component', () => {
 
         const lessValProps = {
             ...props,
-            row: {
+            row: fromJS({
                 name: 'Michael Jordan'
-            }
+            })
         };
 
         const component = mount(<Row { ...lessValProps } />);
@@ -147,9 +147,9 @@ describe('The Grid Row Component', () => {
 
         const selectedProps = {
             ...props,
-            selectedRows: {
+            selectedRows: fromJS({
                 ['row-0']: true
-            }
+            })
         };
 
         const component = mount(<Row { ...selectedProps } />);
@@ -169,9 +169,9 @@ describe('The Grid Row Component', () => {
         const dynamicSelectedProps = {
             ...props,
             selectionModel: modifiedSelModel,
-            selectedRows: {
+            selectedRows: fromJS({
                 ['row-0']: true
-            }
+            })
         };
 
         const component = mount(<Row { ...dynamicSelectedProps } />);
@@ -191,14 +191,14 @@ describe('The Grid Row Component', () => {
         const dynamicEditProps = {
             ...props,
             selectionModel: modifiedSelModel,
-            selectedRows: {
+            selectedRows: fromJS({
                 ['row-0']: true
-            },
-            editorState: {
-                ['row-0']: {
+            }),
+            editorState: fromJS({
+                ['row-0']: new Editor({
                     key: 'row-0'
-                }
-            }
+                })
+            })
         };
 
         const component = mount(<Row { ...dynamicEditProps } />);
@@ -213,14 +213,14 @@ describe('The Grid Row Component', () => {
 
         const dynamicEditProps = {
             ...props,
-            selectedRows: {
+            selectedRows: fromJS({
                 ['row-0']: true
-            },
-            editorState: {
-                'row-0': {
+            }),
+            editorState: fromJS({
+                'row-0': new Editor({
                     key: 'row-0'
-                }
-            }
+                })
+            })
         };
 
         const component = mount(<Row { ...dynamicEditProps } />);

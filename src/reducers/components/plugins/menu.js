@@ -1,11 +1,9 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
 
 import {
     SHOW_MENU,
     HIDE_MENU
 } from '../../../constants/ActionTypes';
-
-import { generateLastUpdate } from './../../../util/lastUpdate';
 
 import
     handleActions
@@ -16,7 +14,7 @@ import {
     hideMenu
 } from './../../actionHelpers/plugins/menu';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [SHOW_MENU]: showMenu,

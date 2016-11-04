@@ -261,12 +261,12 @@ export const getCurrentRecordTotal = (
     if (plugins.PAGER.pagingType === 'remote'
         && gridData
         && gridData.currentRecords) {
-        return gridData.currentRecords.length;
+        return gridData.currentRecords.count();
     }
 
     else if (plugins.PAGER.pagingType === 'local') {
         const records = getCurrentRecords(gridData, pageIndex, pageSize);
-        return records && records.data ? records.data.length : 0;
+        return records && records.data ? records.data.count() : 0;
     }
 
 };
@@ -282,7 +282,7 @@ export const getTotal = (dataSource, pagerDefaults) => {
     }
 
     else if (pagerDefaults && pagerDefaults.pagingType === 'local') {
-        return dataSource.data.length;
+        return dataSource.data.count();
     }
 
 };
@@ -305,7 +305,10 @@ export const getPager = (
     width
 ) => {
 
-    const pageIndex = pager && pager.pageIndex || 0;
+    const pageIndex = pager
+        && pager.get('pageIndex')
+        ? pager.get('pageIndex')
+        : 0;
 
     const toolbarProps = {
         className: prefix(

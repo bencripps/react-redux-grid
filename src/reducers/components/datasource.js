@@ -1,4 +1,5 @@
-import { fromJS } from 'immutable';
+import { OrderedMap } from 'immutable';
+
 import {
     ADD_NEW_ROW,
     CLEAR_FILTER_LOCAL,
@@ -18,8 +19,6 @@ import
     handleActions
 from './../../util/handleActions';
 
-import { generateLastUpdate } from './../../util/lastUpdate';
-
 import {
     setData,
     setPartialTreeData,
@@ -35,7 +34,7 @@ import {
     clearFilter
 } from './../actionHelpers/datasource';
 
-const initialState = fromJS({ lastUpdate: generateLastUpdate() });
+const initialState = new OrderedMap();
 
 export default handleActions({
     [ADD_NEW_ROW]: addNewRow,

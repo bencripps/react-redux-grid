@@ -21,7 +21,7 @@ export const Cell = ({
     index,
     isRowSelected,
     readFunc,
-    rowData,
+    row,
     rowId,
     rowIndex,
     selectionModel,
@@ -33,8 +33,9 @@ export const Cell = ({
 }) => {
 
     const isEditable = (editorState
-            && editorState[rowId]
-            && editorState[rowId].key === rowId)
+            && editorState.get
+            && editorState.get(rowId)
+            && editorState.get(rowId).key === rowId)
         || editor.config.type === editor.editModes.grid;
 
     const isExpandable = treeData.expandable && !treeData.leaf;
@@ -59,7 +60,7 @@ export const Cell = ({
         editor,
         editorState,
         rowIndex,
-        rowData,
+        row,
         rowId,
         selectionModel,
         stateKey,
@@ -123,7 +124,7 @@ export const Cell = ({
         columns,
         index,
         rowId,
-        rowData,
+        row,
         stateKey,
         store
     );
@@ -153,11 +154,11 @@ export const getCellHTML = (
     columns,
     index,
     rowId,
-    rowData,
+    row,
     stateKey,
     store
 ) => {
-    const rawValue = getData(rowData, columns, index);
+    const rawValue = getData(row, columns, index);
 
     const editorProps = {
         cellData,
@@ -166,7 +167,7 @@ export const getCellHTML = (
         index,
         isEditable,
         isRowSelected,
-        rowData,
+        row,
         rawValue,
         rowId,
         store,
@@ -194,7 +195,7 @@ export const handleClick = ({
     editor,
     editorState,
     rowIndex,
-    rowData,
+    row,
     rowId,
     selectionModel,
     stateKey,
@@ -213,13 +214,12 @@ export const handleClick = ({
 
         // if a row is clicked and the editorState is empty except
         // for last update integer, trigger edit event
-
-        if (!editorState || Object.keys(editorState).length === 1) {
+        if (!editorState || editorState.count() === 1) {
             handleEditClick(
                 editor,
                 store,
                 rowId,
-                rowData,
+                row,
                 rowIndex,
                 columns,
                 stateKey,
@@ -228,12 +228,12 @@ export const handleClick = ({
             );
         }
 
-        else if (editorState && !editorState[rowId]) {
+        else if (editorState && !editorState.get(rowId)) {
             handleEditClick(
                 editor,
                 store,
                 rowId,
-                rowData,
+                row,
                 rowIndex,
                 columns,
                 stateKey,
@@ -255,7 +255,7 @@ export const handleDoubleClick = ({
     editor,
     editorState,
     rowIndex,
-    rowData,
+    row,
     rowId,
     selectionModel,
     stateKey,
@@ -279,7 +279,7 @@ export const handleDoubleClick = ({
                 editor,
                 store,
                 rowId,
-                rowData,
+                row,
                 rowIndex,
                 columns,
                 stateKey,
@@ -293,7 +293,7 @@ export const handleDoubleClick = ({
                 editor,
                 store,
                 rowId,
-                rowData,
+                row,
                 rowIndex,
                 columns,
                 stateKey,
@@ -325,7 +325,7 @@ Cell.propTypes = {
     index: number,
     isRowSelected: bool,
     readFunc: func,
-    rowData: object,
+    row: object,
     rowId: string,
     rowIndex: number,
     selectionModel: object,

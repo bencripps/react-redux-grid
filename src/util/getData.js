@@ -2,7 +2,7 @@ import { List, fromJS } from 'immutable';
 import { camelize } from './camelize';
 
 export const getData = (
-    rowData = {}, columns = {}, colIndex = 0, editorValues = {}
+    row = {}, columns = {}, colIndex = 0, editorValues = {}
 ) => {
 
     const column = columns[colIndex];
@@ -17,19 +17,25 @@ export const getData = (
         throw new Error('No dataIndex found on column', column);
     }
 
-    if (editorValues && editorValues[dataIndex] !== undefined) {
-        return editorValues[dataIndex];
+    if (editorValues
+        && editorValues.get
+        && editorValues.get(dataIndex) !== undefined) {
+        return editorValues.get(dataIndex);
     }
 
     if (typeof dataIndex === 'string') {
-        return rowData
-            && rowData[dataIndex] !== undefined
-            ? rowData[dataIndex]
+        const val = row
+            && row.get
+            && row.get(dataIndex) !== undefined
+            ? row.get(dataIndex)
             : null;
+
+        return val && val.toJS ? val.toJS() : val;
     }
 
     else if (Array.isArray(dataIndex)) {
-        return getValueFromDataIndexArr(rowData, dataIndex);
+        const val = getValueFromDataIndexArr(row, dataIndex);
+        return val && val.toJS ? val.toJS() : val;
     }
 
 };
@@ -61,7 +67,7 @@ export const setKeysInData = (data) => {
 export const getRowKey = (columns, rowValues, suffix) => {
 
     const uniqueCol = columns.filter(col => col.createKeyFrom);
-    let val = rowValues._key;
+    let val = rowValues.get('_key');
 
     if (uniqueCol.length > 1) {
         throw new Error('Only one column can declare createKeyFrom');
@@ -69,9 +75,9 @@ export const getRowKey = (columns, rowValues, suffix) => {
 
     if (uniqueCol.length > 0) {
         const dataIndex = nameFromDataIndex(uniqueCol[0]);
-        val = rowValues && rowValues[dataIndex]
-            ? rowValues[dataIndex]
-            : rowValues._key;
+        val = rowValues && rowValues.get(dataIndex)
+            ? rowValues.get(dataIndex)
+            : rowValues.get('_key');
     }
 
     if (suffix) {
@@ -81,44 +87,29 @@ export const getRowKey = (columns, rowValues, suffix) => {
     return val;
 };
 
-export const setDataAtDataIndex = (rowData = {}, dataIndex, val) => {
+export const setDataAtDataIndex = (row, dataIndex, val) => {
+
+    if (!row.toJS) {
+        row = fromJS(row);
+    }
 
     if (typeof dataIndex === 'string') {
-        rowData[dataIndex] = val;
-        return rowData;
+        return row.set(dataIndex, val);
     }
 
-    let temp = rowData;
-
-    for (let i = 0; i < dataIndex.length - 1; i++) {
-        temp = temp[dataIndex[i]];
+    if (row.getIn(dataIndex)) {
+        return row.setIn(dataIndex, val);
     }
 
-    if (!temp[dataIndex[[dataIndex.length - 1]]]) {
-        throw new Error('Invalid key path');
-    }
-
-    temp[dataIndex[dataIndex.length - 1]] = val;
-
-    return rowData;
+    throw new Error('Invalid key path');
 };
 
-export const getValueFromDataIndexArr = (rowData, dataIndex) => {
-    let temp = rowData;
+export const getValueFromDataIndexArr = (row, dataIndex) => {
+    const val = row.getIn(dataIndex);
 
-    for (let i = 0; i < dataIndex.length; i++) {
-
-        if (!temp[dataIndex[i]]) {
-            // preferring silent failure on get
-            // but we throw an error on the update
-            // if the key path is invalid
-            return '';
-        }
-
-        temp = temp[dataIndex[i]];
-    }
-
-    return temp;
+    return val !== undefined
+        ? val
+        : '';
 };
 
 export const nameFromDataIndex = (column) => {

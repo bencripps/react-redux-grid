@@ -1,6 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import { mount } from 'enzyme';
+import { OrderedMap, fromJS, Map } from 'immutable';
 
 import store from './../../../../../../src/store/store';
 import {
@@ -20,14 +21,14 @@ describe('The Editor Component', () => {
                 dataIndex: 'position'
             }
         ],
-        editorState: {},
+        editorState: new OrderedMap(),
         rawValue: 'Michael Jordan',
         index: 0,
         isEditable: false,
-        rowData: {
+        row: fromJS({
             name: 'Michael Jordan',
             position: 'Shooting Guard'
-        },
+        }),
         isRowSelected: false,
         rowId: 'row-0',
         stateKey: 'editor-tests',
@@ -67,7 +68,7 @@ describe('The Editor Component', () => {
                     dataIndex: 'position'
                 }
             ],
-            editorState: null,
+            editorState: Map(),
             isEditable: true
         };
 

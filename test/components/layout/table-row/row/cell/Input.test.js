@@ -1,11 +1,16 @@
 import expect from 'expect';
 import React from 'react';
+import { Map, fromJS } from 'immutable';
 import { shallow, mount } from 'enzyme';
 
 import store from './../../../../../../src/store/store';
 import {
     Input
 } from './../../../../../../src/components/layout/table-row/row/cell/Input.jsx';
+
+import {
+    Editor as EditorRecord
+} from './../../../../../../src/records';
 
 describe('The shallow cell default Input', () => {
 
@@ -27,7 +32,7 @@ describe('The shallow cell default Input', () => {
                 name: 'Position'
             }
         ],
-        editorState: {},
+        editorState: Map(),
         rowId: 'row-1',
         stateKey: 'test-grid',
         store
@@ -68,12 +73,12 @@ describe('The shallow cell default Input', () => {
                     name: 'Position'
                 }
             ],
-            editorState: {
-                'row-1': {
+            editorState: fromJS({
+                'row-1': new EditorRecord({
                     isCreate: false,
                     key: 'row-1'
-                }
-            },
+                })
+            }),
             rowId: 'row-1',
             stateKey: 'test-grid',
             store
@@ -107,12 +112,12 @@ describe('The shallow cell default Input', () => {
                     name: 'Position'
                 }
             ],
-            editorState: {
-                'row-1': {
+            editorState: fromJS({
+                'row-1': new EditorRecord({
                     key: 'row-1',
                     isCreate: false
-                }
-            },
+                })
+            }),
             rowId: 'row-1',
             stateKey: 'test-grid',
             store
@@ -146,8 +151,8 @@ describe('The shallow cell default Input', () => {
                     name: 'Position'
                 }
             ],
-            editorState: {
-                'row-1': {
+            editorState: fromJS({
+                'row-1': new EditorRecord({
                     key: 'row-1',
                     isCreate: false,
                     values: {
@@ -158,8 +163,8 @@ describe('The shallow cell default Input', () => {
                             disabled: true
                         }
                     }
-                }
-            },
+                })
+            }),
             rowId: 'row-1',
             stateKey: 'test-grid',
             store
@@ -194,7 +199,7 @@ describe('The mounted cell Input ', () => {
                 name: 'Position'
             }
         ],
-        editorState: {},
+        editorState: Map(),
         rowId: 'row-1',
         stateKey: 'test-grid',
         store

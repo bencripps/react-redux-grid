@@ -1,10 +1,12 @@
 import expect from 'expect';
+import { fromJS } from 'immutable';
 import { getCurrentRecords } from './../../src/util/getCurrentRecords';
+import { DataSource } from './../../src/records';
 
 describe('getCurrentRecords utility function', () => {
 
-    const dataSource = {
-        data: [
+    const dataSource = new DataSource({
+        data: fromJS([
             {
                 test: 'test'
             },
@@ -38,13 +40,13 @@ describe('getCurrentRecords utility function', () => {
             {
                 test: 'test'
             }
-        ]
-    };
+        ])
+    });
 
     it('Should return the correct page size', () => {
-        expect(getCurrentRecords(dataSource, 0, 5).data.length).toEqual(5);
-        expect(getCurrentRecords(dataSource, 0, 7).data.length).toEqual(7);
-        expect(getCurrentRecords(dataSource, 0, 2).data.length).toEqual(2);
+        expect(getCurrentRecords(dataSource, 0, 5).data.count()).toEqual(5);
+        expect(getCurrentRecords(dataSource, 0, 7).data.count()).toEqual(7);
+        expect(getCurrentRecords(dataSource, 0, 2).data.count()).toEqual(2);
     });
 
     it('Should return empty object if no dataSource is provided', () => {
@@ -55,7 +57,9 @@ describe('getCurrentRecords utility function', () => {
     it('Should return props based on infinite scroll', () => {
         expect(
             getCurrentRecords(
-                { currentRecords: dataSource.data, data: dataSource.data },
+                new DataSource({
+                    currentRecords: dataSource.data, data: dataSource.data
+                }),
                 0,
                 5,
                 true,
@@ -63,7 +67,7 @@ describe('getCurrentRecords utility function', () => {
                 5,
                 1
             )).toEqual({
-                data: [
+                data: fromJS([
                     {
                         test: 'test'
                     },
@@ -97,7 +101,7 @@ describe('getCurrentRecords utility function', () => {
                     {
                         test: 'test'
                     }
-                ],
+                ]),
                 endIndex: 11,
                 startIndex: 0
             });

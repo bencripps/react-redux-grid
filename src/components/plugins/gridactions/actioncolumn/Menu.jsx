@@ -28,7 +28,9 @@ export const Menu = ({
         ...actions,
         metaData: {
             rowId,
-            rowData,
+            rowData: rowData && rowData.toJS
+                ? rowData.toJS()
+                : rowData,
             rowIndex
         },
         maxHeight,

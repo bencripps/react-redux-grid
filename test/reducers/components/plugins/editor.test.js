@@ -1,6 +1,6 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
     EDIT_ROW,
@@ -21,6 +21,12 @@ import {
 import {
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
+
+import { testState } from './../../../testUtils';
+
+import {
+    Editor as EditorRecord
+} from './../../../../src/records';
 
 describe('The editor reducer handleChangeFunc func', () => {
 
@@ -222,13 +228,13 @@ describe('The editor reducer isRowValid func', () => {
             }
         ];
 
-        const rowValues = {
+        const row = Map({
             col1: 1,
             col2: NaN
-        };
+        });
 
         expect(
-            isRowValid(columns, rowValues)
+            isRowValid(columns, row)
         ).toEqual(true);
 
     });
@@ -249,13 +255,13 @@ describe('The editor reducer isRowValid func', () => {
             }
         ];
 
-        const rowValues = {
+        const row = Map({
             col1: 1,
             col2: NaN
-        };
+        });
 
         expect(
-            isRowValid(columns, rowValues)
+            isRowValid(columns, row)
         ).toEqual(false);
 
     });
@@ -280,13 +286,13 @@ describe('The editor reducer isRowValid func', () => {
             }
         ];
 
-        const rowValues = {
+        const row = Map({
             col1: 1,
             col2: NaN
-        };
+        });
 
         expect(
-            isRowValid(columns, rowValues)
+            isRowValid(columns, row)
         ).toEqual(true);
 
     });
@@ -296,7 +302,7 @@ describe('The editor reducer isRowValid func', () => {
 describe('The editor reducer EDIT_ROW action', () => {
     beforeEach(() => resetLastUpdate());
 
-    const state = fromJS({});
+    const state = testState();
 
     it('Should return the correct edit-not-create response', () => {
 
@@ -316,41 +322,38 @@ describe('The editor reducer EDIT_ROW action', () => {
                     dataIndex: 'col2'
                 }
             ],
-            values: {
+            values: Map({
                 col1: 1,
                 col2: 2
-            },
+            }),
             rowIndex: 2,
             rowId: 'rowid-2',
             top: 30
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': {
-                'rowid-2': {
-                    key: 'rowid-2',
-                    values: {
-                        col1: 1,
-                        col2: 2
+            editor(state, action).getIn(['test-grid', 'rowid-2'])
+        ).toEqualImmutable(
+            new EditorRecord({
+                key: 'rowid-2',
+                values: Map({
+                    col1: 1,
+                    col2: 2
+                }),
+                rowIndex: 2,
+                top: 30,
+                valid: true,
+                isCreate: false,
+                overrides: fromJS({
+                    col1: {
+                        disabled: false
                     },
-                    rowIndex: 2,
-                    top: 30,
-                    valid: true,
-                    isCreate: false,
-                    overrides: {
-                        col1: {
-                            disabled: false
-                        },
-                        col2: {
-                            disabled: false
-                        }
+                    col2: {
+                        disabled: false
                     }
-                },
-                lastUpdate: 1
-            }
-        }));
+                })
+            })
+        );
     });
 
     it('Should return the correct edit-create response', () => {
@@ -371,10 +374,10 @@ describe('The editor reducer EDIT_ROW action', () => {
                     dataIndex: 'col2'
                 }
             ],
-            values: {
+            values: Map({
                 col1: 1,
                 col2: 2
-            },
+            }),
             rowIndex: 2,
             isCreate: true,
             rowId: 'rowid-2',
@@ -382,31 +385,28 @@ describe('The editor reducer EDIT_ROW action', () => {
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': {
-                'rowid-2': {
-                    key: 'rowid-2',
-                    values: {
-                        col1: 1,
-                        col2: 2
+            editor(state, action).getIn(['test-grid', 'rowid-2'])
+        ).toEqualImmutable(
+            new EditorRecord({
+                key: 'rowid-2',
+                values: Map({
+                    col1: 1,
+                    col2: 2
+                }),
+                rowIndex: 2,
+                top: 30,
+                valid: false,
+                isCreate: true,
+                overrides: fromJS({
+                    col1: {
+                        disabled: false
                     },
-                    rowIndex: 2,
-                    top: 30,
-                    valid: false,
-                    isCreate: true,
-                    overrides: {
-                        col1: {
-                            disabled: false
-                        },
-                        col2: {
-                            disabled: false
-                        }
+                    col2: {
+                        disabled: false
                     }
-                },
-                lastUpdate: 1
-            }
-        }));
+                })
+            })
+        );
 
         it('Should return the correct edit-create with disable', () => {
 
@@ -528,18 +528,17 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
 
         const state = fromJS({
             'test-grid': {
-                'rowid-2': {
+                'rowid-2': new EditorRecord({
                     key: 'rowid-2',
-                    values: {
+                    values: Map({
                         col1: NaN,
                         col2: NaN
-                    },
+                    }),
                     rowIndex: 2,
                     top: 30,
                     valid: false,
-                    isCreate: true,
-                    overrides: {}
-                }
+                    isCreate: true
+                })
             }
         });
 
@@ -548,19 +547,19 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
             columns: [
                 {
                     name: 'Col1',
-                    dataIndex: 'col2',
+                    dataIndex: 'col1',
                     validator: ({ value }) => {
                         return value === 1;
                     }
                 },
                 {
                     name: 'Col2',
-                    dataIndex: 'col1'
+                    dataIndex: 'col2'
                 }
             ],
             column: {
                 name: 'Col1',
-                dataIndex: 'col2',
+                dataIndex: 'col1',
                 validator: ({ value }) => {
                     return value === 1;
                 }
@@ -571,35 +570,32 @@ describe('The editor reducer ROW_VALUE_CHANGE action', () => {
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': {
-                'rowid-2': {
-                    key: 'rowid-2',
-                    values: {
-                        col1: NaN,
-                        col2: 1
+            editor(state, action).getIn(['test-grid', 'rowid-2'])
+        ).toEqualImmutable(
+            new EditorRecord({
+                key: 'rowid-2',
+                values: Map({
+                    col1: 1,
+                    col2: NaN
+                }),
+                rowIndex: 2,
+                top: 30,
+                valid: true,
+                isCreate: true,
+                overrides: fromJS({
+                    col1: {
+                        disabled: false
                     },
-                    rowIndex: 2,
-                    top: 30,
-                    valid: true,
-                    isCreate: true,
-                    overrides: {
-                        col1: {
-                            disabled: false
-                        },
-                        col2: {
-                            disabled: false
-                        }
-                    },
-                    previousValues: {
-                        col1: NaN,
-                        col2: NaN
+                    col2: {
+                        disabled: false
                     }
-                },
-                lastUpdate: 1
-            }
-        }));
+                }),
+                previousValues: Map({
+                    col1: NaN,
+                    col2: NaN
+                })
+            })
+        );
 
     });
 
@@ -613,20 +609,20 @@ describe([
 
     it('Should wipe the values upon remove', () => {
 
-        const state = fromJS({
-            'test-grid': {
+        const state = testState({
+            'test-grid': new EditorRecord({
                 'rowid-2': {
                     key: 'rowid-2',
-                    values: {
+                    values: Map({
                         col1: NaN,
                         col2: NaN
-                    },
+                    }),
                     rowIndex: 2,
                     top: 30,
                     valid: false,
                     isCreate: true
                 }
-            }
+            })
         });
 
         const action = {
@@ -635,27 +631,29 @@ describe([
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': { lastUpdate: 1 }
-        }));
+            editor(state, action).getIn(['test-grid', 'lastUpdate'])
+        ).toEqualImmutable(1);
+
+        expect(
+            editor(state, action).getIn(['test-grid', 'rowIndex'])
+        ).toEqualImmutable(undefined);
     });
 
     it('Should wipe the values upon DISMISS_EDITOR', () => {
 
-        const state = fromJS({
+        const state = testState({
             'test-grid': {
-                'rowid-2': {
+                'rowid-2': new EditorRecord({
                     key: 'rowid-2',
-                    values: {
+                    values: Map({
                         col1: NaN,
                         col2: NaN
-                    },
+                    }),
                     rowIndex: 2,
                     top: 30,
                     valid: false,
                     isCreate: true
-                }
+                })
             }
         });
 
@@ -665,27 +663,29 @@ describe([
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': { lastUpdate: 1}
-        }));
+            editor(state, action).getIn(['test-grid', 'lastUpdate'])
+        ).toEqualImmutable(1);
+
+        expect(
+            editor(state, action).getIn(['test-grid', 'rowIndex'])
+        ).toEqualImmutable(undefined);
     });
 
     it('Should wipe the values upon CANCEL_ROW', () => {
 
-        const state = fromJS({
+        const state = testState({
             'test-grid': {
-                'rowid-2': {
+                'rowid-2': new EditorRecord({
                     key: 'rowid-2',
-                    values: {
+                    values: Map({
                         col1: NaN,
                         col2: NaN
-                    },
+                    }),
                     rowIndex: 2,
                     top: 30,
                     valid: false,
                     isCreate: true
-                }
+                })
             }
         });
 
@@ -695,10 +695,12 @@ describe([
         };
 
         expect(
-            editor(state, action)
-        ).toEqualImmutable(fromJS({
-            'test-grid': { lastUpdate: 1 }
-        }));
+            editor(state, action).getIn(['test-grid', 'lastUpdate'])
+        ).toEqualImmutable(1);
+
+        expect(
+            editor(state, action).getIn(['test-grid', 'rowIndex'])
+        ).toEqualImmutable(undefined);
     });
 
 });

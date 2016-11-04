@@ -1,4 +1,5 @@
 import expect from 'expect';
+import { fromJS } from 'immutable';
 
 import {
     SET_SELECTION,
@@ -64,10 +65,10 @@ describe('The grid selectRow Action', () => {
         const action = {
             type: SELECT_ALL,
             data: {
-                currentRecords: [
+                currentRecords: fromJS([
                     { name: 'ben', _key: 'row-0' },
                     { name: 'ben2', _key: 'row-1' }
-                ]
+                ])
             },
             stateKey: 'test-grid'
         };

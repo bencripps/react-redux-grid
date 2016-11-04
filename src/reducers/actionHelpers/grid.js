@@ -1,5 +1,6 @@
-import { fromJS } from 'immutable';
 import { generateLastUpdate } from './../../util/lastUpdate';
+
+import { Grid } from './../../records';
 
 import
     localStorageManager
@@ -8,7 +9,7 @@ from './../../components/core/LocalStorageManager';
 const debouncedColumnSetter = localStorageManager.debouncedSetStateItem();
 
 export const hideHeader = (state, { stateKey, headerHidden }) =>
-    state.mergeIn([stateKey], fromJS({
+    state.setIn([stateKey], new Grid({
         headerHidden: headerHidden,
         lastUpdate: generateLastUpdate()
     }));
@@ -21,14 +22,14 @@ export const setColumns = (state, { columns, stateKey, stateful }) => {
         });
     }
 
-    return state.mergeIn([stateKey], fromJS({
+    return state.setIn([stateKey], new Grid({
         columns: columns,
         lastUpdate: generateLastUpdate()
     }));
 };
 
 export const setSortDirection = (state, { stateKey, columns }) =>
-    state.mergeIn([stateKey], fromJS({
+    state.setIn([stateKey], new Grid({
         columns: columns,
         lastUpdate: generateLastUpdate()
     }));
@@ -41,7 +42,7 @@ export const resizeColumns = (state, { stateful, stateKey, columns }) => {
         });
     }
 
-    return state.mergeIn([stateKey], fromJS({
+    return state.setIn([stateKey], new Grid({
         columns: columns,
         lastUpdate: generateLastUpdate()
     }));

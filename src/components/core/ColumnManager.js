@@ -69,8 +69,8 @@ export default class ColumnManager {
         };
 
         const pageIndex = pagerState
-            && pagerState.pageIndex
-            ? pagerState.pageIndex
+            && pagerState.get(pageIndex)
+            ? pagerState.get(pageIndex)
             : 0;
 
         const pageSize = pagerState
@@ -88,7 +88,6 @@ export default class ColumnManager {
         }
 
         if (method === SORT_METHODS.LOCAL) {
-
             const data = typeof column.sortFn === 'function'
                 ? dataSource.data.sort(column.sortFn.bind(null, direction))
                 : this.sorter.sortBy(column.dataIndex, direction, dataSource);

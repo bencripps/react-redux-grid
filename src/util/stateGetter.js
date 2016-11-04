@@ -3,8 +3,6 @@
 * used inside of mapStateToProps by grid and other plugins
 * @returns {object} state
 
-* will not return immutable object, only plain JS object
-
 * if a dynamic reducerKey is passed, it will favor that key
 * over the build in grid keys
 
@@ -20,15 +18,13 @@ export const stateGetter = (state, props, key, entry) => {
         const dynamicKey = props.reducerKeys[key];
         const dynamicState = get(state, dynamicKey, entry);
 
-        return dynamicState && dynamicState.toJS
-            ? dynamicState.toJS()
-            : dynamicState;
+        return dynamicState;
     }
 
     const val = get(state, key, entry);
 
     if (val) {
-        return val.toJS ? val.toJS() : val;
+        return val;
     }
 
     return null;

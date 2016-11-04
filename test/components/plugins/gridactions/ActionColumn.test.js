@@ -1,5 +1,6 @@
 import expect from 'expect';
 import React from 'react';
+import { fromJS, Map } from 'immutable';
 import { mount } from 'enzyme';
 import
     store
@@ -36,12 +37,12 @@ describe('The GridAction component', () => {
         ],
         editor: {},
         iconCls: '',
-        menuState: {},
+        menuState: Map(),
         rowId: 'rowId',
-        rowData: {
+        rowData: fromJS({
             player: 'Michael Jordan',
             position: 'Shooting Guard'
-        },
+        }),
         store,
         stateKey: 'test-grid',
         type: 'header',

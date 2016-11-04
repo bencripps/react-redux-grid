@@ -35,7 +35,7 @@ export const CheckBox = ({
 
     const checkBoxProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-        checked: selectedRows ? selectedRows[rowId] : false,
+        checked: selectedRows && selectedRows.get ? selectedRows.get(rowId) : false,
         type: 'checkbox',
         onChange: handleChange.bind(
             this,

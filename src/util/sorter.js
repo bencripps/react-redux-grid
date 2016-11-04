@@ -8,11 +8,11 @@ export class Sorter {
     sortBy(name, direction, datasource) {
         return datasource.data.sort((a, b) => {
 
-            if (a[name] < b[name] && direction) {
+            if (a.get(name) < b.get(name) && direction) {
                 return direction === SORT_DIRECTIONS.ASCEND ? 1 : -1;
             }
 
-            else if (a[name] > b[name]) {
+            else if (a.get(name) > b.get(name)) {
                 return direction === SORT_DIRECTIONS.ASCEND ? -1 : 1;
             }
 

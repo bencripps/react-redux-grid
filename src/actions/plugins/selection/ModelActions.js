@@ -25,7 +25,7 @@ export const selectAll = ({ data, stateKey }) => {
         return {};
     }
 
-    const keys = data.currentRecords.map((row) => row._key);
+    const keys = data.currentRecords.map((row) => row.get('_key'));
 
     const selection = keys.reduce((obj, k) => {
         obj[k] = true;

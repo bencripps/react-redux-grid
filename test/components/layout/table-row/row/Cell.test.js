@@ -1,10 +1,11 @@
 import React from 'react';
-import { fromJS } from 'immutable';
+import { fromJS, OrderedMap } from 'immutable';
 import expect from 'expect';
 import { shallow, mount } from 'enzyme';
 
 import { getSelModel } from './../../../../testUtils/';
 import store from './../../../../../src/store/store';
+import { Editor } from './../../../../../src/records';
 import {
     Cell
 } from './../../../../../src/components/layout/table-row/row/Cell.jsx';
@@ -32,12 +33,12 @@ describe('The Grid Cell Component', () => {
                 inline: 'inline'
             }
         },
-        editorState: {},
+        editorState: new OrderedMap(),
         events: {},
         index: 0,
         rowData: {
             name: 'Tommy Lee Jones',
-            position: 'actor',
+            position: 'actor'
         },
         rowIndex: 3,
         rowId: 'some-id',
@@ -64,11 +65,11 @@ describe('The Grid Cell Component', () => {
 
         const editableProps = {
             ...props,
-            editorState: {
-                ['some-id']: {
+            editorState: new OrderedMap({
+                ['some-id']: new Editor({
                     key: 'some-id'
-                }
-            }
+                })
+            })
         };
 
         const component = mount(<Cell { ...editableProps } />);
@@ -128,9 +129,9 @@ describe('The Grid Cell Component', () => {
         const editEventProps = {
             ...props,
             events: {},
-            editorState: {
+            editorState: new OrderedMap({
                 lastUpdate: 1
-            },
+            }),
             selectionModel: modifiedSelModel
         };
 
@@ -168,11 +169,11 @@ describe('The Grid Cell Component', () => {
 
         const noEventProps = {
             ...props,
-            editorState: {
-                row: {
+            editorState: new OrderedMap{
+                row: new Editor({
                     key: 'some-id'
-                }
-            }
+                })
+            })
         };
 
         const component = mount(<Cell { ...noEventProps } />);
@@ -201,11 +202,11 @@ describe('The Grid Cell Component', () => {
 
         const noEventProps = {
             ...props,
-            editorState: {
-                row: {
+            editorState: new OrderedMap{
+                row: new Editor({
                     key: 'some-id'
-                }
-            }
+                })
+            })
         };
 
         const component = mount(<Cell { ...noEventProps } />);

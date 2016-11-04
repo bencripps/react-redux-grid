@@ -1,3 +1,5 @@
+import { fromJS } from 'immutable';
+
 import {
     SET_DATA,
     SET_COLUMNS
@@ -35,7 +37,7 @@ export const defaultColumnManager = {
     }
 };
 
-export const localGridData = [
+export const localGridData = fromJS([
     {
         name: 'Michael Jordan',
         position: 'Shooting Guard'
@@ -44,7 +46,7 @@ export const localGridData = [
         name: 'Charles Barkley',
         position: 'Power Forward'
     }
-];
+]);
 
 export const gridActions = [
     { type: SET_COLUMNS, columns: gridColumns },

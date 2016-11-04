@@ -20,7 +20,7 @@ export const getCurrentRecords = (
 
         const end = Math.min(
             viewableIndex + viewableCount * (bufferMultiplier + 1),
-            dataSource.currentRecords.length
+            dataSource.currentRecords.count()
         );
 
         return {

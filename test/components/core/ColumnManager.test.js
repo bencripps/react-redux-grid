@@ -1,4 +1,6 @@
 import expect from 'expect';
+import { OrderedMap } from 'immutable';
+
 import {
     SORT_METHODS, SORT_DIRECTIONS
 } from './../../../src/constants/GridConstants';
@@ -15,7 +17,7 @@ const props = {
     columns: gridColumns,
     store: mockStore({}, ...gridActions),
     data: localGridData,
-    editorState: {}
+    editorState: new OrderedMap();
 };
 
 props.store.subscribe = () => {};
