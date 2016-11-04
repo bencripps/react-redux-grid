@@ -5,19 +5,21 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import { isPluginEnabled } from '../../util/isPluginEnabled';
-import { bufferTop, bufferBottom } from '../../util/buffer';
+import * as buffer from '../../util/buffer';
 import { prefix } from '../../util/prefix';
 import { getCurrentRecords } from '../../util/getCurrentRecords';
 import { getRowKey } from '../../util/getData';
 
 import { moveNode } from '../../actions/GridActions';
-import { ROW_HEIGHT, CLASS_NAMES } from '../../constants/GridConstants';
+import {
+    BUFFER_MULTIPLIER,
+    CLASS_NAMES,
+    DEFAULT_VIEWABLE_RECORDS,
+    ROW_HEIGHT
+} from './../../constants/GridConstants';
 
 import Row from './table-row/Row';
 import { PlaceHolder } from './row/PlaceHolder';
-
-const BUFFER_MULTIPLIER = 1.5;
-const DEFAULT_VIEWABLE_RECORDS = 25;
 
 const { arrayOf, bool, func, number, object, oneOf, string } = PropTypes;
 
@@ -25,92 +27,21 @@ export class TableRow extends Component {
 
     render() {
 
-        const {
-            columnManager,
-            columns,
-            containerScrollTop,
-            dataSource,
-            dragAndDrop,
-            editor,
-            editorState,
-            emptyDataMessage,
-            events,
-            gridType,
-            infinite,
-            menuState,
-            pageSize,
-            pager,
-            plugins,
-            readFunc,
-            reducerKeys,
-            selectedRows,
-            selectionModel,
-            showTreeRootNode,
-            stateKey,
-            stateful,
-            store
-        } = this.props;
-
-        const pageIndex = pager && pager.pageIndex ? pager.pageIndex : 0;
-
-        const totalCount = dataSource
-            && Array.isArray(dataSource.currentRecords)
+        const { dataSource } = this.props;
+        const totalCount = (
+            dataSource && Array.isArray(dataSource.currentRecords)
                 ? dataSource.currentRecords.length
-                : 0;
-
-        const { viewableCount, viewableIndex, rowHeight } = this.state;
-
-        const rows = getRowSelection(
-            dataSource,
-            infinite,
-            pageIndex,
-            pageSize,
-            pager,
-            plugins,
-            viewableIndex,
-            viewableCount,
-            BUFFER_MULTIPLIER,
-            stateKey,
-            store
+                : 0
         );
 
-        const rowComponents = getRows(
-            columns,
-            columnManager,
-            dragAndDrop,
-            editor,
-            editorState,
-            gridType,
-            menuState,
-            reducerKeys,
-            readFunc,
-            rows,
-            events,
-            this.moveRow,
-            plugins,
-            selectionModel,
-            selectedRows,
-            showTreeRootNode,
-            stateful,
-            stateKey,
-            store,
-            containerScrollTop,
-            infinite,
-            totalCount,
-            rowHeight,
-            viewableIndex,
-            viewableCount,
-            BUFFER_MULTIPLIER
-        );
-
-        const rowInsert = Array.isArray(rowComponents)
-            && rowComponents.length > 0
-            ? rowComponents
-            : <PlaceHolder { ...{ emptyDataMessage } } />;
+        this._rows = this.rowSelection();
 
         return (
             <tbody>
-                { rowInsert }
+                { this.infiniteSpacer('bufferTop', totalCount) }
+                { this._rows.map(this.toRowComponents()) }
+                { this.infiniteSpacer('bufferBottom', totalCount) }
+                { this.emptyData(totalCount) }
             </tbody>
         );
     }
@@ -216,6 +147,10 @@ export class TableRow extends Component {
         }
     };
 
+    findRow = predicate => (
+        this._rows.find(predicate)
+    );
+
     moveRow = (current, next) => {
         const { stateKey, store, showTreeRootNode } = this.props;
         if (!this.requestedFrame) {
@@ -232,203 +167,96 @@ export class TableRow extends Component {
                 this.requestedFrame = null;
             });
         }
-
     };
 
-}
+    rowSelection = () => {
+        const { dataSource, infinite, pager, pageSize, plugins } = this.props;
+        const { viewableIndex, viewableCount } = this.state;
 
-export const getRowComponents = (
-    columns,
-    columnManager,
-    dragAndDrop,
-    editor,
-    editorState,
-    gridType,
-    menuState,
-    reducerKeys,
-    readFunc,
-    row,
-    previousRow,
-    events,
-    moveRow,
-    plugins,
-    selectionModel,
-    selectedRows,
-    showTreeRootNode,
-    stateful,
-    stateKey,
-    store,
-    index
-) => {
+        if (!dataSource) {
+            return [];
+        }
 
-    const key = getRowKey(columns, row);
+        if (!isPluginEnabled(plugins, 'PAGER') && !infinite
+            || plugins.PAGER.pagingType === 'remote'
+            && !infinite) {
+            return dataSource.data;
+        }
 
-    return (
+        return getCurrentRecords(
+            dataSource,
+            pager && pager.pageIndex ? pager.pageIndex : 0,
+            pageSize,
+            infinite,
+            viewableIndex,
+            viewableCount,
+            BUFFER_MULTIPLIER
+        ).data;
+    };
+
+    toRowComponents = () => (row, index, rows) => (
         <Row
-            key={ key }
-            {
-                ...{
-                    columnManager,
-                    columns,
-                    dragAndDrop,
-                    editor,
-                    editorState,
-                    events,
-                    gridType,
-                    index,
-                    menuState,
-                    moveRow,
-                    plugins,
-                    reducerKeys,
-                    readFunc,
-                    row,
-                    previousRow,
-                    selectedRows,
-                    selectionModel,
-                    showTreeRootNode,
-                    stateful,
-                    stateKey,
-                    store,
-                    treeData: getTreeData(row)
-                }
-            }
-        />);
-};
-
-export const getRowSelection = (
-    dataSource,
-    infinite,
-    pageIndex,
-    pageSize,
-    pager,
-    plugins,
-    viewableIndex,
-    viewableCount,
-    bufferMultiplier,
-    stateKey,
-    store
-) => {
-
-    if (!dataSource) {
-        return false;
-    }
-
-    if (!isPluginEnabled(plugins, 'PAGER') && !infinite
-        || plugins.PAGER.pagingType === 'remote'
-        && !infinite) {
-        return dataSource.data;
-    }
-
-    return getCurrentRecords(
-        dataSource,
-        pageIndex,
-        pageSize,
-        infinite,
-        viewableIndex,
-        viewableCount,
-        bufferMultiplier
-    ).data;
-};
-
-export const getRows = (
-    columns,
-    columnManager,
-    dragAndDrop,
-    editor,
-    editorState,
-    gridType,
-    menuState,
-    reducerKeys,
-    readFunc,
-    rows,
-    events,
-    moveRow,
-    plugins,
-    selectionModel,
-    selectedRows,
-    showTreeRootNode,
-    stateful,
-    stateKey,
-    store,
-    containerScrollTop,
-    infinite,
-    totalCount,
-    rowHeight,
-    viewableIndex,
-    viewableCount,
-    bufferMultiplier
-) => {
-
-    const rowArray = Array.isArray(rows)
-            ? rows.map((row, i) => getRowComponents(
-                columns,
-                columnManager,
-                dragAndDrop,
-                editor,
-                editorState,
-                gridType,
-                menuState,
-                reducerKeys,
-                readFunc,
-                row,
-                rows[i-1],
-                events,
-                moveRow,
-                plugins,
-                selectionModel,
-                selectedRows,
-                showTreeRootNode,
-                stateful,
-                stateKey,
-                store,
-                i
-            ))
-            : [];
-
-    if (!infinite) {
-        return rowArray;
-    }
-
-    const topProps = {
-        style: {
-            height: bufferTop(
-                rowHeight,
-                viewableIndex,
-                viewableCount,
-                bufferMultiplier,
-                totalCount
-            )
-        }
-    };
-
-    const bottomProps = {
-        style: {
-            height: bufferBottom(
-                rowHeight,
-                viewableIndex,
-                viewableCount,
-                bufferMultiplier,
-                totalCount
-            )
-        }
-    };
-
-    // adding buffer rows for infinite scroll
-    rowArray.unshift(
-        <tr
-            key="row-inifinite-buffer-top"
-            { ...topProps }
+            columnManager={this.props.columnManager}
+            columns={this.props.columns}
+            dragAndDrop={this.props.dragAndDrop}
+            editor={this.props.editor}
+            editorState={this.props.editorState}
+            emptyDataMessage={this.props.emptyDataMessage}
+            events={this.props.events}
+            findRow={this.findRow}
+            gridType={this.props.gridType}
+            index={index}
+            key={getRowKey(this.props.columns, row)}
+            menuState={this.props.menuState}
+            moveRow={this.moveRow}
+            nextRow={rows[index + 1]}
+            plugins={this.props.plugins}
+            previousRow={rows[index - 1]}
+            readFunc={this.props.readFunc}
+            reducerKeys={this.props.reducerKeys}
+            row={row}
+            selectedRows={this.props.selectedRows}
+            selectionModel={this.props.selectionModel}
+            showTreeRootNode={this.props.showTreeRootNode}
+            stateKey={this.props.stateKey}
+            stateful={this.props.stateful}
+            store={this.props.store}
+            treeData={getTreeData(row)}
         />
     );
-    rowArray.push(
-        <tr
-            key="row-inifinite-buffer-bottom"
-            { ...bottomProps }
-        />);
 
-    return rowArray;
+    infiniteSpacer = (method, totalCount) => {
+        const { infinite } = this.props;
+        const { rowHeight, viewableCount, viewableIndex } = this.state;
 
-};
+        if (infinite && totalCount) {
+            return (
+                <tr
+                    key={`row-inifinite-${method}`}
+                    {
+                        ...buffer[method](
+                            rowHeight,
+                            viewableIndex,
+                            viewableCount,
+                            BUFFER_MULTIPLIER,
+                            totalCount
+                        )
+                    }
+                />
+            );
+        }
+    };
+
+    emptyData = totalCount => (
+        totalCount
+            ? undefined
+            : (
+            <PlaceHolder
+                emptyDataMessage={this.props.emptyDataMessage}
+            />
+            )
+    );
+}
 
 export const getTreeData = row => ({
     depth: row._depth,

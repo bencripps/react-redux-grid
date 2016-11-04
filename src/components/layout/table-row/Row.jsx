@@ -191,12 +191,14 @@ export class Row extends Component {
         editorState: object,
         emptyDataMessage: string,
         events: object,
+        findRow: func.isRequired,
         gridType: oneOf([
             'tree', 'grid'
         ]),
         index: number,
         isDragging: bool,
         menuState: object,
+        nextRow: object,
         pageSize: number,
         pager: object,
         plugins: object,
@@ -411,7 +413,24 @@ export const handleRowSingleClickEvent = (
 
 const rowSource = {
     beginDrag({ getTreeData, row }) {
-        return { getTreeData, row };
+        return {
+            getTreeData,
+            _id: row._id,
+            _index: row._index,
+            _parentId: row._parentId,
+            _path: row._path
+        };
+    },
+    endDrag({ getTreeData, moveRow }, monitor) {
+        const { id, index, parentId, path } = getTreeData();
+        const { _index, _parentId, _path } = monitor.getItem();
+
+        if (!monitor.didDrop()) {
+            moveRow(
+                { id, index, parentId, path },
+                { index: _index, parentId: _parentId, path: _path }
+            );
+        }
     }
 };
 
@@ -565,13 +584,18 @@ const rowTarget = {
         monitor.getItem().lastX = mouseX;
     },
 
-    drop(props) {
-        const { events, getTreeData, row } = props;
+    drop(props, monitor) {
+        const { events, getTreeData, findRow } = props;
+        const { _id } = monitor.getItem();
 
-        fire(
-            'HANDLE_AFTER_ROW_DROP', events,
-            null, row, getTreeData()
-        );
+        const row = findRow(data => data._id === _id);
+
+        if (row) {
+            fire(
+                'HANDLE_AFTER_ROW_DROP', events,
+                null, row, getTreeData()
+            );
+        }
     }
 
 };
