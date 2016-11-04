@@ -6,6 +6,9 @@ export const DEFAULT_PAGE_SIZE = 20;
 
 export const DEFAULT_RENDERED_RECORDS_VISIBLE = 200;
 
+export const BUFFER_MULTIPLIER = 1.5;
+export const DEFAULT_VIEWABLE_RECORDS = 25;
+
 export const SELECTION_MODES = {
     single: 'single',
     multi: 'multi',
