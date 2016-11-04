@@ -231,18 +231,21 @@ export class TableRow extends Component {
         const { rowHeight, viewableCount, viewableIndex } = this.state;
 
         if (infinite && totalCount) {
+
+            const style = {
+                height: buffer[method](
+                    rowHeight,
+                    viewableIndex,
+                    viewableCount,
+                    BUFFER_MULTIPLIER,
+                    totalCount
+                )
+            };
+
             return (
                 <tr
                     key={`row-inifinite-${method}`}
-                    {
-                        ...buffer[method](
-                            rowHeight,
-                            viewableIndex,
-                            viewableCount,
-                            BUFFER_MULTIPLIER,
-                            totalCount
-                        )
-                    }
+                    style={style}
                 />
             );
         }
