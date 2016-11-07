@@ -16,13 +16,14 @@ import {
     BUFFER_MULTIPLIER,
     CLASS_NAMES,
     DEFAULT_VIEWABLE_RECORDS,
-    ROW_HEIGHT
+    ROW_HEIGHT,
+    GRID_TYPES
 } from './../../constants/GridConstants';
 
 import Row from './table-row/Row';
 import { PlaceHolder } from './row/PlaceHolder';
 
-const { arrayOf, bool, func, number, object, oneOf, string } = PropTypes;
+const { arrayOf, bool, func, number, object, string } = PropTypes;
 
 export class TableRow extends Component {
 
@@ -89,7 +90,7 @@ export class TableRow extends Component {
         editorState: object,
         emptyDataMessage: string,
         events: object,
-        gridType: oneOf(['tree', 'grid']),
+        gridType: GRID_TYPES,
         infinite: bool,
         menuState: object,
         pageSize: number,

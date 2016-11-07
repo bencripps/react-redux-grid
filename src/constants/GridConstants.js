@@ -1,3 +1,5 @@
+import { PropTypes } from 'react';
+
 export const CSS_PREFIX = 'react-grid';
 
 export const ROW_HEIGHT = 5000;
@@ -34,6 +36,8 @@ export const FILTER_METHODS = {
 export const KEYBOARD_MAP = {
     ENTER: 13
 };
+
+export const GRID_TYPES = PropTypes.oneOf(['grid', 'tree']);
 
 export const CLASS_NAMES = {
     ACTIVE_CLASS: 'active',

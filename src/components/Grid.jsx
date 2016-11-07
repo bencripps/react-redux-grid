@@ -12,9 +12,10 @@ import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
 import { CLASS_NAMES } from '../constants/GridConstants';
 import {
+    GRID_TYPES,
     getAsyncData,
-    setData,
     setColumns,
+    setData,
     setTreeData
 } from '../actions/GridActions';
 import { mapStateToProps } from '../util/mapStateToProps';
@@ -31,7 +32,6 @@ const {
     arrayOf,
     bool,
     object,
-    oneOf,
     oneOfType,
     number,
     string
@@ -255,9 +255,7 @@ class Grid extends Component {
         events: object,
         expandOnLoad: bool,
         gridData: object,
-        gridType: oneOf([
-            'tree', 'grid'
-        ]),
+        gridType: GRID_TYPES,
         height: oneOfType([
             string,
             number
