@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import { CLASS_NAMES } from './../../constants/GridConstants';
+import { gridConfig } from './../../constants/GridConstants';
 import { prefix } from './../../util/prefix';
 import { debounce, throttle } from './../../util/throttle';
 import Row from './TableRow';
@@ -13,6 +13,7 @@ export class TableContainer extends Component {
 
     render() {
 
+        const { CLASS_NAMES } = gridConfig();
         const {
             editorComponent,
             headerProps,
@@ -39,7 +40,14 @@ export class TableContainer extends Component {
             <div { ...tableContainerProps } >
                 <table { ...tableProps }>
                     <Header { ...headerProps } />
-                    <Row { ...{ ...rowProps, containerScrollTop, containerHeight, infinite } } />
+                    <Row {
+                        ...{
+                            ...rowProps,
+                            containerScrollTop,
+                            containerHeight,
+                            infinite
+                        }
+                    } />
                 </table>
                 { editorComponent }
             </div>

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import {
     dismissError
 } from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
@@ -30,6 +30,8 @@ export const handleButtonClick = (store) => {
 };
 
 export const getMessage = (message, isShown, store) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const messageContainerProps = {
         className: prefix(

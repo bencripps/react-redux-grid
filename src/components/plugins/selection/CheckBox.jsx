@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import {
-    CLASS_NAMES, SELECTION_MODES
+    gridConfig, SELECTION_MODES
  } from '../../../constants/GridConstants';
 import {
     selectAll, deselectAll
@@ -24,6 +24,8 @@ export const CheckBox = ({
     type
 }) => {
 
+    const { CLASS_NAMES } = gridConfig();
+
     const checkBoxContainerProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX_CONTAINER,
             type === 'header'
@@ -35,7 +37,10 @@ export const CheckBox = ({
 
     const checkBoxProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-        checked: selectedRows && selectedRows.get ? selectedRows.get(rowId) : false,
+        checked: selectedRows
+            && selectedRows.get
+            ? selectedRows.get(rowId)
+            : false,
         type: 'checkbox',
         onChange: handleChange.bind(
             this,

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
-import { CLASS_NAMES } from './../../../../constants/GridConstants';
+import { gridConfig } from './../../../../constants/GridConstants';
 import {
     dismissEditor
 } from './../../../../actions/plugins/editor/EditorActions';
@@ -18,6 +18,8 @@ export const Button = ({
     store,
     type
 }) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
 

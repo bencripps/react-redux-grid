@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../../util/prefix';
-import { CLASS_NAMES } from './../../../../../constants/GridConstants';
+import { gridConfig } from './../../../../../constants/GridConstants';
 import { setTreeNodeVisibility } from './../../../../../actions/GridActions';
 import
     localStorageManager
@@ -23,6 +23,8 @@ export const TreeArrow = ({
     stateKey,
     store
 }) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const arrowProps = {
         className: prefix(CLASS_NAMES.CELL_TREE_ARROW,

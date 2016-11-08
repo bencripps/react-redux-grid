@@ -14,10 +14,10 @@ import { getRowKey } from '../../util/getData';
 import { moveNode } from '../../actions/GridActions';
 import {
     BUFFER_MULTIPLIER,
-    CLASS_NAMES,
     DEFAULT_VIEWABLE_RECORDS,
+    GRID_TYPES,
     ROW_HEIGHT,
-    GRID_TYPES
+    gridConfig
 } from './../../constants/GridConstants';
 
 import Row from './table-row/Row';
@@ -111,6 +111,7 @@ export class TableRow extends Component {
     };
 
     calculateHeights = () => {
+        const { CLASS_NAMES } = gridConfig();
         const { containerHeight } = this.props;
         const { rowHeight, viewableCount } = this.state;
 

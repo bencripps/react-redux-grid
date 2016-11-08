@@ -1,8 +1,9 @@
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import { prefix } from '../../../util/prefix';
 
 export default class DragAndDropManager {
     initDragable(initialProps = {}) {
+        const { CLASS_NAMES } = gridConfig();
 
         const defaults = {
             onDragStart: this.handleDragStart,

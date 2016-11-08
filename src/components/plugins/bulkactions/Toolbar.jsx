@@ -4,7 +4,7 @@ import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import {
     removeToolbar
 } from '../../../actions/plugins/bulkactions/ToolbarActions';
@@ -24,7 +24,7 @@ class BulkActionToolbar extends Component {
             ? getToolbar(
                 plugins.BULK_ACTIONS.actions, bulkActionState, selectedRows
             )
-            : <div></div>;
+            : <div />;
 
         return toolbar;
     }
@@ -92,6 +92,7 @@ export const getTotalSelection = (selectedRows) => {
 };
 
 export const getToolbar = (actions, bulkActionState, selectedRows) => {
+    const { CLASS_NAMES } = gridConfig();
     const totalCount = getTotalSelection(selectedRows);
 
     const shownCls = totalCount > 0

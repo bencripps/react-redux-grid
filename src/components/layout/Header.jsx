@@ -7,7 +7,7 @@ import DragAndDropManager from '../core/draganddrop/DragAndDropManager';
 import { prefix } from '../../util/prefix';
 import { shouldHeaderUpdate } from '../../util/shouldComponentUpdate';
 import { keyFromObject } from '../../util/keyGenerator';
-import { CLASS_NAMES } from '../../constants/GridConstants';
+import { gridConfig } from '../../constants/GridConstants';
 
 const { arrayOf, bool, object, string } = PropTypes;
 
@@ -16,7 +16,7 @@ const dragAndDropManager = new DragAndDropManager();
 class Header extends Component {
 
     render() {
-
+        const { CLASS_NAMES } = gridConfig();
         const {
             columns,
             columnManager,

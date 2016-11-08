@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
-import { CLASS_NAMES } from './../../../../constants/GridConstants';
+import { gridConfig } from './../../../../constants/GridConstants';
 
 export const SortHandle = ({ direction, sortHandleCls }) => {
-
+    const { CLASS_NAMES } = gridConfig();
     const handleProps = {
         className: prefix(
             CLASS_NAMES.SORT_HANDLE, direction.toLowerCase(), sortHandleCls

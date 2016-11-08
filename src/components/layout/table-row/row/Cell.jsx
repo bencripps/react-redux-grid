@@ -5,7 +5,7 @@ import { prefix } from '../../../../util/prefix';
 import { getData } from './../../../../util/getData';
 import { handleEditClick } from './../../../../util/handleEditClick';
 import { elementContains } from './../../../../util/elementContains';
-import { CLASS_NAMES } from './../../../../constants/GridConstants';
+import { gridConfig } from './../../../../constants/GridConstants';
 
 import TreeArrow from './cell/TreeArrow';
 import DragHandle from './cell/DragHandle';
@@ -31,6 +31,8 @@ export const Cell = ({
     store,
     treeData
 }) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const isEditable = (editorState
             && editorState.get
@@ -202,6 +204,8 @@ export const handleClick = ({
     store
 }, reactEvent) => {
 
+    const { CLASS_NAMES } = gridConfig();
+
     if (reactEvent.target
         && elementContains(
             reactEvent.target, prefix(CLASS_NAMES.EDITED_CELL))
@@ -261,6 +265,8 @@ export const handleDoubleClick = ({
     stateKey,
     store
 }, reactEvent) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     if (reactEvent.target
         && elementContains(

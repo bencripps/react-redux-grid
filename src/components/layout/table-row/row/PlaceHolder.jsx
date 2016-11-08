@@ -1,21 +1,18 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from '../../../../util/prefix';
-import { CLASS_NAMES } from '../../../../constants/GridConstants';
+import { gridConfig } from '../../../../constants/GridConstants';
 
 export const PlaceHolder = (message) => {
-
-    const rowProps = {
-        className: prefix(CLASS_NAMES.ROW)
-    };
-
-    const tdProps = {
-        className: prefix(CLASS_NAMES.ROW, CLASS_NAMES.EMPTY_ROW)
-    };
-
+    const { CLASS_NAMES } = gridConfig();
     return (
-        <tr { ...rowProps }>
-            <td colSpan="100%" { ...tdProps }>
+        <tr
+            className={prefix(CLASS_NAMES.ROW)}
+        >
+            <td
+                className={prefix(CLASS_NAMES.ROW, CLASS_NAMES.EMPTY_ROW)}
+                colSpan="100%"
+            >
                 { message.emptyDataMessage }
             </td>
         </tr>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import { hideMenu } from '../../../actions/plugins/actioncolumn/MenuActions';
 
 class MenuItem extends Component {
 
     render() {
+        const { CLASS_NAMES } = gridConfig();
         const {
             data,
             disabled,

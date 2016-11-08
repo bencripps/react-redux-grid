@@ -1,4 +1,6 @@
 import { editRow } from './../actions/plugins/editor/EditorActions';
+import { prefix } from './../util/prefix';
+import { gridConfig } from './../constants/GridConstants';
 
 export const handleEditClick = (
     editor,
@@ -48,10 +50,13 @@ export const handleEditClick = (
 };
 
 export const closestRow = (target) => {
+    const { CLASS_NAMES } = gridConfig();
     let el = target;
 
     while (el && el !== document.body) {
-        if (el && el.classList && el.classList.contains('react-grid-row')) {
+        if (el
+            && el.classList
+            && el.classList.contains(prefix(CLASS_NAMES.ROW))) {
             return el;
         }
         el = el.parentNode;

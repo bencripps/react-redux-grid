@@ -8,7 +8,7 @@ import { keyGenerator } from './../../../util/keyGenerator';
 import { prefix } from './../../../util/prefix';
 
 import {
-    CLASS_NAMES,
+    gridConfig,
     SORT_DIRECTIONS,
     SORT_METHODS
 } from './../../../constants/GridConstants';
@@ -37,6 +37,7 @@ export const Column = ({
     if (col.hidden) {
         return false;
     }
+    const { CLASS_NAMES } = gridConfig();
 
     const isResizable = isColumnResizable(col, columnManager);
 

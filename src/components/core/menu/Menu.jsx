@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { MenuItem } from './MenuItem';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { prefix } from '../../../util/prefix';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 
 const { array, number, object, string } = PropTypes;
 
@@ -13,6 +13,7 @@ class Menu extends Component {
     render() {
 
         const { menu, maxHeight } = this.props;
+        const { CLASS_NAMES } = gridConfig();
 
         const menuProps = {
             className: prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER),

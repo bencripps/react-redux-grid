@@ -1,6 +1,9 @@
-import { CSS_PREFIX } from '../constants/GridConstants';
+import { gridConfig } from '../constants/GridConstants';
 
-export function prefix(...classes) {
+export const prefix = (...classes) => {
+
+    const { CSS_PREFIX } = gridConfig();
+
     return Array.from(classes).map((cls) => {
 
         if (!cls || cls.length === 0) {
@@ -8,5 +11,5 @@ export function prefix(...classes) {
         }
 
         return `${CSS_PREFIX}-${cls}`;
-    }).filter((cls) => cls).join(' ');
-}
+    }).filter(cls => cls).join(' ');
+};

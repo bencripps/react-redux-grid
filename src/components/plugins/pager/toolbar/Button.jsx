@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { prefix } from './../../../../util/prefix';
-import { CLASS_NAMES } from './../../../../constants/GridConstants';
+import { gridConfig } from './../../../../constants/GridConstants';
 
 import {
     setPage,
@@ -21,6 +21,8 @@ export const Button = ({
         total,
         type
     }) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const buttonProps = {
         onClick: handleButtonClick.bind(

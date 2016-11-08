@@ -6,7 +6,7 @@ import { Description } from './toolbar/Description';
 import { shouldPagerUpdate } from '../../../util/shouldComponentUpdate';
 import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import { getCurrentRecords } from '../../../util/getCurrentRecords';
 
 export class PagerToolbar extends Component {
@@ -304,6 +304,8 @@ export const getPager = (
     top,
     width
 ) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     const pageIndex = pager
         && pager.get('pageIndex')

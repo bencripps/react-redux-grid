@@ -10,13 +10,13 @@ import { prefix } from '../../../util/prefix';
 import { keyFromObject } from '../../../util/keyGenerator';
 import { getRowBoundingRect } from '../../../util/getRowBoundingRect';
 import { elementContains } from '../../../util/elementContains';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import { setColumnVisibility } from '../../../actions/GridActions';
 
 export class ActionColumn extends Component {
 
     render() {
-
+        const { CLASS_NAMES } = gridConfig();
         const {
             columns,
             editor,
@@ -182,7 +182,7 @@ export const enableActions = (
 
         const val = rowData && rowData.toJS
             ? rowData.toJS()
-            : rowData
+            : rowData;
 
         const disabled = actions.onMenuShow({
             columns,
@@ -325,7 +325,7 @@ export const getColumn = (
     headerActionItemBuilder,
     maxHeight
 ) => {
-
+    const { CLASS_NAMES } = gridConfig();
     const menu = menuShown
         ?
         <Menu {
@@ -364,26 +364,31 @@ export const handleHideMenu = (
     stateKey, store, initialTarget, reducerKeys, e
 ) => {
 
+    const { CLASS_NAMES } = gridConfig();
+
     const occurredInHeader = elementContains(
-        e.target, 'react-grid-header'
+        e.target, prefix(CLASS_NAMES.HEADER)
     );
 
     const isHeaderMenu = occurredInHeader
-        && e.target.classList.contains('react-grid-action-icon');
+        && e.target.classList.contains(prefix(CLASS_NAMES.GRID_ACTIONS.ICON));
 
     const isHeaderAction = occurredInHeader && elementContains(
-        e.target, 'react-grid-action-menu-container'
+        e.target, prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
     );
 
     const isRowAction = elementContains(
-        e.target, 'react-grid-row'
-    ) && e.target.classList.contains('react-grid-action-icon');
+        e.target, prefix(CLASS_NAMES.ROW)
+    ) && e.target.classList.contains(prefix(CLASS_NAMES.GRID_ACTIONS.ICON));
 
     const isSameNode = initialTarget === e.target
-        && !elementContains(e.target, 'react-grid-action-menu-container');
+        && !elementContains(
+            e.target,
+            prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
+        );
 
     const isActionMenu = isSameNode && elementContains(
-        e.target, 'react-grid-action-container'
+        e.target, prefix(CLASS_NAMES.GRID_ACTIONS.MENU.CONTAINER)
     );
 
     const menuKey = reducerKeys.menu || 'menu';

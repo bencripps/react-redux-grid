@@ -9,7 +9,7 @@ import { shouldHeaderUpdate } from '../../util/shouldComponentUpdate';
 import { prefix } from '../../util/prefix';
 import { debounce, throttle } from '../../util/throttle';
 import { isPluginEnabled } from '../../util/isPluginEnabled';
-import { CLASS_NAMES } from '../../constants/GridConstants';
+import { gridConfig } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
 
 const { arrayOf, bool, object, string } = PropTypes;
@@ -19,7 +19,7 @@ const dragAndDropManager = new DragAndDropManager();
 class FixedHeader extends Component {
 
     render() {
-
+        const { CLASS_NAMES } = gridConfig();
         const {
             columns,
             columnManager,

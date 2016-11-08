@@ -572,7 +572,11 @@ export const events = {
 ## Style
 
 All core components and plugins have corresponding `.styl` files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend within `src/constants/gridConstants.js`
+
+To update `CLASS_NAMES` or the `CSS_PREFIX` dynamically, you can use the `applyGridConfig` function. More information is available [here](docs/USING_GRID_CONFIG.md)
+
 ```javascript
+
 export const CSS_PREFIX = 'react-grid';
 
 export const CLASS_NAMES = {

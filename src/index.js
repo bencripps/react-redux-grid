@@ -7,11 +7,14 @@ import { Reducers } from './reducers';
 
 import { Actions } from './actions';
 
+import { applyGridConfig } from './constants/GridConstants';
+
 const modules = {
     Actions,
     Grid: ConnectedGrid,
     GridRootReducer: combineReducers(Reducers),
     Reducers,
+    applyGridConfig,
     Store
 };
 

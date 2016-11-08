@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 
 export const LoadingBar = ({ loadingState, plugins }) => {
+    const { CLASS_NAMES } = gridConfig();
 
     let isLoading = false;
 

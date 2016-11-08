@@ -9,7 +9,7 @@ import RowContainer from './row/RowContainer';
 import { prefix } from '../../../util/prefix';
 import { fire } from '../../../util/fire';
 import { getData, getRowKey } from '../../../util/getData';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 
 const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
 
@@ -18,7 +18,7 @@ const DRAG_INCREMENT = 15;
 export class Row extends Component {
 
     render() {
-
+        const { CLASS_NAMES } = gridConfig();
         const {
             columnManager,
             columns,

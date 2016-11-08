@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Input } from './Input';
-import { CLASS_NAMES } from './../../../../../constants/GridConstants';
+import { gridConfig } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
 import { nameFromDataIndex } from './../../../../../util/getData';
-
-const wrapperCls = prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER);
 
 export const Editor = ({
     cellData,
@@ -19,6 +17,8 @@ export const Editor = ({
     stateKey,
     store
 }) => {
+
+    const { CLASS_NAMES } = gridConfig();
 
     let colName = columns
         && columns[index]
@@ -74,7 +74,7 @@ export const Editor = ({
         );
 
         return (
-            <span className={ wrapperCls }>
+            <span className={prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)}>
                 { input }
             </span>
             );
@@ -88,15 +88,15 @@ export const Editor = ({
                 : true)) {
 
         return (
-            <span className={ wrapperCls }>
+            <span className={prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)}>
                 <Input
-                    cellData={ value }
-                    column={ columns[index] }
-                    columns={ columns }
-                    editorState={ editorState }
-                    rowId={ rowId }
-                    stateKey={ stateKey }
-                    store={ store }
+                    cellData={value}
+                    column={columns[index]}
+                    columns={columns}
+                    editorState={editorState}
+                    rowId={rowId}
+                    stateKey={stateKey}
+                    store={store}
                 />
             </span>
             );

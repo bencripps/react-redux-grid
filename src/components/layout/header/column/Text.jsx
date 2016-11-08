@@ -2,12 +2,13 @@ import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
 import { keyFromObject } from './../../../../util/keyGenerator';
-import { CLASS_NAMES } from './../../../../constants/GridConstants';
+import { gridConfig } from './../../../../constants/GridConstants';
 
 export const Text = ({
     actualIndex, col, columnManager, dragAndDropManager, sortHandle
 }) => {
 
+    const { CLASS_NAMES } = gridConfig();
     const innerHTML = col.name;
     const draggable = col.moveable !== undefined
         ? col.moveable

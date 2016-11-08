@@ -1,7 +1,5 @@
 import { PropTypes } from 'react';
 
-export const CSS_PREFIX = 'react-grid';
-
 export const ROW_HEIGHT = 5000;
 
 export const DEFAULT_PAGE_SIZE = 20;
@@ -39,7 +37,13 @@ export const KEYBOARD_MAP = {
 
 export const GRID_TYPES = PropTypes.oneOf(['grid', 'tree']);
 
-export const CLASS_NAMES = {
+/*
+* these constants can be overridden by applyGridConfig
+*/
+
+export let CSS_PREFIX = 'react-grid';
+
+export let CLASS_NAMES = {
     ACTIVE_CLASS: 'active',
     INACTIVE_CLASS: 'inactive',
     DRAG_HANDLE: 'drag-handle',
@@ -95,6 +99,7 @@ export const CLASS_NAMES = {
         SELECTED_CLASS: 'action-menu-selected',
         NO_ACTIONS: 'no-actions',
         DISABLED: 'disabled',
+        ICON: 'action-icon',
         MENU: {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'
@@ -127,3 +132,22 @@ export const CLASS_NAMES = {
     }
 
 };
+
+export const applyGridConfig = (config = {})=> {
+    Object.keys(config).forEach(k => {
+        if (k === 'CLASS_NAMES') {
+            CLASS_NAMES = {
+                ...CLASS_NAMES,
+                ...config[k]
+            };
+        }
+        else if (k === 'CSS_PREFIX') {
+            CSS_PREFIX = config[k];
+        }
+    });
+};
+
+export const gridConfig = () => ({
+    CLASS_NAMES,
+    CSS_PREFIX
+});

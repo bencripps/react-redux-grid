@@ -8,19 +8,16 @@ import { prefix } from '../../../util/prefix';
 import { stateGetter } from '../../../util/stateGetter';
 import { getEditorTop } from '../../../util/getEditorTop';
 import { getRowBoundingRect } from '../../../util/getRowBoundingRect';
-import { CLASS_NAMES } from '../../../constants/GridConstants';
+import { gridConfig } from '../../../constants/GridConstants';
 import {
     repositionEditor
 } from '../../../actions/plugins/editor/EditorActions';
 
-const INPUT_SELECTOR = [
-    '.react-grid-edit .react-grid-editor-wrapper input:enabled,',
-    '.react-grid-edit .react-grid-editor-wrapper select:enabled'
-].join(' ');
-
 export class Inline extends Component {
 
     render() {
+
+        const { CLASS_NAMES } = gridConfig();
 
         const {
             BUTTON_TYPES,
@@ -124,8 +121,10 @@ export class Inline extends Component {
 
 export const getRowFromInput = (inputEl) => {
 
+    const { CLASS_NAMES } = gridConfig();
+
     while (inputEl !== null && inputEl.classList) {
-        if (inputEl.classList.contains('react-grid-row')) {
+        if (inputEl.classList.contains(prefix(CLASS_NAMES.ROW))) {
             return inputEl;
         }
 
@@ -144,7 +143,7 @@ export function resetEditorPosition(
         return;
     }
 
-    const input = dom.parentNode.querySelector(INPUT_SELECTOR);
+    const input = dom.parentNode.querySelector(getInputSelector());
 
     if (input) {
         const row = getRowFromInput(input);
@@ -187,6 +186,16 @@ export function resetEditorPosition(
 
 }
 
+/* eslint-disable max-len */
+export const getInputSelector = () => {
+    const { CLASS_NAMES } = gridConfig();
+    return [
+        `.${prefix(CLASS_NAMES.EDITED_CELL)} .${prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)} input:enabled,`,
+        `.${prefix(CLASS_NAMES.EDITED_CELL)} .${prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)} select:enabled`
+    ].join(' ');
+};
+/* eslint-enable max-len */
+
 export const getEditedRowKey = editorState => {
 
     if (!editorState) {
@@ -204,7 +213,7 @@ export const getEditedRowKey = editorState => {
 };
 
 export const focusFirstEditor = (dom) => {
-    const input = dom.parentNode.querySelector(INPUT_SELECTOR);
+    const input = dom.parentNode.querySelector(getInputSelector());
 
     if (input && input.focus) {
         input.focus();
