@@ -410,10 +410,10 @@ const rowSource = {
     beginDrag({ getTreeData, row }) {
         return {
             getTreeData,
-            _id: row._id,
-            _index: row._index,
-            _parentId: row._parentId,
-            _path: row._path
+            _id: row.get('_id'),
+            _index: row.get('_index'),
+            _parentId: row.get('_parentId'),
+            _path: row.get('_path')
         };
     },
     endDrag({ getTreeData, moveRow }, monitor) {
@@ -582,8 +582,7 @@ const rowTarget = {
     drop(props, monitor) {
         const { events, getTreeData, findRow } = props;
         const { _id } = monitor.getItem();
-
-        const row = findRow(data => data._id === _id);
+        const row = findRow(data => data.get('_id') === _id);
 
         if (row) {
             fire(
