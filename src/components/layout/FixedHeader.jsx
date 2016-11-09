@@ -328,13 +328,14 @@ class FixedHeader extends Component {
     }
 
     getScrollWidth() {
+        const { CLASS_NAMES } = gridConfig();
         const header = ReactDOM.findDOMNode(this);
         const { headerOffset } = this.state;
 
         const fixed = header
-            .querySelector('.react-grid-header-fixed');
+            .querySelector(`.${prefix(CLASS_NAMES.HEADER_FIXED)}`);
         const hidden = header
-            .parentNode.querySelector('.react-grid-header-hidden');
+            .parentNode.querySelector(`.${prefix(CLASS_NAMES.HEADER_HIDDEN)}`);
 
         if (!fixed || !hidden) {
             return;
@@ -343,9 +344,11 @@ class FixedHeader extends Component {
         const offset = fixed.offsetWidth - hidden.offsetWidth;
 
         if (offset !== undefined && offset !== headerOffset) {
+            /* eslint-disable react/no-set-state */
             this.setState({
                 headerOffset: offset
             });
+            /* eslint-enable react/no-set-state */
         }
     }
 

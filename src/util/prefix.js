@@ -3,6 +3,9 @@ import { gridConfig } from '../constants/GridConstants';
 export const prefix = (...classes) => {
 
     const { CSS_PREFIX } = gridConfig();
+    const DELIMITER = CSS_PREFIX
+        ? '-'
+        : '';
 
     return Array.from(classes).map((cls) => {
 
@@ -10,6 +13,6 @@ export const prefix = (...classes) => {
             return null;
         }
 
-        return `${CSS_PREFIX}-${cls}`;
+        return `${CSS_PREFIX}${DELIMITER}${cls}`;
     }).filter(cls => cls).join(' ');
 };
