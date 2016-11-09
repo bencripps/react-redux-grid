@@ -10,9 +10,8 @@ import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
-import { gridConfig } from '../constants/GridConstants';
+import { gridConfig, GRID_TYPES } from '../constants/GridConstants';
 import {
-    GRID_TYPES,
     getAsyncData,
     setColumns,
     setData,

@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { list } from 'react-immutable-proptypes';
 
 export const Description = ({
     toolbarRenderer, pageIndex, pageSize, total, currentRecords, recordType
@@ -19,7 +18,7 @@ export const Description = ({
 const { func, number, string } = PropTypes;
 
 Description.propTypes = {
-    currentRecords: list,
+    currentRecords: number,
     pageIndex: number,
     pageSize: number,
     recordType: string,
