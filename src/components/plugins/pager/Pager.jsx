@@ -155,8 +155,12 @@ export class PagerToolbar extends Component {
 
     shouldStick(footerDOM) {
 
+        const { CLASS_NAMES } = gridConfig();
+
         const isTableVisible = this.isElementInViewport(
-            footerDOM.parentNode.querySelector('.react-grid-header-fixed')
+            footerDOM.parentNode.querySelector(
+                `.${prefix(CLASS_NAMES.HEADER_FIXED)}`
+            )
         );
 
         const isFooterVisible = (
