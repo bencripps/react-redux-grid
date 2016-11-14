@@ -39,7 +39,6 @@ export const treeToFlatList = (
 
         stack = stack.shift();
         const children = item.get(childIdentifier);
-        // console.log(item.get('id'), (children || List()).map(i => i.get('id')).toJS(), stack.map(i => i.get('id')).toJS());
 
         if (List.isList(children) && !item.get('_hideChildren')) {
             stack = children.map(

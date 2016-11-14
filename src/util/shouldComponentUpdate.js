@@ -45,6 +45,8 @@ export function shouldHeaderUpdate(nextProps, nextState) {
     // to do, stop this
     return true;
 
+    /* eslint-disable no-unreachable */
+
     const menuState = state =>
         state && state.get('header-row');
 
@@ -67,6 +69,8 @@ export function shouldHeaderUpdate(nextProps, nextState) {
     this.previousColumns = this.props.columns.slice();
 
     return result;
+
+    /* eslint-enable no-unreachable */
 }
 
 export function shouldRowUpdate(nextProps) {

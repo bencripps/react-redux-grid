@@ -57,8 +57,6 @@ export const Editor = ({
                 : true)
         && typeof columns[index].editor === 'function') {
 
-        debugger;
-
         const input = columns[index].editor(
             {
                 column: columns[index],
