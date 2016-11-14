@@ -57,14 +57,16 @@ export const Editor = ({
                 : true)
         && typeof columns[index].editor === 'function') {
 
+        debugger;
+
         const input = columns[index].editor(
             {
                 column: columns[index],
                 columns,
                 store,
                 rowId,
-                row: editorData && editorData.values
-                    ? { ...row, ...cleanProps(editorData.values) }
+                row: editorData && editorData.values && editorData.toJS
+                    ? { ...row, ...cleanProps(editorData.values.toJS()) }
                     : { key: rowId, ...row },
                 columnIndex: index,
                 value: value && value.toJS ? value.toJS() : value,

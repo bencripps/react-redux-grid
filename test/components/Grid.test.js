@@ -94,7 +94,7 @@ describe('A fully mounted simple grid', () => {
     };
 
     const component = mount(<ConnectedGrid { ...simpleProps } />);
-    debugger;
+
     it('Should render with the correct number of rows', () => {
         expect(
             component.find('.react-grid-row').length

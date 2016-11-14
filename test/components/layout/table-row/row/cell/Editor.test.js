@@ -3,7 +3,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { OrderedMap, fromJS, Map } from 'immutable';
 
+import { testState } from './../../../../../testUtils';
 import store from './../../../../../../src/store/store';
+import { Editor as EditorRecord } from './../../../../../../src/records';
 import {
     Editor,
     cleanProps
@@ -84,4 +86,51 @@ describe('The Editor Component', () => {
             );
     });
 
+    it('Should return a custom editor with correct arguments', () => {
+        const editorSpy = sinon.spy();
+
+        const editedProps = {
+            ...props,
+            columns: [
+                {
+                    dataIndex: 'name',
+                    editable: true,
+                    editor: editorSpy
+                },
+                {
+                    dataIndex: 'position'
+                }
+            ],
+            editorState: new testState({
+                ['row-0']: new EditorRecord({
+                    key: 'row-0',
+                    values: Map({
+                        name: 'Updated Michael',
+                        position: 'Shooting G'
+                    }),
+                    rowIndex: 0,
+                    top: 40,
+                    valid: true,
+                    isCreate: false,
+                    overrides: Map(),
+                    previousValues: Map({
+                        name: 'Michael Jordan',
+                        position: 'Shooting Guard'
+                    }),
+                    lastUpdate: 1
+                })
+            }),
+            isEditable: true
+        };
+
+        /* eslint-disable no-unused-vars */
+        const cmp = mount(<Editor { ...editedProps } />);
+        /* eslint-enable no-unused-vars */
+        const [[{ row, rowId, value }]] = editorSpy.args;
+
+        expect(row.name).toEqual('Updated Michael');
+        expect(row.position).toEqual('Shooting G');
+        expect(rowId).toEqual('row-0');
+        expect(value).toEqual('Updated Michael');
+    });
 });
