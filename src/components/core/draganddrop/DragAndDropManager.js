@@ -41,7 +41,7 @@ export default class DragAndDropManager {
 
     handleDrag() {}
 
-    handleDragOver(reactEvent) {
+    handleDragOver() {
 
     }
 

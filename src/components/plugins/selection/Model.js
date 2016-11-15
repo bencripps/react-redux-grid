@@ -1,5 +1,5 @@
 import React from 'react';
-import { keyFromObject } from '../../../util/keyGenerator';
+
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
 import { ConnectedCheckBox as CheckBox } from './CheckBox';
 import { SELECTION_MODES } from './../../../constants/GridConstants';

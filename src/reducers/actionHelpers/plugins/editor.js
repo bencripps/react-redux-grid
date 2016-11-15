@@ -6,7 +6,8 @@ import { generateLastUpdate } from './../../../util/lastUpdate';
 import {
     getData,
     setDataAtDataIndex,
-    setKeysInData
+    setKeysInData,
+    nameFromDataIndex
 } from './../../../util/getData';
 
 export const editRow = (state, {
@@ -83,6 +84,7 @@ export const rowValueChange = (state, {
     column, columns, value, rowId, stateKey
 }) => {
 
+    const colTriggeringChange = nameFromDataIndex(column);
     const previousEditorState = state.getIn([stateKey, rowId]);
     const previousValues = previousEditorState
         ? previousEditorState.values
@@ -98,13 +100,15 @@ export const rowValueChange = (state, {
 
     columns.forEach((col, i) => {
         const val = getData(rowValues, columns, i);
-        const dataIndex = col.dataIndex;
+        const dataIndex = nameFromDataIndex(col);
 
         // interpreting `change func` to set final values
         // happens first, due to other validation
         // need to turn back to immutable, since data is
         // being retrieved externally
-        rowValues = fromJS(handleChangeFunc(col, rowValues));
+        rowValues = fromJS(
+            handleChangeFunc(col, rowValues, colTriggeringChange)
+        );
 
         // setting default value
         if (col.defaultValue !== undefined
@@ -209,7 +213,7 @@ export const setDisabled = (col = {}, value, values) => {
 
 };
 
-export const handleChangeFunc = (col, rowValues) => {
+export const handleChangeFunc = (col, rowValues, colTriggeringChange) => {
 
     const vals = rowValues
         && rowValues.toJS
@@ -220,10 +224,15 @@ export const handleChangeFunc = (col, rowValues) => {
         return vals;
     }
 
-    const overrideValue = col.change({ values: vals }) || {};
+    const overrideValue = col.change({ values: vals, eventSource: col }) || {};
 
     Object.keys(overrideValue).forEach(k => {
-        vals[k] = overrideValue[k];
+        // if the change is originating
+        // from a the column that we want to override
+        // ignore that specific change value
+        if (k !== colTriggeringChange) {
+            vals[k] = overrideValue[k];
+        }
     });
 
     return vals;

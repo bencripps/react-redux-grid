@@ -41,7 +41,7 @@ describe('The editor reducer handleChangeFunc func', () => {
             name: 'Val'
         };
 
-        expect(handleChangeFunc(col, rowValues))
+        expect(handleChangeFunc(col, rowValues, 'val1'))
             .toEqual(rowValues);
 
     });
@@ -64,7 +64,7 @@ describe('The editor reducer handleChangeFunc func', () => {
             }
         };
 
-        expect(handleChangeFunc(col, rowValues))
+        expect(handleChangeFunc(col, rowValues, 'val1'))
             .toEqual({
                 val1: true,
                 val2: 'notABanana'
@@ -73,6 +73,37 @@ describe('The editor reducer handleChangeFunc func', () => {
     });
 
     it('Should update multiple value', () => {
+        const rowValues = {
+            val1: true,
+            val2: 'banana',
+            val3: 'val3'
+        };
+
+        const col = {
+            dataIndex: 'val1',
+            name: 'Val',
+            change: ({ values }) => {
+                if (values.val1) {
+                    return {
+                        val2: 'notABanana',
+                        val3: 'a new val'
+                    };
+                }
+            }
+        };
+
+        expect(handleChangeFunc(col, rowValues, 'val1'))
+            .toEqual({
+                val1: true,
+                val2: 'notABanana',
+                val3: 'a new val'
+            });
+
+    });
+
+    it(['Should not update a value if the dataIndex',
+        'matches the change func return'].join(' '), () => {
+
         const rowValues = {
             val1: true,
             val2: 'banana'
@@ -91,12 +122,11 @@ describe('The editor reducer handleChangeFunc func', () => {
             }
         };
 
-        expect(handleChangeFunc(col, rowValues))
+        expect(handleChangeFunc(col, rowValues, 'val1'))
             .toEqual({
-                val1: false,
+                val1: true,
                 val2: 'notABanana'
             });
-
     });
 
 });
