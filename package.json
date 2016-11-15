@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "array-from": "^2.1.1",
+    "deep-diff": "^0.3.4",
     "deep-equal": "^1.0.1",
     "font-awesome": "^4.6.1",
     "immutable": "^3.8.1",
@@ -42,7 +43,6 @@
     "react-immutable-proptypes": "^2.0.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.1",
-    "redux-diff-logger": "0.0.9",
     "redux-thunk": "^2.0.1",
     "routes": "^2.1.0"
   },
