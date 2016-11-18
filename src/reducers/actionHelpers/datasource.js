@@ -214,8 +214,8 @@ export const setTreeNodeVisibility = (state, {
     const path = [-1, ...getTreePathFromId(flat, id)];
 
     const updatedTree = setTreeValue(
-        tree, path, { _hideChildren: !currentVisibility
-    });
+        tree, path, { _hideChildren: !currentVisibility }
+    );
 
     let updatedList = treeToFlatList(updatedTree);
 

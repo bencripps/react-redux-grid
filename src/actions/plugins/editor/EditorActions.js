@@ -12,6 +12,7 @@ import {
 } from '../../../constants/ActionTypes';
 
 import { keyGenerator } from '../../../util/keyGenerator';
+import { getNewRowId } from '../../../util/getNewRowId';
 
 export const editRow = ({
     rowId,
@@ -90,7 +91,7 @@ export const updateRow = ({ stateKey, rowIndex, values }) => ({
 export const addNewRow = ({
     columns, data, stateKey, editMode = 'inline'
 }) => (dispatch) => {
-    const rowId = keyGenerator('row', 0);
+    const rowId = keyGenerator('row', getNewRowId());
     const top = 43;
     const rowData = data || {};
     const rowIndex = 0;

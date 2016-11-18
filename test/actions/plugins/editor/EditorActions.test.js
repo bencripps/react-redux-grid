@@ -335,7 +335,7 @@ describe('The grid addNewRow Action', () => {
         expect(result)
             .toEqual([
                 {
-                    rowId: 'cm93MA==',
+                    rowId: 'cm93LTE=',
                     stateKey: 'test-grid',
                     type: ADD_NEW_ROW
                 },
@@ -351,7 +351,7 @@ describe('The grid addNewRow Action', () => {
                         }
                     ],
                     isCreate: true,
-                    rowId: 'cm93MA==',
+                    rowId: 'cm93LTE=',
                     editMode: 'inline',
                     rowIndex: 0,
                     stateKey: 'test-grid',
