@@ -3,11 +3,11 @@ const path = require('path');
 module.exports = [
     {
         test: /\.js$|\.jsx$/,
-        loaders: ['react-hot', 'babel-loader'],
+        loaders: ['babel-loader'],
         exclude: /node_modules|\.json$/
     },
     {
-        loaders: ['react-hot', 'babel-loader'],
+        loaders: ['babel-loader'],
         include: path.resolve(__dirname, '../test')
     },
     {
