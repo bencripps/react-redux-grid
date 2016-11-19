@@ -9,6 +9,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/?branch=master)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Percentage of issues still open")
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/bencripps/react-redux-grid/blob/master/docs/CONTRIBUTING.MD)
 
 A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
 
