@@ -113,7 +113,9 @@ export const rowValueChange = (state, {
         // setting default value
         if (col.defaultValue !== undefined
             && val === undefined || val === null) {
-            setDataAtDataIndex(rowValues, dataIndex, col.defaultValue);
+            rowValues = setDataAtDataIndex(
+                rowValues, dataIndex, col.defaultValue
+            );
         }
 
         // setting disabled

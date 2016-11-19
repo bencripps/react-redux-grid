@@ -554,6 +554,76 @@ describe('The editor reducer REPOSITION_EDITOR action', () => {
 describe('The editor reducer ROW_VALUE_CHANGE action', () => {
     beforeEach(() => resetLastUpdate());
 
+    it('Should work with defaultValues', () => {
+
+        const stateItem = fromJS({
+            'test-grid': {
+                'rowid-4': new EditorRecord({
+                    key: 'rowid-4',
+                    values: Map({
+                        col1: true,
+                        col2: undefined
+                    }),
+                    rowIndex: 2,
+                    top: 30,
+                    valid: false,
+                    isCreate: true
+                })
+            }
+        });
+
+        const action = {
+            type: ROW_VALUE_CHANGE,
+            columns: [
+                {
+                    name: 'Col1',
+                    dataIndex: 'col1'
+                },
+                {
+                    name: 'Col2',
+                    dataIndex: 'col2',
+                    defaultValue: true
+                }
+            ],
+            column: {
+                name: 'Col1',
+                dataIndex: 'col1'
+            },
+            rowId: 'rowid-4',
+            value: 1,
+            stateKey: 'test-grid'
+        };
+
+        expect(
+            editor(stateItem, action).getIn(['test-grid', 'rowid-4'])
+        ).toEqualImmutable(
+            new EditorRecord({
+                key: 'rowid-4',
+                values: Map({
+                    col1: 1,
+                    col2: true
+                }),
+                rowIndex: 2,
+                top: 30,
+                valid: true,
+                isCreate: true,
+                overrides: fromJS({
+                    col1: {
+                        disabled: false
+                    },
+                    col2: {
+                        disabled: false
+                    }
+                }),
+                previousValues: Map({
+                    col1: true,
+                    col2: undefined
+                })
+            })
+        );
+
+    });
+
     it('Should return the correct rowValue change response', () => {
 
         const state = fromJS({
