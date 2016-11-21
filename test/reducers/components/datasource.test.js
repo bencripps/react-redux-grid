@@ -101,17 +101,17 @@ describe('The grid dataSource reducer setData func', () => {
         const state = testState();
 
         const action = {
-            stateKey: 'test-grid',
+            stateKey: 'test-grid-curr',
             type: SET_DATA,
             data: fromJS([{x: 1}, {x: 2}]),
-            currentRecords: fromJS([
+            currentRecords: [
                 { banana: 2 }
-            ]),
+            ],
             lastUpdate: 1
         };
 
         expect(
-            dataSource(state, action).get('test-grid')
+            dataSource(state, action).get('test-grid-curr')
         ).toEqual(
             new DataSourceRecord({
                 data: fromJS([
@@ -123,7 +123,8 @@ describe('The grid dataSource reducer setData func', () => {
                 total: 2,
                 treeData: undefined,
                 gridType: 'grid',
-                currentRecords: fromJS([{ banana: 2 }]),
+                currentRecords: fromJS([{ banana: 2, _key: 'row-0' }]),
+                isEditing: false,
                 lastUpdate: 1
             })
         );
