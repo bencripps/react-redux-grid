@@ -1,9 +1,13 @@
-import { List, fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 import { camelize } from './camelize';
 
 export const getData = (
-    row = {}, columns = {}, colIndex = 0, editorValues = {}
+    row = new Map(), columns = {}, colIndex = 0, editorValues = {}
 ) => {
+
+    if (!row.get) {
+        row = fromJS(row);
+    }
 
     const column = columns[colIndex];
 
