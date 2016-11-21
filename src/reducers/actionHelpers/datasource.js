@@ -14,6 +14,11 @@ export const setData = (state, {
 }) => {
 
     const keyedData = setKeysInData(data);
+    let keyedCurr;
+
+    if (currentRecords) {
+        keyedCurr = setKeysInData(currentRecords);
+    }
 
     return state.setIn([stateKey], new DataSource({
         data: keyedData,
@@ -21,8 +26,8 @@ export const setData = (state, {
         total: total || keyedData.count(),
         treeData: fromJS(treeData),
         gridType: gridType || 'grid',
-        currentRecords: currentRecords
-            ? List(currentRecords)
+        currentRecords: keyedCurr
+            ? keyedCurr
             : keyedData,
         lastUpdate: generateLastUpdate()
     }));
