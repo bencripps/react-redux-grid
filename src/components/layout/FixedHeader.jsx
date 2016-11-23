@@ -45,53 +45,44 @@ class FixedHeader extends Component {
         } = this.state;
 
         const visibleColumns = columns.filter((col) => !col.hidden);
-        const headers = visibleColumns.map((col, i) => {
+        const headers = visibleColumns.map((col, i) => (
+            <Column
+                actualIndex={
+                    columns
+                        .findIndex(c => col.dataIndex === c.dataIndex)
+                }
+                col={col}
+                columnManager={columnManager}
+                columns={columns}
+                dataSource={dataSource}
+                dragAndDropManager={dragAndDropManager}
+                index={i}
+                key={`fixed-header-${i}`}
+                pager={pager}
+                scope={this}
+                stateKey={stateKey}
+                stateful={stateful}
+                store={store}
+                visibleColumns={visibleColumns}
+            />
+        ));
 
-            const colProps = {
-                scope: this,
-                col,
-                columns,
-                columnManager,
-                dataSource,
-                dragAndDropManager,
-                index: i,
-                pager,
-                store,
-                stateKey,
-                stateful,
-                visibleColumns,
-                // used for column drop event,
-                // since hidden columns arent visible
-                // but still exist in the column array
-                actualIndex: columns
-                    .findIndex(c => col.dataIndex === c.dataIndex)
-            };
-
-            return (
-                <Column
-                    key={`fixed-header-${i}`}
-                    { ...colProps }
-                />);
-        });
-
-        const tableProps = {
-            className: prefix(
-                CLASS_NAMES.TABLE,
-                CLASS_NAMES.HEADER_FIXED,
-                stuck ? CLASS_NAMES.HEADER_STUCK : '',
-                stuckToBottom ? CLASS_NAMES.HEADER_STUCK_BOTTOM : ''
-            ),
-            cellSpacing: 0
-        };
+        const tableStyle = {};
+        let tableClassName = prefix(
+            CLASS_NAMES.TABLE,
+            CLASS_NAMES.HEADER_FIXED,
+            stuck ? CLASS_NAMES.HEADER_STUCK : '',
+            stuckToBottom ? CLASS_NAMES.HEADER_STUCK_BOTTOM : ''
+        );
 
         if (classes.length > 0) {
             classes.forEach(cls => {
-                tableProps.className += ` ${cls}`;
+                tableClassName += ` ${cls}`;
             });
         }
 
         else {
-            tableProps.className = prefix(
+            tableClassName = prefix(
                 CLASS_NAMES.TABLE,
                 CLASS_NAMES.HEADER_FIXED,
                 stuck ? CLASS_NAMES.HEADER_STUCK : '',
@@ -99,35 +90,22 @@ class FixedHeader extends Component {
             );
         }
 
-        const fillerProps = {
-            style: {
-                height: `${(this.HEADER_HEIGHT || 25)}px`
-            }
-        };
-
-        const fillerCmp = stuck || stuckToBottom ?
-            <div { ...fillerProps } /> : null;
+        const fillerCmp = stuck || stuckToBottom
+            ? <div
+                style={{ height: `${(this.HEADER_HEIGHT || 25)}px` }}
+              />
+            : null;
 
         if (stuck || stuckToBottom) {
-            tableProps.style = {};
-            tableProps.style.width = `${width}px`;
-            tableProps.style.bottom = `${bottom}px`;
+            tableStyle.width = `${width}px`;
+            tableStyle.bottom = `${bottom}px`;
         }
 
-        else {
-            tableProps.style = {};
-        }
-
-        const theadProps = {
-            className: prefix(CLASS_NAMES.THEADER, headerOffset > 0
+        const theadClassName = prefix(
+            CLASS_NAMES.THEADER, headerOffset > 0
                 ? 'adjusted'
                 : ''
-            )
-        };
-
-        const headerProps = {
-            className: prefix(CLASS_NAMES.HEADER)
-        };
+        );
 
         if (selectionModel) {
             selectionModel.updateCells({
@@ -158,18 +136,21 @@ class FixedHeader extends Component {
         const isHidden = columnState
             && columnState.headerHidden;
 
-        const containerProps = {
-            className: prefix(CLASS_NAMES.HEADER_FIXED_CONTAINER,
+        const containerClassName = prefix(
+                CLASS_NAMES.HEADER_FIXED_CONTAINER,
                 isHidden ? 'hidden' : ''
-            )
-        };
+        );
 
         return (
-            <div { ...containerProps }>
+            <div className={containerClassName}>
              { fillerCmp }
-                <table { ...tableProps }>
-                    <thead { ...theadProps }>
-                        <tr { ...headerProps }>
+                <table
+                    cellSpacing={0}
+                    className={tableClassName}
+                    style={tableStyle}
+                >
+                    <thead className={theadClassName}>
+                        <tr className={prefix(CLASS_NAMES.HEADER)}>
                             { headers }
                         </tr>
                     </thead>
@@ -334,8 +315,8 @@ class FixedHeader extends Component {
 
         const fixed = header
             .querySelector(`.${prefix(CLASS_NAMES.HEADER_FIXED)}`);
-        const hidden = header
-            .parentNode.querySelector(`.${prefix(CLASS_NAMES.HEADER_HIDDEN)}`);
+        const hidden = header.parentNode
+            .querySelector(`.${prefix(CLASS_NAMES.HEADER_HIDDEN)}`);
 
         if (!fixed || !hidden) {
             return;

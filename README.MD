@@ -50,7 +50,7 @@ import { Grid, Store } from 'react-redux-grid'
 const config = {
     store: Store,
     stateKey: 'unique-grid-id',
-    ...data
+    data: dataArray
 };
 
 const GridInstance = <Grid { ...config } />

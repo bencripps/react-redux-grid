@@ -31,36 +31,25 @@ class Header extends Component {
         } = this.props;
 
         const visibleColumns = columns.filter((col) => !col.hidden);
-        const headers = visibleColumns.map((col, i) => {
-
-            const colProps = {
-                scope: this,
-                col,
-                columns,
-                visibleColumns,
-                columnManager,
-                dataSource,
-                dragAndDropManager,
-                pager,
-                store,
-                index: i
-            };
-
-            return (
-                <Column
-                    key={ `header-${i}` }
-                    { ...colProps }
-                />
-                );
-        });
+        const headers = visibleColumns.map((col, i) => (
+            <Column
+                col={col}
+                columnManager={columnManager}
+                columns={columns}
+                dataSource={dataSource}
+                dragAndDropManager={dragAndDropManager}
+                index={i}
+                key={`header-${i}`}
+                pager={pager}
+                scope={this}
+                store={store}
+                visibleColumns={visibleColumns}
+            />
+        ));
 
         const classes = visible
             ? prefix(CLASS_NAMES.HEADER)
             : prefix(CLASS_NAMES.HEADER, CLASS_NAMES.HEADER_HIDDEN);
-
-        const headerProps = {
-            className: classes
-        };
 
         if (selectionModel) {
             selectionModel.updateCells({
@@ -87,7 +76,7 @@ class Header extends Component {
 
         return (
             <thead>
-                <tr { ...headerProps }>
+                <tr className={classes}>
                     { headers }
                 </tr>
             </thead>
@@ -139,14 +128,6 @@ export const addEmptyInsert = (headers, visibleColumns, plugins) => {
 
 };
 
-export const handleDrag = () => {
-    return false;
-};
-
-export const handleColumnClick = (col) => {
-    if (col.HANDLE_CLICK) {
-        col.HANDLE_CLICK.apply(this, arguments);
-    }
-};
+export const handleDrag = () => false;
 
 export default Header;
