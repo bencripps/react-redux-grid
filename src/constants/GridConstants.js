@@ -71,6 +71,7 @@ export let CLASS_NAMES = {
     LOADING_BAR: 'loading-bar',
     DRAGGABLE_COLUMN: 'draggable-column',
     COLUMN: 'column',
+    IS_LOADING: 'is-loading',
     SORT_HANDLE_VISIBLE: 'sort-handle-visible',
     BUTTONS: {
         PAGER: 'page-buttons'

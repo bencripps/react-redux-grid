@@ -81,8 +81,16 @@ class Grid extends Component {
             columns
         );
 
+        const isLoading = loadingState && loadingState.isLoading
+            ? loadingState.isLoading
+            : false;
+
         const containerProps = {
-            className: prefix(CLASS_NAMES.CONTAINER, ...classNames)
+            className: prefix(
+                CLASS_NAMES.CONTAINER,
+                isLoading ? CLASS_NAMES.IS_LOADING : false,
+                ...classNames
+            )
         };
 
         const messageProps = {
@@ -119,10 +127,10 @@ class Grid extends Component {
             gridType: this.gridType
         };
 
-        const fixedHeaderProps = Object.assign({
-            visible: true,
-            gridData
-        }, headerProps);
+        const fixedHeaderProps = {
+            ...headerProps,
+            visible: true
+        };
 
         const rowProps = {
             columnManager: this.columnManager,
