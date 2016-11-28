@@ -45,11 +45,9 @@ class Grid extends Component {
 
         const {
             classNames,
-            dragAndDrop,
             dataSource,
             columnState,
             gridData,
-            emptyDataMessage,
             height,
             infinite,
             loadingState,
@@ -59,12 +57,7 @@ class Grid extends Component {
             reducerKeys,
             stateKey,
             store,
-            pager,
-            editorState,
-            selectedRows,
-            stateful,
-            menuState,
-            showTreeRootNode
+            pager
         } = this.props;
 
         const columns = columnState && columnState.columns
@@ -85,113 +78,51 @@ class Grid extends Component {
             ? loadingState.isLoading
             : false;
 
-        const containerProps = {
-            className: prefix(
-                CLASS_NAMES.CONTAINER,
-                isLoading ? CLASS_NAMES.IS_LOADING : false,
-                ...classNames
-            )
-        };
-
-        const messageProps = {
-            reducerKeys,
-            store
-        };
-
-        const bulkActionProps = {
-            plugins,
-            reducerKeys,
-            selectionModel: this.selectionModel,
-            stateKey,
-            store
-        };
-
-        const bulkActionCmp = isPluginEnabled(plugins, 'BULK_ACTIONS')
-            ? <BulkActionToolbar { ...bulkActionProps } />
-            : null;
-
-        const headerProps = {
-            columnManager: this.columnManager,
-            columns,
-            plugins,
-            reducerKeys,
-            dataSource: gridData,
-            pager,
-            columnState,
-            selectionModel: this.selectionModel,
-            stateKey,
-            store,
-            stateful,
-            visible: false,
-            menuState,
-            gridType: this.gridType
-        };
-
-        const fixedHeaderProps = {
-            ...headerProps,
-            visible: true
-        };
-
-        const rowProps = {
-            columnManager: this.columnManager,
-            columns,
-            dragAndDrop,
-            editor: this.editor,
-            emptyDataMessage,
-            columnState,
-            dataSource: gridData,
-            readFunc: this.setData.bind(this),
-            pager,
-            editorState,
-            selectedRows,
-            events,
-            pageSize,
-            plugins,
-            reducerKeys,
-            selectionModel: this.selectionModel,
-            stateKey,
-            store,
-            stateful,
-            showTreeRootNode,
-            menuState,
-            gridType: this.gridType
-        };
-
-        const tableContainerProps = {
-            editorComponent,
-            height,
-            headerProps,
-            infinite,
-            rowProps
-        };
-
-        const pagerProps = {
-            gridData,
-            dataSource,
-            pageSize,
-            pagerState: pager,
-            plugins,
-            reducerKeys,
-            stateKey,
-            store
-        };
-
-        const loadingBarProps = {
-            plugins,
-            reducerKeys,
-            stateKey,
-            store,
-            loadingState
-        };
-
         return (
-            <div { ...containerProps }>
-                <Message { ...messageProps } />
-                { bulkActionCmp }
-                <FixedHeader { ...fixedHeaderProps } />
-                <TableContainer { ...tableContainerProps } />
-                <PagerToolbar { ...pagerProps } />
-                <LoadingBar { ...loadingBarProps } />
+            <div
+                className={
+                    prefix(
+                        CLASS_NAMES.CONTAINER,
+                        isLoading ? CLASS_NAMES.IS_LOADING : false,
+                        ...classNames
+                    )
+                }
+            >
+                <Message
+                    reducerKeys={reducerKeys}
+                    store={store}
+                />
+                <BulkActionToolbar
+                    plugins={plugins}
+                    reducerKeys={reducerKeys}
+                    selectionModel={this.selectionModel}
+                    stateKey={stateKey}
+                    store={store}
+                />
+                <FixedHeader
+                    { ...this.getHeaderProps(true) }
+                />
+                <TableContainer
+                    editorComponent={editorComponent}
+                    headerProps={this.getHeaderProps(false)}
+                    height={height}
+                    infinite={infinite}
+                    rowProps={this.getRowProps()}
+                />
+                <PagerToolbar
+                    dataSource={dataSource}
+                    gridData={gridData}
+                    pageSize={pageSize}
+                    pagerState={pager}
+                    plugins={plugins}
+                    reducerKeys={reducerKeys}
+                    stateKey={stateKey}
+                    store={store}
+                />
+                <LoadingBar
+                    isLoading={isLoading}
+                    plugins={plugins}
+                />
             </div>
         );
     }
@@ -395,6 +326,48 @@ class Grid extends Component {
             );
         }
     }
+
+    getHeaderProps = (visible) => ({
+        columnManager: this.columnManager,
+        columns: this.props.columns,
+        plugins: this.props.plugins,
+        reducerKeys: this.props.reducerKeys,
+        dataSource: this.props.gridData,
+        pager: this.props.pager,
+        columnState: this.props.columnState,
+        selectionModel: this.selectionModel,
+        stateKey: this.props.stateKey,
+        store: this.props.store,
+        stateful: this.props.stateful,
+        visible,
+        menuState: this.props.menuState,
+        gridType: this.gridType
+    });
+
+    getRowProps = () => ({
+        columnManager: this.columnManager,
+        columns: this.props.columns,
+        dragAndDrop: this.props.dragAndDrop,
+        editor: this.editor,
+        emptyDataMessage: this.props.emptyDataMessage,
+        columnState: this.props.columnState,
+        dataSource: this.props.gridData,
+        readFunc: this.setData.bind(this),
+        pager: this.props.pager,
+        editorState: this.props.editorState,
+        selectedRows: this.props.selectedRows,
+        events: this.props.events,
+        pageSize: this.props.pageSize,
+        plugins: this.props.plugins,
+        reducerKeys: this.props.reducerKeys,
+        selectionModel: this.selectionModel,
+        stateKey: this.props.stateKey,
+        store: this.props.store,
+        stateful: this. props.stateful,
+        showTreeRootNode: this.props.showTreeRootNode,
+        menuState: this.props.menuState,
+        gridType: this.gridType
+    });
 }
 
 const ConnectedGrid = connect(mapStateToProps)(Grid);

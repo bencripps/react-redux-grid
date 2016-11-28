@@ -3,35 +3,30 @@ import { prefix } from '../../../util/prefix';
 import { isPluginEnabled } from '../../../util/isPluginEnabled';
 import { gridConfig } from '../../../constants/GridConstants';
 
-export const LoadingBar = ({ loadingState, plugins }) => {
+export const LoadingBar = ({ isLoading, plugins }) => {
     const { CLASS_NAMES } = gridConfig();
-
-    let isLoading = false;
-
-    if (loadingState && loadingState.isLoading) {
-        isLoading = true;
-    }
 
     const showLoader = isPluginEnabled(plugins, 'LOADER')
         && isLoading;
 
-    const loadingBarProps = {
-        className: prefix(CLASS_NAMES.LOADING_BAR, showLoader ? 'active' : '')
-    };
-
     return (
-        <div { ...loadingBarProps } ></div>
+        <div
+            className={
+                prefix(CLASS_NAMES.LOADING_BAR, showLoader ? 'active' : '')
+            }
+        />
     );
 };
 
+const { bool, object } = PropTypes;
+
 LoadingBar.propTypes = {
-    loadingState: PropTypes.object,
-    plugins: PropTypes.object,
-    store: PropTypes.object
+    isLoading: bool,
+    plugins: object
 };
 
 LoadingBar.defaultProps = {
-    loadingState: {}
+    isLoading: false
 };
 
 export default LoadingBar;
