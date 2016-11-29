@@ -2,7 +2,7 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import { ConnectedGrid } from './../../../src/components/Grid.jsx';
+import Grid from './../../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../../src/store/store';
 
 import {
@@ -42,7 +42,7 @@ describe('Integration Test for Grid Actions', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...simpleProps } />);
+    const component = mount(<Grid { ...simpleProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -177,7 +177,7 @@ describe('Integration Test for Grid Actions', () => {
             stateKey: 'big-data-set'
         };
 
-        const cmpWithData = mount(<ConnectedGrid { ...dataProps } />, {
+        const cmpWithData = mount(<Grid { ...dataProps } />, {
             attachTo: document.body
         });
 

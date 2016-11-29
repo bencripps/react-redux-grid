@@ -2,7 +2,7 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import { ConnectedGrid } from './../../src/components/Grid.jsx';
+import Grid from './../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../src/store/store';
 
 const props = {
@@ -26,7 +26,7 @@ const props = {
 
 describe('Empty data row', () => {
 
-    const wrapper = mount(<ConnectedGrid { ...props } />);
+    const wrapper = mount(<Grid { ...props } />);
 
     it('Should render a message based on props', (done) => {
 

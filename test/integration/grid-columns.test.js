@@ -2,13 +2,8 @@
 import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
-import { ConnectedGrid } from './../../src/components/Grid.jsx';
+import Grid from './../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../src/store/store';
-
-import {
-    gridColumns,
-    stateKey
-} from '../testUtils/data';
 
 const sortSpy = sinon.spy();
 
@@ -54,7 +49,7 @@ describe('Integration Test for Column custom sort fn', () => {
         store: GridStore
     };
 
-    const component = mount(<ConnectedGrid { ...editorProps } />);
+    const component = mount(<Grid { ...editorProps } />);
 
     it('Should dismiss editor on click of cancel button', (done) => {
 

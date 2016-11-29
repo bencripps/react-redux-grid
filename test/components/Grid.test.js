@@ -2,7 +2,7 @@
 import expect from 'expect';
 import React from 'react';
 import { mount } from 'enzyme';
-import { ConnectedGrid } from './../../src/components/Grid.jsx';
+import Grid from './../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../src/store/store';
 import { mockStore } from './../testUtils/index';
 
@@ -43,11 +43,11 @@ describe('A fully mounted simple grid with invalid props', () => {
     };
 
     const invalidData = () => {
-        return mount(<ConnectedGrid { ...invalidDataProps } />);
+        return mount(<Grid { ...invalidDataProps } />);
     };
 
     const invalidCol = () => {
-        return mount(<ConnectedGrid { ...invalidColProps } />);
+        return mount(<Grid { ...invalidColProps } />);
     };
 
     const invalidStore = () => {
@@ -57,11 +57,11 @@ describe('A fully mounted simple grid with invalid props', () => {
             store: {}
         };
 
-        return mount(<ConnectedGrid { ...invalidStoreProps } />);
+        return mount(<Grid { ...invalidStoreProps } />);
     };
 
     const invalidStateKey = () => {
-        return mount(<ConnectedGrid { ...invalidStateKeyProps } />);
+        return mount(<Grid { ...invalidStateKeyProps } />);
     };
 
     it('Should throw an error', () => {
@@ -93,7 +93,7 @@ describe('A fully mounted simple grid', () => {
         store: GridStore
     };
 
-    const component = mount(<ConnectedGrid { ...simpleProps } />);
+    const component = mount(<Grid { ...simpleProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -166,7 +166,7 @@ describe('A fully mounted grid with a custom pager', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...customPagerProps } />);
+    const component = mount(<Grid { ...customPagerProps } />);
 
     it('Should have a pager', () => {
         expect(
@@ -189,7 +189,7 @@ describe('A fully mounted grid with pager', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...pagerProps } />);
+    const component = mount(<Grid { ...pagerProps } />);
 
     beforeEach((done) => {
         component.update();

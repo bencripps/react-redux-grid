@@ -4,7 +4,7 @@ import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
 import { fromJS, Map } from 'immutable';
-import { ConnectedGrid } from './../../../src/components/Grid.jsx';
+import Grid from './../../../src/components/Grid.jsx';
 import { Store as GridStore } from './../../../src/store/store';
 import { Editor } from './../../../src/records';
 
@@ -41,7 +41,7 @@ describe('Integration Test for Inline Editor', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...editorProps } />);
+    const component = mount(<Grid { ...editorProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -74,7 +74,7 @@ describe('Integration Test for Inline Editor', () => {
             stateKey: 'grid-type-inline'
         };
 
-        const cmp = mount(<ConnectedGrid { ...editorStateProps } />);
+        const cmp = mount(<Grid { ...editorStateProps } />);
 
         setTimeout(() => {
             expect(
@@ -107,7 +107,7 @@ describe('Integration Test for Inline Editor', () => {
             stateKey: 'grid-type-grid'
         };
 
-        const cmp = mount(<ConnectedGrid { ...editorTypeGrid } />);
+        const cmp = mount(<Grid { ...editorTypeGrid } />);
 
         setTimeout(() => {
 
@@ -184,7 +184,7 @@ describe('Integration Test for a grid without Inline Editor', () => {
         }
     };
 
-    const component = mount(<ConnectedGrid { ...editorProps } />);
+    const component = mount(<Grid { ...editorProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(

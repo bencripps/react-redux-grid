@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TableContainer from './layout/TableContainer';
@@ -37,46 +36,27 @@ const {
     string
 } = PropTypes;
 
-class Grid extends Component {
+export class Grid extends Component {
 
     render() {
 
         const { CLASS_NAMES } = gridConfig();
+        const editorComponent = this.getEditor();
+        const isLoading = this.isLoading();
 
         const {
             classNames,
             dataSource,
-            columnState,
             gridData,
             height,
             infinite,
-            loadingState,
             pageSize,
             plugins,
-            events,
             reducerKeys,
             stateKey,
             store,
             pager
         } = this.props;
-
-        const columns = columnState && columnState.columns
-            ? columnState.columns
-            : [];
-
-        const editorComponent = this.editor.getComponent(
-            plugins,
-            reducerKeys,
-            store,
-            events,
-            this.selectionModel,
-            this.editor,
-            columns
-        );
-
-        const isLoading = loadingState && loadingState.isLoading
-            ? loadingState.isLoading
-            : false;
 
         return (
             <div
@@ -368,8 +348,21 @@ class Grid extends Component {
         menuState: this.props.menuState,
         gridType: this.gridType
     });
+
+    getEditor = () => this.editor.getComponent(
+        this.props.plugins,
+        this.props.reducerKeys,
+        this.props.store,
+        this.props.events,
+        this.selectionModel,
+        this.editor,
+        this.props.columns
+    );
+
+    isLoading = () => this.props.loadingState
+        && this.props.loadingState.isLoading
+            ? this.props.loadingState.isLoading
+            : false
 }
 
-const ConnectedGrid = connect(mapStateToProps)(Grid);
-
-export { Grid, ConnectedGrid };
+export default connect(mapStateToProps)(Grid);
