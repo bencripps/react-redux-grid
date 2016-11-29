@@ -1,20 +1,16 @@
 import expect from 'expect';
-
+import StorageShim from 'node-storage-shim';
 import
     localStorageManager
 from './../../../src/components/core/LocalStorageManager';
 
 // set spy for browswer local storage
 
-let nativeLocalStorage = true;
-
 if (!window.localStorage) {
-    nativeLocalStorage = false;
-    window.localStorage = {};
-    window.localStorage.setItem = sinon.spy();
+    window.localStorage = new StorageShim();
 }
 
-describe('The gtid local storage manager', () => {
+describe('The grid local storage manager', () => {
 
     it('Should return the appropriate storage key', () => {
 
@@ -45,42 +41,17 @@ describe('The gtid local storage manager', () => {
         }).toThrow('stateKey and property are required params');
     });
 
-    it('Should set an item in local storage', () => {
+    it('Should set and return an item from local storage', () => {
 
         localStorageManager.setStateItem({
-            stateKey: 'some-grid',
-            property: 'columns',
-            value: [
-                {
-                    dataIndex: 1
-                },
-                {
-                    dataIndex: 2
-                }
-            ]
+            stateKey: 'some-grid-1',
+            property: 'height',
+            value: 40
         });
-
-        if ()
-
-        expect(
-            window.localStorage.setItem.called
-        ).toEqual(nativeLocalStorage ? true : undefined);
-
-    });
-
-    it('Should return an item from local storage', () => {
-
-        window.localStorage.getItem = (key) => {
-            const storage = {
-                'react-grid-some-grid-height': '40'
-            };
-
-            return storage[key];
-        };
 
         expect(
             localStorageManager.getStateItem({
-                stateKey: 'some-grid',
+                stateKey: 'some-grid-1',
                 property: 'height'
             })
         ).toEqual('40');
@@ -88,8 +59,7 @@ describe('The gtid local storage manager', () => {
     });
 
     it('Should should debounce the setItem func', (done) => {
-
-        window.localStorage.setItem = sinon.spy();
+        localStorageManager.setStateItem = sinon.spy();
 
         const debounced = localStorageManager.debouncedSetStateItem();
 
@@ -107,7 +77,7 @@ describe('The gtid local storage manager', () => {
 
         setTimeout(() => {
             expect(
-                window.localStorage.setItem.callCount
+                localStorageManager.setStateItem.callCount
             ).toEqual(1);
             done();
         }, 600);
@@ -116,61 +86,44 @@ describe('The gtid local storage manager', () => {
 
     it('Should save an item if it doesnt exist in storage', () => {
 
-        let storage;
-
-        window.localStorage.getItem = (key) => {
-            storage = {
-                'react-grid-some-grid-height': '40'
-            };
-
-            return storage[key];
-        };
-
-        window.localStorage.setItem = (key, value) => {
-            storage[key] = value;
-        };
-
         expect(
             localStorageManager.getStateItem({
-                stateKey: 'some-grid',
-                property: 'somenumber',
-                value: 1
+                stateKey: 'no-value',
+                property: 'height',
+                value: 100
             })
-        ).toEqual(1);
+        ).toEqual(100);
 
-        expect(storage['react-grid-some-grid-somenumber']).toEqual('1');
+        setTimeout(() => {
+            expect(
+                localStorageManager.getStateItem({
+                    stateKey: 'no-value',
+                    property: 'height'
+                })
+            ).toEqual(100);
+        }, 100);
 
     });
 
-    it(['Shouldnt save an item if it doesnt exist in storage',
-        'and flag is passed'].join(' '), () => {
-
-        let storage;
-
-        window.localStorage.getItem = (key) => {
-            storage = {
-                'react-grid-some-grid-height': '40'
-            };
-
-            return storage[key];
-        };
-
-        window.localStorage.setItem = (key, value) => {
-            storage[key] = value;
-        };
+    it('Shouldnt save an item if explicity declared', () => {
 
         expect(
             localStorageManager.getStateItem({
-                stateKey: 'some-grid',
-                property: 'somenumber',
-                value: 1,
+                stateKey: 'dont-save',
+                property: 'height',
+                value: 100,
                 shouldSave: false
             })
-        ).toEqual(1);
+        ).toEqual(100);
 
-        expect(
-            storage['react-grid-some-grid-somenumber']
-        ).toEqual(undefined);
+        setTimeout(() => {
+            expect(
+                localStorageManager.getStateItem({
+                    stateKey: 'dont-save',
+                    property: 'height'
+                })
+            ).toEqual(undefined);
+        }, 100);
 
     });
 
