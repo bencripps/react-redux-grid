@@ -49,18 +49,18 @@ export const Input = ({
         && !editorData.isCreate
         && column.editable === 'create');
 
-    const inputProps = {
-        disabled,
-        onChange: (e) => {
-            handleChange(column, columns, rowId, stateKey, store, e);
-        },
-        type: 'text',
-        value,
-        placeholder
-    };
+    const onChange = e => handleChange(
+        column, columns, rowId, stateKey, store, e
+    );
 
     return (
-        <input { ...inputProps } />
+        <input
+            disabled={disabled}
+            onChange={onChange}
+            type="text"
+            value={value}
+            placeholder={placeholder}
+        />
     );
 };
 

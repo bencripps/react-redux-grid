@@ -104,13 +104,9 @@ export const Cell = ({
         store
     };
 
-    const dragHandleProps = {
-        store
-    };
-
     // only have drag handle in first cell
     const dragHandle = dragAndDrop && index === 0
-        ? <DragHandle { ...dragHandleProps } />
+        ? <DragHandle store={store} />
         : null;
 
     const arrow = gridType === 'tree'
@@ -131,13 +127,10 @@ export const Cell = ({
         store
     );
 
+    const className = prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER);
+
     const handleContainer = dragHandle || arrow
-        ? (
-        <div
-            { ...{ className: prefix(CLASS_NAMES.CELL_HANDNLE_CONTAINER) } }
-        >
-            { dragHandle }{ arrow }
-        </div>)
+        ? <div className={className}>{ dragHandle }{ arrow }</div>
         : null;
 
     return (
@@ -145,7 +138,7 @@ export const Cell = ({
             { handleContainer }
             { cellHTML }
         </td>
-        );
+    );
 };
 
 export const getCellHTML = (
@@ -160,34 +153,26 @@ export const getCellHTML = (
     stateKey,
     store
 ) => {
-    const rawValue = getData(row, columns, index);
-
-    const editorProps = {
-        cellData,
-        columns,
-        editorState,
-        index,
-        isEditable,
-        isRowSelected,
-        row,
-        rawValue,
-        rowId,
-        store,
-        stateKey
-    };
 
     if (isEditable) {
         return (
-            <Editor { ...editorProps } />
+            <Editor
+                cellData={cellData}
+                columns={columns}
+                editorState={editorState}
+                index={index}
+                isEditable={isEditable}
+                isRowSelected={isRowSelected}
+                rawValue={getData(row, columns, index)}
+                row={row}
+                rowId={rowId}
+                stateKey={stateKey}
+                store={store}
+            />
         );
     }
 
-    return (
-        <span>
-            { cellData }
-        </span>
-        );
-
+    return <span children={cellData} />;
 };
 
 export const handleClick = ({

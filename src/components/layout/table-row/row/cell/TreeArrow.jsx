@@ -25,29 +25,47 @@ export const TreeArrow = ({
 }) => {
 
     const { CLASS_NAMES } = gridConfig();
+    const className = getClassName({
+        CLASS_NAMES,
+        isEditable,
+        isExpandable,
+        shouldNest,
+        isExpanded,
+        depth
+    });
+    const onClick = handleArrowClick.bind(null, {
+        hasChildren,
+        id,
+        isExpanded,
+        readFunc,
+        showTreeRootNode,
+        stateKey,
+        stateful,
+        store
+    });
 
-    const arrowProps = {
-        className: prefix(CLASS_NAMES.CELL_TREE_ARROW,
-            isEditable ? 'edit' : '',
-            isExpandable ? 'expand' : '',
-            shouldNest ? 'tree-nested' : '',
-            depth !== undefined ? `tree-node-depth-${depth}` : '',
-            isExpanded ? 'node-expanded' : 'node-unexpanded'
-        ),
-        onClick: handleArrowClick.bind(null, {
-            hasChildren,
-            id,
-            isExpanded,
-            readFunc,
-            showTreeRootNode,
-            stateKey,
-            stateful,
-            store
-        })
-    };
-
-    return <span { ...arrowProps } />;
+    return (
+        <span
+            className={className}
+            onClick={onClick}
+        />
+    );
 };
+
+export const getClassName = ({
+    CLASS_NAMES,
+    isEditable,
+    isExpandable,
+    shouldNest,
+    isExpanded,
+    depth
+}) => prefix(CLASS_NAMES.CELL_TREE_ARROW,
+    isEditable ? 'edit' : '',
+    isExpandable ? 'expand' : '',
+    shouldNest ? 'tree-nested' : '',
+    depth !== undefined ? `tree-node-depth-${depth}` : '',
+    isExpanded ? 'node-expanded' : 'node-unexpanded'
+);
 
 export const handleArrowClick = ({
     hasChildren,

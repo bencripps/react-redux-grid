@@ -256,11 +256,9 @@ export class TableRow extends Component {
     emptyData = totalCount => (
         totalCount
             ? undefined
-            : (
-            <PlaceHolder
+            : <PlaceHolder
                 emptyDataMessage={this.props.emptyDataMessage}
-            />
-            )
+              />
     );
 }
 

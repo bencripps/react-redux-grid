@@ -77,7 +77,7 @@ export const Editor = ({
             <span className={prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)}>
                 { input }
             </span>
-            );
+        );
     }
 
     else if (isEditable
@@ -99,14 +99,14 @@ export const Editor = ({
                     store={store}
                 />
             </span>
-            );
+        );
     }
 
     return (
         <span className={ prefix(CLASS_NAMES.INACTIVE_CLASS) }>
             { cellData }
         </span>
-        );
+    );
 };
 
 export const cleanProps = (obj = {}) => {

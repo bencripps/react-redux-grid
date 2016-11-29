@@ -24,30 +24,26 @@ export class TableContainer extends Component {
 
         const { containerScrollTop, containerHeight } = this.state;
 
-        const tableContainerProps = {
-            className: prefix(CLASS_NAMES.TABLE_CONTAINER),
-            style: {
-                height: height
-            }
-        };
-
-        const tableProps = {
-            className: prefix(CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_HIDDEN),
-            cellSpacing: 0
-        };
-
         return (
-            <div { ...tableContainerProps } >
-                <table { ...tableProps }>
+            <div
+                className={prefix(CLASS_NAMES.TABLE_CONTAINER)}
+                style={{ height }}
+            >
+                <table
+                    cellSpacing={0}
+                    className={
+                        prefix(
+                            CLASS_NAMES.TABLE, CLASS_NAMES.HEADER_HIDDEN
+                        )
+                    }
+                >
                     <Header { ...headerProps } />
-                    <Row {
-                        ...{
-                            ...rowProps,
-                            containerScrollTop,
-                            containerHeight,
-                            infinite
-                        }
-                    } />
+                    <Row
+                        containerHeight={containerHeight}
+                        containerScrollTop={containerScrollTop}
+                        infinite={infinite}
+                        { ...rowProps }
+                    />
                 </table>
                 { editorComponent }
             </div>
