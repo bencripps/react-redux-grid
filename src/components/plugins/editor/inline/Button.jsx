@@ -89,7 +89,8 @@ export const onButtonClick = (
         && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
 
         const result = events.HANDLE_BEFORE_INLINE_EDITOR_SAVE({
-            values, editorState
+            values: values && values.toJS ? values.toJS() : values,
+            editorState
         });
 
         // early exit if custom event returns false
@@ -115,7 +116,8 @@ export const onButtonClick = (
 
         if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
             events.HANDLE_AFTER_INLINE_EDITOR_SAVE({
-                values, editorState
+                values: values && values.toJS ? values.toJS() : values,
+                editorState
             });
         }
 

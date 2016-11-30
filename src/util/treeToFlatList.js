@@ -11,10 +11,8 @@ export const treeToFlatList = (
     }
 
     const result = [];
-
-    let stack = List();
-
     const cfg = { flatIndex: 0 };
+    let stack = List();
 
     if (!Map.isMap(data)) {
         data = fromJS(data);
@@ -36,9 +34,9 @@ export const treeToFlatList = (
     while (stack.count()) {
 
         const item = stack.first();
+        const children = item.get(childIdentifier);
 
         stack = stack.shift();
-        const children = item.get(childIdentifier);
 
         if (List.isList(children) && !item.get('_hideChildren')) {
             stack = children.map(
