@@ -39,7 +39,7 @@
     "react": "^15.4.1",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
-    "react-dom": "^15.4.0",
+    "react-dom": "^15.4.1",
     "react-immutable-proptypes": "^2.0.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.1",
