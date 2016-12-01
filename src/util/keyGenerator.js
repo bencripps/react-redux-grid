@@ -1,5 +1,5 @@
 export function keyGenerator(...keywords) {
-    return btoa(Array.from(keywords).join(''));
+    return btoa(unescape(encodeURIComponent(Array.from(keywords).join(''))));
 }
 
 export function keyFromObject(obj, additionalStrings) {
