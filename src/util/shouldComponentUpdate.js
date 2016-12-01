@@ -41,34 +41,34 @@ export function shouldPagerUpdate(nextProps, nextState) {
 }
 
 export function shouldHeaderUpdate(nextProps, nextState) {
-    let result = true;
+    // let result = true;
     // to do, stop this
     return true;
 
     /* eslint-disable no-unreachable */
 
-    const menuState = state =>
-        state && state.get('header-row');
+    // const menuState = state =>
+    //     state && state.get('header-row');
 
-    const limitedNextProps = {
-        columns: nextProps.columns,
-        menuState: menuState(nextProps.menuState),
-        state: nextState
-    };
+    // const limitedNextProps = {
+    //     columns: nextProps.columns,
+    //     menuState: menuState(nextProps.menuState),
+    //     state: nextState
+    // };
 
-    const limitedProps = {
-        columns: this.previousColumns,
-        menuState: menuState(this.props.menuState),
-        state: this.state
-    };
+    // const limitedProps = {
+    //     columns: this.previousColumns,
+    //     menuState: menuState(this.props.menuState),
+    //     state: this.state
+    // };
 
-    result = (
-        !deepEqual(limitedNextProps, limitedProps)
-    );
+    // result = (
+    //     !deepEqual(limitedNextProps, limitedProps)
+    // );
 
-    this.previousColumns = this.props.columns.slice();
+    // this.previousColumns = this.props.columns.slice();
 
-    return result;
+    // return result;
 
     /* eslint-enable no-unreachable */
 }
