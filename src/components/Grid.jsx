@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import deepEqual from 'deep-equal';
+
 import TableContainer from './layout/TableContainer';
 import FixedHeader from './layout/FixedHeader';
 import PagerToolbar from './plugins/pager/Pager';
@@ -152,6 +154,29 @@ export class Grid extends Component {
         this.editor.init(plugins, stateKey, store, events);
     }
 
+    componentWillReceiveProps(nextProps) {
+        // for issue #30 -- if we're relying on a dataArray
+        // as the dataSource, we need to trigger rerender
+        // if the dataArray has changed
+
+        if (this._USING_DATA_ARRAY) {
+            const shouldResetData = !deepEqual(
+                this.props.data, nextProps.data
+            );
+
+            // sigh, this is a hack
+            // if we do need to retrigger, we cant do
+            // that within `componentWillReceiveProps`
+            // instead, we need to pull the call of the call frame
+            // we do this instead of applying logic inside of componentDidUpdate
+            // since this is potentially a very expensive operation
+            // and only want to rerun when props have actually changed
+            if (shouldResetData) {
+                setTimeout(this.setData.bind(this), 0);
+            }
+        }
+    }
+
     constructor(props) {
         super(props);
 
@@ -205,6 +230,10 @@ export class Grid extends Component {
         showTreeRootNode: false
     };
 
+    setGridDataType = asArray => {
+        this._USING_DATA_ARRAY = asArray;
+    };
+
     setData(extraParams = {}) {
 
         const {
@@ -224,6 +253,7 @@ export class Grid extends Component {
         if (this.gridType === 'tree') {
             if (typeof dataSource === 'string'
                     || typeof dataSource === 'function') {
+                this.setGridDataType(false);
                 store.dispatch(
                     getAsyncData({
                         stateKey,
@@ -240,6 +270,7 @@ export class Grid extends Component {
             }
 
             else {
+                this.setGridDataType(true);
                 store.dispatch(
                     setTreeData({
                         stateKey,
@@ -258,6 +289,7 @@ export class Grid extends Component {
         else if (this.gridType === 'grid') {
             if (typeof dataSource === 'string'
                     || typeof dataSource === 'function') {
+                this.setGridDataType(false);
                 store.dispatch(
                     getAsyncData({
                         stateKey,
@@ -268,6 +300,7 @@ export class Grid extends Component {
             }
 
             else if (data) {
+                this.setGridDataType(true);
                 store.dispatch(
                     setData({ stateKey, data, editMode })
                 );
