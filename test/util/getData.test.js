@@ -411,6 +411,27 @@ describe('getData utility function', () => {
 
 describe('setDataAtDataIndex function', () => {
 
+    it('Should work a non immutable object', () => {
+
+        const row = {
+            outer: {
+                inner: 'oldValue'
+            }
+        };
+
+        expect(
+            setDataAtDataIndex(
+                row,
+                ['outer', 'inner'],
+                'newValue'
+            )
+        ).toEqual(fromJS({
+            outer: {
+                inner: 'newValue'
+            }
+        }));
+    });
+
     it('Should work with nested object', () => {
 
         const row = fromJS({

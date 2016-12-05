@@ -40,7 +40,7 @@ export function shouldPagerUpdate(nextProps, nextState) {
     return result;
 }
 
-export function shouldHeaderUpdate(nextProps, nextState) {
+export function shouldHeaderUpdate() {
     // let result = true;
     // to do, stop this
     return true;
