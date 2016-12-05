@@ -237,7 +237,7 @@ export const doRemoteSort = ({
         );
 
         if (typeof dataSource === 'function') {
-            return dataSource({}, {}, sortParams).then((response) => {
+            return dataSource({pageIndex}, {}, sortParams).then((response) => {
 
                 if (response && response.data) {
 
