@@ -44,6 +44,12 @@ export const setPageIndexAsync = ({
                 if (response && response.data) {
 
                     dispatch({
+                        type: PAGE_REMOTE,
+                        pageIndex: pageIndex,
+                        stateKey
+                    });
+
+                    dispatch({
                         type: SET_DATA,
                         data: response.data,
                         total: response.total,

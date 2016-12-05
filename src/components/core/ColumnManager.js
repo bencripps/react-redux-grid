@@ -69,13 +69,13 @@ export default class ColumnManager {
         };
 
         const pageIndex = pagerState
-            && pagerState.get(pageIndex)
-            ? pagerState.get(pageIndex)
+            && pagerState.get('pageIndex')
+            ? pagerState.get('pageIndex')
             : 0;
 
         const pageSize = pagerState
-            && pagerState.pageSize
-            ? pagerState.pageSize
+            && pagerState.get('pageSize')
+            ? pagerState.get('pageSize')
             : DEFAULT_PAGE_SIZE;
 
         if (typeof this.events.HANDLE_BEFORE_SORT === 'function') {
