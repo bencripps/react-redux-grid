@@ -30,9 +30,21 @@ export const stateGetter = (state, props, key, entry) => {
     return null;
 };
 
-export const get = (state, key, entry) => state
-    && state[key]
-    && state[key].get
-    && state[key].get(entry)
-        ? state[key].get(entry)
-        : null;
+
+export const get = (state, key, entry) => {
+
+    if (!state) {
+        return null;
+    }
+
+    const isImmutable = typeof state.get === 'function';
+    const stateItem = isImmutable
+        ? state.get(key)
+        : state[key];
+
+    if (!stateItem) {
+        return null;
+    }
+
+    return stateItem.get(entry);
+};
