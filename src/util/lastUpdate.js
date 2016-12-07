@@ -28,8 +28,11 @@ export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
 
     return keys.reduce((prev, reducerAccessor) => {
         const reducerKey = reducerKeys[reducerAccessor];
-        if (state[reducerKey] && state[reducerKey].toJS) {
-            prev[reducerKey] = state[reducerKey].getIn([key, 'lastUpdate']);
+        const stateMap = (typeof state.get === 'function')
+            ? state.get(reducerKey)
+            : state[reducerKey];
+        if (stateMap && stateMap.toJS) {
+            prev[reducerKey] = stateMap.getIn([key, 'lastUpdate']);
         }
         return prev;
     }, {});
