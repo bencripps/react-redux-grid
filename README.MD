@@ -34,27 +34,25 @@ A Grid and Tree Component written in [React](https://facebook.github.io/react) u
 
 ## Installation
 
-Add Grid to `node_modules`
-
 ```bash
-npm install react-redux-grid
+npm install react-redux-grid --save
 ```
 
 **Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
 ## Usage
 
-```javascript
+````javascript
 import { Grid, Store } from 'react-redux-grid'
 
-const config = {
-    store: Store,
-    stateKey: 'unique-grid-id',
-    data: dataArray
-};
-
-const GridInstance = <Grid { ...config } />
-```
+const GridInstance = (
+    <Grid
+        data={data}
+        stateKey={stateKey}
+        store={store}
+    />
+);
+````
 
 ## Creating a Tree Grid
 
@@ -72,23 +70,7 @@ This component will work out of the box, without installing a custom store. A st
 
 In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
 
-If you elect to use a custom store, the core component's reducers are also exposed from within the core export:
-
-```javascript
-export const Reducers = {
-    bulkAction: bulkaction,
-    dataSource,
-    editor,
-    errorHandler: errorhandler,
-    grid,
-    loader,
-    menu,
-    pager,
-    selection
-};
-```
-
-You can import a reducer like so:
+If you elect to use a custom store, the core component's reducers are also exposed from within the core export. You can import a reducer like so:
 
 ```javascript
 import { Reducers as gridReducers } from 'react-redux-grid';
@@ -103,7 +85,7 @@ For more information about importing `Reducers`, check out [grid reducers in dep
 
 ## What's a `stateKey`?
 
-A `stateKey` is a unique id associated with each grid instantiation, and is a required parameter. Because all grid data is stored in a `reducer`, we need a unique key to access each grid's subsection of data in these objects. If a grid is instantiated without a `stateKey`, it will will throw a user error in the console. If a duplicate `stateKey` is passed to grid it will throw a user error in the console. In short, please provide a unique `stateKey` to each grid you create.
+A `stateKey` is a unique ID associated with each grid instantiation, and is a required parameter. Because all grid data is stored in a `reducer`, we need a unique key to access each grid's subsection of data in these objects. If a grid is instantiated without a `stateKey`, it will will throw a user error in the console. If a duplicate `stateKey` is passed to grid it will throw a user error in the console. In short, please provide a unique `stateKey` to each grid you create.
 
 ## Data
 
@@ -143,7 +125,6 @@ const grid = <Grid data={ data } />
 
 ```javascript
 const dataSource = 'route/to/your/data/source';
-
 const grid = <Grid dataSource={ dataSource } />
 ```
 
@@ -193,8 +174,6 @@ const grid = <Grid dataSource= { dataSource } />
 ## Plugins
 
 All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
-
-To add a plugin, simply create a file, and add the JSX to `src/grid.jsx`. The plugin will not interfere with other components or their associated state.
 
 ## Columns
 ```javascript
