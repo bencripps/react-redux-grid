@@ -11,7 +11,7 @@ import { fire } from '../../../util/fire';
 import { getData, getRowKey } from '../../../util/getData';
 import { gridConfig } from '../../../constants/GridConstants';
 
-const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
+const { any, arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
 
 const DRAG_INCREMENT = 15;
 
@@ -183,7 +183,7 @@ export class Row extends Component {
         dragAndDrop: bool,
         editor: object,
         editorState: object,
-        emptyDataMessage: string,
+        emptyDataMessage: any,
         events: object,
         findRow: func.isRequired,
         gridType: oneOf([
