@@ -3,6 +3,7 @@ import ActionColumn from '../plugins/gridactions/ActionColumn';
 import { SORT_METHODS, DEFAULT_PAGE_SIZE } from '../../constants/GridConstants';
 import { keyFromObject } from '../../util/keyGenerator';
 import { nameFromDataIndex } from '../../util/getData';
+import { fireEvent } from '../../util/fire';
 import { doLocalSort, doRemoteSort } from '../../actions/GridActions';
 import sorter from '../../util/sorter';
 
@@ -78,13 +79,20 @@ export default class ColumnManager {
             ? pagerState.get('pageSize')
             : DEFAULT_PAGE_SIZE;
 
-        if (typeof this.events.HANDLE_BEFORE_SORT === 'function') {
-            this.events.HANDLE_BEFORE_SORT({
+        const beforeSortEvent = fireEvent(
+            'HANDLE_BEFORE_SORT',
+            this.events,
+            {
                 property: propName,
                 direction,
                 store: this.store,
                 column
-            });
+            },
+            null
+        );
+
+        if (beforeSortEvent === false) {
+            return;
         }
 
         if (method === SORT_METHODS.LOCAL) {

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { prefix } from '../../../util/prefix';
+import { fireEvent } from '../../../util/fire';
 import { stateGetter } from '../../../util/stateGetter';
 import {
     gridConfig, SELECTION_MODES
@@ -84,15 +85,30 @@ export const handleChange = (
 
         if (target.checked) {
             store.dispatch(selectAll({ stateKey, data: dataSource }));
-            if (events.HANDLE_AFTER_SELECT_ALL) {
-                events.HANDLE_AFTER_SELECT_ALL({ data: dataSource, store });
-            }
+
+            fireEvent(
+                'HANDLE_AFTER_SELECT_ALL',
+                events,
+                {
+                    data: dataSource,
+                    store
+                },
+                reactEvent
+            );
         }
+
         else {
             store.dispatch(deselectAll({ stateKey }));
-            if (events.HANDLE_AFTER_DESELECT_ALL) {
-                events.HANDLE_AFTER_DESELECT_ALL({ data: dataSource, store });
-            }
+
+            fireEvent(
+                'HANDLE_AFTER_DESELECT_ALL',
+                events,
+                {
+                    data: dataSource,
+                    store
+                },
+                reactEvent
+            );
         }
     }
 

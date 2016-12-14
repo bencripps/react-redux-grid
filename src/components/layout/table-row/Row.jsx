@@ -7,7 +7,7 @@ import { EmptyCell } from './row/EmptyCell';
 import RowContainer from './row/RowContainer';
 
 import { prefix } from '../../../util/prefix';
-import { fire } from '../../../util/fire';
+import { fireEvent } from '../../../util/fire';
 import { getData, getRowKey } from '../../../util/getData';
 import { gridConfig } from '../../../constants/GridConstants';
 
@@ -346,9 +346,16 @@ export const handleRowDoubleClickEvent = (
         });
     }
 
-    fire(
-        'HANDLE_ROW_DOUBLE_CLICK', events,
-        this, row, rowId, reactEvent, id, browserEvent
+    fireEvent(
+        'HANDLE_ROW_DOUBLE_CLICK',
+        events,
+        {
+            id,
+            isSelected,
+            row,
+            rowId
+        },
+        browserEvent
     );
 
 };
@@ -381,10 +388,20 @@ export const handleRowSingleClickEvent = (
         return false;
     }
 
-    fire(
-        'HANDLE_BEFORE_ROW_CLICK', events,
-        this, row, rowId, reactEvent, id, browserEvent
+    const beforeRowSingleClick = fireEvent(
+        'HANDLE_BEFORE_ROW_CLICK',
+        events,
+        {
+            row,
+            rowId,
+            id
+        },
+        browserEvent
     );
+
+    if (beforeRowSingleClick === false) {
+        return;
+    }
 
     if (selectionModel
             && selectionModel.defaults.selectionEvent
@@ -400,9 +417,17 @@ export const handleRowSingleClickEvent = (
         });
     }
 
-    fire(
-        'HANDLE_ROW_CLICK', events,
-        this, row, rowId, reactEvent, id, browserEvent
+    fireEvent(
+        'HANDLE_ROW_CLICK',
+        events,
+        {
+            id,
+            isSelected,
+            row,
+            rowId,
+            rowOndex: index
+        },
+        browserEvent
     );
 };
 
@@ -520,10 +545,17 @@ const rowTarget = {
 
             // X position indicates a move to right
             else if (lastX + DRAG_INCREMENT < mouseX && !isFirstChild) {
-                const validDrop = fire(
-                    'HANDLE_BEFORE_TREE_CHILD_CREATE', hoverEvents,
-                    null, row, hoverPreviousRow
+
+                const validDrop = fireEvent(
+                    'HANDLE_BEFORE_TREE_CHILD_CREATE',
+                    hoverEvents,
+                    {
+                        row,
+                        previousRow: hoverPreviousRow
+                    },
+                    null
                 );
+
                 if (validDrop === false) {
                     return;
                 }
@@ -558,13 +590,20 @@ const rowTarget = {
             // If hoverIsExpanded, put item as first child instead
             // instead of placing it as a sibling below hovered item
             if (flatIndex < hoverFlatIndex && hoverIsExpanded) {
-                const validDrop = fire(
-                    'HANDLE_BEFORE_TREE_CHILD_CREATE', hoverEvents,
-                    null, row, hoverRow
+                const validDrop = fireEvent(
+                    'HANDLE_BEFORE_TREE_CHILD_CREATE',
+                    hoverEvents,
+                    {
+                        row,
+                        hoverRow
+                    },
+                    null
                 );
+
                 if (validDrop === false) {
                     return;
                 }
+
                 targetIndex = 0;
                 targetParentId = hoverId;
                 targetPath.push(targetParentId);
@@ -585,9 +624,14 @@ const rowTarget = {
         const row = findRow(data => data.get('_id') === _id);
 
         if (row) {
-            fire(
-                'HANDLE_AFTER_ROW_DROP', events,
-                null, row, getTreeData()
+            fireEvent(
+                'HANDLE_AFTER_ROW_DROP',
+                events,
+                {
+                    row,
+                    ...getTreeData()
+                },
+                null
             );
         }
     }

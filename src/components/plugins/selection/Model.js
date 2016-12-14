@@ -3,6 +3,7 @@ import React from 'react';
 import { setSelection } from '../../../actions/plugins/selection/ModelActions';
 import { ConnectedCheckBox as CheckBox } from './CheckBox';
 import { SELECTION_MODES } from './../../../constants/GridConstants';
+import { fireEvent } from './../../../util/fire';
 
 export default class Model {
 
@@ -39,13 +40,23 @@ export default class Model {
 
     handleSelectionEvent(selectionEvent) {
 
-        if (this.events.HANDLE_BEFORE_SELECTION) {
-            this.events.HANDLE_BEFORE_SELECTION(selectionEvent);
-        }
+        fireEvent(
+            'HANDLE_BEFORE_SELECTION',
+            this.events,
+            {
+                ...selectionEvent
+            },
+            null
+        );
 
-        if (this.events.HANDLE_BEFORE_BULKACTION_SHOW) {
-            this.events.HANDLE_BEFORE_BULKACTION_SHOW(selectionEvent);
-        }
+        fireEvent(
+            'HANDLE_BEFORE_BULKACTION_SHOW',
+            this.events,
+            {
+                ...selectionEvent
+            },
+            null
+        );
 
         this.store.dispatch(
             setSelection({
@@ -57,14 +68,23 @@ export default class Model {
             })
         );
 
-        if (this.events.HANDLE_AFTER_SELECTION) {
-            this.events.HANDLE_AFTER_SELECTION(selectionEvent);
-        }
+        fireEvent(
+            'HANDLE_AFTER_SELECTION',
+            this.events,
+            {
+                ...selectionEvent
+            },
+            null
+        );
 
-        if (this.events.HANDLE_AFTER_BULKACTION_SHOW) {
-            this.events.HANDLE_AFTER_BULKACTION_SHOW(selectionEvent);
-        }
-
+        fireEvent(
+            'HANDLE_AFTER_BULKACTION_SHOW',
+            this.events,
+            {
+                ...selectionEvent
+            },
+            null
+        );
     }
 
     updateCells({

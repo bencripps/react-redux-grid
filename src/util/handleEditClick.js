@@ -1,5 +1,6 @@
 import { editRow } from './../actions/plugins/editor/EditorActions';
 import { prefix } from './../util/prefix';
+import { fireEvent } from './../util/fire';
 import { gridConfig } from './../constants/GridConstants';
 
 export const handleEditClick = (
@@ -14,18 +15,21 @@ export const handleEditClick = (
     data,
 ) => {
 
-    if (events.HANDLE_BEFORE_EDIT) {
-        const result = events.HANDLE_BEFORE_EDIT({
+    const result = fireEvent(
+        'HANDLE_BEFORE_EDIT',
+        events,
+        {
+            rowId,
             store,
-            id: rowId,
-            data: rowData
-        });
+            row: rowData
+        },
+        null
+    );
 
-        // if HANDLE_BEFORE_EDIT event returns false
-        // do not trigger edit
-        if (result === false) {
-            return;
-        }
+    // if HANDLE_BEFORE_EDIT event returns false
+    // do not trigger edit
+    if (result === false) {
+        return;
     }
 
     const row = closestRow(data.reactEvent.target);

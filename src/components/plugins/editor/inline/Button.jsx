@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
+import { fireEvent } from './../../../../util/fire';
 import { gridConfig } from './../../../../constants/GridConstants';
 import {
     dismissEditor
@@ -85,13 +86,17 @@ export const onButtonClick = (
         values = values.set('_key', editedRowKey);
     }
 
-    if (type === BUTTON_TYPES.SAVE
-        && events.HANDLE_BEFORE_INLINE_EDITOR_SAVE) {
+    if (type === BUTTON_TYPES.SAVE) {
 
-        const result = events.HANDLE_BEFORE_INLINE_EDITOR_SAVE({
-            values: values && values.toJS ? values.toJS() : values,
-            editorState
-        });
+        const result = fireEvent(
+            'HANDLE_BEFORE_INLINE_EDITOR_SAVE',
+            events,
+            {
+                values,
+                editor: editorState
+            },
+            null
+        );
 
         // early exit if custom event returns false
         // dont do save or dismiss editor
@@ -114,12 +119,15 @@ export const onButtonClick = (
             })
         );
 
-        if (events.HANDLE_AFTER_INLINE_EDITOR_SAVE) {
-            events.HANDLE_AFTER_INLINE_EDITOR_SAVE({
-                values: values && values.toJS ? values.toJS() : values,
-                editorState
-            });
-        }
+        fireEvent(
+            'HANDLE_AFTER_INLINE_EDITOR_SAVE',
+            events,
+            {
+                values,
+                editor: editorState
+            },
+            null
+        );
 
         store.dispatch(dismissEditor({ stateKey }));
     }

@@ -5,6 +5,7 @@ import { prefix } from '../../../../util/prefix';
 import { getData } from './../../../../util/getData';
 import { handleEditClick } from './../../../../util/handleEditClick';
 import { elementContains } from './../../../../util/elementContains';
+import { fireEvent } from './../../../../util/fire';
 import { gridConfig } from './../../../../constants/GridConstants';
 
 import TreeArrow from './cell/TreeArrow';
@@ -232,9 +233,17 @@ export const handleClick = ({
         }
     }
 
-    if (events.HANDLE_CELL_CLICK) {
-        return events.HANDLE_CELL_CLICK.apply(this, arguments);
-    }
+    return fireEvent(
+        'HANDLE_CELL_CLICK',
+        events,
+        {
+            editor,
+            row,
+            rowId,
+            rowIndex
+        },
+        reactEvent
+    );
 };
 
 export const handleDoubleClick = ({
@@ -295,9 +304,17 @@ export const handleDoubleClick = ({
 
     }
 
-    if (events.HANDLE_CELL_DOUBLE_CLICK) {
-        return events.HANDLE_CELL_DOUBLE_CLICK.apply(this, arguments);
-    }
+    return fireEvent(
+        'HANDLE_CELL_DOUBLE_CLICK',
+        events,
+        {
+            editor,
+            row,
+            rowId,
+            rowIndex
+        },
+        reactEvent
+    );
 };
 
 const { any, array, bool, func, object, oneOf, number, string } = PropTypes;
