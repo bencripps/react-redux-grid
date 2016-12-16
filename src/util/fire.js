@@ -21,10 +21,10 @@ export const fireEvent = (
         ...dynamicArgs,
         editor: normalize(context.editor),
         events,
-        isSelected: normalize(context.isSelected),
+        isSelected: context.isSelected,
         row: normalize(context.row),
-        rowId: normalize(context.rowId),
-        rowIndex: normalize(context.rowIndex)
+        rowId: context.rowId,
+        rowIndex: context.rowIndex
     }, browserEvent);
 
 };
