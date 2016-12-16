@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-export const EmptyHeader = (props) => {
+export const EmptyHeader = props => {
 
     const headerProps = {
         style: {
@@ -15,7 +15,9 @@ export const EmptyHeader = (props) => {
     );
 };
 
+const { object } = PropTypes;
+
 EmptyHeader.propTypes = {
-    props: PropTypes.object
+    props: object
 };
 

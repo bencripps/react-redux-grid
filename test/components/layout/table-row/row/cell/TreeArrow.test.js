@@ -101,4 +101,31 @@ describe('The Tree Arrow Component', () => {
 
     });
 
+    it('Should update the node visilbility on click', () => {
+        const clickProps = {
+            ...props,
+            hasChildren: true,
+            store: { dispatch: sinon.spy() }
+        };
+
+        handleArrowClick(clickProps, { stopPropagation: () => {} });
+
+        expect(clickProps.store.dispatch.called)
+            .toEqual(true);
+    });
+
+    it('Should update the stateful local storage', () => {
+        const clickProps = {
+            ...props,
+            hasChildren: true,
+            stateful: true,
+            store: { dispatch: sinon.spy() }
+        };
+
+        handleArrowClick(clickProps, { stopPropagation: () => {} });
+
+        expect(clickProps.store.dispatch.called)
+            .toEqual(true);
+    });
+
 });

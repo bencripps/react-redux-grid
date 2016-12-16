@@ -1,18 +1,21 @@
 import React, { PropTypes } from 'react';
 
-export const DragHandle = ({ col, dragAndDropManager, handleDrag }) => {
+export const DragHandle = ({ dragAndDropManager, handleDrag }) => (
+    <span
+        draggable
+        {
+            ...dragAndDropManager.initDragable({
+                onDrag: handleDrag,
+                draggable: true
+            })
+        }
+    />
+);
 
-    const handleProps = dragAndDropManager.initDragable({
-        onDrag: handleDrag,
-        draggable: true
-    });
-
-    return (
-        <span { ...handleProps } />
-    );
-};
+const { object, func } = PropTypes;
 
 DragHandle.propTypes = {
-    col: PropTypes.object,
-    dragAndDropManager: PropTypes.object
+    col: object,
+    dragAndDropManager: object,
+    handleDrag: func
 };
