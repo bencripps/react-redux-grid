@@ -261,7 +261,9 @@ export const handleSort = (
     }
 
     else {
+        /* eslint-disable no-console */
         console.warn('Sort method not defined!');
+        /* eslint-enable no-console */
     }
 };
 
@@ -289,8 +291,12 @@ export const handleColumnClick = ({
         );
     }
 
-    if (col.HANDLE_CLICK) {
-        col.HANDLE_CLICK.apply(this, arguments);
+    if (typeof col.HANDLE_CLICK === 'function') {
+        col.HANDLE_CLICK({
+            columns,
+            column: col,
+            sortDirection: direction
+        }, null);
     }
 };
 
