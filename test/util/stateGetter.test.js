@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import { stateGetter } from './../../src/util/stateGetter';
 
 describe('State Getter Function', () => {
@@ -86,6 +86,15 @@ describe('State Getter Function', () => {
         expect(
             stateGetter(state, props, 'filterState', 'someProp')
         ).toEqual(null);
+    });
+
+    it('Should return state when its stored using immutable', () => {
+        const state = fromJS({ data: { thing: [1] } });
+        const props = {};
+
+        expect(
+            stateGetter(state, props, 'data', 'thing')
+        ).toEqual(List([1]));
     });
 
 });

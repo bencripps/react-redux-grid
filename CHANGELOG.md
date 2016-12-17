@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
+
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.1...HEAD)
+
+**Implemented enhancements:**
+
+- Support ImmutableJS Map as root state object [\#72](https://github.com/bencripps/react-redux-grid/pull/72) ([whatisboom](https://github.com/whatisboom))
+
 ## [5.0.1](https://github.com/bencripps/react-redux-grid/tree/5.0.1) (2016-12-16)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.0...5.0.1)
 

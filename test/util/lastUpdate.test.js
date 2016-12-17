@@ -78,4 +78,33 @@ describe('LastUpdate utility', () => {
         });
     });
 
+    it('Should getLastupdate provide statemap when state is immutable', () => {
+        const store = {
+            getState: () => (fromJS({
+                bulkaction: { 'test-grid-1': { lastUpdate: 1 } },
+                dataSource: { 'test-grid-1': { lastUpdate: 2 } },
+                editor: { 'test-grid-1': { lastUpdate: 3 } },
+                errorhandler: { 'test-grid-1': { lastUpdate: 4 } },
+                grid: { 'test-grid-1': { lastUpdate: 6 } },
+                loader: { 'test-grid-1': { lastUpdate: 7 } },
+                menu: { 'test-grid-1': { lastUpdate: 8 } },
+                pager: { 'test-grid-1': { lastUpdate: 9 } },
+                selection: { 'test-grid-1': { lastUpdate: 10 }}
+            }))
+        };
+
+        expect(
+            getLastUpdate(store, 'test-grid-1')
+        ).toEqual({
+            bulkaction: 1,
+            dataSource: 2,
+            editor: 3,
+            errorhandler: 4,
+            grid: 6,
+            loader: 7,
+            menu: 8,
+            pager: 9,
+            selection: 10
+        });
+    });
 });
