@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
-
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.1...HEAD)
+## [5.0.2](https://github.com/bencripps/react-redux-grid/tree/5.0.2) (2016-12-17)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.1...5.0.2)
 
 **Implemented enhancements:**
 
