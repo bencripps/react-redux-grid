@@ -13,29 +13,33 @@
 
 A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
 
-[Demo](http://react-redux-grid.herokuapp.com/)
 
-## Feature List
+![React Redux Grid](demo/demo.gif)
 
-1. Flat List or Tree Structure
-2. Local and/or Remote Data Source
-3. Local and/or Remote Pagination
-4. Extensive and extendable Column Definitions
-5. Draggable Column Width/Resizing
-6. Draggable Column Ordering
-7. Sortable Columns
-8. Grid Action Menus
-9. Bulk Action Toolbar
-10. Selection Model (Single, MultiSelect, Checkbox)
-11. Event Handling for all kinds of DOM Events (List Below)
-12. Extendable and Modular Style Built with JavaScript
-13. Loading Mask
-14. Built-in Error Handling Module
+[More Examples Available](http://react-redux-grid.herokuapp.com/)
+
+## Features
+
+* Flat List or Tree Structure :heavy_minus_sign: :evergreen_tree:
+* Local and/or Remote Data Source
+* Local and/or Remote Pagination
+* Extensive Column Definitions :muscle:
+* Draggable Column Width/Resizing
+* Draggable Column Ordering
+* Sortable Columns
+* Grid Action Menus
+* Bulk Action Toolbar
+* Selection Model (Single, MultiSelect, Checkbox)
+* Event Handling for all kinds of DOM Events (List Below)
+* Extendable and Modular Style Built with JavaScript :bowtie:
+* Loading Mask
+* Built-in Error Handling Module
+* Handles Huge amount of Records (1000000+) :star:
 
 ## Installation
 
 ```bash
-npm install react-redux-grid --save
+$ npm install react-redux-grid --save
 ```
 
 **Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
@@ -43,16 +47,448 @@ npm install react-redux-grid --save
 ## Usage
 
 ````javascript
-import { Grid, Store } from 'react-redux-grid'
+import React from 'react';
+import { render } from 'react-dom';
+import { Grid, Store as store } from 'react-redux-grid';
 
-const GridInstance = (
+render(
     <Grid
         data={data}
         stateKey={stateKey}
-        store={store}
-    />
+        store={store} // or pass your existing redux store
+    />,
+    document.getElementById('grid-mount')
 );
 ````
+
+## Grid Level Parameters
+
+| Prop                | Type                    | Description       |
+|---------------------|-------------------------|-------------------|
+| stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
+| height              | int                     | the height of the grid container                                                                                                                               |
+| showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed                                                                                             |
+| classNames          | array                   | a list of strings to be applied to the grid container as classes                                                                                               |
+| events              | object                  | grid event object, more information below                                                                                                                      |
+| store               | object.isRequred        | redux store                                                                                                                                                    |
+| reducerKeys         | object                  | object describing custom named reducers, more information below                                                                                                |
+| pageSize            | int                     | number of records to shown on a single grid page                                                                                                               |
+| emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available                                                                     |
+| dragAndDrop         | bool                    | whether drag and drop of rows should be enabled                                                                                                                |
+| gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view                                                                                                            |
+
+## Columns
+```javascript
+export const columns = [
+    {
+        name: 'Name',
+        dataIndex: 'name',
+        editor: '<input type="text" required />',
+        width: '10%',
+        className: 'additional-class',
+        renderer: ({ column, value, row }) => {
+               return (
+                   <span> Name: { value } </span>
+                   );
+           },
+        hidden: false,
+        placeholder: 'Name',
+        validator: ({ value, values }) => {
+            return value.length > 0;
+        },
+        change: ({ values }) => {
+            return {
+                otherColDataIndex: 'newValue'
+            };
+        },
+        disabled: ({ value, values }) => {
+            if (value === 'ShouldDisabled') {
+                return true;
+            }
+            return false;
+        },
+        hideable: false,
+        resizable: false,
+        moveable: false,
+        HANDLE_CLICK: () => { console.log('Header Click'); },
+        createKeyFrom: true
+    }
+];
+```
+
+| Prop                | Type                           | Description       |
+|---------------------|--------------------------------|-------------------|
+| name                | string                         | title of column to be displayed |
+| dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). if data is provided as a complex object, deeply nested data can be accessed by providing an array of keys                |
+| editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell                                                                                                    |
+| width               | int                            | width of column (if none is provided, a default width will be applied)                                                                                                               |
+| className           | array                          | additional class names to apply to header of this column                                                                                                                             |
+| renderer            | func                           | a function which returns the cell contents for this column                                                                                                                           |
+| hidden              | bool                           | whether the column is hidden or visible                                                                                                                                              |
+| hideable            | bool                           | whether the column can be hidden                                                                                                                                                     |
+| moveable            | bool                           | whether this column can be moved                                                                                                                                                     |
+| placeholder         | string                         | the placeholder that will be used for the editor input                                                                                                                               |
+| validator           | func                           | a func that should return a boolean, to determine if the newly input value is valid                                                                                                  |
+| change              | func                           | a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.                          |
+| disabled            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.                                                                                                                             |
+| createKeyFrom       | bool                           | see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)                                                                                                                   |
+| sortFn              | func                           | when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) |
+
+`dataIndex` Example:
+```javascript
+const data = {
+    outer: {
+        middle: {
+            inner: 'rowValue'
+        }
+    }
+};
+```
+
+You can access this data by providing the column the following dataIndex:
+
+```javascript
+const column = {
+    name: 'Value',
+    dataIndex: ['outer', 'middle', 'inner']
+};
+```
+
+##### Further Information
+
+1. [`renderers` in depth](docs/USING_CUSTOM_RENDERERS.md)
+2. [`editors` in depth](docs/USING_CUSTOM_EDITORS.md)
+
+## Editor
+```javascript
+export const plugins = {
+    EDITOR: {
+        type: 'inline',
+        enabled: true,
+        focusOnEdit: true
+    }
+}
+```
+
+| Prop                | Type                           | Description                                                                                                                           |
+|---------------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| type                | oneOf(['inline', 'grid'])      | two editors are available by default. in grid mode, all fields are editable. in inline mode, only a single line is editable at a time |
+| enabled             | bool                           | if true, the grid will have an editor available                                                                                       |
+| focusOnEdit         | bool                           | focus the first editable input when an edit event occurs (defaults to true)                                                           |                                                                                                   |
+
+
+## Column Manager
+```javascript
+export const plugins = {
+    COLUMN_MANAGER: {
+        resizable: false
+        defaultColumnWidth: `${100 / columns.length}%`,
+        minColumnWidth: 10,
+        moveable: true,
+        headerActionItemBuilder: () => {},
+        sortable: {
+            enabled: true,
+            method: 'local',
+            sortingSource: 'http://url/to/sortingSource'
+        }
+    }
+}
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| resizable                 | bool                          |  will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array |
+| defaultColumnWidth        | int                           | if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template                   |
+| minColumnWidth            | int                           | the minimum width a column can be dragged to                                                                                                  |
+| moveable                  | bool                          | whether the columns can be reordered by drag                                                                                                  |
+| headerActionItemBuilder   | func                          | build a custom jsx component to be used as the header action items                                                                            |
+| sortable                  | object                        | an object that describes whether columns can be sorted                                                                                        |
+| sortable.enabled          | bool                          | an object that describes whether columns can be sorted                                                                                        |
+| sortable.method           | oneOf(['local', 'remote'])    | whether sorting will execute locally, or remotely                                                                                             |
+| sortable.sortingSource    | string                        | where sorting data will be retrieved (a required parameter for remote sorting)                                                                |
+
+## Pagination
+```javascript
+export const plugins = {
+    PAGER: {
+        enabled: true,
+        pagingType: 'remote',
+        toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+            return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
+        },
+        pagerComponent: false
+    }
+};
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                   | bool                          | whether a pager will be used, defaults to true                                                                                                |
+| pagingType                | oneOf(['local', 'remote'])    | defaults to `local`                                                                                                                           |
+| toolbarRenderer           | func                          | a function which which returns the description of the current pager state, ex: 'Viewing Records 10 of 100'                                    |
+| pagerComponent            | jsx                           | if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely                                   |
+
+##### Note about using a Custom Pager
+
+You can pass a `JSX` element to replace the pager entirely. This can be either a connected or unconnected component. To dispatch paging events, you can use the `Actions.PagerActions.setPageIndexAsync` or `Actions.PagerActions.setPage` that are exposed from the main export.
+
+Example:
+```javascript
+// my custom actionHandler that my custom component uses
+
+export const setPageIndex = (pageIndex, pageSize, dataSource) => {
+    return (dispatch) => {
+        // dispatch an event that the grid is listening for, which updates the current records
+        dispatch(
+            Actions.PagerActions
+                .setPageIndexAsync(pageIndex, pageSize, dataSource)
+        );
+
+        // dispatch an event that my custom toolbar is listening for
+        // to update the current pageIndex
+        dispatch({
+            type: SET_PAGE_INDEX,
+            pageIndex
+        });
+
+    };
+};
+```
+
+## Grid Actions (Row Menu Actions)
+```javascript
+export const plugins = {
+    GRID_ACTIONS: {
+        iconCls: 'action-icon',
+        onMenuShow: ({ columns, rowData }) => {
+
+            console.log('This event fires before menushow');
+
+            if (rowData.isDisabled) {
+                return ['menu-item-key'] // this field will now be disabled
+            }
+
+        },
+        menu: [
+            {
+                text: 'Menu Item',
+                key: 'menu-item-key',
+                EVENT_HANDLER: () => {
+                    alert('Im a menu Item Action');
+                }
+            }
+        ]
+    }
+};
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| iconCls                   | string                        | class to be used for the action icon                                                                                                          |
+| menu                      | arrayOf(object)               | menuItems, with `text`, `key`, `EVENT_HANDLER` properties                                                                                     |
+| onMenuShow                | func                          | a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.                 |
+
+##### Notes about Menu Items
+
+Each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.
+
+## Sticky Header/Footer
+
+If you'd like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header/footer feature.
+```javascript
+export const plugins = {
+    STICKY_HEADER: {
+        enabled: true,
+        scrollTarget: '#my-scrollable-div',
+        listener: customFunc
+    },
+    STICKY_FOOTER: {
+        enabled: true,
+        scrollTarget: '#my-scrollable-div',
+        listener: customFunc
+    }
+}
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                   | bool                          | whether the sticky header is initialized                                                                                                      |
+| scrollTarget              | string                        | optional, useds as a selector to find the scrollable parent, ex. '.page-container'                                                            |
+| listener                  | func                          | optional, custom function to be called on scroll                                                                                              |
+
+## Selection Model
+```javascript
+export const plugins = {
+    SELECTION_MODEL: {
+        mode: 'single',
+        enabled: true,
+        editEvent: 'singleclick',
+        allowDeselect: true,
+        activeCls: 'active-class',
+        selectionEvent: 'singleclick'
+    }
+};
+```
+
+| Prop                      | Type                                                            | Description |
+|---------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| mode                      | oneOf(['single', 'multi', 'checkbox-single', 'checkbox-multi']) | determines whether a single value, or multiple values can be selected                                         |
+| editEvent                 | onOf([(`singleclick`, `doubleclick`, `none`)])                  | what type of mouse event will trigger the editor                                                              |
+| enabled                   | bool                                                            | whether the selection model class is initialized                                                              |
+| allowDeselect             | bool                                                            | whether a value can be deselected                                                                             |
+| activeCls                 | string                                                          | the class applied to active rows upon selection                                                               |
+| selectionEvent            | oneOf(['singleclick', 'doubleclick'])                           | the browser event which triggers the selection event                                                          |
+
+## Error Handler
+
+```javascript
+export const plugins = {
+    ERROR_HANDLER: {
+        defaultErrorMessage: 'AN ERROR OCURRED',
+        enabled: true
+    }
+};
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| defaultErrorMessage       | string                        | the default error message to display when no error information is available                                                                   |
+| enabled                   | bool                          | whether the error handler should be initialized                                                                                               |
+
+## Loader
+
+```javascript
+export const plugins = {
+    LOADER: {
+        enabled: true
+    }
+};
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                   | bool                          | whether the loading mask should be initialized                                                                                                |
+
+## Bulk Actions
+
+```javascript
+export const plugins = {
+    BULK_ACTIONS: {
+        enabled: true,
+        actions: [
+            {
+                text: 'Bulk Action Button',
+                EVENT_HANDLER: () => {
+                    console.log('Doing a bulk action');
+                }
+            }
+        ]
+    }
+};
+```
+
+| Prop                      | Type                          | Description                                                                                                                                   |
+|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| enabled                   | bool                          | whether the bulk action toolbar should be used                                                                                                |
+| actions                   | arrayOf(object)               | the actions (including button text, and event handler) that will be displayed in the bar                                                      |
+
+## Events
+
+All grid events are passed in as a single object.
+```javascript
+export const events = {
+    HANDLE_CELL_CLICK: () => {},
+    HANDLE_CELL_DOUBLE_CLICK: () => {},
+    HANDLE_BEFORE_ROW_CLICK: () => {},
+    HANDLE_ROW_CLICK: () => {},
+    HANDLE_ROW_DOUBLE_CLICK: () => {},
+    HANDLE_BEFORE_SELECTION: () => {},
+    HANDLE_AFTER_SELECTION: () => {},
+    HANDLE_BEFORE_INLINE_EDITOR_SAVE: () => {},
+    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {},
+    HANDLE_BEFORE_BULKACTION_SHOW: () => {},
+    HANDLE_AFTER_BULKACTION_SHOW: () => {},
+    HANDLE_BEFORE_SORT: () => {},
+    HANLE_BEFORE_EDIT: () => {},
+    HANDLE_AFTER_SELECT_ALL: () => {},
+    HANDLE_AFTER_DESELECT_ALL: () => {},
+    HANDLE_AFTER_ROW_DROP: () => {},
+    HANDLE_BEFORE_TREE_CHILD_CREATE: () => {}
+};
+```
+
+Each function is passed two arguments, the first is a context object which will contain metadata about the event, and the second argument is the browser event if applicable.
+
+````js
+HANDLE_CELL_CLICK = ({ row, rowId, rowIndex }, e) => {}
+````
+
+## Style
+
+All core components and plugins have corresponding `.styl` files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend within `src/constants/gridConstants.js`
+
+To update `CLASS_NAMES` or the `CSS_PREFIX` dynamically, you can use the `applyGridConfig` function. More information is available [here](docs/USING_GRID_CONFIG.md)
+
+```javascript
+
+export const CSS_PREFIX = 'react-grid';
+
+export const CLASS_NAMES = {
+    ACTIVE_CLASS: 'active',
+    DRAG_HANDLE: 'drag-handle',
+    SORT_HANDLE: 'sort-handle',
+    SECONDARY_CLASS: 'secondary',
+    CONTAINER: 'container',
+    TABLE: 'table',
+    HEADER: 'header',
+    ROW: 'row',
+    CELL: 'cell',
+    PAGERTOOLBAR: 'pager-toolbar',
+    EMPTY_ROW: 'empty-row',
+    LOADING_BAR: 'loading-bar',
+    DRAGGABLE_COLUMN: 'draggable-column',
+    COLUMN: 'column',
+    SORT_HANDLE_VISIBLE: 'sort-handle-visible',
+    BUTTONS: {
+        PAGER: 'page-buttons'
+    },
+    SELECTION_MODEL: {
+        CHECKBOX: 'checkbox',
+        CHECKBOX_CONTAINER: 'checkbox-container'
+    },
+    ERROR_HANDLER: {
+        CONTAINER: 'error-container',
+        MESSAGE: 'error-message'
+    },
+    EDITOR: {
+        INLINE: {
+            CONTAINER: 'inline-editor',
+            SHOWN: 'shown',
+            HIDDEN: 'hidden',
+            SAVE_BUTTON: 'save-button',
+            CANCEL_BUTTON: 'cancel-button',
+            BUTTON_CONTAINER: 'button-container'
+        }
+    },
+    GRID_ACTIONS: {
+        CONTAINER: 'action-container',
+        SELECTED_CLASS: 'action-menu-selected',
+        MENU: {
+            CONTAINER: 'action-menu-container',
+            ITEM: 'action-menu-item'
+        }
+    },
+    BULK_ACTIONS: {
+        CONTAINER: 'bulkaction-container',
+        DESCRIPTION: 'bulkaction-description',
+        SHOWN: 'shown',
+        HIDDEN: 'hidden'
+    }
+
+};
+```
+
+## FAQ
 
 ## Creating a Tree Grid
 
@@ -157,436 +593,6 @@ const dataSource = () => {
 const grid = <Grid dataSource= { dataSource } />
  ```
 
-## Grid Level Parameters
-
-1. `stateful`: `bool`, if `stateful` is `true`, the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)
-2. `height`: `number`, the height of the grid container
-3. `showTreeRootNode`: `bool`, used with tree-grid, to determine if root node should be displayed
-4. `classNames`: `array`, a list of strings to be applied to the grid container as classes
-5. `events`: `object`, more information below
-6. `store`: `object.isRequired`
-7. `reducerKeys`: `object`, more information below
-8. `pageSize`: `number`, the number of records to show on the grid
-9. `emptyDataMessage`: `any`, can be a string or a react component, which will be displayed if no grid data is available
-10. `dragAndDrop`: `bool`, whether drag and drop of rows should be enabled
-11. `gridType`: `string`, either `grid` or `tree`
-
-## Plugins
-
-All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
-
-## Columns
-```javascript
-export const columns = [
-    {
-        name: 'Name',
-        dataIndex: 'name',
-        editor: '<input type="text" required />',
-        width: '10%',
-        className: 'additional-class',
-        renderer: ({ column, value, row }) => {
-               return (
-                   <span> Name: { value } </span>
-                   );
-           },
-        hidden: false,
-        placeholder: 'Name',
-        validator: ({ value, values }) => {
-            return value.length > 0;
-        },
-        change: ({ values }) => {
-            return {
-                otherColDataIndex: 'newValue'
-            };
-        },
-        disabled: ({ value, values }) => {
-            if (value === 'ShouldDisabled') {
-                return true;
-            }
-            return false;
-        },
-        hideable: false,
-        resizable: false,
-        moveable: false,
-        HANDLE_CLICK: () => { console.log('Header Click'); },
-        createKeyFrom: true
-    }
-];
-```
-
-Column Defaults:
-
-1. `name`: `string`, title of column
-2. `dataIndex`: `string | arrayOf(string)`, the key accessor for the column value (required parameter). if data is provided as a complex object, deeply nested data can be accessed by providing an array of keys
-
-Example:
-```javascript
-const data = {
-    outer: {
-        middle: {
-            inner: 'rowValue'
-        }
-    }
-};
-```
-
-You can access this data by providing the column the following dataIndex:
-
-```javascript
-const column = {
-    name: 'Value',
-    dataIndex: ['outer', 'middle', 'inner']
-};
-```
-
-3. `editor`: `jsx element`, when an editor is used, this element will be rendered in place of the edited cell
-4. `width`: `string | int`, width of column (if none is provided, a default width will be applied)
-5. `className`: `string`, additional class names to apply to columns header output
-6. `renderer`: `string | jsx`, a function which returns the cell contents for this column
-7. `hidden`: `boolean`, whether the column is hidden or visible
-8. `hideable`: `boolean`, whether the column can be hidden
-9. `resizable`: `boolean`, whether this column can be resized
-10. `moveable`: `boolean`, whether this column can be moved
-10. `placeholder`: `string`, the placeholder that will be used for the editor input
-10. `validator`: `func`, a func that should return a boolean, to determine if the newly input value is valid
-11. `change`: `func`, a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.
-12. `disabled`: `bool || func`, whether the field should be disabled while in edit mode.
-13. `createKeyFrom`: `bool`, see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)
-14. `sortFn`: `function`, when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-
-##### Further Information
-
-1. [`renderers` in depth](docs/USING_CUSTOM_RENDERERS.md)
-2. [`editors` in depth](docs/USING_CUSTOM_EDITORS.md)
-
-## Editor
-```javascript
-export const plugins = {
-    EDITOR: {
-        type: 'inline',
-        enabled: true,
-        focusOnEdit: true
-    }
-}
-```
-
-Editor Defaults
-
-1. `type`: `string`, (`inline` || `grid`)
-2. `enabled`: `boolean`, if true, an editor will be rendered
-3. `focusOnEdit`: `boolean`, focus the first editable input when an edit event occurs (defaults to true)
-
-
-## Column Manager
-```javascript
-export const plugins = {
-    COLUMN_MANAGER: {
-        resizable: false
-        defaultColumnWidth: `${100 / columns.length}%`,
-        minColumnWidth: 10,
-        moveable: true,
-        headerActionItemBuilder: () => {},
-        sortable: {
-            enabled: true,
-            method: 'local',
-            sortingSource: 'http://url/to/sortingSource'
-        }
-    }
-}
-```
-
-Column Manager Defaults
-
-1. `resizable`: `boolean`, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array
-2. `defaultColumnWidth`: `string template`, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template
-3. `minColumnWidth`: `int`, the minimum width a column can be dragged to
-4. `moveable`: `boolean`, whether the columns can be reordered by drag
-5. `headerActionItemBuilder`: `func`, build a custom jsx component to be used as the header action items
-6. `sortable`: `object`, an object that describes whether columns can be sorted
-6a. `sortable.enabled`: `boolean`, whether sorting is enabled at the grid level
-6b. `sortable.method`: `string`, whether sorting will execute locally, or remotely, possible values: `['local', 'remote']`
-6c. `sortable.sortingSource`: `string`, where sorting data will be retrieved (a required parameter for remote sorting)
-
-## Pagination
-```javascript
-export const plugins = {
-    PAGER: {
-        enabled: true,
-        pagingType: 'remote',
-        toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
-            return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
-        },
-        pagerComponent: false
-    }
-};
-```
-
-Pagination Defaults:
-
-1. `enabled`: `boolean`, default value: `true`
-2. `pagingType`: `string`, default value; `local`, possible values: `['local', 'remote']`
-3. `toolbarRenderer`: `func`, a function which returns the template that describes current pagination state
-4. `pagerComponent`: `jsx element`, if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely
-
-### Note about using a Custom Pager
-
-You can pass a `JSX` element to replace the pager entirely. This can be either a connected or unconnected component. To dispatch paging events, you can use the `Actions.PagerActions.setPageIndexAsync` or `Actions.PagerActions.setPage` that are exposed from the main export.
-
-Example:
-```javascript
-// my custom actionHandler that my custom component uses
-
-export const setPageIndex = (pageIndex, pageSize, dataSource) => {
-    return (dispatch) => {
-        // dispatch an event that the grid is listening for, which updates the current records
-        dispatch(
-            Actions.PagerActions
-                .setPageIndexAsync(pageIndex, pageSize, dataSource)
-        );
-
-        // dispatch an event that my custom toolbar is listening for
-        // to update the current pageIndex
-        dispatch({
-            type: SET_PAGE_INDEX,
-            pageIndex
-        });
-
-    };
-};
-```
-
-## Grid Actions (Row Menu Actions)
-```javascript
-export const plugins = {
-    GRID_ACTIONS: {
-        iconCls: 'action-icon',
-        onMenuShow: ({ columns, rowData }) => {
-
-            console.log('This event fires before menushow');
-
-            if (rowData.isDisabled) {
-                return ['menu-item-key'] // this field will now be disabled
-            }
-
-        },
-        menu: [
-            {
-                text: 'Menu Item',
-                key: 'menu-item-key',
-                EVENT_HANDLER: () => {
-                    alert('Im a menu Item Action');
-                }
-            }
-        ]
-    }
-};
-```
-
-Grid Action Defaults
-
-1. `iconCls`: `string`, class to be used for the action icon
-2. `menu`: `arrayOf(object)`, menu items
-3. `onMenuShow`: `func`, a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.
-
-### Notes about Menu Items
-
-Each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.
-
-## Sticky Header/Footer
-
-If you'd like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header/footer feature.
-```javascript
-export const plugins = {
-    STICKY_HEADER: {
-        enabled: true,
-        scrollTarget: '#my-scrollable-div',
-        listener: customFunc
-    },
-    STICKY_FOOTER: {
-        enabled: true,
-        scrollTarget: '#my-scrollable-div',
-        listener: customFunc
-    }
-}
-```
-
-Sticky Header/Footer Defaults
-
-1.`enabled`: `boolean`, whether the sticky header is initialized
-2. `scrollTarget`, `string`, optional, useds as a selector to find the scrollable parent
-3. `listener`, `func`, optional, custom function to be called on scroll
-
-## Selection Model
-```javascript
-export const plugins = {
-    SELECTION_MODEL: {
-        mode: 'single',
-        enabled: true,
-        editEvent: 'singleclick',
-        allowDeselect: true,
-        activeCls: 'active-class',
-        selectionEvent: 'singleclick'
-    }
-};
-```
-
-Selection Model Defaults:
-
-1. `mode`: `string`, determines whether a single value, or multiple values can be selected, and whether a checkbox column will be used, possible values `['single', 'multi', 'checkbox-single', 'checkbox-multi']`
-2. `editEvent`: `string`, (`singleclick`, `doubleclick`, `none`) what type of mouse event will trigger the editor
-3. `enabled`: `boolean`, whether the selection model class is initialized
-4. `allowDeselect`: `boolean`, whether a value can be deselected
-5. `activeCls`: `string`, the class applied to active rows upon selection
-6. `selectionEvent`: `string`, the browser event which triggers the selection event, possible values `['singleclick', 'doubleclick']`
-
-## Error Handler
-```javascript
-export const plugins = {
-    ERROR_HANDLER: {
-        defaultErrorMessage: 'AN ERROR OCURRED',
-        enabled: true
-    }
-};
-```
-Error Handler Defaults
-
-1. `defaultErrorMessage`: `string`, the default error message to display when no error information is available
-2. `enabled`: `string`, whether the error handler should be used
-
-## Loader
-```javascript
-export const plugins = {
-    LOADER: {
-        enabled: true
-    }
-};
-```
-
-Loader Defaults:
-
-1. `enabled`: `boolean`, whether the default loading mask should be used
-
-Loader css can be modified or overwritten using `src/style/components/plugins/loader/loadingbar.styl`
-
-## Bulk Actions
-```javascript
-export const plugins = {
-    BULK_ACTIONS: {
-        enabled: true,
-        actions: [
-            {
-                text: 'Bulk Action Button',
-                EVENT_HANDLER: () => {
-                    console.log('Doing a bulk action');
-                }
-            }
-        ]
-    }
-};
-```
-
-Bulk Action Defaults
-
-1. `enabled`: `string`, whether the bulk action toolbar should be used
-2. `actions`: `array of objects`, the actions (including button text, and event handler) that will be displayed in the bar
-
-## Events
-
-All grid events are passed in as a single object.
-```javascript
-export const events = {
-    HANDLE_CELL_CLICK: () => {},
-    HANDLE_CELL_DOUBLE_CLICK: () => {},
-    HANDLE_BEFORE_ROW_CLICK: () => {},
-    HANDLE_ROW_CLICK: () => {},
-    HANDLE_ROW_DOUBLE_CLICK: () => {},
-    HANDLE_BEFORE_SELECTION: () => {},
-    HANDLE_AFTER_SELECTION: () => {},
-    HANDLE_BEFORE_INLINE_EDITOR_SAVE: () => {},
-    HANDLE_AFTER_INLINE_EDITOR_SAVE: () => {},
-    HANDLE_BEFORE_BULKACTION_SHOW: () => {},
-    HANDLE_AFTER_BULKACTION_SHOW: () => {},
-    HANDLE_BEFORE_SORT: () => {},
-    HANLE_BEFORE_EDIT: () => {},
-    HANDLE_AFTER_SELECT_ALL: () => {},
-    HANDLE_AFTER_DESELECT_ALL: () => {},
-    HANDLE_AFTER_ROW_DROP: () => {},
-    HANDLE_BEFORE_TREE_CHILD_CREATE: () => {}
-};
-```
-
-Each function is passed two arguments, the first is a context object which will contain metadata about the event, and the second argument is the browser event if applicable.
-
-````js
-HANDLE_CELL_CLICK = ({ row, rowId, rowIndex }, e) => {}
-````
-
-## Style
-
-All core components and plugins have corresponding `.styl` files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend within `src/constants/gridConstants.js`
-
-To update `CLASS_NAMES` or the `CSS_PREFIX` dynamically, you can use the `applyGridConfig` function. More information is available [here](docs/USING_GRID_CONFIG.md)
-
-```javascript
-
-export const CSS_PREFIX = 'react-grid';
-
-export const CLASS_NAMES = {
-    ACTIVE_CLASS: 'active',
-    DRAG_HANDLE: 'drag-handle',
-    SORT_HANDLE: 'sort-handle',
-    SECONDARY_CLASS: 'secondary',
-    CONTAINER: 'container',
-    TABLE: 'table',
-    HEADER: 'header',
-    ROW: 'row',
-    CELL: 'cell',
-    PAGERTOOLBAR: 'pager-toolbar',
-    EMPTY_ROW: 'empty-row',
-    LOADING_BAR: 'loading-bar',
-    DRAGGABLE_COLUMN: 'draggable-column',
-    COLUMN: 'column',
-    SORT_HANDLE_VISIBLE: 'sort-handle-visible',
-    BUTTONS: {
-        PAGER: 'page-buttons'
-    },
-    SELECTION_MODEL: {
-        CHECKBOX: 'checkbox',
-        CHECKBOX_CONTAINER: 'checkbox-container'
-    },
-    ERROR_HANDLER: {
-        CONTAINER: 'error-container',
-        MESSAGE: 'error-message'
-    },
-    EDITOR: {
-        INLINE: {
-            CONTAINER: 'inline-editor',
-            SHOWN: 'shown',
-            HIDDEN: 'hidden',
-            SAVE_BUTTON: 'save-button',
-            CANCEL_BUTTON: 'cancel-button',
-            BUTTON_CONTAINER: 'button-container'
-        }
-    },
-    GRID_ACTIONS: {
-        CONTAINER: 'action-container',
-        SELECTED_CLASS: 'action-menu-selected',
-        MENU: {
-            CONTAINER: 'action-menu-container',
-            ITEM: 'action-menu-item'
-        }
-    },
-    BULK_ACTIONS: {
-        CONTAINER: 'bulkaction-container',
-        DESCRIPTION: 'bulkaction-description',
-        SHOWN: 'shown',
-        HIDDEN: 'hidden'
-    }
-
-};
-```
-
-## FAQ
 
 #### What if I want to use my own store, but I want to name the reducer keys myself?
 

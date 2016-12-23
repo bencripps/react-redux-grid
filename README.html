@@ -1,0 +1,1705 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body {
+  width: 45em;
+  border: 1px solid #ddd;
+  outline: 1300px solid #fff;
+  margin: 16px auto;
+}
+
+body .markdown-body
+{
+  padding: 30px;
+}
+
+@font-face {
+  font-family: fontawesome-mini;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+@font-face {
+  font-family: octicons-anchor;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #333333;
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body a {
+  background: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline: 0;
+}
+
+.markdown-body b,
+.markdown-body strong {
+  font-weight: bold;
+}
+
+.markdown-body mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body sub,
+.markdown-body sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.markdown-body sup {
+  top: -0.5em;
+}
+.markdown-body sub {
+  bottom: -0.25em;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.markdown-body img {
+  border: 0;
+}
+
+.markdown-body hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.markdown-body pre {
+  overflow: auto;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+.markdown-body input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body html input[disabled] {
+  cursor: default;
+}
+
+.markdown-body input {
+  line-height: normal;
+}
+
+.markdown-body input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body .codehilitetable {
+  border: 0;
+  border-spacing: 0;
+}
+
+.markdown-body .codehilitetable tr {
+  border: 0;
+}
+
+.markdown-body .codehilitetable pre,
+.markdown-body .codehilitetable div.codehilite {
+  margin: 0;
+}
+
+.markdown-body .linenos,
+.markdown-body .code,
+.markdown-body .codehilitetable td {
+  border: 0;
+  padding: 0;
+}
+
+.markdown-body td:not(.linenos) .linenodiv {
+  padding: 0 !important;
+}
+
+.markdown-body .code {
+  width: 100%;
+}
+
+.markdown-body .linenos div pre,
+.markdown-body .linenodiv pre,
+.markdown-body .linenodiv {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -moz-border-radius-bottomleft: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.markdown-body .code div pre,
+.markdown-body .code div {
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  -webkit-border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.markdown-body * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font: 13px Helvetica, arial, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+.markdown-body a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.markdown-body a:hover,
+.markdown-body a:focus,
+.markdown-body a:active {
+  text-decoration: underline;
+}
+
+.markdown-body hr {
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.markdown-body hr:before,
+.markdown-body hr:after {
+  display: table;
+  content: " ";
+}
+
+.markdown-body hr:after {
+  clear: both;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+
+.markdown-body h1 {
+  font-size: 30px;
+}
+
+.markdown-body h2 {
+  font-size: 21px;
+}
+
+.markdown-body h3 {
+  font-size: 16px;
+}
+
+.markdown-body h4 {
+  font-size: 14px;
+}
+
+.markdown-body h5 {
+  font-size: 12px;
+}
+
+.markdown-body h6 {
+  font-size: 11px;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ul ul ol,
+.markdown-body ul ol ol,
+.markdown-body ol ul ol,
+.markdown-body ol ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre,
+.markdown-body samp {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #e7e7e7;
+  background-image: -moz-linear-gradient(#fefefe, #e7e7e7);
+  background-image: -webkit-linear-gradient(#fefefe, #e7e7e7);
+  background-image: linear-gradient(#fefefe, #e7e7e7);
+  background-repeat: repeat-x;
+  border-radius: 2px;
+  border: 1px solid #cfcfcf;
+  color: #000;
+  padding: 3px 5px;
+  line-height: 10px;
+  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  display: inline-block;
+}
+
+.markdown-body>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+.markdown-body .headeranchor-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body .headeranchor-link:focus {
+  outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1 .headeranchor,
+.markdown-body h2 .headeranchor,
+.markdown-body h3 .headeranchor,
+.markdown-body h4 .headeranchor,
+.markdown-body h5 .headeranchor,
+.markdown-body h6 .headeranchor {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.markdown-body h1:hover .headeranchor-link,
+.markdown-body h2:hover .headeranchor-link,
+.markdown-body h3:hover .headeranchor-link,
+.markdown-body h4:hover .headeranchor-link,
+.markdown-body h5:hover .headeranchor-link,
+.markdown-body h6:hover .headeranchor-link {
+  height: 1em;
+  padding-left: 8px;
+  margin-left: -30px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .headeranchor-link .headeranchor,
+.markdown-body h2:hover .headeranchor-link .headeranchor,
+.markdown-body h3:hover .headeranchor-link .headeranchor,
+.markdown-body h4:hover .headeranchor-link .headeranchor,
+.markdown-body h5:hover .headeranchor-link .headeranchor,
+.markdown-body h6:hover .headeranchor-link .headeranchor {
+  display: inline-block;
+}
+
+.markdown-body h1 {
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+
+.markdown-body h4 {
+  font-size: 1.25em;
+}
+
+.markdown-body h5 {
+  font-size: 1em;
+}
+
+.markdown-body h6 {
+  font-size: 1em;
+  color: #777;
+}
+
+.markdown-body p,
+.markdown-body blockquote,
+.markdown-body ul,
+.markdown-body ol,
+.markdown-body dl,
+.markdown-body table,
+.markdown-body pre,
+.markdown-body .admonition {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.markdown-body hr {
+  height: 4px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 2em;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.markdown-body dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+  padding: 0 15px;
+  color: #777;
+  border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body table {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+
+.markdown-body table th {
+  font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.markdown-body code,
+.markdown-body samp {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(0,0,0,0.04);
+  border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+.markdown-body pre>code {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+
+.markdown-body .codehilite {
+  margin-bottom: 16px;
+}
+
+.markdown-body .codehilite pre,
+.markdown-body pre {
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.markdown-body .codehilite pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre code {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after {
+  content: normal;
+}
+
+/* Admonition */
+.markdown-body .admonition {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid #e0e0e0;
+  border-left: 6px solid #333;
+  padding: 10px 10px 10px 30px;
+}
+
+.markdown-body .admonition table {
+  color: #333;
+}
+
+.markdown-body .admonition p {
+  padding: 0;
+}
+
+.markdown-body .admonition-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+.markdown-body .admonition>.admonition-title {
+  color: #333;
+}
+
+.markdown-body .attention>.admonition-title {
+  color: #a6d796;
+}
+
+.markdown-body .caution>.admonition-title {
+  color: #d7a796;
+}
+
+.markdown-body .hint>.admonition-title {
+  color: #96c6d7;
+}
+
+.markdown-body .danger>.admonition-title {
+  color: #c25f77;
+}
+
+.markdown-body .question>.admonition-title {
+  color: #96a6d7;
+}
+
+.markdown-body .note>.admonition-title {
+  color: #d7c896;
+}
+
+.markdown-body .admonition:before,
+.markdown-body .attention:before,
+.markdown-body .caution:before,
+.markdown-body .hint:before,
+.markdown-body .danger:before,
+.markdown-body .question:before,
+.markdown-body .note:before {
+  font: normal normal 16px fontawesome-mini;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 1.5;
+  color: #333;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.markdown-body .admonition:before {
+  content: "\f056\00a0";
+  color: 333;
+}
+
+.markdown-body .attention:before {
+  content: "\f058\00a0";
+  color: #a6d796;
+}
+
+.markdown-body .caution:before {
+  content: "\f06a\00a0";
+  color: #d7a796;
+}
+
+.markdown-body .hint:before {
+  content: "\f05a\00a0";
+  color: #96c6d7;
+}
+
+.markdown-body .danger:before {
+  content: "\f057\00a0";
+  color: #c25f77;
+}
+
+.markdown-body .question:before {
+  content: "\f059\00a0";
+  color: #96a6d7;
+}
+
+.markdown-body .note:before {
+  content: "\f040\00a0";
+  color: #d7c896;
+}
+
+.markdown-body .admonition::after {
+  content: normal;
+}
+
+.markdown-body .attention {
+  border-left: 6px solid #a6d796;
+}
+
+.markdown-body .caution {
+  border-left: 6px solid #d7a796;
+}
+
+.markdown-body .hint {
+  border-left: 6px solid #96c6d7;
+}
+
+.markdown-body .danger {
+  border-left: 6px solid #c25f77;
+}
+
+.markdown-body .question {
+  border-left: 6px solid #96a6d7;
+}
+
+.markdown-body .note {
+  border-left: 6px solid #d7c896;
+}
+
+.markdown-body .admonition>*:first-child {
+  margin-top: 0 !important;
+}
+
+.markdown-body .admonition>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* progress bar*/
+.markdown-body .progress {
+  display: block;
+  width: 300px;
+  margin: 10px 0;
+  height: 24px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #ededed;
+  position: relative;
+  box-shadow: inset -1px 1px 3px rgba(0, 0, 0, .1);
+}
+
+.markdown-body .progress-label {
+  position: absolute;
+  text-align: center;
+  font-weight: bold;
+  width: 100%; margin: 0;
+  line-height: 24px;
+  color: #333;
+  text-shadow: 1px 1px 0 #fefefe, -1px -1px 0 #fefefe, -1px 1px 0 #fefefe, 1px -1px 0 #fefefe, 0 1px 0 #fefefe, 0 -1px 0 #fefefe, 1px 0 0 #fefefe, -1px 0 0 #fefefe, 1px 1px 2px #000;
+  -webkit-font-smoothing: antialiased !important;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.markdown-body .progress-bar {
+  height: 24px;
+  float: left;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #96c6d7;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), inset 0 -1px 0 rgba(0, 0, 0, .1);
+  background-size: 30px 30px;
+  background-image: -webkit-linear-gradient(
+    135deg, rgba(255, 255, 255, .4) 27%,
+    transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%,
+    transparent 77%, transparent
+  );
+  background-image: -moz-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -ms-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: -o-linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, .4) 27%, transparent 27%,
+    transparent 52%, rgba(255, 255, 255, .4) 52%,
+    rgba(255, 255, 255, .4) 77%, transparent 77%,
+    transparent
+  );
+}
+
+.markdown-body .progress-100plus .progress-bar {
+  background-color: #a6d796;
+}
+
+.markdown-body .progress-80plus .progress-bar {
+  background-color: #c6d796;
+}
+
+.markdown-body .progress-60plus .progress-bar {
+  background-color: #d7c896;
+}
+
+.markdown-body .progress-40plus .progress-bar {
+  background-color: #d7a796;
+}
+
+.markdown-body .progress-20plus .progress-bar {
+  background-color: #d796a6;
+}
+
+.markdown-body .progress-0plus .progress-bar {
+  background-color: #c25f77;
+}
+
+.markdown-body .candystripe-animate .progress-bar{
+  -webkit-animation: animate-stripes 3s linear infinite;
+  -moz-animation: animate-stripes 3s linear infinite;
+  animation: animate-stripes 3s linear infinite;
+}
+
+@-webkit-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@-moz-keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+@keyframes animate-stripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 60px 0;
+  }
+}
+
+.markdown-body .gloss .progress-bar {
+  box-shadow:
+    inset 0 4px 12px rgba(255, 255, 255, .7),
+    inset 0 -12px 0 rgba(0, 0, 0, .05);
+}
+
+/* Multimarkdown Critic Blocks */
+.markdown-body .critic_mark {
+  background: #ff0;
+}
+
+.markdown-body .critic_delete {
+  color: #c82829;
+  text-decoration: line-through;
+}
+
+.markdown-body .critic_insert {
+  color: #718c00 ;
+  text-decoration: underline;
+}
+
+.markdown-body .critic_comment {
+  color: #8e908c;
+  font-style: italic;
+}
+
+.markdown-body .headeranchor {
+  font: normal normal 16px octicons-anchor;
+  line-height: 1;
+  display: inline-block;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.headeranchor:before {
+  content: '\f05c';
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 4px 0.25em -20px;
+  vertical-align: middle;
+}
+
+/* Media */
+@media only screen and (min-width: 480px) {
+  .markdown-body {
+    font-size:14px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .markdown-body {
+    font-size:16px;
+  }
+}
+
+@media print {
+  .markdown-body * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+
+  .markdown-body {
+    font-size:12pt;
+    max-width:100%;
+    outline:none;
+    border: 0;
+  }
+
+  .markdown-body a,
+  .markdown-body a:visited {
+    text-decoration: underline;
+  }
+
+  .markdown-body .headeranchor-link {
+    display: none;
+  }
+
+  .markdown-body a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  .markdown-body abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .markdown-body .ir a:after,
+  .markdown-body a[href^="javascript:"]:after,
+  .markdown-body a[href^="#"]:after {
+    content: "";
+  }
+
+  .markdown-body pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .markdown-body pre,
+  .markdown-body blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  .markdown-body .progress,
+  .markdown-body .progress-bar {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .markdown-body .progress {
+    border: 1px solid #ddd;
+  }
+
+  .markdown-body .progress-bar {
+    height: 22px;
+    border-right: 1px solid #ddd;
+  }
+
+  .markdown-body tr,
+  .markdown-body img {
+    page-break-inside: avoid;
+  }
+
+  .markdown-body img {
+    max-width: 100% !important;
+  }
+
+  .markdown-body p,
+  .markdown-body h2,
+  .markdown-body h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .markdown-body h2,
+  .markdown-body h3 {
+    page-break-after: avoid;
+  }
+}
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="react-redux-grid"><a name="user-content-react-redux-grid" href="#react-redux-grid" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>React-Redux Grid</h1>
+<p><a href="https://badge.fury.io/js/react-redux-grid"><img alt="npm version" src="https://badge.fury.io/js/react-redux-grid.svg" /></a><br />
+<a href="https://travis-ci.org/bencripps/react-redux-grid"><img alt="Build Status" src="https://travis-ci.org/bencripps/react-redux-grid.svg?branch=master" /></a><br />
+<a href="https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d"><img alt="Dependency Status" src="https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d/badge.svg?style=flat" /></a><br />
+<a href=""><img alt="npm" src="https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic" /></a><br />
+<a href="https://codecov.io/gh/bencripps/react-redux-grid"><img alt="codecov" src="https://codecov.io/gh/bencripps/react-redux-grid/branch/master/graph/badge.svg" /></a><br />
+<a href="https://gitter.im/bencripps/react-redux-grid"><img alt="Gitter" src="https://img.shields.io/gitter/room/bencripps/react-redux-grid.svg?maxAge=2592000" /></a><br />
+<a href="https://scrutinizer-ci.com/g/bencripps/react-redux-grid/?branch=master"><img alt="Scrutinizer Code Quality" src="https://scrutinizer-ci.com/g/bencripps/react-redux-grid/badges/quality-score.png?b=master" /></a><br />
+<a href="http://isitmaintained.com/project/bencripps/react-redux-grid" title="Average time to resolve an issue"><img alt="Average time to resolve an issue" src="http://isitmaintained.com/badge/resolution/bencripps/react-redux-grid.svg" /></a><br />
+<a href="http://isitmaintained.com/project/bencripps/react-redux-grid" title="Percentage of issues still open"><img alt="Percentage of issues still open" src="http://isitmaintained.com/badge/open/bencripps/react-redux-grid.svg" /></a><br />
+<a href="https://github.com/bencripps/react-redux-grid/blob/master/docs/CONTRIBUTING.MD"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /></a></p>
+<p>A Grid and Tree Component written in <a href="https://facebook.github.io/react">React</a> using the <a href="https://github.com/rackt/redux">Redux</a> Pattern.</p>
+<p><img alt="React Redux Grid" src="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/demo/demo.gif" /></p>
+<p><a href="http://react-redux-grid.herokuapp.com/">More Examples Available</a></p>
+<h2 id="features"><a name="user-content-features" href="#features" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Features</h2>
+<ul>
+<li>Flat List or Tree Structure</li>
+<li>Local and/or Remote Data Source</li>
+<li>Local and/or Remote Pagination</li>
+<li>Extensive and extendable Column Definitions</li>
+<li>Draggable Column Width/Resizing</li>
+<li>Draggable Column Ordering</li>
+<li>Sortable Columns</li>
+<li>Grid Action Menus</li>
+<li>Bulk Action Toolbar</li>
+<li>Selection Model (Single, MultiSelect, Checkbox)</li>
+<li>Event Handling for all kinds of DOM Events (List Below)</li>
+<li>Extendable and Modular Style Built with JavaScript</li>
+<li>Loading Mask</li>
+<li>Built-in Error Handling Module</li>
+</ul>
+<h2 id="installation"><a name="user-content-installation" href="#installation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Installation</h2>
+<pre><code class="bash">npm install react-redux-grid --save
+</code></pre>
+
+<p><strong>Fonts</strong> are not packaged with the grid component, as that&rsquo;s considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.</p>
+<h2 id="usage"><a name="user-content-usage" href="#usage" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Usage</h2>
+<pre><code class="javascript">import { Grid, Store } from 'react-redux-grid'
+
+const GridInstance = (
+    &lt;Grid
+        data={data}
+        stateKey={stateKey}
+        store={store}
+    /&gt;
+);
+</code></pre>
+
+<h2 id="creating-a-tree-grid"><a name="user-content-creating-a-tree-grid" href="#creating-a-tree-grid" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Creating a Tree Grid</h2>
+<p>For more information abot creating a tree grid, please see <a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/USING_TREE.md">tree grid in depth</a></p>
+<h2 id="which-store-do-i-use"><a name="user-content-which-store-do-i-use" href="#which-store-do-i-use" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Which Store do I use?</h2>
+<p>Because Redux imposes a single store pattern, it&rsquo;s very probable that you will need to use this grid with your own store. Well that&rsquo;s ok! The <code>demo</code> folder includes:</p>
+<ol>
+<li><code>index.html</code></li>
+<li><code>entry.js</code> The entry point for webpack to build all required assets</li>
+<li><code>provider.jsx</code> The Redux entry point, where your store will be declared</li>
+</ol>
+<p>This component will work out of the box, without installing a custom store. A store has been created within the components source files, but this store will be entirely ignored if a different store is passed to the grid.</p>
+<p>In the demo <code>provider.jsx</code>, we are simply passing the store at path<code>'../src/store/store';</code>. To use your own store, simply provide your own store (recommended) or overwrite the source store.</p>
+<p>If you elect to use a custom store, the core component&rsquo;s reducers are also exposed from within the core export. You can import a reducer like so:</p>
+<pre><code class="javascript">import { Reducers as gridReducers } from 'react-redux-grid';
+
+const rootReducer = combineReducers({
+    ...gridReducers,
+    yourCustomReducer
+};
+</code></pre>
+
+<p>For more information about importing <code>Reducers</code>, check out <a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/USING_GRID_REDUCERS.md">grid reducers in depth</a></p>
+<h2 id="whats-a-statekey"><a name="user-content-whats-a-statekey" href="#whats-a-statekey" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What&rsquo;s a <code>stateKey</code>?</h2>
+<p>A <code>stateKey</code> is a unique ID associated with each grid instantiation, and is a required parameter. Because all grid data is stored in a <code>reducer</code>, we need a unique key to access each grid&rsquo;s subsection of data in these objects. If a grid is instantiated without a <code>stateKey</code>, it will will throw a user error in the console. If a duplicate <code>stateKey</code> is passed to grid it will throw a user error in the console. In short, please provide a unique <code>stateKey</code> to each grid you create.</p>
+<h2 id="data"><a name="user-content-data" href="#data" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data</h2>
+<p>Data can be provided to a grid in two ways.</p>
+<ol>
+<li>As a Local Data Source (in memory)</li>
+<li>As a Remote Data Source, via AJAX (by providing a route, or a function which returns a <code>Promise</code>)</li>
+</ol>
+<p>If data is provided as a local variable it should be described as an array of objects, and declared using <code>data = [];</code>.</p>
+<p>If data is provided as a request route, it should be described as a string or a function and declared using <code>dataSource = path/to/data/source;</code>.</p>
+<p>If data is provided as a function, it should return a <code>Promise</code></p>
+<p>Examples of both cases:</p>
+<h3 id="local"><a name="user-content-local" href="#local" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Local</h3>
+<pre><code class="javascript">const data = [
+    {
+        name: 'Michael Jordan',
+        position: 'Shooting Guard'
+    },
+    {
+        name: 'Charles Barkley',
+        position: 'Power Forward'
+    }, ...
+];
+
+const grid = &lt;Grid data={ data } /&gt;
+</code></pre>
+
+<h3 id="remote-as-a-string"><a name="user-content-remote-as-a-string" href="#remote-as-a-string" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Remote &ndash; as a string</h3>
+<pre><code class="javascript">const dataSource = 'route/to/your/data/source';
+const grid = &lt;Grid dataSource={ dataSource } /&gt;
+</code></pre>
+
+<h3 id="remote-as-a-function-which-returns-a-promise"><a name="user-content-remote-as-a-function-which-returns-a-promise" href="#remote-as-a-function-which-returns-a-promise" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Remote &ndash; as a function which returns a promise</h3>
+<pre><code class="javascript">const dataSource = () =&gt; {
+
+    return new Promise((success) =&gt;{
+
+        return $.get({
+            method: 'GET',
+            route: '/route/to/your/data',
+        }).then((response) =&gt; {
+
+            // important to note, that the grid expects a data attribute
+            // on the response object!
+
+            const gridResponse = {
+                data: response.items,
+                success: true
+            };
+
+            success(gridResponse);
+        });
+
+    });
+};
+
+const grid = &lt;Grid dataSource= { dataSource } /&gt;
+ ```
+
+## Grid Level Parameters
+
+| Prop                | Type                    | Description       |
+|---------------------|-------------------------|-------------------|
+| stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
+| height              | int                     | the height of the grid container                                                                                                                               |
+| showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed                                                                                             |
+| classNames          | array                   | a list of strings to be applied to the grid container as classes                                                                                               |
+| events              | object                  | grid event object, more information below                                                                                                                      |
+| store               | object.isRequred        | redux store                                                                                                                                                    |
+| reducerKeys         | object                  | object describing custom named reducers, more information below                                                                                                |
+| pageSize            | int                     | number of records to shown on a single grid page                                                                                                               |
+| emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available                                                                     |
+| dragAndDrop         | bool                    | whether drag and drop of rows should be enabled                                                                                                                |
+| gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view                                                                                                            |
+
+## Plugins
+
+All Features are implemented as plugins. Plugin defaults are described as below. Their default values can be modified, and new plugins can be introduced with very little modification to core components.
+
+## Columns
+```javascript
+export const columns = [
+    {
+        name: 'Name',
+        dataIndex: 'name',
+        editor: '&lt;input type=&quot;text&quot; required /&gt;',
+        width: '10%',
+        className: 'additional-class',
+        renderer: ({ column, value, row }) =&gt; {
+               return (
+                   &lt;span&gt; Name: { value } &lt;/span&gt;
+                   );
+           },
+        hidden: false,
+        placeholder: 'Name',
+        validator: ({ value, values }) =&gt; {
+            return value.length &gt; 0;
+        },
+        change: ({ values }) =&gt; {
+            return {
+                otherColDataIndex: 'newValue'
+            };
+        },
+        disabled: ({ value, values }) =&gt; {
+            if (value === 'ShouldDisabled') {
+                return true;
+            }
+            return false;
+        },
+        hideable: false,
+        resizable: false,
+        moveable: false,
+        HANDLE_CLICK: () =&gt; { console.log('Header Click'); },
+        createKeyFrom: true
+    }
+];
+</code></pre>
+
+<p>Column Defaults:</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>title of column to be displayed</td>
+</tr>
+<tr>
+<td>dataIndex</td>
+<td>oneOfType([string, array])</td>
+<td>the key accessor for the column value (required parameter). if data is provided as a complex object, deeply nested data can be accessed by providing an array of keys</td>
+</tr>
+<tr>
+<td>editor</td>
+<td>jsx</td>
+<td>when an editor is used, this element will be rendered in place of the edited cell</td>
+</tr>
+<tr>
+<td>width</td>
+<td>int</td>
+<td>width of column (if none is provided, a default width will be applied)</td>
+</tr>
+<tr>
+<td>className</td>
+<td>array</td>
+<td>additional class names to apply to header of this column</td>
+</tr>
+<tr>
+<td>renderer</td>
+<td>func</td>
+<td>a function which returns the cell contents for this column</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>bool</td>
+<td>whether the column is hidden or visible</td>
+</tr>
+<tr>
+<td>hideable</td>
+<td>bool</td>
+<td>whether the column can be hidden</td>
+</tr>
+<tr>
+<td>moveable</td>
+<td>bool</td>
+<td>whether this column can be moved</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>the placeholder that will be used for the editor input</td>
+</tr>
+<tr>
+<td>validator</td>
+<td>func</td>
+<td>a func that should return a boolean, to determine if the newly input value is valid</td>
+</tr>
+<tr>
+<td>change</td>
+<td>func</td>
+<td>a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>oneOfType([func, bool])</td>
+<td>whether the field should be disabled while in edit mode.</td>
+</tr>
+<tr>
+<td>createKeyFrom</td>
+<td>bool</td>
+<td>see <a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/CREATE_KEY_FROM.md">full documentation on createKeyFrom</a></td>
+</tr>
+<tr>
+<td>sortFn</td>
+<td>func</td>
+<td>when a local sort action occurs, you can provide a method that will be passed to <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">sort</a></td>
+</tr>
+</tbody>
+</table>
+<p><code>dataIndex</code> Example:<br />
+<pre><code class="javascript">const data = {
+    outer: {
+        middle: {
+            inner: 'rowValue'
+        }
+    }
+};
+</code></pre></p>
+<p>You can access this data by providing the column the following dataIndex:</p>
+<pre><code class="javascript">const column = {
+    name: 'Value',
+    dataIndex: ['outer', 'middle', 'inner']
+};
+</code></pre>
+
+<h5 id="further-information"><a name="user-content-further-information" href="#further-information" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Further Information</h5>
+<ol>
+<li><a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/USING_CUSTOM_RENDERERS.md"><code>renderers</code> in depth</a></li>
+<li><a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/USING_CUSTOM_EDITORS.md"><code>editors</code> in depth</a></li>
+</ol>
+<h2 id="editor"><a name="user-content-editor" href="#editor" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Editor</h2>
+<pre><code class="javascript">export const plugins = {
+    EDITOR: {
+        type: 'inline',
+        enabled: true,
+        focusOnEdit: true
+    }
+}
+</code></pre>
+
+<p>Editor Defaults</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>oneOf([&lsquo;inline&rsquo;, &lsquo;grid&rsquo;])</td>
+<td>two editors are available by default. in grid mode, all fields are editable. in inline mode, only a single line is editable at a time</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>bool</td>
+<td>if true, the grid will have an editor available</td>
+</tr>
+<tr>
+<td>focusOnEdit</td>
+<td>bool</td>
+<td>focus the first editable input when an edit event occurs (defaults to true)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>type</code>: <code>string</code>, (<code>inline</code> || <code>grid</code>)</li>
+<li><code>enabled</code>: <code>boolean</code>, if true, an editor will be rendered</li>
+<li><code>focusOnEdit</code>: <code>boolean</code>, focus the first editable input when an edit event occurs (defaults to true)</li>
+</ol>
+<h2 id="column-manager"><a name="user-content-column-manager" href="#column-manager" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Column Manager</h2>
+<pre><code class="javascript">export const plugins = {
+    COLUMN_MANAGER: {
+        resizable: false
+        defaultColumnWidth: `${100 / columns.length}%`,
+        minColumnWidth: 10,
+        moveable: true,
+        headerActionItemBuilder: () =&gt; {},
+        sortable: {
+            enabled: true,
+            method: 'local',
+            sortingSource: 'http://url/to/sortingSource'
+        }
+    }
+}
+</code></pre>
+
+<p>Column Manager Defaults</p>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resizable</td>
+<td>bool</td>
+<td>will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array</td>
+</tr>
+<tr>
+<td>defaultColumnWidth</td>
+<td>int</td>
+<td>if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template</td>
+</tr>
+<tr>
+<td>minColumnWidth</td>
+<td>int</td>
+<td>the minimum width a column can be dragged to</td>
+</tr>
+<tr>
+<td>moveable</td>
+<td>bool</td>
+<td>whether the columns can be reordered by drag</td>
+</tr>
+<tr>
+<td>headerActionItemBuilder</td>
+<td>func</td>
+<td>build a custom jsx component to be used as the header action items</td>
+</tr>
+<tr>
+<td>sortable</td>
+<td>object</td>
+<td>an object that describes whether columns can be sorted</td>
+</tr>
+<tr>
+<td>sortable.enabled</td>
+<td>bool</td>
+<td>an object that describes whether columns can be sorted</td>
+</tr>
+<tr>
+<td>sortable.method</td>
+<td>oneOf([&lsquo;local&rsquo;, &lsquo;remote&rsquo;])</td>
+<td>focus the first editable input when an edit event occurs (defaults to true)</td>
+</tr>
+<tr>
+<td>sortable.sortingSource</td>
+<td>string</td>
+<td>focus the first editable input when an edit event occurs (defaults to true)</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><code>resizable</code>: <code>boolean</code>, will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array</li>
+<li><code>defaultColumnWidth</code>: <code>string template</code>, if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template</li>
+<li><code>minColumnWidth</code>: <code>int</code>, the minimum width a column can be dragged to</li>
+<li><code>moveable</code>: <code>boolean</code>, whether the columns can be reordered by drag</li>
+<li><code>headerActionItemBuilder</code>: <code>func</code>, build a custom jsx component to be used as the header action items</li>
+<li><code>sortable</code>: <code>object</code>, an object that describes whether columns can be sorted<br />
+6a. <code>sortable.enabled</code>: <code>boolean</code>,an object that describes whether columns can be sorted<br />
+6b. <code>sortable.method</code>: <code>string</code>, whether sorting will execute locally, or remotely, possible values: <code>['local', 'remote']</code><br />
+6c. <code>sortable.sortingSource</code>: <code>string</code>, where sorting data will be retrieved (a required parameter for remote sorting)</li>
+</ol>
+<h2 id="pagination"><a name="user-content-pagination" href="#pagination" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Pagination</h2>
+<pre><code class="javascript">export const plugins = {
+    PAGER: {
+        enabled: true,
+        pagingType: 'remote',
+        toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) =&gt; {
+            return `${pageIndex * pageSize} through ${pageIndex * pageSize + currentRecords} of ${total} ${recordType} Displayed`;
+        },
+        pagerComponent: false
+    }
+};
+</code></pre>
+
+<p>Pagination Defaults:</p>
+<ol>
+<li><code>enabled</code>: <code>boolean</code>, default value: <code>true</code></li>
+<li><code>pagingType</code>: <code>string</code>, default value; <code>local</code>, possible values: <code>['local', 'remote']</code></li>
+<li><code>toolbarRenderer</code>: <code>func</code>, a function which returns the template that describes current pagination state</li>
+<li><code>pagerComponent</code>: <code>jsx element</code>, if you&rsquo;d like to pass your own pager in, you can supply a jsx element which will replace the pager entirely</li>
+</ol>
+<h3 id="note-about-using-a-custom-pager"><a name="user-content-note-about-using-a-custom-pager" href="#note-about-using-a-custom-pager" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Note about using a Custom Pager</h3>
+<p>You can pass a <code>JSX</code> element to replace the pager entirely. This can be either a connected or unconnected component. To dispatch paging events, you can use the <code>Actions.PagerActions.setPageIndexAsync</code> or <code>Actions.PagerActions.setPage</code> that are exposed from the main export.</p>
+<p>Example:<br />
+<pre><code class="javascript">// my custom actionHandler that my custom component uses
+
+export const setPageIndex = (pageIndex, pageSize, dataSource) =&gt; {
+    return (dispatch) =&gt; {
+        // dispatch an event that the grid is listening for, which updates the current records
+        dispatch(
+            Actions.PagerActions
+                .setPageIndexAsync(pageIndex, pageSize, dataSource)
+        );
+
+        // dispatch an event that my custom toolbar is listening for
+        // to update the current pageIndex
+        dispatch({
+            type: SET_PAGE_INDEX,
+            pageIndex
+        });
+
+    };
+};
+</code></pre></p>
+<h2 id="grid-actions-row-menu-actions"><a name="user-content-grid-actions-row-menu-actions" href="#grid-actions-row-menu-actions" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Grid Actions (Row Menu Actions)</h2>
+<pre><code class="javascript">export const plugins = {
+    GRID_ACTIONS: {
+        iconCls: 'action-icon',
+        onMenuShow: ({ columns, rowData }) =&gt; {
+
+            console.log('This event fires before menushow');
+
+            if (rowData.isDisabled) {
+                return ['menu-item-key'] // this field will now be disabled
+            }
+
+        },
+        menu: [
+            {
+                text: 'Menu Item',
+                key: 'menu-item-key',
+                EVENT_HANDLER: () =&gt; {
+                    alert('Im a menu Item Action');
+                }
+            }
+        ]
+    }
+};
+</code></pre>
+
+<p>Grid Action Defaults</p>
+<ol>
+<li><code>iconCls</code>: <code>string</code>, class to be used for the action icon</li>
+<li><code>menu</code>: <code>arrayOf(object)</code>, menu items</li>
+<li><code>onMenuShow</code>: <code>func</code>, a method that fires upon menu action click. @return an array of <code>keys</code> to disable menu items that correspond with these keys.</li>
+</ol>
+<h3 id="notes-about-menu-items"><a name="user-content-notes-about-menu-items" href="#notes-about-menu-items" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Notes about Menu Items</h3>
+<p>Each object must contain a unique key relative to it&rsquo;s parent array. These keys will be used as the JSX element key.</p>
+<h2 id="sticky-headerfooter"><a name="user-content-sticky-headerfooter" href="#sticky-headerfooter" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Sticky Header/Footer</h2>
+<p>If you&rsquo;d like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header/footer feature.<br />
+<pre><code class="javascript">export const plugins = {
+    STICKY_HEADER: {
+        enabled: true,
+        scrollTarget: '#my-scrollable-div',
+        listener: customFunc
+    },
+    STICKY_FOOTER: {
+        enabled: true,
+        scrollTarget: '#my-scrollable-div',
+        listener: customFunc
+    }
+}
+</code></pre></p>
+<p>Sticky Header/Footer Defaults</p>
+<p>1.<code>enabled</code>: <code>boolean</code>, whether the sticky header is initialized<br />
+2. <code>scrollTarget</code>, <code>string</code>, optional, useds as a selector to find the scrollable parent<br />
+3. <code>listener</code>, <code>func</code>, optional, custom function to be called on scroll</p>
+<h2 id="selection-model"><a name="user-content-selection-model" href="#selection-model" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Selection Model</h2>
+<pre><code class="javascript">export const plugins = {
+    SELECTION_MODEL: {
+        mode: 'single',
+        enabled: true,
+        editEvent: 'singleclick',
+        allowDeselect: true,
+        activeCls: 'active-class',
+        selectionEvent: 'singleclick'
+    }
+};
+</code></pre>
+
+<p>Selection Model Defaults:</p>
+<ol>
+<li><code>mode</code>: <code>string</code>, determines whether a single value, or multiple values can be selected, and whether a checkbox column will be used, possible values <code>['single', 'multi', 'checkbox-single', 'checkbox-multi']</code></li>
+<li><code>editEvent</code>: <code>string</code>, (<code>singleclick</code>, <code>doubleclick</code>, <code>none</code>) what type of mouse event will trigger the editor</li>
+<li><code>enabled</code>: <code>boolean</code>, whether the selection model class is initialized</li>
+<li><code>allowDeselect</code>: <code>boolean</code>, whether a value can be deselected</li>
+<li><code>activeCls</code>: <code>string</code>, the class applied to active rows upon selection</li>
+<li><code>selectionEvent</code>: <code>string</code>, the browser event which triggers the selection event, possible values <code>['singleclick', 'doubleclick']</code></li>
+</ol>
+<h2 id="error-handler"><a name="user-content-error-handler" href="#error-handler" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Error Handler</h2>
+<p><pre><code class="javascript">export const plugins = {
+    ERROR_HANDLER: {
+        defaultErrorMessage: 'AN ERROR OCURRED',
+        enabled: true
+    }
+};
+</code></pre><br />
+Error Handler Defaults</p>
+<ol>
+<li><code>defaultErrorMessage</code>: <code>string</code>, the default error message to display when no error information is available</li>
+<li><code>enabled</code>: <code>string</code>, whether the error handler should be used</li>
+</ol>
+<h2 id="loader"><a name="user-content-loader" href="#loader" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Loader</h2>
+<pre><code class="javascript">export const plugins = {
+    LOADER: {
+        enabled: true
+    }
+};
+</code></pre>
+
+<p>Loader Defaults:</p>
+<ol>
+<li><code>enabled</code>: <code>boolean</code>, whether the default loading mask should be used</li>
+</ol>
+<p>Loader css can be modified or overwritten using <code>src/style/components/plugins/loader/loadingbar.styl</code></p>
+<h2 id="bulk-actions"><a name="user-content-bulk-actions" href="#bulk-actions" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Bulk Actions</h2>
+<pre><code class="javascript">export const plugins = {
+    BULK_ACTIONS: {
+        enabled: true,
+        actions: [
+            {
+                text: 'Bulk Action Button',
+                EVENT_HANDLER: () =&gt; {
+                    console.log('Doing a bulk action');
+                }
+            }
+        ]
+    }
+};
+</code></pre>
+
+<p>Bulk Action Defaults</p>
+<ol>
+<li><code>enabled</code>: <code>string</code>, whether the bulk action toolbar should be used</li>
+<li><code>actions</code>: <code>array of objects</code>, the actions (including button text, and event handler) that will be displayed in the bar</li>
+</ol>
+<h2 id="events"><a name="user-content-events" href="#events" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Events</h2>
+<p>All grid events are passed in as a single object.<br />
+<pre><code class="javascript">export const events = {
+    HANDLE_CELL_CLICK: () =&gt; {},
+    HANDLE_CELL_DOUBLE_CLICK: () =&gt; {},
+    HANDLE_BEFORE_ROW_CLICK: () =&gt; {},
+    HANDLE_ROW_CLICK: () =&gt; {},
+    HANDLE_ROW_DOUBLE_CLICK: () =&gt; {},
+    HANDLE_BEFORE_SELECTION: () =&gt; {},
+    HANDLE_AFTER_SELECTION: () =&gt; {},
+    HANDLE_BEFORE_INLINE_EDITOR_SAVE: () =&gt; {},
+    HANDLE_AFTER_INLINE_EDITOR_SAVE: () =&gt; {},
+    HANDLE_BEFORE_BULKACTION_SHOW: () =&gt; {},
+    HANDLE_AFTER_BULKACTION_SHOW: () =&gt; {},
+    HANDLE_BEFORE_SORT: () =&gt; {},
+    HANLE_BEFORE_EDIT: () =&gt; {},
+    HANDLE_AFTER_SELECT_ALL: () =&gt; {},
+    HANDLE_AFTER_DESELECT_ALL: () =&gt; {},
+    HANDLE_AFTER_ROW_DROP: () =&gt; {},
+    HANDLE_BEFORE_TREE_CHILD_CREATE: () =&gt; {}
+};
+</code></pre></p>
+<p>Each function is passed two arguments, the first is a context object which will contain metadata about the event, and the second argument is the browser event if applicable.</p>
+<pre><code class="js">HANDLE_CELL_CLICK = ({ row, rowId, rowIndex }, e) =&gt; {}
+</code></pre>
+
+<h2 id="style"><a name="user-content-style" href="#style" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Style</h2>
+<p>All core components and plugins have corresponding <code>.styl</code> files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend within <code>src/constants/gridConstants.js</code></p>
+<p>To update <code>CLASS_NAMES</code> or the <code>CSS_PREFIX</code> dynamically, you can use the <code>applyGridConfig</code> function. More information is available <a href="/Users/benjamin.cripps/Documents/Dev/jss/reactgrid/docs/USING_GRID_CONFIG.md">here</a></p>
+<pre><code class="javascript">
+export const CSS_PREFIX = 'react-grid';
+
+export const CLASS_NAMES = {
+    ACTIVE_CLASS: 'active',
+    DRAG_HANDLE: 'drag-handle',
+    SORT_HANDLE: 'sort-handle',
+    SECONDARY_CLASS: 'secondary',
+    CONTAINER: 'container',
+    TABLE: 'table',
+    HEADER: 'header',
+    ROW: 'row',
+    CELL: 'cell',
+    PAGERTOOLBAR: 'pager-toolbar',
+    EMPTY_ROW: 'empty-row',
+    LOADING_BAR: 'loading-bar',
+    DRAGGABLE_COLUMN: 'draggable-column',
+    COLUMN: 'column',
+    SORT_HANDLE_VISIBLE: 'sort-handle-visible',
+    BUTTONS: {
+        PAGER: 'page-buttons'
+    },
+    SELECTION_MODEL: {
+        CHECKBOX: 'checkbox',
+        CHECKBOX_CONTAINER: 'checkbox-container'
+    },
+    ERROR_HANDLER: {
+        CONTAINER: 'error-container',
+        MESSAGE: 'error-message'
+    },
+    EDITOR: {
+        INLINE: {
+            CONTAINER: 'inline-editor',
+            SHOWN: 'shown',
+            HIDDEN: 'hidden',
+            SAVE_BUTTON: 'save-button',
+            CANCEL_BUTTON: 'cancel-button',
+            BUTTON_CONTAINER: 'button-container'
+        }
+    },
+    GRID_ACTIONS: {
+        CONTAINER: 'action-container',
+        SELECTED_CLASS: 'action-menu-selected',
+        MENU: {
+            CONTAINER: 'action-menu-container',
+            ITEM: 'action-menu-item'
+        }
+    },
+    BULK_ACTIONS: {
+        CONTAINER: 'bulkaction-container',
+        DESCRIPTION: 'bulkaction-description',
+        SHOWN: 'shown',
+        HIDDEN: 'hidden'
+    }
+
+};
+</code></pre>
+
+<h2 id="faq"><a name="user-content-faq" href="#faq" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>FAQ</h2>
+<h4 id="what-if-i-want-to-use-my-own-store-but-i-want-to-name-the-reducer-keys-myself"><a name="user-content-what-if-i-want-to-use-my-own-store-but-i-want-to-name-the-reducer-keys-myself" href="#what-if-i-want-to-use-my-own-store-but-i-want-to-name-the-reducer-keys-myself" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>What if I want to use my own store, but I want to name the reducer keys myself?</h4>
+<p>This is possible. You simply need to pass the reducer name as a <code>prop</code>.<br />
+<pre><code class="javascript">const gridProps = {
+    reducerKeys: {
+        grid: 'YOUR_GRID_REDUCER_KEY'
+    },
+    store
+};
+
+const grid = &lt;Grid { ...gridProps } /&gt;;
+</code></pre></p>
+<h4 id="i-see-fonts-arent-included-in-the-package-do-i-have-to-build-them-with-my-webpack-do-i-have-to-use-them-at-all"><a name="user-content-i-see-fonts-arent-included-in-the-package-do-i-have-to-build-them-with-my-webpack-do-i-have-to-use-them-at-all" href="#i-see-fonts-arent-included-in-the-package-do-i-have-to-build-them-with-my-webpack-do-i-have-to-use-them-at-all" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>I see fonts aren&rsquo;t included in the package. Do I have to build them with my webpack? Do I have to use them at all?</h4>
+<p>The grid expects FontAwesome to be available. The grid component doesn&rsquo;t ship with fonts since that&rsquo;s a bad practice. For the grid to work correcrly, you will need to make FontAwesome available either via build process, or linking to them externally.</p>
+<p>Please see font awesome&rsquo;s documentation for more <a href="http://fontawesome.io/">information</a></p></article></body></html>
