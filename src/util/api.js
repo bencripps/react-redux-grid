@@ -1,4 +1,4 @@
-function api(config) {
+export const Api = (config) => {
     const promise = new Promise((resolve) => {
 
         if (!config.method) {
@@ -24,9 +24,9 @@ function api(config) {
     });
 
     return promise;
-}
+};
 
-function setRequestHeaders(request, config) {
+export const setRequestHeaders = (request = {}, config = {}) => {
 
     if (!config.headers || !config.headers.contentType) {
         request.setRequestHeader(
@@ -39,11 +39,11 @@ function setRequestHeaders(request, config) {
     }
 
     for (const key of Object.keys(config.headers)) {
-        request.setRequestHeader(key, config.additionalHeaders[key]);
+        request.setRequestHeader(key, config.headers[key]);
     }
-}
+};
 
-function addAjaxEvents(request, config, resolver) {
+export const addAjaxEvents = (request, config, resolver) => {
 
     const getResponse = () => {
         try {
@@ -60,27 +60,25 @@ function addAjaxEvents(request, config, resolver) {
     request.addEventListener(
         'load', getResponse.bind(config.onSuccess, config.onSuccess)
     );
-}
+};
 
-function buildQueryString(config) {
+export const buildQueryString = (config = {}) => {
 
-    let builtUrl = config.route + '?' + '_dc=' + Date.now() + '&';
+    const ret = {
+        route: config.route + '?' + '_dc=' + Date.now() + '&'
+    };
 
     if (!config.queryStringParams) {
-        return config;
+        return ret;
     }
 
     for (const key of Object.keys(config.queryStringParams)) {
         if (config.queryStringParams[key]) {
-            builtUrl += key + '=' + config.queryStringParams[key] + '&';
+            ret.route += key + '=' + config.queryStringParams[key] + '&';
         }
     }
 
-    config.route = builtUrl;
-}
-
-const Request = {
-    api: api
+    return ret;
 };
 
-export default Request;
+export default Api;

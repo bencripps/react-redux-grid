@@ -16,6 +16,63 @@ import {
 
 describe('The getAsyncData actions', () => {
 
+    it('Should return a successful res with a string', (done) => {
+
+        const res = [];
+
+        getAsyncData({
+            dataSource: 'some/url',
+            stateKey: 'test-grid'
+        })((resp) => {
+            res.push(resp);
+        });
+
+        setTimeout(() => {
+            expect(res).toEqual([
+                {
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/DISMISS_EDITOR'
+                },
+                {
+                    state: true,
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
+                }
+            ]);
+            done();
+        }, 10);
+
+    });
+
+    it('Should return a successful res with a string as tree', (done) => {
+
+        const res = [];
+
+        getAsyncData({
+            dataSource: 'some/url',
+            stateKey: 'test-grid',
+            type: 'tree'
+        })((resp) => {
+            res.push(resp);
+        });
+
+        setTimeout(() => {
+            expect(res).toEqual([
+                {
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/DISMISS_EDITOR'
+                },
+                {
+                    state: true,
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
+                }
+            ]);
+            done();
+        }, 10);
+
+    });
+
     it('Should return a successful res with a function', (done) => {
 
         const read = () => {
@@ -166,6 +223,35 @@ describe('The getAsyncData actions', () => {
 
     });
 
+    it([
+        'Should return the correct remote sort ',
+        'response when datasource is a string'].join(''), (done) => {
+        const res = [];
+
+        const dispatch = val => (res.push(val));
+
+        doRemoteSort({
+            dataSource: 'some/url',
+            pageIndex: 1,
+            pageSize: 30,
+            sortParams: {
+                name: 'ASC'
+            },
+            stateKey: 'test-grid'
+        })(dispatch);
+
+        setTimeout(() => {
+            expect(res).toEqual([
+                {
+                    state: true,
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
+                }
+            ]);
+            done();
+        }, 10);
+
+    });
 });
 
 describe('The setColumns actions', () => {

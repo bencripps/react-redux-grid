@@ -9,7 +9,7 @@ import { setLoaderState } from '../../../actions/plugins/loader/LoaderActions';
 
 import { dismissEditor } from '../../../actions/plugins/editor/EditorActions';
 
-import Request from '../../../components/plugins/ajax/Request';
+import Api from '../../../util/api';
 
 export const setPage = ({ index, type, BUTTON_TYPES }) => {
     const pageIndex = type === BUTTON_TYPES.NEXT ? index + 1 : index - 1;
@@ -108,7 +108,7 @@ export const setPageAsync = ({
             setLoaderState({ state: true, stateKey })
         );
 
-        return Request.api({
+        return Api({
             route: dataSource,
             method: 'GET',
             queryStringParams: {
