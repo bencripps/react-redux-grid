@@ -76,6 +76,7 @@ module.exports = function exports(config) {
             },
             externals: {
                 cheerio: 'window',
+                window: 'window',
                 'react/lib/ExecutionEnvironment': true,
                 'react/lib/ReactContext': true
             },

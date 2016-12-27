@@ -19,7 +19,7 @@ import { keyGenerator } from '../util/keyGenerator';
 
 import { treeToFlatList } from '../util/treeToFlatList';
 
-import Request from '../components/plugins/ajax/Request';
+import Api from '../util/api';
 
 export const getAsyncData = ({
     stateKey, dataSource, type, showTreeRootNode, extraParams = {}
@@ -108,7 +108,7 @@ export const getAsyncData = ({
 
             if (type !== 'tree') {
 
-                return Request.api({
+                return Api({
                     route: dataSource,
                     method: 'GET'
                 }).then((response) => {
@@ -143,7 +143,7 @@ export const getAsyncData = ({
 
             }
 
-            return Request.api({
+            return Api({
                 route: dataSource,
                 method: 'GET',
                 queryStringParams: {
@@ -283,7 +283,7 @@ export const doRemoteSort = ({
 
         }
 
-        return Request.api({
+        return Api({
             route: dataSource,
             method: 'POST',
             data: {
