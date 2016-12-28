@@ -49,7 +49,6 @@ export const addAjaxEvents = (request, config, resolver) => {
         try {
             resolver(JSON.parse(request.responseText));
         }
-
         catch (e) {
             /* eslint-disable no-console */
             console.log(e);

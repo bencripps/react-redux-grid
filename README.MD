@@ -333,7 +333,7 @@ export const plugins = {
 | Prop                      | Type                                                            | Description |
 |---------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | mode                      | oneOf(['single', 'multi', 'checkbox-single', 'checkbox-multi']) | determines whether a single value, or multiple values can be selected                                         |
-| editEvent                 | onOf([(`singleclick`, `doubleclick`, `none`)])                  | what type of mouse event will trigger the editor                                                              |
+| editEvent                 | oneOf(['singleclick', 'doubleclick', 'none'])                  | what type of mouse event will trigger the editor                                                              |
 | enabled                   | bool                                                            | whether the selection model class is initialized                                                              |
 | allowDeselect             | bool                                                            | whether a value can be deselected                                                                             |
 | activeCls                 | string                                                          | the class applied to active rows upon selection                                                               |

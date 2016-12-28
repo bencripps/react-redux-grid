@@ -16,6 +16,17 @@ import {
 
 describe('The getAsyncData actions', () => {
 
+    let xhr;
+    let requests;
+
+    beforeEach(() => {
+        xhr = sinon.useFakeXMLHttpRequest();
+        requests = [];
+        xhr.onCreate = (r) => {
+            requests.push(r);
+        };
+    });
+
     it('Should return a successful res with a string', (done) => {
 
         const res = [];
@@ -44,6 +55,53 @@ describe('The getAsyncData actions', () => {
 
     });
 
+    it('Should return a successful res with a string and response', (done) => {
+
+        const res = [];
+
+        getAsyncData({
+            dataSource: 'some/url',
+            stateKey: 'test-grid'
+        })((resp) => {
+            res.push(resp);
+        });
+
+        requests[0].respond(
+            200,
+            { 'Content-Type': 'application/json' },
+            JSON.stringify({ data: [] })
+        );
+
+        setTimeout(() => {
+            expect(res).toEqual([
+                {
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/DISMISS_EDITOR'
+                },
+                {
+                    state: true, stateKey: 'test-grid',
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
+                },
+                {
+                    currentRecords: [],
+                    data: [],
+                    editMode: undefined,
+                    stateKey: 'test-grid',
+                    success: true,
+                    total: undefined,
+                    type: '@@react-redux-grid/SET_DATA'
+                },
+                {
+                    state: false,
+                    stateKey: 'test-grid',
+                    type: '@@react-redux-grid/SET_LOADING_STATE'
+                }
+            ]);
+            done();
+        }, 1000);
+
+    });
+
     it('Should return a successful res with a string as tree', (done) => {
 
         const res = [];
@@ -69,7 +127,7 @@ describe('The getAsyncData actions', () => {
                 }
             ]);
             done();
-        }, 10);
+        }, 1000);
 
     });
 
