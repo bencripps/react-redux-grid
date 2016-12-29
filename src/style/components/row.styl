@@ -1,39 +1,39 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
   .row
-    background-color whitecolor
+    background-color $whitecolor
     box-sizing border-box
     cursor pointer
     text-overflow ellipsis
     transition(background-color)
 
     &:hover
-      background-color rowhovercolor
+      background-color $rowhovercolor
 
     &.empty-row
+      height $rowheight * 4
       text-align center
-      height rowheight * 4
 
-    &.{dragclass}
-      background-color dragblue
-      color dragblue
+    &.{$dragclass}
+      background-color $dragblue
+      color $dragblue
 
-    &.{activeclass}
-      background-color strongcolor
+    &.{$activeclass}
+      background-color $strongcolor
 
-    &.{editclass}
-      color whitecolor
-      background-color editcolor
+    &.{$editclass}
+      background-color $editcolor
       boxshadow()
+      color $whitecolor
 
       .action-menu-container
         color initial
 
         &:hover
-          background-color editcolor
+          background-color $editcolor
 
         td
           border-bottom: 2px solid transparent
 
           &:focus
-            border-bottom: 2px solid actioncolor
+            border-bottom: 2px solid $actioncolor
             outline none

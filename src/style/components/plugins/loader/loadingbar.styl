@@ -1,46 +1,47 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
     .loading-bar
-        display none
+      display none
+      height 4px
+      position absolute
+      width 100%
+
+      &.active
+        display block
+
+      &::before
+        animation loading 2s linear infinite
+        background-color $actioncolor
+        content ''
+        display block
+        height 4px
+        left -200px
         position absolute
-        height: 4px
-        width: 100%
-        
-        &.active
-            display block
-        
-        &::before
-            display block
-            position absolute
-            content ""
-            left -200px
-            width 200px
-            height 4px
-            background-color actioncolor
-            animation loading 2s linear infinite
-            
-        @keyframes loading {
-            from {
-                left: 0px; width: 30%;
-            }
-            
-            50% {
-                width: 30%;
-            }
-            
-            70% {
-                width: 44%;
-            }
-            
-            80% {   
-                left: 55%;
-            }
-            
-            95% {
-                left: 66%;
-            }
-            
-            to {
-                left: 72%;
-            }
+        width 200px
+
+      @keyframes loading {
+        from {
+            left 0px
+            width 30%
         }
+
+        50% {
+            width 30%
+        }
+
+        70% {
+            width 44%
+        }
+
+        80% {
+            left 55%
+        }
+
+        95% {
+            left 66%
+        }
+
+        to {
+            left 72%
+        }
+      }

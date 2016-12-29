@@ -1,41 +1,41 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
-    .error-container
-        background-color lightcolor
-        bottom 0px
-        boxshadow()
-        color strongcolor
-        height: 100px
-        left 0px
-        margin auto
+  .error-container
+    background-color $lightcolor
+    bottom 0
+    boxshadow()
+    color $strongcolor
+    height 100px
+    left 0
+    margin auto
+    opacity 0
+    perspective 1300px
+    position absolute
+    right 0
+    top -10000px
+    transform rotateX(-70deg)
+    transform-style preserve-3d
+    transition transform .2s
+    zindex('.error-container')
+    width 50%
+
+      .error-message
+        color $fontcolor
+        font-family $fontfamily
+        height 20px
+        left 0
+        margin-top -20px
         position absolute
-        perspective 1300px
-        transform-style preserve-3d
-        transform rotateX(-70deg)
-        transition transform 0.2s
-        opacity 0
-        right 0px
-        top -10000px
-        width 50%
-        zindex('.error-container')
-        
-        .error-message
-            color fontcolor
-            font-family fontfamily
-            height 20px
-            margin-top -20px
-            top 50%
-            left 0
-            right 0
-            position absolute
-            
-        button 
-            button(actioncolor)
-            position absolute
-            right 10px
-            bottom 10px     
-            
-        &.shown 
-            top 0px
-            transform rotateX(0deg)
-            opacity 1
+        right 0
+        top 50%
+
+      button
+        bottom 10px
+        button($actioncolor)
+        position absolute
+        right 10px
+
+      &.shown
+        opacity 1
+        top 0
+        transform rotateX(0deg)

@@ -1,36 +1,36 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
     .table
-        border-radius 4px
-        border-collapse collapse
-        font-size fontsize
-        position relative
-        text-align left
-        table-layout fixed
-        white-space nowrap
-        width: 100%
+      border-collapse collapse
+      border-radius 4px
+      font-size $fontsize
+      position relative
+      table-layout fixed
+      text-align left
+      white-space nowrap
+      width: 100%
 
-        &.header-fixed
-            box-shadow none
-            zindex('.fixed-header')
-            
-            &.header-stuck
-                margin-left auto
-                margin-right auto
-                position fixed
-                top 0
-                
-            &.header-stuck-bottom
-                position absolute    
-        
-        
-        &.header-hidden
-            thead,
-            thead *
-                border 0
-                height 0
-            
-            thead th *
-                border 0
-                display none
-                height 0
+      &.header-fixed
+        box-shadow none
+        zindex('.fixed-header')
+
+        &.header-stuck
+          margin-left auto
+          margin-right auto
+          position fixed
+          top 0
+
+        &.header-stuck-bottom
+          position absolute
+
+
+      &.header-hidden
+          thead,
+          thead *
+            border none
+            height 0
+
+          thead th *
+            border none
+            display none
+            height 0

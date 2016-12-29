@@ -1,69 +1,69 @@
-button(backgroundcolor, color = whitecolor)
-    background-color backgroundcolor
-    border-radius(3px)
+button($backgroundcolor, $color = $whitecolor)
+    background-color $backgroundcolor
     border none
-    color color
+    border-radius(3px)
+    color $color
     cursor pointer
-    font-family fontfamily
+    font-family $fontfamily
     opacity 1
 
     &:focus
-        outline none
+      outline none
 
     &:active
-        opacity 1
-        background-color lighten(backgroundcolor, 30%)
+      background-color lighten($backgroundcolor, 30%)
+      opacity 1
 
     &:hover
         opacity .6
 
     &:disabled
-        background-color whitecolor
-        color blackcolor
-        cursor initial
+      background-color $whitecolor
+      color $blackcolor
+      cursor initial
 
 border-radius()
-  -webkit-border-radius arguments
   -moz-border-radius arguments
+  -webkit-border-radius arguments
   border-radius arguments
 
-boxshadow(depth = 1, shadowcolor = rgba(0,0,0,0.16), secondaryshadowcolor = rgba(0,0,0,0.23))
-    box-shadow: depth * 2px depth * 3px depth * 6px shadowcolor, 0 3px 6px secondaryshadowcolor
+boxshadow($depth = 1, $shadowcolor = rgba(0, 0, 0, .16), $secondaryshadowcolor = rgba(0, 0, 0, .23))
+    box-shadow: $depth * 2px $depth * 3px $depth * 6px $shadowcolor, 0 3px 6px $secondaryshadowcolor
 
 webfont($family, $files...)
     @font-face
-        font-family $family
-        for $file in $files
-            $font = $file.path
-            $type = $file.type
-            $format = $file.format
-            src url($font + $type) format($format)
-        font-weight normal
-        font-style normal
+      font-family $family
+      for $file in $files
+          $font = $file.path
+          $type = $file.type
+          $format = $file.format
+          src url($font + $type) format($format)
+      font-style normal
+      font-weight normal
 
 input()
-    border 1px solid strongcolor
-    border-radius(3px)
-    font-family fontfamily
-    font-size fontsize
-    color editcolor
-    display inline-block
-    padding 0px
-    text-indent 5px
-    transition(color)
+  border 1px solid $strongcolor
+  border-radius(3px)
+  color $editcolor
+  display inline-block
+  font-family $fontfamily
+  font-size $fontsize
+  padding 0
+  text-indent 5px
+  transition(color)
 
-    &:focus
-        color darken(editcolor, 20%)
-        outline none
+  &:focus
+    color darken($editcolor, 20%)
+    outline none
 
 multipletransition(arguments...)
-    transition((arguments))
+  transition((arguments))
 
-transition(property, duration = 150ms, function = cubic-bezier(.17,.67,.83,.67))
-    transition-duration duration
-    transition-property property
-    transition-timing-function function
+transition($property, $duration = 150ms, $function = cubic-bezier(.17, .67, .83, .67))
+  transition-duration $duration
+  transition-property $property
+  transition-timing-function $function
 
-zindex(elem)
-  z-index zarray[elem]
+zindex($elem)
+  z-index $zarray[$elem]
 

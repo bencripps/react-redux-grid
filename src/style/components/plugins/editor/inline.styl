@@ -1,34 +1,34 @@
-+prefix-classes(prefix)
-    
++prefix-classes($prefix)
+
     .inline-editor
-        opacity 0
-        position absolute
-        left: 0px;
-        transform translateX(0px) translateY(0px)
-        text-align center
-        margin: 0px auto;
-        multipletransition(transform, opacity)
-        pointer-events none
-        right 0px
-        
-        .button-container
-            background-color editcolor
-            border-radius(3px)
-            boxshadow()
-            display inline-block
-            margin-top 5px
-            padding 5px
-            pointer-events all
-            
-            .save-button
-                button(actioncolor)
-            .cancel-button
-                button(lightcolor, blackcolor)
-        
-        &.shown
-            opacity 1
-            display block
-            transform translateY(-7px)
-            
-        &.hidden
-            top -10000px
+      left 0
+      margin 0 auto
+      multipletransition(transform, opacity)
+      opacity 0
+      pointer-events none
+      position absolute
+      right 0
+      text-align center
+      transform translateX(0px) translateY(0px)
+
+      .button-container
+        background-color $editcolor
+        border-radius(3px)
+        boxshadow()
+        display inline-block
+        margin-top 5px
+        padding 5px
+        pointer-events all
+
+        .save-button
+          button($actioncolor)
+        .cancel-button
+          button($lightcolor, $blackcolor)
+
+    &.shown
+      display block
+      opacity 1
+      transform translateY(-7px)
+
+    &.hidden
+      top -10000px

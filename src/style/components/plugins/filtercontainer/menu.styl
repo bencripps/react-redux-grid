@@ -1,46 +1,46 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
     .advanced-filter-menu-container
-        background-color lightcolor
-        border-radius(3px)
-        boxshadow(5)
-        font-family fontfamily
-        position absolute
-        right 10px
-        top 24px
-        width 400px
-        zindex('.filter-menu-container')
-        
-        .advanced-filter-menu-title
-            display inline-block
-            padding 5px 10px
-            
-        .advanced-filter-menu-field-container
-            display block
-            padding 5px 0px
-            text-align left
-            font-size cellfontsize
-            margin 0px auto
-            width 90%
-            
-            .advanced-filter-menu-field-label
-                display inline-block
-                padding 5px 0px
-            
-            .advanced-filter-menu-field-input
-                input()
-                width 100%
-        
-        .advanced-filter-menu-button-container           
-            padding 10px 10px
-            margin 0px auto
-            width 90%
-            text-align left
-            
-            .advanced-filter-menu-button
-                button(actioncolor)
-                margin-right 5px
-                
-                &.secondary
-                    button(whitecolor)
-                    color blackcolor
+      background-color $lightcolor
+      border-radius(3px)
+      boxshadow(5)
+      font-family $fontfamily
+      position absolute
+      right 10px
+      top 24px
+      width 400px
+      zindex('.filter-menu-container')
+
+      .advanced-filter-menu-title
+        display inline-block
+        padding 5px 10px
+
+      .advanced-filter-menu-field-container
+        display block
+        font-size $cellfontsize
+        margin 0 auto
+        padding 5px 0
+        text-align left
+        width 90%
+
+        .advanced-filter-menu-field-label
+          display inline-block
+          padding 5px 0
+
+        .advanced-filter-menu-field-input
+          input()
+          width 100%
+
+      .advanced-filter-menu-button-container
+        margin 0 auto
+        padding 10px
+        text-align left
+        width 90%
+
+        .advanced-filter-menu-button
+          button($actioncolor)
+          margin-right 5px
+
+          &.secondary
+            button($whitecolor)
+            color $blackcolor
