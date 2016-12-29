@@ -39,12 +39,6 @@ export default class DragAndDropManager {
         }
     }
 
-    handleDrag() {}
-
-    handleDragOver() {
-
-    }
-
     handleDragLeave(reactEvent) {
         reactEvent.preventDefault();
     }

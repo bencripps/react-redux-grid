@@ -41,13 +41,43 @@ describe('The grid draganddrop manager', () => {
 
     });
 
-    it('Should fire events', () => {
+    it('Should fire events without throwing', () => {
 
         const manager = new DragAndDropManager();
 
-        const defaults = manager.initDragable({
+        manager.initDragable({
             draggable: false,
             className: 'custom-drag'
+        });
+
+        manager.handleDragStart({
+            dataTransfer: {
+                setData: sinon.spy(),
+                setDragImage: sinon.spy()
+            }
+        });
+
+        manager.handleDragLeave({
+            preventDefault: sinon.spy()
+        });
+
+        manager.handleDragEnd({
+            preventDefault: sinon.spy()
+        });
+
+        manager.handleDrop({
+            preventDefault: sinon.spy(),
+            dataTransfer: {
+                getData: () => '{}'
+            }
+        });
+
+        manager.handleDrop({
+            preventDefault: sinon.spy(),
+            dataTransfer: {
+                getData: () => '{ "preventBubble": true }'
+            },
+            stopPropagation: sinon.spy()
         });
 
     });
