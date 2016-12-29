@@ -1,19 +1,19 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
     .cell
-        border-bottom 1px solid lightcolor
-        box-sizing border-box
-        font-family fontfamily
-        font-size cellfontsize
-        height rowheight
-        overflow hidden
-        padding 0px 10px 0px 10px
-        position relative
-        text-overflow ellipsis
-        line-height 25px
+      border-bottom 1px solid $lightcolor
+      box-sizing border-box
+      font-family $fontfamily
+      font-size $cellfontsize
+      height $rowheight
+      line-height 25px
+      overflow hidden
+      padding 0 10px
+      position relative
+      text-overflow ellipsis
 
-        &.edit
-          overflow visible
+      &.edit
+        overflow visible
 
-        .inactive
-            pointer-events none
+      .inactive
+        pointer-events none

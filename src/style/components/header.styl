@@ -1,96 +1,94 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
 
-    .header-fixed-container
-      &.hidden
-        opacity 0
-
+    .header-fixed-container.hidden
+      opacity 0
 
     .header
-        background-color lightcolor
-        border-bottom: 1px solid strongcolor
-        color fontcolor
-        font-family fontfamily
-        height headerheight
+      background-color $lightcolor
+      border-bottom: 1px solid $strongcolor
+      color $fontcolor
+      font-family $fontfamily
+      height $headerheight
 
-        &.{headerhidden}
-            visibility hidden
-
-            th
-                border none
-                height 0px
-                padding-bottom 0px
-                padding-top 0px
-
-                &.checkbox-container
-                    border none
-                    height 0
-                    margin 0
+      &.{$headerhidden}
+        visibility hidden
 
         th
-            position relative
-            text-overflow ellipsis
+          border none
+          height 0
+          padding-bottom 0
+          padding-top 0
 
-            &.checkbox-container
-                border-bottom 1px solid strongcolor
+          &.checkbox-container
+            border none
+            height 0
+            margin 0
 
-                &.hidden
-                  .checkbox
-                    visibility hidden
+      th
+        position relative
+        text-overflow ellipsis
 
-            .column
-                display inline-block
-                height headerheight
-                overflow hidden
-                position relative
-                text-overflow ellipsis
-                top 6px
-                width 80%
+        &.checkbox-container
+          border-bottom 1px solid $strongcolor
 
-            &.sort-handle-visible
-               .{sorthandleclass}
-                   visibility visible
+          &.hidden
+            .checkbox
+              visibility hidden
 
-            .{sorthandleclass}
-                float left
-                transition(opacity)
-                visibility hidden
+        .column
+          display inline-block
+          height $headerheight
+          overflow hidden
+          position relative
+          text-overflow ellipsis
+          top 6px
+          width 80%
 
-                &.desc
-                    icon('sort-up')
-                    &::before
-                        top -1px
+        &.sort-handle-visible
+          .{$sorthandleclass}
+              visibility visible
 
-                &.asc
-                    icon('sort-down')
+        .{$sorthandleclass}
+          float left
+          transition(opacity)
+          visibility hidden
 
-                &::before
-                    cursor pointer
-                    position relative
-                    right 1px
+          &.desc
+            icon('sort-up')
+            &::before
+              top -1px
 
-            .{draghandleclass}
+            &.asc
+              icon('sort-down')
 
-                &::after
-                    border-right 1px solid lightcolor
-                    content ' '
-                    cursor ew-resize
-                    position absolute
-                    right 0px
-                    top 0px
-                    width: 10px
-                    height 100%
-                    transition(border)
+            &::before
+              cursor pointer
+              position relative
+              right 1px
 
-            &:hover
-                .{draghandleclass}
-                    &::after
-                        border-color strongcolor
+        .{$draghandleclass}
 
-        th:nth-last-child(1), th:nth-last-child(2)
-            overflow initial
+          &::after
+            border-right 1px solid $lightcolor
+            content ' '
+            cursor ew-resize
+            height 100%
+            position absolute
+            right 0
+            top 0
+            transition(border)
+            width: 10px
 
-            .{draghandleclass}
-                &::after
-                    border none
-                    cursor auto
+          &:hover
+            .{$draghandleclass}
+              &::after
+                border-color $strongcolor
+
+      th:nth-last-child(1), th:nth-last-child(2)
+        overflow initial
+
+        .{$draghandleclass}
+          &::after
+            border none
+            cursor auto

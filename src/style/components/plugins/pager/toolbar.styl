@@ -1,34 +1,34 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
 
     .pager-toolbar
-        background-color lightcolor
-        border-top: 1px solid strongcolor
-        border-radius(0px 0px 3px 3px)
-        font-family fontfamily
-        font-size 13px
-        height headerheight
-        text-indent 10px
-        
-        &.is-stuck
-            bottom 0
-            position fixed
-            
-        &.is-stuck-bottom
-            position absolute
-            width 100%
-        
-        
-        span 
-            display block
-            float right
-            position relative
-            right 5px
-            top 2px
-        
-        span:first-child
-            font-size fontsize
-            font-family fontfamily
-            float left
-        
-        button
-            margin 0px 10px
+      background-color $lightcolor
+      border-radius(0 0 3px 3px)
+      border-top: 1px solid $strongcolor
+      font-family $fontfamily
+      font-size 13px
+      height $headerheight
+      text-indent 10px
+
+      &.is-stuck
+        bottom 0
+        position fixed
+
+      &.is-stuck-bottom
+        position absolute
+        width 100%
+
+
+      span
+        display block
+        float right
+        position relative
+        right 5px
+        top 2px
+
+      span:first-child
+        float left
+        font-family $fontfamily
+        font-size $fontsize
+
+      button
+        margin 0 10px

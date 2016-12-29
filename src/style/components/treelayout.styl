@@ -1,13 +1,13 @@
-+prefix-classes(prefix)
++prefix-classes($prefix)
   for num in (0..10)
     .cell-tree-arrow.tree-node-depth-{num}
-        margin-left ((num - 1) * buffer) px
         icon('chevron-down')
+        margin-left ((num - 1) * $buffer) px
 
         &::before
           font-size 8px
+          left -5px
           position relative
-          left -5px;
           top -1px
 
         &.node-unexpanded
@@ -15,15 +15,15 @@
 
           &::before
             font-size 8px
+            left -($buffer / 2) px
+            margin-right: 2px
             position relative
-            left -(buffer / 2) px;
-            margin-right: 2px;
             top -1px
 
         &:not(.expand)
           visibility hidden
 
-  .{dragclass}
+  .{$dragclass}
     for num in (0..10)
       .tree-node-depth-{num}
         .row-drag-handle
