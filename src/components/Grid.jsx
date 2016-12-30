@@ -12,7 +12,12 @@ import ColumnManager from './core/ColumnManager';
 import Model from './plugins/selection/Model';
 import Manager from './plugins/editor/Manager';
 import { prefix } from '../util/prefix';
-import { gridConfig, GRID_TYPES } from '../constants/GridConstants';
+
+import {
+    gridConfig,
+    GRID_TYPES
+} from '../constants/GridConstants';
+
 import {
     getAsyncData,
     setColumns,
@@ -25,8 +30,6 @@ import { isPluginEnabled } from '../util/isPluginEnabled';
 import { getColumnsFromStorage } from '../util/getColumnsFromStorage';
 import localStorageManager from './core/LocalStorageManager';
 
-import './../style/main.styl';
-
 const {
     any,
     array,
@@ -38,13 +41,20 @@ const {
     string
 } = PropTypes;
 
+let _CSS_LOADED = false;
+
 export class Grid extends Component {
 
     render() {
 
-        const { CLASS_NAMES } = gridConfig();
+        const { CLASS_NAMES, USE_GRID_STYLES } = gridConfig();
         const editorComponent = this.getEditor();
         const isLoading = this.isLoading();
+
+        if (!_CSS_LOADED && USE_GRID_STYLES) {
+            _CSS_LOADED = true;
+            require('./../style/main.styl');
+        }
 
         const {
             classNames,

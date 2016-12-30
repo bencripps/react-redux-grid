@@ -2,7 +2,8 @@ import expect from 'expect';
 import {
     applyGridConfig,
     CLASS_NAMES,
-    CSS_PREFIX
+    CSS_PREFIX,
+    USE_GRID_STYLES
 } from './../../src/constants/GridConstants';
 
 describe('The applyGridConfig export', () => {
@@ -24,6 +25,7 @@ describe('The applyGridConfig export', () => {
         afterEach(() => {
             applyGridConfig({
                 CSS_PREFIX: 'react-grid',
+                USE_GRID_STYLES: true,
                 CLASS_NAMES: {
                     TABLE: 'table'
                 }
@@ -32,6 +34,7 @@ describe('The applyGridConfig export', () => {
 
         applyGridConfig({
             CSS_PREFIX: 'some new prefix',
+            USE_GRID_STYLES: false,
             CLASS_NAMES: {
                 TABLE: 'banana-table'
             }
@@ -46,6 +49,10 @@ describe('The applyGridConfig export', () => {
         expect(CLASS_NAMES.TABLE).toEqual(
             'banana-table',
             'the override table class is wrong'
+        );
+
+        expect(USE_GRID_STYLES).toEqual(
+            false
         );
     });
 
