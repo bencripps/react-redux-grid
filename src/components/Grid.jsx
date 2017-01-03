@@ -30,6 +30,8 @@ import { isPluginEnabled } from '../util/isPluginEnabled';
 import { getColumnsFromStorage } from '../util/getColumnsFromStorage';
 import localStorageManager from './core/LocalStorageManager';
 
+import styles from './../style/main.styl';
+
 const {
     any,
     array,
@@ -41,8 +43,6 @@ const {
     string
 } = PropTypes;
 
-let _CSS_LOADED = false;
-
 export class Grid extends Component {
 
     render() {
@@ -51,9 +51,10 @@ export class Grid extends Component {
         const editorComponent = this.getEditor();
         const isLoading = this.isLoading();
 
-        if (!_CSS_LOADED && USE_GRID_STYLES) {
-            _CSS_LOADED = true;
-            require('./../style/main.styl');
+        if (!this.CSS_LOADED && USE_GRID_STYLES) {
+            this.CSS_LOADED = true;
+            console.log('loading styles');
+            this.addStyles();
         }
 
         const {
@@ -240,6 +241,8 @@ export class Grid extends Component {
         showTreeRootNode: false
     };
 
+    static CSS_LOADED = false;
+
     setGridDataType = asArray => {
         this._USING_DATA_ARRAY = asArray;
     };
@@ -406,6 +409,23 @@ export class Grid extends Component {
         && this.props.loadingState.isLoading
             ? this.props.loadingState.isLoading
             : false
+
+    addStyles = () => {
+        const styleEl = document.createElement('style');
+        const head = document.head
+            || document.getElementsByTagName('head')[0];
+
+        styleEl.type = 'text/css';
+
+        if (styleEl.styleSheet) {
+            styleEl.styleSheet.cssText = styles;
+        }
+        else {
+            styleEl.appendChild(document.createTextNode(styles));
+        }
+
+        head.appendChild(styleEl);
+    }
 }
 
 export default connect(mapStateToProps)(Grid);
