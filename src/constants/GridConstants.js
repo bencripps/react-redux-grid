@@ -41,6 +41,8 @@ export const GRID_TYPES = PropTypes.oneOf(['grid', 'tree']);
 * these constants can be overridden by applyGridConfig
 */
 
+export let USE_GRID_STYLES = true;
+
 export let CSS_PREFIX = 'react-grid';
 
 export let CLASS_NAMES = {
@@ -145,10 +147,14 @@ export const applyGridConfig = (config = {})=> {
         else if (k === 'CSS_PREFIX') {
             CSS_PREFIX = config[k];
         }
+        else if (k === 'USE_GRID_STYLES') {
+            USE_GRID_STYLES = config[k];
+        }
     });
 };
 
 export const gridConfig = () => ({
     CLASS_NAMES,
-    CSS_PREFIX
+    CSS_PREFIX,
+    USE_GRID_STYLES
 });
