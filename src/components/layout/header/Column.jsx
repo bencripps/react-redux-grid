@@ -278,7 +278,12 @@ export const handleColumnClick = ({
     store
 }) => {
 
-    if (col.sortable) {
+    if (col.sortable
+        || columnManager
+        && columnManager.config
+        && columnManager.config.sortable
+        && columnManager.config.sortable.enabled
+        && col.sortable !== false) {
         handleSort(
             columns,
             col,
