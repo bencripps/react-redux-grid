@@ -1,5 +1,15 @@
 # Change Log
 
+## [5.1.0](https://github.com/bencripps/react-redux-grid/tree/5.1.0) (2017-01-04)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.2...5.1.0)
+
+**Merged pull requests:**
+
+- Feature/css optional [\#80](https://github.com/bencripps/react-redux-grid/pull/80) ([bencripps](https://github.com/bencripps))
+- support the global sortable option in handleColumnClick [\#79](https://github.com/bencripps/react-redux-grid/pull/79) ([whatisboom](https://github.com/whatisboom))
+- Add stylint process, clean up stylus code [\#78](https://github.com/bencripps/react-redux-grid/pull/78) ([bencripps](https://github.com/bencripps))
+- Move Api from plugins to Util, add testing for AJAX actions [\#76](https://github.com/bencripps/react-redux-grid/pull/76) ([bencripps](https://github.com/bencripps))
+
 ## [5.0.2](https://github.com/bencripps/react-redux-grid/tree/5.0.2) (2016-12-17)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.1...5.0.2)
 
@@ -170,7 +180,7 @@
 - Request: make project ready for distribution [\#36](https://github.com/bencripps/react-redux-grid/issues/36)
 
 ## [v2.0.0](https://github.com/bencripps/react-redux-grid/tree/v2.0.0) (2016-08-08)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v2.0.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v2.0.0)
 
 **Closed issues:**
 
@@ -180,11 +190,11 @@
 
 - Rework build process to create dist, remove fonts, update README [\#37](https://github.com/bencripps/react-redux-grid/pull/37) ([bencripps](https://github.com/bencripps))
 
-## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v.1.9.3)
-
 ## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v1.9.3)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v1.9.3)
+
+## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v.1.9.3)
 
 ## [v1.9.2](https://github.com/bencripps/react-redux-grid/tree/v1.9.2) (2016-08-05)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.1...v1.9.2)
@@ -259,13 +269,13 @@
 - Add stateKey as required parameter, update tests, update docs [\#10](https://github.com/bencripps/react-redux-grid/pull/10) ([bencripps](https://github.com/bencripps))
 
 ## [feaute/statekey](https://github.com/bencripps/react-redux-grid/tree/feaute/statekey) (2016-05-04)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.3.0...feaute/statekey)
-
-## [v1.3.0](https://github.com/bencripps/react-redux-grid/tree/v1.3.0) (2016-04-30)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.3.0...v1.3.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.3.0...feaute/statekey)
 
 ## [1.3.0](https://github.com/bencripps/react-redux-grid/tree/1.3.0) (2016-04-30)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.2.0...1.3.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.3.0...1.3.0)
+
+## [v1.3.0](https://github.com/bencripps/react-redux-grid/tree/v1.3.0) (2016-04-30)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.2.0...v1.3.0)
 
 **Fixed bugs:**
 
