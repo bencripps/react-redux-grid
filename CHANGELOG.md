@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
+
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.2...HEAD)
+
+**Merged pull requests:**
+
+- Feature/css optional [\#80](https://github.com/bencripps/react-redux-grid/pull/80) ([bencripps](https://github.com/bencripps))
+- support the global sortable option in handleColumnClick [\#79](https://github.com/bencripps/react-redux-grid/pull/79) ([whatisboom](https://github.com/whatisboom))
+- Add stylint process, clean up stylus code [\#78](https://github.com/bencripps/react-redux-grid/pull/78) ([bencripps](https://github.com/bencripps))
+- Move Api from plugins to Util, add testing for AJAX actions [\#76](https://github.com/bencripps/react-redux-grid/pull/76) ([bencripps](https://github.com/bencripps))
+
 ## [5.0.2](https://github.com/bencripps/react-redux-grid/tree/5.0.2) (2016-12-17)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.1...5.0.2)
 
