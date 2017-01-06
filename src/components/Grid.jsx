@@ -53,7 +53,6 @@ export class Grid extends Component {
 
         if (!this.CSS_LOADED && USE_GRID_STYLES) {
             this.CSS_LOADED = true;
-            console.log('loading styles');
             this.addStyles();
         }
 

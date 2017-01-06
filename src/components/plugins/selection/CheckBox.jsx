@@ -143,16 +143,18 @@ export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
 
 };
 
+const { any, func, number, object, string } = PropTypes;
+
 CheckBox.propTypes = {
-    dataSource: PropTypes.object,
-    index: PropTypes.number,
-    onSelect: PropTypes.func,
-    reducerKeys: PropTypes.object,
-    rowId: PropTypes.any,
-    selectedRows: PropTypes.object,
-    selectionModelConfig: PropTypes.object,
-    store: PropTypes.object,
-    type: PropTypes.string
+    dataSource: object,
+    index: number,
+    onSelect: func,
+    reducerKeys: object,
+    rowId: any,
+    selectedRows: object,
+    selectionModelConfig: object,
+    store: object,
+    type: string
 };
 
 CheckBox.defaultProps = {
@@ -161,7 +163,6 @@ CheckBox.defaultProps = {
 
 function mapStateToProps(state, props) {
     return {
-        pager: stateGetter(state, props, 'pager', props.stateKey),
         dataSource: stateGetter(state, props, 'dataSource', props.stateKey),
         selectedRows: stateGetter(state, props, 'selection', props.stateKey)
     };

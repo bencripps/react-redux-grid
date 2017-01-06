@@ -79,39 +79,29 @@ export function shouldRowUpdate(nextProps) {
     // unique key created by setData action/reducer
     const key = nextProps.row.get('_key');
 
-    const isSelected = rows => Boolean(rows && rows.get(key));
-
-    const isMenuShown = rows => Boolean(rows && rows.get(key));
-
-    const isEdited = editorState => Boolean(
-        editorState
-        && editorState.get(key)
-        && editorState.get(key).values
-    );
-
     const limitedNextProps = {
         columns: slimColumn(nextProps.columns),
-        isEdited: isEdited(nextProps.editorState),
-        currentValues: isEdited(nextProps.editorState)
+        isEdited: isEdited(nextProps.editorState, key),
+        currentValues: isEdited(nextProps.editorState, key)
             ? nextProps.editorState.get(key)
             : null,
-        isMenuShown: isMenuShown(nextProps.menuState),
+        isMenuShown: isMenuShown(nextProps.menuState, key),
         row: nextProps.row,
         index: nextProps.index,
-        isSelected: isSelected(nextProps.selectedRows),
+        isSelected: isSelected(nextProps.selectedRows, key),
         isDragging: nextProps.isDragging
     };
 
     const limitedProps = {
         columns: this.previousColumns,
-        isEdited: isEdited(this.props.editorState),
-        currentValues: isEdited(this.props.editorState)
+        isEdited: isEdited(this.props.editorState, key),
+        currentValues: isEdited(this.props.editorState, key)
             ? this.props.editorState.get(key)
             : null,
-        isMenuShown: isMenuShown(this.props.menuState),
+        isMenuShown: isMenuShown(this.props.menuState, key),
         row: this.props.row,
         index: this.props.index,
-        isSelected: isSelected(this.props.selectedRows),
+        isSelected: isSelected(this.props.selectedRows, key),
         isDragging: this.props.isDragging
     };
 
@@ -123,6 +113,16 @@ export function shouldRowUpdate(nextProps) {
 
     return result;
 }
+
+export const isSelected = (rows, key) => Boolean(rows && rows.get(key));
+
+export const isMenuShown = (rows, key) => Boolean(rows && rows.get(key));
+
+export const isEdited = (editorState, key) => Boolean(
+    editorState
+    && editorState.get(key)
+    && editorState.get(key).values
+);
 
 export const slimColumn = cols =>
     cols.map(col => ({ hidden: col.hidden, dataIndex: col.dataIndex }));
