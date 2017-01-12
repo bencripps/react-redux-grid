@@ -11,12 +11,9 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Percentage of issues still open")
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/bencripps/react-redux-grid/blob/master/docs/CONTRIBUTING.MD)
 
-A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern.
-
+A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern with plenty of open source [examples](http://react-redux-grid.herokuapp.com/).
 
 ![React Redux Grid](demo/demo.gif)
-
-[More Examples Available](http://react-redux-grid.herokuapp.com/)
 
 ## Features
 
@@ -41,6 +38,27 @@ A Grid and Tree Component written in [React](https://facebook.github.io/react) u
 ```bash
 $ npm install react-redux-grid --save
 ```
+
+If you would like to build and run the demo in your browser:
+
+```
+$ npm install
+$ npm run demo 
+```
+Open your browser to: http://localhost:8080
+
+## Examples 
+
+* [Simple](http://react-redux-grid.herokuapp.com/#simple)
+* [Complex](http://react-redux-grid.herokuapp.com/#complex)
+* [Tree](http://react-redux-grid.herokuapp.com/#tree)
+* [Stress](http://react-redux-grid.herokuapp.com/#stress)
+* [Sticky](http://react-redux-grid.herokuapp.com/#sticky)
+* [Bootstrap](http://react-redux-grid.herokuapp.com/#bootstrap)
+* [Column Renderer](http://react-redux-grid.herokuapp.com/#columnrenderer)
+* [Editable](http://react-redux-grid.herokuapp.com/#editable)
+
+[Examples Github](https://github.com/bencripps/react-redux-grid-demo)
 
 **Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
