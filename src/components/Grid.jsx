@@ -170,10 +170,12 @@ export class Grid extends Component {
         // if the dataArray has changed
 
         if (this._USING_DATA_ARRAY) {
+            // check to see if new data, is the same as old data
+            // -- without _key property
             const shouldResetData = !deepEqual(
-                this.props.data, nextProps.data
+                this.props.data.map(this.removeKeys),
+                nextProps.data.map(this.removeKeys)
             );
-
             // sigh, this is a hack
             // if we do need to retrigger, we cant do
             // that within `componentWillReceiveProps`
@@ -245,6 +247,11 @@ export class Grid extends Component {
     setGridDataType = asArray => {
         this._USING_DATA_ARRAY = asArray;
     };
+
+    removeKeys = item => ({
+        ...item,
+        _key: undefined
+    })
 
     setData(extraParams = {}) {
 
