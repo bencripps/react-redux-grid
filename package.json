@@ -1,6 +1,6 @@
 {
   "name": "react-redux-grid",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "A React Grid Component written in the Redux Pattern",
   "author": "Bejamin Cripps",
   "contributors": [
@@ -20,7 +20,7 @@
   "scripts": {
     "demo": "npm run demo:build && npm run demo:run",
     "demo:build": "npm run build",
-    "demo:run": "http-server ./demo", 
+    "demo:run": "http-server ./demo",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
     "dist": "babel ./src --out-dir dist",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js",
