@@ -1,6 +1,5 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS } from 'immutable';
 
 import {
     SET_COLUMNS,

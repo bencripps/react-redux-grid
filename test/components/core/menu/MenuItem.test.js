@@ -2,11 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { MenuItem } from './../../../../src/components/core/menu/MenuItem.jsx';
-import { mockStore } from './../../../testUtils/index';
-
-const store = mockStore();
-
-store.subscribe = () => {};
+import { initializedStore } from './../../../testUtils';
 
 const props = {
     data: {
@@ -17,7 +13,7 @@ const props = {
             return 'Menu Item Clicked';
         }
     },
-    store
+    store: initializedStore
 };
 
 function menuitem(cmpProps) {
@@ -67,7 +63,7 @@ describe('Menu Item Click Handler Should Dismiss Menu', () => {
                 return 'Menu Item Clicked';
             }
         },
-        store: mockStore({}, { id: undefined, type: 'HIDE_MENU' })
+        store: initializedStore
     };
 
     const component = menuitem(hiddenMenuProps);
@@ -92,7 +88,7 @@ describe('A disabled menu item', () => {
             }
         },
         disabled: true,
-        store: mockStore({}, { id: undefined, type: 'HIDE_MENU' })
+        store: initializedStore
     };
 
     const component = menuitem(disabledMenuItemProps);

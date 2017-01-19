@@ -58,13 +58,6 @@ describe('isPluginEnabled utility function', () => {
     });
 
     it('Should return not enabled', () => {
-            
-         const plugins = {
-            BULK_ACTIONS: {
-                enabled: true
-            }
-        };
-
         expect(isPluginEnabled(
             false, 'BULK_ACTIS'
         )).toEqual(

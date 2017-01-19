@@ -2,11 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import { Menu } from './../../../../src/components/core/menu/Menu.jsx';
-import { mockStore } from './../../../testUtils/index';
-
-const store = mockStore();
-
-store.subscribe = () => {};
+import { store } from './../../../testUtils/index';
 
 const props = {
     store,

@@ -2,7 +2,9 @@
 import expect from 'expect';
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Description } from './../../../../../src/components/plugins/pager/toolbar/Description.jsx';
+import {
+    Description
+} from './../../../../../src/components/plugins/pager/toolbar/Description.jsx';
 
 const props = {
     pageIndex: 0,
@@ -16,7 +18,8 @@ describe('The Pager Description Component', () => {
 
     it('Should show 1 through 25 records', () => {
         const component = shallow(<Description { ...props } />);
-        expect(component.text()).toEqual('1 through 25\n            of 100 Records Displayed');
+        expect(component.text())
+            .toEqual('1 through 25\n            of 100 Records Displayed');
     });
 
     it('Should show 26 through 50 records', () => {
@@ -25,7 +28,8 @@ describe('The Pager Description Component', () => {
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('26 through 50\n            of 100 Records Displayed');
+        expect(component.text())
+            .toEqual('26 through 50\n            of 100 Records Displayed');
     });
 
     it('Should show 61 through 90 records of 200', () => {
@@ -37,7 +41,8 @@ describe('The Pager Description Component', () => {
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('61 through 90\n            of 200 Records Displayed');
+        expect(component.text())
+            .toEqual('61 through 90\n            of 200 Records Displayed');
     });
 
     it('Should use bananas instead of records', () => {
@@ -50,7 +55,8 @@ describe('The Pager Description Component', () => {
         });
         const component = shallow(<Description { ...page2Props } />);
 
-        expect(component.text()).toEqual('61 through 90\n            of 200 Bananas Displayed');
+        expect(component.text())
+            .toEqual('61 through 90\n            of 200 Bananas Displayed');
     });
 
     it('Should use a custom renderer function', () => {
@@ -60,7 +66,12 @@ describe('The Pager Description Component', () => {
             currentRecords: 30,
             total: 200,
             recordType: 'Bananas',
-            toolbarRenderer: (pageIndex, pageSize, total, currentRecords, recordType) => {
+            toolbarRenderer: (
+                pageIndex,
+                pageSize,
+                total,
+                currentRecords,
+                recordType) => {
                 return pageIndex * pageSize * 100 + currentRecords + recordType;
             }
         });

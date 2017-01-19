@@ -1,9 +1,8 @@
 /* eslint-enable describe it sinon */
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
 import Grid from './../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../src/store/store';
+import { mountWithContext } from './../testUtils';
 
 const props = {
     data: [],
@@ -20,13 +19,12 @@ const props = {
     ],
     stateKey: 'empty-grid',
     emptyDataMessage: 'Aint no data here',
-    plugins: {},
-    store: GridStore
+    plugins: {}
 };
 
 describe('Empty data row', () => {
 
-    const wrapper = mount(<Grid { ...props } />);
+    const wrapper = mountWithContext(<Grid { ...props } />);
 
     it('Should render a message based on props', (done) => {
 

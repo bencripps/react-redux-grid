@@ -6,7 +6,6 @@ import {
     EDIT_ROW,
     DISMISS_EDITOR,
     ROW_VALUE_CHANGE,
-    CANCEL_ROW,
     REMOVE_ROW,
     REPOSITION_EDITOR
 } from './../../../../src/constants/ActionTypes';

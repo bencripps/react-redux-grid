@@ -239,6 +239,7 @@ describe('The Grid Row Component', () => {
                 {
                     name: 'Player',
                     dataIndex: 'name',
+                    /* eslint-disable react/prop-types */
                     renderer: ({ value }) => {
                         return (
                             <div>
@@ -247,6 +248,7 @@ describe('The Grid Row Component', () => {
                             </div>
                         );
                     }
+                    /* eslint-enable react/prop-types */
                 },
                 {
                     name: 'Position',

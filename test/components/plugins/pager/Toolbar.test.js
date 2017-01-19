@@ -1,15 +1,12 @@
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
 import {
     PagerToolbar
 } from './../../../../src/components/plugins/pager/Pager.jsx';
-import { mockStore } from './../../../testUtils/index';
+import { store, shallowWithContext } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
 
-const store = mockStore();
-
-store.subscribe = () => {};
+// store.subscribe = () => {};
 
 const props = {
     store,
@@ -31,9 +28,11 @@ describe('An Unrendered Paging Toolbar', () => {
         dataSource: localGridData
     };
 
-    const component = shallow(<PagerToolbar { ...unrenderedProps }/>);
+    const component = shallowWithContext(
+        <PagerToolbar { ...unrenderedProps }/>
+    );
 
-    it('Should render a shallow component with no props, and no children', () => {
+    it('Should render a shallow component with no props, no children', () => {
         expect(component.node.type).toEqual('div');
         expect(Object.keys(component.props).length).toBeFalsy();
     });
@@ -46,19 +45,22 @@ describe('An Unrendered Paging Toolbar', () => {
 
 describe('The default toolbar instance', () => {
 
-    const component = shallow(<PagerToolbar { ...props }/>);
+    const component = shallowWithContext(<PagerToolbar { ...props }/>);
     const instance = component.instance();
 
     it('Should have button types on props definition', () => {
-        expect(instance.props.BUTTON_TYPES).toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
+        expect(instance.props.BUTTON_TYPES)
+            .toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
     });
 
     it('Should render a stateless component', () => {
-        expect(instance.constructor.name).toBe('PagerToolbar');
+        expect(instance.constructor.name)
+            .toBe('PagerToolbar');
     });
 
     it('Should have button types on props definition', () => {
-        expect(instance.props.BUTTON_TYPES).toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
+        expect(instance.props.BUTTON_TYPES)
+            .toEqual({ BACK: 'BACK', NEXT: 'NEXT' });
     });
 
     it('Should have the right dataSource loaded', () => {
@@ -83,7 +85,8 @@ describe('The default toolbar instance', () => {
     });
 
     it('Should render a description and two buttons', () => {
-        expect(component.text()).toEqual('<Button /><Button /><Description />');
+        expect(component.text())
+            .toEqual('<Button /><Button /><Description />');
     });
 
     it('Should render a table footer as the first child', () => {
@@ -95,15 +98,17 @@ describe('The default toolbar instance', () => {
 describe('An Rendered Paging Toolbar HTML', () => {
 
     it('Should render a toolbar', () => {
-        const component = shallow(<PagerToolbar { ...props }/>);
+        const component = shallowWithContext(<PagerToolbar { ...props }/>);
 
         expect(component.html()).toEqual(
             [
                 '<div>',
                 '<div class="react-grid-pager-toolbar">',
                 '<span>',
-                '<button disabled="" class="react-grid-page-buttons react-grid-back">Back</button>',
-                '<button class="react-grid-page-buttons react-grid-next">Next</button>',
+                '<button disabled="" class="react-grid-page-buttons ',
+                'react-grid-back">Back</button>',
+                '<button class="react-grid-page-buttons ',
+                'react-grid-next">Next</button>',
                 '</span>',
                 '<span>No Records Available</span>',
                 '</div>',

@@ -1,20 +1,24 @@
 /* global sinon */
 import expect from 'expect';
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Button } from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
-import * as ButtonUtils from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
-import { mockStore } from './../../../../testUtils/index';
+import {
+    Button
+} from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
+import
+    * as ButtonUtils
+from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
+
 import { localGridData } from './../../../../testUtils/data';
 
-const store = mockStore();
+import {
+    shallowWithContext,
+    initializedStore
+} from './../../../../testUtils';
 
 const stateKey = 'stateKey';
 
-store.subscribe = () => {};
-
 const props = {
-    store,
+    store: initializedStore,
     pageSize: 25,
     dataSource: localGridData,
     ref: 'pagertoolbar',
@@ -29,14 +33,15 @@ describe('A Pager Toolbar Next Button', () => {
 
     const nextButtonProps = Object.assign(props, { type: 'NEXT' });
 
-    const component = shallow(<Button { ...nextButtonProps } />);
+    const component = shallowWithContext(<Button { ...nextButtonProps } />);
 
     it('Should button to be a Next Button', () => {
         expect(component.text()).toEqual('Next');
     });
 
     it('Should have the right class', () => {
-        expect(component.props().className).toEqual('react-grid-page-buttons react-grid-next');
+        expect(component.props().className)
+            .toEqual('react-grid-page-buttons react-grid-next');
     });
 
     it('Shouldn\'t be diabled', () => {
@@ -58,12 +63,19 @@ describe('handleButtonClick function with local paging', () => {
         NEXT: 'NEXT',
         BACK: 'BACK'
     };
-    const localPagedStore = mockStore(null, { pageIndex: 1, type: 'PAGE_LOCAL' });
+    const localPagedStore = initializedStore;
 
     it('The action should reflect the next page when clicked', () => {
         expect(
             ButtonUtils.handleButtonClick(
-                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, localPagedStore
+                type,
+                pageIndex,
+                pageSize,
+                dataSource,
+                BUTTON_TYPES,
+                plugins,
+                stateKey,
+                localPagedStore
             )
         ).toEqual(undefined);
     });
@@ -83,12 +95,19 @@ describe('handleButtonClick function with remote paging', () => {
         NEXT: 'NEXT',
         BACK: 'BACK'
     };
-    const localPagedStore = mockStore(null, { state: true, type: 'SET_LOADING_STATE' });
+    const localPagedStore = initializedStore;
 
-    it('The action should reflect a loading state when clicking next with a remote pager', () => {
+    it('Action reflects loading state, clicking next, remote pager', () => {
         expect(
             ButtonUtils.handleButtonClick(
-                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, localPagedStore
+                type,
+                pageIndex,
+                pageSize,
+                dataSource,
+                BUTTON_TYPES,
+                plugins,
+                stateKey,
+                localPagedStore
             )
         ).toEqual(undefined);
     });
@@ -106,14 +125,21 @@ describe('handleButtonClick function without a pagingType specified', () => {
         NEXT: 'NEXT',
         BACK: 'BACK'
     };
-    const uncalledStore = mockStore(null);
-
-    uncalledStore.dispatch = sinon.spy();
+    const uncalledStore = {
+        dispatch: sinon.spy()
+    };
 
     it('Should not dispatch an action', () => {
         expect(
             ButtonUtils.handleButtonClick(
-                type, pageIndex, pageSize, dataSource, BUTTON_TYPES, plugins, stateKey, uncalledStore
+                type,
+                pageIndex,
+                pageSize,
+                dataSource,
+                BUTTON_TYPES,
+                plugins,
+                stateKey,
+                uncalledStore
             )
         ).toEqual(undefined);
     });
@@ -137,14 +163,14 @@ describe('isButtonDisabled function', () => {
         BACK: 'BACK'
     };
 
-    it('Should be disabled if theres more visible records than the total', () => {
+    it('Should be disabled if more visible records than the total', () => {
         expect(
             ButtonUtils.isButtonDisabled(type, pageIndex, pageSize,
                 currentRecords, total, BUTTON_TYPES)
         ).toEqual(false);
     });
 
-    it('Should be disabled if theres equal number of visible records to the total', () => {
+    it('Should be disabled if equal number of visible records to total', () => {
         expect(
             ButtonUtils.isButtonDisabled(type, 1, 100,
                 100, total, BUTTON_TYPES)

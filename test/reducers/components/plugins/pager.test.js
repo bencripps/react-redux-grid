@@ -12,7 +12,6 @@ import
 from './../../../../src/reducers/components/plugins/pager';
 
 import {
-    generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
 
