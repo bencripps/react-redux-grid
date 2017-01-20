@@ -43,11 +43,11 @@ If you would like to build and run the demo in your browser:
 
 ```
 $ npm install
-$ npm run demo 
+$ npm run demo
 ```
 Open your browser to: http://localhost:8080
 
-## Examples 
+## Examples
 
 * [Simple](http://react-redux-grid.herokuapp.com/#simple)
 * [Complex](http://react-redux-grid.herokuapp.com/#complex)
@@ -67,13 +67,12 @@ Open your browser to: http://localhost:8080
 ````javascript
 import React from 'react';
 import { render } from 'react-dom';
-import { Grid, Store as store } from 'react-redux-grid';
+import { Grid } from 'react-redux-grid';
 
 render(
     <Grid
         data={data}
         stateKey={stateKey}
-        store={store} // or pass your existing redux store
     />,
     document.getElementById('grid-mount')
 );
@@ -88,7 +87,6 @@ render(
 | showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed                                                                                             |
 | classNames          | array                   | a list of strings to be applied to the grid container as classes                                                                                               |
 | events              | object                  | grid event object, more information below                                                                                                                      |
-| store               | object.isRequred        | redux store                                                                                                                                                    |
 | reducerKeys         | object                  | object describing custom named reducers, more information below                                                                                                |
 | pageSize            | int                     | number of records to shown on a single grid page                                                                                                               |
 | emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available                                                                     |
@@ -512,19 +510,7 @@ export const CLASS_NAMES = {
 
 For more information abot creating a tree grid, please see [tree grid in depth](docs/USING_TREE.md)
 
-## Which Store do I use?
-
-Because Redux imposes a single store pattern, it's very probable that you will need to use this grid with your own store. Well that's ok! The `demo` folder includes:
-
-1. `index.html`
-2. `entry.js` The entry point for webpack to build all required assets
-3. `provider.jsx` The Redux entry point, where your store will be declared
-
-This component will work out of the box, without installing a custom store. A store has been created within the components source files, but this store will be entirely ignored if a different store is passed to the grid.
-
-In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
-
-If you elect to use a custom store, the core component's reducers are also exposed from within the core export. You can import a reducer like so:
+## How do I import Grid Reducers?
 
 ```javascript
 import { Reducers as gridReducers } from 'react-redux-grid';
@@ -619,8 +605,7 @@ This is possible. You simply need to pass the reducer name as a `prop`.
 const gridProps = {
     reducerKeys: {
         grid: 'YOUR_GRID_REDUCER_KEY'
-    },
-    store
+    }
 };
 
 const grid = <Grid { ...gridProps } />;
