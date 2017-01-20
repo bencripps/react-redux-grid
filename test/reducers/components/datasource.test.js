@@ -1,6 +1,6 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { List, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
     SET_DATA,

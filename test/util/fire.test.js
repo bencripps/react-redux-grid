@@ -2,7 +2,7 @@
 import expect from 'expect';
 import { fromJS } from 'immutable';
 
-import { fire, fireEvent } from './../../src/util/fire';
+import { fireEvent } from './../../src/util/fire';
 
 describe('the fireEvent utility', () => {
 

@@ -50,8 +50,6 @@ describe('debounce utility function', () => {
         setTimeout(() => {
             expect(spy.callCount)
                 .toEqual(1);
-
-
             run();
         }, 111);
 

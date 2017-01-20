@@ -51,6 +51,8 @@ export class Grid extends Component {
         const editorComponent = this.getEditor();
         const isLoading = this.isLoading();
 
+        const { store } = this.context;
+
         if (!this.CSS_LOADED && USE_GRID_STYLES) {
             this.CSS_LOADED = true;
             this.addStyles();
@@ -66,7 +68,6 @@ export class Grid extends Component {
             plugins,
             reducerKeys,
             stateKey,
-            store,
             pager
         } = this.props;
 
@@ -128,17 +129,16 @@ export class Grid extends Component {
             events,
             plugins,
             reducerKeys,
-            stateKey,
-            store
+            stateKey
         } = this.props;
+
+        const {
+            store
+        } = this.context;
 
         this.gridType = gridType === 'tree'
             ? 'tree'
             : 'grid';
-
-        if (!store || !store.dispatch) {
-            throw new Error('Component must be intialized with a valid store');
-        }
 
         if (!stateKey) {
             throw new Error('A stateKey is required to intialize the grid');
@@ -201,6 +201,10 @@ export class Grid extends Component {
         this.selectionModel = new Model();
     }
 
+    static contextTypes = {
+        store: object
+    }
+
     static propTypes = {
         classNames: array,
         columnState: object,
@@ -261,9 +265,10 @@ export class Grid extends Component {
             expandOnLoad,
             showTreeRootNode,
             stateKey,
-            plugins,
-            store
+            plugins
         } = this.props;
+
+        const { store } = this.context;
 
         const editMode = isPluginEnabled(plugins, 'EDITOR')
             ? plugins.EDITOR.type
@@ -336,7 +341,9 @@ export class Grid extends Component {
 
     setColumns() {
 
-        const { columns, stateKey, store, stateful } = this.props;
+        const { columns, stateKey, stateful } = this.props;
+        const { store } = this.context;
+
         let savedColumns = columns;
 
         if (stateful) {
@@ -369,7 +376,7 @@ export class Grid extends Component {
         columnState: this.props.columnState,
         selectionModel: this.selectionModel,
         stateKey: this.props.stateKey,
-        store: this.props.store,
+        store: this.context.store,
         stateful: this.props.stateful,
         visible,
         menuState: this.props.menuState,
@@ -394,7 +401,7 @@ export class Grid extends Component {
         reducerKeys: this.props.reducerKeys,
         selectionModel: this.selectionModel,
         stateKey: this.props.stateKey,
-        store: this.props.store,
+        store: this.context.store,
         stateful: this. props.stateful,
         showTreeRootNode: this.props.showTreeRootNode,
         menuState: this.props.menuState,
@@ -404,7 +411,7 @@ export class Grid extends Component {
     getEditor = () => this.editor.getComponent(
         this.props.plugins,
         this.props.reducerKeys,
-        this.props.store,
+        this.context.store,
         this.props.events,
         this.selectionModel,
         this.editor,

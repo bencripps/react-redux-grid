@@ -1,14 +1,16 @@
 import expect from 'expect';
 import React from 'react';
 import { fromJS, Map } from 'immutable';
-import { mount } from 'enzyme';
-import
-    store
-from './../../../../src/store/store';
+
 import ActionColumn, {
     addKeysToActions,
     enableActions
 } from './../../../../src/components/plugins/gridactions/ActionColumn.jsx';
+
+import {
+    initializedStore,
+    mountWithContext
+} from './../../../testUtils';
 
 describe('The GridAction component', () => {
 
@@ -43,7 +45,7 @@ describe('The GridAction component', () => {
             player: 'Michael Jordan',
             position: 'Shooting Guard'
         }),
-        store,
+        store: initializedStore,
         stateKey: 'test-grid',
         type: 'header',
         rowIndex: 0,
@@ -52,7 +54,7 @@ describe('The GridAction component', () => {
 
     it('Should render an action column', () => {
 
-        const component = mount(<ActionColumn { ...props } />);
+        const component = mountWithContext(<ActionColumn { ...props } />);
 
         expect(
             component.html()
@@ -65,12 +67,12 @@ describe('The GridAction component', () => {
 
     it('Should fire show event on click', () => {
 
-        const component = mount(<ActionColumn { ...props } />);
+        const component = mountWithContext(<ActionColumn { ...props } />);
 
         component.simulate('click');
 
         expect(
-            store.getState().menu.getIn(['test-grid', 'rowId'])
+            initializedStore.getState().menu.getIn(['test-grid', 'rowId'])
         ).toEqual(true);
 
     });
@@ -85,7 +87,7 @@ describe('The GridAction component', () => {
             }
         };
 
-        const component = mount(<ActionColumn { ...noProps } />);
+        const component = mountWithContext(<ActionColumn { ...noProps } />);
 
         expect(
             component.html()
@@ -104,7 +106,7 @@ describe('The GridAction component', () => {
             headerActionItemBuilder: sinon.spy()
         };
 
-        mount(<ActionColumn { ...builderProps } />);
+        mountWithContext(<ActionColumn { ...builderProps } />);
 
         expect(
             builderProps.headerActionItemBuilder.callCount

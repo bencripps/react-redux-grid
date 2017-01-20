@@ -12,7 +12,6 @@ import
 from './../../../../src/reducers/components/plugins/errorhandler';
 
 import {
-    generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
 

@@ -57,9 +57,9 @@ export const Input = ({
         <input
             disabled={disabled}
             onChange={onChange}
+            placeholder={placeholder}
             type="text"
             value={value}
-            placeholder={placeholder}
         />
     );
 };

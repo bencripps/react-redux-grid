@@ -1,9 +1,13 @@
 import expect from 'expect';
 import React from 'react';
 import { Map, fromJS } from 'immutable';
-import { shallow, mount } from 'enzyme';
 
-import store from './../../../../../../src/store/store';
+import {
+    initializedStore,
+    mountWithContext,
+    shallowWithContext
+} from './../../../../../testUtils';
+
 import {
     Input
 } from './../../../../../../src/components/layout/table-row/row/cell/Input.jsx';
@@ -35,10 +39,10 @@ describe('The shallow cell default Input', () => {
         editorState: Map(),
         rowId: 'row-1',
         stateKey: 'test-grid',
-        store
+        store: initializedStore
     };
 
-    const cmp = shallow(<Input { ...props } />);
+    const cmp = shallowWithContext(<Input { ...props } />);
 
     it('Should shallow render an input', () => {
         expect(cmp.type()).toEqual('input');
@@ -47,8 +51,8 @@ describe('The shallow cell default Input', () => {
     it('Should render valid input html', () => {
         expect(cmp.html())
             .toEqual([
-                '<input type="text" value="Michael Jordan"',
-                ' placeholder="Player Name"/>'
+                '<input type="text" placeholder="Player Name" ',
+                'value="Michael Jordan"/>'
             ].join(''));
     });
 
@@ -81,10 +85,10 @@ describe('The shallow cell default Input', () => {
             }),
             rowId: 'row-1',
             stateKey: 'test-grid',
-            store
+            store: initializedStore
         };
 
-        const disabled = shallow(<Input { ...disabledProps } />);
+        const disabled = shallowWithContext(<Input { ...disabledProps } />);
 
         expect(disabled.props().disabled)
             .toEqual(true);
@@ -120,10 +124,10 @@ describe('The shallow cell default Input', () => {
             }),
             rowId: 'row-1',
             stateKey: 'test-grid',
-            store
+            store: initializedStore
         };
 
-        const enabled = shallow(<Input { ...enabledProps } />);
+        const enabled = shallowWithContext(<Input { ...enabledProps } />);
 
         expect(enabled.props().disabled)
             .toEqual(false);
@@ -167,10 +171,10 @@ describe('The shallow cell default Input', () => {
             }),
             rowId: 'row-1',
             stateKey: 'test-grid',
-            store
+            store: initializedStore
         };
 
-        const enabled = shallow(<Input { ...enabledProps } />);
+        const enabled = shallowWithContext(<Input { ...enabledProps } />);
 
         expect(enabled.props().disabled)
             .toEqual(true);
@@ -202,13 +206,12 @@ describe('The mounted cell Input ', () => {
         editorState: Map(),
         rowId: 'row-1',
         stateKey: 'test-grid',
-        store
+        store: initializedStore
     };
 
     it('Should update the editor state on change', (done) => {
 
-        const cmp = mount(<Input { ...props } />);
-
+        const cmp = mountWithContext(<Input { ...props } />);
         cmp.simulate('change', { target: { value: 'Alonzo Morning' } });
 
         setTimeout(() => {

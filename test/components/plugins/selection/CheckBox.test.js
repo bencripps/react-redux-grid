@@ -1,32 +1,24 @@
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import { shallow } from 'enzyme';
-import { CheckBox } from './../../../../src/components/plugins/selection/CheckBox.jsx';
-import { mockStore } from './../../../testUtils/index';
-import { localGridData } from './../../../testUtils/data';
 
-const store = mockStore();
-
-store.subscribe = () => {};
+import {
+    CheckBox
+} from './../../../../src/components/plugins/selection/CheckBox.jsx';
+import {
+    shallowWithContext,
+    initializedStore
+} from './../../../testUtils';
 
 const props = {
-    store,
+    store: initializedStore,
     dataSource: {},
     selectedRows: {},
     type: 'notheader'
 };
 
-// function pager(cmpProps) {
-//     const element = React.createElement(PagerToolbar, cmpProps);
-//     const renderer = TestUtils.createRenderer();
-//     renderer.render(element);
-//     return renderer.getRenderOutput();
-// }
-
 describe('An Non Header CheckBox Component', () => {
 
-    const checkboxContainer = shallow(<CheckBox { ...props }/>);
+    const checkboxContainer = shallowWithContext(<CheckBox { ...props }/>);
     const checkbox = checkboxContainer.find('.react-grid-checkbox');
 
     it('Should render the container correctly', () => {
@@ -42,13 +34,15 @@ describe('An Non Header CheckBox Component', () => {
 describe('An Header CheckBox Component', () => {
 
     const headerProps = {
-        store,
+        store: initializedStore,
         dataSource: {},
         selectedRows: {},
         type: 'header'
     };
 
-    const checkboxContainer = shallow(<CheckBox { ...headerProps }/>);
+    const checkboxContainer = shallowWithContext(
+        <CheckBox { ...headerProps }/>
+    );
     const checkbox = checkboxContainer.find('.react-grid-checkbox');
 
     it('Should render the container correctly', () => {
@@ -63,7 +57,7 @@ describe('An Header CheckBox Component', () => {
 
 describe('An Non Header CheckBox Click Event', () => {
 
-    const checkboxContainer = shallow(<CheckBox { ...props }/>);
+    const checkboxContainer = shallowWithContext(<CheckBox { ...props }/>);
     const checkbox = checkboxContainer.find('.react-grid-checkbox');
 
     checkbox.simulate('click');
