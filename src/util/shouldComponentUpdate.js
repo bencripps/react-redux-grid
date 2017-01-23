@@ -5,7 +5,7 @@ export function shouldGridUpdate(nextProps) {
     let result = true;
 
     const { reducerKeys, stateKey } = this.props;
-    const { store } = this.context;
+    const store = this.context.store || this.props.store;
 
     const nextUpdate = getLastUpdate(store, stateKey, reducerKeys);
 
