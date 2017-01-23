@@ -50,7 +50,6 @@ export class Grid extends Component {
         const { CLASS_NAMES, USE_GRID_STYLES } = gridConfig();
         const editorComponent = this.getEditor();
         const isLoading = this.isLoading();
-
         const store = this.getStore();
 
         if (!this.CSS_LOADED && USE_GRID_STYLES) {
@@ -64,11 +63,11 @@ export class Grid extends Component {
             gridData,
             height,
             infinite,
+            pager,
             pageSize,
             plugins,
             reducerKeys,
-            stateKey,
-            pager
+            stateKey
         } = this.props;
 
         return (
@@ -76,7 +75,9 @@ export class Grid extends Component {
                 className={
                     prefix(
                         CLASS_NAMES.CONTAINER,
-                        isLoading ? CLASS_NAMES.IS_LOADING : false,
+                        isLoading
+                            ? CLASS_NAMES.IS_LOADING
+                            : false,
                         ...classNames
                     )
                 }

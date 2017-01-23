@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-redux-grid.svg)](https://badge.fury.io/js/react-redux-grid)
 [![Build Status](https://travis-ci.org/bencripps/react-redux-grid.svg?branch=master)](https://travis-ci.org/bencripps/react-redux-grid)
 [![Dependency Status](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d)
-[![npm](https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic)]()
+[![npm](https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-redux-grid)
 [![codecov](https://codecov.io/gh/bencripps/react-redux-grid/branch/master/graph/badge.svg)](https://codecov.io/gh/bencripps/react-redux-grid)
 [![Gitter](https://img.shields.io/gitter/room/bencripps/react-redux-grid.svg?maxAge=2592000)](https://gitter.im/bencripps/react-redux-grid)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/?branch=master)
@@ -49,18 +49,16 @@ Open your browser to: http://localhost:8080
 
 ## Examples
 
-* [Simple](http://react-redux-grid.herokuapp.com/#simple)
-* [Complex](http://react-redux-grid.herokuapp.com/#complex)
-* [Tree](http://react-redux-grid.herokuapp.com/#tree)
-* [Stress](http://react-redux-grid.herokuapp.com/#stress)
-* [Sticky](http://react-redux-grid.herokuapp.com/#sticky)
-* [Bootstrap](http://react-redux-grid.herokuapp.com/#bootstrap)
-* [Column Renderer](http://react-redux-grid.herokuapp.com/#columnrenderer)
-* [Editable](http://react-redux-grid.herokuapp.com/#editable)
+* [Simple](http://react-redux-grid.herokuapp.com/Simple)
+* [Complex](http://react-redux-grid.herokuapp.com/Complex)
+* [Tree](http://react-redux-grid.herokuapp.com/Tree)
+* [Stress](http://react-redux-grid.herokuapp.com/Stress)
+* [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
+* [Bootstrap](http://react-redux-grid.herokuapp.com/Bootstrap)
+* [Column Renderer](http://react-redux-grid.herokuapp.com/Columnrenderer)
+* [Editable](http://react-redux-grid.herokuapp.com/Editable)
 
 [Examples Github](https://github.com/bencripps/react-redux-grid-demo)
-
-**Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. [More information is available here.](docs/USING_FONTS.md)
 
 ## Usage
 
@@ -100,11 +98,13 @@ render(
 * [Is there more information on Column Editors](docs/USING_CUSTOM_EDITORS.md)
 * [How do I enable the Sticky Header/Footer](docs/USING_STICKY.md)
 * [How do I create Custom Pagination](docs/USING_CUSTOM_PAGER.md)
+* [How is Font Awesome Incorporated](docs/USING_FONTS.md)
+
 
 ## Grid Level Parameters
 
-| Prop                | Type                    | Description       |
-|---------------------|-------------------------|-------------------|
+|Prop|Type|Description|
+|:--------------------|:------------------------|:------------------|
 | stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
 | height              | int                     | the height of the grid container|
 | stateKey            | string                  | unique id for grid, [more information available](docs/STATE_KEYS.md)|
@@ -153,7 +153,7 @@ export const columns = [
 ```
 
 | Prop                | Type                           | Description       |
-|---------------------|--------------------------------|-------------------|
+|:--------------------|:-------------------------------|:------------------|
 | name                | string                         | title of column to be displayed |
 | dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). [more information available](docs/USING_DATA_INDEX.md) |
 | editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell, [more information available](docs/USING_CUSTOM_EDITORS.md)|
@@ -181,8 +181,8 @@ export const plugins = {
 }
 ```
 
-| Prop                | Type                           | Description                                                                                                                           |
-|---------------------|--------------------------------|------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:------|:-------------------------------|:------------------------------------|
 | type                | oneOf(['inline', 'grid'])      | two editors are available by default. in grid mode, all fields are editable. in inline mode, only a single line is editable at a time|
 | enabled             | bool                           | if true, the grid will have an editor available|
 | focusOnEdit         | bool                           | focus the first editable input when an edit event occurs (defaults to true)|
@@ -206,8 +206,8 @@ export const plugins = {
 }
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop| Type| Description|
+|:-------------|:------------------------------|:--------|
 | resizable                 | bool                          |  will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array |
 | defaultColumnWidth        | int                           | if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template                   |
 | minColumnWidth            | int                           | the minimum width a column can be dragged to                                                                                                  |
@@ -232,8 +232,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:-------|:---------------------|:-----------------|
 | enabled                   | bool                          | whether a pager will be used, defaults to true                                                                                                |
 | pagingType                | oneOf(['local', 'remote'])    | defaults to `local`                                                                                                                           |
 | toolbarRenderer           | func                          | a function which which returns the description of the current pager state, ex: 'Viewing Records 10 of 100'                                    |
@@ -266,8 +266,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:------|:----------|:------------------------|
 | iconCls                   | string                        | class to be used for the action icon|
 | menu                      | arrayOf(object)               | menuItems, with `text`, `key`, `EVENT_HANDLER` properties. each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.|
 | onMenuShow                | func                          | a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.|
@@ -286,8 +286,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                                                            | Description |
-|---------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:---------|:------------|:--------------|
 | mode                      | oneOf(['single', 'multi', 'checkbox-single', 'checkbox-multi']) | determines whether a single value, or multiple values can be selected                                         |
 | editEvent                 | oneOf(['singleclick', 'doubleclick', 'none'])                  | what type of mouse event will trigger the editor                                                              |
 | enabled                   | bool                                                            | whether the selection model class is initialized                                                              |
@@ -306,8 +306,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:---------|:--------------|:-----------------------------------|
 | defaultErrorMessage       | string                        | the default error message to display when no error information is available                                                                   |
 | enabled                   | bool                          | whether the error handler should be initialized                                                                                               |
 
@@ -321,9 +321,9 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| enabled                   | bool                          | whether the loading mask should be initialized                                                                                                |
+| Prop|Type|Description|
+|:------------|:---------------|:---------|
+|enabled|bool|whether the loading mask should be initialized|
 
 ## Bulk Actions
 
@@ -343,10 +343,10 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| enabled                   | bool                          | whether the bulk action toolbar should be used                                                                                                |
-| actions                   | arrayOf(object)               | the actions (including button text, and event handler) that will be displayed in the bar                                                      |
+| Prop|Type|Description|
+|:-----|:--------------|:--------------------------------------------|
+| enabled|bool|whether the bulk action toolbar should be used|
+| actions|arrayOf(object)|the actions (including button text, and event handler) that will be displayed in the bar|
 
 ## Events
 
