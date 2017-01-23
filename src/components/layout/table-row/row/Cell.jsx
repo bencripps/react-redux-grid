@@ -190,8 +190,6 @@ export const handleClick = ({
     store
 }, reactEvent) => {
 
-    debugger;
-
     const { CLASS_NAMES } = gridConfig();
 
     if (reactEvent.target
