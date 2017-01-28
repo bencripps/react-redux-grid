@@ -13,7 +13,9 @@
 
 A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern with plenty of open source [examples](http://react-redux-grid.herokuapp.com/).
 
-![React Redux Grid](demo/demo.gif)
+![React Redux Grid](https://raw.githubusercontent.com/bencripps/react-redux-grid/master/demo/demo.gif)
+
+[Github Source](https://github.com/bencripps/react-redux-grid)
 
 ## Features
 
@@ -49,16 +51,18 @@ Open your browser to: http://localhost:8080
 
 ## Examples 
 
-* [Simple](http://react-redux-grid.herokuapp.com/#simple)
-* [Complex](http://react-redux-grid.herokuapp.com/#complex)
-* [Tree](http://react-redux-grid.herokuapp.com/#tree)
-* [Stress](http://react-redux-grid.herokuapp.com/#stress)
-* [Sticky](http://react-redux-grid.herokuapp.com/#sticky)
-* [Bootstrap](http://react-redux-grid.herokuapp.com/#bootstrap)
-* [Column Renderer](http://react-redux-grid.herokuapp.com/#columnrenderer)
-* [Editable](http://react-redux-grid.herokuapp.com/#editable)
+* [Simple](http://react-redux-grid.herokuapp.com/Simple)
+* [Complex](http://react-redux-grid.herokuapp.com/Complex)
+* [Tree](http://react-redux-grid.herokuapp.com/Tree)
+* [Stress](http://react-redux-grid.herokuapp.com/Stress)
+* [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
+* [Bootstrap](http://react-redux-grid.herokuapp.com/#Bootstrap)
+* [Column Renderer](http://react-redux-grid.herokuapp.com/Columnrenderer)
+* [Editable](http://react-redux-grid.herokuapp.com/Editable)
 
 [Examples Github](https://github.com/bencripps/react-redux-grid-demo)
+
+## Fonts 
 
 **Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
