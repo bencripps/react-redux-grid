@@ -1,9 +1,8 @@
 /* eslint-enable describe it sinon */
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
 import Grid from './../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../src/store/store';
+import { mountWithContext } from './../testUtils';
 
 const sortSpy = sinon.spy();
 
@@ -39,13 +38,12 @@ const props = {
         }
     ],
     stateKey: 'column-grid',
-    plugins: {},
-    store: GridStore
+    plugins: {}
 };
 
 describe('Integration Test for updating data array prop', () => {
 
-    const component = mount(<Grid { ...props } />);
+    const component = mountWithContext(<Grid { ...props } />);
 
     it('Should render the initial data', (done) => {
 

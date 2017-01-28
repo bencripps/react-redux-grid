@@ -11,7 +11,7 @@ export const Api = (config) => {
 
         const request = new XMLHttpRequest();
 
-        buildQueryString(config);
+        config.route = buildQueryString(config).route;
 
         request.open(config.method, config.route, true);
 

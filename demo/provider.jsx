@@ -33,8 +33,7 @@ const config = {
     pageSize,
     plugins,
     events,
-    stateKey,
-    store: Store
+    stateKey
 };
 
 export default (

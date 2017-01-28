@@ -1,39 +1,33 @@
 /* eslint-enable describe it */
 import expect from 'expect';
 import React from 'react';
-import { mount } from 'enzyme';
 import Grid from './../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../src/store/store';
-import { mockStore } from './../testUtils/index';
 
-import { gridColumns,
+import {
+    gridColumns,
     localGridData,
-    gridActions,
-    stateKey
-} from '../testUtils/data';
+    mountWithContext
+} from '../testUtils';
 
 const props = {
     data: localGridData,
     columns: gridColumns,
-    stateKey,
-    plugins: {},
-    store: mockStore({}, ...gridActions)
+    stateKey: 'simple-grid-tests',
+    plugins: {}
 };
 
-props.store.subscribe = () => {};
+// props.store.subscribe = () => {};
 
 describe('A fully mounted simple grid with invalid props', () => {
 
     const invalidDataProps = {
         ...props,
-        store: GridStore,
         data: null,
         dataSource: null
     };
 
     const invalidColProps = {
         ...props,
-        store: GridStore,
         columns: null
     };
 
@@ -43,25 +37,15 @@ describe('A fully mounted simple grid with invalid props', () => {
     };
 
     const invalidData = () => {
-        return mount(<Grid { ...invalidDataProps } />);
+        return mountWithContext(<Grid { ...invalidDataProps } />);
     };
 
     const invalidCol = () => {
-        return mount(<Grid { ...invalidColProps } />);
-    };
-
-    const invalidStore = () => {
-        const invalidStoreProps = {
-            ...props,
-            stateKey: 'banana',
-            store: {}
-        };
-
-        return mount(<Grid { ...invalidStoreProps } />);
+        return mountWithContext(<Grid { ...invalidColProps } />);
     };
 
     const invalidStateKey = () => {
-        return mount(<Grid { ...invalidStateKeyProps } />);
+        return mountWithContext(<Grid { ...invalidStateKeyProps } />);
     };
 
     it('Should throw an error', () => {
@@ -74,11 +58,6 @@ describe('A fully mounted simple grid with invalid props', () => {
             .toThrow('A columns array is required');
     });
 
-    // it('Should throw the store error', () => {
-    //     expect(invalidStore)
-    //         .toThrow('Component must be intialized with a valid store');
-    // });
-
     it('Should throw the stateKey error', () => {
         expect(invalidStateKey)
             .toThrow('A stateKey is required to intialize the grid');
@@ -89,11 +68,10 @@ describe('A fully mounted simple grid with invalid props', () => {
 describe('A fully mounted simple grid', () => {
 
     const simpleProps = {
-        ...props,
-        store: GridStore
+        ...props
     };
 
-    const component = mount(<Grid { ...simpleProps } />);
+    const component = mountWithContext(<Grid { ...simpleProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -153,7 +131,6 @@ describe('A fully mounted grid with a custom pager', () => {
 
     const customPagerProps = {
         ...props,
-        store: GridStore,
         plugins: {
             PAGER: {
                 enabled: true,
@@ -166,7 +143,7 @@ describe('A fully mounted grid with a custom pager', () => {
         }
     };
 
-    const component = mount(<Grid { ...customPagerProps } />);
+    const component = mountWithContext(<Grid { ...customPagerProps } />);
 
     it('Should have a pager', () => {
         expect(
@@ -180,7 +157,6 @@ describe('A fully mounted grid with pager', () => {
 
     const pagerProps = {
         ...props,
-        store: GridStore,
         plugins: {
             PAGER: {
                 enabled: true,
@@ -189,7 +165,7 @@ describe('A fully mounted grid with pager', () => {
         }
     };
 
-    const component = mount(<Grid { ...pagerProps } />);
+    const component = mountWithContext(<Grid { ...pagerProps } />);
 
     beforeEach((done) => {
         component.update();

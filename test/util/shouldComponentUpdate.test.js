@@ -17,6 +17,10 @@ describe('shouldGridUpdate utility function', () => {
 
     component.props = {};
 
+    component.context = {
+        store
+    };
+
     component.props.store = store;
 
     const nextProps = {
@@ -77,6 +81,10 @@ describe('shouldRowUpdate utility function', () => {
 
     component.props = defaultProps;
 
+    component.context = {
+        store
+    };
+
     const nextProps = {
         columns: [
             {
@@ -114,7 +122,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return true if row gets selected', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.props = {
             ...defaultProps,
@@ -145,7 +153,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return true if menu gets selected', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.props = {
             ...defaultProps,
@@ -176,7 +184,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return false if menu stays selected', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.previousColumns = [];
 
@@ -209,7 +217,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return true if editor values change', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.previousColumns = [];
 
@@ -255,7 +263,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return true if columns change', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.previousColumns = [
             {
@@ -301,7 +309,7 @@ describe('shouldPagerUpdate utility function', () => {
 
     it('Should update pager when records changed', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.props = {
             gridData: [
@@ -327,7 +335,7 @@ describe('shouldPagerUpdate utility function', () => {
 
     it('Should not update pager when record dont change', () => {
 
-        const cmp = function() {};
+        const cmp = function Cmp() {};
 
         cmp.props = {
             gridData: [

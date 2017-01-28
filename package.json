@@ -1,6 +1,6 @@
 {
   "name": "react-redux-grid",
-  "version": "5.1.0",
+  "version": "5.1.5",
   "description": "A React Grid Component written in the Redux Pattern",
   "author": "Bejamin Cripps",
   "contributors": [
@@ -20,7 +20,7 @@
   "scripts": {
     "demo": "npm run demo:build && npm run demo:run",
     "demo:build": "npm run build",
-    "demo:run": "http-server ./demo", 
+    "demo:run": "http-server ./demo",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
     "dist": "babel ./src --out-dir dist",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js",
@@ -45,9 +45,9 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.4.1",
     "react-immutable-proptypes": "^2.0.0",
-    "react-redux": "^5.0.1",
+    "react-redux": "^5.0.2",
     "redux": "^3.5.1",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
@@ -91,7 +91,7 @@
     "karma-sinon-chai": "^1.2.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.26",
-    "karma-webpack": "^1.8.0",
+    "karma-webpack": "^2.0.1",
     "lolex": "^1.5.1",
     "mocha": "^3.1.2",
     "node-storage-shim": "^1.0.1",

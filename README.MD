@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/react-redux-grid.svg)](https://badge.fury.io/js/react-redux-grid)
 [![Build Status](https://travis-ci.org/bencripps/react-redux-grid.svg?branch=master)](https://travis-ci.org/bencripps/react-redux-grid)
 [![Dependency Status](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d)
-[![npm](https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic)]()
+[![npm](https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-redux-grid)
 [![codecov](https://codecov.io/gh/bencripps/react-redux-grid/branch/master/graph/badge.svg)](https://codecov.io/gh/bencripps/react-redux-grid)
 [![Gitter](https://img.shields.io/gitter/room/bencripps/react-redux-grid.svg?maxAge=2592000)](https://gitter.im/bencripps/react-redux-grid)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/?branch=master)
@@ -45,19 +45,19 @@ If you would like to build and run the demo in your browser:
 
 ```
 $ npm install
-$ npm run demo 
+$ npm run demo
 ```
 Open your browser to: http://localhost:8080
 
-## Examples 
+## Examples
 
 * [Simple](http://react-redux-grid.herokuapp.com/Simple)
 * [Complex](http://react-redux-grid.herokuapp.com/Complex)
+* [Bootstrap](http://react-redux-grid.herokuapp.com/Bootstrap)
 * [Tree](http://react-redux-grid.herokuapp.com/Tree)
 * [Stress](http://react-redux-grid.herokuapp.com/Stress)
 * [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
-* [Bootstrap](http://react-redux-grid.herokuapp.com/#Bootstrap)
-* [Column Renderer](http://react-redux-grid.herokuapp.com/Columnrenderer)
+* [Column Renderer](http://react-redux-grid.herokuapp.com/ColRenderer)
 * [Editable](http://react-redux-grid.herokuapp.com/Editable)
 
 [Examples Github](https://github.com/bencripps/react-redux-grid-demo)
@@ -66,38 +66,65 @@ Open your browser to: http://localhost:8080
 
 **Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
+
 ## Usage
 
 ````javascript
 import React from 'react';
 import { render } from 'react-dom';
-import { Grid, Store as store } from 'react-redux-grid';
+import { Grid } from 'react-redux-grid';
 
 render(
     <Grid
         data={data}
         stateKey={stateKey}
-        store={store} // or pass your existing redux store
     />,
     document.getElementById('grid-mount')
 );
 ````
 
+## Documentation
+
+* [Grid](#grid-level-parameters)
+* [Columns](#columns)
+* [Editor](#editor)
+* [Column Manager](#column-manager)
+* [Pagination](#pagination)
+* [Row Actions](#grid-actions)
+* [Error Handling](#error-handler)
+* [Loading Mask](#loader)
+* [Bulk Actions](#bulk-actions)
+* [Eventing](#events)
+* [Style](#style)
+
+## FAQ
+
+* [How do I create a Tree Grid](docs/USING_TREE.md)
+* [How do I import Grid Reducers](docs/USING_GRID_REDUCERS.md)
+* [Is there more information on Column Renderers](docs/USING_CUSTOM_RENDERERS.md)
+* [Is there more information on Column Editors](docs/USING_CUSTOM_EDITORS.md)
+* [How do I enable the Sticky Header/Footer](docs/USING_STICKY.md)
+* [How do I create Custom Pagination](docs/USING_CUSTOM_PAGER.md)
+* [How is Font Awesome Incorporated](docs/USING_FONTS.md)
+
+
 ## Grid Level Parameters
 
-| Prop                | Type                    | Description       |
-|---------------------|-------------------------|-------------------|
+|Prop|Type|Description|
+|:--------------------|:------------------------|:------------------|
 | stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
-| height              | int                     | the height of the grid container                                                                                                                               |
-| showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed                                                                                             |
-| classNames          | array                   | a list of strings to be applied to the grid container as classes                                                                                               |
-| events              | object                  | grid event object, more information below                                                                                                                      |
-| store               | object.isRequred        | redux store                                                                                                                                                    |
-| reducerKeys         | object                  | object describing custom named reducers, more information below                                                                                                |
-| pageSize            | int                     | number of records to shown on a single grid page                                                                                                               |
-| emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available                                                                     |
-| dragAndDrop         | bool                    | whether drag and drop of rows should be enabled                                                                                                                |
-| gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view                                                                                                            |
+| height              | int                     | the height of the grid container|
+| stateKey            | string                  | unique id for grid, [more information available](docs/STATE_KEYS.md)|
+| showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed|
+| classNames          | array                   | a list of strings to be applied to the grid container as classes|
+| events              | object                  | grid event object, more information below|
+| reducerKeys         | object                  | object describing custom named reducers, more information below|
+| pageSize            | int                     | number of records to shown on a single grid page|
+| emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available|
+| dragAndDrop         | bool                    | whether drag and drop of rows should be enabled|
+| gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view |
+| data                | arrayOf(object)         | local data for grid to display, [more information available](docs/PROVIDING_DATA.md)|
+| dataSource          | func                    | function which returns data to display, [more information available](docs/PROVIDING_DATA.md)|
 
 ## Columns
 ```javascript
@@ -108,21 +135,15 @@ export const columns = [
         editor: '<input type="text" required />',
         width: '10%',
         className: 'additional-class',
-        renderer: ({ column, value, row }) => {
-               return (
-                   <span> Name: { value } </span>
-                   );
-           },
+        renderer: ({ column, value, row }) => (
+            <span> Name: { value } </span>
+        ),
         hidden: false,
         placeholder: 'Name',
-        validator: ({ value, values }) => {
-            return value.length > 0;
-        },
-        change: ({ values }) => {
-            return {
-                otherColDataIndex: 'newValue'
-            };
-        },
+        validator: ({ value, values }) => value.length > 0,
+        change: ({ values }) => ({
+            otherColDataIndex: 'newValue'
+        }),
         disabled: ({ value, values }) => {
             if (value === 'ShouldDisabled') {
                 return true;
@@ -139,47 +160,22 @@ export const columns = [
 ```
 
 | Prop                | Type                           | Description       |
-|---------------------|--------------------------------|-------------------|
+|:--------------------|:-------------------------------|:------------------|
 | name                | string                         | title of column to be displayed |
-| dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). if data is provided as a complex object, deeply nested data can be accessed by providing an array of keys                |
-| editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell                                                                                                    |
-| width               | int                            | width of column (if none is provided, a default width will be applied)                                                                                                               |
-| className           | array                          | additional class names to apply to header of this column                                                                                                                             |
-| renderer            | func                           | a function which returns the cell contents for this column                                                                                                                           |
-| hidden              | bool                           | whether the column is hidden or visible                                                                                                                                              |
-| hideable            | bool                           | whether the column can be hidden                                                                                                                                                     |
-| moveable            | bool                           | whether this column can be moved                                                                                                                                                     |
-| placeholder         | string                         | the placeholder that will be used for the editor input                                                                                                                               |
-| validator           | func                           | a func that should return a boolean, to determine if the newly input value is valid                                                                                                  |
-| change              | func                           | a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.                          |
-| disabled            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.                                                                                                                             |
-| createKeyFrom       | bool                           | see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)                                                                                                                   |
-| sortFn              | func                           | when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) |
-
-`dataIndex` Example:
-```javascript
-const data = {
-    outer: {
-        middle: {
-            inner: 'rowValue'
-        }
-    }
-};
-```
-
-You can access this data by providing the column the following dataIndex:
-
-```javascript
-const column = {
-    name: 'Value',
-    dataIndex: ['outer', 'middle', 'inner']
-};
-```
-
-##### Further Information
-
-1. [`renderers` in depth](docs/USING_CUSTOM_RENDERERS.md)
-2. [`editors` in depth](docs/USING_CUSTOM_EDITORS.md)
+| dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). [more information available](docs/USING_DATA_INDEX.md) |
+| editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell, [more information available](docs/USING_CUSTOM_EDITORS.md)|
+| width               | int                            | width of column (if none is provided, a default width will be applied)|
+| className           | array                          | additional class names to apply to header of this column|
+| renderer            | func                           | a function which returns the cell contents for this column, [more information available](docs/USING_CUSTOM_RENDERERS.md)|
+| hidden              | bool                           | whether the column is hidden or visible|
+| hideable            | bool                           | whether the column can be hidden|
+| moveable            | bool                           | whether this column can be moved|
+| placeholder         | string                         | the placeholder that will be used for the editor input|
+| validator           | func                           | a func that should return a boolean, to determine if the newly input value is valid|
+| change              | func                           | a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.|
+| disabled            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.|
+| createKeyFrom       | bool                           | see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)|
+| sortFn              | func                           | when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)|
 
 ## Editor
 ```javascript
@@ -192,11 +188,11 @@ export const plugins = {
 }
 ```
 
-| Prop                | Type                           | Description                                                                                                                           |
-|---------------------|--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| type                | oneOf(['inline', 'grid'])      | two editors are available by default. in grid mode, all fields are editable. in inline mode, only a single line is editable at a time |
-| enabled             | bool                           | if true, the grid will have an editor available                                                                                       |
-| focusOnEdit         | bool                           | focus the first editable input when an edit event occurs (defaults to true)                                                           |                                                                                                   |
+| Prop|Type|Description|
+|:------|:-------------------------------|:------------------------------------|
+| type                | oneOf(['inline', 'grid'])      | two editors are available by default. in grid mode, all fields are editable. in inline mode, only a single line is editable at a time|
+| enabled             | bool                           | if true, the grid will have an editor available|
+| focusOnEdit         | bool                           | focus the first editable input when an edit event occurs (defaults to true)|
 
 
 ## Column Manager
@@ -217,8 +213,8 @@ export const plugins = {
 }
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop| Type| Description|
+|:-------------|:------------------------------|:--------|
 | resizable                 | bool                          |  will set all columns to resizable. This parameter will not override columns that have declared they are not resizable from the columns array |
 | defaultColumnWidth        | int                           | if no column width is provided, columns will be divided equally. this can be overwritten by providing a new string template                   |
 | minColumnWidth            | int                           | the minimum width a column can be dragged to                                                                                                  |
@@ -243,41 +239,14 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:-------|:---------------------|:-----------------|
 | enabled                   | bool                          | whether a pager will be used, defaults to true                                                                                                |
 | pagingType                | oneOf(['local', 'remote'])    | defaults to `local`                                                                                                                           |
 | toolbarRenderer           | func                          | a function which which returns the description of the current pager state, ex: 'Viewing Records 10 of 100'                                    |
 | pagerComponent            | jsx                           | if you'd like to pass your own pager in, you can supply a jsx element which will replace the pager entirely                                   |
 
-##### Note about using a Custom Pager
-
-You can pass a `JSX` element to replace the pager entirely. This can be either a connected or unconnected component. To dispatch paging events, you can use the `Actions.PagerActions.setPageIndexAsync` or `Actions.PagerActions.setPage` that are exposed from the main export.
-
-Example:
-```javascript
-// my custom actionHandler that my custom component uses
-
-export const setPageIndex = (pageIndex, pageSize, dataSource) => {
-    return (dispatch) => {
-        // dispatch an event that the grid is listening for, which updates the current records
-        dispatch(
-            Actions.PagerActions
-                .setPageIndexAsync(pageIndex, pageSize, dataSource)
-        );
-
-        // dispatch an event that my custom toolbar is listening for
-        // to update the current pageIndex
-        dispatch({
-            type: SET_PAGE_INDEX,
-            pageIndex
-        });
-
-    };
-};
-```
-
-## Grid Actions (Row Menu Actions)
+## Grid Actions
 ```javascript
 export const plugins = {
     GRID_ACTIONS: {
@@ -304,39 +273,11 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| iconCls                   | string                        | class to be used for the action icon                                                                                                          |
-| menu                      | arrayOf(object)               | menuItems, with `text`, `key`, `EVENT_HANDLER` properties                                                                                     |
-| onMenuShow                | func                          | a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.                 |
-
-##### Notes about Menu Items
-
-Each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.
-
-## Sticky Header/Footer
-
-If you'd like to disable scrolling within the grid container, in favor of an infinite scroll UI you can use the sticky header/footer feature.
-```javascript
-export const plugins = {
-    STICKY_HEADER: {
-        enabled: true,
-        scrollTarget: '#my-scrollable-div',
-        listener: customFunc
-    },
-    STICKY_FOOTER: {
-        enabled: true,
-        scrollTarget: '#my-scrollable-div',
-        listener: customFunc
-    }
-}
-```
-
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| enabled                   | bool                          | whether the sticky header is initialized                                                                                                      |
-| scrollTarget              | string                        | optional, useds as a selector to find the scrollable parent, ex. '.page-container'                                                            |
-| listener                  | func                          | optional, custom function to be called on scroll                                                                                              |
+| Prop|Type|Description|
+|:------|:----------|:------------------------|
+| iconCls                   | string                        | class to be used for the action icon|
+| menu                      | arrayOf(object)               | menuItems, with `text`, `key`, `EVENT_HANDLER` properties. each object must contain a unique key relative to it's parent array. These keys will be used as the JSX element key.|
+| onMenuShow                | func                          | a method that fires upon menu action click. @return an array of `keys` to disable menu items that correspond with these keys.|
 
 ## Selection Model
 ```javascript
@@ -352,8 +293,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                                                            | Description |
-|---------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:---------|:------------|:--------------|
 | mode                      | oneOf(['single', 'multi', 'checkbox-single', 'checkbox-multi']) | determines whether a single value, or multiple values can be selected                                         |
 | editEvent                 | oneOf(['singleclick', 'doubleclick', 'none'])                  | what type of mouse event will trigger the editor                                                              |
 | enabled                   | bool                                                            | whether the selection model class is initialized                                                              |
@@ -372,8 +313,8 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Prop|Type|Description|
+|:---------|:--------------|:-----------------------------------|
 | defaultErrorMessage       | string                        | the default error message to display when no error information is available                                                                   |
 | enabled                   | bool                          | whether the error handler should be initialized                                                                                               |
 
@@ -387,9 +328,9 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| enabled                   | bool                          | whether the loading mask should be initialized                                                                                                |
+| Prop|Type|Description|
+|:------------|:---------------|:---------|
+|enabled|bool|whether the loading mask should be initialized|
 
 ## Bulk Actions
 
@@ -409,10 +350,10 @@ export const plugins = {
 };
 ```
 
-| Prop                      | Type                          | Description                                                                                                                                   |
-|---------------------------|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| enabled                   | bool                          | whether the bulk action toolbar should be used                                                                                                |
-| actions                   | arrayOf(object)               | the actions (including button text, and event handler) that will be displayed in the bar                                                      |
+| Prop|Type|Description|
+|:-----|:--------------|:--------------------------------------------|
+| enabled|bool|whether the bulk action toolbar should be used|
+| actions|arrayOf(object)|the actions (including button text, and event handler) that will be displayed in the bar|
 
 ## Events
 
@@ -509,129 +450,3 @@ export const CLASS_NAMES = {
 
 };
 ```
-
-## FAQ
-
-## Creating a Tree Grid
-
-For more information abot creating a tree grid, please see [tree grid in depth](docs/USING_TREE.md)
-
-## Which Store do I use?
-
-Because Redux imposes a single store pattern, it's very probable that you will need to use this grid with your own store. Well that's ok! The `demo` folder includes:
-
-1. `index.html`
-2. `entry.js` The entry point for webpack to build all required assets
-3. `provider.jsx` The Redux entry point, where your store will be declared
-
-This component will work out of the box, without installing a custom store. A store has been created within the components source files, but this store will be entirely ignored if a different store is passed to the grid.
-
-In the demo `provider.jsx`, we are simply passing the store at path`'../src/store/store';`. To use your own store, simply provide your own store (recommended) or overwrite the source store.
-
-If you elect to use a custom store, the core component's reducers are also exposed from within the core export. You can import a reducer like so:
-
-```javascript
-import { Reducers as gridReducers } from 'react-redux-grid';
-
-const rootReducer = combineReducers({
-    ...gridReducers,
-    yourCustomReducer
-};
-```
-
-For more information about importing `Reducers`, check out [grid reducers in depth](docs/USING_GRID_REDUCERS.md)
-
-## What's a `stateKey`?
-
-A `stateKey` is a unique ID associated with each grid instantiation, and is a required parameter. Because all grid data is stored in a `reducer`, we need a unique key to access each grid's subsection of data in these objects. If a grid is instantiated without a `stateKey`, it will will throw a user error in the console. If a duplicate `stateKey` is passed to grid it will throw a user error in the console. In short, please provide a unique `stateKey` to each grid you create.
-
-## Data
-
-Data can be provided to a grid in two ways.
-
-1. As a Local Data Source (in memory)
-2. As a Remote Data Source, via AJAX (by providing a route, or a function which returns a `Promise`)
-
-If data is provided as a local variable it should be described as an array of objects, and declared using `data = [];`.
-
-If data is provided as a request route, it should be described as a string or a function and declared using `dataSource = path/to/data/source;`.
-
-If data is provided as a function, it should return a `Promise`
-
-
-
-Examples of both cases:
-
-### Local
-
-```javascript
-const data = [
-    {
-        name: 'Michael Jordan',
-        position: 'Shooting Guard'
-    },
-    {
-        name: 'Charles Barkley',
-        position: 'Power Forward'
-    }, ...
-];
-
-const grid = <Grid data={ data } />
-```
-
-### Remote -- as a string
-
-```javascript
-const dataSource = 'route/to/your/data/source';
-const grid = <Grid dataSource={ dataSource } />
-```
-
-### Remote -- as a function which returns a promise
-
-```javascript
-const dataSource = () => {
-
-    return new Promise((success) =>{
-
-        return $.get({
-            method: 'GET',
-            route: '/route/to/your/data',
-        }).then((response) => {
-
-            // important to note, that the grid expects a data attribute
-            // on the response object!
-
-            const gridResponse = {
-                data: response.items,
-                success: true
-            };
-
-            success(gridResponse);
-        });
-
-    });
-};
-
-const grid = <Grid dataSource= { dataSource } />
- ```
-
-
-#### What if I want to use my own store, but I want to name the reducer keys myself?
-
-This is possible. You simply need to pass the reducer name as a `prop`.
-```javascript
-const gridProps = {
-    reducerKeys: {
-        grid: 'YOUR_GRID_REDUCER_KEY'
-    },
-    store
-};
-
-const grid = <Grid { ...gridProps } />;
-```
-
-#### I see fonts aren't included in the package. Do I have to build them with my webpack? Do I have to use them at all?
-
-The grid expects FontAwesome to be available. The grid component doesn't ship with fonts since that's a bad practice. For the grid to work correcrly, you will need to make FontAwesome available either via build process, or linking to them externally.
-
-Please see font awesome's documentation for more [information](http://fontawesome.io/)

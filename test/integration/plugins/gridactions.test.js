@@ -1,15 +1,15 @@
 /* eslint-enable describe it sinon */
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
 import Grid from './../../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../../src/store/store';
 
 import {
     gridColumns,
     localGridData,
     stateKey
 } from '../../testUtils/data';
+
+import { mountWithContext } from '../../testUtils';
 
 const props = {
     data: localGridData,
@@ -22,7 +22,6 @@ describe('Integration Test for Grid Actions', () => {
 
     const simpleProps = {
         ...props,
-        store: GridStore,
         stateKey: 'grid-action-statekey',
         plugins: {
             GRID_ACTIONS: {
@@ -42,7 +41,7 @@ describe('Integration Test for Grid Actions', () => {
         }
     };
 
-    const component = mount(<Grid { ...simpleProps } />);
+    const component = mountWithContext(<Grid { ...simpleProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -90,7 +89,6 @@ describe('Integration Test for Grid Actions', () => {
     it('When clicked, the menu should reposition to above row', (done) => {
         const dataProps = {
             ...props,
-            store: GridStore,
             height: 400,
             plugins: {
                 GRID_ACTIONS: {
@@ -177,7 +175,7 @@ describe('Integration Test for Grid Actions', () => {
             stateKey: 'big-data-set'
         };
 
-        const cmpWithData = mount(<Grid { ...dataProps } />, {
+        const cmpWithData = mountWithContext(<Grid { ...dataProps } />, {
             attachTo: document.body
         });
 
