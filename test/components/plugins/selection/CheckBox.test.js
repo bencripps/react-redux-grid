@@ -1,6 +1,8 @@
 import expect from 'expect';
 import React from 'react';
-
+import {
+    SELECTION_MODES
+ } from './../../../../src/constants/GridConstants';
 import {
     CheckBox
 } from './../../../../src/components/plugins/selection/CheckBox.jsx';
@@ -61,6 +63,23 @@ describe('An Non Header CheckBox Click Event', () => {
     const checkbox = checkboxContainer.find('.react-grid-checkbox');
 
     checkbox.simulate('click');
+
+    it('Should render the container correctly', () => {
+        expect(checkboxContainer.node.type).toEqual('td');
+    });
+
+});
+
+
+describe('A Non Header CheckBox Double Click Event', () => {
+
+    // attempting to cover lines 126, 127 but add selectionModelConfig to props fails 
+    //const selectionModelConfig = {mode: SELECTION_MODES.checkboxSingle, selectionEvent: 'doubleclick'}; 
+
+    const checkboxContainer = shallowWithContext(<CheckBox { ...props }/>);
+    const checkbox = checkboxContainer.find('.react-grid-checkbox');
+
+    checkbox.simulate('doubleclick');
 
     it('Should render the container correctly', () => {
         expect(checkboxContainer.node.type).toEqual('td');
