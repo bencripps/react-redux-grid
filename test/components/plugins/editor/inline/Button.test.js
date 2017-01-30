@@ -3,7 +3,6 @@
 import expect from 'expect';
 import React from 'react';
 import { OrderedMap, fromJS, Map } from 'immutable';
-import { shallow, mount } from 'enzyme';
 
 import { CLASS_NAMES } from './../../../../../src/constants/GridConstants';
 
@@ -11,14 +10,19 @@ import {
     editRow
 } from './../../../../../src/actions/plugins/editor/EditorActions';
 
-import store from './../../../../../src/store/store';
-
 import {
     Button
 } from './../../../../../src/components/plugins/editor/inline/Button.jsx';
+
 import {
     Editor
 } from './../../../../../src/records';
+
+import {
+    shallowWithContext,
+    mountWithContext,
+    initializedStore
+} from './../../../../testUtils';
 
 const BUTTON_TYPES = {
     CANCEL: 'CANCEL',
@@ -40,13 +44,13 @@ describe('The inline editor cancel button', () => {
         editedRowKey: 'some-id',
         events: {},
         stateKey: 'test-grid',
-        store,
+        store: initializedStore,
         type: BUTTON_TYPES.CANCEL
     };
 
     it('Should render a cancel button', () => {
 
-        const button = shallow(<Button { ...props } />);
+        const button = shallowWithContext(<Button { ...props } />);
 
         expect(
             button.props().children
@@ -61,7 +65,7 @@ describe('The inline editor cancel button', () => {
             cancelText: 'Probably Cancel?'
         };
 
-        const button = shallow(<Button { ...modifiedTextProps } />);
+        const button = shallowWithContext(<Button { ...modifiedTextProps } />);
 
         expect(
             button.props().children
@@ -77,9 +81,9 @@ describe('The inline editor cancel button', () => {
             stateKey: 'test-cancel-button'
         };
 
-        const button = mount(<Button { ...modifiedTextProps } />);
+        const button = mountWithContext(<Button { ...modifiedTextProps } />);
 
-        store.dispatch(editRow({
+        initializedStore.dispatch(editRow({
             rowId: 'some-id',
             top: 40,
             values: fromJS({
@@ -100,7 +104,7 @@ describe('The inline editor cancel button', () => {
             stateKey: 'test-cancel-button'
         }));
 
-        const editorState = store
+        const editorState = initializedStore
             .getState()
             .editor.getIn(['test-cancel-button']);
 
@@ -111,7 +115,7 @@ describe('The inline editor cancel button', () => {
         button.simulate('click');
 
         setTimeout(() => {
-            const newEditorState = store
+            const newEditorState = initializedStore
                 .getState()
                 .editor
                 .getIn(['test-cancel-button', 'row-0']);
@@ -135,13 +139,13 @@ describe('The inline editor save button', () => {
         events: {},
         editedRowKey: 'row-0',
         stateKey: 'test-grid',
-        store,
+        store: initializedStore,
         type: BUTTON_TYPES.SAVE
     };
 
     it('Should render an enabled save button', () => {
 
-        const button = shallow(<Button { ...props } />);
+        const button = shallowWithContext(<Button { ...props } />);
 
         expect(button.props().disabled)
             .toEqual(undefined);
@@ -149,7 +153,7 @@ describe('The inline editor save button', () => {
     });
 
     it('Should render a disabled save button class', () => {
-        const button = shallow(<Button { ...props } />);
+        const button = shallowWithContext(<Button { ...props } />);
 
         expect(button.props().className)
             .toContain(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON);
@@ -166,7 +170,7 @@ describe('The inline editor save button', () => {
             })
         };
 
-        const button = shallow(<Button { ...disabledProps } />);
+        const button = shallowWithContext(<Button { ...disabledProps } />);
 
         expect(button.props().disabled)
             .toEqual(true);
@@ -179,7 +183,7 @@ describe('The inline editor save button', () => {
             saveText: 'test save text',
             editorState: Map()
         };
-        const button = shallow(<Button { ...modifiedTextProps } />);
+        const button = shallowWithContext(<Button { ...modifiedTextProps } />);
 
         expect(button.props().children)
             .toEqual('test save text');
@@ -206,11 +210,11 @@ describe('The inline editor save button', () => {
             })
         };
 
-        const eventButton = mount(<Button { ...eventProps } />);
+        const eventButton = mountWithContext(<Button { ...eventProps } />);
 
         eventButton.simulate('click');
 
-        const updatedRow = store.getState()
+        const updatedRow = initializedStore.getState()
             .dataSource
             .getIn(['test-stateKey', 'data'])
             .first()
@@ -244,7 +248,7 @@ describe('The inline editor save button', () => {
             })
         };
 
-        const eventButton = mount(<Button { ...eventProps } />);
+        const eventButton = mountWithContext(<Button { ...eventProps } />);
 
         eventButton.simulate('click');
 
@@ -280,7 +284,7 @@ describe('The inline editor save button', () => {
             })
         };
 
-        const eventButton = mount(<Button { ...eventProps } />);
+        const eventButton = mountWithContext(<Button { ...eventProps } />);
 
         eventButton.simulate('click');
 

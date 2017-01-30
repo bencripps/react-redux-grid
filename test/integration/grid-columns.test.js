@@ -1,9 +1,8 @@
 /* eslint-enable describe it sinon */
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
 import Grid from './../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../src/store/store';
+import { mountWithContext } from './../testUtils';
 
 const sortSpy = sinon.spy();
 
@@ -45,11 +44,10 @@ const props = {
 describe('Integration Test for Column custom sort fn', () => {
 
     const editorProps = {
-        ...props,
-        store: GridStore
+        ...props
     };
 
-    const component = mount(<Grid { ...editorProps } />);
+    const component = mountWithContext(<Grid { ...editorProps } />);
 
     it('Should dismiss editor on click of cancel button', (done) => {
 

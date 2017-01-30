@@ -11,7 +11,6 @@ import
 from './../../../../src/reducers/components/plugins/loader';
 
 import {
-    generateLastUpdate,
     resetLastUpdate
 } from './../../../../src/util/lastUpdate';
 

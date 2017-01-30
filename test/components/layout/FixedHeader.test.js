@@ -1,12 +1,12 @@
 import expect from 'expect';
 import React from 'react';
-import { mount } from 'enzyme';
 import FixedHeader from './../../../src/components/layout/FixedHeader.jsx';
 
-import store from './../../../src/store/store';
-
 import {
-    getColumnManager, getSelModel
+    getColumnManager,
+    getSelModel,
+    initializedStore,
+    mountWithContext
 } from './../../testUtils/index';
 
 const props = {
@@ -34,7 +34,7 @@ const props = {
     reducerKeys: {},
     selectionModel: getSelModel(),
     stateKey: 'test-grid',
-    store,
+    store: initializedStore,
     pager: {},
     plugins: {},
     menuState: {}
@@ -44,7 +44,7 @@ describe('The Grid Fixed header component', () => {
 
     it('Should render the correct number of TH (including action col)', () => {
 
-        const component = mount(<FixedHeader { ...props } />);
+        const component = mountWithContext(<FixedHeader { ...props } />);
 
         expect(
             component.find('th').length
@@ -69,7 +69,9 @@ describe('The Grid Fixed header component', () => {
             ]
         };
 
-        const component = mount(<FixedHeader { ...defaultSortDirection } />);
+        const component = mountWithContext(
+            <FixedHeader { ...defaultSortDirection } />
+        );
 
         expect(
             component.find('th').first().props().className
@@ -94,7 +96,9 @@ describe('The Grid Fixed header component', () => {
             ]
         };
 
-        const component = mount(<FixedHeader { ...sortDirection } />);
+        const component = mountWithContext(
+            <FixedHeader { ...sortDirection } />
+        );
 
         expect(
             component.find('th').first().props().className
@@ -118,7 +122,7 @@ describe('The Grid Fixed header component', () => {
             ]
         };
 
-        const component = mount(<FixedHeader { ...hiddenProps } />);
+        const component = mountWithContext(<FixedHeader { ...hiddenProps } />);
 
         expect(
             component.find('th').length
@@ -128,7 +132,7 @@ describe('The Grid Fixed header component', () => {
 
     it('Should be able to pass classes as state', () => {
 
-        const component = mount(<FixedHeader { ...props } />);
+        const component = mountWithContext(<FixedHeader { ...props } />);
 
         component.setState({ classes: ['custom', 'classes'] });
 
@@ -166,9 +170,10 @@ describe('The Grid Fixed header component', () => {
         document.body.appendChild(container);
         container.style.width = '500px';
 
-        const component = mount(<FixedHeader { ...draggableProps } />, {
-            attachTo: container
-        });
+        const component = mountWithContext(
+            <FixedHeader { ...draggableProps } />,
+            { attachTo: container}
+        );
 
         component
             .find('.react-grid-drag-handle')
@@ -178,7 +183,7 @@ describe('The Grid Fixed header component', () => {
             });
 
         expect(
-            store
+            initializedStore
                 .getState()
                 .grid
                 .getIn(['test-grid', 'columns'])[0].width

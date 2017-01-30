@@ -5,8 +5,10 @@ describe('keyGenerator utility function', () => {
     const keywords1 = ['keyword', 'keywordA', 'keywordB'];
     const keywords2 = ['react', 'redux', 'grid', 'test'];
 
-    expect(keyGenerator(keywords1)).toEqual('a2V5d29yZCxrZXl3b3JkQSxrZXl3b3JkQg==');
-    expect(keyGenerator(keywords2)).toEqual('cmVhY3QscmVkdXgsZ3JpZCx0ZXN0');
+    expect(keyGenerator(keywords1))
+        .toEqual('a2V5d29yZCxrZXl3b3JkQSxrZXl3b3JkQg==');
+    expect(keyGenerator(keywords2))
+        .toEqual('cmVhY3QscmVkdXgsZ3JpZCx0ZXN0');
 });
 
 describe('keyFromObject utility function', () => {
@@ -22,7 +24,9 @@ describe('keyFromObject utility function', () => {
         test: 'test'
     };
 
-    expect(keyFromObject(keywords1)).toEqual('c29tZUtleWFub3RoZXJLZXk=');
-    expect(keyFromObject(keywords2)).toEqual('cmVhY3RyZWR1eGdyaWR0ZXN0');
+    expect(keyFromObject(keywords1))
+        .toEqual('c29tZUtleWFub3RoZXJLZXk=');
+    expect(keyFromObject(keywords2))
+        .toEqual('cmVhY3RyZWR1eGdyaWR0ZXN0');
 
 });

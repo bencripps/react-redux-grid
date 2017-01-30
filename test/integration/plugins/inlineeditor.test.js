@@ -5,14 +5,16 @@ import expect from 'expect';
 import { mount } from 'enzyme';
 import { fromJS, Map } from 'immutable';
 import Grid from './../../../src/components/Grid.jsx';
-import { Store as GridStore } from './../../../src/store/store';
 import { Editor } from './../../../src/records';
+import store from './../../../src/store/store';
 
 import {
     gridColumns,
     localGridData,
     stateKey
 } from '../../testUtils/data';
+
+import { mountWithContext } from '../../testUtils';
 
 import {
     resetLastUpdate
@@ -29,7 +31,6 @@ describe('Integration Test for Inline Editor', () => {
     beforeEach(() => resetLastUpdate());
     const editorProps = {
         ...props,
-        store: GridStore,
         plugins: {
             EDITOR: {
                 enabled: true,
@@ -41,7 +42,7 @@ describe('Integration Test for Inline Editor', () => {
         }
     };
 
-    const component = mount(<Grid { ...editorProps } />);
+    const component = mountWithContext(<Grid { ...editorProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(
@@ -74,12 +75,10 @@ describe('Integration Test for Inline Editor', () => {
             stateKey: 'grid-type-inline'
         };
 
-        const cmp = mount(<Grid { ...editorStateProps } />);
+        const cmp = mountWithContext(<Grid { ...editorStateProps } />);
 
         setTimeout(() => {
-            expect(
-                editorStateProps
-                    .store
+            expect(store
                     .getState()
                     .editor
                     .get('grid-type-inline')
@@ -107,11 +106,10 @@ describe('Integration Test for Inline Editor', () => {
             stateKey: 'grid-type-grid'
         };
 
-        const cmp = mount(<Grid { ...editorTypeGrid } />);
+        const cmp = mountWithContext(<Grid { ...editorTypeGrid } />);
 
         setTimeout(() => {
-
-            expect(editorTypeGrid.store.getState().editor.get('grid-type-grid'))
+            expect(cmp.context('store').getState().editor.get('grid-type-grid'))
                 .toEqual(fromJS({
                     lastUpdate: 3,
                     'row-0': new Editor({
@@ -172,7 +170,6 @@ describe('Integration Test for a grid without Inline Editor', () => {
 
     const editorProps = {
         ...props,
-        store: GridStore,
         plugins: {
             EDITOR: {
                 enabled: false,
@@ -184,7 +181,7 @@ describe('Integration Test for a grid without Inline Editor', () => {
         }
     };
 
-    const component = mount(<Grid { ...editorProps } />);
+    const component = mountWithContext(<Grid { ...editorProps } />);
 
     it('Should render with the correct number of rows', () => {
         expect(

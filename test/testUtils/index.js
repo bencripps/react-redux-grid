@@ -1,12 +1,16 @@
 import { OrderedMap } from 'immutable';
-import thunk from 'redux-thunk';
+import { mount, shallow } from 'enzyme';
 import TestUtils from 'react-addons-test-utils';
-import configureMockStore from 'redux-mock-store';
 import ColumnManager from '../../src/components/core/ColumnManager';
 import Model from '../../src/components/plugins/selection/Model';
+import configureStore from './../../src/store/configureStore';
 import { gridColumns } from './data';
 
-export const mockStore = getMockStore;
+export { localGridData, gridColumns } from './data';
+
+const store = configureStore();
+
+export const initializedStore = store;
 
 export function setup(thing) {
     const renderer = TestUtils.createRenderer();
@@ -32,7 +36,7 @@ export function getSelModel() {
         // plugins
         {},
         // store,
-        mockStore,
+        store: initializedStore,
         // events
         {}
     );
@@ -45,7 +49,7 @@ export function getColumnManager() {
 
     columnManager.init({
         plugins: {},
-        store: mockStore(),
+        store: initializedStore,
         events: {},
         selModel: getSelModel(),
         editor: {},
@@ -58,9 +62,12 @@ export function getColumnManager() {
 
 export const testState = cfg => new OrderedMap(cfg);
 
-function getMockStore(state: {}, ...actions) {
-    const getState = state;
-    const middleWares = [thunk];
-    const store = configureMockStore(middleWares);
-    return store(getState, actions);
-}
+export const mountWithContext = (cmp, additionalOptions = {}) => mount(
+    cmp, {
+        context: { store: initializedStore }, ...additionalOptions
+    });
+
+export const shallowWithContext = (cmp, additionalOptions = {}) => shallow(
+    cmp, {
+        context: { store: initializedStore }, ...additionalOptions
+    });

@@ -5,11 +5,11 @@ import { stateGetter } from './../../src/util/stateGetter';
 describe('State Getter Function', () => {
 
     // sample redux wrapper for state.get
-    function getState(...props) {
+    function getState() {
         return true;
     }
 
-    function getStateWithImmutable(...props) {
+    function getStateWithImmutable() {
         return Map({
             x: 1
         });
@@ -23,7 +23,7 @@ describe('State Getter Function', () => {
         ).toBeTruthy();
     });
 
-    it('Should return an immutable object if state is stored as a immutable', () => {
+    it('Should return an immutable object if state is immutable', () => {
         const state = { filterState: { get: getStateWithImmutable } };
         const props = {};
         expect(

@@ -1,5 +1,22 @@
 # Change Log
 
+## [5.1.2](https://github.com/bencripps/react-redux-grid/tree/5.1.2) (2017-01-20)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.0...5.1.2)
+
+**Implemented enhancements:**
+
+- Add support for state to be an ImmutableJS Map [\#71](https://github.com/bencripps/react-redux-grid/issues/71)
+- Namespace the actions [\#16](https://github.com/bencripps/react-redux-grid/issues/16)
+- quickly build and run the demo [\#81](https://github.com/bencripps/react-redux-grid/pull/81) ([headwinds](https://github.com/headwinds))
+
+**Fixed bugs:**
+
+- quickly build and run the demo [\#81](https://github.com/bencripps/react-redux-grid/pull/81) ([headwinds](https://github.com/headwinds))
+
+**Merged pull requests:**
+
+- Remove `store` from props declaration -- will be pulled from context [\#82](https://github.com/bencripps/react-redux-grid/pull/82) ([bencripps](https://github.com/bencripps))
+
 ## [5.1.0](https://github.com/bencripps/react-redux-grid/tree/5.1.0) (2017-01-04)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.0.2...5.1.0)
 

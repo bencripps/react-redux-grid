@@ -1,6 +1,6 @@
 /* eslint-enable describe it sinon */
 import expect from 'expect';
-import { fromJS, List } from 'immutable';
+import { fromJS } from 'immutable';
 
 import {
     findTreeNode

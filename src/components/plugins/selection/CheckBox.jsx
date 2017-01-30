@@ -36,12 +36,22 @@ export const CheckBox = ({
         )
     };
 
+    let checked = selectedRows
+        && selectedRows.get
+        && selectedRows.get(rowId) !== undefined
+        ? selectedRows.get(rowId)
+        : false;
+
+    if (type === 'header') {
+        // check to see if all rows are selected - lastUpdate
+        checked = selectedRows && selectedRows.count
+            ? selectedRows.count() - 1 === dataSource.currentRecords.count()
+            : false;
+    }
+
     const checkBoxProps = {
         className: prefix(CLASS_NAMES.SELECTION_MODEL.CHECKBOX),
-        checked: selectedRows
-            && selectedRows.get
-            ? selectedRows.get(rowId)
-            : false,
+        checked,
         type: 'checkbox',
         onChange: handleChange.bind(
             this,

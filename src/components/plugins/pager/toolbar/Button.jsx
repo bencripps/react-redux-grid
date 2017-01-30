@@ -82,10 +82,10 @@ export const handleButtonClick = (
 
     else {
         /* eslint-disable no-console */
-        console.warn(
-            ['Please configure paging plugin pagingType',
-            'to local if no pagingSource is provided'].join(' ')
-        );
+        console.warn([
+            'Please configure paging plugin pagingType',
+            'to local if no pagingSource is provided'
+        ].join(' '));
     }
 };
 

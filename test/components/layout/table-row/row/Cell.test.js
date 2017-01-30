@@ -1,11 +1,16 @@
 import React from 'react';
 import { fromJS, OrderedMap } from 'immutable';
 import expect from 'expect';
-import { shallow, mount } from 'enzyme';
 
 import { getSelModel } from './../../../../testUtils/';
-import store from './../../../../../src/store/store';
 import { Editor } from './../../../../../src/records';
+
+import {
+    initializedStore,
+    mountWithContext,
+    shallowWithContext
+} from './../../../../testUtils';
+
 import {
     Cell
 } from './../../../../../src/components/layout/table-row/row/Cell.jsx';
@@ -36,7 +41,7 @@ describe('The Grid Cell Component', () => {
         editorState: new OrderedMap(),
         events: {},
         index: 0,
-        rowData: {
+        row: {
             name: 'Tommy Lee Jones',
             position: 'actor'
         },
@@ -44,12 +49,12 @@ describe('The Grid Cell Component', () => {
         rowId: 'some-id',
         stateKey: 'test-grid',
         selectionModel: getSelModel(),
-        store
+        store: initializedStore
     };
 
     it('Should render a cell', () => {
 
-        const component = shallow(<Cell { ...props } />);
+        const component = shallowWithContext(<Cell { ...props } />);
 
         expect(component.html())
             .toEqual(
@@ -72,7 +77,7 @@ describe('The Grid Cell Component', () => {
             })
         };
 
-        const component = mount(<Cell { ...editableProps } />);
+        const component = mountWithContext(<Cell { ...editableProps } />);
 
         expect(component.find('input').node)
             .toBeTruthy();
@@ -96,7 +101,7 @@ describe('The Grid Cell Component', () => {
             ]
         };
 
-        const component = mount(<Cell { ...editableProps } />);
+        const component = mountWithContext(<Cell { ...editableProps } />);
 
         expect(component.html())
             .toContain('display: none;');
@@ -111,7 +116,7 @@ describe('The Grid Cell Component', () => {
             }
         };
 
-        const component = mount(<Cell { ...clickable } />);
+        const component = mountWithContext(<Cell { ...clickable } />);
 
         component.simulate('click');
 
@@ -135,7 +140,7 @@ describe('The Grid Cell Component', () => {
             selectionModel: modifiedSelModel
         };
 
-        const component = mount(<Cell { ...editEventProps } />);
+        const component = mountWithContext(<Cell { ...editEventProps } />);
 
         const beforEditState = editEventProps
             .store
@@ -169,14 +174,14 @@ describe('The Grid Cell Component', () => {
 
         const noEventProps = {
             ...props,
-            editorState: new OrderedMap{
+            editorState: new OrderedMap({
                 row: new Editor({
                     key: 'some-id'
                 })
             })
         };
 
-        const component = mount(<Cell { ...noEventProps } />);
+        const component = mountWithContext(<Cell { ...noEventProps } />);
 
         component.node.classList = {};
         component.node.classList.contains = () => { return true; };
@@ -202,14 +207,14 @@ describe('The Grid Cell Component', () => {
 
         const noEventProps = {
             ...props,
-            editorState: new OrderedMap{
+            editorState: new OrderedMap({
                 row: new Editor({
                     key: 'some-id'
                 })
             })
         };
 
-        const component = mount(<Cell { ...noEventProps } />);
+        const component = mountWithContext(<Cell { ...noEventProps } />);
 
         component.node.classList = {};
         component.node.classList.contains = () => { return true; };
@@ -244,7 +249,7 @@ describe('The Grid Cell Component', () => {
             selectionModel: modifiedSelModel
         };
 
-        const component = mount(<Cell { ...editEvenProps } />);
+        const component = mountWithContext(<Cell { ...editEvenProps } />);
 
         const beforEditState = editEvenProps
             .store
