@@ -39,27 +39,42 @@ const grid = <Grid dataSource={ dataSource } />
 #### If data is provided as a function, it must return a `Promise`
 
 ```javascript
-const dataSource = () => {
 
-    return new Promise((success) =>{
+export const dataSource = function getData({
+    pageIndex, pageSize
+}) {
+    return new Promise((resolve) => {
+        const request = new XMLHttpRequest();
 
-        return $.get({
+        const config = {
             method: 'GET',
-            route: '/route/to/your/data',
-        }).then((response) => {
+            route: 'http://react-redux-grid.herokuapp.com/getfakeData'
+        };
 
-            // important to note, that the grid expects a data attribute
-            // on the response object!
+        if (pageIndex) {
+            config.route = `${config.route}?pageIndex=${pageIndex}&pageSize=${pageSize}`; // eslint-disable-line max-len
+        }
 
-            const gridResponse = {
-                data: response.items
-            };
+        request.open(config.method, config.route, true);
 
-            success(gridResponse);
-        });
+        request.addEventListener(
+            'load', (res) => {
+                const response = JSON.parse(res.target.responseText);
 
+                // if you have more data than is being shown
+                // ensure you return a total, so the pager knows
+                // what paging actions are possible
+
+                resolve({
+                    data: response.data,
+                    total: response.total
+                });
+            }
+        );
+
+        request.send(config.data || null);
     });
 };
 
-const grid = <Grid dataSource= { dataSource } />
+const grid = <Grid dataSource={dataSource} />
  ```

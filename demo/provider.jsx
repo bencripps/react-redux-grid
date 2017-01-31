@@ -17,7 +17,8 @@ import {
     stateful,
     height,
     stateKey,
-    treeData
+    treeData,
+    examplePromiseDataSource
 } from '../demo/demoData';
 
 const config = {
@@ -27,7 +28,7 @@ const config = {
     // dataSource: treeDataSource,
     // infinite: true,
     stateful: false,
-    dataSource,
+    dataSource: examplePromiseDataSource,
     // dragAndDrop: true,
     // gridType: 'tree',
     pageSize,

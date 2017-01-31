@@ -4,7 +4,8 @@ import { gridConfig } from './../../../../constants/GridConstants';
 
 import {
     setPage,
-    setPageAsync
+    setPageAsync,
+    setPageIndexAsync
 } from './../../../../actions/plugins/pager/PagerActions';
 
 export const Button = ({
@@ -68,9 +69,27 @@ export const handleButtonClick = (
     }
 
     else if (PAGER.pagingType === 'remote' && dataSource) {
-        store.dispatch(
-            setPageAsync({
-                index: pageIndex,
+
+        if (typeof dataSource === 'string') {
+            return store.dispatch(
+                setPageAsync({
+                    index: pageIndex,
+                    pageSize,
+                    type,
+                    BUTTON_TYPES,
+                    dataSource,
+                    stateKey
+                })
+            );
+        }
+
+        const nextIndex = type === BUTTON_TYPES.NEXT
+            ? pageIndex + 1
+            : (pageIndex - 1 || 0);
+
+        return store.dispatch(
+            setPageIndexAsync({
+                pageIndex: nextIndex,
                 pageSize,
                 type,
                 BUTTON_TYPES,

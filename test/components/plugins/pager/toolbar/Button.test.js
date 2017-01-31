@@ -99,7 +99,7 @@ describe('handleButtonClick function with remote paging', () => {
 
     it('Action reflects loading state, clicking next, remote pager', () => {
         expect(
-            ButtonUtils.handleButtonClick(
+            () => ButtonUtils.handleButtonClick(
                 type,
                 pageIndex,
                 pageSize,
@@ -109,7 +109,22 @@ describe('handleButtonClick function with remote paging', () => {
                 stateKey,
                 localPagedStore
             )
-        ).toEqual(undefined);
+        ).toNotThrow();
+    });
+
+    it('Should fire setPageIndexAsync when a promise exists', () => {
+        expect(
+            () => ButtonUtils.handleButtonClick(
+                type,
+                pageIndex,
+                pageSize,
+                () => new Promise(resolve => resolve()),
+                BUTTON_TYPES,
+                plugins,
+                stateKey,
+                localPagedStore
+            )
+        ).toNotThrow();
     });
 });
 
