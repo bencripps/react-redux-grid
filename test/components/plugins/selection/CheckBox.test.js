@@ -67,3 +67,17 @@ describe('An Non Header CheckBox Click Event', () => {
     });
 
 });
+
+
+describe('A Non Header CheckBox Double Click Event', () => {
+
+    const checkboxContainer = shallowWithContext(<CheckBox { ...props }/>);
+    const checkbox = checkboxContainer.find('.react-grid-checkbox');
+
+    checkbox.simulate('doubleclick');
+
+    it('Should render the container correctly', () => {
+        expect(checkboxContainer.node.type).toEqual('td');
+    });
+
+});

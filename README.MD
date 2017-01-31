@@ -13,7 +13,9 @@
 
 A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern with plenty of open source [examples](http://react-redux-grid.herokuapp.com/).
 
-![React Redux Grid](demo/demo.gif)
+![React Redux Grid](https://raw.githubusercontent.com/bencripps/react-redux-grid/master/demo/demo.gif)
+
+[Github Source](https://github.com/bencripps/react-redux-grid)
 
 ## Features
 
@@ -55,10 +57,17 @@ Open your browser to: http://localhost:8080
 * [Stress](http://react-redux-grid.herokuapp.com/Stress)
 * [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
 * [Bootstrap](http://react-redux-grid.herokuapp.com/Bootstrap)
-* [Column Renderer](http://react-redux-grid.herokuapp.com/Columnrenderer)
+* [Tree](http://react-redux-grid.herokuapp.com/Tree)
+* [Stress](http://react-redux-grid.herokuapp.com/Stress)
+* [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
+* [Column Renderer](http://react-redux-grid.herokuapp.com/ColRenderer)
 * [Editable](http://react-redux-grid.herokuapp.com/Editable)
 
 [Examples Github](https://github.com/bencripps/react-redux-grid-demo)
+
+## Fonts 
+
+**Fonts** are not packaged with the grid component, as that's considered bad practice. The grid component utilizes font awesome, and expects it to be available. For more information, see the demo folder, or the FAQ below.
 
 ## Usage
 
@@ -92,14 +101,13 @@ render(
 
 ## FAQ
 
-* [How do I create a Tree Grid](docs/USING_TREE.md)
-* [How do I import Grid Reducers](docs/USING_GRID_REDUCERS.md)
-* [Is there more information on Column Renderers](docs/USING_CUSTOM_RENDERERS.md)
-* [Is there more information on Column Editors](docs/USING_CUSTOM_EDITORS.md)
-* [How do I enable the Sticky Header/Footer](docs/USING_STICKY.md)
-* [How do I create Custom Pagination](docs/USING_CUSTOM_PAGER.md)
-* [How is Font Awesome Incorporated](docs/USING_FONTS.md)
-
+* [How do I create a Tree Grid][USING_TREE]
+* [How do I import Grid Reducers][USING_GRID_REDUCERS]
+* [Is there more information on Column Renderers][USING_CUSTOM_RENDERERS]
+* [Is there more information on Column Editors][USING_CUSTOM_EDITORS]
+* [How do I enable the Sticky Header/Footer][USING_STICKY]
+* [How do I create Custom Pagination][USING_CUSTOM_PAGER]
+* [How is Font Awesome Incorporated][USING_FONTS]
 
 ## Grid Level Parameters
 
@@ -107,7 +115,7 @@ render(
 |:--------------------|:------------------------|:------------------|
 | stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
 | height              | int                     | the height of the grid container|
-| stateKey            | string                  | unique id for grid, [more information available](docs/STATE_KEYS.md)|
+| stateKey            | string                  | unique id for grid, [more information available][STATE_KEYS]|
 | showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed|
 | classNames          | array                   | a list of strings to be applied to the grid container as classes|
 | events              | object                  | grid event object, more information below|
@@ -116,8 +124,9 @@ render(
 | emptyDataMessage    | any                     | can be a string or a react component, which will be displayed if no grid data is available|
 | dragAndDrop         | bool                    | whether drag and drop of rows should be enabled|
 | gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view |
-| data                | arrayOf(object)         | local data for grid to display, [more information available](docs/PROVIDING_DATA.md)|
-| dataSource          | func                    | function which returns data to display, [more information available](docs/PROVIDING_DATA.md)|
+| data                | arrayOf(object)         | local data for grid to display, [more information available][PROVIDING_DATA]|
+| dataSource          | func                    | function which returns data to display, [more information available][PROVIDING_DATA])|
+
 
 ## Columns
 ```javascript
@@ -155,11 +164,11 @@ export const columns = [
 | Prop                | Type                           | Description       |
 |:--------------------|:-------------------------------|:------------------|
 | name                | string                         | title of column to be displayed |
-| dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). [more information available](docs/USING_DATA_INDEX.md) |
-| editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell, [more information available](docs/USING_CUSTOM_EDITORS.md)|
+| dataIndex           | oneOfType([string, array])     | the key accessor for the column value (required parameter). [more information available][USING_DATA_INDEX] |
+| editor              | jsx                            | when an editor is used, this element will be rendered in place of the edited cell, [more information available][USING_CUSTOM_EDITORS]|
 | width               | int                            | width of column (if none is provided, a default width will be applied)|
 | className           | array                          | additional class names to apply to header of this column|
-| renderer            | func                           | a function which returns the cell contents for this column, [more information available](docs/USING_CUSTOM_RENDERERS.md)|
+| renderer            | func                           | a function which returns the cell contents for this column, [more information available][USING_CUSTOM_RENDERERS])|
 | hidden              | bool                           | whether the column is hidden or visible|
 | hideable            | bool                           | whether the column can be hidden|
 | moveable            | bool                           | whether this column can be moved|
@@ -167,7 +176,7 @@ export const columns = [
 | validator           | func                           | a func that should return a boolean, to determine if the newly input value is valid|
 | change              | func                           | a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.|
 | disabled            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.|
-| createKeyFrom       | bool                           | see [full documentation on createKeyFrom](docs/CREATE_KEY_FROM.md)|
+| createKeyFrom       | bool                           | see [full documentation on createKeyFrom][CREATE_KEY_FROM]|
 | sortFn              | func                           | when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)|
 
 ## Editor
@@ -383,7 +392,7 @@ HANDLE_CELL_CLICK = ({ row, rowId, rowIndex }, e) => {}
 
 All core components and plugins have corresponding `.styl` files that can be extended or overwritten. Class names have also been modularized and are available to modify or extend within `src/constants/gridConstants.js`
 
-To update `CLASS_NAMES` or the `CSS_PREFIX` dynamically, you can use the `applyGridConfig` function. More information is available [here](docs/USING_GRID_CONFIG.md)
+To update `CLASS_NAMES` or the `CSS_PREFIX` dynamically, you can use the `applyGridConfig` function. More information is available [here][USING_GRID_CONFIG]
 
 ```javascript
 
@@ -443,3 +452,19 @@ export const CLASS_NAMES = {
 
 };
 ```
+
+
+[CONTRIBUTING]:https://github.com/bencripps/react-redux-grid/blob/master/docs/CONTRIBUTING.md
+[CREATE_KEY]:https://github.com/bencripps/react-redux-grid/blob/master/docs/CREATE_KEY.md
+[PROVIDING_DATA]:https://github.com/bencripps/react-redux-grid/blob/master/docs/PROVIDING_DATA.md
+[STATE_KEYS]:https://github.com/bencripps/react-redux-grid/blob/master/docs/STATE_KEYS.md
+[USING_CUSTOM_EDITORS]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_CUSTOM_EDITORS.md
+[USING_CUSTOM_PAGER]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_CUSTOM_PAGER.md
+[USING_CUSTOM_RENDERERS]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_CUSTOM_RENDERERS.md
+[USING_DATA_INDEX]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_DATA_INDEX.md
+[USING_FONTS]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_FONTS.md
+[USING_GRID_CONFIG]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_GRID_CONFIG.md
+[USING_GRID_REDUCERS]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_GRID_REDUCERS.md
+[USING_STICKY]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_CUSTOM_PAGER.md
+[USING_TREE]:https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_STICKY.md
+
