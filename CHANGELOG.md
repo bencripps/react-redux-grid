@@ -1,5 +1,12 @@
 # Change Log
 
+## [5.1.6](https://github.com/bencripps/react-redux-grid/tree/5.1.6) (2017-02-01)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.2...5.1.6)
+
+**Merged pull requests:**
+
+- new tests \(PagerActios, throttle checkbox\) & README reference links for NPM [\#84](https://github.com/bencripps/react-redux-grid/pull/84) ([headwinds](https://github.com/headwinds))
+
 ## [5.1.2](https://github.com/bencripps/react-redux-grid/tree/5.1.2) (2017-01-20)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.0...5.1.2)
 
@@ -197,7 +204,7 @@
 - Request: make project ready for distribution [\#36](https://github.com/bencripps/react-redux-grid/issues/36)
 
 ## [v2.0.0](https://github.com/bencripps/react-redux-grid/tree/v2.0.0) (2016-08-08)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v2.0.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v2.0.0)
 
 **Closed issues:**
 
@@ -207,11 +214,11 @@
 
 - Rework build process to create dist, remove fonts, update README [\#37](https://github.com/bencripps/react-redux-grid/pull/37) ([bencripps](https://github.com/bencripps))
 
-## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v1.9.3)
-
 ## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v.1.9.3)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v.1.9.3)
+
+## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v1.9.3)
 
 ## [v1.9.2](https://github.com/bencripps/react-redux-grid/tree/v1.9.2) (2016-08-05)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.1...v1.9.2)
