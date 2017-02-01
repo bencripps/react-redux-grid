@@ -68,7 +68,6 @@ describe('An Non Header CheckBox Click Event', () => {
 
 });
 
-
 describe('A Non Header CheckBox Double Click Event', () => {
 
     const checkboxContainer = shallowWithContext(<CheckBox { ...props }/>);

@@ -29,7 +29,7 @@ describe('throttle utility function', () => {
             .toEqual(1);
     });
 
-    it('Should call a function with config options where leading is set to false', () => {
+    it('Should call with config options where leading is false', () => {
         const spy = sinon.spy();
         const options = {leading: false};
         const limit = 100;
@@ -41,7 +41,7 @@ describe('throttle utility function', () => {
             .toEqual(false);
     });
 
-    it('Should call a function with config options where trailing is set to true', () => {
+    it('Should call with config options where trailing is set to true', () => {
         const spy = sinon.spy();
         const options = {trailing: true};
         const limit = 100;
@@ -53,7 +53,8 @@ describe('throttle utility function', () => {
             .toEqual(true);
     });
 
-    it('Should call a function with config options where trailing is set to true and leading is set to false', () => {
+    it(['Should call with config options where trailing is set',
+        'to true and leading is set to false'].join(' '), () => {
         const spy = sinon.spy();
         const options = {trailing: true, leading: false};
         const limit = 100;
@@ -69,7 +70,7 @@ describe('throttle utility function', () => {
 
 describe('debounce utility function', () => {
 
-    it('Should call a function after timeout', (done) => {
+    it('Should call after timeout', (done) => {
         const spy = sinon.spy();
         const func = debounce(spy, 100);
 
@@ -99,7 +100,7 @@ describe('debounce utility function', () => {
         }, 250);
     });
 
-    it('Should call a function after timeout with immediate set to true', (done) => {
+    it('Should call after timeout with immediate set to true', (done) => {
         const spy = sinon.spy();
         const immediate = true;
         const func = debounce(spy, 100, immediate);
