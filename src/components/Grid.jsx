@@ -426,7 +426,9 @@ export class Grid extends Component {
     getColumns = () => {
         const { columns, columnState } = this.props;
 
-        if (columnState && columnState.get('columns')) {
+        if (columnState
+            && columnState.get
+            && columnState.get('columns')) {
             return columnState.get('columns');
         }
 
