@@ -59,6 +59,7 @@ export class Grid extends Component {
 
         const {
             classNames,
+            columnState,
             dataSource,
             gridData,
             height,
@@ -69,6 +70,10 @@ export class Grid extends Component {
             reducerKeys,
             stateKey
         } = this.props;
+
+        const headerHidden = columnState
+            ? columnState.headerHidden
+            : false;
 
         return (
             <div
@@ -94,6 +99,7 @@ export class Grid extends Component {
                     store={store}
                 />
                 <FixedHeader
+                    headerHidden={headerHidden}
                     { ...this.getHeaderProps(true) }
                 />
                 <TableContainer
@@ -124,7 +130,6 @@ export class Grid extends Component {
     componentWillMount() {
 
         const {
-            columns,
             dataSource,
             gridType,
             events,
@@ -133,6 +138,7 @@ export class Grid extends Component {
             stateKey
         } = this.props;
 
+        const columns = this.getColumns();
         const store = this.getStore();
 
         this.gridType = gridType === 'tree'
@@ -237,6 +243,7 @@ export class Grid extends Component {
 
     static defaultProps = {
         classNames: [],
+        columnState: {},
         columns: [],
         events: {},
         height: '500px',
@@ -340,8 +347,9 @@ export class Grid extends Component {
 
     setColumns() {
 
-        const { columns, stateKey, stateful } = this.props;
+        const { stateKey, stateful } = this.props;
         const store = this.getStore();
+        const columns = this.getColumns();
 
         let savedColumns = columns;
 
@@ -354,7 +362,7 @@ export class Grid extends Component {
             );
         }
 
-        if (!columns) {
+        if (!columns || columns.length === 0 || !Array.isArray(columns)) {
             throw new Error('A columns array is required');
         }
 
@@ -367,12 +375,11 @@ export class Grid extends Component {
 
     getHeaderProps = (visible) => ({
         columnManager: this.columnManager,
-        columns: this.props.columns,
+        columns: this.getColumns(),
         plugins: this.props.plugins,
         reducerKeys: this.props.reducerKeys,
         dataSource: this.props.gridData,
         pager: this.props.pager,
-        columnState: this.props.columnState,
         selectionModel: this.selectionModel,
         stateKey: this.props.stateKey,
         store: this.getStore(),
@@ -384,11 +391,10 @@ export class Grid extends Component {
 
     getRowProps = () => ({
         columnManager: this.columnManager,
-        columns: this.props.columns,
+        columns: this.getColumns(),
         dragAndDrop: this.props.dragAndDrop,
         editor: this.editor,
         emptyDataMessage: this.props.emptyDataMessage,
-        columnState: this.props.columnState,
         dataSource: this.props.gridData,
         readFunc: this.setData.bind(this),
         pager: this.props.pager,
@@ -416,6 +422,16 @@ export class Grid extends Component {
         this.editor,
         this.props.columns
     );
+
+    getColumns = () => {
+        const { columns, columnState } = this.props;
+
+        if (columnState && columnState.get('columns')) {
+            return columnState.get('columns');
+        }
+
+        return columns;
+    }
 
     isLoading = () => this.props.loadingState
         && this.props.loadingState.isLoading

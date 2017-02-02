@@ -28,7 +28,9 @@ describe('A fully mounted simple grid with invalid props', () => {
 
     const invalidColProps = {
         ...props,
-        columns: null
+        columns: null,
+        columnState: null,
+        stateKey: 'totally-no-columns'
     };
 
     const invalidStateKeyProps = {

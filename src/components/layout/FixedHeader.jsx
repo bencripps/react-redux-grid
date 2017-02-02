@@ -23,8 +23,8 @@ class FixedHeader extends Component {
         const {
             columns,
             columnManager,
-            columnState,
             dataSource,
+            headerHidden,
             reducerKeys,
             selectionModel,
             stateKey,
@@ -91,9 +91,9 @@ class FixedHeader extends Component {
         }
 
         const fillerCmp = stuck || stuckToBottom
-            ? <div
+            ? (<div
                 style={{ height: `${(this.HEADER_HEIGHT || 25)}px` }}
-              />
+               />)
             : null;
 
         if (stuck || stuckToBottom) {
@@ -133,17 +133,14 @@ class FixedHeader extends Component {
 
         addEmptyInsert(headers, visibleColumns, plugins, headerOffset);
 
-        const isHidden = columnState
-            && columnState.headerHidden;
-
         const containerClassName = prefix(
                 CLASS_NAMES.HEADER_FIXED_CONTAINER,
-                isHidden ? 'hidden' : ''
+                headerHidden ? 'hidden' : ''
         );
 
         return (
             <div className={containerClassName}>
-             { fillerCmp }
+                { fillerCmp }
                 <table
                     cellSpacing={0}
                     className={tableClassName}
@@ -212,9 +209,9 @@ class FixedHeader extends Component {
 
     static propTypes = {
         columnManager: object.isRequired,
-        columnState: object,
         columns: arrayOf(object).isRequired,
         dataSource: object,
+        headerHidden: bool,
         menuState: object,
         pager: object,
         plugins: object,

@@ -91,7 +91,6 @@ class Header extends Component {
 
     static propTypes = {
         columnManager: object.isRequired,
-        columnState: object,
         columns: arrayOf(object).isRequired,
         dataSource: object,
         pager: object,
