@@ -11,9 +11,9 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Percentage of issues still open")
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/bencripps/react-redux-grid/blob/master/docs/CONTRIBUTING.MD)
 
-A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern with plenty of open source [examples](http://react-redux-grid.herokuapp.com/).
+A Grid and Tree Component written in [React](https://facebook.github.io/react) using the [Redux](https://github.com/rackt/redux) Pattern with plenty of open source [examples](http://react-redux-grid.herokuapp.com/), and an [interesting backstory](https://medium.com/@itsBenCripps/open-sourcing-a-redux-component-bb82f260ff62#.evnov65ui).
 
-![React Redux Grid](https://github.com/bencripps/react-redux-grid/blob/master/demo/demo.gif)
+![React Redux Grid](https://raw.githubusercontent.com/bencripps/react-redux-grid/master/demo/demo.gif)
 
 ## Features
 
