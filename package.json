@@ -73,7 +73,7 @@
     "expect": "^1.20.2",
     "file-loader": "^0.10.0",
     "http-server": "^0.9.0",
-    "isparta-loader": "^2.0.0",
+    "isparta-loader": "riovir/isparta-loader",
     "istanbul-instrumenter-loader": "^1.0.0",
     "jasmine-core": "^2.5.2",
     "jsdom": "^9.8.3",

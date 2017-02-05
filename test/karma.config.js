@@ -60,19 +60,14 @@ module.exports = function exports(config) {
         },
         singleRun: SINGLE_RUN,
         webpack: {
-            isparta: {
-                embedSource: true,
-                noAutoWrap: true,
-                babel: {
-                    presets: ['es2015', 'stage-0', 'react']
-                }
-            },
             resolve: {
-                extensions: ['', '.js', '.jsx', '.styl']
+                extensions: ['.js', '.jsx', '.styl']
             },
             module: {
-                preLoaders: PRELOADERS,
-                loaders: loaders
+                rules: [
+                    ...loaders,
+                    ...PRELOADERS
+                ]
             },
             externals: {
                 cheerio: 'window',
