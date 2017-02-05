@@ -1,44 +1,21 @@
 module.exports = {
+    "extends": "react-app",
+
     "globals": {
         "describe": true,
         "it": true,
         "sinon": true
     },
-    "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "arrowFunctions": true,
-        "binaryLiterals": false,
-        "blockBindings": true,
-        "classes": true,
-        "defaultParams": true,
-        "destructuring": true,
-        "forOf": true,
-        "generators": true,
-        "modules": true,
-        "objectLiteralComputedProperties": true,
-        "objectLiteralDuplicateProperties": false,
-        "objectLiteralShorthandMethods": true,
-        "objectLiteralShorthandProperties": true,
-        "octalLiterals": false,
-        "regexUFlag": false,
-        "regexYFlag": false,
-        "restParams": true,
-        "spread": true,
-        "superInFunctions": true,
-        "templateStrings": true,
-        "unicodePointEscapes": true,
-        "globalReturn": false,
-        "jsx": true
+
+    "settings": {
+      'import/extensions': ['.js', '.jsx'],
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.json']
+        }
+      }
     },
-    "plugins": [
-        "react"
-    ],
-    "env": {
-        "browser": true,
-        "node": true,
-        "es6": true,
-        "mocha": true
-    },
+
     "rules": {
         "comma-dangle": 2,
         "no-cond-assign": [
@@ -81,7 +58,6 @@ module.exports = {
             }
         ],
         "require-jsdoc": 0,
-        "valid-typeof": 1,
         "accessor-pairs": 0,
         "block-scoped-var": 0,
         "complexity": 0,
@@ -98,43 +74,21 @@ module.exports = {
                 "allowPattern": ""
             }
         ],
-        "dot-location": [
-            1,
-            "property"
-        ],
         "eqeqeq": 1,
         "guard-for-in": 0,
         "no-alert": 1,
-        "no-caller": 1,
         "no-div-regex": 1,
         "no-else-return": 1,
-        "no-labels": 1,
         "no-eq-null": 0,
         "no-eval": 2,
-        "no-extra-bind": 1,
         "no-fallthrough": 0,
         "no-floating-decimal": 1,
-        "no-implied-eval": 1,
-        "no-iterator": 1,
-        "no-lone-blocks": 1,
-        "no-loop-func": 1,
         "no-multi-spaces": 1,
-        "no-multi-str": 1,
-        "no-native-reassign": 1,
-        "no-new-func": 1,
-        "no-new-wrappers": 1,
         "no-new": 1,
-        "no-octal-escape": 1,
-        "no-octal": 1,
         "no-param-reassign": 0,
         "no-process-env": 0,
         "no-proto": 2,
-        "no-redeclare": 1,
         "no-return-assign": 1,
-        "no-script-url": 1,
-        "no-self-compare": 1,
-        "no-sequences": 1,
-        "no-throw-literal": 1,
         "no-unused-expressions": 0,
         "no-void": 2,
         "no-warning-comments": [
@@ -147,8 +101,6 @@ module.exports = {
                 "location": "start"
             }
         ],
-        "no-with": 1,
-        "radix": 1,
         "vars-on-top": 1,
         "wrap-iife": [
             1,
@@ -163,12 +115,8 @@ module.exports = {
             "never"
         ],
         "no-catch-shadow": 0,
-        "no-delete-var": 1,
-        "no-label-var": 1,
-        "no-shadow-restricted-names": 1,
         "no-shadow": 1,
         "no-undef-init": 2,
-        "no-undef": 2,
         "no-undefined": 0,
         "no-unused-vars": [
             1,
@@ -240,7 +188,6 @@ module.exports = {
             3
         ],
         "new-cap": 0,
-        "new-parens": 1,
         "newline-after-var": 0,
         "no-array-constructor": 2,
         "no-continue": 2,
@@ -324,30 +271,21 @@ module.exports = {
         "react/jsx-key": 1,
         "react/jsx-max-props-per-line": 1,
         "react/jsx-no-bind": 1,
-        "react/jsx-no-duplicate-props": 1,
         "react/jsx-no-literals": 1,
-        "react/jsx-no-undef": 1,
-        "react/jsx-pascal-case": 1,
         "jsx-quotes": 1,
         "react/sort-prop-types": 2,
         "react/jsx-sort-props": 1,
-        "react/jsx-uses-react": 1,
-        "react/jsx-uses-vars": 1,
         "react/no-danger": 1,
-        "react/no-deprecated": 1,
         "react/no-did-mount-set-state": 1,
         "react/no-did-update-set-state": 1,
-        "react/no-direct-mutation-state": 1,
-        "react/no-is-mounted": 1,
         "react/no-multi-comp": 0,
-        "react/no-set-state": 1,
+        "react/no-set-state": 0,
         "react/no-string-refs": 1,
         "react/no-unknown-property": 1,
         "react/prefer-es6-class": 2,
         "react/prefer-stateless-function": 2,
         "react/prop-types": 2,
-        "react/react-in-jsx-scope": 1,
-        "react/require-extension": 1,
+        "import/extensions": 1,
         "react/self-closing-comp": 1,
         "react/sort-comp": [
             2,
@@ -383,10 +321,9 @@ module.exports = {
                 }
             }
         ],
-        "react/wrap-multilines": 1,
+        "react/jsx-wrap-multilines": 1,
         "constructor-super": 1,
         "generator-star-spacing": 0,
-        "no-this-before-super": 1,
         "no-var": 2,
         "object-shorthand": 0,
         "prefer-const": 2,

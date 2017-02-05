@@ -2,7 +2,7 @@
 // import React from 'react';
 // import expect from 'expect';
 // import { mount } from 'enzyme';
-// import Grid from './../../../src/components/Grid.jsx';
+// import Grid from './../../../src/components/Grid';
 // import { Store as GridStore } from './../../../src/store/store';
 // import { Actions } from './../../../src/';
 

@@ -12,7 +12,7 @@ export const Description = ({
                 )
             }
         </span>
-        );
+    );
 };
 
 const { func, number, string } = PropTypes;

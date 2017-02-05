@@ -10,7 +10,7 @@ import {
 
 import {
     Input
-} from './../../../../../../src/components/layout/table-row/row/cell/Input.jsx';
+} from './../../../../../../src/components/layout/table-row/row/cell/Input';
 
 import {
     Editor as EditorRecord

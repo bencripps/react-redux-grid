@@ -1,7 +1,7 @@
 /* eslint-enable describe it */
 import expect from 'expect';
 import React from 'react';
-import Grid from './../../src/components/Grid.jsx';
+import Grid from './../../src/components/Grid';
 
 import {
     gridColumns,
@@ -137,7 +137,7 @@ describe('A fully mounted grid with a custom pager', () => {
             PAGER: {
                 enabled: true,
                 pagerComponent: (
-                    <span className = { 'custom-pager' } >
+                    <span className={ 'custom-pager' } >
                         { 'Custom Pager' }
                     </span>
                     )

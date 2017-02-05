@@ -1,7 +1,7 @@
 /* eslint-enable describe it sinon */
 import React from 'react';
 import expect from 'expect';
-import Grid from './../../src/components/Grid.jsx';
+import Grid from './../../src/components/Grid';
 import { mountWithContext } from './../testUtils';
 
 const props = {

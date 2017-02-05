@@ -180,9 +180,8 @@ export class TableRow extends Component {
             return List();
         }
 
-        if (!isPluginEnabled(plugins, 'PAGER') && !infinite
-            || plugins.PAGER.pagingType === 'remote'
-            && !infinite) {
+        if (!infinite && (!isPluginEnabled(plugins, 'PAGER')
+            || plugins.PAGER.pagingType === 'remote')) {
             return dataSource.data;
         }
 

@@ -1,4 +1,7 @@
+const path = require('path');
 const loaders = require('./loaders');
+
+process.env.NODE_ENV = 'development';
 
 module.exports = {
     entry: [
@@ -14,16 +17,24 @@ module.exports = {
         fs: 'empty'
     },
     module: {
-        eslint: {
-            configFile: '.eslintrc',
+      rules: [
+        {
+          test: /\.jsx?$/, // both .js and .jsx
+          loader: 'eslint-loader',
+          include: path.resolve(process.cwd(), 'src'),
+          enforce: 'pre',
+          options: {
+            configFile: '.eslintrc.js',
             emitError: true,
             failOnError: true,
             failOnWarning: false
+          },
         },
-        loaders: loaders
+        ...loaders
+      ]
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.styl']
+        extensions: ['.js', '.jsx', '.styl']
     },
     devtool: 'inline-source-map'
 };

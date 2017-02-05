@@ -169,10 +169,6 @@ export class Row extends Component {
 
     }
 
-    constructor(props) {
-        super(props);
-    }
-
     static propTypes = {
         columnManager: object.isRequired,
         columns: arrayOf(object).isRequired,

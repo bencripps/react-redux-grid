@@ -13,7 +13,7 @@ import {
 
 import {
     Cell
-} from './../../../../../src/components/layout/table-row/row/Cell.jsx';
+} from './../../../../../src/components/layout/table-row/row/Cell';
 
 describe('The Grid Cell Component', () => {
 
@@ -71,7 +71,7 @@ describe('The Grid Cell Component', () => {
         const editableProps = {
             ...props,
             editorState: new OrderedMap({
-                ['some-id']: new Editor({
+                'some-id': new Editor({
                     key: 'some-id'
                 })
             })

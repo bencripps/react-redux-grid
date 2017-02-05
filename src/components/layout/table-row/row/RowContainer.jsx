@@ -11,7 +11,7 @@ export default DecoratedComponent => (
                 <DecoratedComponent
                     { ...{ ...this.props, getTreeData: this.getTreeData } }
                 />
-                );
+            );
         }
 
         constructor(props) {

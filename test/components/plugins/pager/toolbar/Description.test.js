@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import {
     Description
-} from './../../../../../src/components/plugins/pager/toolbar/Description.jsx';
+} from './../../../../../src/components/plugins/pager/toolbar/Description';
 
 const props = {
     pageIndex: 0,

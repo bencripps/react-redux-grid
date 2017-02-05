@@ -1,5 +1,5 @@
 {
-    "presets": [ "react", "es2015", "stage-0" ],
+    "presets": [ "react-app" ],
     "plugins": [
         "babel-plugin-transform-array-from",
         "babel-plugin-stylus-compiler",

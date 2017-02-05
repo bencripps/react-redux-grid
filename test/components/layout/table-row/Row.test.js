@@ -8,7 +8,7 @@ import { getSelModel, getColumnManager } from './../../../testUtils/';
 import store from './../../../../src/store/store';
 import {
     Row
-} from './../../../../src/components/layout/table-row/Row.jsx';
+} from './../../../../src/components/layout/table-row/Row';
 
 describe('The Grid Row Component', () => {
 
@@ -148,7 +148,7 @@ describe('The Grid Row Component', () => {
         const selectedProps = {
             ...props,
             selectedRows: fromJS({
-                ['row-0']: true
+                'row-0': true
             })
         };
 
@@ -170,7 +170,7 @@ describe('The Grid Row Component', () => {
             ...props,
             selectionModel: modifiedSelModel,
             selectedRows: fromJS({
-                ['row-0']: true
+                'row-0': true
             })
         };
 
@@ -192,10 +192,10 @@ describe('The Grid Row Component', () => {
             ...props,
             selectionModel: modifiedSelModel,
             selectedRows: fromJS({
-                ['row-0']: true
+                'row-0': true
             }),
             editorState: fromJS({
-                ['row-0']: new Editor({
+                'row-0': new Editor({
                     key: 'row-0'
                 })
             })
@@ -214,7 +214,7 @@ describe('The Grid Row Component', () => {
         const dynamicEditProps = {
             ...props,
             selectedRows: fromJS({
-                ['row-0']: true
+                'row-0': true
             }),
             editorState: fromJS({
                 'row-0': new Editor({

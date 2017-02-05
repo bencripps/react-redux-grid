@@ -1,7 +1,4 @@
 class FilterUtils {
-    constructor() {
-
-    }
 
     byKeyword(value, datasource) {
         return datasource.proxy.filter((obj) => {

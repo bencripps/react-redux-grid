@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import { Menu } from './../../../../src/components/core/menu/Menu.jsx';
+import { Menu } from './../../../../src/components/core/menu/Menu';
 import { store } from './../../../testUtils/index';
 
 const props = {
