@@ -3305,12 +3305,11 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
-isparta-loader@riovir/isparta-loader:
-  version "3.0.0"
-  resolved "https://codeload.github.com/riovir/isparta-loader/tar.gz/9ad54927869c9bd6d72c4a68eae02a5525cc1572"
+isparta-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isparta-loader/-/isparta-loader-2.0.0.tgz#4425f496c93f765bbceb4dd938576da307566ed1"
   dependencies:
     isparta "4.x.x"
-    loader-utils "^0.2.16"
 
 isparta@4.x.x:
   version "4.0.0"

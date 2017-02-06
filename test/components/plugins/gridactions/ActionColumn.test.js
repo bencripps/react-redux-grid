@@ -135,7 +135,7 @@ describe('The addKeysToActions GridAction util function', () => {
         expect(addKeysToActions({
             EVENT_HANDLER: () => {}
         })).toEqual({
-            key: 'KCkgPT4ge30=',
+            key: 'ZnVuY3Rpb24gRVZFTlRfSEFORExFUigpIHt9',
             EVENT_HANDLER: () => {}
         });
 
@@ -225,3 +225,4 @@ describe('The enableActions GridAction util function', () => {
     });
 
 });
+
