@@ -21,7 +21,10 @@ module.exports = {
         {
           test: /\.jsx?$/, // both .js and .jsx
           loader: 'eslint-loader',
-          include: path.resolve(process.cwd(), 'src'),
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'demo')
+          ],
           enforce: 'pre',
           options: {
             configFile: '.eslintrc.js',

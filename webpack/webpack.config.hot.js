@@ -1,21 +1,21 @@
+const path = require('path');
 const loaders = require('./loaders');
 
 process.env.NODE_ENV = 'development';
 
 module.exports = {
-    entry: [
-        'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://localhost:8080',
-        './demo/entry.js'
-    ],
+    entry: {
+        client: 'webpack-dev-server/client?http://localhost:8080',
+        bundle: './demo/entry.js'
+    },
     devServer: {
         headers: {
             'Access-Control-Allow-Origin': '*'
         }
     },
     output: {
-        path: __dirname + '/../demo/lib',
-        filename: 'bundle.js',
+        path: path.join(__dirname, '/../demo/lib'),
+        filename: '[name].js',
         sourceMapFilename: 'debugging/[file].map',
         publicPath: 'http://localhost:8080/demo/lib/',
         crossOriginLoading: 'use-credentials'
@@ -32,7 +32,10 @@ module.exports = {
         {
           test: /\.jsx?$/, // both .js and .jsx
           loader: 'eslint-loader',
-          include: path.resolve(process.cwd(), 'src'),
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'demo')
+          ],
           enforce: 'pre',
           options: {
             configFile: '.eslintrc.js',
