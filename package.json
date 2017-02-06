@@ -17,6 +17,7 @@
   "bugs": "https://github.com/bencripps/react-redux-grid/issues",
   "homepage": "http://react-redux-grid.herokuapp.com/",
   "main": "dist/index.js",
+  "repository": "bencripps/react-redux-grid",
   "scripts": {
     "demo": "npm run demo:build && npm run demo:run",
     "demo:build": "npm run build",
@@ -73,6 +74,7 @@
     "http-server": "^0.9.0",
     "isparta-loader": "^2.0.0",
     "istanbul-instrumenter-loader": "^1.0.0",
+    "jasmine-core": "^2.5.2",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
     "karma": "^1.3.0",
