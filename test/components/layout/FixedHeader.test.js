@@ -1,6 +1,6 @@
 import expect from 'expect';
 import React from 'react';
-import FixedHeader from './../../../src/components/layout/FixedHeader';
+import FixedHeader from './../../../src/components/layout/FixedHeader.jsx';
 
 import {
     getColumnManager,

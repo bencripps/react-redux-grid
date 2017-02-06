@@ -151,7 +151,7 @@ export const addNewRow = (state, { rowId, stateKey }) => {
     let newRow = data
         && data.size > 0
         && data.get(0)
-        ? data.get(0).map((k, v) => {v = ''; return v;})
+        ? data.get(0).map((k, v) => v = '')
         : fromJS({});
 
     newRow = newRow.set('_key', rowId);

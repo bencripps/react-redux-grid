@@ -9,7 +9,7 @@ import { Editor as EditorRecord } from './../../../../../../src/records';
 import {
     Editor,
     cleanProps
-} from './../../../../../../src/components/layout/table-row/row/cell/Editor'; // eslint-disable-line max-len
+} from './../../../../../../src/components/layout/table-row/row/cell/Editor.jsx'; // eslint-disable-line max-len
 
 describe('The Editor Component', () => {
 
@@ -102,7 +102,7 @@ describe('The Editor Component', () => {
                 }
             ],
             editorState: new testState({
-                'row-0': new EditorRecord({
+                ['row-0']: new EditorRecord({
                     key: 'row-0',
                     values: Map({
                         name: 'Updated Michael',

@@ -4,7 +4,7 @@ import React from 'react';
 import expect from 'expect';
 import { mount } from 'enzyme';
 import { fromJS, Map } from 'immutable';
-import Grid from './../../../src/components/Grid';
+import Grid from './../../../src/components/Grid.jsx';
 import { Editor } from './../../../src/records';
 import store from './../../../src/store/store';
 

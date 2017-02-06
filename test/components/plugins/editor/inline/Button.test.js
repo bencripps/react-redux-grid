@@ -12,7 +12,7 @@ import {
 
 import {
     Button
-} from './../../../../../src/components/plugins/editor/inline/Button';
+} from './../../../../../src/components/plugins/editor/inline/Button.jsx';
 
 import {
     Editor
@@ -164,7 +164,7 @@ describe('The inline editor save button', () => {
         const disabledProps = {
             ...props,
             editorState: new fromJS({
-                'row-0': new Editor({
+                ['row-0']: new Editor({
                     valid: false
                 })
             })
@@ -237,7 +237,7 @@ describe('The inline editor save button', () => {
             },
             stateKey: 'test-stateKey',
             editorState: new OrderedMap({
-                'row-0': new Editor({
+                ['row-0']: new Editor({
                     values: Map({
                         name: 'Scottie Pippen',
                         position: 'Power Forward'
@@ -273,7 +273,7 @@ describe('The inline editor save button', () => {
             },
             stateKey: 'test-stateKey',
             editorState: new OrderedMap({
-                'row-0': new Editor({
+                ['row-0']: new Editor({
                     values: Map({
                         name: 'Scottie Pippen',
                         position: 'Power Forward'

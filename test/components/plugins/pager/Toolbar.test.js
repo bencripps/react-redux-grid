@@ -2,7 +2,7 @@ import expect from 'expect';
 import React from 'react';
 import {
     PagerToolbar
-} from './../../../../src/components/plugins/pager/Pager';
+} from './../../../../src/components/plugins/pager/Pager.jsx';
 import { store, shallowWithContext } from './../../../testUtils/index';
 import { localGridData } from './../../../testUtils/data';
 

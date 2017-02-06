@@ -3,7 +3,7 @@ import React from 'react';
 
 import {
     CheckBox
-} from './../../../../src/components/plugins/selection/CheckBox';
+} from './../../../../src/components/plugins/selection/CheckBox.jsx';
 import {
     shallowWithContext,
     initializedStore

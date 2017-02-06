@@ -12,7 +12,7 @@ class Menu extends Component {
 
     render() {
 
-        const { menu, maxHeight, metaData, stateKey, store } = this.props;
+        const { menu, maxHeight } = this.props;
         const { CLASS_NAMES } = gridConfig();
 
         const menuProps = {
@@ -28,23 +28,9 @@ class Menu extends Component {
         }
 
         const items = getUniqueItems(menu);
-        const menuItems = items && items.length > 0
-            ? items.map(item => {
-                if (!item.$$typeof) {
-                    const menuItemProps = {
-                        data: item,
-                        disabled: item.disabled,
-                        metaData,
-                        type: item.type,
-                        key: keyFromObject(item),
-                        stateKey,
-                        store
-                    };
 
-                    return <MenuItem { ...menuItemProps } />;
-                }
-                return item;
-            })
+        const menuItems = items && items.length > 0
+            ? items.map(this.getMenuItem.bind(this))
             : null;
 
         return (
@@ -65,6 +51,26 @@ class Menu extends Component {
     static defaultProps = {
         metaData: {}
     };
+
+    getMenuItem(item) {
+
+        const { metaData, stateKey, store } = this.props;
+
+        if (!item.$$typeof) {
+            const menuItemProps = {
+                data: item,
+                disabled: item.disabled,
+                metaData,
+                type: item.type,
+                key: keyFromObject(item),
+                stateKey,
+                store
+            };
+
+            return <MenuItem { ...menuItemProps } />;
+        }
+        return item;
+    }
 }
 
 export const getUniqueItems = (items) => {

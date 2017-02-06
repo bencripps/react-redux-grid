@@ -1,8 +1,6 @@
 const webpack = require('webpack');
 const loaders = require('./loaders');
 
-process.env.NODE_ENV = 'production';
-
 module.exports = {
     entry: [
         './demo/entry.js'
@@ -20,7 +18,7 @@ module.exports = {
         loaders: loaders
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.styl']
+        extensions: ['', '.js', '.jsx', '.styl']
     },
     plugins: [
         new webpack.DefinePlugin({

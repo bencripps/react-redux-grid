@@ -5,7 +5,7 @@ import {
     isColumnResizable,
     handleSort,
     handleColumnClick
-} from './../../../../src/components/layout/header/Column';
+} from './../../../../src/components/layout/header/Column.jsx';
 
 describe('The Column isColumnResizable func', () => {
 

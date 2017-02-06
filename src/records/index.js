@@ -1,22 +1,11 @@
-import DataSource from './components/DataSource';
-import Grid from './components/Grid';
+export DataSource from './components/DataSource';
+export Grid from './components/Grid';
 
-import BulkAction from './components/plugins/BulkAction';
-import Editor from './components/plugins/Editor';
-import ErrorHandler from './components/plugins/ErrorHandler';
-import Loader from './components/plugins/Loader';
-import Menu from './components/plugins/Menu';
-import Pager from './components/plugins/Pager';
-import Selection from './components/plugins/Selection';
+export BulkAction from './components/plugins/BulkAction';
+export Editor from './components/plugins/Editor';
+export ErrorHandler from './components/plugins/ErrorHandler';
+export Loader from './components/plugins/Loader';
+export Menu from './components/plugins/Menu';
+export Pager from './components/plugins/Pager';
+export Selection from './components/plugins/Selection';
 
-export {
-  DataSource,
-  Grid,
-  BulkAction,
-  Editor,
-  ErrorHandler,
-  Loader,
-  Menu,
-  Pager,
-  Selection
-};

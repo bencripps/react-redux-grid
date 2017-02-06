@@ -7,7 +7,7 @@ import {
     TreeArrow,
     handleArrowClick
 } from
-'./../../../../../../src/components/layout/table-row/row/cell/TreeArrow';
+'./../../../../../../src/components/layout/table-row/row/cell/TreeArrow.jsx';
 
 describe('The Tree Arrow Component', () => {
 

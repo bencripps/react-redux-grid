@@ -10,8 +10,8 @@ describe('The handleActions utility', () => {
     it('Should map an action to an action helper', () => {
 
         const actionMap = handleActions({
-            ACTION: () => { return 'action'; },
-            ANOTHER_ACTION: () => {}
+            ['ACTION']: () => { return 'action'; },
+            ['ANOTHER_ACTION']: () => {}
         }, initialState);
 
         expect(
@@ -31,8 +31,8 @@ describe('The handleActions utility', () => {
         });
 
         const actionMap = handleActions({
-            ACTION: (s) => { return s.get('isLoaded'); },
-            ANOTHER_ACTION: () => {}
+            ['ACTION']: (s) => { return s.get('isLoaded'); },
+            ['ANOTHER_ACTION']: () => {}
         }, initialState);
 
         expect(
@@ -47,8 +47,8 @@ describe('The handleActions utility', () => {
         });
 
         const actionMap = handleActions({
-            ACTION: (s) => { return s.get('isLoaded'); },
-            ANOTHER_ACTION: () => {}
+            ['ACTION']: (s) => { return s.get('isLoaded'); },
+            ['ANOTHER_ACTION']: () => {}
         }, initialState);
 
         expect(
@@ -63,8 +63,8 @@ describe('The handleActions utility', () => {
         });
 
         const actionMap = handleActions({
-            ACTION: (s) => { return s.get('isLoaded'); },
-            ANOTHER_ACTION: () => {}
+            ['ACTION']: (s) => { return s.get('isLoaded'); },
+            ['ANOTHER_ACTION']: () => {}
         }, initialState);
 
         expect(
@@ -79,7 +79,7 @@ describe('The handleActions utility', () => {
         });
 
         const actionMap = handleActions({
-            ACTION: {}
+            ['ACTION']: {}
         }, initialState);
 
         expect(

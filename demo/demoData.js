@@ -193,7 +193,8 @@ export const columns = [
         name: 'Name',
         dataIndex: 'Name',
         sortable: true,
-        width: '20%',
+
+        width: '60%',
         className: 'additional-class',
         expandable: true,
         sortFn: (direction, previousRow, currentRow) => {
@@ -208,7 +209,6 @@ export const columns = [
             return isRowSelected;
         },
         sortable: true,
-        width: '20%',
         className: 'additional-class',
         editor: (
             /* eslint-disable  react/prop-types */
@@ -233,19 +233,17 @@ export const columns = [
         name: 'Email',
         dataIndex: 'Email',
         sortable: true,
-        width: '30%',
         className: 'additional-class',
         defaultSortDirection: 'descend',
         /* eslint-disable react/prop-types */
         renderer: ({ value }) => {
-            return <a href={ `mailto:${value}` } target="_top">{ value }</a>;
+            return <span>'Email:' { value } </span>;
         }
     },
     {
         name: 'Address',
         dataIndex: 'Address',
         sortable: true,
-        width: '30%',
         className: 'additional-class'
     }
 ];

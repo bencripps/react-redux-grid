@@ -67,8 +67,7 @@ export class Inline extends Component {
                         events,
                         stateKey,
                         store
-                    } }
-                    />
+                    } }/>
                     <Button { ...{
                         type: BUTTON_TYPES.SAVE,
                         editorState,
@@ -76,8 +75,7 @@ export class Inline extends Component {
                         events,
                         stateKey,
                         store }
-                    }
-                    />
+                    }/>
                 </span>
             </div>
         );
@@ -169,15 +167,15 @@ export function resetEditorPosition(
                 }));
             }
 
-            if ((position === 'top' && !moveToTop)
-                || (moveToTop && !position)) {
+            if (position === 'top' && !moveToTop
+                || moveToTop && !position) {
                 this.setState({
                     position: 'bottom'
                 });
             }
 
-            else if ((position === 'bottom' && moveToTop)
-                || (!moveToTop && !position)) {
+            else if (position === 'bottom' && moveToTop
+                || !moveToTop && !position) {
                 this.setState({
                     position: 'top'
                 });

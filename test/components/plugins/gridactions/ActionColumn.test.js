@@ -5,7 +5,7 @@ import { fromJS, Map } from 'immutable';
 import ActionColumn, {
     addKeysToActions,
     enableActions
-} from './../../../../src/components/plugins/gridactions/ActionColumn';
+} from './../../../../src/components/plugins/gridactions/ActionColumn.jsx';
 
 import {
     initializedStore,

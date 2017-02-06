@@ -7,7 +7,7 @@ from './../../../../src/store/store';
 
 import
     BulkActionToolbar
-from './../../../../src/components/plugins/bulkactions/Toolbar';
+from './../../../../src/components/plugins/bulkactions/Toolbar.jsx';
 
 describe('The Bulk ActionToolbar Plugin', () => {
 

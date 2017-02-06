@@ -359,7 +359,7 @@ export const addEmptyInsert = (
         headers.push(
             <th
                 key="colum-adjuster"
-                style={ { width: `${headerOffset}px` }}
+                style= { { width: `${headerOffset}px` }}
             />
             );
     }

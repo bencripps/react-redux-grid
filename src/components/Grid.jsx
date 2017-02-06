@@ -407,7 +407,7 @@ export class Grid extends Component {
         selectionModel: this.selectionModel,
         stateKey: this.props.stateKey,
         store: this.getStore(),
-        stateful: this.props.stateful,
+        stateful: this. props.stateful,
         showTreeRootNode: this.props.showTreeRootNode,
         menuState: this.props.menuState,
         gridType: this.gridType

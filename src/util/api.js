@@ -64,7 +64,7 @@ export const addAjaxEvents = (request, config, resolver) => {
 export const buildQueryString = (config = {}) => {
 
     const ret = {
-        route: `${config.route}?_dc=${Date.now()}&`
+        route: config.route + '?' + '_dc=' + Date.now() + '&'
     };
 
     if (!config.queryStringParams) {

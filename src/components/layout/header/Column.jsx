@@ -76,7 +76,7 @@ export const Column = ({
     );
 
     const sortHandle = sortable
-        ? (<SortHandle { ...{
+        ? <SortHandle { ...{
             col,
             columns,
             columnManager,
@@ -84,9 +84,9 @@ export const Column = ({
             direction,
             pager,
             sortHandleCls,
-            store }}
-           />)
-      : null;
+            store }
+        } />
+        : null;
 
     const dragHandle = isResizable
         ? <DragHandle { ...{ col, dragAndDropManager, handleDrag } } /> : null;
@@ -160,8 +160,7 @@ export const Column = ({
                 dragAndDropManager,
                 sortHandle
             }
-        }
-        />
+        } />
     );
 
     return (
@@ -280,11 +279,11 @@ export const handleColumnClick = ({
 }) => {
 
     if (col.sortable
-        || (columnManager
+        || columnManager
         && columnManager.config
         && columnManager.config.sortable
         && columnManager.config.sortable.enabled
-        && col.sortable !== false)) {
+        && col.sortable !== false) {
         handleSort(
             columns,
             col,

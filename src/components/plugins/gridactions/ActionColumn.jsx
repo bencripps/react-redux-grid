@@ -274,18 +274,18 @@ export const getHeader = (
     };
 
     const menu = menuShown ?
-        (<Menu { ...{
-            columns: cols,
-            actions: menuItems,
-            type: 'header',
-            store,
-            editor,
-            reducerKeys,
-            rowId,
-            stateKey
-        }
-      }
-         />)
+        <Menu {
+            ...{
+                columns: cols,
+                actions: menuItems,
+                type: 'header',
+                store,
+                editor,
+                reducerKeys,
+                rowId,
+                stateKey
+            }
+        } />
         : null;
 
     return (
@@ -328,7 +328,7 @@ export const getColumn = (
     const { CLASS_NAMES } = gridConfig();
     const menu = menuShown
         ?
-        (<Menu {
+        <Menu {
             ...{
                 actions: addKeysToActions(actions),
                 type: null,
@@ -342,8 +342,7 @@ export const getColumn = (
                 rowIndex,
                 maxHeight
             }
-        }
-         />)
+        } />
         : null;
 
     if (actions && actions.menu && actions.menu.length === 0) {
