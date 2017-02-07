@@ -31,9 +31,8 @@
     "report-coverage": "codecov",
     "stylint": "stylint ./src --reporter stylint-stylish",
     "test": "karma start ./test/karma.config.js -- --coverage",
-    "test-browser": "npm test -- --browser",
-    "test-coverage": "npm test -- --coverage --no-single-run --no-suppress-error-summary",
-    "test-watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary"
+    "test:browser": "karma start ./test/karma.config.js -- --browser",
+    "test:watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary"
   },
   "dependencies": {
     "array-from": "^2.1.1",

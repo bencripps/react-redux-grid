@@ -23,7 +23,7 @@ module.exports = function exports(config) {
             './../webpack/webpack.test.js'
         ],
         client: {
-            captureConsole: true
+            captureConsole: false
         },
         frameworks: ['chai', 'mocha', 'es6-shim', 'sinon-chai'],
         plugins: [
