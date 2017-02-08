@@ -21,7 +21,7 @@
   "scripts": {
     "demo": "npm run demo:build && npm run demo:run",
     "demo:build": "npm run build",
-    "demo:run": "http-server ./demo",
+    "demo:run": "http-server -p 8081 ./demo",
     "build": "webpack --pretty --config webpack/webpack.config.dev.js",
     "dist": "babel ./src --out-dir dist",
     "hot": "webpack-dev-server --hot --inline --pretty --config webpack/webpack.config.hot.js",
