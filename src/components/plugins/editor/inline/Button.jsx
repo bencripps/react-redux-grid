@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
 import { fireEvent } from './../../../../util/fire';
@@ -8,25 +8,101 @@ import {
 } from './../../../../actions/plugins/editor/EditorActions';
 import { saveRow } from './../../../../actions/plugins/editor/EditorActions';
 
-export const Button = ({
-    BUTTON_TYPES,
-    saveText,
-    cancelText,
-    editorState,
-    editedRowKey,
-    events,
-    stateKey,
-    store,
-    type
-}) => {
+export class Button extends Component {
 
-    const { CLASS_NAMES } = gridConfig();
+    render() {
+        const {
+            BUTTON_TYPES,
+            saveText,
+            cancelText,
+            editorState,
+            editedRowKey,
+            type
+        } = this.props;
 
-    const text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
+        const { CLASS_NAMES } = gridConfig();
 
-    const buttonProps = {
-        onClick: onButtonClick.bind(
-            null,
+        const text = type === BUTTON_TYPES.SAVE ? saveText : cancelText;
+
+        const buttonProps = {
+            onClick: this.handleButtonClick,
+            className: type === BUTTON_TYPES.SAVE
+                ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON)
+                : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
+        };
+
+        if (type === BUTTON_TYPES.SAVE
+                && editorState
+                && editorState.get(editedRowKey)
+                && !editorState.get(editedRowKey).valid) {
+            buttonProps.disabled = true;
+        }
+
+        return (
+            <button { ...buttonProps } >
+                { text }
+            </button>
+        );
+
+    }
+
+    componentDidMount() {
+        const {
+            type,
+            BUTTON_TYPES
+        } = this.props;
+
+        if (!this._EVENT_LISTENER) {
+            this._EVENT_LISTENER = type === BUTTON_TYPES.SAVE
+                ? this.listenForEnter
+                : this.listenForCancel;
+
+            document.addEventListener('keydown', this._EVENT_LISTENER);
+        }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this._EVENT_LISTENER);
+        delete this._EVENT_LISTENER;
+    }
+
+    static propTypes = {
+        BUTTON_TYPES: PropTypes.object,
+        cancelText: PropTypes.string,
+        editedRowKey: PropTypes.string,
+        editorState: PropTypes.object,
+        events: PropTypes.object,
+        saveText: PropTypes.string,
+        stateKey: PropTypes.string,
+        store: PropTypes.object,
+        type: PropTypes.string
+    };
+
+    static defaultProps = {
+        BUTTON_TYPES: {
+            CANCEL: 'CANCEL',
+            SAVE: 'SAVE'
+        },
+        cancelText: 'Cancel',
+        editorState: {},
+        saveText: 'Save'
+    };
+
+    listenForEnter = e => {
+        if (e.keyCode === 13) {
+            this.handleButtonClick();
+        }
+    }
+
+    listenForCancel = e => {
+        if (e.keyCode === 27) {
+            this.handleButtonClick();
+        }
+    }
+
+    handleButtonClick = () => {
+
+        const {
             BUTTON_TYPES,
             editorState,
             events,
@@ -34,101 +110,58 @@ export const Button = ({
             stateKey,
             editedRowKey,
             store
-        ),
-        className: type === BUTTON_TYPES.SAVE
-            ? prefix(CLASS_NAMES.EDITOR.INLINE.SAVE_BUTTON)
-            : prefix(CLASS_NAMES.EDITOR.INLINE.CANCEL_BUTTON)
-    };
+        } = this.props;
 
-    if (type === BUTTON_TYPES.SAVE
-            && editorState
-            && editorState.get(editedRowKey)
-            && !editorState.get(editedRowKey).valid) {
-        buttonProps.disabled = true;
-    }
+        let values = editorState.get(editedRowKey).values;
 
-    return (
-        <button { ...buttonProps } >
-            { text }
-        </button>
-    );
-};
-
-Button.propTypes = {
-    BUTTON_TYPES: PropTypes.object,
-    cancelText: PropTypes.string,
-    editedRowKey: PropTypes.string,
-    editorState: PropTypes.object,
-    events: PropTypes.object,
-    saveText: PropTypes.string,
-    stateKey: PropTypes.string,
-    store: PropTypes.object,
-    type: PropTypes.string
-};
-
-Button.defaultProps = {
-    BUTTON_TYPES: {
-        CANCEL: 'CANCEL',
-        SAVE: 'SAVE'
-    },
-    cancelText: 'Cancel',
-    editorState: {},
-    saveText: 'Save'
-};
-
-export const onButtonClick = (
-    BUTTON_TYPES, editorState, events, type, stateKey, editedRowKey, store
-) => {
-
-    let values = editorState.get(editedRowKey).values;
-
-    if (!values._key) {
-        values = values.set('_key', editedRowKey);
-    }
-
-    if (type === BUTTON_TYPES.SAVE) {
-
-        const result = fireEvent(
-            'HANDLE_BEFORE_INLINE_EDITOR_SAVE',
-            events,
-            {
-                values,
-                editor: editorState
-            },
-            null
-        );
-
-        // early exit if custom event returns false
-        // dont do save or dismiss editor
-        if (result === false) {
-            return;
+        if (!values._key) {
+            values = values.set('_key', editedRowKey);
         }
-    }
 
-    if (type === BUTTON_TYPES.CANCEL) {
-        store.dispatch(dismissEditor({ stateKey }));
-    }
+        if (type === BUTTON_TYPES.SAVE) {
 
-    else if (type === BUTTON_TYPES.SAVE) {
+            const result = fireEvent(
+                'HANDLE_BEFORE_INLINE_EDITOR_SAVE',
+                events,
+                {
+                    values,
+                    editor: editorState
+                },
+                null
+            );
 
-        store.dispatch(
-            saveRow({
-                values,
-                rowIndex: editorState.get(editedRowKey).rowIndex,
-                stateKey
-            })
-        );
+            // early exit if custom event returns false
+            // dont do save or dismiss editor
+            if (result === false) {
+                return;
+            }
+        }
 
-        fireEvent(
-            'HANDLE_AFTER_INLINE_EDITOR_SAVE',
-            events,
-            {
-                values,
-                editor: editorState
-            },
-            null
-        );
+        if (type === BUTTON_TYPES.CANCEL) {
+            store.dispatch(dismissEditor({ stateKey }));
+        }
 
-        store.dispatch(dismissEditor({ stateKey }));
-    }
-};
+        else if (type === BUTTON_TYPES.SAVE) {
+
+            store.dispatch(
+                saveRow({
+                    values,
+                    rowIndex: editorState.get(editedRowKey).rowIndex,
+                    stateKey
+                })
+            );
+
+            fireEvent(
+                'HANDLE_AFTER_INLINE_EDITOR_SAVE',
+                events,
+                {
+                    values,
+                    editor: editorState
+                },
+                null
+            );
+
+            store.dispatch(dismissEditor({ stateKey }));
+        }
+    };
+}

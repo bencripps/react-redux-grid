@@ -60,22 +60,22 @@ export class Inline extends Component {
         return (
             <div { ...inlineEditorProps }>
                 <span { ...buttonContainerProps }>
-                    <Button { ...{
-                        type: BUTTON_TYPES.CANCEL,
-                        editorState,
-                        editedRowKey,
-                        events,
-                        stateKey,
-                        store
-                    } }/>
-                    <Button { ...{
-                        type: BUTTON_TYPES.SAVE,
-                        editorState,
-                        editedRowKey,
-                        events,
-                        stateKey,
-                        store }
-                    }/>
+                    <Button
+                        editedRowKey={editedRowKey}
+                        editorState={editorState}
+                        events={events}
+                        stateKey={stateKey}
+                        store={store}
+                        type={BUTTON_TYPES.CANCEL}
+                    />
+                    <Button
+                        editedRowKey={editedRowKey}
+                        editorState={editorState}
+                        events={events}
+                        stateKey={stateKey}
+                        store={store}
+                        type={BUTTON_TYPES.SAVE}
+                    />
                 </span>
             </div>
         );
