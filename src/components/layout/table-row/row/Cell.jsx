@@ -77,12 +77,8 @@ export const Cell = ({
             shouldNest ? 'tree-nested' : '',
             depth !== null ? `tree-node-depth-${depth}` : ''
         ),
-        onClick: (e) => {
-            return handleClick(cellClickArguments, e);
-        },
-        onDoubleClick: (e) => {
-            return handleDoubleClick(cellClickArguments, e);
-        },
+        onClick: (e) => handleClick(cellClickArguments, e),
+        onDoubleClick: (e) => handleDoubleClick(cellClickArguments, e),
         style: {}
     };
 
@@ -117,13 +113,14 @@ export const Cell = ({
 
     const cellHTML = getCellHTML(
         cellData,
+        columns,
         editorState,
+        events,
+        index,
         isEditable,
         isRowSelected,
-        columns,
-        index,
-        rowId,
         row,
+        rowId,
         stateKey,
         store
     );
@@ -144,13 +141,14 @@ export const Cell = ({
 
 export const getCellHTML = (
     cellData,
+    columns,
     editorState,
+    events,
+    index,
     isEditable,
     isRowSelected,
-    columns,
-    index,
-    rowId,
     row,
+    rowId,
     stateKey,
     store
 ) => {
@@ -161,6 +159,7 @@ export const getCellHTML = (
                 cellData={cellData}
                 columns={columns}
                 editorState={editorState}
+                events={events}
                 index={index}
                 isEditable={isEditable}
                 isRowSelected={isRowSelected}

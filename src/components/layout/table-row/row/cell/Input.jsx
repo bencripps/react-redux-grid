@@ -12,11 +12,21 @@ import {
     Editor
 } from './../../../../../records';
 
+const {
+    any,
+    array,
+    func,
+    object,
+    string
+} = PropTypes;
+
 export const Input = ({
     cellData,
     column,
     columns,
     editorState,
+    onBlur,
+    onFocus,
     rowId,
     stateKey,
     store
@@ -56,7 +66,9 @@ export const Input = ({
     return (
         <input
             disabled={disabled}
+            onBlur={onBlur}
             onChange={onChange}
+            onFocus={onFocus}
             placeholder={placeholder}
             type="text"
             value={value}
@@ -81,11 +93,13 @@ export const handleChange = (
 };
 
 Input.propTypes = {
-    cellData: PropTypes.any,
-    column: PropTypes.object,
-    columns: PropTypes.array,
-    editorState: PropTypes.object,
-    rowId: PropTypes.string,
-    stateKey: PropTypes.string,
-    store: PropTypes.object
+    cellData: any,
+    column: object,
+    columns: array,
+    editorState: object,
+    onBlur: func,
+    onFocus: func,
+    rowId: string,
+    stateKey: string,
+    store: object
 };

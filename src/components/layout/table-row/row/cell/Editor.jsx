@@ -2,12 +2,14 @@ import React, { PropTypes } from 'react';
 import { Input } from './Input';
 import { gridConfig } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
+import { fireEvent } from './../../../../../util/fire';
 import { nameFromDataIndex } from './../../../../../util/getData';
 
 export const Editor = ({
     cellData,
     columns,
     editorState,
+    events,
     rawValue,
     index,
     isEditable,
@@ -58,6 +60,26 @@ export const Editor = ({
         invalid ? CLASS_NAMES.EDITOR.INVALID : ''
     );
 
+    const onFocus = () => fireEvent(
+        'HANDLE_EDITOR_FOCUS',
+        events,
+        {
+            column: columns[index],
+            rowId,
+            editor: editorData
+        }
+    );
+
+    const onBlur = () => fireEvent(
+        'HANDLE_EDITOR_BLUR',
+        events,
+        {
+            column: columns[index],
+            rowId,
+            editor: editorData
+        }
+    );
+
     if (isEditable
         && columns[index]
         && columns[index].editor
@@ -73,6 +95,8 @@ export const Editor = ({
                 columns,
                 store,
                 rowId,
+                onFocus,
+                onBlur,
                 row: editorData && editorData.values && editorData.toJS
                     ? { ...row, ...cleanProps(editorData.values.toJS()) }
                     : { key: rowId, ...row },
@@ -104,6 +128,8 @@ export const Editor = ({
                     column={columns[index]}
                     columns={columns}
                     editorState={editorState}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
                     rowId={rowId}
                     stateKey={stateKey}
                     store={store}
@@ -130,6 +156,7 @@ Editor.propTypes = {
     cellData: any,
     columns: array,
     editorState: object,
+    events: object,
     index: number,
     isEditable: bool,
     isRowSelected: bool,

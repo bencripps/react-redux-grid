@@ -50,6 +50,13 @@ export const events = {
     },
     HANDLE_AFTER_ROW_DROP: ({ treeData, row }) => {
         console.log('After drag and drop of row event');
+    },
+    HANDLE_EDITOR_FOCUS: (a) => {
+        console.log(a)
+        console.log('Handle editor focus');
+    },
+    HANDLE_EDITOR_BLUR: () => {
+        console.log('Handle editor blur');
     }
 };
 
