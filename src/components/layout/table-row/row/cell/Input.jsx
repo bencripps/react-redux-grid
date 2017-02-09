@@ -36,7 +36,7 @@ export const Input = ({
     const placeholder = column
         && column.placeholder
         ? column.placeholder
-        : false;
+        : null;
 
     const value = editorData
         && editorData.values

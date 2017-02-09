@@ -1,5 +1,5 @@
 import {
-    Record, Map
+    Record, Map, List
 } from 'immutable';
 
 const Editor = Record({
@@ -8,6 +8,7 @@ const Editor = Record({
     rowIndex: null,
     top: null,
     valid: null,
+    invalidCells: List(),
     isCreate: null,
     overrides: Map(),
     previousValues: Map(),

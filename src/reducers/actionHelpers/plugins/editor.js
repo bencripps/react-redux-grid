@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import { Editor } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
@@ -18,7 +18,7 @@ export const editRow = (state, {
         values = fromJS(values);
     }
 
-    const isValid = isRowValid(columns, values);
+    const { invalidCells, isValid } = isRowValid(columns, values);
 
     let overrides = state.getIn([stateKey, rowId, 'overrides'])
        ? state.getIn([stateKey, rowId, 'overrides'])
@@ -50,6 +50,7 @@ export const editRow = (state, {
             rowIndex,
             top,
             valid: isValid,
+            invalidCells,
             isCreate: isCreate || false,
             overrides: overrides
         }),
@@ -132,13 +133,14 @@ export const rowValueChange = (state, {
         );
     });
 
-    const valid = isRowValid(columns, rowValues);
+    const { invalidCells, isValid } = isRowValid(columns, rowValues);
 
     const record = state.getIn([stateKey, rowId]) || new Editor();
     const updated = record.merge({
         values: rowValues,
         previousValues: record.values,
-        valid,
+        valid: isValid,
+        invalidCells,
         overrides
     });
 
@@ -179,17 +181,23 @@ export const isCellValid = ({ validator }, value, values) => {
 };
 
 export const isRowValid = (columns, rowValues) => {
+    let invalidCells = new List();
+    let isValid = true;
+
     for (let i = 0; i < columns.length; i++) {
 
         const col = columns[i];
         const val = isCellValid(col, getData(rowValues, columns, i), rowValues);
 
         if (!val) {
-            return false;
+            invalidCells = invalidCells.push(nameFromDataIndex(col));
+        }
+        if (isValid && !val) {
+            isValid = false;
         }
     }
 
-    return true;
+    return { isValid, invalidCells };
 };
 
 export const setDisabled = (col = {}, value, values) => {

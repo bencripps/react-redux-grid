@@ -96,7 +96,8 @@ export let CLASS_NAMES = {
             CANCEL_BUTTON: 'cancel-button',
             BUTTON_CONTAINER: 'button-container',
             INPUT_WRAPPER: 'editor-wrapper'
-        }
+        },
+        INVALID: 'invalid-cell'
     },
     GRID_ACTIONS: {
         CONTAINER: 'action-container',

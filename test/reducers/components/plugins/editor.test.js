@@ -1,6 +1,6 @@
 /* eslint-enable describe it */
 import expect from 'expect';
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import {
     EDIT_ROW,
@@ -263,7 +263,7 @@ describe('The editor reducer isRowValid func', () => {
         });
 
         expect(
-            isRowValid(columns, row)
+            isRowValid(columns, row).isValid
         ).toEqual(true);
 
     });
@@ -291,11 +291,11 @@ describe('The editor reducer isRowValid func', () => {
 
         expect(
             isRowValid(columns, row)
-        ).toEqual(false);
+        ).toEqual({ isValid: false, invalidCells: List(['col1']) });
 
     });
 
-    it('Should return an valid if more cols exist than values', () => {
+    it('Should return a valid if more cols exist than values', () => {
 
         const columns = [
             {
@@ -321,7 +321,7 @@ describe('The editor reducer isRowValid func', () => {
         });
 
         expect(
-            isRowValid(columns, row)
+            isRowValid(columns, row).isValid
         ).toEqual(true);
 
     });
@@ -372,6 +372,7 @@ describe('The editor reducer EDIT_ROW action', () => {
                 rowIndex: 2,
                 top: 30,
                 valid: true,
+                invalidCells: List(),
                 isCreate: false,
                 overrides: fromJS({
                     col1: {
@@ -425,6 +426,7 @@ describe('The editor reducer EDIT_ROW action', () => {
                 rowIndex: 2,
                 top: 30,
                 valid: false,
+                invalidCells: List(['col1']),
                 isCreate: true,
                 overrides: fromJS({
                     col1: {

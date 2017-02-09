@@ -34,6 +34,11 @@ export const Editor = ({
     }
 
     const editorData = editorState.get(rowId) || new Map();
+    const invalid = editorData
+        && editorData.invalidCells
+        && editorData.invalidCells.contains(colName)
+        ? true
+        : null;
 
     const value = editorData.values
         && editorData.values.get
@@ -47,6 +52,11 @@ export const Editor = ({
         isRowSelected,
         store
     };
+
+    const wrapperCls = prefix(
+        CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER,
+        invalid ? CLASS_NAMES.EDITOR.INVALID : ''
+    );
 
     if (isEditable
         && columns[index]
@@ -74,7 +84,7 @@ export const Editor = ({
         );
 
         return (
-            <span className={prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)}>
+            <span className={wrapperCls}>
                 { input }
             </span>
         );
@@ -88,7 +98,7 @@ export const Editor = ({
                 : true)) {
 
         return (
-            <span className={prefix(CLASS_NAMES.EDITOR.INLINE.INPUT_WRAPPER)}>
+            <span className={wrapperCls}>
                 <Input
                     cellData={value}
                     column={columns[index]}
@@ -103,7 +113,7 @@ export const Editor = ({
     }
 
     return (
-        <span className={ prefix(CLASS_NAMES.INACTIVE_CLASS) }>
+        <span className={prefix(CLASS_NAMES.INACTIVE_CLASS)}>
             { cellData }
         </span>
     );
