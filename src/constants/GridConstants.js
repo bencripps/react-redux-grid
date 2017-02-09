@@ -32,7 +32,8 @@ export const FILTER_METHODS = {
 };
 
 export const KEYBOARD_MAP = {
-    ENTER: 13
+    ENTER: 13,
+    ESCAPE: 27
 };
 
 export const GRID_TYPES = PropTypes.oneOf(['grid', 'tree']);

@@ -2,7 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 import { prefix } from './../../../../util/prefix';
 import { fireEvent } from './../../../../util/fire';
-import { gridConfig } from './../../../../constants/GridConstants';
+import {
+    gridConfig,
+    KEYBOARD_MAP
+} from './../../../../constants/GridConstants';
+
 import {
     dismissEditor
 } from './../../../../actions/plugins/editor/EditorActions';
@@ -89,16 +93,16 @@ export class Button extends Component {
     };
 
     listenForEnter = e => {
-        if (e.keyCode === 13) {
+        if (e.keyCode === KEYBOARD_MAP.ENTER) {
             this.handleButtonClick();
         }
-    }
+    };
 
     listenForCancel = e => {
-        if (e.keyCode === 27) {
+        if (e.keyCode === KEYBOARD_MAP.ESCAPE) {
             this.handleButtonClick();
         }
-    }
+    };
 
     handleButtonClick = () => {
 
