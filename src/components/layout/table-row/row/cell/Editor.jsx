@@ -103,7 +103,8 @@ export const Editor = ({
                 columnIndex: index,
                 value: value && value.toJS ? value.toJS() : value,
                 isRowSelected,
-                stateKey
+                stateKey,
+                isCreate: editorData.isCreate
             }
         );
 
