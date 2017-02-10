@@ -1,5 +1,31 @@
 # Change Log
 
+## [5.1.9](https://github.com/bencripps/react-redux-grid/tree/5.1.9) (2017-02-10)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.7...5.1.9)
+
+**Implemented enhancements:**
+
+- Make isCreate available for custom editors [\#100](https://github.com/bencripps/react-redux-grid/issues/100)
+
+**Fixed bugs:**
+
+- npm run demo fails to work properly [\#88](https://github.com/bencripps/react-redux-grid/issues/88)
+
+**Closed issues:**
+
+- s [\#94](https://github.com/bencripps/react-redux-grid/issues/94)
+
+**Merged pull requests:**
+
+- editor: bugfix - Made isCreate available to editors [\#101](https://github.com/bencripps/react-redux-grid/pull/101) ([Vanderslice](https://github.com/Vanderslice))
+- remove use of bind, as suggested in http://www.benjamincripps.com/pos… [\#93](https://github.com/bencripps/react-redux-grid/pull/93) ([jstafford](https://github.com/jstafford))
+- add support for \[redux-devtools-extension\]\(https://github.com/zalmoxsus/redux-devtools-extension\), [\#92](https://github.com/bencripps/react-redux-grid/pull/92) ([jstafford](https://github.com/jstafford))
+- fix warnings seen when running npm install by adding jasmine-core as … [\#91](https://github.com/bencripps/react-redux-grid/pull/91) ([jstafford](https://github.com/jstafford))
+- fix issue \#88 by fixing the path to bundle.js in index.html, [\#90](https://github.com/bencripps/react-redux-grid/pull/90) ([jstafford](https://github.com/jstafford))
+
+## [5.1.7](https://github.com/bencripps/react-redux-grid/tree/5.1.7) (2017-02-02)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.6...5.1.7)
+
 ## [5.1.6](https://github.com/bencripps/react-redux-grid/tree/5.1.6) (2017-02-01)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.2...5.1.6)
 
@@ -204,7 +230,7 @@
 - Request: make project ready for distribution [\#36](https://github.com/bencripps/react-redux-grid/issues/36)
 
 ## [v2.0.0](https://github.com/bencripps/react-redux-grid/tree/v2.0.0) (2016-08-08)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v2.0.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v2.0.0)
 
 **Closed issues:**
 
@@ -214,11 +240,11 @@
 
 - Rework build process to create dist, remove fonts, update README [\#37](https://github.com/bencripps/react-redux-grid/pull/37) ([bencripps](https://github.com/bencripps))
 
-## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v.1.9.3)
-
 ## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v1.9.3)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v1.9.3)
+
+## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v.1.9.3)
 
 ## [v1.9.2](https://github.com/bencripps/react-redux-grid/tree/v1.9.2) (2016-08-05)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.1...v1.9.2)
