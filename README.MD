@@ -41,11 +41,13 @@ $ npm install react-redux-grid --save
 
 If you would like to build and run the demo in your browser:
 
-```
+```bash
+$ git clone https://github.com/bencripps/react-redux-grid.git
+$ cd react-redux-grid
 $ npm install
-$ npm run demo
+$ npm run start
 ```
-Open your browser to: http://localhost:8080
+Open your browser to: http://localhost:3000
 
 ## Examples
 
