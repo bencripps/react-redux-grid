@@ -57,9 +57,6 @@ Open your browser to: http://localhost:3000
 * [Stress](http://react-redux-grid.herokuapp.com/Stress)
 * [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
 * [Bootstrap](http://react-redux-grid.herokuapp.com/Bootstrap)
-* [Tree](http://react-redux-grid.herokuapp.com/Tree)
-* [Stress](http://react-redux-grid.herokuapp.com/Stress)
-* [Sticky](http://react-redux-grid.herokuapp.com/Sticky)
 * [Column Renderer](http://react-redux-grid.herokuapp.com/ColRenderer)
 * [Editable](http://react-redux-grid.herokuapp.com/Editable)
 
