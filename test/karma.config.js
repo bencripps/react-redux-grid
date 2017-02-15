@@ -42,14 +42,9 @@ module.exports = function exports(config) {
         ],
 
         preprocessors: {
-            './../webpack/webpack.test.js': ['babel', 'webpack', 'sourcemap']
+            './../webpack/webpack.test.js': ['babel', 'webpack']
         },
 
-        babelPreprocessor: {
-            options: {
-                presets: ['es2015']
-            }
-        },
         reporters: REPORTERS,
         specReporter: {
             maxLogLines: 20,
@@ -60,19 +55,11 @@ module.exports = function exports(config) {
         },
         singleRun: SINGLE_RUN,
         webpack: {
-            isparta: {
-                embedSource: true,
-                noAutoWrap: true,
-                babel: {
-                    presets: ['es2015', 'stage-0', 'react']
-                }
-            },
             resolve: {
-                extensions: ['', '.js', '.jsx', '.styl']
+                extensions: ['.js', '.jsx', '.styl']
             },
             module: {
-                preLoaders: PRELOADERS,
-                loaders: loaders
+                rules: PRELOADERS.concat(loaders)
             },
             externals: {
                 cheerio: 'window',
@@ -85,7 +72,7 @@ module.exports = function exports(config) {
                 fs: 'empty'
             },
             devServer: {
-                quiet: false
+                quiet: true
             }
         },
         webpackMiddleware: {
