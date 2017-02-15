@@ -1,12 +1,14 @@
 module.exports = [
     {
         test: /\.js$|\.jsx$/,
-        loaders: ['babel-loader'],
+        loader: 'babel-loader',
+        enforce: 'pre',
         exclude: /node_modules|\.json$|\.test\.js/
     },
     {
         test: /\.js$|\.jsx$/,
+        enforce: 'pre',
         exclude: /node_modules|test|\.test\.js/,
-        loader: 'isparta'
+        loader: 'istanbul-instrumenter-loader'
     }
 ];

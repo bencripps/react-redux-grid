@@ -2,8 +2,6 @@ const loaders = require('./loaders');
 
 module.exports = {
     entry: [
-        'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://localhost:8080',
         './demo/entry.js'
     ],
     devServer: {
@@ -23,16 +21,10 @@ module.exports = {
         fs: 'empty'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx', '.styl']
+        extensions: ['.js', '.jsx', '.styl']
     },
     module: {
-        eslint: {
-            configFile: '.eslintrc',
-            emitError: true,
-            failOnError: true,
-            failOnWarning: false
-        },
-        loaders: loaders
+        rules: loaders
     },
     devtool: 'inline-source-map'
 };
