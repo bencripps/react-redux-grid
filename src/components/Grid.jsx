@@ -233,7 +233,7 @@ export class Grid extends Component {
         pageSize: number,
         pager: object,
         plugins: object,
-        reducerKeys: object,
+        reducerKeys: oneOfType([object, string]),
         selectedRows: object,
         showTreeRootNode: bool,
         stateKey: string,

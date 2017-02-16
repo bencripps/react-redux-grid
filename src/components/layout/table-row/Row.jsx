@@ -11,7 +11,7 @@ import { fireEvent } from '../../../util/fire';
 import { getData, getRowKey } from '../../../util/getData';
 import { gridConfig } from '../../../constants/GridConstants';
 
-const { arrayOf, bool, func, object, string, oneOf, number } = PropTypes;
+const { arrayOf, bool, func, object, string, oneOf, number, oneOfType } = PropTypes;
 
 const DRAG_INCREMENT = 15;
 
@@ -198,7 +198,7 @@ export class Row extends Component {
         plugins: object,
         previousRow: object,
         readFunc: func,
-        reducerKeys: object,
+        reducerKeys: oneOfType([object, string]),
         row: object,
         selectedRows: object,
         selectionModel: object,

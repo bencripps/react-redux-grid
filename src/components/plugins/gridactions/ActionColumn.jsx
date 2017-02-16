@@ -152,7 +152,7 @@ export class ActionColumn extends Component {
         headerActionItemBuilder: PropTypes.func,
         iconCls: PropTypes.string,
         menuState: PropTypes.object,
-        reducerKeys: PropTypes.object,
+        reducerKeys: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
         rowData: PropTypes.object,
         rowId: PropTypes.string,
         rowIndex: PropTypes.number,

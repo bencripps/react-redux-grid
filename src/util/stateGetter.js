@@ -10,15 +10,22 @@
 
 export const stateGetter = (state, props, key, entry) => {
 
-    if (props
-        && props.reducerKeys
-        && Object.keys(props.reducerKeys).length > 0
-        && props.reducerKeys[key]) {
+    if (props && props.reducerKeys) {
+        if (typeof props.reducerKeys === 'string' &&
+            props.reducerKeys.length > 0) {
 
-        const dynamicKey = props.reducerKeys[key];
-        const dynamicState = get(state, dynamicKey, entry);
+            return get(state[props.reducerKeys], key, entry);
 
-        return dynamicState;
+        }
+        else if (typeof props.reducerKeys === 'object' &&
+          Object.keys(props.reducerKeys).length > 0 &&
+          props.reducerKeys[key]) {
+
+            const dynamicKey = props.reducerKeys[key];
+            const dynamicState = get(state, dynamicKey, entry);
+
+            return dynamicState;
+        }
     }
 
     const val = get(state, key, entry);

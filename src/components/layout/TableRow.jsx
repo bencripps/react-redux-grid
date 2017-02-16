@@ -23,7 +23,7 @@ import {
 import Row from './table-row/Row';
 import { PlaceHolder } from './row/PlaceHolder';
 
-const { arrayOf, bool, func, number, object, string } = PropTypes;
+const { arrayOf, bool, func, number, object, string, oneOfType } = PropTypes;
 
 export class TableRow extends Component {
 
@@ -97,7 +97,7 @@ export class TableRow extends Component {
         pager: object,
         plugins: object,
         readFunc: func,
-        reducerKeys: object,
+        reducerKeys: oneOfType([object, string]),
         selectedRows: object,
         selectionModel: object,
         showTreeRootNode: bool,

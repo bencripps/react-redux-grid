@@ -231,7 +231,7 @@ Inline.propTypes = {
     config: PropTypes.object.isRequired,
     editorState: PropTypes.object,
     events: PropTypes.object,
-    reducerKeys: PropTypes.object,
+    reducerKeys: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     stateKey: PropTypes.string,
     store: PropTypes.object
 };

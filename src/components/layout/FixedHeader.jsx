@@ -12,7 +12,7 @@ import { isPluginEnabled } from '../../util/isPluginEnabled';
 import { gridConfig } from '../../constants/GridConstants';
 import { resizeColumns } from '../../actions/GridActions';
 
-const { arrayOf, bool, object, string } = PropTypes;
+const { arrayOf, bool, object, string, oneOfType } = PropTypes;
 
 const dragAndDropManager = new DragAndDropManager();
 
@@ -215,7 +215,7 @@ class FixedHeader extends Component {
         menuState: object,
         pager: object,
         plugins: object,
-        reducerKeys: object,
+        reducerKeys: oneOfType([object, string]),
         selectionModel: object,
         stateKey: string,
         stateful: bool,
