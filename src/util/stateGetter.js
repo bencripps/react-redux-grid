@@ -11,11 +11,8 @@
 export const stateGetter = (state, props, key, entry) => {
 
     if (props && props.reducerKeys) {
-        if (typeof props.reducerKeys === 'string' &&
-            props.reducerKeys.length > 0) {
-
+        if (typeof props.reducerKeys === 'string') {
             return get(state[props.reducerKeys], key, entry);
-
         }
         else if (typeof props.reducerKeys === 'object' &&
           Object.keys(props.reducerKeys).length > 0 &&

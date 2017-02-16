@@ -102,3 +102,36 @@ const config = {
 
 const grid = <Grid { ...config } />;
 ````
+
+## Nested Grid Reducers
+
+If you want to hide grid reducers from the root of your state:
+
+````js
+import { combineReducers } from 'redux';
+import { GridRootReducer } from 'react-redux-grid';
+
+import myAppReducer from './customReducers/app';
+import myDataReducer from './customReducers/data';
+
+export const rootReducer = combineReducers({
+    myAppReducer,
+    myDataReducer,
+    nested: GridRootReducer
+});
+
+export default rootReducer;
+
+
+import { Grid, Reducers } from 'react-redux-grid';
+
+const config = {
+    data,
+    store,
+    reducerKeys: 'nested'
+};
+
+const grid = <Grid { ...config } />;
+
+
+````
