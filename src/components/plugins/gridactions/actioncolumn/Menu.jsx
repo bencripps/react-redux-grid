@@ -61,7 +61,7 @@ Menu.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object),
     editor: PropTypes.object,
     maxHeight: PropTypes.number,
-    reducerKeys: PropTypes.object,
+    reducerKeys: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     rowData: PropTypes.object,
     rowId: PropTypes.string,
     rowIndex: PropTypes.number,

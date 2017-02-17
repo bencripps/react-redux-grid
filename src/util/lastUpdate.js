@@ -17,13 +17,20 @@ export const generateLastUpdate = () => ++num;
 export const resetLastUpdate = () => { num = 0; };
 
 export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
-    const state = store.getState();
+    let state = store.getState();
+    let keys;
 
-    let keys = Object.keys(reducerKeys);
-
-    if (!keys.length) {
-        reducerKeys = REDUCER_KEYS;
+    if (typeof reducerKeys === 'string') {
+        state = state[reducerKeys];
         keys = Object.keys(REDUCER_KEYS);
+        reducerKeys = REDUCER_KEYS;
+    }
+    else {
+        keys = Object.keys(reducerKeys);
+        if (!keys.length) {
+            reducerKeys = REDUCER_KEYS;
+            keys = Object.keys(REDUCER_KEYS);
+        }
     }
 
     return keys.reduce((prev, reducerAccessor) => {

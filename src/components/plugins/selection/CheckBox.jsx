@@ -153,13 +153,13 @@ export const getColumn = (checkBoxContainerProps, checkBoxProps) => {
 
 };
 
-const { any, func, number, object, string } = PropTypes;
+const { any, func, number, object, string, oneOfType } = PropTypes;
 
 CheckBox.propTypes = {
     dataSource: object,
     index: number,
     onSelect: func,
-    reducerKeys: object,
+    reducerKeys: oneOfType([object, string]),
     rowId: any,
     selectedRows: object,
     selectionModelConfig: object,

@@ -9,7 +9,7 @@ import { shouldHeaderUpdate } from '../../util/shouldComponentUpdate';
 import { keyFromObject } from '../../util/keyGenerator';
 import { gridConfig } from '../../constants/GridConstants';
 
-const { arrayOf, bool, object, string } = PropTypes;
+const { arrayOf, bool, object, string, oneOfType } = PropTypes;
 
 const dragAndDropManager = new DragAndDropManager();
 
@@ -95,7 +95,7 @@ class Header extends Component {
         dataSource: object,
         pager: object,
         plugins: object,
-        reducerKeys: object,
+        reducerKeys: oneOfType([object, string]),
         selectionModel: object,
         stateKey: string,
         store: object,
