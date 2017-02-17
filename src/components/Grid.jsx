@@ -177,10 +177,13 @@ export class Grid extends Component {
         if (this._USING_DATA_ARRAY) {
             // check to see if new data, is the same as old data
             // -- without _key property
-            const shouldResetData = !deepEqual(
-                this.props.data.map(this.removeKeys),
-                nextProps.data.map(this.removeKeys)
-            );
+            const shouldResetData = this.gridType === 'tree'
+                ? !deepEqual(this.props.data, nextProps.data)
+                : !deepEqual(
+                        this.props.data.map(this.removeKeys),
+                        nextProps.data.map(this.removeKeys)
+                    );
+
             // sigh, this is a hack
             // if we do need to retrigger, we cant do
             // that within `componentWillReceiveProps`
@@ -189,7 +192,7 @@ export class Grid extends Component {
             // since this is potentially a very expensive operation
             // and only want to rerun when props have actually changed
             if (shouldResetData) {
-                setTimeout(this.setData.bind(this), 0);
+                setTimeout(::this.setData, 0);
             }
         }
     }
