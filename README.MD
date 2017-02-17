@@ -107,7 +107,7 @@ render(
 |Prop|Type|Description|
 |:--------------------|:------------------------|:------------------|
 | stateful            | bool                    | the grid will store column configuration in browser local storage (based off of `stateKey`, so the key must be unique across all grids in a single application)|
-| height              | int                     | the height of the grid container|
+| height              | oneOfType([number, string, bool])| the height of the grid container, if `false`, then no height will be set|
 | stateKey            | string                  | unique id for grid, [more information available](https://github.com/bencripps/react-redux-grid/blob/master/docs/STATE_KEYS.md)|
 | showTreeRootNode    | bool                    | used with tree-grid, to determine if root node should be displayed|
 | classNames          | array                   | a list of strings to be applied to the grid container as classes|

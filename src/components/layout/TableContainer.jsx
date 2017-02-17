@@ -27,7 +27,7 @@ export class TableContainer extends Component {
         return (
             <div
                 className={prefix(CLASS_NAMES.TABLE_CONTAINER)}
-                style={{ height }}
+                style={{ height: height !== false ? height : null }}
             >
                 <table
                     cellSpacing={0}
@@ -98,6 +98,7 @@ export class TableContainer extends Component {
         editorComponent: any,
         headerProps: object,
         height: oneOfType([
+            bool,
             string,
             number
         ]),

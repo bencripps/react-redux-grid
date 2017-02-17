@@ -227,6 +227,7 @@ export class Grid extends Component {
         gridData: object,
         gridType: GRID_TYPES,
         height: oneOfType([
+            bool,
             string,
             number
         ]),
