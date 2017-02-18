@@ -225,6 +225,7 @@ export class TableRow extends Component {
             stateful={this.props.stateful}
             store={this.props.store}
             treeData={getTreeData(row)}
+            rowRenderer={this.props.rowRenderer}
         />
     );
 

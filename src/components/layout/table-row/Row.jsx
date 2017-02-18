@@ -42,7 +42,8 @@ export class Row extends Component {
             stateful,
             stateKey,
             store,
-            treeData
+            treeData,
+            rowRenderer
         } = this.props;
 
         const id = row.get('_key');
@@ -155,11 +156,16 @@ export class Row extends Component {
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
-        const rowEl = (
-            <tr { ...rowProps }>
-                { cells }
-            </tr>
-            );
+        let rowEl;
+        if(rowRenderer && typeof rowRenderer  === 'function'){
+          rowEl = rowRenderer({row, rowProps, cells});
+        }else{
+          rowEl = (
+              <tr { ...rowProps }>
+                  { cells }
+              </tr>
+              );
+        }
 
         if (dragAndDrop) {
             return connectDragSource(connectDropTarget(rowEl));
