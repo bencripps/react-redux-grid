@@ -37,6 +37,7 @@ const {
     array,
     arrayOf,
     bool,
+    func,
     object,
     oneOfType,
     number,
@@ -242,7 +243,8 @@ export class Grid extends Component {
         showTreeRootNode: bool,
         stateKey: string,
         stateful: bool,
-        store: object
+        store: object,
+        rowRenderer: func
     };
 
     static defaultProps = {
@@ -414,8 +416,10 @@ export class Grid extends Component {
         stateful: this. props.stateful,
         showTreeRootNode: this.props.showTreeRootNode,
         menuState: this.props.menuState,
-        gridType: this.gridType
-    });
+        gridType: this.gridType,
+        rowRenderer: this.props.rowRenderer
+      });
+
 
     getEditor = () => this.editor.getComponent(
         this.props.plugins,

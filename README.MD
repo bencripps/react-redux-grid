@@ -119,6 +119,7 @@ render(
 | gridType            | oneOf(['grid', 'tree']) | whether the grid will be a flat list or a tree view |
 | data                | arrayOf(object)         | local data for grid to display, [more information available](https://github.com/bencripps/react-redux-grid/blob/master/docs/PROVIDING_DATA.md)|
 | dataSource          | func                    | function which returns data to display, [more information available](https://github.com/bencripps/react-redux-grid/blob/master/docs/PROVIDING_DATA.md)|
+| rowRenderer         | func                    | function which returns the row contents for this row, [more information available](https://github.com/bencripps/react-redux-grid/blob/master/docs/USING_CUSTOM_ROW_RENDERERS.md)|
 
 
 ## Columns
