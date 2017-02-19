@@ -17,23 +17,26 @@ export const generateLastUpdate = () => ++num;
 export const resetLastUpdate = () => { num = 0; };
 
 export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
-    let state = store.getState();
-    let keys;
 
     if (typeof reducerKeys === 'string') {
-        state = state[reducerKeys];
-        keys = Object.keys(REDUCER_KEYS);
-        reducerKeys = REDUCER_KEYS;
-    }
-    else {
-        keys = Object.keys(reducerKeys);
-        if (!keys.length) {
-            reducerKeys = REDUCER_KEYS;
-            keys = Object.keys(REDUCER_KEYS);
-        }
+        return updateGetter(
+            store.getState()[reducerKeys],
+            Object.keys(REDUCER_KEYS),
+            REDUCER_KEYS,
+            key
+        );
     }
 
-    return keys.reduce((prev, reducerAccessor) => {
+    return updateGetter(
+        store.getState(),
+        REDUCER_KEYS,
+        Object.keys(REDUCER_KEYS),
+        key
+    );
+};
+
+export const updateGetter = (state, reducerKeys, keys, key) =>
+    keys.reduce((prev, reducerAccessor) => {
         const reducerKey = reducerKeys[reducerAccessor];
         const stateMap = (typeof state.get === 'function')
             ? state.get(reducerKey)
@@ -43,4 +46,3 @@ export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
         }
         return prev;
     }, {});
-};

@@ -14,14 +14,12 @@ export const stateGetter = (state, props, key, entry) => {
         if (typeof props.reducerKeys === 'string') {
             return get(state[props.reducerKeys], key, entry);
         }
-        else if (typeof props.reducerKeys === 'object' &&
-          Object.keys(props.reducerKeys).length > 0 &&
-          props.reducerKeys[key]) {
+        else if (typeof props.reducerKeys === 'object'
+            && Object.keys(props.reducerKeys).length > 0
+            && props.reducerKeys[key]) {
 
             const dynamicKey = props.reducerKeys[key];
-            const dynamicState = get(state, dynamicKey, entry);
-
-            return dynamicState;
+            return get(state, dynamicKey, entry);
         }
     }
 
