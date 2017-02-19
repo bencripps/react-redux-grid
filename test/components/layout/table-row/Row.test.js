@@ -267,44 +267,46 @@ describe('The Grid Row Component', () => {
 
     });
 
-    // it('Should render a row with a custom row renderer', () => {
-    //     const dynamicEditProps = {
-    //         ...props,
-    //         row: fromJS({
-    //             name: 'Michael Jordan',
-    //             position: 'Shooting Guard',
-    //             _key: 'row-0',
-    //             header: true
-    //         }),
-    //         plugins: {
-    //             ROW: {
-    //                 enabled: true,
-    //                 renderer: ({rowProps, cells, row}) => {
-    //                     if (row.get('header')) {
-    //                         rowProps.className =
-    //                             `${rowProps.className} HeaderRowClass`;
-    //                         return (
-    //                             <tr { ...rowProps }>
-    //                                 { cells }
-    //                             </tr>
-    //                         );
-    //                     }
-    //                     return (
-    //                         <tr { ...rowProps}>
-    //                             { cells }
-    //                         </tr>
-    //                     );
-    //                 }
-    //             }
-    //         }
-    //     };
-    //     const component = mount(<Row { ...dynamicEditProps } />);
-    //     expect(
-    //         component.first('tr').class
-    //     ).toEqual(
-    //         'react-grid-row HeaderRowClass'
-    //     );
-    // });
+    it('Should render a row with a custom rowRenderer', () => {
+        const dynamicEditProps = {
+            ...props,
+            row: fromJS({
+                name: 'Michael Jordan',
+                position: 'Shooting Guard',
+                _key: 'row-0',
+                header: true
+            }),
+            plugins: {
+                ROW: {
+                    enabled: true,
+                    /* eslint-disable react/prop-types */
+                    renderer: ({ rowProps, cells }) => {
+                        rowProps.className = `${rowProps.className} custom`;
+                        return (
+                            <tr { ...rowProps}>
+                                { cells }
+                            </tr>
+                        );
+                    }
+                    /* eslint-enable react/prop-types */
+                }
+            }
+        };
+
+        const component = mount(<Row { ...dynamicEditProps } />);
+
+        expect(
+            component.first('tr').hasClass('custom')
+        ).toEqual(
+            true
+        );
+
+        expect(
+            component.first('tr').hasClass('react-grid-row')
+        ).toEqual(
+            true
+        );
+    });
 
     it('Should fire custom row click event', () => {
 
