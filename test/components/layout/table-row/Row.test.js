@@ -231,7 +231,7 @@ describe('The Grid Row Component', () => {
 
     });
 
-    it('Should render a row with a custom renderer', () => {
+    it('Should render a row with a custom column renderer', () => {
 
         const dynamicEditProps = {
             ...props,
@@ -266,6 +266,45 @@ describe('The Grid Row Component', () => {
         );
 
     });
+
+    // it('Should render a row with a custom row renderer', () => {
+    //     const dynamicEditProps = {
+    //         ...props,
+    //         row: fromJS({
+    //             name: 'Michael Jordan',
+    //             position: 'Shooting Guard',
+    //             _key: 'row-0',
+    //             header: true
+    //         }),
+    //         plugins: {
+    //             ROW: {
+    //                 enabled: true,
+    //                 renderer: ({rowProps, cells, row}) => {
+    //                     if (row.get('header')) {
+    //                         rowProps.className =
+    //                             `${rowProps.className} HeaderRowClass`;
+    //                         return (
+    //                             <tr { ...rowProps }>
+    //                                 { cells }
+    //                             </tr>
+    //                         );
+    //                     }
+    //                     return (
+    //                         <tr { ...rowProps}>
+    //                             { cells }
+    //                         </tr>
+    //                     );
+    //                 }
+    //             }
+    //         }
+    //     };
+    //     const component = mount(<Row { ...dynamicEditProps } />);
+    //     expect(
+    //         component.first('tr').class
+    //     ).toEqual(
+    //         'react-grid-row HeaderRowClass'
+    //     );
+    // });
 
     it('Should fire custom row click event', () => {
 

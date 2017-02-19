@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
+import { isPluginEnabled } from '../../../util/isPluginEnabled';
 
 import { Cell } from './row/Cell';
 import { EmptyCell } from './row/EmptyCell';
@@ -155,18 +156,27 @@ export class Row extends Component {
 
         addEmptyInsert(cells, visibleColumns, plugins);
 
-        const rowEl = (
-            <tr { ...rowProps }>
-                { cells }
-            </tr>
+        let rowEl;
+
+        if (isPluginEnabled(plugins, 'ROW') &&
+          typeof plugins.ROW.renderer === 'function') {
+        	// super important that we pass rowProps and cells
+        	// since the user is almost certainly going to want both
+        	// lets make sure this gets documented
+            rowEl = plugins.ROW.renderer({ rowProps, cells, row });
+        } else {
+            rowEl = (
+                <tr { ...rowProps }>
+                    { cells }
+                </tr>
             );
+        }
 
         if (dragAndDrop) {
             return connectDragSource(connectDropTarget(rowEl));
         }
 
         return rowEl;
-
     }
 
     constructor(props) {
