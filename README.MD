@@ -370,9 +370,6 @@ export const plugins = {
 |:---------|:------------|:--------------|
 | enabled|bool|whether the bulk action toolbar should be used|
 | renderer | func | function which returns the row contents for this row|
-| rowProps | object | properties for this row. For example `className`, `onClick`, ...  |
-| cells | object | the cells rendered by the column renderer  |
-| row | object | the map containing all the row data |
 
 
 ## Events
