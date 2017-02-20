@@ -70,18 +70,19 @@ export default const stateEditor = ({
 };
 
 export const handleChange = ({
-    store, stateKey, column, columns
+    store, stateKey, column, columns, rowId
 }, event) => {
 
     const target = event.target;
 
     return store.dispatch(
         Actions.EditorActions.updateCellValue({
-            value: target[target.options[target.selectedIndex],
-            name: column.dataIndex,
             column,
             columns,
-            stateKey
+            name: column.dataIndex,
+            rowId,
+            stateKey,
+            value: target[target.options[target.selectedIndex]
         })
     );
 
