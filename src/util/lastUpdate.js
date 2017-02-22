@@ -18,19 +18,26 @@ export const resetLastUpdate = () => { num = 0; };
 
 export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
 
+    let keys = Object.keys(reducerKeys);
+
+    if (!keys.length) {
+        reducerKeys = REDUCER_KEYS;
+        keys = Object.keys(REDUCER_KEYS);
+    }
+
     if (typeof reducerKeys === 'string') {
         return updateGetter(
             store.getState()[reducerKeys],
-            Object.keys(REDUCER_KEYS),
-            REDUCER_KEYS,
+            reducerKeys,
+            Object.keys(reducerKeys),
             key
         );
     }
 
     return updateGetter(
         store.getState(),
-        REDUCER_KEYS,
-        Object.keys(REDUCER_KEYS),
+        reducerKeys,
+        Object.keys(reducerKeys),
         key
     );
 };
