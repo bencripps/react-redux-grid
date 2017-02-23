@@ -1,14 +1,16 @@
-export function keyGenerator(...keywords) {
-    return btoa(unescape(encodeURIComponent(Array.from(keywords).join(''))));
-}
+export const keyGenerator = (...keywords) => encode(
+    Array.from(keywords).join('')
+);
 
-export function keyFromObject(obj, additionalStrings) {
+export const keyFromObject = (obj, additionalStrings) => {
 
     if (additionalStrings && Array.isArray(additionalStrings)) {
-        return btoa(
+        return encode(
             additionalStrings.join('') + Object.keys(obj
         ).map((k) => obj[k]).join(''));
     }
 
-    return btoa(Object.keys(obj).map((k) => obj[k]).join(''));
-}
+    return encode(Object.keys(obj).map((k) => obj[k]).join(''));
+};
+
+export const encode = s => btoa(unescape(encodeURIComponent(s)));
