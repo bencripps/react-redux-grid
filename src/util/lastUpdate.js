@@ -19,18 +19,27 @@ export const resetLastUpdate = () => { num = 0; };
 export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
 
     if (typeof reducerKeys === 'string') {
+        const state = store.getState().get
+            ? store.getState().get(reducerKeys)
+            : store.getState()[reducerKeys];
+
         return updateGetter(
-            store.getState()[reducerKeys],
-            Object.keys(REDUCER_KEYS),
+            state,
             REDUCER_KEYS,
+            Object.keys(REDUCER_KEYS),
             key
         );
     }
 
+    const dynamicReducerKeys = typeof reducerKeys === 'object'
+        && Object.keys(reducerKeys).length > 0
+        ? reducerKeys
+        : REDUCER_KEYS;
+
     return updateGetter(
         store.getState(),
-        REDUCER_KEYS,
-        Object.keys(REDUCER_KEYS),
+        dynamicReducerKeys,
+        Object.keys(dynamicReducerKeys),
         key
     );
 };
@@ -43,6 +52,9 @@ export const updateGetter = (state, reducerKeys, keys, key) =>
             : state[reducerKey];
         if (stateMap && stateMap.toJS) {
             prev[reducerKey] = stateMap.getIn([key, 'lastUpdate']);
+        }
+        else if (typeof stateMap === 'object' && stateMap[key]) {
+            prev[reducerKey] = stateMap[key].lastUpdate;
         }
         return prev;
     }, {});
