@@ -89,13 +89,16 @@ export const updateRow = ({ stateKey, rowIndex, values }) => ({
 });
 
 export const addNewRow = ({
-    columns, data, stateKey, editMode = 'inline'
+    columns,
+    data,
+    stateKey,
+    editMode = 'inline',
+    rowIndex = 0,
+    isCreate = true
 }) => (dispatch) => {
     const rowId = keyGenerator('row', getNewRowId());
     const top = 43;
     const rowData = data || {};
-    const rowIndex = 0;
-    const isCreate = true;
 
     dispatch({ type: ADD_NEW_ROW, stateKey, rowId });
 
