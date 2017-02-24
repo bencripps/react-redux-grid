@@ -1,5 +1,49 @@
 # Change Log
 
+## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
+
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.10...HEAD)
+
+**Implemented enhancements:**
+
+- addNewRow\(\) : Insertion after a particular row. [\#126](https://github.com/bencripps/react-redux-grid/issues/126)
+
+**Fixed bugs:**
+
+- addNewRow\\(\\) : Insertion after a particular row. [\#126](https://github.com/bencripps/react-redux-grid/issues/126)
+- updateGetter in lastUpdate.js doesn't support passing reducerKeys via the grid props [\#123](https://github.com/bencripps/react-redux-grid/issues/123)
+
+## [5.1.10](https://github.com/bencripps/react-redux-grid/tree/5.1.10) (2017-02-24)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.9...5.1.10)
+
+**Implemented enhancements:**
+
+- Question: Events for editor with mode='grid' [\#98](https://github.com/bencripps/react-redux-grid/issues/98)
+- Question: validation on cell being edited [\#96](https://github.com/bencripps/react-redux-grid/issues/96)
+- Add support for nested grid reducers [\#106](https://github.com/bencripps/react-redux-grid/pull/106) ([drownbes](https://github.com/drownbes))
+
+**Fixed bugs:**
+
+- btoa call fails with UTF-8 encoded chracter in keyFromObject function [\#125](https://github.com/bencripps/react-redux-grid/issues/125)
+- 5.1.9 fails due absence of redux-logger [\#102](https://github.com/bencripps/react-redux-grid/issues/102)
+- Styling problem: no down arrow is shown when change sorting order [\#97](https://github.com/bencripps/react-redux-grid/issues/97)
+- Question: validation on cell being edited [\#96](https://github.com/bencripps/react-redux-grid/issues/96)
+
+**Closed issues:**
+
+- pager plugin does not update table when fetching new data [\#121](https://github.com/bencripps/react-redux-grid/issues/121)
+- v5.1.9 requires redux-logger but only in dev-dependencies [\#119](https://github.com/bencripps/react-redux-grid/issues/119)
+- provide data for tree view does not work still not working [\#118](https://github.com/bencripps/react-redux-grid/issues/118)
+- Document update - pass rowId to update cell value [\#117](https://github.com/bencripps/react-redux-grid/issues/117)
+- Is it posible to skip/override default styles applied in JS? [\#110](https://github.com/bencripps/react-redux-grid/issues/110)
+- provide data for tree view does not work [\#109](https://github.com/bencripps/react-redux-grid/issues/109)
+
+**Merged pull requests:**
+
+- feat\(row\): added a row renderer via plugin [\#115](https://github.com/bencripps/react-redux-grid/pull/115) ([darlenya](https://github.com/darlenya))
+- Fix duplicated examples [\#105](https://github.com/bencripps/react-redux-grid/pull/105) ([katopz](https://github.com/katopz))
+- Second attempt to fix issue \#88, so that demo is easy to run for peop… [\#104](https://github.com/bencripps/react-redux-grid/pull/104) ([jstafford](https://github.com/jstafford))
+
 ## [5.1.9](https://github.com/bencripps/react-redux-grid/tree/5.1.9) (2017-02-10)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.7...5.1.9)
 
@@ -230,7 +274,7 @@
 - Request: make project ready for distribution [\#36](https://github.com/bencripps/react-redux-grid/issues/36)
 
 ## [v2.0.0](https://github.com/bencripps/react-redux-grid/tree/v2.0.0) (2016-08-08)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v2.0.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v2.0.0)
 
 **Closed issues:**
 
@@ -240,11 +284,11 @@
 
 - Rework build process to create dist, remove fonts, update README [\#37](https://github.com/bencripps/react-redux-grid/pull/37) ([bencripps](https://github.com/bencripps))
 
-## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v.1.9.3...v1.9.3)
-
 ## [v.1.9.3](https://github.com/bencripps/react-redux-grid/tree/v.1.9.3) (2016-08-06)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v.1.9.3)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.3...v.1.9.3)
+
+## [v1.9.3](https://github.com/bencripps/react-redux-grid/tree/v1.9.3) (2016-08-06)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.2...v1.9.3)
 
 ## [v1.9.2](https://github.com/bencripps/react-redux-grid/tree/v1.9.2) (2016-08-05)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.9.1...v1.9.2)
