@@ -107,4 +107,68 @@ describe('LastUpdate utility', () => {
             selection: 10
         });
     });
+
+    it('Should be able to pass reducerKeys to getLastupdate', () => {
+        const store = {
+            getState: () => (fromJS({
+                'redux-grid-bulkaction': { 'test-grid-1': { lastUpdate: 1 } },
+                'redux-grid-datasource': { 'test-grid-1': { lastUpdate: 2 } },
+                'redux-grid-editor': { 'test-grid-1': { lastUpdate: 3 } },
+                'redux-grid-errorhandler': { 'test-grid-1': { lastUpdate: 4 } },
+                'redux-grid': { 'test-grid-1': { lastUpdate: 6 } },
+                'redux-grid-loader': { 'test-grid-1': { lastUpdate: 7 } },
+                'redux-grid-menu': { 'test-grid-1': { lastUpdate: 8 } },
+                'redux-grid-pager': { 'test-grid-1': { lastUpdate: 9 } },
+                'redux-grid-selectionmodel': {
+                    'test-grid-1': { lastUpdate: 10 }
+                }
+            }))
+        };
+
+        const reducerKeys = {
+            bulkaction: 'redux-grid-bulkaction',
+            dataSource: 'redux-grid-datasource',
+            editor: 'redux-grid-editor',
+            errorhandler: 'redux-grid-errorhandler',
+            grid: 'redux-grid',
+            loader: 'redux-grid-loader',
+            menu: 'redux-grid-menu',
+            pager: 'redux-grid-pager',
+            selection: 'redux-grid-selectionmodel'
+        };
+
+        expect(
+            getLastUpdate(store, 'test-grid-1', reducerKeys)
+        ).toEqual({
+            'redux-grid-bulkaction': 1,
+            'redux-grid-datasource': 2,
+            'redux-grid-editor': 3,
+            'redux-grid-errorhandler': 4,
+            'redux-grid': 6,
+            'redux-grid-loader': 7,
+            'redux-grid-menu': 8,
+            'redux-grid-pager': 9,
+            'redux-grid-selectionmodel': 10
+        });
+    });
+
+    it('Should be able to use nested reducers with getLastUpdate', () => {
+        const store = {
+            getState: () => (fromJS({
+                nested: {
+                    grid: { lastUpdate: 6 }
+                }
+            }))
+        };
+
+        const reducerKeys = 'nested';
+
+        expect(
+            getLastUpdate(store, 'grid', reducerKeys)
+        ).toEqual({
+            nested: {
+                grid: 6
+            }
+        });
+    });
 });

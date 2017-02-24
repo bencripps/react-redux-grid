@@ -44,6 +44,7 @@ export const getLastUpdate = (store, key, reducerKeys = REDUCER_KEYS) => {
 
 export const updateGetter = (state, reducerKeys, keys, key) =>
     keys.reduce((prev, reducerAccessor) => {
+
         const reducerKey = reducerKeys[reducerAccessor];
         const stateMap = (typeof state.get === 'function')
             ? state.get(reducerKey)
