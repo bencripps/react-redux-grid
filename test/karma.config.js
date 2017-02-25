@@ -82,6 +82,7 @@ module.exports = function exports(config) {
         coverageReporter: {
             reporters: [
                 { type: 'text' },
+                { type: 'text-summary' },
                 { type: 'lcovonly', subdir: './../../' }
             ]
         }
