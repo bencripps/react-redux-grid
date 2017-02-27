@@ -100,7 +100,7 @@ export const addNewRow = ({
     const top = 43;
     const rowData = data || {};
 
-    dispatch({ type: ADD_NEW_ROW, stateKey, rowId });
+    dispatch({ type: ADD_NEW_ROW, stateKey, rowId, rowIndex });
 
     dispatch(
         editRow({

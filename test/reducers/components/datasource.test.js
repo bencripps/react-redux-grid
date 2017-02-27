@@ -353,6 +353,7 @@ describe('The grid dataSource reducer addRow func', () => {
         const action = {
             stateKey: 'test-grid',
             rowId: 'row-0',
+            rowIndex: 0,
             type: ADD_NEW_ROW
         };
 
@@ -386,6 +387,7 @@ describe('The grid dataSource reducer addRow func', () => {
         const action = {
             rowId: 'row-id',
             stateKey: 'test-grid',
+            rowIndex: 0,
             type: ADD_NEW_ROW
         };
 
