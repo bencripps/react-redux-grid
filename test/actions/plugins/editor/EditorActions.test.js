@@ -322,7 +322,8 @@ describe('The grid addNewRow Action', () => {
             }
         ],
         data: {},
-        stateKey: 'test-grid'
+        stateKey: 'test-grid',
+        rowIndex: 0
     };
 
     const result = [];
@@ -337,6 +338,7 @@ describe('The grid addNewRow Action', () => {
                 {
                     rowId: 'cm93LTE=',
                     stateKey: 'test-grid',
+                    rowIndex: 0,
                     type: ADD_NEW_ROW
                 },
                 {

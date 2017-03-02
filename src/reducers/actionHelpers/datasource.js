@@ -139,7 +139,7 @@ export const updateRow = (state, { rowIndex, stateKey, values }) => {
     return state.setIn([stateKey], updated);
 };
 
-export const addNewRow = (state, { rowId, stateKey }) => {
+export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
     const existingState = state.get(stateKey);
     const isEditing = existingState && existingState.get('isEditing');
     let data = existingState && existingState.get('data');
@@ -160,7 +160,10 @@ export const addNewRow = (state, { rowId, stateKey }) => {
         data = new List();
     }
 
-    const newData = data.unshift(newRow);
+    rowIndex = rowIndex===undefined
+        ?0
+        :rowIndex;
+    const newData = data.insert(rowIndex, newRow);
     const updated = existingState.merge({
         data: newData,
         proxy: data,
