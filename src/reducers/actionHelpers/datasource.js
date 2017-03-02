@@ -160,7 +160,9 @@ export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
         data = new List();
     }
 
-    rowIndex = rowIndex===undefined?0:rowIndex;
+    rowIndex = rowIndex===undefined
+        ?0
+        :rowIndex;
     const newData = data.insert(rowIndex, newRow);
     const updated = existingState.merge({
         data: newData,
