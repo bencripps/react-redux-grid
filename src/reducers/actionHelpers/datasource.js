@@ -151,7 +151,7 @@ export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
     let newRow = data
         && data.size > 0
         && data.get(0)
-        ? data.get(0).map((k, v) => v = '')
+        ? data.get(0).reduce((p, i, c) => { return p.set(c, ''); }, fromJS({}))
         : fromJS({});
 
     newRow = newRow.set('_key', rowId);
@@ -160,9 +160,10 @@ export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
         data = new List();
     }
 
-    rowIndex = rowIndex===undefined
-        ?0
-        :rowIndex;
+    rowIndex = rowIndex ===undefined
+        ? 0
+        : rowIndex;
+
     const newData = data.insert(rowIndex, newRow);
     const updated = existingState.merge({
         data: newData,
