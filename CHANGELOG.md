@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
-
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.10...HEAD)
+## [5.1.12](https://github.com/bencripps/react-redux-grid/tree/5.1.12) (2017-03-07)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.10...5.1.12)
 
 **Implemented enhancements:**
 
@@ -10,8 +9,18 @@
 
 **Fixed bugs:**
 
+- DISMISS\_EDITOR and ADD\_NEW\_ROW set total incorrectly [\#132](https://github.com/bencripps/react-redux-grid/issues/132)
 - addNewRow\\(\\) : Insertion after a particular row. [\#126](https://github.com/bencripps/react-redux-grid/issues/126)
 - updateGetter in lastUpdate.js doesn't support passing reducerKeys via the grid props [\#123](https://github.com/bencripps/react-redux-grid/issues/123)
+
+**Closed issues:**
+
+- No Data Available [\#127](https://github.com/bencripps/react-redux-grid/issues/127)
+
+**Merged pull requests:**
+
+- bug/pager - DISMISS\_EDITOR, REMOVE\_ROW, and ADD\_NEW\_ROW now set total correctly [\#133](https://github.com/bencripps/react-redux-grid/pull/133) ([Vanderslice](https://github.com/Vanderslice))
+- Changes are made to insert a new row into a specific location of grid by passing rowIndex parameter to addNewRow\(ADD\_NEW\_ROW\) action. [\#129](https://github.com/bencripps/react-redux-grid/pull/129) ([underwater222](https://github.com/underwater222))
 
 ## [5.1.10](https://github.com/bencripps/react-redux-grid/tree/5.1.10) (2017-02-24)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.9...5.1.10)
