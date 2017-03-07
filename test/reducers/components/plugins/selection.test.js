@@ -339,12 +339,14 @@ describe('The setSelection func in the selection reducer', () => {
             index: 1
         };
 
+        const x = selection(selectedState, action).get('test-grid');
+
         expect(
-            selection(selectedState, action).get('test-grid')
+            x
         ).toEqual(
             new Selection({
                 fakeRow: true,
-                indexes: [0, 1],
+                indexes: fromJS([0, 1]),
                 anotherRow: true,
                 lastUpdate: 1
             })

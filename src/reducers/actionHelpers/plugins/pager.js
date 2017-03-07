@@ -1,14 +1,15 @@
 import { Pager } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
+import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
 export const pageLocal = (state, { pageIndex, stateKey }) =>
-    state.mergeIn([stateKey], new Pager({
-        pageIndex: pageIndex,
+    getUpdatedRecord(state, stateKey, {
+        pageIndex,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Pager);
 
 export const pageRemote = (state, { pageIndex, stateKey }) =>
-    state.mergeIn([stateKey], new Pager({
-        pageIndex: pageIndex,
+    getUpdatedRecord(state, stateKey, {
+        pageIndex,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Pager);

@@ -2,6 +2,7 @@ import { fromJS, Map, List } from 'immutable';
 
 import { Editor } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
+import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
 import {
     getData,

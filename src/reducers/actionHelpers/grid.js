@@ -5,14 +5,18 @@ import { Grid } from './../../records';
 import
     localStorageManager
 from './../../components/core/LocalStorageManager';
+import getUpdatedRecord from './../../util/getUpdatedRecord';
 
 const debouncedColumnSetter = localStorageManager.debouncedSetStateItem();
 
 export const hideHeader = (state, { stateKey, headerHidden }) =>
-    state.setIn([stateKey], new Grid({
-        headerHidden: headerHidden,
-        lastUpdate: generateLastUpdate()
-    }));
+    getUpdatedRecord(
+        state, stateKey, {
+            headerHidden: headerHidden,
+            lastUpdate: generateLastUpdate()
+        },
+        Grid
+    );
 
 export const setColumns = (state, { columns, stateKey, stateful }) => {
     if (stateful) {
@@ -22,17 +26,17 @@ export const setColumns = (state, { columns, stateKey, stateful }) => {
         });
     }
 
-    return state.setIn([stateKey], new Grid({
+    return getUpdatedRecord(state, stateKey, {
         columns: columns,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Grid);
 };
 
 export const setSortDirection = (state, { stateKey, columns }) =>
-    state.setIn([stateKey], new Grid({
+    getUpdatedRecord(state, stateKey, {
         columns: columns,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Grid);
 
 export const resizeColumns = (state, { stateful, stateKey, columns }) => {
     if (stateful) {
@@ -42,10 +46,10 @@ export const resizeColumns = (state, { stateful, stateKey, columns }) => {
         });
     }
 
-    return state.setIn([stateKey], new Grid({
+    return getUpdatedRecord(state, stateKey, {
         columns: columns,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Grid);
 };
 
 export const setColumnsInStorage = ({ columns, stateKey }) => {

@@ -1,16 +1,17 @@
 import { ErrorHandler } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
+import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
 export const errorOccurred = (state, { error, stateKey }) =>
-    state.setIn([stateKey], new ErrorHandler({
+    getUpdatedRecord(state, stateKey, {
         error: error,
         errorOccurred: true,
         lastUpdate: generateLastUpdate()
-    }));
+    }, ErrorHandler);
 
 export const dismissError = (state, { stateKey }) =>
-    state.setIn([stateKey], new ErrorHandler({
+    getUpdatedRecord(state, stateKey, {
         error: '',
         errorOccurred: false,
         lastUpdate: generateLastUpdate()
-    }));
+    }, ErrorHandler);

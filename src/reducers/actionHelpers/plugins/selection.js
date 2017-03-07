@@ -1,33 +1,34 @@
 import { Selection } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
+import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
 export const selectAll = (state, { selection, stateKey }) =>
-    state.setIn([stateKey], new Selection({
+    getUpdatedRecord(state, stateKey, {
         ...selection,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection);
 
 export const deselectAll = (state, { stateKey }) =>
-    state.setIn([stateKey], new Selection({
+    getUpdatedRecord(state, stateKey, {
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection);
 
 export const removeSelections = (state, { stateKey }) =>
-    state.setIn([stateKey], new Selection({
+    getUpdatedRecord(state, stateKey, {
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection);
 
 export const selectRow = (state, { rowId, stateKey }) =>
-    state.mergeIn([stateKey], new Selection({
+    getUpdatedRecord(state, stateKey, {
         [rowId]: true,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection, 'mergeIn');
 
 export const deselectRow = (state, { rowId, stateKey }) =>
-    state.mergeIn([stateKey], new Selection({
+    getUpdatedRecord(state, stateKey, {
         [rowId]: false,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection, 'mergeIn');
 
 export const setSelection = (state, {
     allowDeselect, clearSelections, id, index, stateKey
@@ -46,19 +47,19 @@ export const setSelection = (state, {
     );
 
     if (clearSelections || !state.get(stateKey)) {
-        return state.setIn([stateKey], new Selection({
+        return getUpdatedRecord(state, stateKey, {
             [id]: isSelectAction,
             indexes: isSelectAction ? [index] : [],
             lastUpdate: generateLastUpdate()
-        }));
+        }, Selection);
     }
 
     // multiselect
-    return state.mergeIn([stateKey], new Selection({
+    return getUpdatedRecord(state, stateKey, {
         [id]: isSelectAction,
         indexes,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Selection, 'mergeIn');
 };
 
 export const setIndexes = (ids, previous = [], isRemove) => {

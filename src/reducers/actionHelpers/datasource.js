@@ -8,6 +8,7 @@ import { moveTreeNode } from './../../util/moveTreeNode';
 import { setTreeValue } from './../../util/setTreeValue';
 import { treeToFlatList } from './../../util/treeToFlatList';
 import { setKeysInData } from './../../util/getData';
+import getUpdatedRecord from './../../util/getUpdatedRecord';
 
 export const setData = (state, {
     currentRecords, data, gridType, stateKey, treeData, total
@@ -20,7 +21,7 @@ export const setData = (state, {
         keyedCurr = setKeysInData(currentRecords);
     }
 
-    return state.setIn([stateKey], new DataSource({
+    return getUpdatedRecord(state, stateKey, {
         data: keyedData,
         proxy: keyedData,
         total: total || keyedData.count(),
@@ -30,7 +31,7 @@ export const setData = (state, {
             ? keyedCurr
             : keyedData,
         lastUpdate: generateLastUpdate()
-    }));
+    }, DataSource);
 };
 
 export const setPartialTreeData = (state, {
@@ -52,16 +53,14 @@ export const setPartialTreeData = (state, {
         updatedFlat = updatedFlat.shift();
     }
 
-    const record = state.get(stateKey).merge({
+    return getUpdatedRecord(state, stateKey, {
         data: updatedFlat,
         currentRecords: updatedFlat,
         treeData: updatedTree,
         proxy: updatedFlat,
         total: updatedFlat.count(),
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], record);
+    }, DataSource, 'mergeIn');
 };
 
 export const dismissEditor = (state, { stateKey }) => {
@@ -79,16 +78,14 @@ export const dismissEditor = (state, { stateKey }) => {
     const record = state.get(stateKey);
 
     if (record) {
-        const updated = record.merge({
+        return getUpdatedRecord(state, stateKey, {
             data: previousProxy,
             proxy: previousProxy,
             currentRecords: previousProxy,
             isEditing: false,
             total: previousTotal,
             lastUpdate: generateLastUpdate()
-        });
-
-        return state.setIn([stateKey], updated);
+        }, DataSource, 'mergeIn');
     }
 
     return state;
@@ -102,23 +99,19 @@ export const removeRow = (state, { stateKey, rowIndex }) => {
         .getIn([stateKey, 'data'])
         .remove(rowIndex || 0, 1);
 
-    const record = state.get(stateKey);
-
     const updatedTotal = existingState
         && currentTotal
         && currentTotal > 0
         ? currentTotal - 1
         : 0;
 
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: remainingRows,
         proxy: remainingRows,
         currentRecords: remainingRows,
         total: updatedTotal,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
 export const updateRow = (state, { rowIndex, stateKey, values }) => {
@@ -136,16 +129,12 @@ export const updateRow = (state, { rowIndex, stateKey, values }) => {
     const updatedData = state.getIn([stateKey, 'data'])
         .set(rowIndex, updatedRow);
 
-    const record = state.get(stateKey);
-
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: updatedData,
         proxy: updatedData,
         currentRecords: updatedData,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
 export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
@@ -178,17 +167,13 @@ export const addNewRow = (state, { rowId, stateKey, rowIndex }) => {
         ? 0
         : rowIndex;
 
-    const newData = data.insert(rowIndex, newRow);
-
-    const updated = existingState.merge({
-        data: newData,
+    return getUpdatedRecord(state, stateKey, {
+        data: data.insert(rowIndex, newRow),
         proxy: data,
         isEditing: true,
         total: updatedTotal + 1,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
 export const moveNode = (state, {
@@ -213,16 +198,13 @@ export const moveNode = (state, {
         flatMove = flatMove.shift();
     }
 
-    const record = state.get(stateKey);
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: flatMove,
         currentRecords: flatMove,
         treeData: newTreeMove,
         proxy: flatMove,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
 export const setTreeNodeVisibility = (state, {
@@ -248,16 +230,13 @@ export const setTreeNodeVisibility = (state, {
         updatedList = updatedList.shift();
     }
 
-    const record = state.get(stateKey);
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: updatedList,
         currentRecords: updatedList,
         treeData: updatedTree,
         proxy: updatedList,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
 export const saveRow = (state, { rowIndex, stateKey, values }) => {
@@ -265,50 +244,35 @@ export const saveRow = (state, { rowIndex, stateKey, values }) => {
         .getIn([stateKey, 'data'])
         .set(rowIndex, fromJS(values));
 
-    const record = state.get(stateKey);
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: data,
         proxy: data,
         currentRecords: data,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
-export const sortData = (state, { data, stateKey }) => {
-
-    const record = state.get(stateKey);
-    const updated = record.merge({
+export const sortData = (state, { data, stateKey }) => getUpdatedRecord(
+    state, stateKey, {
         data: data,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
-};
+    }, DataSource, 'mergeIn');
 
 export const clearFilter = (state, { stateKey }) => {
     const proxy = state.getIn([stateKey, 'proxy']);
     const prevData = state.getIn([stateKey, 'data']);
     const recs = proxy || prevData;
 
-    const record = state.get(stateKey);
-    const updated = record.merge({
+    return getUpdatedRecord(state, stateKey, {
         data: recs,
         proxy: recs,
         currentRecords: recs,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
+    }, DataSource, 'mergeIn');
 };
 
-export const filterData = (state, { data, stateKey }) => {
-    const record = state.get(stateKey);
-    const updated = record.merge({
+export const filterData = (state, { data, stateKey }) => getUpdatedRecord(
+    state, stateKey, {
         data: data,
         lastUpdate: generateLastUpdate()
-    });
-
-    return state.setIn([stateKey], updated);
-};
+    }, DataSource, 'mergeIn');

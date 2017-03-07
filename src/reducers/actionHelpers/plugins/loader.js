@@ -1,8 +1,9 @@
 import { Loader } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
+import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
 export const setLoading = (state, { stateKey, state: loadingState }) =>
-    state.setIn([stateKey], new Loader({
+    getUpdatedRecord(state, stateKey, {
         isLoading: loadingState,
         lastUpdate: generateLastUpdate()
-    }));
+    }, Loader);
