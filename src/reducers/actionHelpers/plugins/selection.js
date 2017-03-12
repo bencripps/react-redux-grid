@@ -2,15 +2,17 @@ import { Selection } from './../../../records';
 import { generateLastUpdate } from './../../../util/lastUpdate';
 import getUpdatedRecord from './../../../util/getUpdatedRecord';
 
-export const selectAll = (state, { selection, stateKey }) =>
+export const selectAll = (state, { selection, stateKey, indexes }) =>
     getUpdatedRecord(state, stateKey, {
         ...selection,
+        indexes,
         lastUpdate: generateLastUpdate()
     }, Selection);
 
 export const deselectAll = (state, { stateKey }) =>
     getUpdatedRecord(state, stateKey, {
-        lastUpdate: generateLastUpdate()
+        lastUpdate: generateLastUpdate(),
+        indexes: []
     }, Selection);
 
 export const removeSelections = (state, { stateKey }) =>

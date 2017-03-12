@@ -26,13 +26,15 @@ export const selectAll = ({ data, stateKey }) => {
     }
 
     const keys = data.currentRecords.map(row => row._key || row.get('_key'));
+    const indexes = [];
 
-    const selection = keys.reduce((obj, k) => {
+    const selection = keys.reduce((obj, k, i) => {
         obj[k] = true;
+        indexes.push(i);
         return obj;
     }, {});
 
-    return { type: SELECT_ALL, selection, stateKey };
+    return { type: SELECT_ALL, selection, stateKey, indexes };
 };
 
 export const deselectAll = ({ stateKey }) => ({

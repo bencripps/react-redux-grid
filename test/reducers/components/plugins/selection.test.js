@@ -107,7 +107,8 @@ describe('The selectAll func in the selection reducer', () => {
         selection: {
             fakeRow: true,
             anotherRow: true
-        }
+        },
+        indexes: [0, 1]
     };
 
     it('Should return all rows as selected', () => {
@@ -117,6 +118,7 @@ describe('The selectAll func in the selection reducer', () => {
             new Selection({
                 fakeRow: true,
                 anotherRow: true,
+                indexes: [0, 1],
                 lastUpdate: 1
             })
         );
@@ -143,7 +145,7 @@ describe('The deselectAll func in the selection reducer', () => {
         expect(
             selection(state, action).get('test-grid')
         ).toEqual(
-            new Selection({ lastUpdate: 1 })
+            new Selection({ lastUpdate: 1, indexes: [] })
         );
     });
 

@@ -77,7 +77,8 @@ describe('The grid selectRow Action', () => {
             .toEqual({
                 type: SELECT_ALL,
                 selection: { 'row-0': true, 'row-1': true },
-                stateKey: 'test-grid'
+                stateKey: 'test-grid',
+                indexes: [0, 1]
             });
 
     });
