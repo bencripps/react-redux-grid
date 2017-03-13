@@ -6,6 +6,8 @@
 [![npm](https://img.shields.io/npm/dm/react-redux-grid.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-redux-grid)
 [![codecov](https://codecov.io/gh/bencripps/react-redux-grid/branch/master/graph/badge.svg)](https://codecov.io/gh/bencripps/react-redux-grid)
 [![Gitter](https://img.shields.io/gitter/room/bencripps/react-redux-grid.svg?maxAge=2592000)](https://gitter.im/bencripps/react-redux-grid)
+[![bitHound Dependencies](https://www.bithound.io/github/bencripps/react-redux-grid/badges/dependencies.svg)](https://www.bithound.io/github/bencripps/react-redux-grid/master/dependencies/npm)
+[![bitHound Overall Score](https://www.bithound.io/github/bencripps/react-redux-grid/badges/score.svg)](https://www.bithound.io/github/bencripps/react-redux-grid)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bencripps/react-redux-grid/?branch=master)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bencripps/react-redux-grid.svg)](http://isitmaintained.com/project/bencripps/react-redux-grid "Percentage of issues still open")
