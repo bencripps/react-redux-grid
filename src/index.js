@@ -12,7 +12,6 @@ import { applyGridConfig } from './constants/GridConstants';
 const modules = {
     Actions,
     Grid,
-    GridRootReducer: combineReducers(Reducers),
     Reducers,
     applyGridConfig,
     Store
