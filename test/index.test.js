@@ -33,8 +33,17 @@ describe('React Redux Grid Exports', () => {
         expect(imports).toBeTruthy();
     });
 
-    it('Should export 7 modules', () =>{
-        expect(Object.keys(imports).length).toEqual(7);
+    it('Should export 8 modules', () =>{
+        expect(Object.keys(imports).length).toEqual(8);
+    });
+
+});
+
+describe('Action Types Export', () =>{
+
+    it('Should export the Action Types', () =>{
+        expect(imports.ActionTypes).toBeTruthy();
+        expect(imports.ActionTypes.SELECT_ROW).toEqual('@@react-redux-grid/SELECT_ROW');
     });
 
 });

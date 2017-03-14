@@ -8,6 +8,7 @@ import { Reducers } from './reducers';
 import { Actions } from './actions';
 
 import { applyGridConfig } from './constants/GridConstants';
+import * as ActionTypes from './constants/ActionTypes';
 
 const modules = {
     Actions,
@@ -15,6 +16,7 @@ const modules = {
     GridRootReducer: combineReducers(Reducers),
     Reducers,
     applyGridConfig,
+    ActionTypes,
     Store
 };
 
