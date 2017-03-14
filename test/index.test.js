@@ -33,8 +33,8 @@ describe('React Redux Grid Exports', () => {
         expect(imports).toBeTruthy();
     });
 
-    it('Should export 8 modules', () =>{
-        expect(Object.keys(imports).length).toEqual(8);
+    it('Should export 7 modules', () =>{
+        expect(Object.keys(imports).length).toEqual(7);
     });
 
 });
@@ -43,7 +43,8 @@ describe('Action Types Export', () =>{
 
     it('Should export the Action Types', () =>{
         expect(imports.ActionTypes).toBeTruthy();
-        expect(imports.ActionTypes.SELECT_ROW).toEqual('@@react-redux-grid/SELECT_ROW');
+        expect(imports.ActionTypes.SELECT_ROW)
+            .toEqual('@@react-redux-grid/SELECT_ROW');
     });
 
 });
@@ -110,15 +111,6 @@ describe('Reducers Export', () =>{
 
     it('Should export a Selection Reducer', () =>{
         reducerTest('selection');
-    });
-
-});
-
-describe('Combined Root Reducer Export', () =>{
-
-    it('Should export a root Reducer', () =>{
-        expect(imports.GridRootReducer).toBeTruthy();
-        expect(typeof imports.GridRootReducer).toEqual('function');
     });
 
 });
