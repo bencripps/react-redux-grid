@@ -6,14 +6,18 @@ The selection plugin turns the first column into checkboxes so that rows can be 
 
 #### grid vs dataSource vs selection reducers
 
+```
+// grid
 const columnData = this.props.grid.get('sticky');
 console.log(JSON.stringify(columnData) ); <-- only column data
 
+// dataSource
 const rowData = this.props.dataSource.get('sticky');
 console.log(columnData.toJS()); <-- only row data 
 
+// selection
 const selectedIds = this.props.selection.get('sticky').get("indexes");
-
+```
 
 #### Get Selected Ids
 
