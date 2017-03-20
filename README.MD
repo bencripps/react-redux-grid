@@ -90,6 +90,7 @@ render(
 * [Row Actions](#grid-actions)
 * [Actions](docs/USING_ACTIONS.md)
 * [Bulk Selection](docs/USING_BULK_SELECTION.md)
+* [Sorting Columns](docs/USING_SORT.md)
 * [Types](docs/USING_TYPES.md)
 * [Error Handling](#error-handler)
 * [Loading Mask](#loader)

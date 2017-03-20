@@ -39,9 +39,9 @@ describe('React Redux Grid Exports', () => {
 
 });
 
-describe('Action Types Export', () =>{
+describe('ActionTypes Export', () =>{
 
-    it('Should export the Action Types', () =>{
+    it('Should export the ActionTypes', () =>{
         expect(imports.ActionTypes).toBeTruthy();
         expect(imports.ActionTypes.SELECT_ROW).toEqual('@@react-redux-grid/SELECT_ROW');
     });
