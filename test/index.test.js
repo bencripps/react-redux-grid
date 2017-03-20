@@ -48,6 +48,16 @@ describe('ActionTypes Export', () =>{
 
 });
 
+describe('Action Types Export', () =>{
+
+    it('Should export the Action Types', () =>{
+        expect(imports.ActionTypes).toBeTruthy();
+        expect(imports.ActionTypes.SELECT_ROW)
+            .toEqual('@@react-redux-grid/SELECT_ROW');
+    });
+
+});
+
 describe('Grid Export', () =>{
 
     it('Should export a Grid', () =>{
@@ -110,15 +120,6 @@ describe('Reducers Export', () =>{
 
     it('Should export a Selection Reducer', () =>{
         reducerTest('selection');
-    });
-
-});
-
-describe('Combined Root Reducer Export', () =>{
-
-    it('Should export a root Reducer', () =>{
-        expect(imports.GridRootReducer).toBeTruthy();
-        expect(typeof imports.GridRootReducer).toEqual('function');
     });
 
 });

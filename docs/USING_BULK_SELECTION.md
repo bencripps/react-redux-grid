@@ -1,27 +1,29 @@
 # Bulk & Selection Plugins
 
-The Bulk and Selection plugins compliment each other. After selecting multiple rows, the user will most likely want to perform a bulk action on the selected rows such as altering them to have the same value. 
+The Bulk and Selection plugins compliment each other. After selecting multiple rows, the user will most likely want to perform a bulk action on the selected rows such as altering them to have the same value.
 
-The selection plugin turns the first column into checkboxes so that rows can be selected and unselected. The selected rows are captured in the selection state. 
+When using the selection plugin, the selected rows are captured in the selection state.
 
-#### grid vs dataSource vs selection reducers
+#### The subdivision of state
+
+Each slice of state managed by grid is stored in separate objects inside the grid state atom:
 
 ```
 // grid
-const columnData = this.props.grid.get('sticky');
-console.log(JSON.stringify(columnData) ); <-- only column data
+const columnData = this.props.grid.get('state-key');
+console.log(columnData.toJS()); <-- only column data
 
 // dataSource
-const rowData = this.props.dataSource.get('sticky');
-console.log(columnData.toJS()); <-- only row data 
+const rowData = this.props.dataSource.get('state-key');
+console.log(rowData.toJS()); <-- only row data
 
 // selection
-const selectedIds = this.props.selection.get('sticky').get("indexes");
+const selectedIds = this.props.selection.get('state-key').get("indexes");
 ```
 
 #### Get Selected Ids
 
-In order to get the selected ids, you need to use the selection state. 
+In general, as with all redux components/app, if you care about a piece of state, you must declare that by using `connect`. In this example, we will connect our component to listen to the grid and selection state:
 
 ```
 const mapStateToProps = (state) => ({
@@ -35,17 +37,14 @@ Selection state is an [Immutablejs Ordered Map](https://facebook.github.io/immut
 ```
 const getSelectedIds = ()=> {
 
-   const bulkMap = selection.get("bulk"); // selection is React-Redux-Grid reducer available from the store
-   const selectedIds = bulkMap.get("indexes");
+   const selectedIds = selection.get('state-key').get('indexes');
 
-   if (undefined !== selectedIds) {
-       return selectedIds; 
+   if (selectedIds !== undefined) {
+       return selectedIds;
     } else {
-        // you could dispatch a notification... 
-        // this.props.displayWarningRequestMessage("No rows selected");
-        console.warn("BulkPage selectedIds were false!");
+        console.warn('no indexes were found');
         return [];
-    }  
+    }
 };
 ```
 
@@ -61,7 +60,7 @@ SELECTION_MODEL: {
 },
 ```
 
-If you set activeCls to false, the rows will change color as you hover over and click on them but the checkbox will not toggle state until you actually click on the checkox. 
+If you set activeCls to false, the rows will change color as you hover over and click on them but the checkbox will not toggle state until you actually click on the checkox.
 
 
 ```
@@ -72,9 +71,9 @@ SELECTION_MODEL: {
   activeCls: 'false',
   selectionEvent: 'false'
 },
-```   
+```
 
-#### Bulk & Selection Plugins 
+#### Bulk & Selection Plugins
 
 ```
 export const plugins = {
@@ -82,8 +81,8 @@ export const plugins = {
         mode: 'checkbox-multi',
         enabled: true,
         allowDeselect: true,
-        activeCls: 'active', // the css for the active cell 
-        selectionEvent: 'singleclick' // singleclick vs doubleclick 
+        activeCls: 'active', // the css for the active cell
+        selectionEvent: 'singleclick' // singleclick vs doubleclick
     },
     BULK_ACTIONS: {
         enabled: true,

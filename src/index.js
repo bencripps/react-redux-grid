@@ -13,7 +13,6 @@ import * as ActionTypes from './constants/ActionTypes';
 const modules = {
     Actions,
     Grid,
-    GridRootReducer: combineReducers(Reducers),
     Reducers,
     applyGridConfig,
     ActionTypes,
