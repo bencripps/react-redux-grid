@@ -26,7 +26,7 @@ dataRecords is an ImmutableJS list in the new sorted order which can be converte
 
 In another reducer, you may wish to listen to any sort changes to capture the new order and trigger state change which other components could respond to and update accordingly. 
 
-In your reducer, you would listen for the SORT_DATA type (see [Types](docs/USING_TYPES.md)) with an action that has a data property, an ImmutableJS List of the new sorted order.  
+In your reducer, you would listen for the SORT_DATA type (see [Types](USING_TYPES.md)) with an action that has a data property, an ImmutableJS List of the new sorted order.  
 
 ```
 case ActionTypes.SORT_DATA:   
