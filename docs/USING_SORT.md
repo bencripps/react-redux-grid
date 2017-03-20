@@ -26,10 +26,10 @@ dataRecords is an ImmutableJS list in the new sorted order which can be converte
 
 In another reducer, you may wish to listen to any sort changes to capture the new order and trigger state change which other components could respond to and update accordingly. 
 
-In your reducer, you would listen for SORT_DATA type with an action that has a data property, an ImmutableJS List of the new sorted order.  
+In your reducer, you would listen for the SORT_DATA type (see [Types](docs/USING_TYPES.md)) with an action that has a data property, an ImmutableJS List of the new sorted order.  
 
 ```
-case "@@react-redux-grid/SORT_DATA":   
+case ActionTypes.SORT_DATA:   
   return Object.assign({}, state, {
     searchResults: action.data
   })                     
@@ -39,7 +39,7 @@ Otherwise, if you wanted to use an array of objects, you might need to convert i
 
 
 ```
-case "@@react-redux-grid/SORT_DATA":   
+case ActionTypes.SORT_DATA:   
       
   const sortedRows = action.data.toArray().map(item => {
     return item.toJS()
@@ -50,11 +50,11 @@ case "@@react-redux-grid/SORT_DATA":
   })
 ``` 
 
-Furthermore, You could take then update another array to match this new order.
+Furthermore, if you had another array called searchResults that you wanted to update and match this new order, you could map over the sorted array and update each item.  
 
 
 ```
-case "@@react-redux-grid/SORT_DATA":   
+case ActionTypes.SORT_DATA:   
       
   const sortedRows = action.data.toArray().map(item => {
     return item.toJS()
