@@ -109,7 +109,7 @@ If you want to hide grid reducers from the root of your state:
 
 ````js
 import { combineReducers } from 'redux';
-import { GridRootReducer } from 'react-redux-grid';
+import { rootReducer } from 'react-redux-grid';
 
 import myAppReducer from './customReducers/app';
 import myDataReducer from './customReducers/data';
@@ -117,7 +117,7 @@ import myDataReducer from './customReducers/data';
 export const rootReducer = combineReducers({
     myAppReducer,
     myDataReducer,
-    nested: GridRootReducer
+    nested: rootReducer
 });
 
 export default rootReducer;
