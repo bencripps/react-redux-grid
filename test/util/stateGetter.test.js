@@ -106,6 +106,22 @@ describe('State Getter Function', () => {
         }));
     });
 
+    it(['Should return state when it is nested in an immutable object ',
+        'and has immutable state'].join(''), () => {
+        const state = Map({
+            nested: { filterState: { get: getStateWithImmutable } }
+        });
+
+        const props = {
+            reducerKeys: 'nested'
+        };
+        expect(
+            stateGetter(state, props, 'filterState', 'someProp')
+        ).toEqual(Map({
+            x: 1
+        }));
+    });
+
     it('Should return null if state is nested and not registered', () => {
         const state = { nested: {} };
         const props = {

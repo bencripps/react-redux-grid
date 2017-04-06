@@ -12,7 +12,9 @@ export const stateGetter = (state, props, key, entry) => {
 
     if (props && props.reducerKeys) {
         if (typeof props.reducerKeys === 'string') {
-            return get(state[props.reducerKeys], key, entry);
+            const nestedInImmutable = typeof state.get === 'function';
+            const nestedState = nestedInImmutable ? state.get(props.reducerKeys) : state[props.reducerKeys];
+            return get(nestedState , key, entry);
         }
         else if (typeof props.reducerKeys === 'object'
             && Object.keys(props.reducerKeys).length > 0
