@@ -144,7 +144,7 @@ export const columns = [
         change: ({ values }) => ({
             otherColDataIndex: 'newValue'
         }),
-        disabled: ({ value, values }) => {
+        editable: ({ value, values }) => {
             if (value === 'ShouldDisabled') {
                 return true;
             }
@@ -173,7 +173,7 @@ export const columns = [
 | placeholder         | string                         | the placeholder that will be used for the editor input|
 | validator           | func                           | a func that should return a boolean, to determine if the newly input value is valid|
 | change              | func                           | a func that should return an object where keys are the dataIndex of affected columns, and the values will be the new values associated with that dataIndex.|
-| disabled            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.|
+| editable            | oneOfType([func, bool])        | whether the field should be disabled while in edit mode.|
 | createKeyFrom       | bool                           | see [full documentation on createKeyFrom](https://github.com/bencripps/react-redux-grid/blob/master/docs/CREATE_KEY_FROM.md)|
 | sortFn              | func                           | when a local sort action occurs, you can provide a method that will be passed to [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)|
 
