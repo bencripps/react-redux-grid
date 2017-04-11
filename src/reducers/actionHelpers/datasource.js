@@ -252,6 +252,21 @@ export const saveRow = (state, { rowIndex, stateKey, values }) => {
     }, DataSource, 'mergeIn');
 };
 
+export const insertRow = (state, { data, index, stateKey }) => {
+    const prevData = state.getIn([stateKey, 'data']);
+    const newData = prevData
+        ? prevData.insert(index, fromJS(data))
+        : new List(fromJS(data));
+
+    return getUpdatedRecord(state, stateKey, {
+        data: newData,
+        proxy: newData,
+        currentRecords: newData,
+        total: newData.size,
+        lastUpdate: generateLastUpdate()
+    }, DataSource, 'mergeIn');
+};
+
 export const sortData = (state, { data, stateKey }) => getUpdatedRecord(
     state, stateKey, {
         data: data,

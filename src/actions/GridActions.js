@@ -8,7 +8,8 @@ import {
     SET_SORT_DIRECTION,
     SET_TREE_DATA_PARTIAL,
     SET_TREE_NODE_VISIBILITY,
-    SORT_DATA
+    SORT_DATA,
+    INSERT_ROW
 } from '../constants/ActionTypes';
 
 import { setLoaderState } from '../actions/plugins/loader/LoaderActions';
@@ -401,6 +402,15 @@ export const setTreeData = ({
         editMode
     };
 };
+
+export const insertRow = ({
+    stateKey, data, index = 0
+}) => ({
+    type: INSERT_ROW,
+    stateKey,
+    data,
+    index
+});
 
 export const setTreeNodeVisibility = ({
     id, visible, stateKey, showTreeRootNode

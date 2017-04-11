@@ -11,7 +11,8 @@ import {
     SORT_DATA,
     CLEAR_FILTER_LOCAL,
     FILTER_DATA,
-    UPDATE_ROW
+    UPDATE_ROW,
+    INSERT_ROW
 } from './../../../src/constants/ActionTypes';
 
 import
@@ -131,6 +132,101 @@ describe('The grid dataSource reducer setData func', () => {
 
     });
 
+});
+
+describe('The grid dataSource reducer insertRow func', () => {
+    beforeEach(() => resetLastUpdate());
+
+    it('Should insert an item into dataSource', () => {
+
+        const inState = testState({
+            'test-grid': new DataSourceRecord({
+                data: fromJS([
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                total: 2
+            })
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            data: { cell: 43 },
+            index: 1,
+            type: INSERT_ROW
+        };
+
+        expect(
+            dataSource(inState, action).get('test-grid')
+        ).toEqualImmutable(
+            new DataSourceRecord({
+                proxy: fromJS([
+                    { cell: 1 },
+                    { cell: 43 },
+                    { cell: 2 }
+                ]),
+                total: 3,
+                data: fromJS([
+                    { cell: 1 },
+                    { cell: 43 },
+                    { cell: 2 }
+                ]),
+                currentRecords: fromJS([
+                    { cell: 1 },
+                    { cell: 43 },
+                    { cell: 2 }
+                ]),
+                isEditing: false,
+                lastUpdate: 1
+            })
+        );
+
+    });
+
+    it('Should insert an item to beginning of dataSource', () => {
+
+        const inState = testState({
+            'test-grid': new DataSourceRecord({
+                data: fromJS([
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                total: 2
+            })
+        });
+
+        const action = {
+            stateKey: 'test-grid',
+            data: { cell: 43 },
+            type: INSERT_ROW
+        };
+
+        expect(
+            dataSource(inState, action).get('test-grid')
+        ).toEqualImmutable(
+            new DataSourceRecord({
+                proxy: fromJS([
+                    { cell: 43 },
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                total: 3,
+                data: fromJS([
+                    { cell: 43 },
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                currentRecords: fromJS([
+                    { cell: 43 },
+                    { cell: 1 },
+                    { cell: 2 }
+                ]),
+                isEditing: false,
+                lastUpdate: 1
+            })
+        );
+
+    });
 });
 
 describe('The grid dataSource reducer dissmissEditor func', () => {

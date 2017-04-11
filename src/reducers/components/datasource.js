@@ -12,7 +12,8 @@ import {
     SET_TREE_NODE_VISIBILITY,
     SET_TREE_DATA_PARTIAL,
     SORT_DATA,
-    UPDATE_ROW
+    UPDATE_ROW,
+    INSERT_ROW
 } from '../../constants/ActionTypes';
 
 import
@@ -20,18 +21,19 @@ import
 from './../../util/handleActions';
 
 import {
+    addNewRow,
+    clearFilter,
+    dismissEditor,
+    filterData,
+    insertRow,
+    moveNode,
+    removeRow,
+    saveRow,
     setData,
     setPartialTreeData,
-    dismissEditor,
-    removeRow,
-    updateRow,
-    addNewRow,
-    moveNode,
     setTreeNodeVisibility,
-    saveRow,
     sortData,
-    filterData,
-    clearFilter
+    updateRow
 } from './../actionHelpers/datasource';
 
 const initialState = new OrderedMap();
@@ -41,6 +43,7 @@ export default handleActions({
     [CLEAR_FILTER_LOCAL]: clearFilter,
     [DISMISS_EDITOR]: dismissEditor,
     [FILTER_DATA]: filterData,
+    [INSERT_ROW]: insertRow,
     [MOVE_NODE]: moveNode,
     [REMOVE_ROW]: removeRow,
     [SAVE_ROW]: saveRow,

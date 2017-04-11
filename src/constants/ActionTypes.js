@@ -7,6 +7,7 @@ export const SORT_REMOTE = '@@react-redux-grid/SORT_REMOTE';
 export const GET_DATA = '@@react-redux-grid/GET_DATA';
 export const SET_DATA = '@@react-redux-grid/SET_DATA';
 export const SORT_DATA = '@@react-redux-grid/SORT_DATA';
+export const INSERT_ROW = '@@react-redux-grid/INSERT_ROW';
 
 export const SET_SELECTION = '@@react-redux-grid/SET_SELECTION';
 export const SELECT_ALL = '@@react-redux-grid/SELECT_ALL';
