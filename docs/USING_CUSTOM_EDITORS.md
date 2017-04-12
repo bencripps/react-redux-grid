@@ -51,13 +51,13 @@ import { Actions } from 'react-redux-grid';
 import statesOptions from './../constants/stateDefinitions';
 
 export default const stateEditor = ({
-    column, columns, value, stateKey, store
+    column, columns, value, stateKey, store, rowId
 }) => {
 
     const dropdownProps = {
         value: value,
         onChange: handleChange.bind(
-            null, { store, stateKey, column, columns }
+            null, { store, stateKey, column, columns, rowId }
         )
     };
 
