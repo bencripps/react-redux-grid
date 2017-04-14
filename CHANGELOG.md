@@ -1,5 +1,18 @@
 # Change Log
 
+## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
+
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.12...HEAD)
+
+**Closed issues:**
+
+- Grid Row Indexes are not set/unset on SelectAll DeselectAll Actions [\#138](https://github.com/bencripps/react-redux-grid/issues/138)
+
+**Merged pull requests:**
+
+- add bithound excellent scores [\#139](https://github.com/bencripps/react-redux-grid/pull/139) ([partizanos](https://github.com/partizanos))
+- adding docs: Actions, Bulk Selection, Types; expose ActionTypes [\#136](https://github.com/bencripps/react-redux-grid/pull/136) ([headwinds](https://github.com/headwinds))
+
 ## [5.1.12](https://github.com/bencripps/react-redux-grid/tree/5.1.12) (2017-03-07)
 [Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.10...5.1.12)
 
