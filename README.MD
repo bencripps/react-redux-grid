@@ -1,5 +1,7 @@
 # React-Redux Grid
 
+[![Join the chat at https://gitter.im/bencripps/react-redux-grid](https://badges.gitter.im/bencripps/react-redux-grid.svg)](https://gitter.im/bencripps/react-redux-grid?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![npm version](https://badge.fury.io/js/react-redux-grid.svg)](https://badge.fury.io/js/react-redux-grid)
 [![Build Status](https://travis-ci.org/bencripps/react-redux-grid.svg?branch=master)](https://travis-ci.org/bencripps/react-redux-grid)
 [![Dependency Status](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d/badge.svg?style=flat)](https://www.versioneye.com/user/projects/571b8782fcd19a0045441c8d)
