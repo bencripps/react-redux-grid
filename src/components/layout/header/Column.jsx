@@ -27,6 +27,8 @@ export const Column = ({
     columnManager,
     dataSource,
     dragAndDropManager,
+    filterFields,
+    pageSize,
     pager,
     store,
     stateKey,
@@ -113,6 +115,8 @@ export const Column = ({
         columnManager,
         dataSource,
         direction,
+        filterFields,
+        pageSize,
         pager,
         stateKey,
         store
@@ -178,7 +182,9 @@ Column.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object),
     dataSource: PropTypes.object,
     dragAndDropManager: PropTypes.object,
+    filterFields: PropTypes.object,
     index: PropTypes.number,
+    pageSize: PropTypes.number,
     pager: PropTypes.object,
     scope: PropTypes.object,
     stateKey: PropTypes.string,
@@ -220,7 +226,16 @@ export const handleDrop = (
 };
 
 export const handleSort = (
-    columns, col, columnManager, dataSource, direction, pager, stateKey, store
+    columns,
+    col,
+    columnManager,
+    dataSource,
+    direction,
+    filterFields,
+    pageSize,
+    pager,
+    stateKey,
+    store
 ) => {
 
     const newDirection = direction === SORT_DIRECTIONS.ASCEND
@@ -243,6 +258,8 @@ export const handleSort = (
             column: col,
             direction: newDirection,
             dataSource,
+            filterFields,
+            pageSize,
             pagerState: null,
             stateKey
         });
@@ -255,6 +272,8 @@ export const handleSort = (
             column: col,
             direction: newDirection,
             dataSource,
+            filterFields,
+            pageSize,
             pagerState: pager,
             stateKey
         });
@@ -273,6 +292,8 @@ export const handleColumnClick = ({
     columnManager,
     dataSource,
     direction,
+    filterFields,
+    pageSize,
     pager,
     stateKey,
     store
@@ -290,6 +311,8 @@ export const handleColumnClick = ({
             columnManager,
             dataSource,
             direction,
+            filterFields,
+            pageSize,
             pager,
             stateKey,
             store

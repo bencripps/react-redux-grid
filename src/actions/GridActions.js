@@ -228,7 +228,7 @@ export const doLocalSort = ({ data, stateKey }) => ({
 });
 
 export const doRemoteSort = ({
-    dataSource, pageIndex, pageSize, sortParams, stateKey
+    dataSource, filterFields, pageIndex, pageSize, sortParams, stateKey
 }) => {
 
     return (dispatch) => {
@@ -238,7 +238,11 @@ export const doRemoteSort = ({
         );
 
         if (typeof dataSource === 'function') {
-            return dataSource({pageIndex}, {}, sortParams).then((response) => {
+            return dataSource(
+                { pageIndex, pageSize },
+                filterFields,
+                sortParams
+            ).then((response) => {
 
                 if (response && response.data) {
 

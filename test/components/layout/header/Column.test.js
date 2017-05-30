@@ -88,6 +88,8 @@ describe('The Column handleSort func', () => {
             () => {},
             'ASC',
             {},
+            25,
+            {},
             'grid-state-thing',
             store
         );
@@ -116,6 +118,8 @@ describe('The Column handleSort func', () => {
             () => {},
             'ASC',
             {},
+            25,
+            {},
             'grid-state-thing',
             store
         );
@@ -143,6 +147,8 @@ describe('The Column handleSort func', () => {
             colManager,
             () => {},
             'ASC',
+            {},
+            25,
             {},
             'grid-state-thing',
             store
