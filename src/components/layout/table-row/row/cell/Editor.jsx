@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Input } from './Input';
 import { gridConfig } from './../../../../../constants/GridConstants';
 import { prefix } from './../../../../../util/prefix';
