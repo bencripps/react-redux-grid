@@ -2,7 +2,8 @@
   for num in (0..10)
     .cell-tree-arrow.tree-node-depth-{num}
         icon('chevron-down')
-        margin-left ((num - 1) * $buffer) px
+        padding: 10px 5px 10px 0;
+        padding-left ((num - 1) * $buffer) px
 
         &::before
           font-size 8px
