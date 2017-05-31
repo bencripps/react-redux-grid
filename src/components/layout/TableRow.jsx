@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-set-state */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { List } from 'immutable';
 import ReactDOM from 'react-dom';
 import { DragDropContext } from 'react-dnd';

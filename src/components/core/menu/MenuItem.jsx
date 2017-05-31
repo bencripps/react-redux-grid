@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { prefix } from '../../../util/prefix';
 import { emptyFn } from '../../../util/emptyFn';
@@ -42,12 +43,12 @@ class MenuItem extends Component {
     }
 
     static propTypes = {
-        data: React.PropTypes.object,
-        disabled: React.PropTypes.bool,
-        menuItemsTypes: React.PropTypes.object,
-        metaData: React.PropTypes.object,
-        stateKey: React.PropTypes.string,
-        store: React.PropTypes.object
+        data: PropTypes.object,
+        disabled: PropTypes.bool,
+        menuItemsTypes: PropTypes.object,
+        metaData: PropTypes.object,
+        stateKey: PropTypes.string,
+        store: PropTypes.object
     };
 
     static defaultProps = {

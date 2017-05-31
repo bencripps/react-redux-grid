@@ -1,8 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { shouldRowUpdate } from '../../../../util/shouldComponentUpdate';
-
-const { object } = React.PropTypes;
 
 export default DecoratedComponent => (
     class RowContainer extends Component {

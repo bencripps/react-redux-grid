@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 /* eslint-disable react/no-did-update-set-state */
 /* eslint-disable react/no-set-state */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from './actioncolumn/Menu';
 import {
