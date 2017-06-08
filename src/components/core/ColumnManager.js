@@ -57,7 +57,14 @@ export default class ColumnManager {
     }
 
     doSort({
-        method, column, direction, dataSource, pagerState, stateKey
+        method,
+        column,
+        direction,
+        dataSource,
+        filterFields,
+        pageSize,
+        pagerState,
+        stateKey
     }) {
 
         const propName = nameFromDataIndex(column);
@@ -74,10 +81,11 @@ export default class ColumnManager {
             ? pagerState.get('pageIndex')
             : 0;
 
-        const pageSize = pagerState
-            && pagerState.get('pageSize')
-            ? pagerState.get('pageSize')
-            : DEFAULT_PAGE_SIZE;
+        pageSize = pageSize || DEFAULT_PAGE_SIZE;
+        // const pageSize = pagerState
+        //     && pagerState.get('pageSize')
+        //     ? pagerState.get('pageSize')
+        //     : DEFAULT_PAGE_SIZE;
 
         const beforeSortEvent = fireEvent(
             'HANDLE_BEFORE_SORT',
@@ -112,6 +120,7 @@ export default class ColumnManager {
             this.store.dispatch(
                 doRemoteSort({
                     dataSource: this.config.sortable.sortingSource,
+                    filterFields,
                     pageIndex,
                     pageSize,
                     sortParams,
