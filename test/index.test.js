@@ -1,7 +1,7 @@
 import * as imports from './../src/';
 import { is } from 'immutable';
 import expect from 'expect';
-import { diff } from 'deep-diff';
+import diff from 'deep-diff';
 
 expect.extend({
     toEqualImmutable(expected) {

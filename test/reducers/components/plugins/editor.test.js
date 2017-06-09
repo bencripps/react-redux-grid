@@ -737,7 +737,7 @@ describe([
 
         expect(
             editor(state, action).getIn(['test-grid', 'rowIndex'])
-        ).toEqualImmutable(undefined);
+        ).toEqual(undefined);
     });
 
     it('Should wipe the values upon DISMISS_EDITOR', () => {
@@ -769,7 +769,7 @@ describe([
 
         expect(
             editor(state, action).getIn(['test-grid', 'rowIndex'])
-        ).toEqualImmutable(undefined);
+        ).toEqual(undefined);
     });
 
     it('Should wipe the values upon CANCEL_ROW', () => {
@@ -801,7 +801,7 @@ describe([
 
         expect(
             editor(state, action).getIn(['test-grid', 'rowIndex'])
-        ).toEqualImmutable(undefined);
+        ).toEqual(undefined);
     });
 
 });
