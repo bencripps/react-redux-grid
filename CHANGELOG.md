@@ -1,8 +1,29 @@
 # Change Log
 
-## [Unreleased](https://github.com/bencripps/react-redux-grid/tree/HEAD)
+## [5.3.0](https://github.com/bencripps/react-redux-grid/tree/5.3.0) (2017-06-09)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.14...5.3.0)
 
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.12...HEAD)
+**Merged pull requests:**
+
+- Fix PropTypes warning [\#164](https://github.com/bencripps/react-redux-grid/pull/164) ([geertplaisier](https://github.com/geertplaisier))
+- Makes tree expand/collapse buttons easier to click [\#163](https://github.com/bencripps/react-redux-grid/pull/163) ([geertplaisier](https://github.com/geertplaisier))
+- Added filterFields to Sorting [\#162](https://github.com/bencripps/react-redux-grid/pull/162) ([Vanderslice](https://github.com/Vanderslice))
+- Added will-change: transform to prevent repaints on scroll [\#159](https://github.com/bencripps/react-redux-grid/pull/159) ([Vanderslice](https://github.com/Vanderslice))
+
+## [5.1.14](https://github.com/bencripps/react-redux-grid/tree/5.1.14) (2017-04-15)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.13...5.1.14)
+
+**Fixed bugs:**
+
+- Partially editable grid [\#152](https://github.com/bencripps/react-redux-grid/issues/152)
+
+**Merged pull requests:**
+
+- Update USING\_CUSTOM\_EDITORS.md [\#156](https://github.com/bencripps/react-redux-grid/pull/156) ([geertplaisier](https://github.com/geertplaisier))
+- State getter should return state when it is nested in an immutable object [\#153](https://github.com/bencripps/react-redux-grid/pull/153) ([florisvink](https://github.com/florisvink))
+
+## [5.1.13](https://github.com/bencripps/react-redux-grid/tree/5.1.13) (2017-03-31)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/5.1.12...5.1.13)
 
 **Closed issues:**
 
@@ -154,7 +175,7 @@
 - Added PropType validation of 'any' for emptyDataMessage [\#74](https://github.com/bencripps/react-redux-grid/pull/74) ([whatisboom](https://github.com/whatisboom))
 - pageIndex fix [\#70](https://github.com/bencripps/react-redux-grid/pull/70) ([Velderon](https://github.com/Velderon))
 - fix utf8 in column names [\#69](https://github.com/bencripps/react-redux-grid/pull/69) ([Velderon](https://github.com/Velderon))
-- Simplify getNewRowId function. [\#68](https://github.com/bencripps/react-redux-grid/pull/68) ([dpassen1](https://github.com/dpassen1))
+- Simplify getNewRowId function. [\#68](https://github.com/bencripps/react-redux-grid/pull/68) ([dpassen](https://github.com/dpassen))
 - Added npmignore to override gitignore when publishing [\#67](https://github.com/bencripps/react-redux-grid/pull/67) ([taco](https://github.com/taco))
 - Tree DnD fixes with drop and cancel drop [\#66](https://github.com/bencripps/react-redux-grid/pull/66) ([taco](https://github.com/taco))
 - Removing dist from source control [\#65](https://github.com/bencripps/react-redux-grid/pull/65) ([taco](https://github.com/taco))
@@ -385,13 +406,13 @@
 - Add stateKey as required parameter, update tests, update docs [\#10](https://github.com/bencripps/react-redux-grid/pull/10) ([bencripps](https://github.com/bencripps))
 
 ## [feaute/statekey](https://github.com/bencripps/react-redux-grid/tree/feaute/statekey) (2016-05-04)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.3.0...feaute/statekey)
-
-## [1.3.0](https://github.com/bencripps/react-redux-grid/tree/1.3.0) (2016-04-30)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.3.0...1.3.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/v1.3.0...feaute/statekey)
 
 ## [v1.3.0](https://github.com/bencripps/react-redux-grid/tree/v1.3.0) (2016-04-30)
-[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.2.0...v1.3.0)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.3.0...v1.3.0)
+
+## [1.3.0](https://github.com/bencripps/react-redux-grid/tree/1.3.0) (2016-04-30)
+[Full Changelog](https://github.com/bencripps/react-redux-grid/compare/1.2.0...1.3.0)
 
 **Fixed bugs:**
 
