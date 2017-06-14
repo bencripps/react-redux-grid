@@ -62,7 +62,6 @@ export class Grid extends Component {
             classNames,
             columnState,
             dataSource,
-            filterFields,
             gridData,
             height,
             infinite,

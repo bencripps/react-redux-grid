@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-
 import Grid from './components/Grid';
 import Store from './store/store';
 
