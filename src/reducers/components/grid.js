@@ -7,9 +7,7 @@ import {
     HIDE_HEADER
 } from './../../constants/ActionTypes';
 
-import
-    handleActions
-from './../../util/handleActions';
+import handleActions from './../../util/handleActions';
 
 import {
     hideHeader,

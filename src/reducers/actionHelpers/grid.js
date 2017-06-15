@@ -2,9 +2,7 @@ import { generateLastUpdate } from './../../util/lastUpdate';
 
 import { Grid } from './../../records';
 
-import
-    localStorageManager
-from './../../components/core/LocalStorageManager';
+import localStorageManager from './../../components/core/LocalStorageManager'; // eslint-disable-line
 import getUpdatedRecord from './../../util/getUpdatedRecord';
 
 const debouncedColumnSetter = localStorageManager.debouncedSetStateItem();

@@ -18,9 +18,7 @@ import {
     setSelection
 } from './../../actionHelpers/plugins/selection';
 
-import
-    handleActions
-from './../../../util/handleActions';
+import handleActions from './../../../util/handleActions';
 
 const initialState = new OrderedMap();
 

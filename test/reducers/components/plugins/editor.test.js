@@ -10,9 +10,7 @@ import {
     REPOSITION_EDITOR
 } from './../../../../src/constants/ActionTypes';
 
-import
-    editor
-from './../../../../src/reducers/components/plugins/editor';
+import editor from './../../../../src/reducers/components/plugins/editor';
 import {
     isCellValid, isRowValid, setDisabled, handleChangeFunc
 } from './../../../../src/reducers/actionHelpers/plugins/editor';

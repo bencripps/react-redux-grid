@@ -10,9 +10,7 @@ import {
     SET_DATA
 } from '../../../constants/ActionTypes';
 
-import
-    handleActions
-from './../../../util/handleActions';
+import handleActions from './../../../util/handleActions';
 
 import {
     editRow,

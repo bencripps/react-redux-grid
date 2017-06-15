@@ -78,12 +78,12 @@ describe('Integration Test for Inline Editor', () => {
         const cmp = mountWithContext(<Grid { ...editorStateProps } />);
 
         setTimeout(() => {
-            expect(store
+            expect(
+                store
                     .getState()
                     .editor
                     .get('grid-type-inline')
-                ).toEqual(undefined);
-
+            ).toEqual(undefined);
             done();
         }, 100);
 

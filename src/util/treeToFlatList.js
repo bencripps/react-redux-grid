@@ -89,8 +89,8 @@ const toItem = (
         _isFirstChild: index === 0,
         _isLastChild: index === siblings.count() - 1,
         _previousSiblingId: previousSibling
-                                ? previousSibling.get('id')
-                                : undefined,
+            ? previousSibling.get('id')
+            : undefined,
         _previousSiblingTotalChilden: previousSiblingTotalChilden,
         _key: `tree-item-${node.get('id')}`,
         _isExpanded: (

@@ -8,9 +8,7 @@ import {
     setLoading
 } from './../../actionHelpers/plugins/loader';
 
-import
-    handleActions
-from './../../../util/handleActions';
+import handleActions from './../../../util/handleActions';
 
 const initialState = new OrderedMap();
 

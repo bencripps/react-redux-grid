@@ -4,8 +4,7 @@ import * as ColumnManagerActions from './core/ColumnManager';
 
 import * as EditorActions from './plugins/editor/EditorActions';
 
-import * as ErrorHandlerActions
-from './plugins/errorhandler/ErrorHandlerActions';
+import * as ErrorHandlerActions from './plugins/errorhandler/ErrorHandlerActions'; // eslint-disable-line
 
 import * as GridActions from './GridActions';
 

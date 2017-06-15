@@ -6,8 +6,7 @@ import store from './../../../../../../src/store/store';
 import {
     TreeArrow,
     handleArrowClick
-} from
-'./../../../../../../src/components/layout/table-row/row/cell/TreeArrow.jsx';
+} from './../../../../../../src/components/layout/table-row/row/cell/TreeArrow.jsx'; // eslint-disable-line
 
 describe('The Tree Arrow Component', () => {
 

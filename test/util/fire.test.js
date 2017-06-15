@@ -33,8 +33,7 @@ describe('the fireEvent utility', () => {
     });
 
     it('Should return the result of the event', () => {
-        expect(
-            fireEvent(
+        expect(fireEvent(
             'HANDLE_CLICK',
             { HANDLE_CLICK: () => 'return event' },
         )).toEqual('return event');

@@ -7,9 +7,7 @@ import {
     DISMISS_ERROR
 } from './../../../../src/constants/ActionTypes';
 
-import
-    errorhandler
-from './../../../../src/reducers/components/plugins/errorhandler';
+import errorhandler from './../../../../src/reducers/components/plugins/errorhandler'; // eslint-disable-line
 
 import {
     resetLastUpdate

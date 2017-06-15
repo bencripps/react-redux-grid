@@ -45,7 +45,7 @@ describe('shouldGridUpdate utility function', () => {
 
     it('return true if no previous state has been created', () => {
         expect(
-           shouldGridUpdate.call(component, nextProps)
+            shouldGridUpdate.call(component, nextProps)
         ).toEqual(
             true
         );
@@ -59,7 +59,7 @@ describe('shouldGridUpdate utility function', () => {
         };
 
         expect(
-           shouldGridUpdate.call(component, alteredNextProps)
+            shouldGridUpdate.call(component, alteredNextProps)
         ).toEqual(
             true
         );
@@ -114,7 +114,7 @@ describe('shouldRowUpdate utility function', () => {
 
     it('return true if no previous state has been created', () => {
         expect(
-           shouldRowUpdate.call(component, nextProps)
+            shouldRowUpdate.call(component, nextProps)
         ).toEqual(
             true
         );
@@ -145,7 +145,7 @@ describe('shouldRowUpdate utility function', () => {
         };
 
         expect(
-           shouldRowUpdate.call(component, selectedProps)
+            shouldRowUpdate.call(component, selectedProps)
         ).toEqual(
             true
         );
@@ -176,7 +176,7 @@ describe('shouldRowUpdate utility function', () => {
         };
 
         expect(
-           shouldRowUpdate.call(cmp, selectedProps)
+            shouldRowUpdate.call(cmp, selectedProps)
         ).toEqual(
             true
         );
@@ -209,7 +209,7 @@ describe('shouldRowUpdate utility function', () => {
         };
 
         expect(
-           shouldRowUpdate.call(cmp, menuStaySelected)
+            shouldRowUpdate.call(cmp, menuStaySelected)
         ).toEqual(
             false
         );
@@ -255,7 +255,7 @@ describe('shouldRowUpdate utility function', () => {
         };
 
         expect(
-           shouldRowUpdate.call(cmp, editedValues)
+            shouldRowUpdate.call(cmp, editedValues)
         ).toEqual(
             true
         );
@@ -297,7 +297,7 @@ describe('shouldRowUpdate utility function', () => {
         };
 
         expect(
-           shouldRowUpdate.call(cmp, colProps)
+            shouldRowUpdate.call(cmp, colProps)
         ).toEqual(
             true
         );
@@ -327,7 +327,7 @@ describe('shouldPagerUpdate utility function', () => {
         };
 
         expect(
-           shouldPagerUpdate.call(cmp, pagerProps)
+            shouldPagerUpdate.call(cmp, pagerProps)
         ).toEqual(
             true
         );
@@ -354,7 +354,7 @@ describe('shouldPagerUpdate utility function', () => {
         };
 
         expect(
-           shouldPagerUpdate.call(cmp, pagerProps)
+            shouldPagerUpdate.call(cmp, pagerProps)
         ).toEqual(
             false
         );

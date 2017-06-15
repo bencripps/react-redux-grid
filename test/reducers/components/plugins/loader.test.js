@@ -6,9 +6,7 @@ import {
     SET_LOADING_STATE
 } from './../../../../src/constants/ActionTypes';
 
-import
-    loader
-from './../../../../src/reducers/components/plugins/loader';
+import loader from './../../../../src/reducers/components/plugins/loader';
 
 import {
     resetLastUpdate

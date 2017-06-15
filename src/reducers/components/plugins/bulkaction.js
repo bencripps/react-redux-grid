@@ -4,9 +4,7 @@ import {
     REMOVE_TOOLBAR
 } from './../../../constants/ActionTypes';
 
-import
-    handleActions
-from './../../../util/handleActions';
+import handleActions from './../../../util/handleActions';
 
 import {
     removeToolbar

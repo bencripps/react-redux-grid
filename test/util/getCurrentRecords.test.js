@@ -67,44 +67,44 @@ describe('getCurrentRecords utility function', () => {
                 5,
                 1
             )).toEqual({
-                data: fromJS([
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    },
-                    {
-                        test: 'test'
-                    }
-                ]),
-                endIndex: 11,
-                startIndex: 0
-            });
+            data: fromJS([
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                },
+                {
+                    test: 'test'
+                }
+            ]),
+            endIndex: 11,
+            startIndex: 0
+        });
     });
 
 });

@@ -7,9 +7,7 @@ import {
     PAGE_REMOTE
 } from './../../../../src/constants/ActionTypes';
 
-import
-    pager
-from './../../../../src/reducers/components/plugins/pager';
+import pager from './../../../../src/reducers/components/plugins/pager';
 
 import {
     resetLastUpdate

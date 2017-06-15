@@ -21,8 +21,8 @@ export const editRow = (state, {
     const { invalidCells, isValid } = isRowValid(columns, values);
 
     let overrides = state.getIn([stateKey, rowId, 'overrides'])
-       ? state.getIn([stateKey, rowId, 'overrides'])
-       : new Map();
+        ? state.getIn([stateKey, rowId, 'overrides'])
+        : new Map();
 
     columns.forEach((col, i) => {
         const val = getData(values, columns, i);
@@ -40,8 +40,8 @@ export const editRow = (state, {
     });
 
     const operation = editMode === 'inline'
-       ? 'setIn'
-       : 'mergeIn';
+        ? 'setIn'
+        : 'mergeIn';
 
     return state[operation]([stateKey], fromJS({
         [rowId]: new Editor({
@@ -164,8 +164,8 @@ export const repositionEditor = (state, { rowId, stateKey, top }) => {
 };
 
 export const removeEditorState = (state, { stateKey }) => state.setIn(
-        [stateKey],
-        fromJS({ lastUpdate: generateLastUpdate() }));
+    [stateKey],
+    fromJS({ lastUpdate: generateLastUpdate() }));
 
 // helpers
 export const isCellValid = ({ validator }, value, values) => {

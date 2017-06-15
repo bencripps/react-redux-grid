@@ -537,8 +537,8 @@ describe('getData utilities - setKeysInData function', () => {
 
     it('Should return an array with keys as immutable', () => {
         expect(setKeysInData([
-                { dataIndex: 'key', _key: 'row-0' },
-                { dataIndex: 'key', _key: 'row-1' }
+            { dataIndex: 'key', _key: 'row-0' },
+            { dataIndex: 'key', _key: 'row-1' }
         ])).toEqual(fromJS(
             [
                 { dataIndex: 'key', _key: 'row-0' },

@@ -11,9 +11,7 @@ import {
     DESELECT_ROW
 } from './../../../../src/constants/ActionTypes';
 
-import
-    selection
-from './../../../../src/reducers/components/plugins/selection';
+import selection from './../../../../src/reducers/components/plugins/selection';
 
 import {
     Selection

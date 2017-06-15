@@ -327,7 +327,7 @@ export const doRemoteSort = ({
 };
 
 export const setColumnVisibility = ({
- columns, column, isHidden, stateKey, stateful
+    columns, column, isHidden, stateKey, stateful
 }) => {
     const hidden = !isHidden;
 

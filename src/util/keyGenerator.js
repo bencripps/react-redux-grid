@@ -6,8 +6,9 @@ export const keyFromObject = (obj, additionalStrings) => {
 
     if (additionalStrings && Array.isArray(additionalStrings)) {
         return encode(
-            additionalStrings.join('') + Object.keys(obj
-        ).map((k) => obj[k]).join(''));
+            additionalStrings.join('') + Object.keys(obj)
+                .map((k) => obj[k]).join('')
+        );
     }
 
     return encode(Object.keys(obj).map((k) => obj[k]).join(''));

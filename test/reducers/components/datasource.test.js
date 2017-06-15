@@ -15,9 +15,7 @@ import {
     INSERT_ROW
 } from './../../../src/constants/ActionTypes';
 
-import
-    dataSource
-from './../../../src/reducers/components/datasource';
+import dataSource from './../../../src/reducers/components/datasource';
 
 import {
     resetLastUpdate

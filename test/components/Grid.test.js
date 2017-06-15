@@ -140,7 +140,7 @@ describe('A fully mounted grid with a custom pager', () => {
                     <span className = { 'custom-pager' } >
                         { 'Custom Pager' }
                     </span>
-                    )
+                )
             }
         }
     };
@@ -184,8 +184,7 @@ describe('A fully mounted grid with pager', () => {
     });
 
     it('Should have the right pager message', () => {
-        expect(
-           component
+        expect(component
             .find('.react-grid-pager-toolbar').text()
             .replace(/ +?|\n/g, '')
         ).toContain('1through2of2RecordsDisplayed');

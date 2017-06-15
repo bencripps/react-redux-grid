@@ -5,9 +5,7 @@ import {
     PAGE_REMOTE
 } from '../../../constants/ActionTypes';
 
-import
-    handleActions
-from './../../../util/handleActions';
+import handleActions from './../../../util/handleActions';
 
 import {
     pageLocal,

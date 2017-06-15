@@ -5,31 +5,6 @@ module.exports = {
         "sinon": true
     },
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "arrowFunctions": true,
-        "binaryLiterals": false,
-        "blockBindings": true,
-        "classes": true,
-        "defaultParams": true,
-        "destructuring": true,
-        "forOf": true,
-        "generators": true,
-        "modules": true,
-        "objectLiteralComputedProperties": true,
-        "objectLiteralDuplicateProperties": false,
-        "objectLiteralShorthandMethods": true,
-        "objectLiteralShorthandProperties": true,
-        "octalLiterals": false,
-        "regexUFlag": false,
-        "regexYFlag": false,
-        "restParams": true,
-        "spread": true,
-        "superInFunctions": true,
-        "templateStrings": true,
-        "unicodePointEscapes": true,
-        "globalReturn": false,
-        "jsx": true
-    },
     "plugins": [
         "react"
     ],
@@ -38,6 +13,9 @@ module.exports = {
         "node": true,
         "es6": true,
         "mocha": true
+    },
+    "parserOptions": {
+        "sourceType": "module"
     },
     "rules": {
         "comma-dangle": 2,
@@ -347,7 +325,6 @@ module.exports = {
         "react/prefer-stateless-function": 2,
         "react/prop-types": 2,
         "react/react-in-jsx-scope": 1,
-        "react/require-extension": 1,
         "react/self-closing-comp": 1,
         "react/sort-comp": [
             2,
@@ -383,7 +360,6 @@ module.exports = {
                 }
             }
         ],
-        "react/wrap-multilines": 1,
         "constructor-super": 1,
         "generator-star-spacing": 0,
         "no-this-before-super": 1,

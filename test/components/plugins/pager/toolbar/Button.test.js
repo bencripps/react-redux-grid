@@ -4,9 +4,8 @@ import React from 'react';
 import {
     Button
 } from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
-import
-    * as ButtonUtils
-from './../../../../../src/components/plugins/pager/toolbar/Button.jsx';
+
+import * as ButtonUtils from './../../../../../src/components/plugins/pager/toolbar/Button.jsx'; // eslint-disable-line
 
 import { localGridData } from './../../../../testUtils/data';
 

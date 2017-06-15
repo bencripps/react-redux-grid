@@ -16,9 +16,7 @@ import {
     INSERT_ROW
 } from '../../constants/ActionTypes';
 
-import
-    handleActions
-from './../../util/handleActions';
+import handleActions from './../../util/handleActions';
 
 import {
     addNewRow,

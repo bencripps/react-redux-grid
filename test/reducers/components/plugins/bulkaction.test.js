@@ -5,9 +5,7 @@ import {
     REMOVE_TOOLBAR
 } from './../../../../src/constants/ActionTypes';
 
-import
-    bulkaction
-from './../../../../src/reducers/components/plugins/bulkaction';
+import bulkaction from './../../../../src/reducers/components/plugins/bulkaction'; // eslint-disable-line
 
 import { resetLastUpdate } from './../../../../src/util/lastUpdate';
 import { BulkAction as BulkActionRecord } from './../../../../src/records';

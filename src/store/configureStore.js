@@ -7,10 +7,10 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, composeEnhancers(
-      applyMiddleware(
-        thunk,
-        logger
-      )
+        applyMiddleware(
+            thunk,
+            logger
+        )
     ));
 
     if (module.hot) {

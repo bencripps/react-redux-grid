@@ -1,9 +1,7 @@
 /* eslint-enable describe it sinon */
 
 import expect from 'expect';
-import
-    DragAndDropManager
-from './../../../../src/components/core/draganddrop/DragAndDropManager';
+import DragAndDropManager from './../../../../src/components/core/draganddrop/DragAndDropManager'; // eslint-disable-line
 
 describe('The grid draganddrop manager', () => {
 

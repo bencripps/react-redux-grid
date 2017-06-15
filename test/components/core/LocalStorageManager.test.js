@@ -1,8 +1,6 @@
 import expect from 'expect';
 import StorageShim from 'node-storage-shim';
-import
-    localStorageManager
-from './../../../src/components/core/LocalStorageManager';
+import localStorageManager from './../../../src/components/core/LocalStorageManager'; // eslint-disable-line
 
 // set spy for browswer local storage
 

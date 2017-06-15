@@ -7,9 +7,7 @@ import {
     SET_SORT_DIRECTION
 } from './../../../src/constants/ActionTypes';
 
-import
-    grid
-from './../../../src/reducers/components/grid';
+import grid from './../../../src/reducers/components/grid';
 
 import {
     resetLastUpdate

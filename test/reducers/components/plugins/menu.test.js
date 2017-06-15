@@ -6,9 +6,7 @@ import {
     HIDE_MENU
 } from './../../../../src/constants/ActionTypes';
 
-import
-    menu
-from './../../../../src/reducers/components/plugins/menu';
+import menu from './../../../../src/reducers/components/plugins/menu';
 
 import {
     resetLastUpdate
