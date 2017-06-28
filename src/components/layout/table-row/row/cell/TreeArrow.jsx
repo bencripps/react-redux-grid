@@ -116,11 +116,11 @@ export const handleArrowClick = ({
 
 };
 
-const { any, bool, func, object, oneOfType, number, string } = PropTypes;
+const { any, bool, func, object, oneOf, number, string } = PropTypes;
 
 TreeArrow.propTypes = {
     depth: number,
-    gridType: oneOfType([
+    gridType: oneOf([
         'grid', 'tree'
     ]),
     hasChildren: bool,
