@@ -32,11 +32,14 @@ export const Editor = ({
         colName = columns
         && columns[index]
         && columns[index].name
-        ? columns[index].name
-        : '';
+            ? columns[index].name
+            : '';
     }
 
-    const editorData = editorState.get(rowId) || new Map();
+    const editorData = editorState
+        ? editorState.get(rowId) || new Map()
+        : new Map();
+
     const invalid = editorData
         && editorData.invalidCells
         && editorData.invalidCells.contains(colName)
@@ -49,8 +52,8 @@ export const Editor = ({
         : rawValue;
 
     const editableFuncArgs = {
-        row: editorState.get(rowId)
-            ? editorState.get(rowId).toJS()
+        row: editorData && editorData.get(rowId)
+            ? editorData.get(rowId).toJS()
             : {},
         isRowSelected,
         store
