@@ -43,11 +43,12 @@ export const CheckBox = ({
         ? selectedRows.get(rowId)
         : false;
 
-
-
     if (type === 'header') {
-        // check to see if all rows are selected - lastUpdate && the header checkbox itself
-        checked = selectedRows && selectedRows.count && selectedRows.every(s => s)
+        // check to see if all rows are selected
+        // lastUpdate && the header checkbox itself
+        checked = selectedRows
+            && selectedRows.count
+            && selectedRows.every(s => s)
             ? selectedRows.count() - 2 === dataSource.currentRecords.count()
             : false;
     }
