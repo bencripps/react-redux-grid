@@ -44,6 +44,21 @@ describe('The Editor Component', () => {
             .toEqual('<span class="react-grid-inactive">Michael Jordan</span>');
     });
 
+    it('Should return an editable field', () => {
+        const customProps = {
+            ...props,
+            isEditable: true,
+            isRowSelected: true
+        };
+
+        const cmp = mount(<Editor { ...customProps } />);
+
+        expect(cmp.html())
+            .toEqual(
+                '<span class="react-grid-editor-wrapper"><input type="text" value="Michael Jordan"></span>' // eslint-disable-line max-len
+            );
+    });
+
     it('Should clean props from an object', () => {
 
         expect(cleanProps({
@@ -83,6 +98,49 @@ describe('The Editor Component', () => {
             .toEqual(
                 'checkbox',
                 'Custom render should have created a checkbox'
+            );
+    });
+
+    it('Should conditionally return an editable field', () => {
+        const customProps = {
+            ...props,
+            columns: [
+                {
+                    dataIndex: 'name',
+                    editable: ({ row }) => {
+                        if (row && row.values) {
+                            return row.values.name === 'Michael Jordan';
+                        }
+                        return false;
+                    }
+                },
+                {
+                    dataIndex: 'position'
+                }
+            ],
+            editorState: new testState({
+                ['row-0']: new EditorRecord({
+                    key: 'row-0',
+                    values: Map({
+                        name: 'Michael Jordan'
+                    }),
+                    rowIndex: 0,
+                    top: null,
+                    valid: null,
+                    isCreate: false,
+                    overrides: {},
+                    previousValues: {},
+                    lastUpdate: 0
+                })
+            }),
+            isEditable: true
+        };
+
+        const cmp = mount(<Editor { ...customProps } />);
+
+        expect(cmp.html())
+            .toEqual(
+                '<span class="react-grid-editor-wrapper"><input type="text" value="Michael Jordan"></span>' // eslint-disable-line max-len
             );
     });
 

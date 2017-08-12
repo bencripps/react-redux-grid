@@ -52,9 +52,9 @@ export const Editor = ({
         : rawValue;
 
     const editableFuncArgs = {
-        row: editorData && editorData.get(rowId)
-            ? editorData.get(rowId).toJS()
-            : {},
+        row: editorData && editorData.toJS
+            ? editorData.toJS()
+            : editorData || {},
         isRowSelected,
         store
     };
