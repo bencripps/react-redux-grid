@@ -51,5 +51,6 @@ export const get = (state, key, entry) => {
         return null;
     }
 
-    return stateItem.get(entry);
+    const isStateImmutable = typeof stateItem.get === 'function';
+    return isStateImmutable ? stateItem.get(entry) : stateItem[entry];
 };
