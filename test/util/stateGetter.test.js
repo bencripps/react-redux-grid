@@ -149,4 +149,12 @@ describe('State Getter Function', () => {
         ).toEqual(List([1]));
     });
 
+    it('Should return state when its not stored using immutable', () => {
+        const state = { data: { thing: [1] } };
+        const props = {};
+
+        expect(
+            stateGetter(state, props, 'data', 'thing')
+        ).toEqual([1]);
+    });
 });
