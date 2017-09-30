@@ -1,10 +1,6 @@
 import React from 'react';
-import Perf from 'react-addons-perf';
 import { Provider } from 'react-redux';
 import { Grid, Store, applyGridConfig } from '../src';
-
-window.perf = Perf;
-window.perf.start();
 
 import {
     columns,

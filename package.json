@@ -28,6 +28,7 @@
     "start": "concurrently \"npm run hot\" \"npm run demo\"",
     "stylint": "stylint ./src --reporter stylint-stylish",
     "test": "karma start ./test/karma.config.js -- --coverage",
+    "test:no-coverage": "karma start ./test/karma.config.js -- --no-coverage",
     "test:browser": "karma start ./test/karma.config.js -- --browser",
     "test:watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary"
   },
@@ -36,16 +37,15 @@
     "deep-equal": "^1.0.1",
     "immutable": "^3.8.1",
     "prop-types": "^15.5.10",
-    "react": "^15.4.2",
     "react-dnd": "^2.2.4",
     "react-dnd-html5-backend": "^2.1.2",
-    "react-dom": "^15.4.1",
-    "react-redux": "^5.0.3",
-    "redux": "^3.5.1",
-    "redux-logger": "^3.0.0",
     "redux-thunk": "^2.2.0"
   },
   "peerDependencies": {
+    "react": ">=15.0.0 <17.0.0",
+    "react-dom": ">=15.0.0 <17.0.0",
+    "react-redux": ">=5.0.0",
+    "redux": ">=3.0.0",
     "font-awesome": "4.x"
   },
   "devDependencies": {
@@ -94,6 +94,10 @@
     "karma-webpack": "^2.0.2",
     "mocha": "^3.1.2",
     "node-storage-shim": "^1.0.1",
+    "react": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "redux": "^3.5.1",
+    "react-dom": "^15.4.1",
     "react-addons-perf": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.6",
@@ -112,7 +116,7 @@
   },
   "config": {
     "ghooks": {
-      "pre-push": "npm run lint && npm run test"
+      "pre-push": "npm run lint && npm run test:no-coverage"
     }
   }
 }
