@@ -18,8 +18,8 @@ import myDataReducer from './customReducers/data';
 export const rootReducer = combineReducers({
     myAppReducer,
     myDataReducer,
-    ...gridReducers
-});
+    nested: combineReducers(gridReducers)
+})
 
 export default rootReducer;
 ````
