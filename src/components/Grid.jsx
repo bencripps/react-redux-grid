@@ -193,7 +193,7 @@ export class Grid extends Component {
             // since this is potentially a very expensive operation
             // and only want to rerun when props have actually changed
             if (shouldResetData) {
-                setTimeout(::this.setData, 0);
+                setTimeout(this.setData.bind(this), 0);
             }
         }
     }
