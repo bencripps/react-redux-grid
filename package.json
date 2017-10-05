@@ -30,7 +30,9 @@
     "test": "karma start ./test/karma.config.js -- --coverage",
     "test:no-coverage": "karma start ./test/karma.config.js -- --no-coverage",
     "test:browser": "karma start ./test/karma.config.js -- --browser",
-    "test:watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary"
+    "test:watch": "karma start ./test/karma.config.js -- --no-single-run --no-suppress-error-summary",
+    "precommit": "npm run lint",
+    "prepush": "npm run test"
   },
   "dependencies": {
     "array-from": "^2.1.1",
@@ -73,8 +75,8 @@
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "expect": "^1.20.2",
-    "ghooks": "^2.0.0",
     "http-server": "^0.10.0",
+    "husky": "^0.14.3",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "^2.5.2",
     "jsdom": "^11.0.0",
@@ -116,10 +118,5 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.3.0"
-  },
-  "config": {
-    "ghooks": {
-      "pre-push": "npm run lint && npm run test:no-coverage"
-    }
   }
 }
