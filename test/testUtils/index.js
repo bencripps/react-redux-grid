@@ -1,6 +1,5 @@
 import { OrderedMap } from 'immutable';
 import { mount, shallow } from 'enzyme';
-import TestUtils from 'react-addons-test-utils';
 import ColumnManager from '../../src/components/core/ColumnManager';
 import Model from '../../src/components/plugins/selection/Model';
 import configureStore from './../../src/store/configureStore';
@@ -11,18 +10,6 @@ export { localGridData, gridColumns } from './data';
 const store = configureStore();
 
 export const initializedStore = store;
-
-export function setup(thing) {
-    const renderer = TestUtils.createRenderer();
-    renderer.render(thing);
-
-    const output = renderer.getRenderOutput();
-
-    return {
-        output,
-        renderer
-    };
-}
 
 export const sampleReactEvent = {
     stopPropagation: () => {}

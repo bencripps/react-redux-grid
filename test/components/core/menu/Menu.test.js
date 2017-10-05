@@ -1,8 +1,7 @@
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import { Menu } from './../../../../src/components/core/menu/Menu.jsx';
-import { store } from './../../../testUtils/index';
+import { store, shallowWithContext } from './../../../testUtils/index';
 
 const props = {
     store,
@@ -18,53 +17,22 @@ const props = {
     ]
 };
 
-function menu(cmpProps) {
-    const element = React.createElement(Menu, cmpProps);
-    const renderer = TestUtils.createRenderer();
-    renderer.render(element);
-    return renderer.getRenderOutput();
-}
-
 describe('A rendered Menu', () => {
 
-    const component = menu(props);
+    const component = shallowWithContext(<Menu { ...props } />);
 
     it('Should be a UL HTML Node', () => {
-        expect(component.type).toEqual('ul');
+        expect(component.type()).toEqual('ul');
     });
 
     it('Should have children', () => {
-        expect(component.props.children).toBeTruthy();
+        expect(component.props().children).toBeTruthy();
     });
 
     it('Should have the correct class name', () => {
         expect(
-            component.props.className
+            component.props().className
         ).toEqual('react-grid-action-menu-container');
     });
 
-});
-
-describe('A Menu\'s child elements', () => {
-
-    const component = menu(props);
-
-    it('Should have 2 children', () => {
-        expect(component.props.children.length).toEqual(2);
-    });
-
-    it('Should have the correct first child', () => {
-        expect(
-            component.props.children[0].key
-        ).toEqual('YWRkYWRk');
-        expect(
-            component.props.children[0].ref
-        ).toBeFalsy();
-        expect(
-            component.props.children[0].props.data
-        ).toBeTruthy();
-        expect(
-            component.props.children[0].props.data.text
-        ).toEqual(props.menu[0].text);
-    });
 });

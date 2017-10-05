@@ -1,8 +1,7 @@
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import { MenuItem } from './../../../../src/components/core/menu/MenuItem.jsx';
-import { initializedStore } from './../../../testUtils';
+import { initializedStore, shallowWithContext } from './../../../testUtils';
 
 const props = {
     data: {
@@ -16,40 +15,33 @@ const props = {
     store: initializedStore
 };
 
-function menuitem(cmpProps) {
-    const element = React.createElement(MenuItem, cmpProps);
-    const renderer = TestUtils.createRenderer();
-    renderer.render(element);
-    return renderer.getRenderOutput();
-}
-
 describe('A rendered Menu Item', () => {
-    const component = menuitem(props);
+    const component = shallowWithContext(<MenuItem { ...props } />);
 
     it('Should render correctly', () => {
-        expect(component.type).toEqual('li');
-        expect(component.key).toBeFalsy();
+        expect(component.type()).toEqual('li');
     });
 
 });
 
 describe('Menu Item Children', () => {
-    const component = menuitem(props);
+    const component = shallowWithContext(<MenuItem { ...props } />);
 
     it('Should have children', () => {
         expect(
-            component.props.className
+            component.props().className
         ).toEqual('react-grid-action-menu-item');
-        expect(component.props.children.length).toEqual(2);
+
+        expect(component.text()).toEqual('add');
     });
 });
 
 describe('Menu Item Click Handler', () => {
-    const component = menuitem(props);
+    const component = shallowWithContext(<MenuItem { ...props } />);
 
     it('Should fire event handler correctly', () => {
         expect(
-            component.props.onClick()
+            component.props().onClick()
         ).toEqual(props.data.EVENT_HANDLER());
     });
 });
@@ -66,11 +58,11 @@ describe('Menu Item Click Handler Should Dismiss Menu', () => {
         store: initializedStore
     };
 
-    const component = menuitem(hiddenMenuProps);
+    const component = shallowWithContext(<MenuItem { ...hiddenMenuProps } />);
 
     it('Should dismiss menu', () => {
         expect(
-            component.props.onClick()
+            component.props().onClick()
         ).toEqual(
             hiddenMenuProps.data.EVENT_HANDLER()
         );
@@ -91,11 +83,13 @@ describe('A disabled menu item', () => {
         store: initializedStore
     };
 
-    const component = menuitem(disabledMenuItemProps);
+    const component = shallowWithContext(
+        <MenuItem { ...disabledMenuItemProps } />
+    );
 
     it('Should return false onClick', () => {
         expect(
-            component.props.onClick()
+            component.props().onClick()
         ).toEqual(
             false
         );
