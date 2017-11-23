@@ -26,11 +26,6 @@ export const SORT_METHODS = {
     REMOTE: 'REMOTE'
 };
 
-export const FILTER_METHODS = {
-    LOCAL: 'LOCAL',
-    REMOTE: 'REMOTE'
-};
-
 export const KEYBOARD_MAP = {
     ENTER: 13,
     ESCAPE: 27
@@ -108,25 +103,6 @@ export let CLASS_NAMES = {
         MENU: {
             CONTAINER: 'action-menu-container',
             ITEM: 'action-menu-item'
-        }
-    },
-    FILTER_CONTAINER: {
-        CONTAINER: 'filter-container',
-        INPUT: 'filter-input',
-        SEARCH_BUTTON: 'filter-search-button',
-        MENU_BUTTON: 'filter-menu-button',
-        CLEAR_BUTTON: 'filter-clear-button',
-        BUTTON_CONTAINER: 'filter-button-container',
-        MENU: {
-            CONTAINER: 'advanced-filter-menu-container',
-            TITLE: 'advanced-filter-menu-title',
-            BUTTON: 'advanced-filter-menu-button',
-            BUTTON_CONTAINER: 'advanced-filter-menu-button-container',
-            FIELD: {
-                CONTAINER: 'advanced-filter-menu-field-container',
-                LABEL: 'advanced-filter-menu-field-label',
-                INPUT: 'advanced-filter-menu-field-input'
-            }
         }
     },
     BULK_ACTIONS: {

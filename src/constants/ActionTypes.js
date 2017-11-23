@@ -44,15 +44,6 @@ export const DISMISS_EDITOR = '@@react-redux-grid/DISMISS_EDITOR';
 
 export const REMOVE_TOOLBAR = '@@react-redux-grid/REMOVE_TOOLBAR';
 
-export const SET_FILTER_VALUE = '@@react-redux-grid/SET_FILTER_VALUE';
-export const FILTER_DATA = '@@react-redux-grid/FILTER_DATA';
-export const CLEAR_FILTER_LOCAL = '@@react-redux-grid/CLEAR_FILTER_LOCAL';
-export const CLEAR_FILTER_REMOTE = '@@react-redux-grid/CLEAR_FILTER_REMOTE';
-export const SHOW_FILTER_MENU = '@@react-redux-grid/SHOW_FILTER_MENU';
-export const SET_FILTER_MENU_VALUES = (
-    '@@react-redux-grid/SET_FILTER_MENU_VALUES'
-);
-
 export const MOVE_NODE = '@@react-redux-grid/MOVE_NODE';
 
 export const SET_TREE_NODE_VISIBILITY = (

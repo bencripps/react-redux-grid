@@ -2,9 +2,7 @@ import { OrderedMap } from 'immutable';
 
 import {
     ADD_NEW_ROW,
-    CLEAR_FILTER_LOCAL,
     DISMISS_EDITOR,
-    FILTER_DATA,
     MOVE_NODE,
     REMOVE_ROW,
     SAVE_ROW,
@@ -20,9 +18,7 @@ import handleActions from './../../util/handleActions';
 
 import {
     addNewRow,
-    clearFilter,
     dismissEditor,
-    filterData,
     insertRow,
     moveNode,
     removeRow,
@@ -38,9 +34,7 @@ const initialState = new OrderedMap();
 
 export default handleActions({
     [ADD_NEW_ROW]: addNewRow,
-    [CLEAR_FILTER_LOCAL]: clearFilter,
     [DISMISS_EDITOR]: dismissEditor,
-    [FILTER_DATA]: filterData,
     [INSERT_ROW]: insertRow,
     [MOVE_NODE]: moveNode,
     [REMOVE_ROW]: removeRow,

@@ -9,8 +9,6 @@ import {
     ADD_NEW_ROW,
     SAVE_ROW,
     SORT_DATA,
-    CLEAR_FILTER_LOCAL,
-    FILTER_DATA,
     UPDATE_ROW,
     INSERT_ROW
 } from './../../../src/constants/ActionTypes';
@@ -841,62 +839,6 @@ describe('The grid dataSource reducer sortData func', () => {
 
 });
 
-describe('The grid dataSource reducer clearFilter func', () => {
-    beforeEach(() => resetLastUpdate());
-
-    const inState = fromJS({
-        'test-grid': {
-            proxy: [
-                { cell: 1 },
-                { cell: 2 }
-            ],
-            data: [
-                { cell: 2 },
-                { cell: 1 }
-            ],
-            currentRecords: [
-                { cell: 2 },
-                { cell: 1 }
-            ],
-            total: 2,
-            lastUpdate: 1
-        }
-    });
-
-    it('Should revert back to proxy if avail', () => {
-
-        const outState = fromJS({
-            'test-grid': {
-                proxy: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                data: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                currentRecords: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                total: 2,
-                lastUpdate: 1
-            }
-        });
-
-        const action = {
-            stateKey: 'test-grid',
-            type: CLEAR_FILTER_LOCAL
-        };
-
-        expect(
-            dataSource(inState, action)
-        ).toEqualImmutable(outState);
-
-    });
-
-});
-
 describe('The grid dataSource reducer updateRow action', () => {
     beforeEach(() => resetLastUpdate());
 
@@ -1001,64 +943,4 @@ describe('The grid dataSource reducer updateRow action', () => {
             .toEqualImmutable(fromJS(inStateForUpdate));
 
     });
-});
-
-describe('The grid dataSource reducer filterData func', () => {
-    beforeEach(() => resetLastUpdate());
-
-    const inState = fromJS({
-        'test-grid': {
-            proxy: [
-                { cell: 1 },
-                { cell: 2 }
-            ],
-            data: [
-                { cell: 1 },
-                { cell: 2 }
-            ],
-            currentRecords: [
-                { cell: 1 },
-                { cell: 2 }
-            ],
-            total: 2,
-            lastUpdate: 1
-        }
-    });
-
-    it('Should revert back to proxy if avail', () => {
-
-        const outState = fromJS({
-            'test-grid': {
-                proxy: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                data: [
-                    { cell: 'newVals' },
-                    { cell: 'moreNewVals' }
-                ],
-                currentRecords: [
-                    { cell: 1 },
-                    { cell: 2 }
-                ],
-                total: 2,
-                lastUpdate: 1
-            }
-        });
-
-        const action = {
-            stateKey: 'test-grid',
-            type: FILTER_DATA,
-            data: [
-                { cell: 'newVals' },
-                { cell: 'moreNewVals' }
-            ]
-        };
-
-        expect(
-            dataSource(inState, action)
-        ).toEqualImmutable(outState);
-
-    });
-
 });
