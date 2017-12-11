@@ -40,7 +40,9 @@ export const Cell = ({
             && editorState.get
             && editorState.get(rowId)
             && editorState.get(rowId).key === rowId)
-        || editor.config.type === editor.editModes.grid;
+            || editor
+            && editor.config
+            && editor.config.type === editor.editModes.grid;
 
     const isExpandable = treeData.expandable && !treeData.leaf;
 
