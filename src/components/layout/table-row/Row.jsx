@@ -155,7 +155,7 @@ export class Row extends Component {
             isSelected: !isSelected
         });
 
-        addEmptyInsert(cells, visibleColumns, plugins);
+        addEmptyInsert(cells, visibleColumns, plugins, id);
 
         let rowEl;
 
@@ -253,7 +253,7 @@ export const getCellValues = (columns, row) => {
     return result;
 };
 
-export const addEmptyInsert = (cells, visibleColumns, plugins) => {
+export const addEmptyInsert = (cells, visibleColumns, plugins, id) => {
 
     if (visibleColumns.length === 0) {
 
@@ -261,11 +261,11 @@ export const addEmptyInsert = (cells, visibleColumns, plugins) => {
             && plugins.GRID_ACTIONS
             && plugins.GRID_ACTIONS.menu
             && plugins.GRID_ACTIONS.menu.length > 0) {
-            cells.splice(1, 0, <EmptyCell />);
+            cells.splice(1, 0, <EmptyCell { ...{ key: `${id}-Grid-Action` } } />);
         }
 
         else {
-            cells.push(<EmptyCell />);
+            cells.push(<EmptyCell { ...{ key: `${id}-Empty-Cell`} } />);
         }
     }
 
