@@ -8,7 +8,7 @@ import {
     dismissError
 } from '../../../actions/plugins/errorhandler/ErrorHandlerActions';
 
-export const Message = ({ errorHandler, plugins, store }) => {
+export const Message = ({ errorHandler, plugins, store, stateKey }) => {
 
     const defaultMessage = plugins
         && plugins.ERROR_HANDLER
@@ -21,16 +21,16 @@ export const Message = ({ errorHandler, plugins, store }) => {
     const message = errorHandler && errorHandler.error
         ? errorHandler.error : defaultMessage;
 
-    const errorMessage = getMessage(message, showError, store);
+    const errorMessage = getMessage(message, showError, store, stateKey);
 
     return errorMessage;
 };
 
-export const handleButtonClick = (store) => {
-    store.dispatch(dismissError());
+export const handleButtonClick = (store, stateKey) => {
+    store.dispatch(dismissError({ stateKey }));
 };
 
-export const getMessage = (message, isShown, store) => {
+export const getMessage = (message, isShown, store, stateKey) => {
 
     const { CLASS_NAMES } = gridConfig();
 
@@ -46,7 +46,7 @@ export const getMessage = (message, isShown, store) => {
     };
 
     const buttonProps = {
-        onClick: handleButtonClick.bind(this, store)
+        onClick: handleButtonClick.bind(this, store, stateKey)
     };
 
     return (
@@ -71,7 +71,7 @@ Message.defaultProps = {};
 
 function mapStateToProps(state, props) {
     return {
-        errorHandler: stateGetter(state, props, 'errorhandler', 'errorState')
+        errorHandler: stateGetter(state, props, 'errorHandler', props.stateKey)
     };
 }
 

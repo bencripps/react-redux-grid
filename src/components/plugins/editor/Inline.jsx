@@ -246,7 +246,6 @@ Inline.defaultProps = {
 
 function mapStateToProps(state, props) {
     return {
-        errorHandler: stateGetter(state, props, 'errorhandler', props.stateKey),
         editorState: stateGetter(state, props, 'editor', props.stateKey)
     };
 }
