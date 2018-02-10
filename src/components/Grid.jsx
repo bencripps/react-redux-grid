@@ -39,6 +39,7 @@ const {
     arrayOf,
     bool,
     object,
+    oneOf,
     oneOfType,
     number,
     string
@@ -220,7 +221,10 @@ export class Grid extends Component {
         classNames: array,
         columnState: object,
         columns: arrayOf(object).isRequired,
-        data: arrayOf(object),
+        data: oneOf([
+            arrayOf(object),
+            object,
+        ]),
         dataSource: any,
         dragAndDrop: bool,
         editorState: object,
