@@ -70,7 +70,8 @@ export const getAsyncData = ({
                             showTreeRootNode,
                             parentId: extraParams.parentId,
                             partial: response.partial,
-                            editMode: extraParams.editMode
+                            editMode: extraParams.editMode,
+                            total: response.total
                         }));
                     }
 
@@ -374,7 +375,7 @@ export const setData = ({ data, stateKey, editMode }) => ({
 });
 
 export const setTreeData = ({
-    data, stateKey, showTreeRootNode, partial, parentId, editMode
+    data, stateKey, showTreeRootNode, partial, parentId, editMode, total
 }) => {
 
     // if this is a partial update to
@@ -386,7 +387,8 @@ export const setTreeData = ({
             stateKey,
             gridType: 'tree',
             showTreeRootNode,
-            parentId
+            parentId,
+            total
         };
     }
 
@@ -403,7 +405,8 @@ export const setTreeData = ({
         stateKey,
         gridType: 'tree',
         treeData: data,
-        editMode
+        editMode,
+        total
     };
 };
 

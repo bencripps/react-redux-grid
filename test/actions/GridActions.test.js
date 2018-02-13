@@ -785,7 +785,8 @@ describe('The setTreeData action', () => {
             type: '@@react-redux-grid/SET_DATA',
             stateKey: 'tree-grid',
             gridType: 'tree',
-            treeData: data
+            treeData: data,
+            total: undefined
         });
 
         expect(List.isList(expectedData))
@@ -815,7 +816,8 @@ describe('The setTreeData action', () => {
             stateKey: 'tree-grid',
             editMode: 'inline',
             gridType: 'tree',
-            treeData: data
+            treeData: data,
+            total: undefined
         });
 
         expect(List.isList(expectedData))
