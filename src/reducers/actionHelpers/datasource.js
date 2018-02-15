@@ -35,7 +35,7 @@ export const setData = (state, {
 };
 
 export const setPartialTreeData = (state, {
-    data, parentId, showTreeRootNode, stateKey
+    data, parentId, showTreeRootNode, stateKey, total
 }) => {
 
     const tree = state.getIn([stateKey, 'treeData']);
@@ -58,7 +58,7 @@ export const setPartialTreeData = (state, {
         currentRecords: updatedFlat,
         treeData: updatedTree,
         proxy: updatedFlat,
-        total: updatedFlat.count(),
+        total: total || updatedFlat.count(),
         lastUpdate: generateLastUpdate()
     }, DataSource, 'mergeIn');
 };
