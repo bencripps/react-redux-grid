@@ -221,7 +221,7 @@ export class Grid extends Component {
         classNames: array,
         columnState: object,
         columns: arrayOf(object).isRequired,
-        data: oneOf([
+        data: oneOfType([
             arrayOf(object),
             object,
         ]),
