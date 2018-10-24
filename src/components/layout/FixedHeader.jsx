@@ -393,14 +393,17 @@ export const handleDrag = (
 
     const xCoord = reactEvent.clientX || window.reactGridXcoord;
     const computedWidth = (xCoord - columnOffsetLeft) / headerWidth;
+    const originalWidthPercent = parseFloat(window.getComputedStyle(columnNode).width, 10)*100/headerWidth;
+    const programmedWidth = parseFloat(columnNode.style.width, 10);
     const totalWidth = parseFloat(columnNode.style.width, 10)
         + parseFloat(headerNextElementSibling.style.width, 10);
 
-    let width = computedWidth * 100;
+    let absWidth = computedWidth * 100;
+    // stabilize a bit by limiting to one decimal point of precision
+    let width = (((absWidth*programmedWidth/originalWidthPercent)*10)|0)/10;
     let nextColWidth = Math.abs(width - totalWidth);
 
     const isInvalidDrag = width + nextColWidth > totalWidth;
-
     if (nextColWidth < 0 || width < 0) {
         return false;
     }
