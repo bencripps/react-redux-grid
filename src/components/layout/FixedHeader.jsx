@@ -163,7 +163,7 @@ class FixedHeader extends Component {
     }
 
     componentDidMount() {
-
+        this._isMounted = true;
         const { plugins } = this.props;
 
         const isSticky = isPluginEnabled(plugins, 'STICKY_HEADER');
@@ -181,15 +181,20 @@ class FixedHeader extends Component {
     }
 
     componentDidUpdate() {
-
         if (!this.updateFunc) {
-            this.updateFunc = debounce(this.getScrollWidth, 200);
+            const getScrollWidth = () => {
+                if (this._isMounted) {
+                    this.getScrollWidth();
+                }
+            };
+            this.updateFunc = debounce(getScrollWidth, 200);
         }
 
         this.updateFunc();
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
         if (this.scrollTarget) {
             this.scrollTarget.removeEventListener(
                 'scroll', this._scrollListener
@@ -208,6 +213,7 @@ class FixedHeader extends Component {
             headerOffset: 0,
             classes: []
         };
+        this._isMounted = false;
         this.handleDrag = throttle(handleDrag, this, 5);
         this.shouldComponentUpdate = shouldHeaderUpdate.bind(this);
     }
