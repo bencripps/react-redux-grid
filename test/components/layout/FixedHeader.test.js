@@ -191,4 +191,29 @@ describe('The Grid Fixed header component', () => {
 
     });
 
+    it('Should not call getScrollWidth when already unmounted', (done) => {
+
+        const component = mountWithContext(<FixedHeader { ...props } />);
+        const instance = component.instance();
+        const getScrollWidth =
+            expect
+                .spyOn(instance, 'getScrollWidth')
+                .andCallThrough();
+
+        instance.componentDidUpdate();
+        component.unmount();
+
+        setTimeout(() => {
+
+            expect(
+                getScrollWidth
+            ).toNotHaveBeenCalled();
+
+            getScrollWidth.restore();
+
+            done();
+
+        }, 500);
+    });
+
 });
