@@ -1,6 +1,6 @@
 # React-Redux Grid
 
-[<img src="https://images.gitads.io/bencripps/react-redux-grid">](https://tracking.gitads.io/?repo=bencripps/react-redux-grid)
+<a href="https://tracking.gitads.io/?repo=react-redux-grid"><img src="https://images.gitads.io/react-redux-grid" alt="GitAds"/></a>
 
 [![npm version](https://badge.fury.io/js/react-redux-grid.svg)](https://badge.fury.io/js/react-redux-grid)
 [![Build Status](https://travis-ci.org/bencripps/react-redux-grid.svg?branch=master)](https://travis-ci.org/bencripps/react-redux-grid)
