@@ -136,6 +136,7 @@ export class Grid extends Component {
         const {
             dataSource,
             gridType,
+            pageSize,
             events,
             plugins,
             reducerKeys,
@@ -155,7 +156,7 @@ export class Grid extends Component {
 
         this.setColumns();
 
-        this.setData();
+        this.setData({ pageSize });
 
         this.columnManager.init({
             plugins,
