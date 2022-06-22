@@ -79,7 +79,7 @@
     "husky": "^0.14.3",
     "istanbul-instrumenter-loader": "^2.0.0",
     "jasmine-core": "^2.5.2",
-    "jsdom": "^11.0.0",
+    "jsdom": "^16.5.0",
     "karma": "^1.4.1",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
